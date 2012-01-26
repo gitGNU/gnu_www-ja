@@ -1,1 +1,0 @@
-/usr/local/share/gnun/config.mk
