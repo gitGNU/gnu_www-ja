@@ -1,0 +1,100 @@
+Using same working directory for Git and CVS
+============================================
+
+
+Translator: Clone from Git repo
+-------------------------------
+
+$ git clone $USER@git.sv.gnu.org:/srv/git/www-ja.git
+
+
+Coordinator: Clone from Git repo and get from CVS
+-------------------------------------------------
+
+# Clone from repo
+$ git clone gniibe@git.sv.gnu.org:/srv/git/www-ja.git
+# goto repo
+$ cd www-ja
+# remove www
+$ rm www
+# and get www from CVS
+$ cvs -z6 -d:ext:gniibe@cvs.savannah.gnu.org:/web/www co www
+$ git status
+
+
+Working with topic branch
+-------------------------
+
+$ git checkout -b gniibe-work
+$ edit www/distro/po/free-distros.ja.po
+$ git commit -am "added www/distro/po/free-distros.ja.po"
+$ git push
+
+
+Coordinator: 'merge'
+--------------------
+
+$ git checkout master
+$ git merge gniibe-work
+
+$ git push origin :gniibe-work # removing topic branch if it's not needed
+
+
+Coordinator: sync with upstream
+-------------------------------
+
+# in the www/ directory
+$ git checkout master
+$ cvs update -dP
+# review changes
+$ git diff cvssync
+$ git commit -am "Sync with CVS"
+$ git tag -f cvssync
+$ git push; git push --tag
+
+
+Coordinator: 'sync', 'checkin' and 'sync'
+-----------------------------------------
+
+$ cd www
+$ cvs update -dP
+$ git commit -am "Sync with CVS"
+
+# Check and review changes from last sync
+$ git log cvssync
+$ cvs diff
+
+# Commit to upstream
+$ cvs commit -m "added www/distro/po/free-distros.ja.po"
+
+# When keyword like $Id$ is used, commiting changes document
+# Git distingush such changes
+$ git commit -am "Sync with CVS"
+$ git tag -f cvssync
+
+$ git push; git push --tag
+
+
+
+Memorandum of initial setup of the repository
+=============================================
+
+
+Initial CVS import to Git repository
+------------------------------------
+
+$ export CVS_RSH=ssh
+$ cvs -z6 -d:ext:gniibe@cvs.savannah.gnu.org:/web/www co www
+$ git init
+$ cat > .gitignore
+CVS
+tmp
+.#*
+*~
+^D
+$ git add .gitignore www
+$ git commit -m "Initial commit."
+$ git tag cvssync
+
+$ git push --all gniibe@git.sv.gnu.org:/srv/git/www-ja.git
+$ git push --tag gniibe@git.sv.gnu.org:/srv/git/www-ja.git
