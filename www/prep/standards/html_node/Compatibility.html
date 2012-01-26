@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated January 8, 2012.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+2011, 2012 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 0.01, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: Compatibility</title>
+
+<meta name="description" content="GNU Coding Standards: Compatibility">
+<meta name="keywords" content="GNU Coding Standards: Compatibility">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Design-Advice.html#Design-Advice" rel="up" title="Design Advice">
+<link href="Using-Extensions.html#Using-Extensions" rel="next" title="Using Extensions">
+<link href="Source-Language.html#Source-Language" rel="previous" title="Source Language">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Compatibility"></a>
+<div class="header">
+<p>
+Next: <a href="Using-Extensions.html#Using-Extensions" accesskey="n" rel="next">Using Extensions</a>, Previous: <a href="Source-Language.html#Source-Language" accesskey="p" rel="previous">Source Language</a>, Up: <a href="Design-Advice.html#Design-Advice" accesskey="u" rel="up">Design Advice</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Compatibility-with-Other-Implementations"></a>
+<h3 class="section">3.2 Compatibility with Other Implementations</h3>
+<a name="index-compatibility-with-C-and-POSIX-standards"></a>
+<a name="index-POSIX-compatibility"></a>
+
+<p>With occasional exceptions, utility programs and libraries for GNU
+should be upward compatible with those in Berkeley Unix, and upward
+compatible with Standard C if Standard C specifies their
+behavior, and upward compatible with <small>POSIX</small> if <small>POSIX</small> specifies
+their behavior.
+</p>
+<p>When these standards conflict, it is useful to offer compatibility
+modes for each of them.
+</p>
+<a name="index-options-for-compatibility"></a>
+<p>Standard C and <small>POSIX</small> prohibit many kinds of extensions.  Feel
+free to make the extensions anyway, and include a &lsquo;<samp>--ansi</samp>&rsquo;,
+&lsquo;<samp>--posix</samp>&rsquo;, or &lsquo;<samp>--compatible</samp>&rsquo; option to turn them off.
+However, if the extension has a significant chance of breaking any real
+programs or scripts, then it is not really upward compatible.  So you
+should try to redesign its interface to make it upward compatible.
+</p>
+<a name="index-POSIXLY_005fCORRECT_002c-environment-variable"></a>
+<p>Many GNU programs suppress extensions that conflict with <small>POSIX</small> if the
+environment variable <code>POSIXLY_CORRECT</code> is defined (even if it is
+defined with a null value).  Please make your program recognize this
+variable if appropriate.
+</p>
+<p>When a feature is used only by users (not by programs or command
+files), and it is done poorly in Unix, feel free to replace it
+completely with something totally different and better.  (For example,
+<code>vi</code> is replaced with Emacs.)  But it is nice to offer a compatible
+feature as well.  (There is a free <code>vi</code> clone, so we offer it.)
+</p>
+<p>Additional useful features are welcome regardless of whether
+there is any precedent for them.
+</p>
+<p>
+
+
+</p>
+</body>
+</html>

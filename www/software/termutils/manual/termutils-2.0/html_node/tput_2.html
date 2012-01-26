@@ -1,0 +1,144 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/tput.texi on 7 November 1998 -->
+
+<TITLE>Portable Terminal Control From Scripts - Using tput</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="tput_1.html">first</A>, <A HREF="tput_1.html">previous</A>, <A HREF="tput_3.html">next</A>, <A HREF="tput_11.html">last</A> section, <A HREF="tput_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC2" HREF="tput_toc.html#TOC2">Using <CODE>tput</CODE></A></H2>
+
+<P>
+The format of the <CODE>tput</CODE> command is illustrated below.
+
+</P>
+
+<PRE>
+tput [<VAR>options</VAR>] <VAR>capability</VAR> [<VAR>parameter</VAR> ...]
+tput [<VAR>options</VAR>] longname
+tput [<VAR>options</VAR>] init
+tput [<VAR>options</VAR>] reset
+</PRE>
+
+<P>
+GNU <CODE>tput</CODE> takes the following options:
+
+</P>
+
+<PRE>
+[-T <VAR>terminal-type</VAR>] [--terminal=<VAR>terminal-type</VAR>] 
+[-t] [--termcap]
+[-S] [--standard-input]
+[-V] [--version]
+</PRE>
+
+<P>
+Some string capabilities accept parameters, such as the number of lines
+to delete or the column to move to.  These parameters are specified on
+the command line following the capability name.  They are always numbers.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`-T <VAR>termtype</VAR>'</SAMP>
+<DD>
+<DT><SAMP>`--terminal=<VAR>termtype</VAR>'</SAMP>
+<DD>
+This option indicates the type of terminal.  By default, this value is
+taken from the <SAMP>`TERM'</SAMP> environment variable.
+
+<DT><SAMP>`-t'</SAMP>
+<DD>
+<DT><SAMP>`--termcap'</SAMP>
+<DD>
+GNU <CODE>tput</CODE> by default accepts termcap name if the capability
+a user specifies is not a terminfo name.  This option tells
+<CODE>tput</CODE> not to try terminfo names and look up only termcap
+names.
+
+<DT><SAMP>`-S'</SAMP>
+<DD>
+<DT><SAMP>`--standard-input'</SAMP>
+<DD>
+This option tells <CODE>tput</CODE> to read a sequence of capabilities
+and parameters from the standard input.  Only string capabilities
+can be used in this mode.
+
+<DT><SAMP>`-V'</SAMP>
+<DD>
+<DT><SAMP>`--version'</SAMP>
+<DD>
+This option displays the version of <CODE>tput</CODE>.
+</DL>
+
+<P>
+When <SAMP>`longname'</SAMP> is specified, <CODE>tput</CODE> displays the
+long descriptive name for the terminal type.
+
+</P>
+<P>
+When <SAMP>`init'</SAMP> is specified, <CODE>tput</CODE> sends the
+initialization strings for the terminal.  If the terminal's tab
+width is other than 8, and it cannot be reset, the tab expansion
+in the tty driver is turned on.  Otherwise, tab width is reset to
+8 and the tab expansion is turned off.
+
+</P>
+<P>
+When <SAMP>`reset'</SAMP> is specified, <CODE>tput</CODE> sends the
+reset strings for the terminal and then follows the same
+initialization sequence as <CODE>tput</CODE> <SAMP>`init'</SAMP>.
+
+</P>
+<P>
+Below are some example uses of <CODE>tput</CODE>.  See section <A HREF="tput_5.html#SEC5">Capabilities</A>, for
+a complete list of the functions that <CODE>tput</CODE> can cause terminals to
+perform.  Note that not all terminals can perform any given function.
+See section <A HREF="tput_4.html#SEC4">Yet More Examples</A>, for some more complex samples of <CODE>tput</CODE> use.
+
+</P>
+<P>
+The following command moves the cursor to row 10, column 30 of the screen:
+
+</P>
+
+<PRE>
+tput cup 10 30
+</PRE>
+
+<P>
+The following command makes the cursor invisible:
+
+</P>
+
+<PRE>
+tput civis
+</PRE>
+
+<P>
+The following command makes the cursor visible again:
+
+</P>
+
+<PRE>
+tput cnorm
+</PRE>
+
+<P>
+The following command deletes 10 lines below and including the one
+on which the cursor is positioned:
+
+</P>
+
+<PRE>
+tput dl 10
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="tput_1.html">first</A>, <A HREF="tput_1.html">previous</A>, <A HREF="tput_3.html">next</A>, <A HREF="tput_11.html">last</A> section, <A HREF="tput_toc.html">table of contents</A>.
+</BODY>
+</HTML>

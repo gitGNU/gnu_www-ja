@@ -1,0 +1,91 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - tgoto</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_15.html">previous</A>, <A HREF="termcap_17.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H4><A NAME="SEC16" HREF="termcap_toc.html#TOC16"><CODE>tgoto</CODE></A></H4>
+
+<P>
+<A NAME="IDX15"></A>
+The special case of cursor motion is handled by <CODE>tgoto</CODE>.  There
+are two reasons why you might choose to use <CODE>tgoto</CODE>:
+
+</P>
+
+<UL>
+<LI>
+
+For Unix compatibility, because Unix termcap does not have <CODE>tparam</CODE>.
+
+<LI>
+
+For the <SAMP>`cm'</SAMP> capability, since <CODE>tgoto</CODE> has a special feature
+to avoid problems with null characters, tabs and newlines on certain old
+terminal types that use <SAMP>`%.'</SAMP> encoding for that capability.
+</UL>
+
+<P>
+Here is how <CODE>tgoto</CODE> might be declared in ANSI C:
+
+</P>
+
+<PRE>
+char *tgoto (char *<VAR>cstring</VAR>, int <VAR>hpos</VAR>, int <VAR>vpos</VAR>)
+</PRE>
+
+<P>
+There are three arguments, the terminal description's <SAMP>`cm'</SAMP> string and
+the two cursor position numbers; <CODE>tgoto</CODE> computes the parametrized
+string in an internal static buffer and returns the address of that buffer.
+The next time you use <CODE>tgoto</CODE> the same buffer will be reused.
+
+</P>
+<P>
+<A NAME="IDX16"></A>
+<A NAME="IDX17"></A>
+Parameters encoded with <SAMP>`%.'</SAMP> encoding can generate null characters,
+tabs or newlines.  These might cause trouble: the null character because
+<CODE>tputs</CODE> would think that was the end of the string, the tab because
+the kernel or other software might expand it into spaces, and the newline
+becaue the kernel might add a carriage-return, or padding characters
+normally used for a newline.  To prevent such problems, <CODE>tgoto</CODE> is
+careful to avoid these characters.  Here is how this works: if the target
+cursor position value is such as to cause a problem (that is to say, zero,
+nine or ten), <CODE>tgoto</CODE> increments it by one, then compensates by
+appending a string to move the cursor back or up one position.
+
+</P>
+<P>
+The compensation strings to use for moving back or up are found in global
+variables named <CODE>BC</CODE> and <CODE>UP</CODE>.  These are actual external C
+variables with upper case names; they are declared <CODE>char *</CODE>.  It is up
+to you to store suitable values in them, normally obtained from the
+<SAMP>`le'</SAMP> and <SAMP>`up'</SAMP> terminal capabilities in the terminal description
+with <CODE>tgetstr</CODE>.  Alternatively, if these two variables are both zero,
+the feature of avoiding nulls, tabs and newlines is turned off.
+
+</P>
+<P>
+It is safe to use <CODE>tgoto</CODE> for commands other than <SAMP>`cm'</SAMP> only if
+you have stored zero in <CODE>BC</CODE> and <CODE>UP</CODE>.
+
+</P>
+<P>
+Note that <CODE>tgoto</CODE> reverses the order of its operands: the horizontal
+position comes before the vertical position in the arguments to
+<CODE>tgoto</CODE>, even though the vertical position comes before the horizontal
+in the parameters of the <SAMP>`cm'</SAMP> string.  If you use <CODE>tgoto</CODE> with a
+command such as <SAMP>`AL'</SAMP> that takes one parameter, you must pass the
+parameter to <CODE>tgoto</CODE> as the "vertical position".
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_15.html">previous</A>, <A HREF="termcap_17.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

@@ -1,0 +1,209 @@
+#!/usr/bin/env perl
+# Merge one sorted Texinfo index, presumed to contain range information,
+# into another (normal) sorted index.
+# 
+# Copyright 2010 Free Software Foundation, Inc.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Original author: Karl Berry (for FSFS second edition).
+# Send bug reports and any other correspondence to bug-texinfo@gnu.org.
+
+exit (&main ());
+
+sub main
+{
+  die "Usage: $0 CPSFILE RGSFILE\n" unless @ARGV == 2;
+  my ($cps,$rgs) = @ARGV;
+  
+  my @cps = &parse_s_file ($cps);
+  my @rgs = &parse_s_file ($rgs);
+  
+  my @merged = &merge_range_info (\@cps, \@rgs);
+
+  &output_s_file (@merged);
+  
+  return 0;
+}
+
+
+
+# Return list of hash refs representing the sorted texinfo index file
+# S_FILE, i.e., output from texindex.  We return a list instead of a
+# hash so we can easily preserve the original ordering, including
+# \initial lines.
+# 
+sub parse_s_file
+{
+  my ($s_file) = @_;
+  my @ret = ();
+  local *SFILE;
+  
+  open (SFILE, $s_file) || die "open($s_file) failed: $!";
+  while (<SFILE>) {
+    if (/^\\initial/) {
+      # Example initial line: \initial {A}
+      my ($cmd,$initial) = /^(.*)\{(.*?)\}$/;
+      if (! $cmd || ! $initial) {
+        warn "$s_file:$.: didn't parse initial line $_";
+        next;
+      }
+      push (@ret, { "cmd" => $cmd, "term" => $initial });
+      next;
+
+    } else {
+      # Example regular line: \entry {free software definition}{9, 12}
+      # We don't include the braces in the representation.
+      # Need greedy in case the term includes braces from \emph.
+      my ($cmd,$term,$pages) = /^([^{]*)\{(.*)\}\{([^}]*)\}$/;
+#warn "$s_file:$.: parsed $cmd // $term // $pages\n";
+      if (! $cmd || ! $term || ! $pages) {
+        warn "$s_file:$.: didn't parse $_";
+        next;
+      }
+
+      # Because we're parsing the sorted index file, terms should be unique.
+      if (exists $ret{$term}) {
+        warn "$_file:$.: $term unexpectedly seen already, ignoring.\n";
+        next;
+      }
+
+      push (@ret, { "cmd" => $cmd, "term" => $term, "pages" => $pages });
+    }
+  }
+  close (SFILE) || warn "close($s_file) failed: $!";
+  
+  return @ret;
+}
+
+
+
+# Merge range index (RGS) into regular index (CPS),
+# return result as new list.
+#
+sub merge_range_info
+{
+  my ($cps,$rgs) = @_;
+  my @ret = @$cps;
+  
+  # An entry in the range index is either
+  # a) entirely new, in which case we splice it into @ret; or
+  # b) in the main index already, in which case we splice the
+  #    range pages into the existing entry.
+  #
+  # We do not attempt to be efficient here, just search @ret every time.
+  # It still takes an inconsequential amount of real time.
+  # 
+  RGS: for my $range (@$rgs) {
+    # assume all needed initials will be present in the main file.
+    next if $range->{"cmd"} =~ /^\\initial/;
+    
+    my $rterm = &make_sort_term ($range->{"term"});
+    
+    # ultimately typeset a range: convert 1, 10 to 1--10.
+    debug ("considering range term: $rterm $range->{pages}");
+    debug (" orig was:  $range->{term}");
+    my @rpages = split (/, /, $range->{"pages"});
+    if (@rpages % 2 != 0) {
+      warn "range term \"$range->{term}\" has odd number of references "
+           . "(p.$range->{pages}), skipping\n";
+      next;
+    }
+    my @ranges = ();
+    for (my $i = 0; $i < @rpages; $i += 2) {      # two at a time
+      if ($rpages[$i] == $rpages[$i+1]) {
+        warn "range term \"$range->{term}\" does not cross pages "
+             . "(p.$range->{pages}), skipping\n";
+        next RGS;
+      }
+      push (@ranges, "$rpages[$i]--$rpages[$i+1]");
+    }
+    $range->{"pages"} = join (", ", @ranges);  # join ranges with commas
+    
+    my $where;
+    for ($where = 0; $where < @ret; $where++) {
+      my $main = $ret[$where];
+      my $mainterm = &make_sort_term ($main->{"term"});
+      debug ("  comparing: $mainterm to $rterm");
+
+      if ($mainterm eq $rterm) {
+        debug ("  existing $rterm, splice pages");
+        $main->{"pages"} = &splice_pages ($main->{"pages"}, $range->{"pages"});
+        last;
+
+      } elsif ($mainterm gt $rterm) {
+        debug ("  no existing $rterm, splice new entry");
+        splice (@ret, $where, 0, $range);
+        last;
+      }
+    }
+    
+    if ($where == @ret) { # got to end without doing anything?
+      debug ("  no existing $rterm, appending new entry");
+      push (@ret, $range);
+    }
+  }
+  
+  return @ret;
+}
+
+
+# for sorting, downcase and omit leading left quotes and \commands:
+sub make_sort_term
+{
+  my ($term) = @_;
+  $term = lc ($term);  # downcase
+  $term =~ tr/`}//d;    # omit leading left quotes
+  $term =~ s/^\\[a-z]+ \{([^}])/\1/;  # omit \cmd { (but not \LaTeX {})
+  return $term;
+}
+
+
+# Return string with the page numbers (ranges are what we're actually
+# passed, but we don't care here) in P2 inserted into the numerically
+# correct places in P1.
+# 
+sub splice_pages
+{
+  my ($p1,$p2) = @_;
+  my @p1 = split (/, /, $p1);
+  my @p2 = split (/, /, $p2);
+  
+  my @ret = sort { $a <=> $b } (@p1, @p2);
+  
+  # If we have a range 1--3, perhaps we should also remove individual
+  # entries 1, 2, 3.  But since we don't need that in practice right
+  # now, skip it.
+
+  return join (", ", @ret);
+}
+
+
+
+# Print list S back to stdout as a sorted file.
+# 
+sub output_s_file
+{
+  my (@s) = @_;
+  
+  for my $ent (@s) {
+    print "$ent->{cmd}" . "{$ent->{term}}{$ent->{pages}}\n";
+  }
+  return 0;
+}
+
+
+
+sub debug { }
+sub debug { warn @_, "\n"; }

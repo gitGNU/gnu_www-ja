@@ -1,0 +1,259 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Merging</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_8.html">previous</A>, <A HREF="cvs_10.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC55" HREF="cvs_toc.html#TOC55">Merging</A></H1>
+<P>
+<A NAME="IDX223"></A>
+<A NAME="IDX224"></A>
+<A NAME="IDX225"></A>
+<A NAME="IDX226"></A>
+<A NAME="IDX227"></A>
+
+</P>
+<P>
+You can include the changes made between any two
+revisions into your working copy, by <EM>merging</EM>.
+You can then commit that revision, and thus effectively
+copy the changes onto another branch.
+
+</P>
+
+
+
+<H2><A NAME="SEC56" HREF="cvs_toc.html#TOC56">Merging an entire branch</A></H2>
+<P>
+<A NAME="IDX228"></A>
+<A NAME="IDX229"></A>
+
+</P>
+<P>
+You can merge changes made on a branch into your working copy by giving
+the <SAMP>`-j <VAR>branch</VAR>'</SAMP> flag to the <CODE>update</CODE> command.  With one
+<SAMP>`-j <VAR>branch</VAR>'</SAMP> option it merges the changes made between the
+point where the branch forked and newest revision on that branch (into
+your working copy).
+
+</P>
+<P>
+<A NAME="IDX230"></A>
+The <SAMP>`-j'</SAMP> stands for "join".
+
+</P>
+<P>
+<A NAME="IDX231"></A>
+<A NAME="IDX232"></A>
+<A NAME="IDX233"></A>
+Consider this revision tree:
+
+</P>
+
+<PRE>
++-----+    +-----+    +-----+    +-----+
+! 1.1 !----! 1.2 !----! 1.3 !----! 1.4 !      &#60;- The main trunk
++-----+    +-----+    +-----+    +-----+
+                !
+                !
+                !   +---------+    +---------+
+Branch R1fix -&#62; +---! 1.2.2.1 !----! 1.2.2.2 !
+                    +---------+    +---------+
+</PRE>
+
+<P>
+The branch 1.2.2 has been given the tag (symbolic name) <SAMP>`R1fix'</SAMP>.  The
+following example assumes that the module <SAMP>`mod'</SAMP> contains only one
+file, <TT>`m.c'</TT>.
+
+</P>
+
+<PRE>
+$ cvs checkout mod               # Retrieve the latest revision, 1.4
+
+$ cvs update -j R1fix m.c        # Merge all changes made on the branch,
+                                 # i.e. the changes between revision 1.2
+                                 # and 1.2.2.2, into your working copy
+                                 # of the file.
+
+$ cvs commit -m "Included R1fix" # Create revision 1.5.
+</PRE>
+
+<P>
+A conflict can result from a merge operation.  If that
+happens, you should resolve it before committing the
+new revision.  See section <A HREF="cvs_7.html#SEC40">Conflicts example</A>.
+
+</P>
+<P>
+The <CODE>checkout</CODE> command also supports the <SAMP>`-j <VAR>branch</VAR>'</SAMP> flag.  The
+same effect as above could be achieved with this:
+
+</P>
+
+<PRE>
+$ cvs checkout -j R1fix mod
+$ cvs commit -m "Included R1fix"
+</PRE>
+
+
+
+<H2><A NAME="SEC57" HREF="cvs_toc.html#TOC57">Merging from a branch several times</A></H2>
+
+<P>
+Continuing our example, the revision tree now looks
+like this:
+
+</P>
+
+<PRE>
++-----+    +-----+    +-----+    +-----+    +-----+
+! 1.1 !----! 1.2 !----! 1.3 !----! 1.4 !----! 1.5 !      &#60;- The main trunk
++-----+    +-----+    +-----+    +-----+    +-----+
+                !                           *
+                !                          *
+                !   +---------+    +---------+
+Branch R1fix -&#62; +---! 1.2.2.1 !----! 1.2.2.2 !
+                    +---------+    +---------+
+</PRE>
+
+<P>
+where the starred line represents the merge from the
+<SAMP>`R1fix'</SAMP> branch to the main trunk, as just
+discussed.
+
+</P>
+<P>
+Now suppose that development continues on the
+<SAMP>`R1fix'</SAMP> branch:
+
+</P>
+
+<PRE>
++-----+    +-----+    +-----+    +-----+    +-----+
+! 1.1 !----! 1.2 !----! 1.3 !----! 1.4 !----! 1.5 !      &#60;- The main trunk
++-----+    +-----+    +-----+    +-----+    +-----+
+                !                           *
+                !                          *
+                !   +---------+    +---------+    +---------+
+Branch R1fix -&#62; +---! 1.2.2.1 !----! 1.2.2.2 !----! 1.2.2.3 !
+                    +---------+    +---------+    +---------+
+</PRE>
+
+<P>
+and then you want to merge those new changes onto the
+main trunk.  If you just use the <CODE>cvs update -j
+R1fix m.c</CODE> command again, CVS will attempt to
+merge again the changes which you have already merged,
+which can have undesirable side effects.
+
+</P>
+<P>
+So instead you need to specify that you only want to
+merge the changes on the branch which have not yet been
+merged into the trunk.  To do that you specify two
+<SAMP>`-j'</SAMP> options, and CVS merges the changes from
+the first revision to the second revision.  For
+example, in this case the simplest way would be
+
+</P>
+
+<PRE>
+cvs update -j 1.2.2.2 -j R1fix m.c    # Merge changes from 1.2.2.2 to the
+                                      # head of the R1fix branch
+</PRE>
+
+<P>
+The problem with this is that you need to specify the
+1.2.2.2 revision manually.  A slightly better approach
+might be to use the date the last merge was done:
+
+</P>
+
+<PRE>
+cvs update -j R1fix:yesterday -j R1fix m.c
+</PRE>
+
+<P>
+Better yet, tag the R1fix branch after every merge into
+the trunk, and then use that tag for subsequent merges:
+
+</P>
+
+<PRE>
+cvs update -j merged_from_R1fix_to_trunk -j R1fix m.c
+</PRE>
+
+
+
+<H2><A NAME="SEC58" HREF="cvs_toc.html#TOC58">Merging differences between any two revisions</A></H2>
+<P>
+<A NAME="IDX234"></A>
+<A NAME="IDX235"></A>
+<A NAME="IDX236"></A>
+
+</P>
+<P>
+With two <SAMP>`-j <VAR>revision</VAR>'</SAMP> flags, the <CODE>update</CODE>
+(and <CODE>checkout</CODE>) command can merge the differences
+between any two revisions into your working file.
+
+</P>
+<P>
+<A NAME="IDX237"></A>
+<A NAME="IDX238"></A>
+
+<PRE>
+$ cvs update -j 1.5 -j 1.3 backend.c
+</PRE>
+
+<P>
+will <EM>remove</EM> all changes made between revision
+1.3 and 1.5.  Note the order of the revisions!
+
+</P>
+<P>
+If you try to use this option when operating on
+multiple files, remember that the numeric revisions will
+probably be very different between the various files
+that make up a module.  You almost always use symbolic
+tags rather than revision numbers when operating on
+multiple files.
+
+</P>
+
+
+<H2><A NAME="SEC59" HREF="cvs_toc.html#TOC59">Merging can add or remove files</A></H2>
+
+<P>
+If the changes which you are merging involve removing
+or adding some files, <CODE>update -j</CODE> will reflect
+such additions or removals.
+
+</P>
+<P>
+For example:
+
+<PRE>
+cvs update -A
+touch a b c
+cvs add a b c ; cvs ci -m "added" a b c
+cvs tag -b branchtag
+cvs update -r branchtag
+touch d ; cvs add d
+rm a ; cvs rm a
+cvs ci -m "added d, removed a"
+cvs update -A
+cvs update -jbranchtag
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_8.html">previous</A>, <A HREF="cvs_10.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

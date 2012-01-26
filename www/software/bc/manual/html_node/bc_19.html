@@ -1,0 +1,121 @@
+<HTML>
+<HEAD>
+<!-- Created by texi2html 1.56k from ../bc.texi on 20 March 2001 -->
+
+<TITLE>bc Command Manual - Examples</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_18.html">previous</A>, <A HREF="bc_20.html">next</A>, <A HREF="bc_23.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC19" HREF="bc_toc.html#TOC19">Examples</A></H1>
+
+<P>
+In /bin/sh,  the following will assign the value of "pi" to the shell
+variable <VAR>pi</VAR>.
+
+<PRE>
+
+pi=$(echo "scale=10; 4*a(1)" | bc -l)
+
+</PRE>
+
+<P>
+The following is the definition of the exponential function used in the
+math library.  This function is written in POSIX <CODE>bc</CODE>.
+
+
+
+<PRE>
+
+scale = 20
+
+/* Uses the fact that e^x = (e^(x/2))^2
+   When x is small enough, we use the series:
+     e^x = 1 + x + x^2/2! + x^3/3! + ...
+*/
+
+define e(x) {
+  auto  a, d, e, f, i, m, v, z
+
+  /* Check the sign of x. */
+  if (x&#60;0) {
+    m = 1
+    x = -x
+  } 
+
+  /* Precondition x. */
+  z = scale;
+  scale = 4 + z + .44*x;
+  while (x &#62; 1) {
+    f += 1;
+    x /= 2;
+  }
+
+  /* Initialize the variables. */
+  v = 1+x
+  a = x
+  d = 1
+
+  for (i=2; 1; i++) {
+    e = (a *= x) / (d *= i)
+    if (e == 0) {
+      if (f&#62;0) while (f--)  v = v*v;
+      scale = z
+      if (m) return (1/v);
+      return (v/1);
+    }
+    v += e
+  }
+}
+
+</PRE>
+
+<P>
+The following is code that uses the extended features of <CODE>bc</CODE> to
+implement a simple program for calculating checkbook balances.  This
+program is best kept in a file so that it can be used many times 
+without having to retype it at every use.
+
+
+
+<PRE>
+
+scale=2
+print "\nCheck book program\n!"
+print "  Remember, deposits are negative transactions.\n"
+print "  Exit by a 0 transaction.\n\n"
+
+print "Initial balance? "; bal = read()
+bal /= 1
+print "\n"
+while (1) {
+  "current balance = "; bal
+  "transaction? "; trans = read()
+  if (trans == 0) break;
+  bal -= trans
+  bal /= 1
+}
+quit
+
+</PRE>
+
+<P>
+The following is the definition of the recursive factorial function.
+
+
+
+<PRE>
+
+define f (x) {
+  if (x &#60;= 1) return (1);
+  return (f(x-1) * x);
+}
+
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_18.html">previous</A>, <A HREF="bc_20.html">next</A>, <A HREF="bc_23.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+</BODY>
+</HTML>

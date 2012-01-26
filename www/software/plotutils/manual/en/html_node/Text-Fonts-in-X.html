@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+<title>Text Fonts in X - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Fonts-and-Markers.html#Fonts-and-Markers" title="Fonts and Markers">
+<link rel="prev" href="Cyrillic-and-Japanese.html#Cyrillic-and-Japanese" title="Cyrillic and Japanese">
+<link rel="next" href="Text-String-Format.html#Text-String-Format" title="Text String Format">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Text-Fonts-in-X"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Text-String-Format.html#Text-String-Format">Text String Format</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Cyrillic-and-Japanese.html#Cyrillic-and-Japanese">Cyrillic and Japanese</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Fonts-and-Markers.html#Fonts-and-Markers">Fonts and Markers</a>
+<hr>
+</div>
+
+<h3 class="appendixsec">A.3 Available text fonts for the X Window System</h3>
+
+<p>The command-line graphics programs <code>graph -T&nbsp;X<!-- /@w --></code>, <code>plot
+-T&nbsp;X<!-- /@w --></code>, <code>pic2plot -T&nbsp;X<!-- /@w --></code>, <code>tek2plot -T&nbsp;X<!-- /@w --></code>, and
+<code>plotfont -T&nbsp;X<!-- /@w --></code>, and the <code>libplot</code> library that they are
+built&nbsp;on<!-- /@w -->, can draw text on an X&nbsp;Window<!-- /@w --> System display in a wide
+variety of fonts.  This includes the 22 built-in Hershey vector fonts. 
+They can use the 35 built-in Postscript fonts too, if those fonts are
+available on the X&nbsp;display<!-- /@w -->.  Most releases of the plotting utilities
+include freely distributable versions of the 35 Postscript fonts, in
+Type&nbsp;1<!-- /@w --> format, that are easily installed on any X&nbsp;display<!-- /@w -->.
+
+   <p>The plotting utilities can in fact use most of the `core' fonts that
+are available on the X&nbsp;display<!-- /@w -->.  This includes scalable fonts that
+have so-called XLFD (X&nbsp;Logical<!-- /@w --> Font Description) names.  You may
+determine which such fonts are available by using the low-level
+<code>xlsfonts</code> command.  Fonts whose names end in
+"-0-0-0-0-p-0-iso8859-1" or "-0-0-0-0-m-0-iso8859-1" are scalable
+ISO-Latin-1 fonts that can be used by <code>libplot</code> and the plotting
+utilities.  For example, the "CharterBT-Roman" font is available on
+many X&nbsp;displays<!-- /@w -->.  Its full XLFD name is
+"-bitstream-charter-medium-r-normal&ndash;0-0-0-0-p-0-iso8859-1".  The
+plotting utilities would refer to it by its base XLFD name, which has
+only three hyphens; namely, "charter-medium-r-normal".  The command
+
+<pre class="example">     echo 0 0 1 1 2 0 | graph -T X -F charter-medium-r-normal
+</pre>
+   <p class="noindent">will draw a plot in a popped-up X&nbsp;window<!-- /@w -->, in which the axis ticks
+are labeled in this font.
+
+   <p>Fonts whose names end in "iso8859-2", etc., and "adobe-fontspecific",
+may also be used, though they do not employ the standard ISO-Latin-1
+encoding.  By default <code>libplot</code> will try to retrieve an
+"iso8859-1", i.e., ISO-Latin-1 version of the font, if one is
+available.  But you can work around this by giving the full name of
+the font, if you wish.  Supplying the full name of an X&nbsp;font<!-- /@w --> is
+also useful if you wish to employ a screen font (i.e., bitmap font),
+such as the traditional fonts "fixed" and "9x15".  If you supply the
+full name of an X&nbsp;font<!-- /@w -->, rather than a base XLFD name, each
+character glyph, once it is obtained from the X&nbsp;display<!-- /@w --> as a
+pattern of pixels, will be scaled by <code>libplot</code> to the appropriate
+size.
+
+   <p>The plotting utilities, including <code>graph</code>, support a
+&lsquo;<samp><span class="samp">--bitmap-size</span></samp>&rsquo; option.  If&nbsp;the<!-- /@w --> &lsquo;<samp><span class="samp">-T&nbsp;X<!-- /@w --></span></samp>&rsquo; option is
+used, it&nbsp;sets<!-- /@w --> the size of the popped-up X&nbsp;Window<!-- /@w -->.  You may use
+it to obtain some interesting visual effects.  Each of the plotting
+utilities assumes that it is drawing in a square region, so if you use
+the &lsquo;<samp><span class="samp">--bitmap-size 800x400</span></samp>&rsquo; option, your plot will be scaled
+anisotropically, by a larger factor in the horizontal direction than
+in the vertical direction.  The X&nbsp;fonts<!-- /@w --> in the plot will be scaled
+accordingly.  In the same spirit, the &lsquo;<samp><span class="samp">--rotation</span></samp>&rsquo; option will
+rotate the plot, causing all text strings to be rotated too.  For
+example, &lsquo;<samp><span class="samp">--rotation 45</span></samp>&rsquo; will induce a 45-degree counterclockwise
+rotation.  The options &lsquo;<samp><span class="samp">--bitmap-size</span></samp>&rsquo; and &lsquo;<samp><span class="samp">--rotation</span></samp>&rsquo; may
+be applied together.
+
+   <p>The escape sequences that provide access to the non-ASCII `8-bit'
+characters in the built-in ISO-Latin-1 fonts may be employed when using
+any ISO-Latin-1 X&nbsp;Window<!-- /@w --> System font.  For more on escape sequences,
+see <a href="Text-String-Format.html#Text-String-Format">Text String Format</a>.  As an example, "\Po" will yield the
+British pounds sterling symbol&nbsp;`&pound;'<!-- /@w -->.  The command
+
+<pre class="example">     echo 0 0 1 1 | graph -T X -F times-medium-r-normal -L "A \Po1 Plot"
+</pre>
+   <p class="noindent">shows how this symbol could be used in a graph label.  In the same
+way, the escape sequences that provide access to mathematical symbols
+and Greek characters may be employed when using any X&nbsp;Window<!-- /@w -->
+System font, whether or not it is an ISO-Latin-1 font.  These symbols
+and characters are taken from the Symbol font, which is available on
+nearly all X&nbsp;displays<!-- /@w -->.
+
+   </body></html>
+

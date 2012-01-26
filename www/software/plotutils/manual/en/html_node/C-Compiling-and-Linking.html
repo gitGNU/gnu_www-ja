@@ -1,0 +1,106 @@
+<html lang="en">
+<head>
+<title>C Compiling and Linking - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="C-Programming.html#C-Programming" title="C Programming">
+<link rel="prev" href="Older-C-APIs.html#Older-C-APIs" title="Older C APIs">
+<link rel="next" href="Sample-C-Drawings.html#Sample-C-Drawings" title="Sample C Drawings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="C-Compiling-and-Linking"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Sample-C-Drawings.html#Sample-C-Drawings">Sample C Drawings</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Older-C-APIs.html#Older-C-APIs">Older C APIs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="C-Programming.html#C-Programming">C Programming</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.2.3 C compiling and linking</h4>
+
+<p>The source code for a graphics application written in C, if it is to use
+the GNU <code>libplot</code> C&nbsp;API<!-- /@w --> (C&nbsp;application<!-- /@w --> programming
+interface), must contain the lines
+
+<pre class="example">     #include &lt;stdio.h&gt;
+     #include &lt;plot.h&gt;
+</pre>
+   <p class="noindent">The header file <samp><span class="file">plot.h</span></samp> is distributed with <code>libplot</code>, and
+should have been installed on your system where your C&nbsp;compiler<!-- /@w --> will
+find it.  It&nbsp;contains<!-- /@w --> a prototype for each of the functions in the
+C&nbsp;API<!-- /@w -->, and some miscellaneous definitions.
+
+   <p>To each Plotter operation there corresponds a function in the C&nbsp;API<!-- /@w -->
+whose name begins with "pl_" and ends with&nbsp;"_r"<!-- /@w -->.  To&nbsp;invoke<!-- /@w --> the
+Plotter operation, this function would be called.  For example, the
+<code>openpl</code> operation would be invoked on a Plotter by calling the
+function <code>pl_openpl_r</code>, the first argument of which is a pointer to
+the Plotter.  All such functions are declared in <samp><span class="file">plot.h</span></samp>.
+
+   <p>In releases of GNU <code>libplot</code> before <code>libplot</code> 3.0, Plotter
+operations were performed in a different way.  For example, there was a
+function <code>pl_openpl</code> that operated on a Plotter that was
+`selected', rather than specified as an argument.  The old C&nbsp;API<!-- /@w --> is
+still supported by <samp><span class="file">plot.h</span></samp>.  For more information on&nbsp;it<!-- /@w -->, see
+<a href="Older-C-APIs.html#Older-C-APIs">Older C APIs</a>.
+
+   <p>In even older releases of GNU <code>libplot</code>, and in the non-GNU
+versions of <code>libplot</code> that preceded it, the "pl_" prefix was not
+used.  If&nbsp;you<!-- /@w --> need to compile code written for early versions of GNU
+<code>libplot</code> or for non-GNU <code>libplot</code>, you should also include
+the header file <code>plotcompat.h</code>.  That file redefines <code>openpl</code>
+as <code>pl_openpl</code>, and so&nbsp;forth<!-- /@w -->.
+
+   <p>To link your application with GNU <code>libplot</code>, you would use the
+appropriate &lsquo;<samp><span class="samp">-l</span></samp>&rsquo; option(s) on the command line when compiling it. 
+You would use
+
+<pre class="example">     -lplot -lXaw -lXmu -lXt -lXext -lX11 -lpng -lz -lm
+</pre>
+   <p class="noindent">or, in recent releases of the X&nbsp;Window<!-- /@w --> System,
+
+<pre class="example">     -lplot -lXaw -lXmu -lXt -lSM -lICE -lXext -lX11 -lpng -lz -lm
+</pre>
+   <p class="noindent">These linking options assume that your version of <code>libplot</code> has
+been compiled with PNG support; if&nbsp;not<!-- /@w -->, you would omit the
+&lsquo;<samp><span class="samp">-lpng -lz</span></samp>&rsquo; options.
+
+   <p>As an alternative to the preceding, you may need to use &lsquo;<samp><span class="samp">-lplot
+-lXm -lXt -lXext -lX11 -lpng -lz -lm</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-lplot -lXm -lXt -lXext
+-lX11 -lpng -lz -lm -lc -lgen</span></samp>&rsquo;, or &lsquo;<samp><span class="samp">-lplot -lXm -lXt -lXext -lX11
+-lpng -lz -lm -lc -lPW</span></samp>&rsquo;, on systems that provide Motif widgets instead
+of Athena widgets.  In recent releases of the X&nbsp;Window<!-- /@w --> System, you
+would insert &lsquo;<samp><span class="samp">-lSM -lICE</span></samp>&rsquo;.  Recent releases of Motif require
+&lsquo;<samp><span class="samp">-lXp</span></samp>&rsquo; and possibly &lsquo;<samp><span class="samp">-lXpm</span></samp>&rsquo; as&nbsp;well<!-- /@w -->.)
+
+   <p>On some platforms, the directories in which <code>libplot</code> or the other
+libraries are stored must be specified on the command line.  For&nbsp;example<!-- /@w -->, the options &lsquo;<samp><span class="samp">-lXaw -lXmu -lXt -lSM -lICE -lXext -lX11</span></samp>&rsquo;,
+which specify X&nbsp;Window<!-- /@w --> System libraries, may need to be preceded by
+an option like &lsquo;<samp><span class="samp">-L/usr/X11/lib</span></samp>&rsquo;.
+
+   <p>On most systems <code>libplot</code> is installed as a shared library.  This
+means that the linking with your application will take place at run time
+rather than compile time.  The environment variable
+<code>LD_LIBRARY_PATH</code> lists the directories which will be searched for
+shared libraries at run time.  For your application to be executable,
+this environment variable should include the directory in which
+<code>libplot</code> is stored.
+
+   </body></html>
+

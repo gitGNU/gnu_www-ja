@@ -1,0 +1,175 @@
+关於如何使用 savannah 进行中译小组网页的管理：
+
+1. 您必须使用 cvs ，这通常表示您必须要在一台 GNU/Linux 或其它 
+   Unix-like 系统上进行操作。因此先确定在您的系统上是否安装有 cvs 。
+
+2. 向中译小组的任何一位管理员请求开放权限，我们马上就可以开放。（如果
+   您不知道要同谁联系，直接寄邮件给作者 <chliu@gnu.org> 就可以了。）如
+   果您想要帮忙管理，也请告诉我们。
+
+3. 接下来您必须在您的系统上进行一些设定。首先是 ssh ：
+
+>> ssh-keygen
+
+在某些版本中，您也许必须键入下行以作为替代：
+
+>> ssh-keygen -t rsa1
+
+ssh 会询问您 passphrase ，您必须设定一个，不要只是键入 newline 字元。
+（这个 passphrase 在您每一次进行网站管理的动作时都会询问您，因此请自行
+记好。）然后您必须将“Protocol 1,2”这个字串加入到您的 ssh 组态档案中，
+您可以这样作到：
+
+>> echo "Protocol 1,2" > ~/.ssh/config
+
+4. 然后您就可以到 savannah 中编辑您的 sshkey 资料了：
+
+http://savannah.gnu.org/account/editsshkeys.php
+
+请注意您的公开键资料预设是写在 ~/.ssh/identity.pub 档案中的〈如果您没
+有特别给它更动的话〉。 savannah 的 cron 排程会在下一个小时内更新您的资
+料。（泡杯茶）
+
+5. 先建立一个目录用来存放中译小组的网站，然后移到该目录键入：
+
+>> export CVS_RSH=ssh
+
+以使您的 cvs 使用 ssh 安全认证，再键入：
+
+>> cvs -z3 -d<your-savannah-account>@subversions.gnu.org:/webcvs co software/chinese/
+
+其中 <your-savannah-account> 要以您自己的 savannah account 来取代。如
+作者的是“chstoneliu”，故键入的是：
+
+>> cvs -z3 -dchstoneliu@subversions.gnu.org:/webcvs co software/chinese/
+
+这样就会将网站中的所有页面下载到您的机器上。（下载完您就可以 off-line 
+了，省一点。）现在您应该是在该目录下，（作者的是在 ~/gnu/ 。）先移动到
+中译小组的根目录：
+
+>> cd software/chinese/
+
+比如您现在要编辑 index.html 这个档案：
+
+>> emacs index.html
+
+（其它编辑器也可以。）东看看西找找，把要更新的部份反应到页面上。（比如
+将某人列为某篇文章的翻译。）然后退出编辑器。现在您应该还在 
+~/gnu/software/chinese/ ，确认更新无误之后：（如果您刚才 off-line 了，
+现在必须再 on-line 。）
+
+>> cvs add index.html
+
+您会被询问刚才所说的 passphrase 。待您己经将所有的网站工作完成后，键入：
+
+>> cvs commit
+
+您也会被询问 passphrase ，然后会出现一个编辑萤幕，（通常是 vi ，但是您
+也可以将预设值修改为 Emacs 。没什么必要，因为只是要键入个一行文字而已。）
+让您可以说明您此次所作出的修改的简短解释，操作例子如下：
+
+a. 键入字元“i”，这会使您进入 vi 的输入模式。
+b. 键入解释的文本，如：“Modified: Syue-Ping Ma's suggestion.”。
+c. 键入 <ESC> 回到 vi 的指令模式。
+d. 键入“:wq”以储存并且离开 vi 。
+
+稍待一会，您就可以从萤幕上看到您的修改已经上载到 savannah 的讯息，完成
+网站管理的工作。
+
+
+如何偷懒？
+----------
+
+每次都要键入一长串实在不太经济，虽然可以用 paste 的方式解决，但是显然
+不符合我们 hacker 对於操作优雅的要求。因此下面是作者的作法，先将下面这
+几行加入到您的 ~/.bashrc 档案中：
+
+# >> webmastering gnu www pages...
+export CVS_RSH=ssh
+alias cvsctt="cvs -z3 -dchstoneliu@subversions.gnu.org:/webcvs co software/chinese/"
+
+# >> big5-gb2312 inter-translating using iconv...
+alias b2g="iconv -f big5 -t gb2312 -o "
+alias g2b="iconv -f gb2312 -t big5 -o "
+
+但是记得要将 chstoneliu 改成您自已的 savannah account 才是，这样子只要
+键入：
+
+>> cvsctt
+
+就可以了。比起原来的
+
+>> cvs -z3 -dchstoneliu@subversions.gnu.org:/webcvs co software/chinese/
+
+好多了。同时因为直接在 ~/.bashrc 中加入“export CVS_RSH=ssh”，所以您
+也不必每一次开新的 shell session 都必须键入。（因为在 shell 启动时就已
+经代您键入了。）
+
+
+简繁中文的同时提供。
+--------------------
+
+您可以发现上面另外还有 big5-gb2312 两种编码的互转 alias(es) 。以作者维
+护 GNU 首页为例，实际上的编辑档案有两个：
+
+home.zh.html
+home.zhs.html
+
+这两者都是以 big5 编码的，但是其中 home.zhs.html 是采用简体中文的术语。
+（白若玉提供。）待完成更新后，键入：
+
+b2g home.cn.html home.zhs.html
+
+这样子就做出了 gb2312 编码的简体中文页面。（请注意引数输入的顺序，颠倒
+将会使 home.zhs.html 成为空白档案。）因此如果您使用的是 gb2312 编码的
+工作环境，您的工作档案将有可能是：
+
+file.cn.html
+file.zht.html
+
+皆以 gb2312 进行编码，待两者更新且同步后，键入：
+
+g2b file.zh.html file.zht.html
+
+以制作出相对应的繁体中文页面。GNU Project 新完成以及更新的中译页面都必
+须同时提供简繁版本，否则不进行上载的动作。希望我们的每一位成员都能够做
+到提供两种版本。（如果您的工作环境并不允许，还是直接将您完成的译本寄给
+作者就可以了。许多人由於外在的客观条件，一时之间在操作上会有困难，但我
+们希望您可以了解到这完全不会也不应影响到您对於 GNU 中译工作的参与。如
+果有人曾经藉此攻击您的工作，请让我们知道发生了什么事。）
+
+另外对於简繁术语的差异，目前遇到的大部份都已经收录在：
+
+http://www.gnu.org/software/chinese/terms.cn.xml
+http://www.gnu.org/software/chinese/terms.zh.xml
+
+您可以自行参阅，而后自然地采用於您的工作上。（当然您也可以将您的新发现
+收录进去，记得把自己列为该文本的 contributor 。）不必太在意这些术语的
+差异是否完全且正确地反应出，先将译本完成，我们再来看如何更进一步地改进
+它。
+
+----------------------------------------------------------------------
+
+这里应该已经提供了足够的资料可以使您上手了，如果还有问题，寄到 
+<chliu@gnu.org> 就可以了。
+
+注意在 cvs commit 之前，请先确定您工作中的版本是目前网站中的最新，以免
+有人先您一步作出更新，而您又将他的更新给覆盖回来了。（因此如果您 
+commit 与 cvsctt 之间差了一段时间，最好先确认一下。但若您用 cvsctt 来
+保持最新时，记得先将您的工作档案备份到别的目录，否则变成您的被盖掉了。）
+
+基本上只要您表达了希望参与的想法，权限马上就可以给予。您可以将您正在进
+行翻译的页面放在其中 efforts 目录下，（可以作为半公开徵询公众意见的地
+方。）待完成后通知作者反应到正式的 GNU 网站上。如果您翻译的是使用手册，
+则可以放到 manual 目录下进行您的工作。（如果您需要子目录使用，请先通知
+作者。）
+
+其它住在 savannah 中的计画也是如此用法，所以如果您申请了自己的一个在 
+savannah 上，那么您应该知道要如何管理了…〈源码的管理方式亦同，只是下
+不同参数，请自行参考您所参与的计画的 cvs 页面〉。
+
+
+本文的工作人员列表如下：
+
+作者：刘 昭宏
+贡献：马 雪萍、<您的姓名，如果您修改了本文的话。>

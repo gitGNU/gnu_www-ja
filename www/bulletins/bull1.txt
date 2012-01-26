@@ -1,0 +1,985 @@
+
+
+
+
+
+
+
+				                                 $1.00
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+
+
+
+
+				   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			       Contents
+
+Gnu's Zoo							     2
+What is Gnu Emacs						     3
+Version 17 comes with its own doctor				     4
+How to get Gnu Emacs						     4
+Status of Gnu Emacs on Various Machines and Systems		   5,6
+A Sample .emacs File						     7
+What is the Free Software Foundation?				   8,9
+Gnu Status						      10,11,12
+Some Arugments for Gnu's Goals					    13
+Wish List							    14
+Free Software Foundation Order Form				    15
+Thank Gnus							    16
+
+				   
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+
+
+			      Gnu's Zoo
+
+
+
+First and foremost there's our porcupine Richard M. Stallman.  The last
+of the true hackers and founder of project GNU.
+
+Secondly there's Leonard H. Tower, Gnu's teddy bear.  Len is Gnu's
+first and so far only paid full time employee.
+
+Gnu's Hawk, Robert Chassell, is the world's only generous treasurer.
+
+Gnu has two wise old night owls, Professor Hal Abelson and Professor
+Gerald Sussman.  They are advisors and round out FSF's board of
+directors.
+
+Amoung our volunteer hackers there's Dean L. Elsner, our world hopping
+platypus (I originally called him a kangaroo but he insists he's a
+platypus).  In case you haven't guessed, Dean comes from Australia.
+Dean is writing Gnu's assembler.
+
+Another Australian, Richard Mlynarik, is acting as Gnu's Emacs Guru.  I'll
+try calling him our kangaroo and see what happens.
+
+Eric Albert walked in off the street on January 24.  So far, he's sped
+up the GNU LD command to be faster than UNIX's (it was much slower),
+and is now fixing some bugs in it.  After that, he'll be working on
+removing fixed-length limits from GNU CPP, and also speeding it up.
+Eric claims he's Gnu's humuhumunukunukuapuaa, the current state fish
+of Hawaii. And we're happy to have the help of such a rare fish.
+
+There is also Paul Rubin on the West coast.  Gnu's spider, Paul weaves
+Gnu Emacs reference cards and produces nifty covers for the new
+version of the Gnu Emacs manual.
+
+Me?  My name's Jerry Puzo.  I answer the mail and send out tapes.  It
+explains a lot to say I'm Gnu's turtle.
+
+				*end*
+
+----------------------------------------------------------------------
+
+G N U ' S   B U L L E T I N 	Copyright February 1986
+				by the Free Software Foundation.
+
+Editor:				Jerome E. Puzo
+
+   Permission is granted to anyone to make or distribute verbatim
+   copies of this document as received, in any medium, provided that
+   the copyright notice and permission notice are preserved, and
+   that the distributor grants the recipient permission for further
+   redistribution as permitted by this notice.
+
+				*end*
+
+				 2
+
+				   
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+
+
+	      What is GNU Emacs and do you want a copy?
+
+			by Richard M. Stallman
+
+
+GNU Emacs is a new implementation of the Emacs text editor.
+(Recently text editors have been called "word processors" among
+microcomputer users.)
+
+Emacs is a kind of architecture for text editors, in which most
+editing commands are written in an interpreted language (usually
+Lisp) so that the user can write new editing commands as he goes.
+This allows Emacs to have editing commands that are more powerful
+or more adapted to individual uses than other kinds of editors.
+
+Any particular editing command could be written in C, but with
+Lisp it is much easier for users to change the editing commands
+or to implement new editing commands.  Users can also exchange
+their adaptations and extensions of Emacs.  The result is a library
+of extensions that continues to grow.
+
+GNU Emacs boasts an especially clean Lisp system for writing editing
+commands, and an already large library of extensions.
+
+GNU Emacs is written in C, designed for a Unix or Unix-like
+kernel.  It includes its own Lisp interpreter which is used to
+execute the portion of the editor that is written in Lisp.
+
+It is a fairly large program, around 525k on vaxes or 68000s, to
+which must be added space for the files you are editing, undo
+buffers, Lisp libraries loaded, and Lisp data such as recently
+killed text, etc.  This is not really a problem on a timeshared
+machine because most of that 525k is shared, but on a personal
+computer there may be nobody to share with.  Thus, GNU Emacs
+probably could not be used on an IBM PC clone for lack of memory,
+unless you want to implement virtual memory in software within
+Emacs itself.  Perhaps on an 80286 with 1 meg of memory you can
+win using their memory management.
+
+In general, a 32-bit machine with either a meg of real memory
+or virtual memory can probably run GNU Emacs, as long as a suitable
+Unix system call environment is provided, simulated or imitated.
+
+				*end*
+
+
+
+
+
+
+
+
+				 3
+
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+	  Version 17 of Gnu Emacs comes with its own doctor
+
+* Gnu Emacs version 17 is now available.  See the article HOW TO GET
+GNU EMACS and our Order Form elsewhere in this bulletin.
+
+* Gnu Emacs 17 works on system V.  Even subshells work.
+
+* The online Emacs manual is available through the info command.
+
+* Outline mode now allows the user to selectively hide or display the
+subtree of an item.
+
+* TeX and Nroff editing modes have been added.
+
+* C editing mode has been made smarter.  It now understands how to indent
+else clauses.
+
+* Consistency between modes has been improved by assigning some
+commands to different keys.
+
+* Toys.  To the disassociated press has been added:
+             
+   hanoi,  the (slightly) animated puzzle solver,
+   yow,    a Zippy saying producer, and
+   doctor, the infamous psychiatrist.
+
+The folks on net.emacs have sent a suggestion for yowza which lets you
+watch the doctor respond to yow.
+				*end*
+
+
+	       H O W   T O   G E T   G N U   E M A C S
+
+All software and publications are distributed with a permission to
+copy and redistribute.  The easiest way to get a copy of GNU Emacs 
+is from someone else who has it. You need not ask for permission;
+just copy it.
+
+If you have access to the Internet, you can get the latest
+distribution version of GNU Emacs from host:  `prep.ai.mit.edu'
+For more info read: `/u2/emacs/GETTING.GNU.SOFTWARE' on said host.
+
+If you cannot get a copy in any of these ways, you can order one from
+the Free Software Foundation.  Please consult the accompanying Order
+Form for prices and details.
+
+Although Emacs itself is free, our distribution service is not.  
+The income from distribution fees goes to support the foundations's
+purpose: the development of more free software to distribute just like
+GNU Emacs.
+
+Currently, all software is available for UNIX 4.2 BSD on 1600 bpi tar
+tape.  It runs on VAX computers, as well as several 68XXX and 32XXX
+machines.  Contact FSF regarding suitability of your computer system.
+We encourage  porting to other machines.
+
+				*end*
+
+				 4
+
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+
+	 Status of GNU Emacs on Various Machines and Systems.
+Systems:
+  For each type of system, the name of the appropriate s- header file
+  is given.
+
+Berkeley 4.1 (s-bsd4.1.h)
+  Some conditionals have been provided for 4.1, but I do not know
+  for certain that they work as merged in.
+
+Berkeley 4.2 (s-bsd4.2.h)  Works on several machines.
+
+Berkeley 4.3 (s-bsd4.3.h)  Works, on Vaxes at least.
+
+Ultrix  This is another name for Berkeley 4.2.
+
+Uniplus 5.2 (s-unipl5.2.h)  Works, on Dual machines at least.
+
+System V rel 0 (s-usg5.0.h)  Close to working, on Vaxes.  
+  A couple of bugs remain.
+
+System V rel 2 (s-usg5.2.h)
+  Works, on Stride, TI/LMI Nu and HP 9000s200 machines; but in each case
+  the basic system V has been enhanced somewhat.  How Emacs works on a
+  vanilla system V (if you can find one) is not clear.
+
+  The s- file for the HP machine is s-hpux.h, not s-usg5.2.h.
+
+System V rel 2.2 (s-usg5.2.2.h)
+  In 5.2.2 AT&T undid, incompatibly, their previous incompatible
+  change to the way the nlist library is called.  A different s- file
+  is used to enable the other interface.
+
+Machines:
+  For each type of machine, the names of the m- and s- header files
+  are given.
+
+Apollo running Domain (m-apollo.h; s-bsd4.2.h)
+
+  Currently has a bug: exhausts pure Lisp code space while building
+  Emacs.  This is probably one trivial error, but someone with an Apollo
+  will have to find it.
+
+  Once that bug is fixed, one problem will remain permanently.  It is
+  impossible to dump Emacs; the standard Lisp code must be loaded each
+  time Emacs is started.  This is a limitation of their operating
+  system.  In other respects the system appears to be Berkeley 4.2, and
+  Emacs is told that it is running under 4.2.
+
+AT&T 7300 running System V
+  This port has been done but I have not received the diffs yet.
+
+Celerity
+  17.36 has been ported, but I have not seen the port yet.
+                                                         *cont*
+				 5
+
+
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+
+      Status of GNU Emacs on Various Machines and Systems con't
+
+
+Dual running System V (m-dual.h; s-usg5.2.h)
+  As of 17.46, this works except for a few changes
+  needed in unexec.c.
+
+Dual running Uniplus (m-dual.h; s-unipl5.2.h)  Works.
+
+Gould
+
+  Previous versions ran into trouble with their failure to support
+  alloca.  Now that there is a portable alloca supplied with Emacs, it
+  should not be very hard to do this port.
+
+HP 9000s200 (m-hp200.h; s-hpux.h)  Works.  This machine is a 68020.
+
+Megatest (m-mega68.h; s-bsd4.2.h)
+  Emacs 15 worked; do not have any reports about Emacs 16 or 17
+  but any new bugs are probably not difficult.
+
+Nu (TI or LMI) (m-nu.h; s-usg5.2.h)    Nearly working; a few bugs remain.
+
+Pyramid (m-pyramid.h; s-bsd4.2.h)  Works.
+
+Sequent Balance (m-sequent.h; s-bsd4.2.h)
+  Emacs 17.48 works in their system version 2.0.
+  Emacs has not been tried on their system version 1.3.
+
+Stride (m-stride.h; s-usg5.2.h)
+  Works, though has not been tested for long.  Note, however, that this
+  was on a Unix version not yet released by Stride.  It is probably also
+  possible to run on Stride's 5.1 system but changes in the s- file are
+  probably needed.
+
+Sun (m-sun.h, m-sun2.h, m-sun3.h; s-bsd4.2.h)
+  There are three m- files for different models of Sun.
+  All use Berkeley 4.2.  Emacs 17 has run on all of them.
+
+Tahoe (m-tahoe.h; s-bsd4.2.h)  Works.
+
+Tektronix(?) 16000 box (m-16000.h; s-bsd4.2.h)
+  Emacs 15 worked; no reports since then.
+
+Vax running Berkeley Unix (m-vax.h; s-bsd4.1.h or s-bsd4.2.h or s-bsd4.3.h)
+  Works for certain under 4.2 or 4.3; probably a few bugs to fix
+  for 4.1.  Note tha "ultrix" is essentially 4.2; use s-bsd4.2.h.
+
+Vax running System V rel 0 (m-vax.h; s-usg5.0.h)  Still has a couple of bugs.
+
+Vax running VMS  Port nearly completed.
+
+				*end*
+
+				 6
+
+
+				   
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+
+			 A Sample .emacs File
+
+
+; Robert J. Chassell 6 December '85 simplified 9 January '86 Jerome E. Puzo
+
+; This is a sample .emacs file for GNU Emacs on a Vax running BSD 4.2 Unix.
+; Lines that begin with a semi-colon are comments not executed by Emacs.
+
+; TEXT MODE AND AUTO-FILL-MODE
+
+; The next two commands put Emacs into text mode and auto-fill-mode 
+; when Emacs starts.  They are designed for writers who want to start
+; writing prose rather than code.
+; A programmer might want to enter Lisp mode or C mode.
+
+(setq default-major-mode 'text-mode)
+(setq text-mode-hook 'turn-on-auto-fill)
+
+; Sample KEY BINDINGS for a Z-29 terminal
+
+; These functions show how to bind keys to commands.  
+; The keyboard commands continue to work: for example, you can go
+; forward by word either with the right arrow key or with <esc f>.
+; If you do not know what meta sequence a function key returns,
+; you can use the `describe key' function: type control-h k and then 
+; the key. Emacs will tell you the meta sequence and any commands
+; to which the key is bound.
+; note: \e indicates the esc character
+
+(global-set-key "\eT" 'backward-kill-word) ; function key F2
+(global-set-key "\eU" 'kill-word)          ; function key F3
+(global-set-key "\eD" 'backward-word)      ; function key left-arrow
+(global-set-key "\eC" 'forward-word)       ; function key right-arrow
+(global-set-key "\eB" 'scroll-up)          ; function key up-arrow
+(global-set-key "\eA" 'scroll-down)        ; function key down-arrow
+(global-set-key "\eJ" 'forward-sentence)   ; function key erase-key
+(global-set-key "\eH" 'backward-sentence)  ; function key home-key
+(global-set-key "\eP" 'goto-line)          ; function key F6
+
+; Example of how to specify control key:
+; to redefine control-y to go to the start of the line (like control-a)
+; (global-set-key "\C-y" 'beginning-of-line) 
+
+; Example of how to cancel a key binding:
+; (global-unset-key "\C-y)
+
+; UPDATING EMACS
+
+; After writing a function in your .emacs file, you can send the 
+; changed information to the rest of emacs by entering meta-control-x .
+
+; This command finds the function around or following the point. 
+; As soon as you do this, you can begin to use your new function.
+
+				*end*
+
+				 7
+
+				   
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+
+
+
+		What is the Free Software Foundation?
+
+			by Richard M. Stallman
+
+The Free Software Foundation is dedicated to eliminating restrictions
+on copying, redistribution, understanding and modification of software.
+
+The word "free" in our name does not refer to price; it refers to
+freedom.  First, the freedom to copy a program and redistribute it to
+your neighbors, so that they can use it as well as you.  Second, the
+freedom to change a program, so that you can control it instead of it
+controlling you; for this, the source code must be made available to
+you.
+
+The Foundation works to give you these freedoms by developing free
+compatible replacements for proprietary software.  Specifically, we
+are putting together a complete, integrated software system "GNU" that
+is upward-compatible with Unix.  When it is released, everyone will be
+permitted to copy it and distribute it to others; in addition, it will
+be distributed with source code, so you will be able to learn about
+operating systems by reading it, to port it to your own machine, to
+improve it, and to exchange the changes with others.
+
+There are already organizations that distribute free CPM and MSDOS
+software.  The Free Software Foundation is doing something different.
+
+1. The other organizations exist primarily for distribution; they
+distribute whatever happens to be available.  We hope to provide a
+complete integrated free system that will eliminate the need for any
+proprietary software.
+
+2. One consequence is that we are now interested only in software
+that fits well into the context of the GNU system.  Distributing
+free MSDOS or Macintosh software is a useful activity, but it is
+not part of our game plan.
+
+3. Another consequence is that we will actively attempt to improve and
+extend the software we distribute, as fast as our manpower permits.
+For this reason, we will always be seeking donations of money,
+computer equipment or time, labor, and source code to improve the GNU
+system.
+
+4. In fact, our primary purpose is this software development effort;
+distribution is just an adjunct which also brings in some money.  We
+think that the users will do most of the distribution on their own,
+without needing or wanting our help.
+
+								*cont*
+
+
+
+				 8
+
+
+				   
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+
+
+	     What is the Free Software Foundation? con't
+
+
+		       Why a Unix-Like System?
+
+It is necessary to be compatible with some widely used system to give
+our system an immediate base of trained users who could switch to it
+easily and an immediate base of application software that can run on
+it.  (Eventually we will provide free replacements for proprietary
+application software as well, but that is some years in the future.)
+
+We chose Unix because it is a fairly clean design which is already
+known to be portable, yet whose popularity is still rising.  The
+disadvantages of Unix seem to be things we can fix without removing
+what is good in Unix.
+
+Why not imitate MSDOS or CPM?  They are more widely used, true, but
+they are also very weak systems, designed for tiny machines.  Unix is
+much more powerful and interesting.  When a system takes years to
+implement, it is important to write it for the machines that will
+become available in the future; not to let it be limited by the
+capabilities of the machines that are in widest use at the moment but
+will be obsolete when the new system is finished.
+
+Why not aim for a new, more advanced system, such as a Lisp Machine?
+Mainly because that is still more of a research effort; there is a
+sizeable chance that the wrong choices will be made and the system
+will turn out not very good.  In addition, such systems are often tied
+to special hardware.  Being tied to one manufacturer's machine would
+make it hard to remain independent of that manufacturer and get broad
+community support.
+
+
+				*end*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				 9
+
+				   
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+
+
+
+			      Gnu Status
+			by Richard M. Stallman
+
+
+1. GNU Emacs.
+
+GNU Emacs is in wide use on several kinds of 4.2 systems.  Support for
+some versions of system V now exists, and VMS support is expected now
+in a few weeks.  There is now an Info-style reference manual also.
+
+Berkeley is going to include GNU Emacs on the 4.3 distribution, and
+DEC has also expressed an interest in distributing it with Unix
+systems.
+
+2. gsh, the GNU imitation C shell.
+
+This is being tested at a few sites.  Wider distribution is expected
+soon.
+
+3. Kernel.
+
+I am planning to use a remote procedure call kernel called TRIX,
+developed at MIT, as the GNU kernel.  It runs, and supports basic Unix
+compatibility, but needs a lot of new features.  Its authors have
+decided to distribute it free.  It was developed on an obscure,
+expensive 68000 box designed years ago at MIT.
+
+4. C compiler
+
+Although I have a portable C and Pascal compiler, it has a serious
+drawback: it is a very large program, and intrinsically cannot be made
+smaller.  It is also very hard to bootstrap.
+
+The problem is that most of the compiler is written in Pastel, a
+super-hairy extended Pascal, and it is also the sole compiler for that
+language.  To make it smaller, we must eliminate the hair needed to
+compile Pastel; then we will not be able to compile Pastel, so it must
+all be rewritten into C.
+
+Len Tower, the sole full-time GNU staff person, is working on this,
+with one or two assistants.  He can certainly use more, but they must
+be in Cambridge or else be able to communicate on the Internet.
+
+5. Documentation system.
+
+I now have a truly compatible pair of programs which can convert a
+file of texinfo format documentation into either a printed manual or
+an Info file.
+
+Documentation files are needed for many utilities.
+
+								*con't*
+				 10
+
+
+				   
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+
+
+
+			  Gnu's Status Con't
+
+
+
+6. Other utilities.
+
+`diff', `tar' and `find' are being written.  `ls', with full 4.2 and
+system V features, is finished.  `make', with full 4.2 features, is
+also finished.  `lex' is supposedly finished and to be sent soon.
+
+A mostly-machine-independent assembler is mostly finished.
+
+I have started writing a debugger, somewhat along the lines of dbx.
+It can now read dbx symbol tables and evaluate C expressions with
+respect to a core dump.
+
+7. Free Software Foundation.
+
+This foundation exists for two purposes: to accept gifts to support
+GNU development, and to carry out distribution.  It was incorporated
+at the beginning of October, and we applied for a tax examption in
+late December.
+
+Its address is
+
+    Free Software Foundation, Inc.
+    1000 Mass Ave
+    Cambridge, MA 02138
+
+and its phone number is (617) 876-3296.
+
+According to our incorporation papers:
+
+ "The corporation is formed for literary, educational and charitable
+purposes with the special purpose of
+
+   i) encouraging, fostering, and promoting the free exchange of computer
+   software and information related to computers and other technology.
+   ii) distributing and disseminating software and information related
+   to computers and other technology; and 
+   iii) increasing the public's access to computers and high technology
+   devices.
+
+								*con't*
+
+
+
+
+
+
+				 11
+
+				   
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+
+
+
+
+			  Gnu's Status Con't
+
+
+
+8. Service directory.
+
+The foundation now maintains a Service Directory; a list of people who
+offer service to individual users of GNU Emacs and, eventually, all
+parts of the GNU system.  Service can be answering questions for new
+users, customizing programs, porting to new systems, or anything else.
+
+9. Porting.
+
+It is too early to inquire about porting GNU (except GNU Emacs).
+First, we have to finish it.
+
+10. Possible target machines.
+
+GNU will require a cpu that uses 32-bit addresses and integers and
+addresses to the 8-bit byte.  1 meg of core should be enough, though 2
+meg would probably make a noticeable improvement in performance.
+Running much of the system in 1/2 meg may be possible, but certainly
+not GNU Emacs.  I do not expect that virtual memory will be required,
+but it is VERY desirable in any case.
+
+GNU Emacs requires at least a meg of memory in the system, either
+physical or virtual.
+
+A hard disk will be essential; at least 20 meg will be needed to hold
+the system plus the source code plus the manual plus swapping space.
+Plus more space for the user's files, of course.  I'd recommend 80meg
+for a personal GNU system.
+
+This is not to say that it will be impossible to adapt some or all of
+GNU for other kinds of machines; but it may be difficult, and I don't
+consider it part of my job to try to reduce that difficulty.
+
+I have nothing to say about any specific models of microcomputer, as I
+do not follow hardware products.
+
+				*end*
+
+
+
+
+
+
+
+
+
+				 12
+
+
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N        Volume 1 No. 1
+----------------------------------------------------------------------
+
+				   
+		    Some Arguments for Gnu's Goals
+		    ==============================
+
+		       by Richard. M. Stallman
+
+Once GNU is written, everyone will be able to obtain good system
+software free, just like air.
+
+This means much more than just saving everyone the price of a license.
+It means that much wasteful duplication of system programming effort
+will be avoided.  This effort can go instead into advancing the state
+of the art.
+
+Complete system sources will be available to everyone.  As a result, a
+user who needs changes in the system will always be free to make them
+himself, or hire any available programmer or company to make them for
+him.  Users will no longer be at the mercy of one programmer or
+company which owns the sources and is in sole position to make
+changes.
+
+Schools will be able to provide a much more educational environment by
+encouraging all students to study and improve the system code.
+Harvard's computer lab used to have the policy that no program could
+be installed on the system if its sources were not on public display,
+and upheld it by actually refusing to install certain programs.  I was
+very much inspired by this.
+
+Finally, the overhead of considering who owns the system software and
+what one is or is not entitled to do with it will be lifted.
+
+				   
+	      "So, how could programmers make a living?"
+
+
+There are plenty of ways that programmers could make a living without
+selling the right to use a program.  This way is customary now because
+it brings programmers and businessmen the most money, not because it
+is the only way to make a living.  It is easy to find other ways if
+you want to find them.  Here are a number of examples.
+
+A manufacturer introducing a new computer will pay for the porting of
+operating systems onto the new hardware.
+
+The sale of teaching, hand-holding and maintenance services could also
+employ programmers.
+
+People with new ideas could distribute programs as freeware, asking
+for donations from satisfied users, or selling hand-holding services.
+I have met people who are already working this way successfully.
+
+Users with related needs can form users' groups, and pay dues.  A
+group would contract with programming companies to write programs that
+the group's members would like to use.
+			   
+				*end*
+
+				 13
+
+				   
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+
+
+			      Wish List
+
+
+There are various thing which project GNU and the Free Software
+Foundation can do with the donation of:
+
+* Money
+
+* A modular, customizable, optimizing, free or public domain C compiler
+with source.
+
+* Money.  Salary for two more full time programers.
+
+* Equipment to keep them busy on.  Or a 68xxx or 32xxx based system
+with one meg or more of memory and 80meg of disk storage would
+do.
+
+* Money
+
+* Office space of our own.
+
+* Money
+
+* Dedicated people, with C and Unix knowledge, especially those with
+a local (Cambridge and surrounds) address.  We have utilities for
+programmers to program.  We have documentation for dedicated people to
+write. 
+
+* Money
+
+				*end*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				 14
+
+				   
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+				   
+
+
+		 Free Software Foundation Order Form
+			    February 6, 1986
+
+All software and publications are distributed with a permission to
+copy and redistribute.
+
+Quantity  Price  Item
+
+________  $150	GNU Emacs source code, on a 1600bpi industry standard
+		mag tape in tar format.  The tape also contains
+		MIT Scheme (a dialect of Lisp), hack (a rogue-like game)
+		and bison (a compatible replacement for yacc).
+
+________  $15	GNU Emacs manual.  This includes a reference card.
+
+Thus, a tape and one manual come to $165.
+
+________  $60	Box of six GNU Emacs manuals, shipped book rate.
+
+________  $1	GNU Emacs reference card. Or:
+
+________  $6    One dozen GNU Emacs reference cards.
+
+
+Shipping outside North America is normally by surface mail.  For air
+mail delivery, please add $15 per tape or manual, $1 for an individual
+reference card, or 50 cents per card in quantity twelve or more.
+
+Prices are subject to change without notice.  Massachusetts residents
+please add 5% sales tax to all prices.
+
+
+________   Total paid
+
+Orders are filled upon receipt of check or money order.  We do not have
+the staff to handle the billing of unpaid orders.  Please help keep
+our lives simple by including your payment with your order.
+
+Make checks payable to Free Software Foundation.  Mail orders to:
+
+   Free Software Foundation, Inc.
+   1000 Mass Ave
+   Cambridge, MA 02138
+
+All software from the Free Software Foundation is provided on an "as
+is" basis, with no warranty of any kind.
+
+
+
+
+
+				 15
+
+
+				   
+----------------------------------------------------------------------
+February 1986        G N U ' S   B U L L E T I N         Volume 1 No.1
+----------------------------------------------------------------------
+
+			      Thank Gnus
+
+The Free Software Foundation would like to send special thank gnus to
+the following:
+
+Thanks to Micheal Zelyony.  Mike answered the mail and sent out manuals
+and publicity for the FSF from September to November of 1985.  As the
+one who has taken over his job I can appreciate the size of his
+contribution.  
+
+Thanks to Ed Zimmer.  Ed's philanthropy has given the FSF the salary
+for one full time programmer.
+
+Thanks to Lisp Machine, Inc.  LMI has generously provided office space,
+computer resources and a mailing address for FSF.
+
+Thanks to Jerry Pournelle.  Jerry mentioned us in his BYTE column.
+We have received over one hundred responses so far.  Ninety percent of
+Jerry's readers take what he says literally.  One or two single dollar
+bills seem to fall out of each letter I open.
+
+Thanks to all those who have contributed source code.
+
+Thanks to those who sent money and offered help.  Thanks also to those
+who support us by ordering Emacs manuals and distribution tapes.
+
+The creation of this bulletin is our way of thanking all who have
+expressed interest in what we are doing.
+
+				*end*
+
+
+
+----------------------------------------------------------------------
+
+							 -------
+							|	|
+   Free Software Foundation, Inc.			| stamp |
+   1000 Mass Ave					|	|
+   Cambridge, MA 02138					| here	|
+							|	|
+							 -------
+
+
+
+
+
+

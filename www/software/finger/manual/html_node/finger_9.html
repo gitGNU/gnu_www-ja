@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/finger.texinfo on 7 November 1998 -->
+
+<TITLE>GNU Finger - Fingerrc Scripts</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="finger_1.html">first</A>, <A HREF="finger_8.html">previous</A>, <A HREF="finger_10.html">next</A>, <A HREF="finger_24.html">last</A> section, <A HREF="finger_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC9" HREF="finger_toc.html#TOC9">The <TT>`~/.fingerrc'</TT> Script</A></H2>
+
+<P>
+When the GNU Finger server receives a request for information about a
+user it looks to see if the user has a <TT>`.fingerrc'</TT> file in the home
+directory. If such a file exists, and is executable, then this file
+is executed, and the normal finger output is passed to it as input.
+Its output becomes what is returned for the request. Thus, it can be
+used to:
+
+</P>
+
+<UL>
+<LI>
+
+Disable fingering a specific user by linking
+<TT>`~<VAR>user</VAR>/.fingerrc'</TT> to <TT>`/bin/true'</TT>.
+
+<LI>
+
+Entirely replace the output of <CODE>finger</CODE> by ignoring its input. Below
+is a sample script which could be put in <SAMP>`~price-info/.fingerrc'</SAMP>.
+
+
+<PRE>
+#! /bin/sh
+#
+# This sample script replaces the output of GNU Finger
+#
+echo Hack-O-Matic Consulting Services, Inc. "   " `date`
+
+cat &#60;&#60;ETX
+
+Hi, thanks for asking us about prices on our newly introduced support
+services for Free Software. Below is a list of new services; for a list
+of our previous services, please send mail to this address and someone
+will contact you. Please don't forget to tell us how to reach you.
+
+ETX
+cat ~/info/new-stuff
+</PRE>
+
+<LI>
+
+Filter the output to make changes. If the script below is put in
+<SAMP>`~bson/.fingerrc'</SAMP> on the finger server host for the domain
+<SAMP>`gnu.ai.mit.edu'</SAMP>:
+
+
+<PRE>
+#! /bin/sh
+#
+# This sample filter replaces the "Project:" tag with
+# "Working on:"
+#
+sed -e 's/^Project:$/Working on:/g'
+</PRE>
+
+Then when <SAMP>`finger -l bson@gnu.ai.mit.edu'</SAMP> is run, the output could
+look something like:
+
+
+<PRE>
+Jan Brittenson (bson)
+Home: /home/fsf/bson
+Shell: /usr/local/bin/bash
+No mail.
+
+Jan Brittenson (bson) is not presently logged in.
+Last seen at wombat.gnu.ai.mit.edu on Tue Sep  1 15:08:12 1992
+
+No plan.
+
+Working on:
+        1. Hacking GNU Finger
+        2. Making friends
+</PRE>
+
+</UL>
+
+<P><HR><P>
+Go to the <A HREF="finger_1.html">first</A>, <A HREF="finger_8.html">previous</A>, <A HREF="finger_10.html">next</A>, <A HREF="finger_24.html">last</A> section, <A HREF="finger_toc.html">table of contents</A>.
+</BODY>
+</HTML>

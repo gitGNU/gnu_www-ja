@@ -1,0 +1,99 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Password authentication client</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_25.html">previous</A>, <A HREF="cvs_27.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H4><A NAME="SEC28" HREF="cvs_toc.html#TOC28">Using the client with password authentication</A></H4>
+<P>
+<A NAME="IDX107"></A>
+<A NAME="IDX108"></A>
+<A NAME="IDX109"></A>
+<A NAME="IDX110"></A>
+Before connecting to the server, the client must <EM>log
+in</EM> with the command <CODE>cvs login</CODE>.  Logging in
+verifies a password with the server, and also records
+the password for later transactions with the server.
+The <CODE>cvs login</CODE> command needs to know the
+username, server hostname, and full repository path,
+and it gets this information from the repository
+argument or the <CODE>CVSROOT</CODE> environment variable.
+
+</P>
+<P>
+<CODE>cvs login</CODE> is interactive -- it prompts for a
+password:
+
+</P>
+
+<PRE>
+cvs -d :pserver:bach@chainsaw.brickyard.com:/usr/local/cvsroot login 
+CVS password: 
+</PRE>
+
+<P>
+The password is checked with the server; if it is
+correct, the <CODE>login</CODE> succeeds, else it fails,
+complaining that the password was incorrect.
+
+</P>
+<P>
+Once you have logged in, you can force CVS to
+connect directly to the server and authenticate with
+the stored password:
+
+</P>
+
+<PRE>
+cvs -d :pserver:bach@chainsaw.brickyard.com:/usr/local/cvsroot checkout foo
+</PRE>
+
+<P>
+The <SAMP>`:pserver:'</SAMP> is necessary because without it,
+CVS will assume it should use <CODE>rsh</CODE> to
+connect with the server (see section <A HREF="cvs_23.html#SEC25">Connecting with rsh</A>).
+(Once you have a working copy checked out and are
+running CVS commands from within it, there is no
+longer any need to specify the repository explicitly,
+because CVS records it in the working copy's
+<TT>`CVS'</TT> subdirectory.)
+
+</P>
+<P>
+<A NAME="IDX111"></A>
+Passwords are stored by default in the file
+<TT>`$HOME/.cvspass'</TT>.  Its format is human-readable,
+but don't edit it unless you know what you are doing.
+The passwords are not stored in cleartext, but are
+trivially encoded to protect them from "innocent"
+compromise (i.e., inadvertently being seen by a system
+administrator who happens to look at that file).
+
+</P>
+<P>
+The <CODE>CVS_PASSFILE</CODE> environment variable overrides
+this default.  If you use this variable, make sure you
+set it <EM>before</EM> <CODE>cvs login</CODE> is run.  If you
+were to set it after running <CODE>cvs login</CODE>, then
+later CVS commands would be unable to look up the
+password for transmission to the server.
+
+</P>
+<P>
+<A NAME="IDX112"></A>
+The <CODE>CVS_PASSWORD</CODE> environment variable overrides
+<EM>all</EM> stored passwords.  If it is set, CVS
+will use it for all password-authenticated
+connections.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_25.html">previous</A>, <A HREF="cvs_27.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

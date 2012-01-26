@@ -1,0 +1,122 @@
+<HTML>
+<HEAD>
+<!-- Created by texi2html 1.56k from ../bc.texi on 20 March 2001 -->
+
+<TITLE>bc Command Manual - Basic Expressions</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_9.html">previous</A>, <A HREF="bc_11.html">next</A>, <A HREF="bc_23.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC10" HREF="bc_toc.html#TOC10">Basic Expressions</A></H2>
+
+<P>
+In the following descriptions of legal expressions, "expr" refers to a
+complete expression and "<VAR>var</VAR>" refers to a simple or an array variable.
+A simple variable is just a 
+
+
+<P>
+<VAR>name</VAR>
+
+
+<P>
+and an array variable is specified as 
+
+
+<P>
+<VAR>name</VAR>[<VAR>expr</VAR>] 
+
+
+<P>
+Unless specifically mentioned the scale of the result is the maximum
+scale of the expressions involved.
+
+
+<DL COMPACT>
+
+<DT><CODE>- expr</CODE>
+<DD>
+The result is the negation of the expression.
+
+<DT><CODE>++ <VAR>var</VAR></CODE>
+<DD>
+The variable is incremented by one and the new value is the result of
+the expression.
+
+<DT><CODE>-- <VAR>var</VAR></CODE>
+<DD>
+The variable
+is decremented by one and the new value is the result of the
+expression.
+
+<DT><CODE><VAR>var</VAR> ++</CODE>
+<DD>
+ The result of the expression is the value of
+the variable and then the variable is incremented by one.
+
+<DT><CODE><VAR>var</VAR> --</CODE>
+<DD>
+The result of the expression is the value of the variable and then
+the variable is decremented by one.
+
+<DT><CODE>expr + expr</CODE>
+<DD>
+The result of the expression is the sum of the two expressions.
+
+<DT><CODE>expr - expr</CODE>
+<DD>
+The result of the expression is the difference of the two expressions.
+
+<DT><CODE>expr * expr</CODE>
+<DD>
+The result of the expression is the product of the two expressions.
+
+<DT><CODE>expr / expr</CODE>
+<DD>
+The result of the expression is the quotient of the two expressions.
+The scale of the result is the value of the variable <CODE>scale</CODE>
+
+<DT><CODE>expr % expr</CODE>
+<DD>
+The result of the expression is the "remainder" and it is computed in the
+following way.  To compute a%b, first a/b is computed to <VAR>scale</VAR>
+digits.  That result is used to compute a-(a/b)*b to the scale of the
+maximum of <VAR>scale</VAR>+scale(b) and scale(a).  If <VAR>scale</VAR> is set
+to zero and both expressions are integers this expression is the
+integer remainder function.
+
+<DT><CODE>expr ^ expr</CODE>
+<DD>
+The result of the expression is the value of the first raised to the
+second. The second expression must be an integer.  (If the second
+expression is not an integer, a warning is generated and the
+expression is truncated to get an integer value.)  The scale of the
+result is <VAR>scale</VAR> if the exponent is negative.  If the exponent
+is positive the scale of the result is the minimum of the scale of the
+first expression times the value of the exponent and the maximum of
+<VAR>scale</VAR> and the scale of the first expression.  (e.g. scale(a^b)
+= min(scale(a)*b, max(<VAR>scale</VAR>, scale(a))).)  It should be noted
+that expr^0 will always return the value of 1.
+
+<DT><CODE>( expr )</CODE>
+<DD>
+This alters the standard precedence to force the evaluation of the
+expression.
+
+<DT><CODE><VAR>var</VAR> = expr</CODE>
+<DD>
+The variable is assigned the value of the expression.
+
+<DT><CODE><VAR>var</VAR> &#60;op&#62;= expr</CODE>
+<DD>
+This is equivalent to "<VAR>var</VAR> = <VAR>var</VAR> &#60;op&#62; expr" with the
+exception that the "<VAR>var</VAR>" part is evaluated only once.  This can
+make a difference if "<VAR>var</VAR>" is an array.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_9.html">previous</A>, <A HREF="bc_11.html">next</A>, <A HREF="bc_23.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+</BODY>
+</HTML>

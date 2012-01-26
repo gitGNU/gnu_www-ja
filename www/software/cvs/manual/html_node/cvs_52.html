@@ -1,0 +1,123 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Sticky tags</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_51.html">previous</A>, <A HREF="cvs_53.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC54" HREF="cvs_toc.html#TOC54">Sticky tags</A></H2>
+<P>
+<A NAME="IDX214"></A>
+<A NAME="IDX215"></A>
+<A NAME="IDX216"></A>
+
+</P>
+<P>
+The <SAMP>`-r release-1-0-patches'</SAMP> flag that was given
+to <CODE>checkout</CODE> in the previous example
+is <EM>sticky</EM>, that is, it will apply to subsequent commands
+in this directory.  If you commit any modifications, they are
+committed on the branch.  You can later merge the modifications into
+the main trunk.  See section <A HREF="cvs_53.html#SEC55">Merging</A>.
+
+</P>
+<P>
+You can use the <CODE>status</CODE> command to see what
+sticky tags or dates are set:
+
+</P>
+
+<PRE>
+$ vi driver.c   # Fix the bugs
+$ cvs commit -m "Fixed initialization bug" driver.c
+Checking in driver.c;
+/usr/local/cvsroot/yoyodyne/tc/driver.c,v  &#60;--  driver.c
+new revision: 1.7.2.1; previous revision: 1.7
+done
+$ cvs status -v driver.c
+===================================================================
+File: driver.c          Status: Up-to-date
+
+    Version:            1.7.2.1 Sat Dec  5 19:35:03 1992
+    RCS Version:        1.7.2.1 /usr/local/cvsroot/yoyodyne/tc/driver.c,v
+    Sticky Tag:         release-1-0-patches (branch: 1.7.2)
+    Sticky Date:        (none)
+    Sticky Options:     (none)
+
+    Existing Tags:
+        release-1-0-patches             (branch: 1.7.2)
+        release-1-0                     (revision: 1.7)
+
+</PRE>
+
+<P>
+<A NAME="IDX217"></A>
+<A NAME="IDX218"></A>
+<A NAME="IDX219"></A>
+The sticky tags will remain on your working files until
+you delete them with <SAMP>`cvs update -A'</SAMP>.  The
+<SAMP>`-A'</SAMP> option retrieves the version of the file from
+the head of the trunk, and forgets any sticky tags,
+dates, or options.
+
+</P>
+<P>
+<A NAME="IDX220"></A>
+Sticky tags are not just for branches.  For example,
+suppose that you want to avoid updating your working
+directory, to isolate yourself from possibly
+destabilizing changes other people are making.  You
+can, of course, just refrain from running <CODE>cvs
+update</CODE>.  But if you want to avoid updating only a
+portion of a larger tree, then sticky tags can help.
+If you check out a certain revision (such as 1.4) it
+will become sticky.  Subsequent <CODE>cvs update</CODE> will
+not retrieve the latest revision until you reset the
+tag with <CODE>cvs update -A</CODE>.  Likewise, use of the
+<SAMP>`-D'</SAMP> option to <CODE>update</CODE> or <CODE>checkout</CODE>
+sets a <EM>sticky date</EM>, which, similarly, causes that
+date to be used for future retrievals.
+
+</P>
+<P>
+<A NAME="IDX221"></A>
+<A NAME="IDX222"></A>
+Many times you will want to retrieve an old version of
+a file without setting a sticky tag.  The way to do
+that is with the <SAMP>`-p'</SAMP> option to <CODE>checkout</CODE> or
+<CODE>update</CODE>, which sends the contents of the file to
+standard output.  For example, suppose you have a file
+named <TT>`file1'</TT> which existed as revision 1.1, and
+you then removed it (thus adding a dead revision 1.2).
+Now suppose you want to add it again, with the same
+contents it had previously.  Here is how to do it:
+
+</P>
+
+<PRE>
+$ cvs update -p -r 1.1 file1 &#62;file1
+===================================================================
+Checking out file1
+RCS:  /tmp/cvs-sanity/cvsroot/first-dir/Attic/file1,v
+VERS: 1.1
+***************
+$ cvs add file1
+cvs add: re-adding file file1 (in place of dead revision 1.2)
+cvs add: use 'cvs commit' to add this file permanently
+$ cvs commit -m test
+Checking in file1;
+/tmp/cvs-sanity/cvsroot/first-dir/file1,v  &#60;--  file1
+new revision: 1.3; previous revision: 1.2
+done
+$ 
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_51.html">previous</A>, <A HREF="cvs_53.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

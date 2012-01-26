@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Information for maintainers of GNU software, last updated January 12, 2012.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
+2010, 2011, 2012 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 0.01, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Information for Maintainers of GNU Software: Automated Upload Registration</title>
+
+<meta name="description" content="Information for Maintainers of GNU Software: Automated Upload Registration">
+<meta name="keywords" content="Information for Maintainers of GNU Software: Automated Upload Registration">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" rel="up" title="Automated FTP Uploads">
+<link href="Automated-Upload-Procedure.html#Automated-Upload-Procedure" rel="next" title="Automated Upload Procedure">
+<link href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" rel="previous" title="Automated FTP Uploads">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Automated-Upload-Registration"></a>
+<div class="header">
+<p>
+Next: <a href="Automated-Upload-Procedure.html#Automated-Upload-Procedure" accesskey="n" rel="next">Automated Upload Procedure</a>, Up: <a href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" accesskey="u" rel="up">Automated FTP Uploads</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Automated-Upload-Registration-1"></a>
+<h4 class="subsection">11.5.1 Automated Upload Registration</h4>
+
+<a name="index-registration-for-uploads"></a>
+<a name="index-uploads_002c-registration-for"></a>
+
+<p>Here is how to register your information so you can perform uploads
+for your GNU package:
+</p>
+<ol>
+<li> Create an account for yourself at <a href="http://savannah.gnu.org">http://savannah.gnu.org</a>, if
+you don&rsquo;t already have one.  By the way, this is also needed to
+maintain the web pages at <a href="http://www.gnu.org">http://www.gnu.org</a> for your project
+(see <a href="Web-Pages.html#Web-Pages">Web Pages</a>).
+
+</li><li> In the &lsquo;<samp>My Account Conf</samp>&rsquo; page on <code>savannah</code>, upload the GPG
+key you will use to sign your packages.  If you haven&rsquo;t created one
+before, you can do so with the command <code>gpg --gen-key</code> (you can
+accept all the default answers to its questions).
+
+<p>Optional but recommended: Send your key to a GPG public key server:
+<code>gpg --keyserver keys.gnupg.net --send-keys <var>keyid</var></code>, where
+<var>keyid</var> is the eight hex digits reported by <code>gpg
+--list-public-keys</code> on the <code>pub</code> line before the date.  For full
+information about GPG, see <a href="http://www.gnu.org/software/gpg">http://www.gnu.org/software/gpg</a>.
+</p>
+</li><li> Compose a message with the following items in some <var>msgfile</var>.
+Then GPG-sign it by running <code>gpg --clearsign <var>msgfile</var></code>, and
+finally email the resulting &lsquo;<tt><var>msgfile</var>.asc</tt>&rsquo; to
+<a href="mailto:ftp-upload@gnu.org">ftp-upload@gnu.org</a>.
+
+<ol>
+<li> Name of package(s) that you are the maintainer for, your
+preferred email address, and your Savannah username.
+
+</li><li> An ASCII armored copy of your GPG key, as an attachment.  (&lsquo;<samp>gpg
+--export -a <var>your_key_id</var> &gt;mykey.asc</samp>&rsquo; should give you this.)
+
+</li><li> A list of names and preferred email addresses of other individuals you
+authorize to make releases for which packages, if any (in the case that you
+don&rsquo;t make all releases yourself).
+
+</li><li> ASCII armored copies of GPG keys for any individuals listed in (3).
+</li></ol>
+</li></ol>
+
+<p>The administrators will acknowledge your message when they have added
+the proper GPG keys as authorized to upload files for the
+corresponding packages.
+</p>
+<p>The upload system will email receipts to the given email addresses
+when an upload is made, either successfully or unsuccessfully.
+</p>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Automated-Upload-Procedure.html#Automated-Upload-Procedure" accesskey="n" rel="next">Automated Upload Procedure</a>, Up: <a href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" accesskey="u" rel="up">Automated FTP Uploads</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<p>
+
+
+</p>
+</body>
+</html>

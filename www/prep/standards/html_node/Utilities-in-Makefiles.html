@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated January 8, 2012.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+2011, 2012 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 0.01, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: Utilities in Makefiles</title>
+
+<meta name="description" content="GNU Coding Standards: Utilities in Makefiles">
+<meta name="keywords" content="GNU Coding Standards: Utilities in Makefiles">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Makefile-Conventions.html#Makefile-Conventions" rel="up" title="Makefile Conventions">
+<link href="Command-Variables.html#Command-Variables" rel="next" title="Command Variables">
+<link href="Makefile-Basics.html#Makefile-Basics" rel="previous" title="Makefile Basics">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Utilities-in-Makefiles"></a>
+<div class="header">
+<p>
+Next: <a href="Command-Variables.html#Command-Variables" accesskey="n" rel="next">Command Variables</a>, Previous: <a href="Makefile-Basics.html#Makefile-Basics" accesskey="p" rel="previous">Makefile Basics</a>, Up: <a href="Makefile-Conventions.html#Makefile-Conventions" accesskey="u" rel="up">Makefile Conventions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Utilities-in-Makefiles-1"></a>
+<h4 class="subsection">7.2.2 Utilities in Makefiles</h4>
+
+<p>Write the Makefile commands (and any shell scripts, such as
+<code>configure</code>) to run under <code>sh</code> (both the traditional Bourne
+shell and the <small>POSIX</small> shell), not <code>csh</code>.  Don&rsquo;t use any
+special features of <code>ksh</code> or <code>bash</code>, or <small>POSIX</small> features
+not widely supported in traditional Bourne <code>sh</code>.
+</p>
+<p>The <code>configure</code> script and the Makefile rules for building and
+installation should not use any utilities directly except these:
+</p>
+
+<div class="example">
+<pre class="example">awk cat cmp cp diff echo egrep expr false grep install-info ln ls
+mkdir mv printf pwd rm rmdir sed sleep sort tar test touch tr true
+</pre></div>
+
+<p>Compression programs such as <code>gzip</code> can be used in the
+<code>dist</code> rule.
+</p>
+<p>Generally, stick to the widely-supported (usually
+<small>POSIX</small>-specified) options and features of these programs.  For
+example, don&rsquo;t use &lsquo;<samp>mkdir -p</samp>&rsquo;, convenient as it may be, because a
+few systems don&rsquo;t support it at all and with others, it is not safe
+for parallel execution.  For a list of known incompatibilities, see
+<a href="http://www.gnu.org/software/autoconf/manual/html_node/Portable-Shell.html#Portable-Shell">Portable Shell Programming</a> in <cite>Autoconf</cite>.
+</p>
+
+<p>It is a good idea to avoid creating symbolic links in makefiles, since a
+few file systems don&rsquo;t support them.
+</p>
+<p>The Makefile rules for building and installation can also use compilers
+and related programs, but should do so via <code>make</code> variables so that the
+user can substitute alternatives.  Here are some of the programs we
+mean:
+</p>
+<div class="example">
+<pre class="example">ar bison cc flex install ld ldconfig lex
+make makeinfo ranlib texi2dvi yacc
+</pre></div>
+
+<p>Use the following <code>make</code> variables to run those programs:
+</p>
+<div class="example">
+<pre class="example">$(AR) $(BISON) $(CC) $(FLEX) $(INSTALL) $(LD) $(LDCONFIG) $(LEX)
+$(MAKE) $(MAKEINFO) $(RANLIB) $(TEXI2DVI) $(YACC)
+</pre></div>
+
+<p>When you use <code>ranlib</code> or <code>ldconfig</code>, you should make sure
+nothing bad happens if the system does not have the program in question.
+Arrange to ignore an error from that command, and print a message before
+the command to tell the user that failure of this command does not mean
+a problem.  (The Autoconf &lsquo;<samp>AC_PROG_RANLIB</samp>&rsquo; macro can help with
+this.)
+</p>
+<p>If you use symbolic links, you should implement a fallback for systems
+that don&rsquo;t have symbolic links.
+</p>
+<p>Additional utilities that can be used via Make variables are:
+</p>
+<div class="example">
+<pre class="example">chgrp chmod chown mknod
+</pre></div>
+
+<p>It is ok to use other utilities in Makefile portions (or scripts)
+intended only for particular systems where you know those utilities
+exist.
+</p>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Command-Variables.html#Command-Variables" accesskey="n" rel="next">Command Variables</a>, Previous: <a href="Makefile-Basics.html#Makefile-Basics" accesskey="p" rel="previous">Makefile Basics</a>, Up: <a href="Makefile-Conventions.html#Makefile-Conventions" accesskey="u" rel="up">Makefile Conventions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<p>
+
+
+</p>
+</body>
+</html>

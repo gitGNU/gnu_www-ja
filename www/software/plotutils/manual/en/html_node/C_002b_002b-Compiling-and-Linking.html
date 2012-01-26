@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+<title>C++ Compiling and Linking - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="C_002b_002b-Programming.html#C_002b_002b-Programming" title="C++ Programming">
+<link rel="prev" href="The-Plotter-Class.html#The-Plotter-Class" title="The Plotter Class">
+<link rel="next" href="Sample-C_002b_002b-Drawings.html#Sample-C_002b_002b-Drawings" title="Sample C++ Drawings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="C++-Compiling-and-Linking"></a>
+<a name="C_002b_002b-Compiling-and-Linking"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Sample-C_002b_002b-Drawings.html#Sample-C_002b_002b-Drawings">Sample C++ Drawings</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="The-Plotter-Class.html#The-Plotter-Class">The Plotter Class</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="C_002b_002b-Programming.html#C_002b_002b-Programming">C++ Programming</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.3.2 C++ compiling and linking</h4>
+
+<p>The source code for a graphics application written in C++, if it is to
+use <code>libplotter</code>, must contain the line
+
+<pre class="example">     #include &lt;plotter.h&gt;
+</pre>
+   <p class="noindent">The header file <code>plotter.h</code> is distributed with <code>libplotter</code>,
+and should have been installed on your system where your C++&nbsp;compiler<!-- /@w --> will find it.  It&nbsp;declares<!-- /@w --> the <code>Plotter</code> class and
+its derived classes, and also contains some miscellaneous definitions. 
+It&nbsp;includes<!-- /@w --> the header files <code>&lt;iostream.h&gt;</code> and
+<code>&lt;stdio.h&gt;</code>, so you do not need to include them separately.
+
+   <p>To link your application with <code>libplotter</code>, you would use the
+appropriate &lsquo;<samp><span class="samp">-l</span></samp>&rsquo; option(s) on the command line when compiling it. 
+You would use
+
+<pre class="example">     -lplotter -lXaw -lXmu -lXt -lXext -lX11 -lpng -lz -lm
+</pre>
+   <p class="noindent">or, in recent releases of the X&nbsp;Window<!-- /@w --> System,
+
+<pre class="example">     -lplotter -lXaw -lXmu -lXt -lSM -lICE -lXext -lX11 -lpng -lz -lm
+</pre>
+   <p class="noindent">These linking options assume that your version of <code>libplotter</code> has
+been compiled with PNG support; if&nbsp;not<!-- /@w -->, you would omit the
+&lsquo;<samp><span class="samp">-lpng -lz</span></samp>&rsquo; options.
+
+   <p>As an alternative to the preceding, you may need to use &lsquo;<samp><span class="samp">-lplotter
+-lXm -lXt -lXext -lX11 -lpng -lz -lm</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-lplotter -lXm -lXt -lXext
+-lX11 -lpng -lz -lm -lc -lgen</span></samp>&rsquo;, or &lsquo;<samp><span class="samp">-lplotter -lXm -lXt -lXext
+-lX11 -lpng -lz -lm -lc -lPW</span></samp>&rsquo;, on systems that provide Motif widgets
+instead of Athena widgets.  In recent releases of the X&nbsp;Window<!-- /@w -->
+System, you would insert &lsquo;<samp><span class="samp">-lSM -lICE</span></samp>&rsquo;.  Recent releases of Motif
+require &lsquo;<samp><span class="samp">-lXp</span></samp>&rsquo; and possibly &lsquo;<samp><span class="samp">-lXpm</span></samp>&rsquo; as&nbsp;well<!-- /@w -->.)
+
+   <p>On some platforms, the directories in which <code>libplotter</code> or the
+other libraries are stored must be specified on the command line. 
+For&nbsp;example<!-- /@w -->, the options &lsquo;<samp><span class="samp">-lXaw -lXmu -lXt -lSM -lICE -lXext
+-lX11</span></samp>&rsquo;, which specify X&nbsp;Window<!-- /@w --> System libraries, may need to be
+preceded by an option like &lsquo;<samp><span class="samp">-L/usr/X11/lib</span></samp>&rsquo;.
+
+   <p>On most systems <code>libplotter</code> is installed as a shared library. 
+This means that the linking with your application will take place at run
+time rather than compile time.  The environment variable
+<code>LD_LIBRARY_PATH</code> lists the directories which will be searched for
+shared libraries at run time.  For your application to be executable,
+this environment variable should include the directory in which
+<code>libplotter</code> is stored.
+
+   </body></html>
+

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+
+<head>
+<title>Código usado en la web - Proyecto GNU - Fundación para el Software Libre (FSF)</title>
+<meta http-equiv="content-type" content='text/html; charset=iso-8859-1' />
+<link rel="stylesheet" type="text/css" href="/gnu.css" />
+<link rev="made" href="mailto:webmasters@gnu.org" />
+<link rev="translated" href="mailto:web-translators-es@gnu.org" />
+</head>
+
+<body>
+
+<p>
+<a href="#translations">Traducciones</a> de esta página.</p>
+
+<h3>Código usado en la web</h3>
+
+<p>
+<a href="/graphics/atypinggnu.html"><img src="/graphics/gnu-type-sm.jpg"
+	alt=" [imagen de un ñu (GNU) webmaster tecleando] "
+	width="137" height="114"
+/></a></p>
+<hr />
+
+<p></p>
+
+<h4>Índice de contenidos</h4>
+<ul>
+  <li><a href="#introduction" id="TOCintroduction">Introducción</a></li>
+  <li><a href="#xml" id="TOCxml">XHTML y XML</a></li>
+  <li><a href="#cvs" id="TOCcvs">Árbol CVS</a></li>
+  <li><a href="#rotate-log" id="TOCrotate-log">rotate-log</a></li>
+  <li><a href="#diffmon" id="TOCdiffmon">diffmon</a></li>
+  <li><a href="#webref" id="TOCwebref">webref</a></li>
+  <li><a href="#new-software" id="TOCnew-software">new-software</a></li>
+  <li><a href="#symlinks" id="TOCsymlinks">symlinks</a></li>
+  <li><a href="#savannahusers" id="TOCsavannahusers">savannahusers</a></li>
+</ul>
+
+
+<hr />
+
+<h4><a href="#TOCintroduction" id="introduction">Introducción</a></h4>
+
+<p>
+Para mantener el servidor web del
+Proyecto GNU usamos una gran variedad de software libre. La mayoría
+está disponible en Internet, pero también tenemos algún software que ha sido
+desarrollado por voluntarios de GNU y que nunca se ha dado a conocer al
+público como software GNU, ya que es específico a nuestras necesidades. Aun
+así, somos conscientes de que estos programas también deberían estar disponibles para
+que otros puedan aprovecharlos. Esta página es un listado de tales
+programas.</p>
+
+
+<h4><a href="#TOCxml" id="xml">XHTML y XML</a></h4>
+
+<p>
+A propósito de lo anterior, para las páginas web que estén
+generadas por un programa, recomendamos que los scripts generen datos XML,
+preferentemente usando un DTD que ya existiera previamente y esté
+ampliamente difundido siempre que sea posible. Para la
+disposición de la página, se debería escribir un archivo XSLT para generar
+una página XHTML. Los archivos XSLT, XML y XHTML deberían estar disponibles
+en el sitio web, de modo que los navegadores que reconocen XSL pudieran usarlos.
+Para un ejemplo real y sin embargo sencillo se pueden consultar las <a
+href="/jobs/">páginas de ofertas de empleo</a> y el <a
+href="http://savannah.gnu.org/projects/gnujobs">software
+correspondiente.</a></p>
+
+
+<h4><a href="#TOCcvs" id="cvs">Árbol CVS</a></h4>
+
+<p>
+Recomendamos almacenar los scripts en el árbol de
+CVS de subversions.gnu.org:/cvsroot/www. Esto permite que se compartan
+más fácilmente entre las máquinas de GNU que mantienen una imagen, completa o
+parcial, de la web de www.gnu.org. Para recuperar una copia de sólo lectura
+de los scripts existentes se puede usar lo siguiente:</p>
+<pre>
+    cvs -d :pserver:anoncvs@subversions.gnu.org:/cvsroot/www login
+      <i>just type return when asked for the password</i>
+    cvs -d :pserver:anoncvs@subversions.gnu.org:/cvsroot/www co www
+</pre>
+
+<p>Si está registrado como miembro del proyecto
+<a href="http://savannah.gnu.org/projects/www">www</a> también puede
+conseguir una copia de sólo lectura con lo siguiente:</p>
+<pre>
+    cvs -d <i>username</i>@subversions.gnu.org:/cvsroot/www co www
+</pre>
+
+<p>
+También puede consultar los scripts disponibles a través de la
+<a href="http://savannah.gnu.org/cgi-bin/viewcvs/www/">interfaz web del CVS</a>.</p>
+
+
+<h4><a href="#TOCrotate-log" id="rotate-log">rotate-log</a></h4>
+
+<ul>
+  <li><a href="/server/source/rotate-log">Código fuente
+    (12 kbyte)</a></li>
+  <li>Autor: Noah Friedman</li>
+  <li>Versión actual: 1.12</li>
+</ul>
+
+<p>
+Éste es un script de shell con la función de rotar los logs periódicos y
+opcionalmente comprimir archivos "log" viejos. Un script algo más limitado,
+pero similar, viene incluido en la mayoría de las distribuciones de Debian
+GNU/Linux.</p>
+
+<h4><a href="#TOCdiffmon" id="diffmon">diffmon</a></h4>
+
+<ul>
+  <li><a href="/server/source/diffmon">Código fuente
+    (16 kbyte)</a></li>
+  <li><a href="http://www.gnu.org/server/source/diffmon.cf">Archivo de
+    configuración de ejemplo</a></li>
+  <li>Autor: Noah Friedman</li>
+  <li>Versión actual: 1.19</li>
+</ul>
+
+<p>
+Éste es otro script de shell con el propósito de hacer diff de los
+archivos que cambian y enviar un correo electrónico informando sobre el
+cambio a una lista de correo. Este script se usa para mantener a los
+administradores al corriente de los cambios en la configuración del servidor
+web y de otros servidores. También se usa para informar a los editores
+de las traducciones a otros idiomas de las páginas del web de GNU sobre
+cambios en el documento original.</p>
+
+
+<h4><a href="#TOCwebref" id="webref">webref</a></h4>
+
+<ul>
+  <li><a href="/server/source/webref.el">Código Fuente</a></li>
+  <li>Autor: Tim Bedding</li>
+  <li>Versión actual: 1.0</li>
+</ul>
+
+<p>
+Éste es un programa hecho en Emacs LISP que se usa para comprobar las
+referencias en los documentos HTML. Toma como datos de entrada el archivo
+input.txt que contiene una lista de los documentos HTML y da como salida el
+fichero output.txt. El fichero de salida contiene información sobre los
+documentos a los que no se puede llegar y documentos a los que se puede
+llegar sólo si se siguen más de dos enlaces. Usamos esto para asegurarnos
+de que se puede llegar a todos los documentos importantes fácilmente desde la
+página web principal.</p>
+
+
+<h4><a href="#TOCnew-software" id="new-software">new-software</a></h4>
+
+<ul>
+  <!-- put a .txt wrapper, coz some browsers may recognise
+      that is a shell script, and execute it! -neel
+      -->
+  <li><a href="/server/source/new-software.sh.txt">Código
+    fuente</a></li>
+  <li>Autor: Jonas Oberg</li>
+  <li>Versión actual: 1.0</li>
+</ul>
+
+<p>
+Este script de shell crea una <a href="/server/new-software.html">página web</a> con una
+lista de las 25 últimas publicaciones de software y su ChangeLog en el <a
+href="/order/ftp.html">servidor FTP de la FSF</a>.</p>
+
+
+<h4><a href="#TOCsymlinks" id="symlinks">symlinks</a></h4>
+
+<ul>
+  <li><a
+    href="http://savannah.gnu.org/cgi-bin/viewcvs/www/www/symlinks/">Código
+    fuente</a></li>
+  <li>Autor: <a href="mailto:loic@gnu.org">&lt;Loic Dachary&gt;</a></li>
+  <li>Versión actual: 1.1</li>
+</ul>
+
+<p>
+El objetivo principal es solventar la incapacidad de CVS para manejar
+archivos simbólicos. Esto se consigue mediante archivos especiales
+(".symlinks") en el árbol CVS que se interpretan como especificaciones para
+construir enlaces simbólicos. El script "symlinks" puede ejecutarse
+inmediatamente después de una actualziación cvs ("cvs update") para fijar los
+enlaces simbólicos de acuerdo a las especificaciones incluidas en los
+archivos".symlinks".</p>
+
+<p>
+Se puede obtener información más completa
+sobre el script en la sección de
+<a href="/server/standards/README.html#SEC01">enlaces
+simbólicos</a> de las Guías para los webmasters de GNU.</p>
+
+<h4><a href="#TOCsavannahusers" id="savannahusers">savannahusers</a></h4>
+
+<ul>
+  <li><a
+    href="http://savannah.gnu.org/cgi-bin/viewcvs/www/www/savannahusers/">Código
+    fuente</a></li>
+  <li>Autor: <a href="mailto:loic@gnu.org">&lt;Loic Dachary&gt;</a></li>
+  <li>Versión actual: 1.1</li>
+</ul>
+
+<p>
+Es conveniente que se use Savannah
+(savannah.gnu.org) para administrar las cuentas en una máquina que esté
+totalmente desligada de la misma Savannah. Por ejemplo, el proyecto
+http://savannah.gnu.org/projects/fsffr/ lista a todos los usuarios que
+deberían tener una cuenta en la shell de la máquina france.fsfeurope.org.</p>
+
+<p>
+Una tarea "cron" en la máquina destino (en este
+caso france.fsfeurope.org) puede conseguir la lista de usuarios de Savannah
+y actualizar los archivos de las contraseñas de acuerdo a ella. Se puede
+añadir un usuario a la máquina simplemente añadiendo al usuario como
+desarrollador del proyecto.</p>
+
+<p>
+Por defecto savannahusers usa únicamente un
+rango limitado de uid (de 10000 a 20000) para evitar las interferencias con
+usuarios existentes.</p>
+
+<p>
+Se puede obtener información más completa
+sobre el script en la <a href="/server/source/savannahusers.html">página del
+manual</a>.</p>
+
+<hr />
+
+<div class="translations">
+<p><a id="translations"></a>
+<b>Traducciones de esta página</b>:<br />
+
+<!-- Please keep this list alphabetical, and in the original -->
+<!-- language if possible, otherwise default to English -->
+<!-- If you do not have it English, please comment what the -->
+<!-- English is.  If you add a new language here, please -->
+<!-- advise web-translators@gnu.org and add it to -->
+<!--    - in /home/www/bin/nightly-vars either TAGSLANG or WEBLANG -->
+<!--    - in /home/www/html/server/standards/README.translations.html -->
+<!--      one of the lists under the section "Translations Underway" -->
+<!--    - if there is a translation team, you also have to add an alias -->
+<!--      to mail.gnu.org:/com/mailer/aliases -->
+<!-- Please also check you have the 2 letter language code right versus -->
+<!--     http://www.w3.org/WAI/ER/IG/ert/iso639.htm -->
+
+[
+  <a href="/server/source/source.html">English</a>
+| <a href="/server/source/source.es.html">Espa&ntilde;ol</a>	<!-- Spanish -->
+]
+</p>
+</div>
+
+<div class="copyright">
+<p>
+Volver a la <a href="/home.es.html">página principal del proyecto GNU</a>.
+</p>
+
+<p>
+Por favor, envíe sus comentarios y preguntas sobre la FSF y el proyecto GNU a
+<a href="mailto:gnu@gnu.org"><em>gnu@gnu.org</em></a>.
+También puede <a href="/home.es.html#ContactInfo">contactar con la FSF
+por otros medios</a>.
+<br />
+Por favor, envíe enlaces rotos y otras correcciones (o sugerencias) a
+<a href="mailto:webmasters@gnu.org"><em>webmasters@gnu.org</em></a>.
+</p>
+
+<p>
+Copyright (C) 1999, 2000 Free Software Foundation, Inc.,
+51 Franklin St, Fifth Floor, Boston, MA 02110, USA
+<br />
+Se permite la distribución y la copia literal de este artículo en su
+totalidad y por cualquier medio siempre y cuando se conserve esta nota.
+</p>
+
+<p>
+Traducción: 16 mar 2004 Sara Gil Casanova<br />
+Revisión: 21 mar 2004 Samuel Gimeno Artigas<br />
+</p>
+
+<p>
+Última actualización:
+<!-- timestamp start -->
+$Date: 2005/05/05 19:37:20 $ $Author: novalis $
+<!-- timestamp end -->
+</p>
+</div>
+
+</body>
+</html>

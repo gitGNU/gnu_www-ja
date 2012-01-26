@@ -1,0 +1,55 @@
+/*
+*  Worley basis function test
+*/
+
+#include "materials.inc"
+
+define camera c
+{
+  translate	<0, 0, 600>
+  look_at	<0, 0, 0>
+}
+
+define light l
+{
+  translate	<200, 200, 500>
+  color		CWhite
+}
+
+define light l2
+{
+  translate	<0, 1000, 0>
+  color		CWhite
+  shadow        off
+}
+
+sphere
+{
+  translate     <0, 0, 0>
+  radius        150
+  material : extends MWorley
+  {
+    color       { red 0 green 0.6 blue 0 }
+    base_color  CBrown
+    zoom        <50, 50, 50>
+    bump        0.25
+  }
+}
+
+scene
+{
+  camera	c
+  light		l
+  light		l2
+  width		400
+  height	400
+  background	CSummerSky
+  output
+  {
+    name	"worley.tga"
+  }
+  renderer : class Raytracer
+  {
+    sampling    "adaptive"
+  }
+}

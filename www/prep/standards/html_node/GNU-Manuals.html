@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated January 8, 2012.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+2011, 2012 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 0.01, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: GNU Manuals</title>
+
+<meta name="description" content="GNU Coding Standards: GNU Manuals">
+<meta name="keywords" content="GNU Coding Standards: GNU Manuals">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Documentation.html#Documentation" rel="up" title="Documentation">
+<link href="Doc-Strings-and-Manuals.html#Doc-Strings-and-Manuals" rel="next" title="Doc Strings and Manuals">
+<link href="Documentation.html#Documentation" rel="previous" title="Documentation">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="GNU-Manuals"></a>
+<div class="header">
+<p>
+Next: <a href="Doc-Strings-and-Manuals.html#Doc-Strings-and-Manuals" accesskey="n" rel="next">Doc Strings and Manuals</a>, Up: <a href="Documentation.html#Documentation" accesskey="u" rel="up">Documentation</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="GNU-Manuals-1"></a>
+<h3 class="section">6.1 GNU Manuals</h3>
+
+<p>The preferred document format for the GNU system is the Texinfo
+formatting language.  Every GNU package should (ideally) have
+documentation in Texinfo both for reference and for learners.  Texinfo
+makes it possible to produce a good quality formatted book, using
+TeX, and to generate an Info file.  It is also possible to generate
+HTML output from Texinfo source.  See the Texinfo manual, either the
+hardcopy, or the on-line version available through <code>info</code> or the
+Emacs Info subsystem (<kbd>C-h i</kbd>).
+</p>
+<p>Nowadays some other formats such as Docbook and Sgmltexi can be
+converted automatically into Texinfo.  It is ok to produce the Texinfo
+documentation by conversion this way, as long as it gives good results.
+</p>
+<p>Make sure your manual is clear to a reader who knows nothing about the
+topic and reads it straight through.  This means covering basic topics
+at the beginning, and advanced topics only later.  This also means
+defining every specialized term when it is first used.
+</p>
+<p>Programmers tend to carry over the structure of the program as the
+structure for its documentation.  But this structure is not
+necessarily good for explaining how to use the program; it may be
+irrelevant and confusing for a user.
+</p>
+<p>Instead, the right way to structure documentation is according to the
+concepts and questions that a user will have in mind when reading it.
+This principle applies at every level, from the lowest (ordering
+sentences in a paragraph) to the highest (ordering of chapter topics
+within the manual).  Sometimes this structure of ideas matches the
+structure of the implementation of the software being documented&mdash;but
+often they are different.  An important part of learning to write good
+documentation is to learn to notice when you have unthinkingly
+structured the documentation like the implementation, stop yourself,
+and look for better alternatives.
+</p>
+<p>For example, each program in the GNU system probably ought to be
+documented in one manual; but this does not mean each program should
+have its own manual.  That would be following the structure of the
+implementation, rather than the structure that helps the user
+understand.
+</p>
+<p>Instead, each manual should cover a coherent <em>topic</em>.  For example,
+instead of a manual for <code>diff</code> and a manual for <code>diff3</code>, we
+have one manual for &ldquo;comparison of files&rdquo; which covers both of those
+programs, as well as <code>cmp</code>.  By documenting these programs
+together, we can make the whole subject clearer.
+</p>
+<p>The manual which discusses a program should certainly document all of
+the program&rsquo;s command-line options and all of its commands.  It should
+give examples of their use.  But don&rsquo;t organize the manual as a list
+of features.  Instead, organize it logically, by subtopics.  Address
+the questions that a user will ask when thinking about the job that
+the program does.  Don&rsquo;t just tell the reader what each feature can
+do&mdash;say what jobs it is good for, and show how to use it for those
+jobs.  Explain what is recommended usage, and what kinds of usage
+users should avoid.
+</p>
+<p>In general, a GNU manual should serve both as tutorial and reference.
+It should be set up for convenient access to each topic through Info,
+and for reading straight through (appendixes aside).  A GNU manual
+should give a good introduction to a beginner reading through from the
+start, and should also provide all the details that hackers want.
+The Bison manual is a good example of this&mdash;please take a look at it
+to see what we mean.
+</p>
+<p>That is not as hard as it first sounds.  Arrange each chapter as a
+logical breakdown of its topic, but order the sections, and write their
+text, so that reading the chapter straight through makes sense.  Do
+likewise when structuring the book into chapters, and when structuring a
+section into paragraphs.  The watchword is, <em>at each point, address
+the most fundamental and important issue raised by the preceding text.</em>
+</p>
+<p>If necessary, add extra chapters at the beginning of the manual which
+are purely tutorial and cover the basics of the subject.  These provide
+the framework for a beginner to understand the rest of the manual.  The
+Bison manual provides a good example of how to do this.
+</p>
+<p>To serve as a reference, a manual should have an Index that list all the
+functions, variables, options, and important concepts that are part of
+the program.  One combined Index should do for a short manual, but
+sometimes for a complex package it is better to use multiple indices.
+The Texinfo manual includes advice on preparing good index entries, see
+<a href="http://www.gnu.org/software/texinfo/manual/texinfo/html_node/Index-Entries.html#Index-Entries">Making Index Entries</a> in <cite>GNU Texinfo</cite>, and
+see <a href="http://www.gnu.org/software/texinfo/manual/texinfo/html_node/Indexing-Commands.html#Indexing-Commands">Defining the Entries of an
+Index</a> in <cite>GNU Texinfo</cite>.
+</p>
+<p>Don&rsquo;t use Unix man pages as a model for how to write GNU documentation;
+most of them are terse, badly structured, and give inadequate
+explanation of the underlying concepts.  (There are, of course, some
+exceptions.)  Also, Unix man pages use a particular format which is
+different from what we use in GNU manuals.
+</p>
+<p>Please include an email address in the manual for where to report
+bugs <em>in the text of the manual</em>.
+</p>
+<p>Please do not use the term &ldquo;pathname&rdquo; that is used in Unix
+documentation; use &ldquo;file name&rdquo; (two words) instead.  We use the term
+&ldquo;path&rdquo; only for search paths, which are lists of directory names.
+</p>
+<p>Please do not use the term &ldquo;illegal&rdquo; to refer to erroneous input to
+a computer program.  Please use &ldquo;invalid&rdquo; for this, and reserve the
+term &ldquo;illegal&rdquo; for activities prohibited by law.
+</p>
+<p>Please do not write &lsquo;<samp>()</samp>&rsquo; after a function name just to indicate
+it is a function.  <code>foo ()</code> is not a function, it is a function
+call with no arguments.
+</p>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Doc-Strings-and-Manuals.html#Doc-Strings-and-Manuals" accesskey="n" rel="next">Doc Strings and Manuals</a>, Up: <a href="Documentation.html#Documentation" accesskey="u" rel="up">Documentation</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<p>
+
+
+</p>
+</body>
+</html>

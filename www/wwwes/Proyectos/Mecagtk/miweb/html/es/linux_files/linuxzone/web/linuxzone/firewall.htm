@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.07 [en] (X11; I; Linux 2.2.5 i586) [Netscape]">
+   <TITLE>El firewall</TITLE>
+</HEAD>
+<BODY BGCOLOR="#000000" BACKGROUND="marble2.jpg">
+
+<CENTER><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Un Firewall
+con Linux</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Seguridad
+en las redes</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[ <A HREF="#0">Introducci&oacute;n</A>
+] [ <A HREF="#1">Instalar un Firewall</A> ] [ <A HREF="#2">Configurar el
+Firewall</A> ] [ <A HREF="#3">Arrancar el Firewall</A> ] [ <A HREF="#4">Links</A>
+]</FONT></FONT></FONT></CENTER>
+
+<BR>&nbsp;
+<P><BR>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>0.&nbsp;<A NAME="0"></A>Introducci&oacute;n:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Este documento
+va dirigido a todos los usuarios de PCs conectados a alg&uacute;n tipo
+de red que quieren dar un paso mas en el nivel de seguridad de su sistema.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Un firewall
+permite un control muy preciso de la informaci&oacute;n que entra y sale
+del ordenador en funci&oacute;n de la fuente, el destinatario, el protocolo
+... por lo tanto es la t&eacute;cnica mas apropiada para proteger el PC
+contra accesos indeseados y ataques de red.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>El software
+que vas a necesitar es libre al 100% y todo esta disponible en la red por
+lo que el &uacute;nico requisito es disponer de conexi&oacute;n a internet
+o alg&uacute;n soporte f&iacute;sico que contenga las fuentes del <A HREF="http://www.kernel.org">kernel</A>
+(la explicaci&oacute;n esta basada en la versi&oacute;n 2.0.36) de linux
+y la herramienta de administraci&oacute;n de firewalls <A HREF="http://www.xos.nl/linux/ipfwadm/">ipfwadm</A>
+(o <A HREF="http://www.xos.nl">ipchains</A> para kernels 2.1.102 o superiores)</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>1.&nbsp;<A NAME="1"></A>Instalar
+un Firewall:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Lo primero
+que vamos a necesitar son las fuentes del kernel. Las pod&eacute;is bajar
+de <A HREF="http://www.kernel.org">http://www.kernel.org</A>, aunque mi
+consejo es que lo pill&eacute;is de alguna revista o de vuestro CD de linux
+si pod&eacute;is.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Desempaquetadlo
+y haced todo lo necesario para recompilar el kernel (si no sab&eacute;is
+como hacerlo dirig&iacute;os al documento kernel-como de <A HREF="http://lucas.ctv.es">LuCAS</A>)</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Durante la
+configuraci&oacute;n del kernel debemos asegurarnos de tener activadas
+las casillas:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[*] Networking
+support</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[*] Network
+firewalls</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[*] IP:
+firewalling</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Estas son
+las opciones m&iacute;nimas necesarias, en algunos casos hay que activar
+otras opciones (IP: accounting, SLIP, PPP ...)</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Compilad
+el kernel como de costumbre, instaladlo y reiniciar el PC.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Si todo
+ha salido bien tendr&eacute;is en /proc/net el archivo ip_forward, en este
+caso ya est&aacute;is preparados para configurar el firewall, en caso contrario
+revisad que la compilaci&oacute;n del kernel ha sido correcta y que hab&eacute;is
+activado las casillas de firewall.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>2.&nbsp;<A NAME="2"></A>Configurar
+el Firewall:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>La herramienta
+para la gesti&oacute;n de firewalls es ipfwadm, esta presenta en todas
+las distribuciones por lo que no creo que os cueste encontrarla, pero por
+si a caso pod&eacute;is encontrarla en: <A HREF="http://www.xos.nl/linux/ipfwadm/">http://www.xos.nl/linux/ipfwadm</A>.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>- Informaci&oacute;n
+del firewall: lo primero que haremos es comprobar cual es la configuraci&oacute;n
+actual del firewall, con la orden:</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[root:/]#
+/sbin/ipfwadm -I -l</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>El resultado
+deber&iacute;a ser algo como esto:</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>IP firewall
+input rules, default policy: accept</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Esto significa
+que por defecto acepta los intentos de acceso y que no hay ninguna regla
+especifica definida. si aparece alg&uacute;n mensaje de error aseg&uacute;rate
+de haber le&iacute;do los puntos anteriores.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>- Definir
+la pol&iacute;tica por defecto: principalmente son dos, aceptar o denegar
+los accesos, lo que se consigue con la orden:</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[root:/]#
+/sbin/ipfwadm -I -p a</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[root:/]#
+/sbin/ipfwadm -I -p d</FONT></FONT></FONT></I>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>respectivamente.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>- Poniendo
+las reglas: hay muchas posibilidades, por lo que lo mejor ser&aacute; leer
+el man ipfwadm, el /usr/doc/ipfwadm-x.x.x/ y el ipfwadm -h.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Se pueden
+proteger puertos, rangos de puertos, permitir o no el acceso de m&aacute;quinas
+puntuales, rangos de IP, redes enteras, discriminar en funci&oacute;n del
+protocolo solicitado ... las posibilidades de configuraci&oacute;n son
+casi infinitas, vamos a ver algunos ejemplos:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ipfwadm
+-I -f</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ipfwadm
+-I -p d</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ipfwadm
+-I -i a -S 127.0.0.1</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ipfwadm
+-I -i a -S 192.168.2.2</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Esto deniega
+todos los intentos de conexi&oacute;n excepto los que provengan de localhost
+y de la IP 192.168.2.2</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Otro ejemplo:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ipfwadm
+-I -f</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ipfwadm
+-I -a d -P udp</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ipfwadm
+-I -a d -P tcp -D 0.0.0.0/0 23</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Esto acepta
+todos los accesos excepto los que usen protocolo udp y los que intenten
+acceder al puerto telnet.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>- Eliminar
+todas las normas: muy &uacute;til cuando estamos haciendo pruebas, para
+no tener que estar reiniciando la m&aacute;quina:</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[root:/]#
+/sbin/ipfwadm -I -f</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>3.&nbsp;<A NAME="3"></A>Arrancar
+el Firewall:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>La forma
+mas c&oacute;moda de iniciar el firewall es incluyendo todas la ordenes
+en alguno de los archivos que se leen durante el arranque del sistema,
+en Red Hat por ejemplo, el archivo mas indicado para hacerlo es /etc/rc.d/rc.local,
+(en otras distribuciones es diferente aunque el sitio exacto donde lo pongas
+no importa demasiado, siempre que sea le&iacute;do durante el arranque)
+en el que pondremos algo como esto:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>#!/bin/bash</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1># Firewall</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>echo
+Levantando Firewall</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ipfwadm
+-I -f</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ipfwadm
+-I -p a</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ipfwadm
+-I -i a -S 127.0.0.1</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ipfwadm
+-I -i a -S 192.168.2.2</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>echo
+Firewall levantado</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Otra posibilidad
+es usar un script que no se ejecute durante el arranque para usar estas
+normas s&oacute;lo cuando sean necesarias.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>4.&nbsp;<A NAME="4"></A>Links:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Fuentes del
+kernel:</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="http://www.kernel.org">http://www.kernel.org</A></FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="ftp://ftp.kernel.org">ftp.kernel.org</A></FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Herramientas:</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="http://www.xos.nl/linux/ipfwadm/">ipfwadm</A></FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="http://www.xos.nl">ipchains</A></FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Documentaci&oacute;n:</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="http://lucas.ctv.es/COMO-INSFLUG/html/jautu_cortafuegos/jautu_cortafuegos.html">Firewall-como</A></FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="http://lucas.ctv.es/COMO-INSFLUG/html/Kernel-COMO/Kernel-COMO.html">Kernel-como</A></FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="http://www.linux-howto.com/LDP/HOWTO/NET-3-HOWTO.html">NET3-HOWTO</A></FONT></FONT></FONT>
+<P>
+<HR>
+<BR>&nbsp;
+<P><BR>
+<CENTER>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="index.htm">Volver
+a la p&aacute;gina principal</A></FONT></FONT></FONT></CENTER>
+
+<BR>&nbsp;
+</BODY>
+</HTML>

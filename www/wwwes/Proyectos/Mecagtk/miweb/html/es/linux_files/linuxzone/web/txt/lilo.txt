@@ -1,0 +1,34 @@
+# /etc/lilo.conf
+
+# Despues de modificar este archivo debes ejecutar /sbin/lilo (como root)
+# y reiniciar el ekipo para ke los cambios tengan efecto
+# El kernel por defecto es el primero ke se define en este archivo,
+# en mi caso el vmlinux-2.0.34
+
+# Mas informacion en 'man lilo' y 'man lilo.conf'
+
+# Opciones generales
+boot=/dev/hda			#Donde se instala Lilo (MBR del hda1)
+#message=/boot/message		#Mensaje al inicio
+prompt				#Preguntar o iniciar el predefinido
+timeout=30 			#Tiempo de espera (3")
+verbose=2			#Dame informacion (1-5)
+#compact			#Mas rapido (a mi no me va)
+
+image=/boot/vmlinuz-2.0.34	#Ubicacion del kernel
+        label=linux		#Etiketa
+        ramdisk=0		#Ramdisks
+        root=/dev/hda2		#Nombre de la particion root
+        vga=normal		#Tipo de vga (normal/ext/ask)
+        read-only		#Solo lectura (recomendado)
+
+#image=/boot/vmlinuz-2.1.106	#Ubicacion del kernel
+#	label=2.1.106		#Etiketa
+#	root=/dev/hda2		#Nombre de la particion root
+#	read-only
+#	vga=normal
+
+other = /dev/hda1		#Descripcion de DOS (en mi caso VFAT)
+	label = dos		#Etiqueta
+	table = /dev/hda	#Ubicacion del MBR
+

@@ -1,0 +1,146 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="Notes%20for%20Particular%20Systems">Notes for Particular Systems</a>,
+Next:<a rel=next accesskey=n href="Known-Build-Problems.html#Known%20Build%20Problems">Known Build Problems</a>,
+Previous:<a rel=previous accesskey=p href="Notes-for-Package-Builds.html#Notes%20for%20Package%20Builds">Notes for Package Builds</a>,
+Up:<a rel=up accesskey=u href="Installing-GMP.html#Installing%20GMP">Installing GMP</a>
+<hr><br>
+
+<h3>Notes for Particular Systems</h3>
+
+<dl>
+
+<br><dt>AIX 3 and 4
+<dd>
+On systems <code>*-*-aix[34]*</code> shared libraries are disabled by default, since
+some versions of the native <code>ar</code> fail on the convenience libraries
+used.  A shared build can be attempted with
+
+<br><pre>./configure --enable-shared --disable-static
+</pre>
+
+<p>Note that the <code>--disable-static</code> is necessary because in a shared build
+libtool makes <code>libgmp.a</code> a symlink to <code>libgmp.so</code>, apparently for
+the benefit of old versions of <code>ld</code> which only recognise <code>.a</code>,
+but unfortunately this is done even if a fully functional <code>ld</code> is
+available.
+
+<br><dt>ARM
+<dd>
+On systems <code>arm*-*-*</code>, versions of GCC up to and including 2.95.3 have a
+bug in unsigned division, giving wrong results for some operands.  GMP
+<code>./configure</code> will demand GCC 2.95.4 or later.
+
+<br><dt>Microsoft Windows
+<dd>On systems <code>*-*-cygwin*</code>, <code>*-*-mingw*</code> and <code>*-*-pw32*</code> by
+default GMP builds only a static library, but a DLL can be built instead using
+
+<br><pre>./configure --disable-static --enable-shared
+</pre>
+
+<p>Static and DLL libraries can't both be built, since certain export directives
+in <code>gmp.h</code> must be different.  <code>--enable-cxx</code> cannot be used when
+building a DLL, since libtool doesn't currently support C++ DLLs.  This might
+change in the future.
+
+<p>GCC is recommended for compiling GMP, but the resulting DLL can be used with
+any compiler.  On mingw only the standard Windows libraries will be needed, on
+Cygwin the usual cygwin runtime will be required.
+
+<br><dt>Motorola 68k CPU Types
+<dd>
+<code>m68k</code> is taken to mean 68000.  <code>m68020</code> or higher will give a
+performance boost on applicable CPUs.  <code>m68360</code> can be used for CPU32
+series chips.  <code>m68302</code> can be used for "Dragonball" series chips,
+though this is merely a synonym for <code>m68000</code>.
+
+<br><dt>OpenBSD 2.6
+<dd>
+<code>m4</code> in this release of OpenBSD has a bug in <code>eval</code> that makes it
+unsuitable for <code>.asm</code> file processing.  <code>./configure</code> will detect
+the problem and either abort or choose another m4 in the <code>PATH</code>.  The bug
+is fixed in OpenBSD 2.7, so either upgrade or use GNU m4.
+
+<br><dt>Power CPU Types
+<dd>
+In GMP, CPU types <code>power*</code> and <code>powerpc*</code> will each use instructions
+not available on the other, so it's important to choose the right one for the
+CPU that will be used.  Currently GMP has no assembler code support for using
+just the common instruction subset.  To get executables that run on both, the
+current suggestion is to use the generic C code (CPU <code>none</code>), possibly
+with appropriate compiler options (like <code>-mcpu=common</code> for
+<code>gcc</code>).  CPU <code>rs6000</code> (which is not a CPU but a family of
+workstations) is accepted by <code>config.sub</code>, but is currently equivalent to
+<code>none</code>.
+
+<br><dt>Sparc CPU Types
+<dd>
+<code>sparcv8</code> or <code>supersparc</code> on relevant systems will give a
+significant performance increase over the V7 code.
+
+<br><dt>SunOS 4
+<dd>
+<code>/usr/bin/m4</code> lacks various features needed to process <code>.asm</code>
+files, and instead <code>./configure</code> will automatically use
+<code>/usr/5bin/m4</code>, which we believe is always available (if not then use
+GNU m4).
+
+<br><dt>x86 CPU Types
+<dd>
+<code>i386</code> selects generic code which will run reasonably well on all x86
+chips.
+
+<p><code>i586</code>, <code>pentium</code> or <code>pentiummmx</code> code is good for the intended
+P5 Pentium chips, but quite slow when run on Intel P6 class chips (PPro, P-II,
+P-III).  <code>i386</code> is a better choice when making binaries that must run on
+both.
+
+<p><code>pentium4</code> and an SSE2 capable assembler are important for best results
+on Pentium 4.  The specific code is for instance roughly a 2x to
+3x speedup over the generic <code>i386</code> code.
+
+<br><dt>x86 MMX and SSE2 Code
+<dd>
+If the CPU selected has MMX code but the assembler doesn't support it, a
+warning is given and non-MMX code is used instead.  This will be an inferior
+build, since the MMX code that's present is there because it's faster than the
+corresponding plain integer code.  The same applies to SSE2.
+
+<p>Old versions of <code>gas</code> don't support MMX instructions, in particular
+version 1.92.3 that comes with FreeBSD 2.2.8 doesn't (and unfortunately
+there's no newer assembler for that system).
+
+<p>Solaris 2.6 and 2.7 <code>as</code> generate incorrect object code for register
+to register <code>movq</code> instructions, and so can't be used for MMX code. 
+Install a recent <code>gas</code> if MMX code is wanted on these systems.
+
+<br><dt>x86 GCC <code>-march=pentiumpro</code>
+<dd>
+GCC 2.95.2 and 2.95.3 miscompiled some versions of <code>mpz/powm.c</code> when
+<code>-march=pentiumpro</code> was used, so for relevant CPUs that option is only in
+the default <code>CFLAGS</code> for GCC 2.95.4 and up. 
+</dl>
+
+</body></html>
+

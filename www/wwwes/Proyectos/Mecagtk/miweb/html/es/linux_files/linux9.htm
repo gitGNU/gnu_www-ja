@@ -1,0 +1,457 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Javier Orovengua Miguel">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; Linux 2.2.12-20 i586) [Netscape]">
+   <title>Seguridad del Sistema</title>
+</head>
+<body>
+<a NAME="AquiArriba"></a>
+<br><a href="../tutorial.html">[ &lt; ]</a><a href="contenidos.html">[
+|| ]</a>[ > ]
+<h1>
+Seguridad.</h1>
+
+<ul>
+<li>
+<a href="#CambioContraseña">Cambio de contrase&ntilde;a.</a></li>
+
+<li>
+<a href="#ContraseñaRoot">Contrase&ntilde;a olvidada.</a></li>
+
+<li>
+<a href="#ComandosUtiles">Comandos &uacute;tiles.</a></li>
+
+<li>
+<a href="#ArchivosLOGS">Archivos de registro.</a></li>
+
+<li>
+<a href="#EntrarEnLinux">Formas de entrar en linux</a></li>
+
+<li>
+<a href="#ActualizarSistema">Actualizar el sistema</a></li>
+
+<li>
+<a href="#SeguridadInternet">Seguridad Internet.</a></li>
+
+<li>
+<a href="gransistema.html">Grandes Sistemas</a></li>
+</ul>
+<a href="#AquiArriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<p><a NAME="CambioContraseña"></a>
+<h3>
+CAMBIO DE CONTRASE&Ntilde;A.</h3>
+
+<ul>Cambiar la contrase&ntilde;a que tenemos como usuario es tan sencillo
+como invocar el comando <b>passwd</b>. El sistema nos pedir&aacute; que
+introduzcamos la antigua, escribamos la nueva y la confirmemos para evitar
+errores.
+<p>Tambi&eacute;n podemos cambiar la contrase&ntilde;a de otro/s usuario/s
+como root si escribimos <b>passwd usuario</b> (ej.: passwd carlos). -Siempre
+con el permiso del usuario, claro-
+<p>Este proceso <b>se deber&aacute; hacer s&oacute;lo</b> cuando a alg&uacute;n
+usuario se le hubiera <b>olvidado la contrase&ntilde;a.</b></ul>
+<a href="#AquiArriba">[ ^ ]</a>
+<h3>
+
+<hr WIDTH="100%"></h3>
+<a NAME="ContraseñaRoot"></a>
+<ul>
+<h3>
+CONTRASE&Ntilde;A OLVIDADA -a root-</h3>
+</ul>
+
+<ul><a href="#LinuxSingle">Chequear el disco duro.</a>
+<p>Si se te ha olvidado la contrase&ntilde;a, y tu eres 'root', no corras
+a por el CD-ROM y vuelvas a reinstalar Linux, Linux tiene herramientas
+de sobra para estos posibles y desagradables casos.
+<p>Si este caso ocurriera intenta:
+<br>&nbsp;
+<ol>
+<li>
+&nbsp;Reinicia el ordenador pulsando [Ctrl]+[Alt]+[Supr]</li>
+</ol>
+
+<ol>
+<li>
+Escribe cuando sale LILO la palabra: linux single <font color="#FF0000">(Si
+entre las directivas de control del fichero de configuraci&oacute;n del
+LILO (en /etc/lilo.conf) existen las palabras: PASSWORD=unpassword y RESTRICTED,
+este programa est&aacute; obligado a pedir contrase&ntilde;a (unpassword,
+en nuestro caso), y si tambi&eacute;n nos hemos olvidado de esta otra contrase&ntilde;a,
+y no podr&iacute;amos utilizar este m&eacute;todo.</font></li>
+</ol>
+
+<ol>
+<li>
+<font color="#FF0000">Si este fuera el caso, reinicia otra vez tu ordenador.
+Deber&aacute;s intentar arrancar s&oacute;lo una shell, (por ejemplo bash),
+escribiendo: LILO: linux init=/bin/bash (el fichero puede estar tambi&eacute;n
+en /sbin/bash o en /usr/bin/bash), si nos dan paso, continua con el punto
+siguiente:</font></li>
+</ol>
+
+<ol>
+<li>
+<font color="#000000">Si nos han dado paso, (ya nos hubi&eacute;ramos acordado
+del password 'unpassword', o no existiera esta l&iacute;nea en el fichero
+/etc/lilo.conf, deberemos montar nuestra unidad como de lectura y escritura,
+YA QUE POR DEFECTO SE MONTAR&Aacute; EN S&Oacute;LO LECTURA, </font><b><font color="#3333FF">(ESTA
+FORMA DE MONTAGE "S&oacute;lo lectura" PUEDE SER INTERESANTE PARA REALIZAR
+UN CHEQUEO MANUAL AL SISTEMA "fsck -ct /dev/disco_duro_y_partici&oacute;n")
+</font></b><font color="#000000">escribiendo
+las siguientes sentencias:</font></li>
+</ol>
+<a NAME="LinuxSingle"></a>
+<br>
+<hr WIDTH="100%">
+<ol>PARA MONTAR EL SISTEMA EN <b>SOLO LECTURA: </b>(previa entrada como
+"linux single" en LILO: al inicio)
+<ol>
+<li>
+<font color="#000000">mount -n -o remount,ro /</font></li>
+</ol>
+</ol>
+
+<hr WIDTH="100%">
+<ol>PARA MONTAR EL SISTEMA EN <b>LECTURA/ESCRITURA:</b>
+<ol>
+<li>
+<font color="#000000">mount -n -o remount,rw /</font></li>
+
+<li>
+<font color="#000000">mount /proc</font></li>
+
+<li>
+<font color="#000000">mount -a -t nonfs</font></li>
+
+<li>
+<font color="#000000">passwd</font></li>
+
+<br><font color="#000000">Para volver a poner el password de 'root'.</font></ol>
+</ol>
+
+<hr WIDTH="100%">
+<ol>
+<li>
+<b><font size=+1>Edita el fichero (/etc/passwd) y suprime la l&iacute;nea
+del password</font></b>, y si no pudieras editar el fichero deber&aacute;s
+escribir la l&iacute;nea siguiente: (Editores: vi, emacs, joe...)</li>
+
+<ol>
+<li>
+cd /etc/</li>
+
+<li>
+(editar el fichero con vi, joe, emacs, si no puedes intenta con:)</li>
+
+<li>
+SOLO EN CASO DE QUE NO PUDIERAS EDITAR EL FICHERO, DEBEREMOS <b>INCORPORAR
+TEMPORALMENTE OTRO ADMINISTRADOR</b>, PARA LO QUE SE PROCEDER&Aacute; A:</li>
+
+<li>
+cp passwd passwd.ORIGINAL (o si quieres, ponle delante el camino (path)
+que es el siguiente: "cp /etc/passwd /etc/passwd.ORIGINAL"</li>
+
+<li>
+echo "otro::0:0::/:/bin/sh" >> passwd</li>
+</ol>
+
+<ol>DESPU&Eacute;S DE ESTO, REINICIA TU M&Aacute;QUINA:
+<p>Ahora deber&iacute;as poder entrar como 'otro' cuando aparece el login,
+osea
+<p>login: otro
+<p>(y ya podr&iacute;as entrar en tu m&aacute;quina)
+<br>&nbsp;</ol>
+</ol>
+Evidentemente, una vez que tengas solucionado tu mala memoria deber&aacute;s
+poner de nuevo el viejo fichero /etc/passwd, si te has visto obligado a
+incorporar temporalmente otro administrador.
+<br>&nbsp;
+<ol>
+<li>
+<font color="#FF0000">Si no te dan paso, hazte de un disco de arranque
+de Linux y escribe:</font></li>
+
+<ol>
+<li>
+<font color="#FF0000">mount -t ext2 /dev/hda2 /mnt</font></li>
+
+<li>
+<font color="#FF0000">cd /mnt/etc </font><font color="#3366FF">(Ahora estar&iacute;as
+en el disco duro "/dev/hda3")</font></li>
+
+<li>
+<font color="#FF0000">vi passwd</font></li>
+</ol>
+</ol>
+
+<ul>
+<ul>Si por alguna raz&oacute;n no pudieras, ve el punto de arriba poniendo
+otro administrador y siendo cuidadoso de poner delante "/mnt"</ul>
+Evidentemente, una vez que tengas solucionado tu mala memoria deber&aacute;s
+poner de nuevo el viejo fichero /etc/passwd, si te has visto obligado a
+incorporar temporalmente otro administrador.</ul>
+REPARA EN:
+<br>&nbsp;
+<ul>
+<li>
+Desconecta tu conexi&oacute;n a Internet (bastar&aacute; con que desconectes
+el tel&eacute;fono de tu PC, mientras haces estas operaciones)</li>
+
+<li>
+No decirles a tus amigos que se te ha olvidado la clave de acceso como
+'root'.</li>
+</ul>
+</ul>
+<a href="#AquiArriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="ComandosUtiles"></a>
+<h3>
+COMANDOS &Uacute;TILES</h3>
+
+<ul>Los comandos &uacute;tiles para el sistema son:
+<br>&nbsp;
+<ul>
+<li>
+setup - Configuraci&oacute;n general del inicio del sistema</li>
+
+<li>
+linuxconf - Configuraci&oacute;n General del sistema</li>
+
+<li>
+(archivos de configuraci&oacute;n de los propios demonios)</li>
+
+<li>
+YaST - Similar a linuxconf</li>
+
+<li>
+netcfg - Configurar&aacute; la red (Bajo X-Window)</li>
+
+<li>
+<a href="mailto:miguel@nuclecu.unam.mx">apachecfg</a> - Configurar&aacute;
+el servidor APACHE (Bajo X-Window) /* un 10 en facilidad */</li>
+
+<li>
+<a href="http://www.apache.org">comanche</a> - Configurar&aacute; el servidor
+APACHE (Bajo X-Window) /* un 10 en potencia */</li>
+
+<li>
+(otros programas de configuraci&oacute;n para IRC y FTP)</li>
+
+<li>
+sudo (No se recomienda su instalaci&oacute;n)</li>
+
+<li>
+El fichero /etc/fstab, informar&aacute; de sistemas de ficheros que se
+pueden cargar.</li>
+
+<li>
+El fichero /etc/mtab, informar&aacute; de la forma de cargar los sistemas
+de ficheros durante el proceso de inicio.</li>
+</ul>
+
+<p><br>El fichero La modificaci&oacute;n del fichero /etc/group, podr&aacute;
+hacer que ciertos usuarios tengan privilegios sobre el sistema. (A Usuarios
+Inexpertos no se recomienda su modificaci&oacute;n)
+<p>Existen, actualmente multitud de programas para la configuraci&oacute;n
+de casi, cualquier proceso de Linux, otros, todav&iacute;a se encuentran
+en desarrollo, es evidente que no vamos a exponer aqu&iacute; todos ellos,
+por lo que solamente hemos puesto los m&aacute;s usados.
+<p>Y leete antes toda la documentaci&oacute;n disponible para evitar cometer
+errores.</ul>
+<a href="#AquiArriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="ArchivosLOGS"></a>
+<h3>
+ARCHIVOS DE REGISTRO</h3>
+
+<ul>En el directorio /var/log/, se guardan los &uacute;ltimos accesos y
+que fue lo que hizo para cada uno de los programas que tengan un .log en
+este directorio.
+<p>Tambi&eacute;n existen .bash_history .(u otras shells)_history, para
+saber que fue lo &uacute;ltimo que hizo ese usuario.</ul>
+<a href="#AquiArriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<h3>
+<a NAME="EntrarEnLinux"></a></h3>
+
+<h3>
+FORMAS DE ENTRAR EN LINUX</h3>
+&nbsp;
+<ul>Mirate la secci&oacute;n <a href="#ContraseñaRoot">Contrase&ntilde;a
+Olvidada</a> o tambi&eacute;n <a href="#CambioContraseña">Cambiar Contrase&ntilde;a.</a></ul>
+<a href="#AquiArriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="ActualizarSistema"></a>
+<h3>
+ACTUALIZAR EL SISTEMA</h3>
+
+<ul>Generalmente todos los Sistemas Linux se distribuyen en CD-ROM, y en
+la misma opci&oacute;n de instalaci&oacute;n nos da a elegir entre [Install]
+o [Upgrade], Install, lo usaremos para instalar una vez el sistema, mientras
+[Upgrade] (Actualizar en ingl&eacute;s) se utilizar&aacute; para Actualizar
+el Sistema, bien, a&ntilde;adiendo componentes que no hubi&eacute;ramos
+puesto antes, o si hemos comprado una nueva distribuci&oacute;n del mismo
+Sistema, Actualizar los &uacute;ltimos cambios.
+<p>Actualizar el Sistema v&iacute;a Internet, u otro tipo (por disquetes
+sueltos, no englobados en una distribuci&oacute;n...), este tipo de actualizaci&oacute;n
+ser&aacute; manual.
+<p>Todos los programas que te bajes de internet con formato .tgz, deber&aacute;s
+de moverlos a tu directorio /home/[usuario], y como USUARIO deber&aacute;n
+ser descomprimidos.
+<p>No se recomiendan ser descomprimidos como ROOT.</ul>
+<a href="#AquiArriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="SeguridadInternet"></a>
+<br>SEGURIDAD EN INTERNET
+<br>&nbsp;
+<blockquote><font color="#000000">Esta es una secci&oacute;n muy delicada,
+decir que nosotros tenemos la "medecina que todo lo cura", es imposible,
+s&oacute;lamente daremos algunas ideas, y est&aacute; especialmente dedicado
+a "intranets" y Administradores de redes, aunque tambi&eacute;n es perfectamente
+aplicable a usuarios dom&eacute;sticos.</font>
+<p><font color="#000000">Muy importante, mirate las HOWTO en Ingl&eacute;s,
+o los &iquest;C&oacute;mo? en Espa&ntilde;ol que se encuentran:</font>
+<br>&nbsp;
+<ul><font color="#000000"><a href="/usr/doc/HOWTO/">/usr/doc/HOWTO/</a></font>
+<ul>
+<li>
+<font color="#000000">En Ingl&eacute;s.</font></li>
+</ul>
+<font color="#000000"><a href="/usr/doc/HOWTO/translations/es/">/usr/doc/HOWTO/translations/es/</a></font>
+<ul>
+<li>
+<font color="#000000">En Espa&ntilde;ol.</font></li>
+</ul>
+</ul>
+
+<p><br><font color="#000000">1&ordm; Las claves:</font>
+<blockquote>&nbsp;
+<br><font color="#000000">Las claves son fundamentales, ten siempre una
+clave ALFANUM&Eacute;RICA, mezclada con signos de puntuaci&oacute;n.</font>
+<p><font color="#000000">Ejemplos de claves incorrectas:</font>
+<p><font color="#000000">usuario: javier</font>
+<br><font color="#000000">clave: javier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&iexcl;&iexcl;INCORRECTO!!</font>
+<p><font color="#000000">NUNCA tengas la misma clave de nombre que de usuario.</font>
+<br><font color="#000000">NUNCA tengas una clave s&oacute;lo alfab&eacute;tica
+y que se pueda buscar en un diccionario.</font>
+<br><font color="#000000">NUNCA tengas una clave inferior a 8 caracteres.</font>
+<br><font color="#000000">NUNCA tengas una clave TODAS en may&uacute;sculas
+o en min&uacute;sculas</font>
+<p><font color="#000000">Ejemplo de claves correctas:</font>
+<p><font color="#000000">usuario: javier</font>
+<br><font color="#000000">clave: Ke3,$taX</font>
+<br>&nbsp;</blockquote>
+<font color="#000000">2&ordm; <a href="linux4.html">Los permisos:</a></font>
+<br>&nbsp;
+<br>&nbsp;
+<blockquote><font color="#000000">Has de tener claro el tema de <a href="linux4.html">los
+permisos</a>, a los usuarios que tengan cuentas en tu m&aacute;quina, "si
+acceden remotamente", bien sea por "telnet" o por: Secure Shell, no deber&aacute;n
+de:</font>
+<br>&nbsp;
+<ol>
+<li>
+<font color="#000000">Poder ejecutar aplicaciones asignadas a root: /sbin,
+/bin, /usr/sbin, dichas aplicaciones deber&aacute;n de tener siempre los
+permisos:&nbsp; <b>-rwx</b></font><b><font color="#FF0000">r-x</font><font color="#000000">---&nbsp;&nbsp;&nbsp;
+root&nbsp;&nbsp;&nbsp;&nbsp; root</font></b><font color="#000000">, que
+significa que s&oacute;lo puede ejecutar, leer y escribir root, o el grupo
+de root, que en este caso s&oacute;lo podr&aacute;n leer y ejecutar.</font></li>
+
+<li>
+<font color="#000000">No poder acceder a ciertos directorios, o ciertos
+ficheros, para que no suelan realicar cambios al sistema, todos los ficheros
+que puedan ser susceptibles de ser cambiados deber&iacute;an de llevar
+directamente los atributos de arriba.</font></li>
+
+<ul>
+<li>
+<font color="#000000"><a href="Passwd.sample.txt">/etc/passwd</a></font></li>
+
+<li>
+<font color="#000000"><a href="group.sample.txt">/etc/group</a></font></li>
+
+<li>
+<font color="#000000">/etc/shadow</font></li>
+
+<li>
+<font color="#000000">/etc/rc.d/*</font></li>
+
+<li>
+<font color="#000000">/etc/inittab</font></li>
+
+<li>
+<font color="#000000">/root</font></li>
+
+<li>
+<font color="#000000">/etc/default</font></li>
+
+<li>
+<font color="#000000">etc&eacute;tera.</font></li>
+</ul>
+
+<li>
+<font color="#000000">No deber&aacute;n acceder a otras de cuentas de otros
+usuarios, por defecto.</font></li>
+
+<li>
+<font color="#000000">No deben de tener permisos de escritura sobre NING&Uacute;N
+DISPOSITIVO que puediera comprometer la seguridad del sistema. En /dev/,
+se guardan los nombres de los dispositivos del sistema.</font></li>
+</ol>
+</blockquote>
+
+<p><br>3&ordm; Los servicios (puertos)
+<br>&nbsp;
+<blockquote>Procura en la medida de lo posible tener TODOS LOS SERVICIOS
+QUE NO UTILICES CERRADOS, y cambia los puertos para que no sean los que
+vengan por defecto, un servicio abierto, y un puerto conocido, es un agujero
+por donde pueden entrar INDESEABLES! el fichero en concreto donde se guardan
+los servicios activos es:
+<p><a href="inetd.conf">/etc/inetd.conf</a>
+<p>El fichero donde se guardan los n&uacute;meros de los puertos del sistema
+es:
+<p><a href="services">/etc/services</a>
+<br>&nbsp;
+<p>As&iacute;, observando el fichero anterior observamos que para acceder
+al servicio FTP (el &uacute;nico abierto) a esta m&aacute;quina deber&aacute;
+ser a traves de puerto 21.</blockquote>
+
+<p><br>4&ordm; Usar DIALD
+<br>&nbsp;
+<blockquote>Usar DIALD, har&aacute; que se trabaje bajo demanda, y cuando
+un cliente requiera salir a INTERNET, diald se encargar&aacute; de llamar
+a pppd para que marque el tel&eacute;fono del modem/RDSI/etc y salga el
+cliente, cuando haya terminado si nadie requiere salir a INTERNET, DIALD
+le dir&aacute; a PPPD que cuelgue el modem.
+<p>Este es el m&eacute;todo m&aacute;s seguro ya que si NO EST&Aacute;S
+CONECTADO A INTERNET, nadie podr&aacute; entrar en tu m&aacute;quina.
+<p>&nbsp;<a href="/usr/doc/HOWTO/translations/es/PPP-Como">/usr/doc/HOWTO/translations/es/PPP-Como</a></blockquote>
+5&ordm; Configurar un PROXY y un FIREWALL
+<br>&nbsp;
+<blockquote><a href="/usr/doc/HOWTO/translations/es/Cortafuegos-Como">/usr/doc/HOWTO/translations/es/Cortafuegos-como</a>
+<br><a href="/usr/doc/HOWTO/translations/es/PPP-Como">/usr/doc/HOWTO/translations/es/PPP-Como</a>
+<br><a href="/usr/doc/HOWTO/translations/es/PPP-Como">/usr/doc/HOWTO/translations/es/mini/Servidor-Intranet-Como</a></blockquote>
+6&ordm; Actualizaci&oacute;n de Software de RED
+<br>&nbsp;
+<blockquote>Usa SOFTWARE ACTUALIZADO y pon los parches a los programas
+que tengan fallos.
+<br><a href="/usr/doc/HOWTO/translations/es/PPP-Como">/usr/doc/HOWTO/translations/es/PPP-Como</a>
+<br><a href="/usr/doc/HOWTO/translations/es/mini/Servidor-Intranet-Como">/usr/doc/HOWTO/translations/es/mini/Servidor-Intranet-Como</a></blockquote>
+</blockquote>
+<a href="#AquiArriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

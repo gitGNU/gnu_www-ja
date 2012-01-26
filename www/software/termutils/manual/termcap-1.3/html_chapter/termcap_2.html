@@ -1,0 +1,1067 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - The Termcap Library</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_1.html">previous</A>, <A HREF="termcap_3.html">next</A>, <A HREF="termcap_8.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC2" HREF="termcap_toc.html#TOC2">The Termcap Library</A></H1>
+
+<P>
+The termcap library is the application programmer's interface to the
+termcap data base.  It contains functions for the following purposes:
+
+</P>
+
+<UL>
+<LI>
+
+Finding the description of the user's terminal type (<CODE>tgetent</CODE>).
+
+<LI>
+
+Interrogating the description for information on various topics
+(<CODE>tgetnum</CODE>, <CODE>tgetflag</CODE>, <CODE>tgetstr</CODE>).
+
+<LI>
+
+Computing and performing padding (<CODE>tputs</CODE>).
+
+<LI>
+
+Encoding numeric parameters such as cursor positions into the
+terminal-specific form required for display commands (<CODE>tparam</CODE>,
+<CODE>tgoto</CODE>).
+</UL>
+
+
+
+<H2><A NAME="SEC3" HREF="termcap_toc.html#TOC3">Preparing to Use the Termcap Library</A></H2>
+
+<P>
+To use the termcap library in a program, you need two kinds of preparation:
+
+</P>
+
+<UL>
+<LI>
+
+The compiler needs declarations of the functions and variables in the
+library.
+
+On GNU systems, it suffices to include the header file
+<TT>`termcap.h'</TT> in each source file that uses these functions and
+variables.
+On Unix systems, there is often no such header file.  Then you must
+explictly declare the variables as external.  You can do likewise for
+the functions, or let them be implicitly declared and cast their
+values from type <CODE>int</CODE> to the appropriate type.
+
+We illustrate the declarations of the individual termcap library
+functions with ANSI C prototypes because they show how to pass the
+arguments.  If you are not using the GNU C compiler, you probably
+cannot use function prototypes, so omit the argument types and names
+from your declarations.
+
+<LI>
+
+The linker needs to search the library.  Usually either
+<SAMP>`-ltermcap'</SAMP> or <SAMP>`-ltermlib'</SAMP> as an argument when linking will
+do this.</UL>
+
+
+
+<H2><A NAME="SEC4" HREF="termcap_toc.html#TOC4">Finding a Terminal Description: <CODE>tgetent</CODE></A></H2>
+
+<P>
+<A NAME="IDX2"></A>
+An application program that is going to use termcap must first look up the
+description of the terminal type in use.  This is done by calling
+<CODE>tgetent</CODE>, whose declaration in ANSI Standard C looks like:
+
+</P>
+
+<PRE>
+int tgetent (char *<VAR>buffer</VAR>, char *<VAR>termtype</VAR>);
+</PRE>
+
+<P>
+This function finds the description and remembers it internally so that
+you can interrogate it about specific terminal capabilities
+(see section <A HREF="termcap_2.html#SEC5">Interrogating the Terminal Description</A>).
+
+</P>
+<P>
+The argument <VAR>termtype</VAR> is a string which is the name for the type of
+terminal to look up.  Usually you would obtain this from the environment
+variable <CODE>TERM</CODE> using <CODE>getenv ("TERM")</CODE>.
+
+</P>
+<P>
+If you are using the GNU version of termcap, you can alternatively ask
+<CODE>tgetent</CODE> to allocate enough space.  Pass a null pointer for
+<VAR>buffer</VAR>, and <CODE>tgetent</CODE> itself allocates the storage using
+<CODE>malloc</CODE>.  There is no way to get the address that was allocated,
+and you shouldn't try to free the storage.
+</P>
+<P>
+With the Unix version of termcap, you must allocate space for the
+description yourself and pass the address of the space as the argument
+<VAR>buffer</VAR>.  There is no way you can tell how much space is needed, so
+the convention is to allocate a buffer 2048 characters long and assume that
+is enough.  (Formerly the convention was to allocate 1024 characters and
+assume that was enough.  But one day, for one kind of terminal, that was
+not enough.)
+
+</P>
+<P>
+No matter how the space to store the description has been obtained,
+termcap records its address internally for use when you later interrogate
+the description with <CODE>tgetnum</CODE>, <CODE>tgetstr</CODE> or <CODE>tgetflag</CODE>.  If
+the buffer was allocated by termcap, it will be freed by termcap too if you
+call <CODE>tgetent</CODE> again.  If the buffer was provided by you, you must
+make sure that its contents remain unchanged for as long as you still plan
+to interrogate the description.
+</P>
+<P>
+The return value of <CODE>tgetent</CODE> is -1 if there is some difficulty
+accessing the data base of terminal types, 0 if the data base is accessible
+but the specified type is not defined in it, and some other value
+otherwise.
+
+</P>
+<P>
+Here is how you might use the function <CODE>tgetent</CODE>:
+
+</P>
+
+<PRE>
+#ifdef unix
+static char term_buffer[2048];
+#else
+#define term_buffer 0
+#endif
+
+init_terminal_data ()
+{
+  char *termtype = getenv ("TERM");
+  int success;
+
+  if (termtype == 0)
+    fatal ("Specify a terminal type with `setenv TERM &#60;yourtype&#62;'.\n");
+
+  success = tgetent (term_buffer, termtype);
+  if (success &#60; 0)
+    fatal ("Could not access the termcap data base.\n");
+  if (success == 0)
+    fatal ("Terminal type `%s' is not defined.\n", termtype);
+}
+</PRE>
+
+<P>
+Here we assume the function <CODE>fatal</CODE> prints an error message and exits.
+
+</P>
+<P>
+If the environment variable <CODE>TERMCAP</CODE> is defined, its value is used to
+override the terminal type data base.  The function <CODE>tgetent</CODE> checks
+the value of <CODE>TERMCAP</CODE> automatically.  If the value starts with
+<SAMP>`/'</SAMP> then it is taken as a file name to use as the data base file,
+instead of <TT>`/etc/termcap'</TT> which is the standard data base.  If the
+value does not start with <SAMP>`/'</SAMP> then it is itself used as the terminal
+description, provided that the terminal type <VAR>termtype</VAR> is among the
+types it claims to apply to.  See section <A HREF="termcap_3.html#SEC17">The Format of the Data Base</A>, for information on the
+format of a terminal description.
+</P>
+
+
+<H2><A NAME="SEC5" HREF="termcap_toc.html#TOC5">Interrogating the Terminal Description</A></H2>
+
+<P>
+Each piece of information recorded in a terminal description is called a
+<EM>capability</EM>.  Each defined terminal capability has a two-letter code
+name and a specific meaning.  For example, the number of columns is named
+<SAMP>`co'</SAMP>.  See section <A HREF="termcap_4.html#SEC23">Definitions of the Terminal Capabilities</A>, for definitions of all the standard
+capability names.
+
+</P>
+<P>
+Once you have found the proper terminal description with <CODE>tgetent</CODE>
+(see section <A HREF="termcap_2.html#SEC4">Finding a Terminal Description: <CODE>tgetent</CODE></A>), your application program must <EM>interrogate</EM> it for
+various terminal capabilities.  You must specify the two-letter code of
+the capability whose value you seek.
+
+</P>
+<P>
+Capability values can be numeric, boolean (capability is either present or
+absent) or strings.  Any particular capability always has the same value
+type; for example, <SAMP>`co'</SAMP> always has a numeric value, while <SAMP>`am'</SAMP>
+(automatic wrap at margin) is always a flag, and <SAMP>`cm'</SAMP> (cursor motion
+command) always has a string value.  The documentation of each capability
+says which type of value it has.
+</P>
+<P>
+There are three functions to use to get the value of a capability,
+depending on the type of value the capability has.  Here are their
+declarations in ANSI C:
+
+</P>
+<P>
+<A NAME="IDX3"></A>
+<A NAME="IDX4"></A>
+<A NAME="IDX5"></A>
+
+<PRE>
+int tgetnum (char *<VAR>name</VAR>);
+int tgetflag (char *<VAR>name</VAR>);
+char *tgetstr (char *<VAR>name</VAR>, char **<VAR>area</VAR>);
+</PRE>
+
+<DL COMPACT>
+
+<DT><CODE>tgetnum</CODE>
+<DD>
+Use <CODE>tgetnum</CODE> to get a capability value that is numeric.  The
+argument <VAR>name</VAR> is the two-letter code name of the capability.  If
+the capability is present, <CODE>tgetnum</CODE> returns the numeric value
+(which is nonnegative).  If the capability is not mentioned in the
+terminal description, <CODE>tgetnum</CODE> returns -1.
+
+<DT><CODE>tgetflag</CODE>
+<DD>
+Use <CODE>tgetflag</CODE> to get a boolean value.  If the capability
+<VAR>name</VAR> is present in the terminal description, <CODE>tgetflag</CODE>
+returns 1; otherwise, it returns 0.
+
+<DT><CODE>tgetstr</CODE>
+<DD>
+Use <CODE>tgetstr</CODE> to get a string value.  It returns a pointer to a
+string which is the capability value, or a null pointer if the
+capability is not present in the terminal description.
+
+There are two ways <CODE>tgetstr</CODE> can find space to store the string value:
+
+
+<UL>
+<LI>
+
+You can ask <CODE>tgetstr</CODE> to allocate the space.  Pass a null
+pointer for the argument <VAR>area</VAR>, and <CODE>tgetstr</CODE> will use
+<CODE>malloc</CODE> to allocate storage big enough for the value.
+Termcap will never free this storage or refer to it again; you
+should free it when you are finished with it.
+
+This method is more robust, since there is no need to guess how
+much space is needed.  But it is supported only by the GNU
+termcap library.
+
+<LI>
+
+You can provide the space.  Provide for the argument <VAR>area</VAR> the
+address of a pointer variable of type <CODE>char *</CODE>.  Before calling
+<CODE>tgetstr</CODE>, initialize the variable to point at available space.
+Then <CODE>tgetstr</CODE> will store the string value in that space and will
+increment the pointer variable to point after the space that has been
+used.  You can use the same pointer variable for many calls to
+<CODE>tgetstr</CODE>.
+
+There is no way to determine how much space is needed for a single
+string, and no way for you to prevent or handle overflow of the area
+you have provided.  However, you can be sure that the total size of
+all the string values you will obtain from the terminal description is
+no greater than the size of the description (unless you get the same
+capability twice).  You can determine that size with <CODE>strlen</CODE> on
+the buffer you provided to <CODE>tgetent</CODE>.  See below for an example.
+
+Providing the space yourself is the only method supported by the Unix
+version of termcap.
+</UL>
+
+</DL>
+
+<P>
+Note that you do not have to specify a terminal type or terminal
+description for the interrogation functions.  They automatically use the
+description found by the most recent call to <CODE>tgetent</CODE>.
+
+</P>
+<P>
+Here is an example of interrogating a terminal description for various
+capabilities, with conditionals to select between the Unix and GNU methods
+of providing buffer space.
+
+</P>
+
+<PRE>
+char *tgetstr ();
+
+char *cl_string, *cm_string;
+int height;
+int width;
+int auto_wrap;
+
+char PC;   /* For tputs.  */
+char *BC;  /* For tgoto.  */
+char *UP;
+
+interrogate_terminal ()
+{
+#ifdef Unix
+  /* Here we assume that an explicit term_buffer
+     was provided to tgetent.  */
+  char *buffer
+    = (char *) malloc (strlen (term_buffer));
+#define BUFFADDR &#38;buffer
+#else
+#define BUFFADDR 0
+#endif
+
+  char *temp;
+
+  /* Extract information we will use.  */
+  cl_string = tgetstr ("cl", BUFFADDR);
+  cm_string = tgetstr ("cm", BUFFADDR);
+  auto_wrap = tgetflag ("am");
+  height = tgetnum ("li");
+  width = tgetnum ("co");
+
+  /* Extract information that termcap functions use.  */
+  temp = tgetstr ("pc", BUFFADDR);
+  PC = temp ? *temp : 0;
+  BC = tgetstr ("le", BUFFADDR);
+  UP = tgetstr ("up", BUFFADDR);
+}
+</PRE>
+
+<P>
+See section <A HREF="termcap_2.html#SEC7">Padding</A>, for information on the variable <CODE>PC</CODE>.  See section <A HREF="termcap_2.html#SEC14">Sending Display Commands with Parameters</A>, for information on <CODE>UP</CODE> and <CODE>BC</CODE>.
+
+</P>
+
+
+<H2><A NAME="SEC6" HREF="termcap_toc.html#TOC6">Initialization for Use of Termcap</A></H2>
+<P>
+<A NAME="IDX6"></A>
+
+</P>
+<P>
+Before starting to output commands to a terminal using termcap,
+an application program should do two things:
+
+</P>
+
+<UL>
+<LI>
+
+Initialize various global variables which termcap library output
+functions refer to.  These include <CODE>PC</CODE> and <CODE>ospeed</CODE> for
+padding (see section <A HREF="termcap_2.html#SEC11">Performing Padding with <CODE>tputs</CODE></A>) and <CODE>UP</CODE> and <CODE>BC</CODE> for
+cursor motion (see section <A HREF="termcap_2.html#SEC16"><CODE>tgoto</CODE></A>).
+<LI>
+
+Tell the kernel to turn off alteration and padding of horizontal-tab
+characters sent to the terminal.
+</UL>
+
+<P>
+To turn off output processing in Berkeley Unix you would use <CODE>ioctl</CODE>
+with code <CODE>TIOCLSET</CODE> to set the bit named <CODE>LLITOUT</CODE>, and clear
+the bits <CODE>ANYDELAY</CODE> using <CODE>TIOCSETN</CODE>.  In POSIX or System V, you
+must clear the bit named <CODE>OPOST</CODE>.  Refer to the system documentation
+for details.
+</P>
+<P>
+If you do not set the terminal flags properly, some older terminals will
+not work.  This is because their commands may contain the characters that
+normally signify newline, carriage return and horizontal tab--characters
+which the kernel thinks it ought to modify before output.
+
+</P>
+<P>
+When you change the kernel's terminal flags, you must arrange to restore
+them to their normal state when your program exits.  This implies that the
+program must catch fatal signals such as <CODE>SIGQUIT</CODE> and <CODE>SIGINT</CODE>
+and restore the old terminal flags before actually terminating.
+
+</P>
+<P>
+Modern terminals' commands do not use these special characters, so if you
+do not care about problems with old terminals, you can leave the kernel's
+terminal flags unaltered.
+
+</P>
+
+
+<H2><A NAME="SEC7" HREF="termcap_toc.html#TOC7">Padding</A></H2>
+<P>
+<A NAME="IDX7"></A>
+
+</P>
+<P>
+<EM>Padding</EM> means outputting null characters following a terminal display
+command that takes a long time to execute.  The terminal description says
+which commands require padding and how much; the function <CODE>tputs</CODE>,
+described below, outputs a terminal command while extracting from it the
+padding information, and then outputs the padding that is necessary.
+
+</P>
+
+
+
+<H3><A NAME="SEC8" HREF="termcap_toc.html#TOC8">Why Pad, and How</A></H3>
+
+<P>
+Most types of terminal have commands that take longer to execute than they
+do to send over a high-speed line.  For example, clearing the screen may
+take 20msec once the entire command is received.  During that time, on a
+9600 bps line, the terminal could receive about 20 additional output
+characters while still busy clearing the screen.  Every terminal has a
+certain amount of buffering capacity to remember output characters that
+cannot be processed yet, but too many slow commands in a row can cause the
+buffer to fill up.  Then any additional output that cannot be processed
+immediately will be lost.
+
+</P>
+<P>
+To avoid this problem, we normally follow each display command with enough
+useless charaters (usually null characters) to fill up the time that the
+display command needs to execute.  This does the job if the terminal throws
+away null characters without using up space in the buffer (which most
+terminals do).  If enough padding is used, no output can ever be lost.  The
+right amount of padding avoids loss of output without slowing down
+operation, since the time used to transmit padding is time that nothing
+else could be done.
+
+</P>
+<P>
+The number of padding characters needed for an operation depends on the
+line speed.  In fact, it is proportional to the line speed.  A 9600 baud
+line transmits about one character per msec, so the clear screen command in
+the example above would need about 20 characters of padding.  At 1200 baud,
+however, only about 3 characters of padding are needed to fill up 20msec.
+
+</P>
+
+
+<H3><A NAME="SEC9" HREF="termcap_toc.html#TOC9">When There Is Not Enough Padding</A></H3>
+
+<P>
+There are several common manifestations of insufficient padding.
+
+</P>
+
+<UL>
+<LI>
+
+Emacs displays <SAMP>`I-search: ^Q-'</SAMP> at the bottom of the screen.
+
+This means that the terminal thought its buffer was getting full of
+display commands, so it tried to tell the computer to stop sending
+any.
+
+<LI>
+
+The screen is garbled intermittently, or the details of garbling vary
+when you repeat the action.  (A garbled screen could be due to a
+command which is simply incorrect, or to user option in the terminal
+which doesn't match the assumptions of the terminal description, but
+this usually leads to reproducible failure.)
+
+This means that the buffer did get full, and some commands were lost.
+Many changeable factors can change which ones are lost.
+
+<LI>
+
+Screen is garbled at high output speeds but not at low speeds.
+Padding problems nearly always go away at low speeds, usually even at
+1200 baud.
+
+This means that a high enough speed permits commands to arrive faster
+than they can be executed.
+</UL>
+
+<P>
+Although any obscure command on an obscure terminal might lack padding,
+in practice problems arise most often from the clearing commands
+<SAMP>`cl'</SAMP> and <SAMP>`cd'</SAMP> (see section <A HREF="termcap_4.html#SEC30">Clearing Parts of the Screen</A>), the scrolling commands
+<SAMP>`sf'</SAMP> and <SAMP>`sr'</SAMP> (see section <A HREF="termcap_4.html#SEC28">Scrolling</A>), and the line insert/delete
+commands <SAMP>`al'</SAMP> and <SAMP>`dl'</SAMP> (see section <A HREF="termcap_4.html#SEC31">Insert/Delete Line</A>).
+
+</P>
+<P>
+Occasionally the terminal description fails to define <SAMP>`sf'</SAMP> and some
+programs will use <SAMP>`do'</SAMP> instead, so you may get a problem with
+<SAMP>`do'</SAMP>.  If so, first define <SAMP>`sf'</SAMP> just like <SAMP>`do'</SAMP>, then
+add some padding to <SAMP>`sf'</SAMP>.
+
+</P>
+<P>
+The best strategy is to add a lot of padding at first, perhaps 200 msec.
+This is much more than enough; in fact, it should cause a visible slowdown.
+(If you don't see a slowdown, the change has not taken effect;
+see section <A HREF="termcap_3.html#SEC22">When Changes in the Data Base Take Effect</A>.)  If this makes the problem go away, you have found the
+right place to add padding; now reduce the amount until the problem comes
+back, then increase it again.  If the problem remains, either it is in some
+other capability or it is not a matter of padding at all.
+
+</P>
+<P>
+Keep in mind that on many terminals the correct padding for insert/delete
+line or for scrolling is cursor-position dependent.  If you get problems
+from scrolling a large region of the screen but not from scrolling a small
+part (just a few lines moving), it may mean that fixed padding should be
+replaced with position-dependent padding.
+
+</P>
+
+
+<H3><A NAME="SEC10" HREF="termcap_toc.html#TOC10">Specifying Padding in a Terminal Description</A></H3>
+
+<P>
+In the terminal description, the amount of padding required by each display
+command is recorded as a sequence of digits at the front of the command.
+These digits specify the padding time in milliseconds (msec).  They can be
+followed optionally by a decimal point and one more digit, which is a
+number of tenths of msec.
+
+</P>
+<P>
+Sometimes the padding needed by a command depends on the cursor position.
+For example, the time taken by an "insert line" command is usually
+proportional to the number of lines that need to be moved down or cleared.
+An asterisk (<SAMP>`*'</SAMP>) following the padding time says that the time
+should be multiplied by the number of screen lines affected by the command.
+
+</P>
+
+<PRE>
+:al=1.3*\E[L:
+</PRE>
+
+<P>
+is used to describe the "insert line" command for a certain terminal.
+The padding required is 1.3 msec per line affected.  The command itself is
+<SAMP>`<KBD>ESC</KBD> [ L'</SAMP>.
+
+</P>
+<P>
+The padding time specified in this way tells <CODE>tputs</CODE> how many pad
+characters to output.  See section <A HREF="termcap_2.html#SEC11">Performing Padding with <CODE>tputs</CODE></A>.
+
+</P>
+<P>
+Two special capability values affect padding for all commands.  These are
+the <SAMP>`pc'</SAMP> and <SAMP>`pb'</SAMP>.  The variable <SAMP>`pc'</SAMP> specifies the
+character to pad with, and <SAMP>`pb'</SAMP> the speed below which no padding is
+needed.  The defaults for these variables, a null character and 0,
+are correct for most terminals.  See section <A HREF="termcap_4.html#SEC40">Padding Capabilities</A>.
+
+</P>
+
+
+<H3><A NAME="SEC11" HREF="termcap_toc.html#TOC11">Performing Padding with <CODE>tputs</CODE></A></H3>
+<P>
+<A NAME="IDX8"></A>
+
+</P>
+<P>
+<A NAME="IDX9"></A>
+Use the termcap function <CODE>tputs</CODE> to output a string containing an
+optional padding spec of the form described above (see section <A HREF="termcap_2.html#SEC10">Specifying Padding in a Terminal Description</A>).  The function <CODE>tputs</CODE> strips off and decodes the padding
+spec, outputs the rest of the string, and then outputs the appropriate
+padding.  Here is its declaration in ANSI C:
+
+</P>
+
+<PRE>
+char PC;
+short ospeed;
+
+int tputs (char *<VAR>string</VAR>, int <VAR>nlines</VAR>, int (*<VAR>outfun</VAR>) ());
+</PRE>
+
+<P>
+Here <VAR>string</VAR> is the string (including padding spec) to be output;
+<VAR>nlines</VAR> is the number of lines affected by the operation, which is
+used to multiply the amount of padding if the padding spec ends with a
+<SAMP>`*'</SAMP>.  Finally, <VAR>outfun</VAR> is a function (such as <CODE>fputchar</CODE>)
+that is called to output each character.  When actually called,
+<VAR>outfun</VAR> should expect one argument, a character.
+
+</P>
+<P>
+<A NAME="IDX10"></A>
+<A NAME="IDX11"></A>
+The operation of <CODE>tputs</CODE> is controlled by two global variables,
+<CODE>ospeed</CODE> and <CODE>PC</CODE>.  The value of <CODE>ospeed</CODE> is supposed to be
+the terminal output speed, encoded as in the <CODE>ioctl</CODE> system call which
+gets the speed information.  This is needed to compute the number of
+padding characters.  The value of <CODE>PC</CODE> is the character used for
+padding.
+
+</P>
+<P>
+You are responsible for storing suitable values into these variables before
+using <CODE>tputs</CODE>.  The value stored into the <CODE>PC</CODE> variable should be
+taken from the <SAMP>`pc'</SAMP> capability in the terminal description (see section <A HREF="termcap_4.html#SEC40">Padding Capabilities</A>).  Store zero in <CODE>PC</CODE> if there is no <SAMP>`pc'</SAMP>
+capability.
+</P>
+<P>
+The argument <VAR>nlines</VAR> requires some thought.  Normally, it should be
+the number of lines whose contents will be cleared or moved by the command.
+For cursor motion commands, or commands that do editing within one line,
+use the value 1.  For most commands that affect multiple lines, such as
+<SAMP>`al'</SAMP> (insert a line) and <SAMP>`cd'</SAMP> (clear from the cursor to the end
+of the screen), <VAR>nlines</VAR> should be the screen height minus the current
+vertical position (origin 0).  For multiple insert and scroll commands such
+as <SAMP>`AL'</SAMP> (insert multiple lines), that same value for <VAR>nlines</VAR> is
+correct; the number of lines being inserted is <I>not</I> correct.
+</P>
+<P>
+If a "scroll window" feature is used to reduce the number of lines
+affected by a command, the value of <VAR>nlines</VAR> should take this into
+account.  This is because the delay time required depends on how much work
+the terminal has to do, and the scroll window feature reduces the work.
+See section <A HREF="termcap_4.html#SEC28">Scrolling</A>.
+
+</P>
+<P>
+Commands such as <SAMP>`ic'</SAMP> and <SAMP>`dc'</SAMP> (insert or delete characters) are
+problematical because the padding needed by these commands is proportional
+to the number of characters affected, which is the number of columns from
+the cursor to the end of the line.  It would be nice to have a way to
+specify such a dependence, and there is no need for dependence on vertical
+position in these commands, so it is an obvious idea to say that for these
+commands <VAR>nlines</VAR> should really be the number of columns affected.
+However, the definition of termcap clearly says that <VAR>nlines</VAR> is always
+the number of lines affected, even in this case, where it is always 1.  It
+is not easy to change this rule now, because too many programs and terminal
+descriptions have been written to follow it.
+
+</P>
+<P>
+Because <VAR>nlines</VAR> is always 1 for the <SAMP>`ic'</SAMP> and <SAMP>`dc'</SAMP> strings,
+there is no reason for them to use <SAMP>`*'</SAMP>, but some of them do.  These
+should be corrected by deleting the <SAMP>`*'</SAMP>.  If, some day, such entries
+have disappeared, it may be possible to change to a more useful convention
+for the <VAR>nlines</VAR> argument for these operations without breaking any
+programs.
+
+</P>
+
+
+<H2><A NAME="SEC12" HREF="termcap_toc.html#TOC12">Filling In Parameters</A></H2>
+<P>
+<A NAME="IDX12"></A>
+
+</P>
+<P>
+Some terminal control strings require numeric <EM>parameters</EM>.  For
+example, when you move the cursor, you need to say what horizontal and
+vertical positions to move it to.  The value of the terminal's <SAMP>`cm'</SAMP>
+capability, which says how to move the cursor, cannot simply be a string of
+characters; it must say how to express the cursor position numbers and
+where to put them within the command.
+
+</P>
+<P>
+The specifications of termcap include conventions as to which string-valued
+capabilities require parameters, how many parameters, and what the
+parameters mean; for example, it defines the <SAMP>`cm'</SAMP> string to take
+two parameters, the vertical and horizontal positions, with 0,0 being the
+upper left corner.  These conventions are described where the individual
+commands are documented.
+
+</P>
+<P>
+Termcap also defines a language used within the capability definition for
+specifying how and where to encode the parameters for output.  This language
+uses character sequences starting with <SAMP>`%'</SAMP>.  (This is the same idea as
+<CODE>printf</CODE>, but the details are different.)  The language for parameter
+encoding is described in this section.
+
+</P>
+<P>
+A program that is doing display output calls the functions <CODE>tparam</CODE> or
+<CODE>tgoto</CODE> to encode parameters according to the specifications.  These
+functions produce a string containing the actual commands to be output (as
+well a padding spec which must be processed with <CODE>tputs</CODE>;
+see section <A HREF="termcap_2.html#SEC7">Padding</A>).
+
+</P>
+
+
+
+<H3><A NAME="SEC13" HREF="termcap_toc.html#TOC13">Describing the Encoding</A></H3>
+<P>
+<A NAME="IDX13"></A>
+
+</P>
+<P>
+A terminal command string that requires parameters contains special
+character sequences starting with <SAMP>`%'</SAMP> to say how to encode the
+parameters.  These sequences control the actions of <CODE>tparam</CODE> and
+<CODE>tgoto</CODE>.
+
+</P>
+<P>
+The parameters values passed to <CODE>tparam</CODE> or <CODE>tgoto</CODE> are
+considered to form a vector.  A pointer into this vector determines
+the next parameter to be processed.  Some of the <SAMP>`%'</SAMP>-sequences
+encode one parameter and advance the pointer to the next parameter.
+Other <SAMP>`%'</SAMP>-sequences alter the pointer or alter the parameter
+values without generating output.
+
+</P>
+<P>
+For example, the <SAMP>`cm'</SAMP> string for a standard ANSI terminal is written
+as <SAMP>`\E[%i%d;%dH'</SAMP>.  (<SAMP>`\E'</SAMP> stands for <KBD>ESC</KBD>.)  <SAMP>`cm'</SAMP> by
+convention always requires two parameters, the vertical and horizontal goal
+positions, so this string specifies the encoding of two parameters.  Here
+<SAMP>`%i'</SAMP> increments the two values supplied, and each <SAMP>`%d'</SAMP> encodes
+one of the values in decimal.  If the cursor position values 20,58 are
+encoded with this string, the result is <SAMP>`\E[21;59H'</SAMP>.
+
+</P>
+<P>
+First, here are the <SAMP>`%'</SAMP>-sequences that generate output.  Except for
+<SAMP>`%%'</SAMP>, each of them encodes one parameter and advances the pointer
+to the following parameter.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`%%'</SAMP>
+<DD>
+Output a single <SAMP>`%'</SAMP>.  This is the only way to represent a literal
+<SAMP>`%'</SAMP> in a terminal command with parameters.  <SAMP>`%%'</SAMP> does not
+use up a parameter.
+
+<DT><SAMP>`%d'</SAMP>
+<DD>
+As in <CODE>printf</CODE>, output the next parameter in decimal.
+
+<DT><SAMP>`%2'</SAMP>
+<DD>
+Like <SAMP>`%02d'</SAMP> in <CODE>printf</CODE>: output the next parameter in
+decimal, and always use at least two digits.
+
+<DT><SAMP>`%3'</SAMP>
+<DD>
+Like <SAMP>`%03d'</SAMP> in <CODE>printf</CODE>: output the next parameter in
+decimal, and always use at least three digits.  Note that <SAMP>`%4'</SAMP>
+and so on are <EM>not</EM> defined.
+
+<DT><SAMP>`%.'</SAMP>
+<DD>
+Output the next parameter as a single character whose ASCII code is
+the parameter value.  Like <SAMP>`%c'</SAMP> in <CODE>printf</CODE>.
+
+<DT><SAMP>`%+<VAR>char</VAR>'</SAMP>
+<DD>
+Add the next parameter to the character <VAR>char</VAR>, and output the
+resulting character.  For example, <SAMP>`%+ '</SAMP> represents 0 as a space,
+1 as <SAMP>`!'</SAMP>, etc.
+</DL>
+
+<P>
+The following <SAMP>`%'</SAMP>-sequences specify alteration of the parameters
+(their values, or their order) rather than encoding a parameter for output.
+They generate no output; they are used only for their side effects
+on the parameters.  Also, they do not advance the "next parameter" pointer
+except as explicitly stated.  Only <SAMP>`%i'</SAMP>, <SAMP>`%r'</SAMP> and <SAMP>`%&#62;'</SAMP> are
+defined in standard Unix termcap.  The others are GNU extensions.
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`%i'</SAMP>
+<DD>
+Increment the next two parameters.  This is used for terminals that
+expect cursor positions in origin 1.  For example, <SAMP>`%i%d,%d'</SAMP> would
+output two parameters with <SAMP>`1'</SAMP> for 0, <SAMP>`2'</SAMP> for 1, etc.
+
+<DT><SAMP>`%r'</SAMP>
+<DD>
+Interchange the next two parameters.  This is used for terminals whose
+cursor positioning command expects the horizontal position first.
+
+<DT><SAMP>`%s'</SAMP>
+<DD>
+Skip the next parameter.  Do not output anything.
+
+<DT><SAMP>`%b'</SAMP>
+<DD>
+Back up one parameter.  The last parameter used will become once again
+the next parameter to be output, and the next output command will use
+it.  Using <SAMP>`%b'</SAMP> more than once, you can back up any number of
+parameters, and you can refer to each parameter any number of times.
+
+<DT><SAMP>`%&#62;<VAR>c1</VAR><VAR>c2</VAR>'</SAMP>
+<DD>
+Conditionally increment the next parameter.  Here <VAR>c1</VAR> and
+<VAR>c2</VAR> are characters which stand for their ASCII codes as numbers.
+If the next parameter is greater than the ASCII code of <VAR>c1</VAR>, the
+ASCII code of <VAR>c2</VAR> is added to it.
+<DT><SAMP>`%a <VAR>op</VAR> <VAR>type</VAR> <VAR>pos</VAR>'</SAMP>
+<DD>
+Perform arithmetic on the next parameter, do not use it up, and do not
+output anything.  Here <VAR>op</VAR> specifies the arithmetic operation,
+while <VAR>type</VAR> and <VAR>pos</VAR> together specify the other operand.
+
+Spaces are used above to separate the operands for clarity; the spaces
+don't appear in the data base, where this sequence is exactly five
+characters long.
+
+The character <VAR>op</VAR> says what kind of arithmetic operation to
+perform.  It can be any of these characters:
+
+<DL COMPACT>
+
+<DT><SAMP>`='</SAMP>
+<DD>
+assign a value to the next parameter, ignoring its old value.
+The new value comes from the other operand.
+
+<DT><SAMP>`+'</SAMP>
+<DD>
+add the other operand to the next parameter.
+
+<DT><SAMP>`-'</SAMP>
+<DD>
+subtract the other operand from the next parameter.
+
+<DT><SAMP>`*'</SAMP>
+<DD>
+multiply the next parameter by the other operand.
+
+<DT><SAMP>`/'</SAMP>
+<DD>
+divide the next parameter by the other operand.
+</DL>
+
+The "other operand" may be another parameter's value or a constant;
+the character <VAR>type</VAR> says which.  It can be:
+
+<DL COMPACT>
+
+<DT><SAMP>`p'</SAMP>
+<DD>
+Use another parameter.  The character <VAR>pos</VAR> says which
+parameter to use.  Subtract 64 from its ASCII code to get the
+position of the desired parameter relative to this one.  Thus,
+the character <SAMP>`A'</SAMP> as <VAR>pos</VAR> means the parameter after the
+next one; the character <SAMP>`?'</SAMP> means the parameter before the
+next one.
+
+<DT><SAMP>`c'</SAMP>
+<DD>
+Use a constant value.  The character <VAR>pos</VAR> specifies the
+value of the constant.  The 0200 bit is cleared out, so that 0200
+can be used to represent zero.
+</DL>
+</DL>
+
+<P>
+The following <SAMP>`%'</SAMP>-sequences are special purpose hacks to compensate
+for the weird designs of obscure terminals.  They modify the next parameter
+or the next two parameters but do not generate output and do not use up any
+parameters.  <SAMP>`%m'</SAMP> is a GNU extension; the others are defined in
+standard Unix termcap.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`%n'</SAMP>
+<DD>
+Exclusive-or the next parameter with 0140, and likewise the parameter
+after next.
+
+<DT><SAMP>`%m'</SAMP>
+<DD>
+Complement all the bits of the next parameter and the parameter after next.
+
+<DT><SAMP>`%B'</SAMP>
+<DD>
+Encode the next parameter in BCD.  It alters the value of the
+parameter by adding six times the quotient of the parameter by ten.
+Here is a C statement that shows how the new value is computed:
+
+
+<PRE>
+<VAR>parm</VAR> = (<VAR>parm</VAR> / 10) * 16 + <VAR>parm</VAR> % 10;
+</PRE>
+
+<DT><SAMP>`%D'</SAMP>
+<DD>
+Transform the next parameter as needed by Delta Data terminals.
+This involves subtracting twice the remainder of the parameter by 16.
+
+
+<PRE>
+<VAR>parm</VAR> -= 2 * (<VAR>parm</VAR> % 16);
+</PRE>
+
+</DL>
+
+
+
+<H3><A NAME="SEC14" HREF="termcap_toc.html#TOC14">Sending Display Commands with Parameters</A></H3>
+
+<P>
+The termcap library functions <CODE>tparam</CODE> and <CODE>tgoto</CODE> serve as the
+analog of <CODE>printf</CODE> for terminal string parameters.  The newer function
+<CODE>tparam</CODE> is a GNU extension, more general but missing from Unix
+termcap.  The original parameter-encoding function is <CODE>tgoto</CODE>, which
+is preferable for cursor motion.
+
+</P>
+
+
+
+<H4><A NAME="SEC15" HREF="termcap_toc.html#TOC15"><CODE>tparam</CODE></A></H4>
+
+<P>
+<A NAME="IDX14"></A>
+The function <CODE>tparam</CODE> can encode display commands with any number of
+parameters and allows you to specify the buffer space.  It is the preferred
+function for encoding parameters for all but the <SAMP>`cm'</SAMP> capability.  Its
+ANSI C declaration is as follows:
+
+</P>
+
+<PRE>
+char *tparam (char *<VAR>ctlstring</VAR>, char *<VAR>buffer</VAR>, int <VAR>size</VAR>, int <VAR>parm1</VAR>,...)
+</PRE>
+
+<P>
+The arguments are a control string <VAR>ctlstring</VAR> (the value of a terminal
+capability, presumably), an output buffer <VAR>buffer</VAR> and <VAR>size</VAR>, and
+any number of integer parameters to be encoded.  The effect of
+<CODE>tparam</CODE> is to copy the control string into the buffer, encoding
+parameters according to the <SAMP>`%'</SAMP> sequences in the control string.
+
+</P>
+<P>
+You describe the output buffer by its address, <VAR>buffer</VAR>, and its size
+in bytes, <VAR>size</VAR>.  If the buffer is not big enough for the data to be
+stored in it, <CODE>tparam</CODE> calls <CODE>malloc</CODE> to get a larger buffer.  In
+either case, <CODE>tparam</CODE> returns the address of the buffer it ultimately
+uses.  If the value equals <VAR>buffer</VAR>, your original buffer was used.
+Otherwise, a new buffer was allocated, and you must free it after you are
+done with printing the results.  If you pass zero for <VAR>size</VAR> and
+<VAR>buffer</VAR>, <CODE>tparam</CODE> always allocates the space with <CODE>malloc</CODE>.
+
+</P>
+<P>
+All capabilities that require parameters also have the ability to specify
+padding, so you should use <CODE>tputs</CODE> to output the string produced by
+<CODE>tparam</CODE>.  See section <A HREF="termcap_2.html#SEC7">Padding</A>.  Here is an example.
+
+</P>
+
+<PRE>
+{
+char *buf;
+char buffer[40];
+
+buf = tparam (command, buffer, 40, parm);
+tputs (buf, 1, fputchar);
+if (buf != buffer)
+free (buf);
+}
+</PRE>
+
+<P>
+If a parameter whose value is zero is encoded with <SAMP>`%.'</SAMP>-style
+encoding, the result is a null character, which will confuse <CODE>tputs</CODE>.
+This would be a serious problem, but luckily <SAMP>`%.'</SAMP> encoding is used
+only by a few old models of terminal, and only for the <SAMP>`cm'</SAMP>
+capability.  To solve the problem, use <CODE>tgoto</CODE> rather than
+<CODE>tparam</CODE> to encode the <SAMP>`cm'</SAMP> capability.
+</P>
+
+
+<H4><A NAME="SEC16" HREF="termcap_toc.html#TOC16"><CODE>tgoto</CODE></A></H4>
+
+<P>
+<A NAME="IDX15"></A>
+The special case of cursor motion is handled by <CODE>tgoto</CODE>.  There
+are two reasons why you might choose to use <CODE>tgoto</CODE>:
+
+</P>
+
+<UL>
+<LI>
+
+For Unix compatibility, because Unix termcap does not have <CODE>tparam</CODE>.
+
+<LI>
+
+For the <SAMP>`cm'</SAMP> capability, since <CODE>tgoto</CODE> has a special feature
+to avoid problems with null characters, tabs and newlines on certain old
+terminal types that use <SAMP>`%.'</SAMP> encoding for that capability.
+</UL>
+
+<P>
+Here is how <CODE>tgoto</CODE> might be declared in ANSI C:
+
+</P>
+
+<PRE>
+char *tgoto (char *<VAR>cstring</VAR>, int <VAR>hpos</VAR>, int <VAR>vpos</VAR>)
+</PRE>
+
+<P>
+There are three arguments, the terminal description's <SAMP>`cm'</SAMP> string and
+the two cursor position numbers; <CODE>tgoto</CODE> computes the parametrized
+string in an internal static buffer and returns the address of that buffer.
+The next time you use <CODE>tgoto</CODE> the same buffer will be reused.
+
+</P>
+<P>
+<A NAME="IDX16"></A>
+<A NAME="IDX17"></A>
+Parameters encoded with <SAMP>`%.'</SAMP> encoding can generate null characters,
+tabs or newlines.  These might cause trouble: the null character because
+<CODE>tputs</CODE> would think that was the end of the string, the tab because
+the kernel or other software might expand it into spaces, and the newline
+becaue the kernel might add a carriage-return, or padding characters
+normally used for a newline.  To prevent such problems, <CODE>tgoto</CODE> is
+careful to avoid these characters.  Here is how this works: if the target
+cursor position value is such as to cause a problem (that is to say, zero,
+nine or ten), <CODE>tgoto</CODE> increments it by one, then compensates by
+appending a string to move the cursor back or up one position.
+
+</P>
+<P>
+The compensation strings to use for moving back or up are found in global
+variables named <CODE>BC</CODE> and <CODE>UP</CODE>.  These are actual external C
+variables with upper case names; they are declared <CODE>char *</CODE>.  It is up
+to you to store suitable values in them, normally obtained from the
+<SAMP>`le'</SAMP> and <SAMP>`up'</SAMP> terminal capabilities in the terminal description
+with <CODE>tgetstr</CODE>.  Alternatively, if these two variables are both zero,
+the feature of avoiding nulls, tabs and newlines is turned off.
+
+</P>
+<P>
+It is safe to use <CODE>tgoto</CODE> for commands other than <SAMP>`cm'</SAMP> only if
+you have stored zero in <CODE>BC</CODE> and <CODE>UP</CODE>.
+
+</P>
+<P>
+Note that <CODE>tgoto</CODE> reverses the order of its operands: the horizontal
+position comes before the vertical position in the arguments to
+<CODE>tgoto</CODE>, even though the vertical position comes before the horizontal
+in the parameters of the <SAMP>`cm'</SAMP> string.  If you use <CODE>tgoto</CODE> with a
+command such as <SAMP>`AL'</SAMP> that takes one parameter, you must pass the
+parameter to <CODE>tgoto</CODE> as the "vertical position".
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_1.html">previous</A>, <A HREF="termcap_3.html">next</A>, <A HREF="termcap_8.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

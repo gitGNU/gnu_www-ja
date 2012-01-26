@@ -1,0 +1,135 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/nana.texi on 6 November 1998 -->
+
+<TITLE>GNU Nana: improved support for assertions and logging in C and C++ - Configure</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_7.html">previous</A>, <A HREF="nana_9.html">next</A>, <A HREF="nana_42.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC8" HREF="nana_toc.html#TOC8">Configure</A></H2>
+<P>
+Nana uses a standard GNU <CODE>autoconf</CODE> generated <CODE>configure</CODE>
+script. The <CODE>configure</CODE> script checks the setup on your machine and
+then generates the appropriate Makefiles. Some of the things checked by
+configure include:
+
+</P>
+
+<OL>
+<LI>Which compiler, compiler flags and libraries to use, e.g. you
+
+might need to include a <CODE>-lposix</CODE> flag to the linker to build programs
+on your machine.
+<LI>Which header (.h) files are available on this machine, e.g. is
+
+ <CODE>unistd.h</CODE> available on this machine.
+<LI>Where to install programs, header file, man pages, etc.
+
+</OL>
+
+<P>
+In addition <SAMP>`configure'</SAMP> uses the host architecture and operating system
+to generate the <SAMP>`nana-config.h'</SAMP> file. This file contains some macro
+definitions which define how nana works on particular operating systems
+and hardware architectures. 
+
+</P>
+<P>
+For example on <SAMP>`i386'</SAMP> machines we would use the <SAMP>`asm("hlt")'</SAMP>
+instruction whenever an assertion fails, on a <SAMP>`sparc'</SAMP> we would use
+<SAMP>`asm("stp")'</SAMP>. Otherwise we would default to a plain C call to
+<SAMP>`abort()'</SAMP> If <SAMP>`configure'</SAMP> does not recognise your machine it
+uses plain C code.
+
+</P>
+<P>
+You may wish to change these defaults on installation, one method is to edit 
+a local copy of the <SAMP>`nana-config.h'</SAMP> file. Alternately you can define 
+the code yourself in the call to <SAMP>`configure'</SAMP>. For example
+to redefine the action we take when an error is detected by the <CODE>I</CODE>
+macro we can use: 
+
+</P>
+
+<PRE>
+I_DEFAULT_HANDLER="restart_system()" ./configure
+</PRE>
+
+<P>
+As well as simple calls to routines various other bits of information
+are passed off to the <SAMP>`I_DEFAULT_HANDLER'</SAMP> such as the expression
+that failure and a failure code. For example:
+
+</P>
+
+<PRE>
+% I_DEFAULT_HANDLER="restart(line,file,param)" ./configure
+</PRE>
+
+<P>
+The default for <SAMP>`I_DEFAULT_HANDLER'</SAMP> calls a function which prints a
+message and then dumps core.  Different behaviour on failure can be
+organised by setting the <SAMP>`I_DEFAULT'</SAMP> to <SAMP>`fast'</SAMP>, i.e. plain
+core dump or <SAMP>`verbose'</SAMP> which prints an error messsage and then does
+the core dump.
+
+</P>
+
+<PRE>
+% I_DEFAULT=fast ./configure   
+</PRE>
+
+<P>
+ 
+For nana the following examples may be useful:
+
+</P>
+
+<OL>
+<LI><CODE>./configure</CODE>
+
+Accept the default values for everything. In particular the files will
+be installed in:
+
+<SAMP>`/usr/local/{bin,include,lib,man,info}'</SAMP>
+
+<LI><CODE>./configure --prefix=~project/tools</CODE>
+
+Install the files into:
+
+<SAMP>`~project/tools/{bin,include,lib,man,info}'</SAMP>
+
+<LI><CODE>./configure --bindir=~project/bin --libdir=~/project/lib \<BR>
+
+--includedir=~/project/headers --infodir=/usr/local/info \<BR>
+--mandir=~/project/doc</CODE>
+
+The install directory for program (<SAMP>`bin'</SAMP>), etc can all be set with
+command line arguments to<SAMP>`configure'</SAMP>.
+
+<LI><CODE>CC=xacc LIBS=-lposix ./configure sun3</CODE>
+
+If the defaults chosen by <SAMP>`configure'</SAMP> are not correct you can
+override them by setting variables such as <CODE>CC</CODE> before calling
+ <SAMP>`configure'</SAMP>. The <SAMP>`sun3'</SAMP> argument is used to identify the
+machine we are running on and may be necessary on some machines.
+
+<LI><CODE>./configure --help</CODE>
+
+And of course when in doubt ask for help.
+</OL>
+
+<P>
+For even more details see the file <SAMP>`INSTALL.con'</SAMP> which contains the
+generic instructions for use with <SAMP>`autoconf'</SAMP> generated
+<SAMP>`configure'</SAMP> scripts.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_7.html">previous</A>, <A HREF="nana_9.html">next</A>, <A HREF="nana_42.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+</BODY>
+</HTML>

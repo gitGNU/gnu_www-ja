@@ -1,0 +1,97 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; Linux 2.2.12-20 i586) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFCC99" link="#0000EF" vlink="#51188E" alink="#FF0000">
+<a href="onlyfile.html">[ &lt; ]</a><a href="contenidos.html">[ || ]</a>[
+> ]
+<br>&nbsp;
+<h1>
+SET UID&nbsp; y GID a ficheros y directorios.</h1>
+&nbsp;
+<blockquote>Hacer SET UID y GID a ficheros y directorios, generalmente
+a estos &uacute;ltimos, permitir&aacute; una "herencia" de caracter&iacute;sticas
+del directorio anterior al siguiente, y todos los ficheros/directorios
+que se generen/cree/copien en los directorios SET GID, tendr&aacute;n las
+caracter&iacute;sticas del directorio padre.
+<p>Generalmente se permite GID para&nbsp; que los usuarios de un grupo
+puedan trabajar con los ficheros de ese mismo grupo, UID podr&aacute; hacer
+cambiar por otra persona del GRUPO el due&ntilde;o del fichero y los permisos,
+si tiene activo la opci&oacute;n "pinchable"
+<p>SET GID es una opci&oacute;n interesante si MUCHOS USUARIOS van a acceder
+a un sistema de almacenamiento com&uacute;n, bien sea SAMBA, FTP, HTTP,
+Bases de Datos...
+<p>Ejemplo:
+<p>[tutorial@Wakitaki tutorial]$ mkdir EJEMPLO
+<br>[tutorial@Wakitaki tutorial]$ vdir
+<br>.
+<br>&nbsp;4 drwxr-xr-x&nbsp;&nbsp; 2 tutorial tutorial&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4096 Dec 31 13:48 EJEMPLO
+<br>.
+<br>[tutorial@Wakitaki tutorial]$ su root
+<br>Password: ******
+<br>[root@Wakitaki tutorial]# chown nobody.users EJEMPLO/
+<br>[root@Wakitaki tutorial]# vdir
+<br>.
+<br>4 drwxrwxrwx&nbsp;&nbsp; 2 nobody&nbsp;&nbsp; users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4096 Dec 31 13:48 EJEMPLO
+<br>.
+<br>[root@Wakitaki tutorial]#&nbsp; chmod g+s EJEMPLO
+<br>[root@Wakitaki tutorial]#&nbsp; vdir
+<br>.
+<br>4 drwxrwsrwx&nbsp;&nbsp; 2 nobody&nbsp;&nbsp; users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4096 Dec 31 13:48 EJEMPLO
+<br>.
+<br>Por defecto: NING&Uacute;N USUARIO que no pertenezca AL GRUPO podr&aacute;
+trabajar con los ficheros:
+<br>LOS USUARIOS DEL GRUPO podr&aacute;n trabajar on los ficheros dependiendo
+de sus atributos que tengan los usuarios.
+<p>SAMBA, FTP, HTTP... tiene caracter&iacute;sticas especiales que no se
+rigen por estas normas y las complementan enriqueciendolas.
+<p>Si dentro de EJEMPLOS varios usuarios crearan ficheros y directorios
+los siguientes ficheros:
+<p>[tutorial@Wakitaki tutorial]$ cd EJEMPLO/
+<br>[tutorial@Wakitaki EJEMPLO]$ vdir
+<br>total 52
+<br>&nbsp;&nbsp; 4 drwxr-sr-x&nbsp;&nbsp; 2 angel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4096 Dec 31 14:07 <font color="#000099">direct-of-angel</font>
+<br>&nbsp;&nbsp; 4 drwxr-sr-x&nbsp;&nbsp; 2 carlos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4096 Dec 31 14:05 <font color="#000099">direct-of-carlos</font>
+<br>&nbsp;&nbsp; 4 drwxr-sr-x&nbsp;&nbsp; 2 javier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4096 Dec 31 14:23 <font color="#000099">direct-of-javier</font>
+<br>&nbsp;&nbsp; 4 drwxr-sr-x&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4096 Dec 31 14:22 <font color="#000099">direct-of-root</font>
+<br>&nbsp;&nbsp; 4 drwxr-sr-x&nbsp;&nbsp; 2 tutorial&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4096 Dec 31 14:41 <font color="#000099">direct-of-tutorial</font>
+<br><font color="#FF0000">&nbsp;&nbsp; 4 -rw-r-Sr--&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1414 Dec 31 14:33 information.doc</font>
+<br>&nbsp;&nbsp; 4 drwxr-sr-x&nbsp;&nbsp; 3 angel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4096 Dec 31 14:08 <font color="#000099">privados</font>
+<br>&nbsp;&nbsp; 4 -rw-r-Sr--&nbsp;&nbsp; 1 angel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1408 Dec 31 14:33 senders.wpd
+<br>&nbsp;&nbsp; 4 drwxr-sr-x&nbsp;&nbsp; 2 tutorial&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4096 Dec 31 14:48 <font color="#000099">tras-tras</font>
+<br>&nbsp;&nbsp; 4 -rw-r-Sr--&nbsp;&nbsp; 1 ana&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1055 Dec 31 14:33 vendors.txt
+<br>&nbsp;&nbsp; 4 -rw-r-Sr--&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2464 Dec 31 14:34 winers.doc
+<br>&nbsp;&nbsp; 4 -rw-r-Sr--&nbsp;&nbsp; 1 tutorial&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 844 Dec 31 14:38
+xabout-us.txt
+<br>&nbsp;&nbsp; 4 -rw-r-Sr--&nbsp;&nbsp; 1 javier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1824 Dec 31 14:35 xfree86.doc
+<br>[tutorial@Wakitaki EJEMPLO]$
+<br>Ahora accedemos a EJEMPLO&nbsp; y creamos varios ficheros:
+<p>Al estar el directorio EJEMPLO con los atributos:&nbsp; d<font color="#003300">rwx</font><font color="#663366">rw</font><font color="#FF0000">s</font><font color="#330000">rwx,
+indicando </font><font color="#000000">la</font><font color="#FF0000"><font size=+3>s</font></font><font color="#000000">,
+que el directorio se encuentra SET GID, todos los ficheros que se creen
+en &eacute;l pertenceran al usuario y al grupo que indique el SET GID.</font>
+<p><font color="#000000">Como ejemplo hemos resaltado el fichero "information.doc"
+que lo ha creado root, y sin embargo el grupo es users, ejemplo claro para
+esta explicaci&oacute;n. :-)</font></blockquote>
+<a href="onlyfile.html">[ &lt; ]</a><a href="contenidos.html">[ || ]</a>[
+> ]
+</body>
+</html>

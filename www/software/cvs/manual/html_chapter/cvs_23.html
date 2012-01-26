@@ -1,0 +1,71 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Troubleshooting</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_22.html">previous</A>, <A HREF="cvs_24.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC152" HREF="cvs_toc.html#TOC152">Troubleshooting</A></H1>
+
+
+
+<H2><A NAME="SEC153" HREF="cvs_toc.html#TOC153">Magic branch numbers</A></H2>
+
+<P>
+Externally, branch numbers consist of an odd number of
+dot-separated decimal integers.  See section <A HREF="cvs_3.html#SEC8">Revision numbers</A>.  That is not the whole truth, however.  For
+efficiency reasons CVS sometimes inserts an extra 0
+in the second rightmost position (1.2.3 becomes
+1.2.0.3, 8.9.10.11.12 becomes 8.9.10.11.0.12 and so
+on).
+
+</P>
+<P>
+CVS does a pretty good job at hiding these so
+called magic branches, but in a few places the hiding
+is incomplete:
+
+</P>
+
+<UL>
+<LI>
+
+The magic branch number appears in the output from
+<CODE>cvs log</CODE>.
+
+<LI>
+
+You cannot specify a symbolic branch name to <CODE>cvs
+admin</CODE>.
+
+</UL>
+
+<P>
+You can use the <CODE>admin</CODE> command to reassign a
+symbolic name to a branch the way RCS expects it
+to be.  If <CODE>R4patches</CODE> is assigned to the branch
+1.4.2 (magic branch number 1.4.0.2) in file
+<TT>`numbers.c'</TT> you can do this:
+
+</P>
+
+<PRE>
+$ cvs admin -NR4patches:1.4.2 numbers.c
+</PRE>
+
+<P>
+It only works if at least one revision is already
+committed on the branch.  Be very careful so that you
+do not assign the tag to the wrong number.  (There is
+no way to see how the tag was assigned yesterday).
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_22.html">previous</A>, <A HREF="cvs_24.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

@@ -1,0 +1,222 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="Float%20Arithmetic">Float Arithmetic</a>,
+Next:<a rel=next accesskey=n href="Float-Comparison.html#Float%20Comparison">Float Comparison</a>,
+Previous:<a rel=previous accesskey=p href="Converting-Floats.html#Converting%20Floats">Converting Floats</a>,
+Up:<a rel=up accesskey=u href="Floating-point-Functions.html#Floating-point%20Functions">Floating-point Functions</a>
+<hr><br>
+
+<h3>Arithmetic Functions</h3>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_add</b><i> (mpf_t <var>rop</var>, mpf_t <var>op1</var>, mpf_t <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_add_ui</b><i> (mpf_t <var>rop</var>, mpf_t <var>op1</var>, unsigned long int <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set <var>rop</var> to <var>op1</var> + <var>op2</var>. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_sub</b><i> (mpf_t <var>rop</var>, mpf_t <var>op1</var>, mpf_t <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_ui_sub</b><i> (mpf_t <var>rop</var>, unsigned long int <var>op1</var>, mpf_t <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_sub_ui</b><i> (mpf_t <var>rop</var>, mpf_t <var>op1</var>, unsigned long int <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set <var>rop</var> to <var>op1</var> - <var>op2</var>. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_mul</b><i> (mpf_t <var>rop</var>, mpf_t <var>op1</var>, mpf_t <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_mul_ui</b><i> (mpf_t <var>rop</var>, mpf_t <var>op1</var>, unsigned long int <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set <var>rop</var> to <var>op1</var> times <var>op2</var>. 
+</td></tr>
+</table>
+
+<p>Division is undefined if the divisor is zero, and passing a zero divisor to the
+divide functions will make these functions intentionally divide by zero.  This
+lets the user handle arithmetic exceptions in these functions in the same
+manner as other arithmetic exceptions.
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_div</b><i> (mpf_t <var>rop</var>, mpf_t <var>op1</var>, mpf_t <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_ui_div</b><i> (mpf_t <var>rop</var>, unsigned long int <var>op1</var>, mpf_t <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_div_ui</b><i> (mpf_t <var>rop</var>, mpf_t <var>op1</var>, unsigned long int <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set <var>rop</var> to <var>op1</var>/<var>op2</var>. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_sqrt</b><i> (mpf_t <var>rop</var>, mpf_t <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_sqrt_ui</b><i> (mpf_t <var>rop</var>, unsigned long int <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set <var>rop</var> to the square root of <var>op</var>. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_pow_ui</b><i> (mpf_t <var>rop</var>, mpf_t <var>op1</var>, unsigned long int <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set <var>rop</var> to <var>op1</var> raised to the power <var>op2</var>. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_neg</b><i> (mpf_t <var>rop</var>, mpf_t <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set <var>rop</var> to -<var>op</var>. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_abs</b><i> (mpf_t <var>rop</var>, mpf_t <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set <var>rop</var> to the absolute value of <var>op</var>. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_mul_2exp</b><i> (mpf_t <var>rop</var>, mpf_t <var>op1</var>, unsigned long int <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set <var>rop</var> to <var>op1</var> times 2 raised to
+<var>op2</var>. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_div_2exp</b><i> (mpf_t <var>rop</var>, mpf_t <var>op1</var>, unsigned long int <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set <var>rop</var> to <var>op1</var> divided by 2 raised to
+<var>op2</var>. 
+</td></tr>
+</table>
+
+</body></html>
+

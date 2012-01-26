@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<TITLE>Hello World ! - GNU 프로젝트 - 자유 소프트웨어 재단 (FSF)</TITLE>
+<LINK REV="made" HREF="mailto:chsong@gnu.org">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#1F00FF" ALINK="#FF0000" VLINK="#9900DD">
+
+<A HREF="/graphics/gleesons.ko.html"><IMG SRC="/graphics/gleeson_head.jpg"
+   ALT=" [색채를 입힌 GNU 헤드 이미지]"
+   WIDTH="153" HEIGHT="128"></A>
+    
+[ <A HREF="/fun/jokes/helloworld.en.html">English</A>
+| <A HREF="/fun/jokes/helloworld.ko.html">Korean</A>
+]
+
+
+<H3>Hello World !</H3>
+
+<!-- When using this boilerplate, remember to replace the
+     "JokeTITLE" in both places above.
+     And if it's a song, not a joke, change that word in the Disclaimer.
+
+HERE IS THE BODY OF THE JOKE
+-->
+
+
+"Hello World"를 출력하는 코드를 나이와 직업에 따라서 어떻게 작성하는 지,
+그 유형을 한번 알아볼까요?
+
+
+<H4>고등학생</H4>
+ 
+<PRE>
+ 10 PRINT "HELLO WORLD"
+ 20 END
+ 
+</PRE>
+
+<h4>대학 1학년</h4>
+ 
+<PRE>
+ program Hello(input, output)
+ begin
+ writeln('Hello World')
+ end.
+ 
+</PRE>
+
+<H4>대학 4학년</h4>
+ 
+<PRE>
+ (defun hello
+ (print
+ (cons 'Hello (list 'World))))
+ 
+</PRE>
+
+<h4>초보 전문가</h4>
+ 
+<PRE>
+ #include &lt;stdio.h&gt;
+ 
+ void main(void)
+ {
+  char *message[] = {"Hello ", "World"};
+  int i;
+  for(i = 0; i &lt; 2; ++i)
+  printf("%s", message[i]);
+  printf("\n");
+ }
+ 
+</PRE>
+
+<H4>능숙한 전문가</h4>
+ 
+<PRE>
+ #include &lt;iostream.h&gt;
+ #include &lt;string.h&gt;
+ class string
+ {
+  private:
+   int size;
+   char *ptr;
+  public:
+   string() : size(0), ptr(new char('\0')) {}
+   string(const string &amp;s) : size(s.size)
+   {
+     ptr = new char[size + 1];
+     strcpy(ptr, s.ptr);
+   }
+   ~string()
+   {
+     delete [] ptr;
+   }
+   friend ostream &amp;operator &lt;&lt;(ostream &amp;, const string &amp;);
+   string &amp;operator=(const char *);
+ };
+								     
+ ostream &amp;operator&lt;&lt;(ostream &amp;stream, const string &amp;s)
+ {
+   return(stream &lt;&lt; s.ptr);
+ }
+ string &amp;string::operator=(const char *chrs)
+ {
+   if (this != &amp;chrs)
+   {
+     delete [] ptr;
+     size = strlen(chrs);
+     ptr = new char[size + 1];
+     strcpy(ptr, chrs);
+   }
+   return(*this);
+ }
+ int main()
+ {
+   string str;
+   str = "Hello World";
+   cout &lt;&lt; str &lt;&lt; endl;
+   return(0);
+ }
+ 
+</PRE>
+
+<h4>시스템 관리자</h4>
+ 
+<PRE>
+ #include &lt;stdio.h&gt;
+ #include &lt;stdlib.h&gt;
+ main()
+ {
+  char *tmp;
+  int i=0;
+  /* on y va bourin */
+  tmp=(char *)malloc(1024*sizeof(char));
+  while (tmp[i]="Hello Wolrd"[i++]);
+  /* Ooopps y'a une infusion ! */
+  i=(int)tmp[8];
+  tmp[8]=tmp[9];
+  tmp[9]=(char)i;
+  printf("%s\n",tmp);
+ }
+</PRE>
+
+<H4>초보 해커</h4>
+ 
+<PRE>
+ #!/usr/local/bin/perl
+ $msg="Hello, world.\n";
+ if ($#ARGV &gt;= 0) {
+     while(defined($arg=shift(@ARGV))) {
+         $outfilename = $arg;
+         open(FILE, "&gt;" . $outfilename) || die "Can't write $arg: $!\n";
+         print (FILE $msg);
+         close(FILE) || die "Can't close $arg: $!\n";
+     }
+ } else {
+     print ($msg);
+ }
+ 1;
+</PRE>
+
+<H4>노련한 해커</h4>
+ 
+<PRE>
+ #include &lt;stdio.h&gt;
+ #include &lt;string.h&gt;
+ #define S "Hello, World\n"
+ main(){exit(printf(S) == strlen(S) ? 0 : 1);}
+ 
+</PRE>
+
+<H4>능숙한 해커</h4>
+ 
+<PRE>
+ % cc -o a.out ~/src/misc/hw/hw.c
+ % a.out
+ Hello, world.
+ 
+</PRE>
+
+<H4>도사급 해커</h4>
+ 
+<PRE>
+ % cat
+ Hello, world.
+</PRE>
+
+<H4>초급 관리자 (기억하시나요?)</h4>
+ 
+<PRE>
+ 10 PRINT "HELLO WORLD"
+ 20 END
+ 
+</PRE>
+
+<H4>중간 관리자</h4>
+ 
+<PRE>
+ mail -s "Hello, world." bob@b12
+ Bob, could you please write me a program that prints "Hello, world."?
+ I need it by tomorrow.
+ ^D
+ 
+</PRE>
+
+<H4>고위 관리자</h4>
+ 
+<PRE>
+ % zmail jim
+ I need a "Hello, world." program by this afternoon.
+</PRE>
+
+<H4>최고 경영자</h4>
+ 
+<PRE>
+ % letter
+ letter: Command not found.
+ % mail
+ To: ^X ^F ^C
+ % help mail
+ help: Command not found.
+ % damn!
+ !: Event unrecognized
+ % logout
+</PRE>
+
+<P>
+GNU 유머 컬렉션에서 <A HREF="/fun/humor.ko.html">보다 다양한 유머들</A>을
+즐길 수 있습니다. 
+
+<H4>저작권에 대해서</H4>
+이 글은 FSF의 <A HREF="http://mail.gnu.org/">메일 아카이브</A>에서
+발췌한 것입니다. 
+
+<BR>
+따라서 자유 소프트웨어 재단은 이 글에 대한 저작권을 갖고 있지 않습니다. 
+
+<P>
+<!--
+  * If needed, change the copyright block at the bottom. In general, all pages
+    on the GNU web server should have the section about verbatim copying. Please
+    do NOT remove this without talking with the webmasters first.
+-->
+
+<HR>
+GNU 홈페이지의 <A HREF="/home.ko.html">메인 화면</A>으로 돌아갑니다. 
+
+<P>
+자유 소프트웨어 재단과 GNU 프로젝트에 대한 질문은 <A HREF="mailto:gnu@gnu.org">gnu@gnu.org</A>로 
+보내주시기 바랍니다. 
+
+<P>
+GNU에 대한 질문 이외에 홈페이지 자체에 대한 질문은 
+<A HREF="mailto:webmasters@gnu.org">webmasters@gnu.org</A>로 보내주시고, 
+그밖의 연락 방법에 대해서는 <A HREF="/home.ko.html#ContactInfo">연락처 안내</a> 부분을 
+참고하시기 바랍니다. 
+
+<P>
+최근 수정일:
+<!-- hhmts start -->
+ 8 Apr 2000 tower
+<!-- hhmts end -->
+<HR>
+</BODY>
+</HTML>

@@ -1,0 +1,313 @@
+<HTML>
+<HEAD>
+<!-- Created by texi2html 1.56k from ../bc.texi on 20 March 2001 -->
+
+<TITLE>bc Command Manual - Expressions</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_2.html">previous</A>, <A HREF="bc_4.html">next</A>, <A HREF="bc_10.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC8" HREF="bc_toc.html#TOC8">Expressions</A></H1>
+
+
+
+<H2><A NAME="SEC9" HREF="bc_toc.html#TOC9">About Expressions and Special Variables</A></H2>
+
+<P>
+The numbers are manipulated by expressions and statements.  Since
+the language was designed to be interactive, statements and expressions
+are executed as soon as possible.  There is no main program.  Instead,
+code is executed as it is encountered.  (Functions, discussed in
+detail later, are defined when encountered.)
+
+
+<P>
+A simple expression is just a constant. <CODE>bc</CODE> converts constants
+into internal decimal numbers using the current input base, specified by
+the variable <VAR>ibase</VAR>. (There is an exception in functions.)  The
+legal values of <VAR>ibase</VAR> are 2 through 16.  Assigning a value outside
+this range to <VAR>ibase</VAR> will result in a value of 2 or 16.  Input
+numbers may contain the characters 0-9 and A-F. (Note: They must be
+capitals.  Lower case letters are variable names.)  Single digit numbers
+always have the value of the digit regardless of the value of
+<VAR>ibase</VAR>. (i.e. A = 10.)  For multi-digit numbers, <CODE>bc</CODE>
+changes all input digits greater or equal to <VAR>ibase</VAR> to the value of
+<VAR>ibase</VAR>-1.  This makes the number <CODE>FFF</CODE> always be the largest
+3 digit number of the input base.
+
+
+<P>
+Full expressions are similar to many other high level languages.
+Since there is only one kind of number, there are no rules for mixing
+types.  Instead, there are rules on the scale of expressions.  Every
+expression has a scale.  This is derived from the scale of original
+numbers, the operation performed and in many cases, the value of the
+variable <VAR>scale</VAR>. Legal values of the variable <VAR>scale</VAR> are
+0 to the maximum number representable by a C integer.
+
+
+
+
+<H2><A NAME="SEC10" HREF="bc_toc.html#TOC10">Basic Expressions</A></H2>
+
+<P>
+In the following descriptions of legal expressions, "expr" refers to a
+complete expression and "<VAR>var</VAR>" refers to a simple or an array variable.
+A simple variable is just a 
+
+
+<P>
+<VAR>name</VAR>
+
+
+<P>
+and an array variable is specified as 
+
+
+<P>
+<VAR>name</VAR>[<VAR>expr</VAR>] 
+
+
+<P>
+Unless specifically mentioned the scale of the result is the maximum
+scale of the expressions involved.
+
+
+<DL COMPACT>
+
+<DT><CODE>- expr</CODE>
+<DD>
+The result is the negation of the expression.
+
+<DT><CODE>++ <VAR>var</VAR></CODE>
+<DD>
+The variable is incremented by one and the new value is the result of
+the expression.
+
+<DT><CODE>-- <VAR>var</VAR></CODE>
+<DD>
+The variable
+is decremented by one and the new value is the result of the
+expression.
+
+<DT><CODE><VAR>var</VAR> ++</CODE>
+<DD>
+ The result of the expression is the value of
+the variable and then the variable is incremented by one.
+
+<DT><CODE><VAR>var</VAR> --</CODE>
+<DD>
+The result of the expression is the value of the variable and then
+the variable is decremented by one.
+
+<DT><CODE>expr + expr</CODE>
+<DD>
+The result of the expression is the sum of the two expressions.
+
+<DT><CODE>expr - expr</CODE>
+<DD>
+The result of the expression is the difference of the two expressions.
+
+<DT><CODE>expr * expr</CODE>
+<DD>
+The result of the expression is the product of the two expressions.
+
+<DT><CODE>expr / expr</CODE>
+<DD>
+The result of the expression is the quotient of the two expressions.
+The scale of the result is the value of the variable <CODE>scale</CODE>
+
+<DT><CODE>expr % expr</CODE>
+<DD>
+The result of the expression is the "remainder" and it is computed in the
+following way.  To compute a%b, first a/b is computed to <VAR>scale</VAR>
+digits.  That result is used to compute a-(a/b)*b to the scale of the
+maximum of <VAR>scale</VAR>+scale(b) and scale(a).  If <VAR>scale</VAR> is set
+to zero and both expressions are integers this expression is the
+integer remainder function.
+
+<DT><CODE>expr ^ expr</CODE>
+<DD>
+The result of the expression is the value of the first raised to the
+second. The second expression must be an integer.  (If the second
+expression is not an integer, a warning is generated and the
+expression is truncated to get an integer value.)  The scale of the
+result is <VAR>scale</VAR> if the exponent is negative.  If the exponent
+is positive the scale of the result is the minimum of the scale of the
+first expression times the value of the exponent and the maximum of
+<VAR>scale</VAR> and the scale of the first expression.  (e.g. scale(a^b)
+= min(scale(a)*b, max(<VAR>scale</VAR>, scale(a))).)  It should be noted
+that expr^0 will always return the value of 1.
+
+<DT><CODE>( expr )</CODE>
+<DD>
+This alters the standard precedence to force the evaluation of the
+expression.
+
+<DT><CODE><VAR>var</VAR> = expr</CODE>
+<DD>
+The variable is assigned the value of the expression.
+
+<DT><CODE><VAR>var</VAR> &#60;op&#62;= expr</CODE>
+<DD>
+This is equivalent to "<VAR>var</VAR> = <VAR>var</VAR> &#60;op&#62; expr" with the
+exception that the "<VAR>var</VAR>" part is evaluated only once.  This can
+make a difference if "<VAR>var</VAR>" is an array.
+</DL>
+
+
+
+<H2><A NAME="SEC11" HREF="bc_toc.html#TOC11">Relational Expressions</A></H2>
+
+<P>
+Relational expressions are a special kind of expression that always
+evaluate to 0 or 1, 0 if the relation is false and 1 if the relation is
+true.  These may appear in any legal expression.  (POSIX <CODE>bc</CODE>
+requires that relational expressions are used only in <CODE>if</CODE>,
+<CODE>while</CODE>, and <CODE>for</CODE> statements and that only one relational
+test may be done in them.)  The relational operators are
+
+
+<DL COMPACT>
+
+<DT><CODE>expr1 &#60; expr2</CODE>
+<DD>
+The result is 1 if expr1 is strictly less than expr2.
+
+<DT><CODE>expr1 &#60;= expr2</CODE>
+<DD>
+The result is 1 if expr1 is less than or equal to expr2.
+
+<DT><CODE>expr1 &#62; expr2</CODE>
+<DD>
+The result is 1 if expr1 is strictly greater than expr2.
+
+<DT><CODE>expr1 &#62;= expr2</CODE>
+<DD>
+The result is 1 if expr1 is greater than or equal to expr2.
+
+<DT><CODE>expr1 == expr2</CODE>
+<DD>
+The result is 1 if expr1 is equal to expr2.
+
+<DT><CODE>expr1 != expr2</CODE>
+<DD>
+The result is 1 if expr1 is not equal to expr2.
+</DL>
+
+
+
+<H2><A NAME="SEC12" HREF="bc_toc.html#TOC12">Boolean Expressions</A></H2>
+
+<P>
+Boolean operations are also legal.  (POSIX <CODE>bc</CODE> does NOT have
+boolean operations). The result of all boolean operations are 0 and 1
+(for false and true) as in relational expressions.  The boolean
+operators are:
+
+
+<DL COMPACT>
+
+<DT><CODE>!expr</CODE>
+<DD>
+The result is 1 if expr is 0.
+
+<DT><CODE>expr &#38;&#38; expr</CODE>
+<DD>
+The result is 1 if both expressions are non-zero.
+
+<DT><CODE>expr || expr</CODE>
+<DD>
+The result is 1 if either expression is non-zero.
+</DL>
+
+
+
+<H2><A NAME="SEC13" HREF="bc_toc.html#TOC13">Precedence</A></H2>
+
+<P>
+The expression precedence is as follows: (lowest to highest)
+
+
+
+<PRE>
+|| operator, left associative
+&#38;&#38; operator, left associative
+! operator, nonassociative
+Relational operators, left associative
+Assignment operator, right associative
++ and - operators, left associative
+*, / and % operators, left associative
+^ operator, right associative
+unary - operator, nonassociative
+++ and -- operators, nonassociative
+</PRE>
+
+<P>
+This precedence was chosen so that POSIX compliant <CODE>bc</CODE> programs
+will run correctly. This will cause the use of the relational and
+logical operators to have some unusual behavior when used with
+assignment expressions.  Consider the expression:
+
+
+
+<PRE>
+a = 3 &#60; 5
+</PRE>
+
+<P>
+Most C programmers would assume this would assign the result of "3 &#60;
+5" (the value 1) to the variable "a".  What this does in <CODE>bc</CODE> is
+assign the value 3 to the variable "a" and then compare 3 to 5.  It is
+best to use parentheses when using relational and logical operators
+with the assignment operators.
+
+
+
+
+<H2><A NAME="SEC14" HREF="bc_toc.html#TOC14">Special Expressions</A></H2>
+
+<P>
+There are a few more special expressions that are provided in
+<CODE>bc</CODE>.  These have to do with user-defined functions and standard
+functions.  They all appear as
+"<VAR>name</VAR><CODE>(</CODE><VAR>parameters</VAR><CODE>)</CODE>".  See section <A HREF="bc_5.html#SEC17">Functions</A>, for
+user-defined functions.  The standard functions are:
+
+
+<DL COMPACT>
+
+<DT><CODE>length ( expression )</CODE>
+<DD>
+The value of the length function is the number of significant digits in the
+expression.
+
+<DT><CODE>read ( )</CODE>
+<DD>
+The <CODE>read</CODE> function (an extension) will read a number from the
+standard input, regardless of where the function occurs.  Beware, this
+can cause problems with the mixing of data and program in the standard
+input.  The best use for this function is in a previously written
+program that needs input from the user, but never allows program code to
+be input from the user.  The value of the <CODE>read</CODE> function is the
+number read from the standard input using the current value of the
+variable <VAR>ibase</VAR> for the conversion base.
+
+<DT><CODE>scale ( expression )</CODE>
+<DD>
+The value of the <CODE>scale</CODE> function is the number of digits after the
+decimal point in the expression.
+
+<DT><CODE>sqrt ( expression )</CODE>
+<DD>
+The value of the <CODE>sqrt</CODE> function is the square root of the
+expression.  If the expression is negative, a run time error is
+generated.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_2.html">previous</A>, <A HREF="bc_4.html">next</A>, <A HREF="bc_10.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+</BODY>
+</HTML>

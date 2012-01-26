@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated January 8, 2012.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+2011, 2012 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 0.01, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: System Portability</title>
+
+<meta name="description" content="GNU Coding Standards: System Portability">
+<meta name="keywords" content="GNU Coding Standards: System Portability">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Writing-C.html#Writing-C" rel="up" title="Writing C">
+<link href="CPU-Portability.html#CPU-Portability" rel="next" title="CPU Portability">
+<link href="Names.html#Names" rel="previous" title="Names">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="System-Portability"></a>
+<div class="header">
+<p>
+Next: <a href="CPU-Portability.html#CPU-Portability" accesskey="n" rel="next">CPU Portability</a>, Previous: <a href="Names.html#Names" accesskey="p" rel="previous">Names</a>, Up: <a href="Writing-C.html#Writing-C" accesskey="u" rel="up">Writing C</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Portability-between-System-Types"></a>
+<h3 class="section">5.5 Portability between System Types</h3>
+<a name="index-portability_002c-between-system-types"></a>
+
+<p>In the Unix world, &ldquo;portability&rdquo; refers to porting to different Unix
+versions.  For a GNU program, this kind of portability is desirable, but
+not paramount.
+</p>
+<p>The primary purpose of GNU software is to run on top of the GNU kernel,
+compiled with the GNU C compiler, on various types of <small>CPU</small>.  So the
+kinds of portability that are absolutely necessary are quite limited.
+But it is important to support Linux-based GNU systems, since they
+are the form of GNU that is popular.
+</p>
+<p>Beyond that, it is good to support the other free operating systems
+(*BSD), and it is nice to support other Unix-like systems if you want
+to.  Supporting a variety of Unix-like systems is desirable, although
+not paramount.  It is usually not too hard, so you may as well do it.
+But you don&rsquo;t have to consider it an obligation, if it does turn out to
+be hard.
+</p>
+<a name="index-autoconf"></a>
+<p>The easiest way to achieve portability to most Unix-like systems is to
+use Autoconf.  It&rsquo;s unlikely that your program needs to know more
+information about the host platform than Autoconf can provide, simply
+because most of the programs that need such knowledge have already been
+written.
+</p>
+<p>Avoid using the format of semi-internal data bases (e.g., directories)
+when there is a higher-level alternative (<code>readdir</code>).
+</p>
+<a name="index-non_002dPOSIX-systems_002c-and-portability"></a>
+<p>As for systems that are not like Unix, such as MSDOS, Windows, VMS, MVS,
+and older Macintosh systems, supporting them is often a lot of work.
+When that is the case, it is better to spend your time adding features
+that will be useful on GNU and GNU/Linux, rather than on supporting
+other incompatible systems.
+</p>
+<p>If you do support Windows, please do not abbreviate it as &ldquo;win&rdquo;.  In
+hacker terminology, calling something a &ldquo;win&rdquo; is a form of praise.
+You&rsquo;re free to praise Microsoft Windows on your own if you want, but
+please don&rsquo;t do this in GNU packages.  Instead of abbreviating
+&ldquo;Windows&rdquo; to &ldquo;win&rdquo;, you can write it in full or abbreviate it to
+&ldquo;woe&rdquo; or &ldquo;w&rdquo;.  In GNU Emacs, for instance, we use &lsquo;<samp>w32</samp>&rsquo; in
+file names of Windows-specific files, but the macro for Windows
+conditionals is called <code>WINDOWSNT</code>.
+</p>
+<p>It is a good idea to define the &ldquo;feature test macro&rdquo;
+<code>_GNU_SOURCE</code> when compiling your C files.  When you compile on GNU
+or GNU/Linux, this will enable the declarations of GNU library extension
+functions, and that will usually give you a compiler error message if
+you define the same function names in some other way in your program.
+(You don&rsquo;t have to actually <em>use</em> these functions, if you prefer
+to make the program more portable to other systems.)
+</p>
+<p>But whether or not you use these GNU extensions, you should avoid
+using their names for any other meanings.  Doing so would make it hard
+to move your code into other GNU programs.
+</p>
+<hr>
+<div class="header">
+<p>
+Next: <a href="CPU-Portability.html#CPU-Portability" accesskey="n" rel="next">CPU Portability</a>, Previous: <a href="Names.html#Names" accesskey="p" rel="previous">Names</a>, Up: <a href="Writing-C.html#Writing-C" accesskey="u" rel="up">Writing C</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<p>
+
+
+</p>
+</body>
+</html>

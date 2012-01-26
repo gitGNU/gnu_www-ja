@@ -1,0 +1,173 @@
+<html lang="en">
+<head>
+<title>Paths and Subpaths - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="C-Programming.html#C-Programming" title="C Programming">
+<link rel="prev" href="Sample-C-Drawings.html#Sample-C-Drawings" title="Sample C Drawings">
+<link rel="next" href="Drawing-on-a-Page.html#Drawing-on-a-Page" title="Drawing on a Page">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Paths-and-Subpaths"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Drawing-on-a-Page.html#Drawing-on-a-Page">Drawing on a Page</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Sample-C-Drawings.html#Sample-C-Drawings">Sample C Drawings</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="C-Programming.html#C-Programming">C Programming</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.2.5 Simple paths and compound paths</h4>
+
+<p>The most sophisticated sort of graphical object that <code>libplot</code> can
+draw is a <em>path</em>.  In this section we explain the fine details of
+constructing paths.  The other three sorts of graphical object (text
+strings, marker symbols, and points [i.e., pixels]) are discussed
+elsewhere.
+
+   <p>As in Postscript, paths may be simple or compound.  A&nbsp;simple<!-- /@w --> path is
+a contiguous sequence of line segments, circular arcs, elliptic arcs,
+quadratic Bezier curves, and/or cubic Bezier curves.  A&nbsp;simple<!-- /@w --> path
+may also be a circle, an ellipse, or a rectangle.  A&nbsp;compound<!-- /@w --> path
+consists of one or more simple paths, which must be <em>nested</em>: they
+should not intersect each other.  <em>This is more restrictive than in
+Postscript.</em>
+
+   <p><code>libplot</code>'s drawing model is significantly different from
+Postscript's, and is more user-friendly.  Before drawing a path by
+invoking <code>libplot</code> operations, you do not need to call any special
+function.  You would specify the attributes of the path before drawing,
+however.  Attributes include pen color, line type, line width, cap type,
+join type, and miter limit.  If&nbsp;the<!-- /@w --> path is to be filled, the fill
+color and fill rule would be specified too.  All these attributes are
+`modal': their values are preserved from path to path.
+
+   <p>In principle, you would end any path you construct, and request that it
+be drawn on the graphics display, by invoking the <code>endpath</code>
+operation.  But <code>endpath</code> is called automatically when any
+path-related attribute is changed, when <code>move</code> is called to change
+the graphics cursor position, and before any other object is constructed
+and drawn.  It&nbsp;is<!-- /@w --> also called at the end of each page of graphics,
+i.e., when <code>closepl</code> is invoked.  So invoking <code>endpath</code>
+explicitly is usually unnecessary.  This is quite different from
+Postscript, where an explicit command to stroke or fill a path is
+required.
+
+   <p><code>libplot</code> also differs from Postscript in the way it constructs and
+draws compound paths.  In <code>libplot</code>, you would end each of the
+constituent simple paths of a compound path by invoking the
+<code>endsubpath</code> operation.  After all simple paths are drawn, the
+compound path as a whole would be drawn by invoking <code>endpath</code>. 
+After each of the calls to <code>endsubpath</code>, you are allowed to call
+<code>move</code> to reposition the graphics cursor, prior to beginning the
+next simple path.  Immediately after an invocation of <code>endsubpath</code>,
+a call to <code>move</code> will not automatically invoke <code>endpath</code>.
+
+   <p>The following sample program uses a Postscript Plotter to produce
+Postscript output.  It draws a typical compound path, which consists of
+17&nbsp;simple<!-- /@w --> paths.  The first simple path is a large box.  This box
+contains 7&nbsp;circles<!-- /@w -->, nested within each other, and a separate set of
+7&nbsp;circles<!-- /@w --> that are also nested within each other.  Within each of
+the two sets of nested circles is a pair of contiguous line segments,
+which make up an additional simple path.  The compound path is drawn in
+green, and it is filled.  The fill color is light blue.
+
+<pre class="example">     #include &lt;stdio.h&gt;
+     #include &lt;plot.h&gt;
+     
+     int main ()
+     {
+       int i, j;
+       plPlotter *plotter;
+       plPlotterParams *plotter_params;
+     
+       /* set a Plotter parameter */
+       plotter_params = pl_newplparams ();
+       pl_setplparam (plotter_params, "PAGESIZE", "letter");
+       /* create a Postscript Plotter that writes to standard output */
+       plotter = pl_newpl_r ("ps", stdin, stdout, stderr, plotter_params);
+       /* open Plotter, i.e. begin a page of graphics */
+       pl_openpl_r (plotter);
+     
+       pl_fspace_r (plotter, 0.0, 0.0, 1000.0, 1000.0); /* set coor system */
+       pl_flinewidth_r (plotter, 5.0);  /* set line thickness */
+       pl_pencolorname_r (plotter, "green");
+       pl_fillcolorname_r (plotter, "light blue");
+       pl_filltype_r (plotter, 1);      /* do filling, full strength */
+       pl_erase_r (plotter);            /* erase graphics display */
+     
+       /* draw a compound path consisting of 17 simple paths */
+     
+       /* draw the first simple path: a large box */
+       pl_orientation_r (plotter, 1);
+       pl_fbox_r (plotter, 50.0, 50.0, 950.0, 950.0);
+       pl_endsubpath_r (plotter);
+       for (i = 0; i &lt; 2; i++)
+         /* draw 8 simple paths that are nested inside the box */
+         {
+           /* first, draw 7 simple paths: nested circles */
+           for (j = 9; j &gt;= 3; j--)
+             {
+               pl_orientation_r (plotter, j % 2 ? -1 : 1);
+               pl_fcircle_r (plotter, 250.0 + 500 * i, 500.0, j * 20.0);
+               pl_endsubpath_r (plotter);
+             }
+           /* draw an open simple path comprising two line segments */
+           pl_fmove_r (plotter, 225.0 + 500 * i, 475.0);
+           pl_fcont_r (plotter, 250.0 + 500 * i, 525.0);
+           pl_fcont_r (plotter, 275.0 + 500 * i, 475.0);
+           pl_endsubpath_r (plotter);
+         }
+       /* formally end the compound path (not actually necessary) */
+       pl_endpath_r (plotter);
+     
+       /* close Plotter, i.e. end page of graphics */
+       pl_closepl_r (plotter);
+       /* delete Plotter */
+       if (pl_deletepl_r (plotter) &lt; 0)
+         {
+           fprintf (stderr, "Couldn't delete Plotter\n");
+           return 1;
+         }
+       return 0;
+     }
+</pre>
+   <p>As you will see if you run this program, the filling of the compound
+path takes place in a visually pleasing way: alternating annular regions
+are filled.  That is because <code>libplot</code>'s default fill rule is
+"even-odd".  Since a compound path's constituent simple paths must
+always be nested, it is easy for <code>libplot</code> to determine which
+regions between them are `even' and which are `odd'.  It&nbsp;is<!-- /@w --> the
+latter that are filled.
+
+   <p>The above program includes many invocations of <code>orientation</code>.  The
+value of the modal `orientation' attribute (1,&nbsp;meaning<!-- /@w -->
+counterclockwise, or&nbsp;&minus;1<!-- /@w -->, meaning clockwise) applies to
+subsequently drawn boxes, circles, and ellipses.  If "even-odd" filling
+is used, they have no effect.  But&nbsp;if<!-- /@w --> the fill rule for the compound
+path is set to "nonzero-winding" by an initial call to <code>fillmod</code>,
+these calls to <code>orientation</code> will arrange matters so that
+alternating annular regions are filled, just as if "even-odd" filling
+were used.
+
+   <p>If the preceding paragraph is mysterious, it would be wise to consult a
+good book on Postscript programming, or any other reference on the
+subject of `winding numbers'.
+
+   </body></html>
+

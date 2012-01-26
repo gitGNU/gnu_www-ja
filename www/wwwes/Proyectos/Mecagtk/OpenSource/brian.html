@@ -1,0 +1,427 @@
+<HTML>
+<HEAD>
+<META NAME="DC.title" CONTENT="Open Sources: Voices from the Open Source
+Revolution">
+<META NAME="DC.creator" CONTENT="Brian Behlendorf">
+<META NAME="DC.publisher" CONTENT="O'Reilly & Associates, Inc.">
+<META NAME="DC.date" CONTENT="1999-03-29">
+<META NAME="DC.type" CONTENT="Text.Article">
+<META NAME="DC.format" CONTENT="text/html" SCHEME="MIME">
+<META NAME="DC.source" CONTENT="1-56592-582-3" SCHEME="ISBN">
+<META NAME="DC.language" CONTENT="en-US">
+<META NAME="GENERATOR" CONTENT="Adobe FrameMaker 5.5/HTML Export Filter">
+<META NAME="Type" CONTENT="SampChapDAO">
+<TITLE>Open Sources: Voices from the Open Source Revolution
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" LINK="#AA0000" VLINK="#000077">
+<table BORDER="0" CELLPADDING="0" CELLSPACING="0" width="90%">
+
+<tr>
+<td colspan=2>
+</td>
+</tr>
+
+<tr>
+<td width="25%" valign="TOP">
+
+<A HREF="http://www.oreilly.com/catalog/opensources/">
+<img hspace=10 vspace=10 src="opensources.s.gif"
+alt="Open Sources: Voices from the Open Source Revolution" 
+align=left valign=top border=0>
+</a>
+</td>
+<td height="105" valign="TOP">
+<br>
+<H2>Open Sources: Voices from the Open Source Revolution
+</h2>
+<font size="-1">
+
+<br>1st Edition January 1999
+<br>1-56592-582-3, Order Number: 5823
+<br>280 pages, $24.95
+</font>
+</td>
+
+</table>
+
+<hr size=1 noshade>
+
+<br>
+
+<!-- Sample chapter begins here -->
+
+<LINK REL="STYLESHEET" HREF="opensrc.css" CHARSET="ISO-8859-1" TYPE="text/css">
+<TITLE>Open Source as a Business Strategy</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<H1 class="ChapterTitle" align="right">Open Source as a Business Strategy</H1>
+<H4 CLASS="ChapterAuthor" align="right">Brian Behlendorf</H4>
+<P CLASS="Body">
+Over 1997 and 1998, open-source software such as Linux, FreeBSD, Apache, and Perl started to attract widespread attention from a new audience: engineering managers, executives, industry analysts, and investors. </P>
+<P CLASS="Body">
+Most of the developers of such software welcomed this attention: not only does it boost the pride of developers, it also allows them to justify their efforts (now increasingly related to their salaried positions) to upper management and their peers. </P>
+<P CLASS="Body">
+But this new audience has hard questions: </P>
+<UL>
+<LI CLASS="ListBullet">
+Is this really a new way of building software? </LI>
+<LI CLASS="ListBullet">
+Are each of the successes in open-source software a fluke of circumstance, or is there a repeatable methodology to all this? </LI>
+<LI CLASS="ListBullet">
+Why on earth would I allocate scarce financial resources to a project where my competitor would get to use the same code, for free? </LI>
+<LI CLASS="ListBullet">
+How reliant is this whole development model upon the hobbyist hacker or computer science student who just happens to put the right bits together to make something work well? </LI>
+<LI CLASS="ListBullet">
+Does this threaten or obsolesce my company's current methods for building software and doing business? </LI>
+</UL>
+<P CLASS="Body">
+I suggest that the open-source model is indeed a reliable model for conducting software development for commercial purposes. I will attempt to lay out the preconditions for such a project, what types of projects make sense to pursue in this model, and the steps a company should go through to launch such a project. This essay is intended for companies who either release, sell, and support software commercially, or for technology companies that use a given piece of software as a core component to their business processes. </P>
+<H2 CLASS="HeadA">
+It's All About Platforms </H2>
+<P CLASS="Body">
+While I'm indeed a big fan of the open-source approach to software development, there are definitely situations where an open-source approach would not benefit the parties involved. There are strong tradeoffs to this model, and returns are never guaranteed. A proper analysis requires asking yourself what your goals as a company are in the long term, as well as what your competitive advantages are today. </P>
+<P CLASS="Body">
+Let's start first with a discussion about Application Programming Interfaces (APIs), platforms, and standards. For the purposes of this essay, I'll wrap APIs (such as the Apache server API for building custom modules), on-the-wire protocols like HTTP, and operating system conventions (such as the way Linux organizes system files, or NT servers are administered) into the generic term &quot;platform.&quot;</P>
+<P CLASS="Body">
+Win32, the collection of routines and facilities provided and defined by Microsoft for all Windows 95 and NT application developers, is a platform. If you intend to write an application for people to use on Windows, you must use this API. If you intend, as IBM once did with OS/2, to write an operating system which can run programs intended for MSWindows, you must implement the Win32 API in its entirety, as that's what Windows applications expect to be able to use. </P>
+<P CLASS="Body">
+Likewise, the Common Gateway Interface, or &quot;CGI,&quot; is a platform. The CGI specification allows web server developers to write scripts and programs that run behind a web server. CGI is a much much simpler platform than Win32, and of course does much less, but its existence was important to the web server market because it allowed application developers to write portable code, programs that would run behind any web server. Besides a few orders of magnitude in complexity, a key difference between CGI and Win32 was that no one really owned the CGI specification; it was simply something the major web servers implemented so that they could run each others' CGI scripts. Only after several years of use was it deemed worthwhile to define the CGI specification as an informational Request for Comments (RFCs) at the Internet Engineering Task Force (IETF). </P>
+<P CLASS="Body">
+A platform is what essentially defines a piece of software, any software, be it a web browser like Netscape, or be it Apache. Platforms enable people to build or use one piece of software on top of another, and are thus essential not just for the Internet space, where common platforms like HTTP and TCP/IP are what really facilitated the Internet's explosive growth, but are becoming more and more essential to consider within a computer environment, both in a server context and in an end-user client context. </P>
+<P CLASS="Body">
+In the Apache project, we were fortunate in that early on we developed an internal API to allow us to distinguish between the core server functionality (that of handling the TCP connections, child process management, and basic HTTP request handling) and almost all other higher-level functionality like logging, a module for CGI, server-side includes, security configuration, etc. Having a really powerful API has also allowed us to hand off other big pieces of functionality, such as mod_perl (an Apache module that bundles a Perl interpreter into Apache) and mod_jserv (which implements the Java Servlet API), to separate groups of committed developers. This freed the core development group from having to worry about building a &quot;monster&quot; to support these large efforts in addition to maintaining and improving the core of the server. </P>
+<P CLASS="Body">
+There are businesses built upon the model of owning software platforms. Such a business can charge for all use of this platform, whether on a standard software installation basis, or a pay-per-use basis, or perhaps some other model. Sometimes platforms are enforced by copyright; other times platforms are obfuscated by the lack of a written description for public consumption; other times they are evolved so quickly, sometimes other than for technical reasons, that others who attempt to provide such a platform fail to keep up and are perceived by the market as &quot;behind&quot; technologically speaking, even though it's not a matter of programming. </P>
+<P CLASS="Body">
+Such a business model, while potentially beneficial in the short term for the company who owns such a platform, works against the interests of every other company in the industry, and against the overall rate of technological evolution. Competitors might have better technology, better services, or lower costs, but are unable to use those benefits because they don't have access to the platform. On the flip side, customers can become reliant upon a platform and, when prices rise, be forced to decide between paying a little more in the short run to stick with the platform, or spending a large quantity of money to change to a different platform, which may save them money in the long run. </P>
+<P CLASS="Body">
+Computers and automation have become so ingrained and essential to day-to-day business that a sensible business should not rely on a single vendor to provide essential services. Having a choice of service means not just having the freedom to choose; a choice must also be affordable. The switching cost is an important aspect to this freedom to choose. Switching costs can be minimized if switching software does not necessitate switching platforms. Thus it is always in a customers' interests to demand that the software they deploy be based on non-proprietary platforms. </P>
+<P CLASS="Body">
+This is difficult to visualize for many people because classic economics, the supply and demand curves we were all taught in high school, are based on the notion that products for sale have a relatively scalable cost--that to sell ten times as much product, the cost of raw goods to a vendor typically rises somewhere on the order of ten times as well. No one could have foreseen the dramatic economy of scale that software exhibits, the almost complete lack of any direct correlation between the amount of effort it takes to produce a software product and the number of people who can thus purchase and use it. </P>
+<P CLASS="Body">
+A reference body of open-source software that implements a wire protocol or API is more important to the long-term health of that platform than even two or three independent non-open-source implementations. Why is this? Because a commercial implementation can always be bought by a competitor, removing it from the market as an alternative, and thus destroying the notion that the standard was independent. It can also serve as an academic frame of reference for comparing implementations and behaviors. </P>
+<P CLASS="Body">
+There are organizations like the IETF and the W3C who do a more-or-less excellent job of providing a forum for multiparty standards development. They are, overall, effective in producing high-quality architectures for the way things should work over the Internet. However, the long-term success of a given standard, and the widespread use of such a standard, are outside of their jurisdiction. They have no power to force member organizations to create software that implements the protocols they define faithfully. Sometimes, the only recourse is a body of work that shows why a specific implementation is correct. </P>
+<P CLASS="Body">
+For example, in December of 1996, AOL made a slight change to their custom HTTP proxy servers their customers use to access web sites. This &quot;upgrade&quot; had a cute little political twist to it: when AOL users accessed a web site using the Apache 1.2 server, at that time only a few months old and implementing the new HTTP/1.1 specification, they were welcomed with this rather informative message: </P>
+<BLOCKQUOTE CLASS="Quote">
+ UNSUPPORTED WEB VERSION </BLOCKQUOTE>
+<BLOCKQUOTE CLASS="Quote">
+The Web address you requested is not available in a version supported by AOL. This is an issue with the Web site, and not with AOL. The owner of this site is using an unsupported HTTP language. If you receive this message frequently, you may want to set your web graphics preferences to COMPRESSED at Keyword: PREFERENCES </BLOCKQUOTE>
+<P CLASS="Body">
+Alarmed at this &quot;upgrade,&quot; Apache core developers circled the wagons and analyzed the situation. A query to AOL's technical team came back with the following explanation: </P>
+<BLOCKQUOTE CLASS="Quote">
+New HTTP/1.1 web servers are starting to generate HTTP/1.1 responses to HTTP/1.0 requests when they should be generating only HTTP/1.0 responses. We wanted to stem the tide of those faults proliferating and becoming a de facto standard by blocking them now. Hopefully the authors of those web servers will change their software to only generate HTTP/1.1 responses when an HTTP/1.1 request is submitted. </BLOCKQUOTE>
+<P CLASS="Body">
+Unfortunately AOL engineers were under the mistaken assumption that HTTP/1.1 responses were not backward-compatible with HTTP/1.0 clients or proxies. They are; HTTP was designed to be backward-compatible within minor-number revisions. But the specification for HTTP/1.1 is so complex that a less than thorough reading may lead one to have concluded this was not the case, especially with the HTTP/1.1 document that existed at the end of 1996. </P>
+<P CLASS="Body">
+So we Apache developers had a choice--we could back down and give HTTP/1.0 responses to HTTP/1.0 requests, or we could follow the specification. Roy Fielding, the &quot;HTTP cop&quot; in the group, was able to clearly show us how the software's behavior at the time was correct and beneficial; there would be cases where HTTP/1.0 clients may wish to upgrade to an HTTP/1.1 conversation upon discovering that a server supported 1.1. It was also important to tell proxy servers that even if the first request they proxied to an origin server they saw was 1.0, the origin server could also support 1.1. </P>
+<P CLASS="Body">
+It was decided that we'd stick to our guns and ask AOL to fix their software. We suspected that the HTTP/1.1 response was actually causing a problem with their software that was due more to sloppy programming practices on their part than to bad protocol design. We had the science behind our decision. What mattered most was that Apache was at that point on 40% of the web servers on the Net, and Apache 1.2 was on a very healthy portion of those, so they had to decide whether it was easier to fix their programming mistakes or to tell their users that some 20% or more of the web sites on the Internet were inaccessible through their proxies. On December 26th, we published a web page detailing the dispute, and publicized its existence not just to our own user base, but to several major news outlets as well, such as C|Net and <CITE CLASS="Citation">Wired</CITE>, to justify our actions. </P>
+<P CLASS="Body">
+AOL decided to fix their software. Around the same time, we announced the availability of a &quot;patch&quot; for sites that wanted to work around the AOL problem until it was rectified, a patch that degraded responses to HTTP/1.0 for AOL. We were resolute that this was to remain an &quot;unofficial&quot; patch, with no support, and that it would not be made a default setting in the official distribution. </P>
+<P CLASS="Body">
+There have been several other instances where vendors of other HTTP products (including both Netscape and Microsoft) had interoperability issues with Apache; in many of those cases, there was a choice the vendor had to make between expending the effort to fix their bug, or writing off any sites which would become inoperable because of it. In many cases a vendor would implement the protocol improperly but consistently on their clients and servers. The result was an implementation that worked fine for them, but imperfectly at best with either a client or server from another vendor. This is much more subtle than even the AOL situation, as the bug may not be apparent or even significant to the majority of people using this software--and thus the long-term ramifications of such a bug (or additional bugs compounding the problem) may not be seen until it's too late. </P>
+<P CLASS="Body">
+Were there not an open-source and widely used reference web server like Apache, it's entirely conceivable that these subtle incompatibilities could have grown and built upon each other, covered up by mutual blame or Jedi mind tricks (&quot;We can't repeat that in the lab. . . .&quot;), where the response to &quot;I'm having problem when I connect vendor X browser to vendor Y server&quot; is, &quot;Well, use vendor Y client and it'll be all better.&quot; At the end of this process we would have ended up with two (or more) World Wide Webs--one that was built on vendor X web servers, the other on vendor Y servers, and each would only work with their respective vendors' clients. There is ample historic precedence for this type of anti-standard activity, a policy (&quot;locking in&quot;) which is encoded as a basic business practice of many software companies. </P>
+<P CLASS="Body">
+Of course this would have been a disaster for everyone else out there--the content providers, service providers, software developers, and everyone who needed to use HTTP to communicate would have had to maintain two separate servers for their offerings. While there may have been technical customer pressure to &quot;get along together,&quot; the contrary marketing pressure to &quot;innovate, differentiate, lead the industry, define the platform&quot; would have kept either party from attempting to commodify their protocols. </P>
+<P CLASS="Body">
+We did, in fact, see such a disaster with client-side JavaScript. There was such a big difference in behavior between different browsers, even within different beta versions of the same browser, that developers had to create code that would detect different revisions and give different behavior--something that added significantly more development time to interactive pages using JavaScript. It wasn't until the W3C stepped in and laid the groundwork for a Document Object Model (DOM) that we actually saw a serious attempt at creating a multiparty standard around JavaScript. </P>
+<P CLASS="Body">
+There are natural forces in today's business world that drive for deviation when a specification is implemented by closed software. Even an accidental misreading of a common specification can cause a deviation if not corrected quickly. </P>
+<P CLASS="Body">
+Thus, I argue that building your services or products on top of a standards-based platform is good for the stability of your business processes. The success of the Internet has not only shown how common platforms help facilitate communication, it has also forced companies to think more about how to create value in what gets communicated, rather than trying to take value out of the network itself. </P>
+<H2 CLASS="HeadA">
+ Analyzing Your Goals for an Open-Source Project </H2>
+<P CLASS="Body">
+What you need to ask yourself, as a company, is to what degree your products implement a new platform, and to what extent is it in your business interests to maintain ownership of that platform. How much of your overall product and service set, and thus how much of your revenue, is above that platform, or below it? This is probably something you can even apply numbers to. </P>
+<P CLASS="Body">
+Let's say you're a database company. You sell a database that runs on multiple OSes; you separately sell packages for graphical administration, rapid development tools, a library of common stored procedures people can use, etc. You sell support on a yearly basis. Upgrades require a new purchase. You also offer classes. And finally, you've got a growing but healthy consulting group who implement your database for customers. </P>
+<P CLASS="Body">
+Let's say your revenue balance looks something like this: </P>
+<UL>
+<LI CLASS="ListBullet">
+40%--Sales of the database software </LI>
+<LI CLASS="ListBullet">
+15%--Support </LI>
+<LI CLASS="ListBullet">
+10%--Consulting work </LI>
+<LI CLASS="ListBullet">
+10%--Rapid development tools </LI>
+<LI CLASS="ListBullet">
+10%--Graphical administration tools</LI>
+<LI CLASS="ListBullet">
+10%--Library of stored procedures/applications on top of this DB </LI>
+<LI CLASS="ListBullet">
+5%--Manuals/classes </LI>
+</UL>
+<P CLASS="Body">
+At first glance, the suggestion that you give away your database software for free would be ludicrous. That's 40% of your revenue gone. If you're lucky as a company you're profitable, and if you're even luckier you've got maybe a 20% profit margin. 40% wipes that out completely. </P>
+<P CLASS="Body">
+This of course assumes nothing else changes in the equation. But the chances are, if you pull this off right, things will change. Databases are the type of application that companies don't just pull off the shelf at CompUSA, throw the CD into their machine, and then forget about. All of the other categories of revenue are still valid and necessary no matter how much was charged for the OS. In fact, there is now more freedom to charge more for these other services than before, when the cost of the software ate up the bulk of what a customer typically paid for when they bought database software. </P>
+<P CLASS="Body">
+So very superficially speaking, if the free or low-cost nature of the database were to cause it to be used on twice as many systems, and users were as equally motivated as before to purchase consulting and support and development tools and libraries and such from your company, you'd see a 20% gain in the overall amount of revenue. What's more likely is that three to four times as many new users are introduced to your software, and while the take-up rate of your other services is lower (either because people are happy just using the free version, or you have competitors now offering these services for your product), so long as that take-up rate doesn't go too low, you've probably increased overall revenue into the company. </P>
+<P CLASS="Body">
+Furthermore, depending on the license applied, you may see lower costs involved in development of your software. You're likely to see bugs fixed by motivated customers, for example. You're also likely to see new innovations in your software by customers who contribute their code to the project because they want to see it maintained as a standard part of the overall distribution. So overall, your development costs could go down. </P>
+<P CLASS="Body">
+It's also likely that, given a product/services mix like the above example, releasing this product for free does little to help your competitors compete against you in your other revenue spaces. There are probably already consultants who do integration work with your tools; already independent authors of books; already libraries of code you've encouraged other companies to build. The availability of source code will marginally help competitors be able to provide support for your code, but as the original developers, you'll have a cache to your brand that the others will have to compete against. </P>
+<P CLASS="Body">
+Not all is wine and roses, of course. There are costs involved in this process that are going to be difficult to tie to revenue directly. For example, the cost of infrastructure to support such an endeavor, while not significant, can consume systems administration and support staff. There's also the cost of having developers communicating with others outside the company, and the extra overhead of developing the code in a public way. There may be significant cost involved in preparing the source code for public inspection. And after all this work, there may simply not be the &quot;market need&quot; for your product as freeware. I'll address all these points in the rest of this essay. </P>
+<H2 CLASS="HeadA">
+Evaluating the Market Need for Your Project</H2>
+<P CLASS="Body">
+It may be very tempting for a company to look to Open Source as a way to save a particular project, to gain notoriety, or to simply have a good story to end a product category. These are not good reasons to launch an open-source project. If a company is serious about pursuing this model, it needs to do its research in determining exactly what the product needs to be for an open-source strategy to be successful. </P>
+<P CLASS="Body">
+The first step is to conduct a competitive analysis of the space, both for the commercial competitors and the freeware competitors, no matter how small. Be very careful to determine exactly what your product offers by componentizing your offering into separable &quot;chunks&quot; that could be potentially bundled or sold or open-sourced separately. Similarly, don't exclude combinations of freeware and commercialware that offer the same functionality. </P>
+<P CLASS="Body">
+Let's continue with the database vendor example above. Let's say there are actually three components to the vendor's database product: a core SQL server, a backup/transaction logging manager, and a developer library. Such a vendor should not only compare their product's offering to the big guys like Oracle and Sybase, not only to the smaller but growing commercial competitors like Solid and Velocis, but also to the free databases like MySQL and Postgres. Such an analysis may conclude that the company's core SQL server provides only a little more functionality than MySQL, and in an area that was never considered a competitive advantage but merely a necessary feature to keep up with the other DB vendors. The backup/transaction logging manager has no freeware competition, and the developer library is surpassed by the Perl DBI utilities but has little Java or C competition. </P>
+<P CLASS="Body">
+This company could then consider the following strategies: </P>
+<OL>
+<LI CLASS="ListNumberStart">
+Replace the core SQL server with MySQL, and then package up the core SQL server functionality and backup/transaction logging manager, and sell Java/C libraries while providing and supporting the free Perl library. This would ride upon the momentum generated by the MySQL package, and the incredible library of add-on code and plug-in modules out there for it; it would also allow you to keep private any pieces of code you may believe have patents or patent-able code, or code you simply think is cool enough that it's a competitive advantage. Market yourself as a company that can scale MySQL up to larger deployments. </LI>
+<LI CLASS="ListNumber">
+Contribute the &quot;extra core SQL server functionality&quot; to MySQL, then design the backup/transaction logger to be sold as a separate product that works with a wider variety of databases, with a clear preference for MySQL. This has smaller revenue potential, but allows you as a company to be more focused and potentially reach a broader base of customers. Such a product may be easier to support as well. </LI>
+<LI CLASS="ListNumber">
+Go in the other direction: stick with a commercial product strategy for the core SQL server and libraries, but open-source the backup/transaction logger as a general utility for a wide array of databases. This would cut down on your development costs for this component, and be a marketing lead generator for your commercial database. It would also remove a competitive advantage some of your commercial competitors would have over open source, even though it would also remove some of yours too. </LI>
+</OL>
+<P CLASS="Body">
+All of these are valid approaches to take. Another approach: </P>
+<OL>
+<LI CLASS="ListNumber">
+Open-source the entire core server as its own product, separate from MySQL or Postgres or any of the other existing packages, and provide commercial support for it. Sell as standard non-open-source the backup/logging tool, but open-source the development libraries to encourage new users. Such a strategy carries more risk, as a popular package like MySQL or Postgres tends to have been around for quite some time, and there's inherently much developer aversion to swapping out a database if their current one is working fine. To do this, you'd have to prove <EM CLASS="Emphasis">significant</EM> benefit over what people are currently using. Either it has to be dramatically faster, more flexible, easier to administer or program with, or contain sufficiently new features that users are motivated to try it out. You also have to spend much more time soliciting interest in the project, and you probably will have to find a way to pull developers away from competing products. </LI>
+</OL>
+<P CLASS="Body">
+I wouldn't advocate the fourth approach in this exact circumstance, as MySQL actually has a very healthy head start here, lots and lots of add-on programs, and a rather large existing user base. </P>
+<P CLASS="Body">
+However, from time to time an open source project loses momentum, either because the core development team is not actively doing development, or the software runs into core architectural challenges that keep it from meeting new demands, or the environment that created this demand simply dries up or changes focus. When that happens, and it becomes clear people are looking for alternatives, there is the possibility of introducing a replacement that will attract attention, even if it does not immediately present a significant advance over the status quo. </P>
+<P CLASS="Body">
+Analyzing demand is essential. In fact, it's demand that usually creates new open-source projects. Apache started with a group of webmasters sharing patches to the NCSA web server, deciding that swapping patches like so many baseball cards was inefficient and error-prone, and electing to do a separate distribution of the NCSA server with their patches built in. None of the principals involved in the early days got involved because they wanted to sell a commercial server with Apache as its base, though that's certainly a valid reason for being involved. </P>
+<P CLASS="Body">
+So an analysis of the market demand for a particular open-source project also involves joining relevant mailing lists and discussion forums, cruising discussion archives, and interviewing your customers and their peers; only then can you realistically determine if there are people out there willing to help make the project bear fruit. </P>
+<P CLASS="Body">
+Going back to Apache's early days: those of us who were sharing patches around were also sending them back to NCSA, hoping they'd be incorporated, or at the very least acknowledged, so that we could be somewhat assured that we could upgrade easily when the next release came out. NCSA had been hit when the previous server programmers had been snatched away by Netscape, and the flood of email was too much for the remaining developers. So building our own server was more an act of self-preservation than an attempt to build the next great web server. It's important to start out with limited goals that can be accomplished quite easily, and not have to rely upon your project dominating a market before you realize benefits from the approach. </P>
+<H2 CLASS="HeadA">
+Open Source's Position in the Spectrum of Software</H2>
+<P CLASS="Body">
+To determine which parts of your product line or components of a given product to open-source, it may be helpful to conduct a simple exercise. First, draw a line representing a spectrum. On the left hand side, put &quot;Infrastructural,&quot; representing software that implements frameworks and platforms, all the way down to TCP/IP and the kernel and even hardware. On the right hand side, put &quot;End-user applications,&quot; representing the tools and applications that the average, non-technical user will use. Along this line, place dots representing, in relative terms, where you think each of the components of your product offering lie. From the above example, the GUI front-ends and administrative tools lie on the far right-hand side, while code that manages backups is off to the far left. Development libraries are somewhat to the right of center, while the core SQL facilities are somewhat to the left. Then, you may want to throw in your competitors' products as well, also separating them out by component, and if you're really creative, using a different color pen to distinguish the free offerings from the commercial offerings. What you are likely to find is that the free offerings tend to clump towards the left-hand side, and the commercial offerings towards the right. </P>
+<P CLASS="Body">
+Open-source software has tended to be slanted towards the infrastructural/back-end side of the software spectrum represented here. There are several reasons for this: </P>
+<UL>
+<LI CLASS="ListBullet">
+End-user applications are hard to write, not only because a programmer has to deal with a graphical, windowed environment which is constantly changing, nonstandard, and buggy simply because of its complexity, but also because most programmers are not good graphical interface designers, with notable exceptions. </LI>
+<LI CLASS="ListBullet">
+Culturally, open-source software has been conducted in the networking code and operating system space for years. </LI>
+<LI CLASS="ListBullet">
+Open-source tends to thrive where incremental change is rewarded, and historically that has meant back-end systems more than front-ends. </LI>
+<LI CLASS="ListBullet">
+Much open-source software was written by engineers to solve a task they had to do while developing commercial software or services; so the primary audience was, early on, other engineers. </LI>
+</UL>
+<P CLASS="Body">
+This is why we see solid open-source offerings in the operating system and network services space, but very few offerings in the desktop application space. </P>
+<P CLASS="Body">
+There are certainly counterexamples to this. A great example is the GIMP, or GNU Image Manipulation Program, an X11 program comparable in feature set to Adobe Photoshop. Yet in some ways, this product is also an &quot;infrastructure&quot; tool, a platform, since it owes its success to its wonderful plug-in architecture, and the dozens and dozens of plug-ins that have been developed that allow it to import and export many different file formats and which implement hundreds of filter effects. </P>
+<P CLASS="Body">
+Look again at the spectrum you've drawn out. At some point, you can look at your offering in the context of these competitors, and draw a vertical line. This line denotes the separation between what you open-source and what you may choose to keep proprietary. That line itself represents your true platform, your interface between the public code you're trying to establish as a standard on the left, and your private code you want to drive demand for on the right. </P>
+<H2 CLASS="HeadA">
+Nature Abhors a Vacuum</H2>
+<P CLASS="Body">
+Any commercial-software gaps in an otherwise open-source infrastructural framework are a strong motivating force for redevelopment in the public space. Like some force of nature, when a commercial wall exists between two strong pieces of open-source software, there's pressure to bridge that gap with a public solution. This is because every gap can be crossed given enough resources, and if that gap is small enough for your company to cross with your own development team, it's likely to be small enough for a set of motivated developers to also cross. </P>
+<P CLASS="Body">
+Let's return to the database example: say you decide to open-source your core SQL server (or your advanced code on top of MySQL), but decide to make money by building a commercial, non-source-available driver for plugging that database into a web server to create dynamic content. You decide the database will be a loss leader for this product, and therefore you'll charge far higher than normal margins on this component. </P>
+<P CLASS="Body">
+Since hooking up databases to web servers is a very common and desirable thing, developers will either have to go through you, or find another way to access the database from the web site. Each developer will be motivated by the idea of saving the money they'd otherwise have to pay you. If enough developers pool their resources to make it worth their while, or a single talented individual simply can't pay for the plug-in but still wants to use that database, it's possible you could wake up one morning to find an open-source competitor to your commercial offering, completely eliminating the advantage of having the only solution for that task. </P>
+<P CLASS="Body">
+This is a piece of a larger picture: relying upon proprietary source code in strategic places as your way of making money has become a risky business venture. If you can make money by supporting the web server + plug-in + database combination, or by providing an interface to managing that system as a whole, you can protect yourself against these types of surprises. </P>
+<P CLASS="Body">
+Not all commercial software has this vulnerability--it is specifically a characteristic of commercial software that tries to slot itself into a niche directly between two well-established open-source offerings. Putting your commercial offering as an addition to the current set of open-source offerings is a more solid strategy. </P>
+<H2 CLASS="HeadA">
+Donate, or Go It Alone? </H2>
+<P CLASS="Body">
+Open-source software exists in many of the standard software categories, particularly those focused on the server side. Obviously we have operating systems; web servers; mail (SMTP, POP, IMAP), news (NNTP), and DNS servers; programming languages (the &quot;glue&quot; for dynamic content on the Web); databases; networking code of all kinds. On the desktop you have text editors like Emacs, Nedit, and Jove; windowing systems like Gnome and KDE; web browsers like Mozilla; and screen savers, calculators, checkbook programs, PIMs, mail clients, image tools--the list goes on. While not every category has category-killers like Apache or Bind, there are probably very few commercial niches that don't have at least the beginnings of a decent open source alternative available. This is much less true for the Win32 platform than for the Unix or Mac platforms, primarily because the open-source culture has not adopted the Win32 platform as &quot;open&quot; enough to really build upon. </P>
+<P CLASS="Body">
+There is a compelling argument for taking advantage of whatever momentum an existing open-source package has in a category that overlaps with your potential offering, by contributing your additional code or enhancements to the existing project and then aiming for a return in the form of higher-quality code overall, marketing lead generation, or common platform establishment. In evaluating whether this is an acceptable strategy, one needs to look at licensing terms: </P>
+<UL>
+<LI CLASS="ListBullet">
+Are the terms on the existing package copacetic to your long-term goals? </LI>
+<LI CLASS="ListBullet">
+Can you legally contribute your code under that license? </LI>
+<LI CLASS="ListBullet">
+Does it incent future developers sufficiently? If not, would the developers be willing to accommodate you by changing the license? </LI>
+<LI CLASS="ListBullet">
+Are your contributions general enough that they would be of value to the developers and users of the existing project? If all they do is implement an API to your proprietary code, they probably won't be accepted. </LI>
+<LI CLASS="ListBullet">
+If your contributions are hefty, can you have &quot;peer&quot; status with the other developers, so that you can directly apply bug fixes and enhancements you make later? </LI>
+<LI CLASS="ListBullet">
+Are the other developers people you can actually work with? </LI>
+<LI CLASS="ListBullet">
+Are your developers people who can work with others in a collaborative setting? </LI>
+</UL>
+<P CLASS="Body">
+Satisfying developers is probably the biggest challenge to the open-source development model, one which no amount of technology or even money can really address. Each developer has to feel like they are making a positive contribution to the project, that their concerns are being addressed, their comments on architecture and design questions acknowledged and respected, and their code efforts rewarded with integration into the distribution or a really good reason why not. </P>
+<P CLASS="Body">
+People mistakenly say &quot;open-source software works because the whole Internet becomes your R&amp;D and QA departments!&quot; In fact, the amount of talented programmer effort available for a given set of tasks is usually limited. Thus, it is usually to everyone's interests if parallel development efforts are not undertaken simply because of semantic disputes between developers. On the other hand, evolution works best when alternatives compete for resources, so it's not a bad thing to have two competing solutions in the same niche if there's enough talent pool for critical mass--some real innovation may be tried in one that wasn't considered in the other. </P>
+<P CLASS="Body">
+There is strong evidence for competition as a healthy trait in the SMTP server space. For a long time, Eric Allman's &quot;Sendmail&quot; program was the standard SMTP daemon every OS shipped with. There were other open-source competitors that came up, like Smail or Zmailer, but the first to really crack the usage base was Dan Bernstein's Qmail package. When Qmail came on the scene, Sendmail was 20 years old, and had started to show its age; it was also not designed for the Internet of the late 90s, where buffer overflows and denial of service attacks are as common as rainfall in Seattle. Qmail was a radical break in many ways--program design, administration, even in its definition of what good &quot;network behavior&quot; for an SMTP server is. It was an evolution that would have been exceedingly unlikely to have been made within Allman's Sendmail package. Not because Allman and his team weren't good programmers or because there weren't motivated third-party contributors; it's just that sometimes a radical departure is needed to really try something new and see if it works. For similar reasons, IBM funded the development of Weiste Venema's &quot;SecureMailer&quot; SMTP daemon, which as of this writing also appears to be likely to become rather popular. The SMTP daemon space is well-defined enough and important enough that it can support multiple open-source projects; time will tell which will survive. </P>
+<H2 CLASS="HeadA">
+Bootstrapping </H2>
+<P CLASS="Body">
+Essential to the health of an open-source project is that the project have sufficient momentum to be able to evolve and respond to new challenges. Nothing is static in the software world, and each major component requires maintenance and new enhancements continually. One of the big selling points of this model is that it cuts down on the amount of development any single party must do, so for that theory to become fact, you need other active developers. </P>
+<P CLASS="Body">
+In the process of determining demand for your project, you probably ran into a set of other companies and individuals with enough interest here to form a core set of developers. Once you've decided on a strategy, shop it to this core set even more heavily; perhaps start a simple discussion mailing list for this purpose, with nothing set in stone. Chances are this group will have some significant ideas for how to make this a successful project, and list their own set of resources they could apply to make it happen. </P>
+<P CLASS="Body">
+For the simplest of projects, a commitment from this group that they'll give your product a try and if they're happy stay on the development mailing list is probably enough. However, for something more significant, you should try and size up just how big the total resource base is. </P>
+<P CLASS="Body">
+Here is what I would consider a minimum resource set for a project of moderate complexity, say a project to build a common shopping cart plug-in for a web server, or a new type of network daemon implementing a simple protocol. In the process I'll describe the various roles needed and the types of skills necessary to fill them. </P>
+<UL>
+<LI CLASS="ListBullet">
+<EM CLASS="Emphasis">Role 1: Infrastructure support</EM>: Someone to set up and maintain the mailing list aliases, the web server, the CVS (Concurrent Versioning System) code server, the bug database, etc. </LI>
+</UL>
+<BLOCKQUOTE CLASS="ListSimple">
+<EM CLASS="Emphasis">Startup</EM>: 100 hours </BLOCKQUOTE>
+<BLOCKQUOTE CLASS="ListSimple">
+<EM CLASS="Emphasis">Maintenance</EM>: 20 hrs/week. </BLOCKQUOTE>
+<UL>
+<LI CLASS="ListBullet">
+<EM CLASS="Emphasis">Role 2: Code &quot;captain&quot;</EM>: Someone who watches all commits and has overall responsibility for the quality of the implemented code. Integrates patches contributed by third parties, fixing any bugs or incompatibilities in these contributions. This is outside of whatever new development work they are also responsible for. </LI>
+</UL>
+<BLOCKQUOTE CLASS="ListSimple">
+<EM CLASS="Emphasis">Startup</EM>: 40-200 hours (depends on how long it takes to clean up the code for public consumption!) </BLOCKQUOTE>
+<BLOCKQUOTE CLASS="ListSimple">
+<EM CLASS="Emphasis">Maintenance</EM>: 20 hrs/week </BLOCKQUOTE>
+<UL>
+<LI CLASS="ListBullet">
+<EM CLASS="Emphasis">Role 3: Bug database maintenance</EM>: While this is not free &quot;support,&quot; it is important that the public have an organized way of communicating bug reports and issues to the server developers. In a free setting, the developers are of course not even obliged to answer all mail they get, but they should make reasonable efforts to respond to valid issues. The bug database maintainer would be the first line of support, someone who goes through the submissions on a regular basis and weeds out the simple questions, tosses the clueless ones, and forwards the real issues on to the developers. </LI>
+</UL>
+<BLOCKQUOTE CLASS="ListSimple">
+<EM CLASS="Emphasis">Startup</EM>: just enough to learn their way around the code </BLOCKQUOTE>
+<BLOCKQUOTE CLASS="ListSimple">
+<EM CLASS="Emphasis">Maintenance</EM>: 10-15 hrs/week </BLOCKQUOTE>
+<UL>
+<LI CLASS="ListBullet">
+<EM CLASS="Emphasis">Role 4: Documentation/web site content maintenance</EM>: This position is often left unattended in open-source projects and left to the engineers or to people who really want to contribute but aren't star programmers; all too often it's simply left undone. So long as we're going about this process deliberately, locating dedicated resources to make sure that non-technical people can understand and appreciate the tools they are deploying is essential to widespread usage. It helps cut down on having to answer bug reports which are really just misunderstandings, and it also helps encourage new people to learn their way around the code and become future contributors. A document that describes at a high level the internal architecture of the software is essential; documentation that explains major procedures or classes within the code is almost as important. </LI>
+</UL>
+<BLOCKQUOTE CLASS="ListSimple">
+<EM CLASS="Emphasis">Startup</EM>: 60 hours (presuming little code has been documented) </BLOCKQUOTE>
+<BLOCKQUOTE CLASS="ListSimple">
+<EM CLASS="Emphasis">Maintenance</EM>: 10 hrs/week </BLOCKQUOTE>
+<UL>
+<LI CLASS="ListBullet">
+Role 5: Cheerleader/zealot/evangelist/strategist: Someone who can work to build momentum for the project by finding other developers, push specific potential customers to give it a try, find other companies who could be candidates for adopting this new platform, etc. Not quite a marketer or salesperson, as they need to stay close to the technology; but the ability to clearly see the role of the project in a larger perspective is essential. </LI>
+</UL>
+<BLOCKQUOTE CLASS="ListSimple">
+<EM CLASS="Emphasis">Startup</EM>: enough to learn the project </BLOCKQUOTE>
+<BLOCKQUOTE CLASS="ListSimple">
+<EM CLASS="Emphasis">Maintenance</EM>: 20 hrs/week</BLOCKQUOTE>
+<P CLASS="Body">
+So here we have five roles representing almost three full-time people. In reality, some of these roles get handled by groups of people sharing responsibility, and some projects can survive with the average core participant spending less than 5 hrs/week after the first set of release humps are passed. But for the early days of the project it is essential that developers have the time and focus they would if the project were a regular development effort at the company. </P>
+<P CLASS="Body">
+These five roles also do not cover any resources that could be put towards new development; this is purely maintenance. In the end, if you can not find enough resources from peers and partners to cover these bases <EM CLASS="Emphasis">and</EM> enough extra developers to do some basic new development (until new recruits are attracted), you may want to reconsider open-sourcing your project. </P>
+<H2 CLASS="HeadA">
+What License to Use? </H2>
+<P CLASS="Body">
+Determining which license to use for your project can be a fairly complex task; it's the kind of task you probably don't enjoy but your legal team will. There are other papers and web sites that cover copyright issues in finer detail; I'll provide an overview, though, of what I see as the business considerations of each style of license. </P>
+<H3 CLASS="HeadB">
+The BSD-Style Copyright </H3>
+<P CLASS="Body">
+This is the copyright used by Apache and by the BSD-based operating systems projects (FreeBSD, OpenBSD, NetBSD), and by and large it can be summed up as, &quot;Here's this code, do what you like with it, we don't care, just give us credit if you try and sell it.&quot; Usually that credit is demanded in different forms--on advertising, or in a README file, or in the printed documentation, etc. It has been brought up that such a copyright may be inscalable--that is, if someone ever released a bundle of software that included 40 different open-source modules, all BSD-based, one might argue that there'd be 40 different copyright notices that would be necessary to display. In practice this has not been a problem, and in fact it's been seen as a positive force in spreading awareness of the use of open-source software. </P>
+<P CLASS="Body">
+From a business perspective, this is the best type of license for jumping into an existing project, as there are no worries about licenses or restrictions on future use or redistribution. You can mix and match this software with your own proprietary code, and only release what you feel might help the project and thus help you in return. This is one reason why we chose it for the Apache group--unlike many free software projects, Apache was started largely by commercial webmasters in search of a better web server for their own commercial needs. While probably none of the original team had a goal of creating a commercial server on top of Apache, none of us knew what our futures would hold, and felt that limiting our options at the beginning wasn't very smart. </P>
+<P CLASS="Body">
+This type of license is ideal for promoting the use of a reference body of code that implements a protocol or common service. This is another reason why we chose it for the Apache group--many of us wanted to see HTTP survive and become a true multiparty standard, and would not have minded in the slightest if Microsoft or Netscape chose to incorporate our HTTP engine or any other component of our code into their products, if it helped further the goal of keeping HTTP common. </P>
+<P CLASS="Body">
+This degree of openness has risks. No incentive is built into the license to encourage companies to contribute their code enhancements back to the project. There have certainly been cases in Apache's history where companies have developed technology around it that we would have like to have seen offered back to the project. But had we had a license which mandated that code enhancements be made available back to the project, such enhancements would perhaps never have been made in the first place. </P>
+<P CLASS="Body">
+All this means that, strategically speaking, the project needs to maintain sufficient momentum, and that participants realize greater value by contributing their code to the project, even code that would have had value if kept proprietary. This is a tricky ratio to maintain, particularly if one company decides to dramatically increase the amount of coding they do on a derivative project; and begins to doubt the potential return in proportion to their contribution to the project, e.g., &quot;We're doing all this work, more than anyone else combined, why should we share it?&quot; The author has no magic bullet for that scenario, other than to say that such a company probably has not figured out the best way to inspire contributions from third parties to help meet their engineering goals most efficiently. </P>
+<H3 CLASS="HeadB">
+The Mozilla Public License</H3>
+<P CLASS="Body">
+The Mozilla Public License (MPL) was developed by the Netscape Mozilla team for use on their project. It was the first new license in several years when it was released, and really addressed some key issues not addressed by the BSD or GNU licenses. It is adjacent to the BSD-style license in the spectrum of open-source software licenses. It has two key differences: </P>
+<P CLASS="Body">
+It mandates that changes to the &quot;distribution&quot; also be released under the same copyright as the MPL, which thus makes it available back to the project. The &quot;distribution&quot; is defined as the files as distributed in the source code. This is important, because it allows a company to add an interface to a proprietary library of code without mandating that the other library of code also be made MPL--only the interface. Thus, this software can more or less be combined into a commercial software environment. </P>
+<P CLASS="Body">
+It has several provisions protecting both the project as a whole and its developers against patent issues in contributed code. It mandates that the company or individual contributing code back to the project release any and all claims to patent rights that may be exposed by the code. </P>
+<P CLASS="Body">
+This second provision is really important; it also, at the time of this writing, contains a big flaw. </P>
+<P CLASS="Body">
+Taking care of the patent issue is a Very Good Thing. There is always the risk that a company could innocently offer code to a project, and then once that code has been implemented thoroughly, try and demand some sort of patent fee for its use. Such a business strategy would be laughably bad PR and very ugly, but unfortunately not all companies see this yet. So, this second provision prevents the case of anyone surreptitiously providing code they know is patented and liable to cause headaches for everyone down the road. </P>
+<P CLASS="Body">
+Of course it doesn't block the possibility that someone <EM CLASS="Emphasis">else</EM> owns a patent that would apply; there is no legal instrument that does provide that type of protection. I would actually advocate that this is an appropriate service for the U.S. Patent and Trade Office to perform; they seem to have the authority to declare certain ideas or algorithms as property someone owns, so shouldn't they also be required to do the opposite and certify my submitted code as patent-free, granting me some protection from patent lawsuits? </P>
+<P CLASS="Body">
+As I said earlier, though, there is a flaw in the current MPL, as of December 1998. In essence, Section 2.2 mandates (through its definition of &quot;Contributor Version&quot;) that the contributor waive patent claims on <EM CLASS="Emphasis">any</EM> part of Mozilla, not just on the code they contribute. Maybe that doesn't seem like a bug. It would be nice to get the whole package waived by a number of large companies. </P>
+<P CLASS="Body">
+Unfortunately, a certain large company with one of the world's largest patent portfolios has a rather specific, large issue with this quirk. Not because they intend to go after Mozilla some day and demand royalties--that would be foolhardy. They are concerned because there are parts of Mozilla that implement processes they have patents on and receive rather large numbers of dollars for every year--and were they to waive patent claims over the Mozilla code, those companies who pay them dollars for those patents could simply take the code from Mozilla that implements those same patents and shove them into their own products, removing the need to license the patent from said large company. Were Section 2.2 to simply refer to the contributed patches rather than the whole browser when it comes to waiving patents, this would not be a problem. </P>
+<P CLASS="Body">
+Aside from this quirk, the MPL is a remarkably solid license. Mandating back the changes to the &quot;core&quot; means that essential bug fixes and portability enhancements will flow back to the project, while value-added features can still be developed by commercial entities. It is perhaps the best license to use to develop an end-user application, where patents are more likely to be an issue, and the drive to branch the project may be greater. In contrast, the BSD license is perhaps more ideal for projects intended to be &quot;invisible&quot; or essentially library functions, like an operating system or a web server. </P>
+<H3 CLASS="HeadB">
+The GNU Public License </H3>
+<P CLASS="Body">
+While not obviously a business-friendly license, there are certain aspects of the GNU license which are attractive, believe it or not, for commercial purposes. </P>
+<P CLASS="Body">
+Fundamentally, the GPL mandates that enhancements, derivatives, and even code that incorporates GPL'd code are also themselves released as source code under the GPL. This &quot;viral&quot; behavior has been trumpeted widely by open-source advocates as a way to ensure that code that begins free remains free--that there is no chance of a commercial interest forking their own development version from the available code and committing resources that are not made public. In the eyes of those who put a GPL on their software, they would much rather have no contribution than have a contribution they couldn't use as freely as the original. There is an academic appeal to this, of course, and there are advocates who claim that Linux would have never gotten as large as it has unless it was GPL'd, as the lure of forking for commercial purposes would have been too great, keeping the critical mass of unified development effort from being reached. </P>
+<P CLASS="Body">
+So at first glance, it may appear that the GPL would not have a happy co-existence with a commercial intent related to open-source software. The traditional models of making money through software value-add are not really possible here. However, the GPL could be an extraordinarily effective means to establish a platform that discourages competitive platforms from being created, and which protects your claim to fame as the &quot;premier&quot; provider of products and services that sit upon this platform. </P>
+<P CLASS="Body">
+An example of this is Cygnus and GCC. Cygnus makes a very healthy chunk of change every year by porting GCC to various different types of hardware, and maintaining those ports. The vast majority of that work, in compliance with the GPL, gets contributed to the GCC distribution, and made available for free. Cygnus charges for the effort involved in the port and maintenance, not for the code itself. Cygnus's history and leadership in this space make it the reference company to approach for this type of service. </P>
+<P CLASS="Body">
+If a competitor were to start up and compete against Cygnus, it too would be forced to redistribute their changes under the GPL. This means that there is no chance for a competitor to find a commercial technical niche on top of the GCC framework that could be exploited, without giving Cygnus the same opportunity to also take advantage of that technology. Cygnus has created a situation where competitors can't compete on technology differentiation, unless a competitor were to spend a very large amount of time and money and use a platform other than GCC altogether. </P>
+<P CLASS="Body">
+Another way in which the GPL could be used for business purposes is as a technology &quot;sentinel,&quot; with a non-GPL'd version of the same code available for a price. For example, you may have a great program for encrypting TCP/IP connections over the Internet. You don't care if people use it non-commercially, or even commercially--your interest is in getting the people who want to embed it in a product or redistribute it for profit to pay you for the right to do that. If you put a GPL license on the code, this second group of users can't do what they want, without making their entire product GPL as well, something many of them may be unwilling to do. However, if you maintain a separate branch of your project, one which is <EM CLASS="Emphasis">not</EM> under the GPL, you can commercially license the separate branch of code any way you like. You have to be very careful, though, to make sure that any code volunteered to you by third parties is explicitly available for this non-free branch; you ensure this by either declaring that only you (or people employed by you) will write code for this project, or that (in addition) you'll get explicit clearance from each contributor to take whatever they contribute into a non-free version. </P>
+<P CLASS="Body">
+There are companies for whom this is a viable business model--an example is Transvirtual in Berkeley, who are applying this model to a commercial lightweight Java virtual machine and class library project. Some may claim that the number of contributors who would be turned off by such a model would be high, and that the GPL and non-GPL versions may branch; I would claim that if you treat your contributors right, perhaps even offer them money or other compensation for their contributions (it is, after all, helping your commercial bottom line), this model could work. </P>
+<P CLASS="Body">
+The open-source license space is sure to evolve over the next few years as people discover what does and does not work. The simple fact is that you are free to invent a new license that exactly describes where on the spectrum (represented by BSD on the right and GPL on the left) you wish to place it. Just remember, the more freedoms you grant those who use and extend your code, the more incented they will be to contribute. </P>
+<H2 CLASS="HeadA">
+Tools for Launching Open Source Projects </H2>
+<P CLASS="Body">
+We have a nice set of available, well-maintained tools used in the Apache Project for allowing our distributed development process to work. </P>
+<P CLASS="Body">
+Most important among these is CVS, or Concurrent Versioning System. It is a collection of programs that implement a shared code repository, maintaining a database of changes with names and dates attached to each change. It is extremely effective for being able to allow multiple people to simultaneously be the &quot;authors&quot; of a program without stepping over each others' toes. It also helps in the debugging process, as it is possible to roll back changes one by one to find out exactly where a certain bug may have been introduced. There are clients for every major platform, and it works just fine over dial-up lines or across long-distance connections. It can also be secured by tunneling it over an encrypted connection using SSH. </P>
+<P CLASS="Body">
+The Apache project uses CVS not just for maintaining the actual software, but also for maintaining our &quot;STATUS&quot; file, in which we place all major outstanding issues, with comments, opinions, and even votes attached to each issue. We also use it to register votes for decisions we make as a group, maintain our web site documents with it, manage development documents, etc. In short it is the asset and knowledge management software for the project. Its simplicity may seem like a drawback--most software in this space is expensive and full-featured--but in reality simplicity is a very strong virtue of CVS. Every component of CVS is free--the server and the clients. </P>
+<P CLASS="Body">
+Another essential element to an open-source project is a solid set of discussion forums for developers and for users. The software to use here is largely inconsequential--we use Majordomo, but ezmlm or Smartlist or any of the others would probably be fine. The important thing is to give each development effort their own list, so that developers can self-select their interests and reasonably keep up with development. It's also smart to create a separate list for each project to which the CVS server emails changes that get made to the CVS repository, to allow for a type of passive peer review of changes. Such a model is actually very effective in maintaining code standards and discovering bugs. It may also make sense to have different lists for users and developers, and perhaps even distinguish between <EM CLASS="Emphasis">all</EM> developers and <EM CLASS="Emphasis">core</EM> developers if your project is large enough. Finally, it is important to have archives of the lists publicly available so that new users can search to see if a particular issue has been brought up in the past, or how something was addressed in the past. </P>
+<P CLASS="Body">
+Bug and issue tracking is also essential to a well-run project. On the Apache Project we use a GNU tool called GNATS, which has served us very well through 3,000+ bug reports. You want to find a tool that allows multiple people to answer bug reports, allows people to specialize on bugs in one particular component of the project, and allows people to read bug reports by email and reply to them by email rather than exclusively by a web form. The overriding goal for the bug database is that it should be as easy and automated as possible both for developers to answer bugs (because this is really a chore to most developers), and to search to see if a particular bug has already been reported. In essence, your bug database will become your repository for anecdotal knowledge about the project and its capabilities. Why is a particular behavior a feature and not a bug? Is anyone addressing a known problem? These are the types of questions a good bug database should seek to answer. </P>
+<P CLASS="Body">
+The open-source approach is <EM CLASS="Emphasis">not</EM> a magic bullet for every type of software development project. Not only do the conditions have to be right for conducting such a project, but there is a tremendous amount of real work that has to go into launching a successful project that has a life of its own. In many ways you, as the advocate for a new project, have to act a little like Dr. Frankenstein, mixing chemicals here, applying voltage there, to bring your monster to life. Good luck. </P>
+
+</font>
+<br>
+<font size="3">
+<P align=right>
+<a href="perens.html"><i><b>Next Chapter ---></b></i></a>
+</font></P>
+
+<!-- Sample chapter ends here -->
+
+<p>
+<CENTER>
+<HR SIZE="1" NOSHADE>
+<FONT SIZE="1" FACE="Verdana, Arial, Helvetica">
+<A HREF="http://www.oreilly.com/">
+<B>O'Reilly Home</B></A> <B> | </B>
+<A HREF="http://www.oreilly.com/sales/bookstores">
+<B>O'Reilly Bookstores</B></A> <B> | </B>
+<A HREF="http://www.oreilly.com/order_new/">
+<B>How to Order</B></A> <B> | </B>
+<A HREF="http://www.oreilly.com/oreilly/contact.html">
+<B>O'Reilly Contacts<BR></B></A>
+<A HREF="http://www.oreilly.com/international/">
+<B>International</B></A> <B> | </B>
+<A HREF="http://www.oreilly.com/oreilly/about.html">
+<B>About O'Reilly</B></A> <B> | </B>
+<A HREF="http://www.oreilly.com/affiliates.html">
+<B>Affiliated Companies</B></A><p>
+<EM>&copy; 1999, O'Reilly &amp; Associates, Inc.</EM>
+</FONT>
+</CENTER>
+</td>
+</tr>
+</table>
+<br>
+
+</body>
+</html>

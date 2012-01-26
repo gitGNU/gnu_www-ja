@@ -1,0 +1,301 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Cursor Motion</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_25.html">previous</A>, <A HREF="termcap_27.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC26" HREF="termcap_toc.html#TOC26">Cursor Motion</A></H2>
+<P>
+<A NAME="IDX40"></A>
+
+</P>
+<P>
+Termcap assumes that the terminal has a <EM>cursor</EM>, a spot on the screen
+where a visible mark is displayed, and that most display commands take
+effect at the position of the cursor.  It follows that moving the cursor
+to a specified location is very important.
+
+</P>
+<P>
+There are many terminal capabilities for different cursor motion
+operations.  A terminal description should define as many as possible, but
+most programs do not need to use most of them.  One capability, <SAMP>`cm'</SAMP>,
+moves the cursor to an arbitrary place on the screen; this by itself is
+sufficient for any application as long as there is no need to support
+hardcopy terminals or certain old, weak displays that have only relative
+motion commands.  Use of other cursor motion capabilities is an
+optimization, enabling the program to output fewer characters in some
+common cases.
+
+</P>
+<P>
+If you plan to use the relative cursor motion commands in an application
+program, you must know what the starting cursor position is.  To do this,
+you must keep track of the cursor position and update the records each
+time anything is output to the terminal, including graphic characters.
+In addition, it is necessary to know whether the terminal wraps after
+writing in the rightmost column.  See section <A HREF="termcap_27.html#SEC27">Wrapping</A>.
+
+</P>
+<P>
+One other motion capability needs special mention: <SAMP>`nw'</SAMP> moves the
+cursor to the beginning of the following line, perhaps clearing all the
+starting line after the cursor, or perhaps not clearing at all.  This
+capability is a least common denominator that is probably supported even by
+terminals that cannot do most other things such as <SAMP>`cm'</SAMP> or <SAMP>`do'</SAMP>.
+Even hardcopy terminals can support <SAMP>`nw'</SAMP>.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`cm'</SAMP>
+<DD>
+<A NAME="IDX41"></A>
+String of commands to position the cursor at line <VAR>l</VAR>, column <VAR>c</VAR>.
+Both parameters are origin-zero, and are defined relative to the
+screen, not relative to display memory.
+
+All display terminals except a few very obsolete ones support <SAMP>`cm'</SAMP>,
+so it is acceptable for an application program to refuse to operate on
+terminals lacking <SAMP>`cm'</SAMP>.
+
+<DT><SAMP>`ho'</SAMP>
+<DD>
+<A NAME="IDX42"></A>
+<A NAME="IDX43"></A>
+String of commands to move the cursor to the upper left corner of the
+screen (this position is called the <EM>home position</EM>).  In
+terminals where the upper left corner of the screen is not the same as
+the beginning of display memory, this command must go to the upper
+left corner of the screen, not the beginning of display memory.
+
+Every display terminal supports this capability, and many application
+programs refuse to operate if the <SAMP>`ho'</SAMP> capability is missing.
+
+<DT><SAMP>`ll'</SAMP>
+<DD>
+<A NAME="IDX44"></A>
+String of commands to move the cursor to the lower left corner of the
+screen.  On some terminals, moving up from home position does this,
+but programs should never assume that will work.  Just output the
+<SAMP>`ll'</SAMP> string (if it is provided); if moving to home position and
+then moving up is the best way to get there, the <SAMP>`ll'</SAMP> command
+will do that.
+
+<DT><SAMP>`cr'</SAMP>
+<DD>
+<A NAME="IDX45"></A>
+String of commands to move the cursor to the beginning of the line it
+is on.  If this capability is not specified, many programs assume
+they can use the ASCII carriage return character for this.
+
+<DT><SAMP>`le'</SAMP>
+<DD>
+<A NAME="IDX46"></A>
+String of commands to move the cursor left one column.  Unless the
+<SAMP>`bw'</SAMP> flag capability is specified, the effect is undefined if the
+cursor is at the left margin; do not use this command there.  If
+<SAMP>`bw'</SAMP> is present, this command may be used at the left margin, and
+it wraps the cursor to the last column of the preceding line.
+
+<DT><SAMP>`nd'</SAMP>
+<DD>
+<A NAME="IDX47"></A>
+String of commands to move the cursor right one column.  The effect is
+undefined if the cursor is at the right margin; do not use this
+command there, not even if <SAMP>`am'</SAMP> is present.
+
+<DT><SAMP>`up'</SAMP>
+<DD>
+<A NAME="IDX48"></A>
+String of commands to move the cursor vertically up one line.  The
+effect of sending this string when on the top line is undefined;
+programs should never use it that way.
+
+<DT><SAMP>`do'</SAMP>
+<DD>
+<A NAME="IDX49"></A>
+String of commands to move the cursor vertically down one line.  The
+effect of sending this string when on the bottom line is undefined;
+programs should never use it that way.
+
+Some programs do use <SAMP>`do'</SAMP> to scroll up one line if used at the
+bottom line, if <SAMP>`sf'</SAMP> is not defined but <SAMP>`sr'</SAMP> is.  This is
+only to compensate for certain old, incorrect terminal descriptions.
+(In principle this might actually lead to incorrect behavior on other
+terminals, but that seems to happen rarely if ever.)  But the proper
+solution is that the terminal description should define <SAMP>`sf'</SAMP> as
+well as <SAMP>`do'</SAMP> if the command is suitable for scrolling.
+
+The original idea was that this string would not contain a newline
+character and therefore could be used without disabling the kernel's
+usual habit of converting of newline into a carriage-return newline
+sequence.  But many terminal descriptions do use newline in the
+<SAMP>`do'</SAMP> string, so this is not possible; a program which sends the
+<SAMP>`do'</SAMP> string must disable output conversion in the kernel
+(see section <A HREF="termcap_6.html#SEC6">Initialization for Use of Termcap</A>).
+
+<DT><SAMP>`bw'</SAMP>
+<DD>
+<A NAME="IDX50"></A>
+Flag whose presence says that <SAMP>`le'</SAMP> may be used in column zero
+to move to the last column of the preceding line.  If this flag
+is not present, <SAMP>`le'</SAMP> should not be used in column zero.
+
+<DT><SAMP>`nw'</SAMP>
+<DD>
+<A NAME="IDX51"></A>
+String of commands to move the cursor to start of next line, possibly
+clearing rest of line (following the cursor) before moving.
+
+<DT><SAMP>`DO'</SAMP>, <SAMP>`UP'</SAMP>, <SAMP>`LE'</SAMP>, <SAMP>`RI'</SAMP>
+<DD>
+<A NAME="IDX52"></A>
+<A NAME="IDX53"></A>
+<A NAME="IDX54"></A>
+<A NAME="IDX55"></A>
+Strings of commands to move the cursor <VAR>n</VAR> lines down vertically,
+up vertically, or <VAR>n</VAR> columns left or right.  Do not attempt to
+move past any edge of the screen with these commands; the effect of
+trying that is undefined.  Only a few terminal descriptions provide
+these commands, and most programs do not use them.
+
+<DT><SAMP>`CM'</SAMP>
+<DD>
+<A NAME="IDX56"></A>
+String of commands to position the cursor at line <VAR>l</VAR>, column
+<VAR>c</VAR>, relative to display memory.  Both parameters are origin-zero.
+This capability is present only in terminals where there is a
+difference between screen-relative and memory-relative addressing, and
+not even in all such terminals.
+
+<DT><SAMP>`ch'</SAMP>
+<DD>
+<A NAME="IDX57"></A>
+String of commands to position the cursor at column <VAR>c</VAR> in the
+same line it is on.  This is a special case of <SAMP>`cm'</SAMP> in which the
+vertical position is not changed.  The <SAMP>`ch'</SAMP> capability is
+provided only when it is faster to output than <SAMP>`cm'</SAMP> would be in
+this special case.  Programs should not assume most display terminals
+have <SAMP>`ch'</SAMP>.
+
+<DT><SAMP>`cv'</SAMP>
+<DD>
+<A NAME="IDX58"></A>
+String of commands to position the cursor at line <VAR>l</VAR> in the same
+column.  This is a special case of <SAMP>`cm'</SAMP> in which the horizontal
+position is not changed.  The <SAMP>`cv'</SAMP> capability is provided only
+when it is faster to output than <SAMP>`cm'</SAMP> would be in this special
+case.  Programs should not assume most display terminals have
+<SAMP>`cv'</SAMP>.
+
+<DT><SAMP>`sc'</SAMP>
+<DD>
+<A NAME="IDX59"></A>
+String of commands to make the terminal save the current cursor
+position.  Only the last saved position can be used.  If this
+capability is present, <SAMP>`rc'</SAMP> should be provided also.  Most
+terminals have neither.
+
+<DT><SAMP>`rc'</SAMP>
+<DD>
+<A NAME="IDX60"></A>
+String of commands to make the terminal restore the last saved cursor
+position.  If this capability is present, <SAMP>`sc'</SAMP> should be provided
+also.  Most terminals have neither.
+
+<DT><SAMP>`ff'</SAMP>
+<DD>
+<A NAME="IDX61"></A>
+String of commands to advance to the next page, for a hardcopy
+terminal.
+
+<DT><SAMP>`ta'</SAMP>
+<DD>
+<A NAME="IDX62"></A>
+String of commands to move the cursor right to the next hardware tab
+stop column.  Missing if the terminal does not have any kind of
+hardware tabs.  Do not send this command if the kernel's terminal
+modes say that the kernel is expanding tabs into spaces.
+
+<DT><SAMP>`bt'</SAMP>
+<DD>
+<A NAME="IDX63"></A>
+String of commands to move the cursor left to the previous hardware
+tab stop column.  Missing if the terminal has no such ability; many
+terminals do not.  Do not send this command if the kernel's terminal
+modes say that the kernel is expanding tabs into spaces.
+</DL>
+
+<P>
+The following obsolete capabilities should be included in terminal
+descriptions when appropriate, but should not be looked at by new programs.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`nc'</SAMP>
+<DD>
+<A NAME="IDX64"></A>
+Flag whose presence means the terminal does not support the ASCII
+carriage return character as <SAMP>`cr'</SAMP>.  This flag is needed because
+old programs assume, when the <SAMP>`cr'</SAMP> capability is missing, that
+ASCII carriage return can be used for the purpose.  We use <SAMP>`nc'</SAMP>
+to tell the old programs that carriage return may not be used.
+
+New programs should not assume any default for <SAMP>`cr'</SAMP>, so they need
+not look at <SAMP>`nc'</SAMP>.  However, descriptions should contain <SAMP>`nc'</SAMP>
+whenever they do not contain <SAMP>`cr'</SAMP>.
+
+<DT><SAMP>`xt'</SAMP>
+<DD>
+<A NAME="IDX65"></A>
+Flag whose presence means that the ASCII tab character may not be used
+for cursor motion.  This flag exists because old programs assume, when
+the <SAMP>`ta'</SAMP> capability is missing, that ASCII tab can be used for
+the purpose.  We use <SAMP>`xt'</SAMP> to tell the old programs not to use tab.
+
+New programs should not assume any default for <SAMP>`ta'</SAMP>, so they need
+not look at <SAMP>`xt'</SAMP> in connection with cursor motion.  Note that
+<SAMP>`xt'</SAMP> also has implications for standout mode (see section <A HREF="termcap_33.html#SEC33">Standout and Appearance Modes</A>).
+It is obsolete in regard to cursor motion but not in regard to
+standout.
+
+In fact, <SAMP>`xt'</SAMP> means that the terminal is a Teleray 1061.
+
+<DT><SAMP>`bc'</SAMP>
+<DD>
+<A NAME="IDX66"></A>
+Very obsolete alternative name for the <SAMP>`le'</SAMP> capability.
+
+<DT><SAMP>`bs'</SAMP>
+<DD>
+<A NAME="IDX67"></A>
+Flag whose presence means that the ASCII character backspace may be
+used to move the cursor left.  Obsolete; look at <SAMP>`le'</SAMP> instead.
+
+<DT><SAMP>`nl'</SAMP>
+<DD>
+<A NAME="IDX68"></A>
+Obsolete capability which is a string that can either be used to move
+the cursor down or to scroll.  The same string must scroll when used
+on the bottom line and move the cursor when used on any other line.
+New programs should use <SAMP>`do'</SAMP> or <SAMP>`sf'</SAMP>, and ignore <SAMP>`nl'</SAMP>.
+
+If there is no <SAMP>`nl'</SAMP> capability, some old programs assume they can
+use the newline character for this purpose.  These programs follow a
+bad practice, but because they exist, it is still desirable to define
+the <SAMP>`nl'</SAMP> capability in a terminal description if the best way to
+move down is <EM>not</EM> a newline.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_25.html">previous</A>, <A HREF="termcap_27.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

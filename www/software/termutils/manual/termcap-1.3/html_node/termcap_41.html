@@ -1,0 +1,76 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Status Line</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_40.html">previous</A>, <A HREF="termcap_42.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC41" HREF="termcap_toc.html#TOC41">Status Line</A></H2>
+
+<P>
+<A NAME="IDX178"></A>
+A <EM>status line</EM> is a line on the terminal that is not used for ordinary
+display output but instead used for a special message.  The intended use is
+for a continuously updated description of what the user's program is doing,
+and that is where the name "status line" comes from, but in fact it could
+be used for anything.  The distinguishing characteristic of a status line
+is that ordinary output to the terminal does not affect it; it changes only
+if the special status line commands of this section are used.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`hs'</SAMP>
+<DD>
+<A NAME="IDX179"></A>
+Flag whose presence means that the terminal has a status line.  If a
+terminal description specifies that there is a status line, it must
+provide the <SAMP>`ts'</SAMP> and <SAMP>`fs'</SAMP> capabilities.
+
+<DT><SAMP>`ts'</SAMP>
+<DD>
+<A NAME="IDX180"></A>
+String of commands to move the terminal cursor into the status line.
+Usually these commands must specifically record the old cursor
+position for the sake of the <SAMP>`fs'</SAMP> string.
+
+<DT><SAMP>`fs'</SAMP>
+<DD>
+<A NAME="IDX181"></A>
+String of commands to move the cursor back from the status line to its
+previous position (outside the status line).
+
+<DT><SAMP>`es'</SAMP>
+<DD>
+<A NAME="IDX182"></A>
+Flag whose presence means that other display commands work while
+writing the status line.  In other words, one can clear parts of it,
+insert or delete characters, move the cursor within it using <SAMP>`ch'</SAMP>
+if there is a <SAMP>`ch'</SAMP> capability, enter and leave standout mode, and
+so on.
+
+<DT><SAMP>`ds'</SAMP>
+<DD>
+<A NAME="IDX183"></A>
+String of commands to disable the display of the status line.  This
+may be absent, if there is no way to disable the status line display.
+
+<DT><SAMP>`ws'</SAMP>
+<DD>
+<A NAME="IDX184"></A>
+Numeric value, the width of the status line.  If this capability is
+absent in a terminal that has a status line, it means the status line
+is the same width as the other lines.
+
+Note that the value of <SAMP>`ws'</SAMP> is sometimes as small as 8.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_40.html">previous</A>, <A HREF="termcap_42.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

@@ -1,0 +1,1892 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/nana.texi on 6 November 1998 -->
+
+<TITLE>GNU Nana: improved support for assertions and logging in C and C++ - Interface</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_3.html">previous</A>, <A HREF="nana_5.html">next</A>, <A HREF="nana_8.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC16" HREF="nana_toc.html#TOC16">Interface</A></H1>
+<P>
+This section describes the details of the interface to nana library.
+
+</P>
+<P>
+All of the files can be included multiple times without
+ill--effect since they use the C preprocessor to make sure the header
+declarations are only seen the first by the compiler.
+Each of the files can also be included individually.
+
+</P>
+
+<P>
+If any of the following routines have an internal problem (e.g. malloc
+fails due to lack of memory) they will call the <SAMP>`nana_error'</SAMP> function
+defined in <SAMP>`nana_error.c'</SAMP>. By default this function prints a message
+and dumps core using <SAMP>`abort'</SAMP>. If you wish to override this behaviour
+you should define your own handler before linking in the nana library.
+
+</P>
+
+
+<H2><A NAME="SEC17" HREF="nana_toc.html#TOC17">nana.h: the main header file</A></H2>
+<P>
+The <SAMP>`nana.h'</SAMP> file includes most of the other files in the
+library. In particular it <SAMP>`#include's'</SAMP> the following
+files:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>I.h</CODE>
+<DD>
+<A NAME="IDX21"></A>
+<DT><CODE>DI.h</CODE>
+<DD>
+<A NAME="IDX22"></A>
+<DT><CODE>L.h</CODE>
+<DD>
+<A NAME="IDX23"></A>
+<DT><CODE>DL.h</CODE>
+<DD>
+<A NAME="IDX24"></A>
+<DT><CODE>Q.h</CODE>
+<DD>
+<A NAME="IDX25"></A>
+<DT><CODE>GDB.h</CODE>
+<DD>
+<A NAME="IDX26"></A>
+</DL>
+
+
+
+<H2><A NAME="SEC18" HREF="nana_toc.html#TOC18">WITHOUT_NANA: disabling all nana code for portability.</A></H2>
+<P>
+If you wish to disable all nana code you can <SAMP>`#define'</SAMP> the
+<SAMP>`WITHOUT_NANA'</SAMP> macro. This selects versions of the 
+macros defined in <SAMP>`I.h'</SAMP>,<SAMP>`L.h'</SAMP>, etc which map to 
+<SAMP>`/* empty */'</SAMP>. 
+
+</P>
+<P>
+So if you are using nana for your development but don't wish to 
+force  your customers to use it you can add an option to your
+<SAMP>`configure'</SAMP> script to define/undefine <SAMP>`WITHOUT_NANA'</SAMP>. 
+In addition you will need to distribute copies of the nana header
+files with your package to get the stubs.
+
+</P>
+<P>
+Note that the <SAMP>`L.h'</SAMP> and <SAMP>`DL.h'</SAMP> macros use the 
+macro variable number of arguments extension provided by 
+GNU C. If you wish your code to be portable you should use
+the macros <SAMP>`VL((..))'</SAMP>, etc rather than <SAMP>`L(..)'</SAMP> to
+avoid problems with non GNU C preprocessors which only take a fixed
+number of arguments.
+
+</P>
+
+
+<H2><A NAME="SEC19" HREF="nana_toc.html#TOC19">I.h: C based invariant checking</A></H2>
+<P>
+This implements the C based invariant checking code and is a
+replacement for <SAMP>`assert.h'</SAMP>. The first two macros are the normal
+user interface; the remainder are used for configuring the behaviour on
+failure, etc. 
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>I</B> <I>(bool <VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX27"></A>
+The <VAR>exprn</VAR> should always be true if the program is correct.  If the
+<VAR>exprn</VAR> is false a message will be printed, followed by core
+dump.<A NAME="DOCF4" HREF="nana_foot.html#FOOT4">(4)</A>
+
+</P>
+<P>
+Checking can be enabled and disabled by using the <VAR>I_LEVEL</VAR>
+and <VAR>I_DEFAULT_GUARD</VAR> macros. See the definitions below for these
+macros for further details.
+
+</P>
+<P>
+Note that <VAR>exprn</VAR> should have no side-effects<A NAME="DOCF5" HREF="nana_foot.html#FOOT5">(5)</A>
+since disabling checking shouldn't change your programs behaviour.
+
+</P>
+
+<PRE>
+  I(z != 0); 
+  x = y / z;
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>N</B> <I>(bool <VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX28"></A>
+The opposite of <SAMP>`I'</SAMP>, i.e. the expression must never ever be true if
+the program is working properly. It is equivelant to <CODE>I(!(e))</CODE> and
+exists as a piece of syntactic sugar which may be helpful for complicated
+boolean expressions.
+
+</P>
+
+<PRE>
+char* strdup(char *s) {
+  N(s == NULL);
+  ...;
+}
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> int <B>I_LEVEL</B>
+<DD><A NAME="IDX29"></A>
+The <SAMP>`I_LEVEL'</SAMP> macro is used to globally enable and disable
+checking by the macros in this file. It can take on one of three values:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>0</CODE>
+<DD>
+<A NAME="IDX30"></A>
+Disable all checking. Regardless of anything else no code will be
+generated for <CODE>I</CODE>, <CODE>N</CODE>, etc.
+<DT><CODE>1</CODE>
+<DD>
+<A NAME="IDX31"></A>
+Enable checking only if the corresponding guard condition is true. The
+guard condition can be used to enable and disable checking at compile
+and run time.
+<DT><CODE>2</CODE>
+<DD>
+<A NAME="IDX32"></A>
+Enable all checking regardless of guard conditions.
+</DL>
+
+<P>
+<CODE>I_LEVEL</CODE> defaults to <CODE>1</CODE>. 
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> bool <B>I_DEFAULT_GUARD</B>
+<DD><A NAME="IDX33"></A>
+The <CODE>I_DEFAULT_GUARD</CODE> is used to selectively enable or disable
+checking at compile or run time. 
+
+</P>
+<P>
+<CODE>I_DEFAULT_GUARD</CODE> defaults to <CODE>TRUE</CODE>, i.e. always enabled.
+
+</P>
+<P>
+A user would typically define <CODE>I_DEFAULT_GUARD</CODE> to be global or local
+variable which is used to turn checking on or off at run--time. For
+example:
+
+</P>
+
+<PRE>
+#define I_DEFAULT_GUARD i_guard &#62; 0
+
+extern int i_guard;
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> text <B>I_DEFAULT_PARAMS</B>
+<DD><A NAME="IDX34"></A>
+This is passed off to the <CODE>I_DEFAULT_HANDLER</CODE> and defaults to
+nothing, it is just some text and is intended to pass failure codes
+(e.g. <CODE>IEH303</CODE>) or requests (e.g. <CODE>HW_DEAD</CODE>) information off
+to the handler.
+
+</P>
+<P>
+<CODE>I_DEFAULT_PARAMS</CODE> defaults to nothing.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>I_DEFAULT_HANDLER</B> <I>(char *<VAR>exprn</VAR>, char *<VAR>file</VAR>, int <VAR>line</VAR>, <VAR>param</VAR>)</I>
+<DD><A NAME="IDX35"></A>
+
+</P>
+<P>
+When an error is detected the <CODE>I_DEFAULT_HANDLER</CODE> will be called to
+handle the error. The arguments are:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>exprn</CODE>
+<DD>
+<A NAME="IDX36"></A>
+A string representation of the expression that has failed, e.g. <CODE>"I(i&#62;=0)"</CODE>.
+<DT><CODE>file</CODE>
+<DD>
+<A NAME="IDX37"></A>
+The file that this error occurred in, i.e. <CODE>__FILE__</CODE>.
+<DT><CODE>line</CODE>
+<DD>
+<A NAME="IDX38"></A>
+The line number for the error, i.e. <CODE>__LINE__</CODE>.
+<DT><CODE>param</CODE>
+<DD>
+<A NAME="IDX39"></A>
+An optional parameter which can be passed across which defaults to
+<CODE>I_DEFAULT_PARAMS</CODE>. This can be used to pass failure codes or other
+information from the checking code to the handler.
+</DL>
+</DL>
+
+<P>
+All of the remaining macros are used to individually override the
+default values defined above. Normally these macros would be used in a
+system wide header file to define macros appropriate for the
+application. For example you might use <SAMP>`IH'</SAMP> to define 
+different checking macros for hardware and software faults.
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>I</B> <I>(bool <VAR>e</VAR>)</I>
+<DD><A NAME="IDX40"></A>
+<DT><U>Macro:</U> void <B>IG</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>)</I>
+<DD><A NAME="IDX41"></A>
+<DT><U>Macro:</U> void <B>IH</B> <I>(bool <VAR>e</VAR>, Macro <VAR>h</VAR>)</I>
+<DD><A NAME="IDX42"></A>
+<DT><U>Macro:</U> void <B>IP</B> <I>(bool <VAR>e</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX43"></A>
+<DT><U>Macro:</U> void <B>IGH</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Macro <VAR>h</VAR>)</I>
+<DD><A NAME="IDX44"></A>
+<DT><U>Macro:</U> void <B>IGP</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX45"></A>
+<DT><U>Macro:</U> void <B>IHP</B> <I>(bool <VAR>e</VAR>, Macro <VAR>h</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX46"></A>
+<DT><U>Macro:</U> void <B>IGHP</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Macro <VAR>h</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX47"></A>
+<DT><U>Macro:</U> void <B>N</B> <I>(bool <VAR>e</VAR>)</I>
+<DD><A NAME="IDX48"></A>
+<DT><U>Macro:</U> void <B>NG</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>)</I>
+<DD><A NAME="IDX49"></A>
+<DT><U>Macro:</U> void <B>NH</B> <I>(bool <VAR>e</VAR>, Macro <VAR>h</VAR>)</I>
+<DD><A NAME="IDX50"></A>
+<DT><U>Macro:</U> void <B>NP</B> <I>(bool <VAR>e</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX51"></A>
+<DT><U>Macro:</U> void <B>NGH</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Macro <VAR>h</VAR>)</I>
+<DD><A NAME="IDX52"></A>
+<DT><U>Macro:</U> void <B>NGP</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX53"></A>
+<DT><U>Macro:</U> void <B>NHP</B> <I>(bool <VAR>e</VAR>, Macro <VAR>h</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX54"></A>
+<DT><U>Macro:</U> void <B>NGHP</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Macro <VAR>h</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX55"></A>
+</DL>
+
+</P>
+<P>
+We also provide support for referring to previous values of variables in 
+postconditions. The <CODE>ID</CODE> macro is used to create variables to 
+save the old state in. The <CODE>IS</CODE> and <CODE>ISG</CODE> macros are to 
+set these values. 
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>ID</B> <I>(Text <VAR>decln</VAR>)</I>
+<DD><A NAME="IDX56"></A>
+<DT><U>Macro:</U> void <B>IS</B> <I>(Text <VAR>assignment</VAR>)</I>
+<DD><A NAME="IDX57"></A>
+<DT><U>Macro:</U> void <B>ISG</B> <I>(Text <VAR>decln</VAR>, bool <VAR>g</VAR>)</I>
+<DD><A NAME="IDX58"></A>
+</DL>
+
+</P>
+<P>
+For example:
+
+<PRE>
+void ex(int &#38;r) {
+  ID(int oldr = r); /* save parameter */
+  g(r);
+  I(oldr == r); /* check r is unchanged */
+  while(more()) {
+    IS(oldr = r); /* assign r to oldr */
+    h(r);
+    I(oldr == r * r);
+  }
+}
+</PRE>
+
+
+
+<H2><A NAME="SEC20" HREF="nana_toc.html#TOC20">DI.h: debugger based invariant checking</A></H2>
+<P>
+This implements the debugger based invariant checking code.
+The first two macros are the normal
+user interface; the remainder are used for configuring the behaviour on
+failure, etc. Note that these macros have no effect unless you run your 
+program under the debugger and read in the commands generated by the
+<SAMP>`nana'</SAMP> command.
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>DI</B> <I>(bool <VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX59"></A>
+The <VAR>exprn</VAR> should always be true if the program is working. 
+If it is true then nothing happens otherwise the code given by
+<SAMP>`DI_DEFAULT_HANDLER'</SAMP> will be called which by default prints 
+a message and dies just like <SAMP>`assert.h'</SAMP>.  
+
+</P>
+<P>
+The checking using <VAR>DI</VAR> can be enabled and disabled by using the
+<VAR>DI_LEVEL</VAR> and <VAR>DI_DEFAULT_GUARD</VAR> macros. See the definitions
+below for these macros for further details.
+
+</P>
+<P>
+Note that <VAR>exprn</VAR> should have no side-effects<A NAME="DOCF6" HREF="nana_foot.html#FOOT6">(6)</A> since 
+disabling the checking shouldn't change your programs behaviour.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>DN</B> <I>(bool <VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX60"></A>
+The opposite of <SAMP>`DI'</SAMP>, i.e. the expression must never ever be true if
+the program is working properly. It is equivelant to <CODE>I(!(e))</CODE> and
+exists as piece of syntactic sugar which is helpful for complicated
+boolean expressions.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> int <B>DI_LEVEL</B>
+<DD><A NAME="IDX61"></A>
+The <SAMP>`DI_LEVEL'</SAMP> macro is used to globally enable and disable
+checking, in particular it can take on one of three values:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>0</CODE>
+<DD>
+<A NAME="IDX62"></A>
+Disable all checking. Regardless of anything else no code will be
+generated for <CODE>DI</CODE>, <CODE>DN</CODE>, etc.
+<DT><CODE>1</CODE>
+<DD>
+<A NAME="IDX63"></A>
+Enable checking only if the corresponding guard condition is true. The
+guard condition can be used to enable and disable checking at compile
+and run time.
+<DT><CODE>2</CODE>
+<DD>
+<A NAME="IDX64"></A>
+Enable all checking regardless of guard conditions, etc.
+</DL>
+
+<P>
+<CODE>DI_LEVEL</CODE> defaults to <CODE>1</CODE>. 
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> bool <B>DI_DEFAULT_GUARD</B>
+<DD><A NAME="IDX65"></A>
+The <CODE>DI_DEFAULT_GUARD</CODE> is used to selectively enable or disable
+checking at compile or run time. 
+
+</P>
+<P>
+<CODE>DI_DEFAULT_GUARD</CODE> defaults to <CODE>TRUE</CODE>, i.e. always enabled.
+
+</P>
+<P>
+A user would typically define <CODE>DI_DEFAULT_GUARD</CODE> to be global or local
+variable which is used to turn checking on or off at run--time. For
+example:
+
+</P>
+
+<PRE>
+#define DI_DEFAULT_GUARD (i_guard)
+
+extern int i_guard;
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> text <B>DI_DEFAULT_PARAMS</B>
+<DD><A NAME="IDX66"></A>
+This is passed off to the <CODE>DI_DEFAULT_HANDLER</CODE> and defaults to
+nothing, it is just some text and is intended to pass failure codes
+(e.g. <CODE>IEH303</CODE>) or requests (e.g. <CODE>HW_DEAD</CODE>) information off
+to the handler.
+
+</P>
+<P>
+<CODE>DI_DEFAULT_PARAMS</CODE> defaults to nothing.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>DI_DEFAULT_HANDLER</B> <I>(char *<VAR>exprn</VAR>, char *<VAR>file</VAR>, int <VAR>line</VAR>, <VAR>param</VAR>)</I>
+<DD><A NAME="IDX67"></A>
+
+</P>
+<P>
+When an error is detected the <CODE>DI_DEFAULT_HANDLER</CODE> will be called to
+handle the error. The arguments are:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>exprn</CODE>
+<DD>
+<A NAME="IDX68"></A>
+A string representation of the expression that has failed, e.g. <CODE>"I(i&#62;=0)"</CODE>.
+<DT><CODE>file</CODE>
+<DD>
+<A NAME="IDX69"></A>
+The file that this error occurred in, i.e. <CODE>__FILE__</CODE>.
+<DT><CODE>line</CODE>
+<DD>
+<A NAME="IDX70"></A>
+The line number for the error, i.e. <CODE>__LINE__</CODE>.
+<DT><CODE>param</CODE>
+<DD>
+<A NAME="IDX71"></A>
+An optional parameter which can be passed across which defaults to
+<CODE>DI_DEFAULT_PARAMS</CODE>. This can be used to pass failure codes or other
+information from the checking code to the handler.
+</DL>
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>DI_MAKE_VALID_BREAKPOINT</B> <I>(exprn <VAR>e</VAR>)</I>
+<DD><A NAME="IDX72"></A>
+This macro is used to ensure that a breakpoint can be set at the
+location we are checking using <CODE>DI</CODE>, etc. It defaults to
+<CODE>asm("nop")</CODE> and can be redefined by the user.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>DI</B> <I>(bool <VAR>e</VAR>)</I>
+<DD><A NAME="IDX73"></A>
+<DT><U>Macro:</U> void <B>DIG</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>)</I>
+<DD><A NAME="IDX74"></A>
+<DT><U>Macro:</U> void <B>DIH</B> <I>(bool <VAR>e</VAR>, Macro <VAR>h</VAR>)</I>
+<DD><A NAME="IDX75"></A>
+<DT><U>Macro:</U> void <B>DIP</B> <I>(bool <VAR>e</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX76"></A>
+<DT><U>Macro:</U> void <B>DIGH</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Macro <VAR>h</VAR>)</I>
+<DD><A NAME="IDX77"></A>
+<DT><U>Macro:</U> void <B>DIGP</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX78"></A>
+<DT><U>Macro:</U> void <B>DIHP</B> <I>(bool <VAR>e</VAR>, Macro <VAR>h</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX79"></A>
+<DT><U>Macro:</U> void <B>DIGHP</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Macro <VAR>h</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX80"></A>
+<DT><U>Macro:</U> void <B>DN</B> <I>(bool <VAR>e</VAR>)</I>
+<DD><A NAME="IDX81"></A>
+<DT><U>Macro:</U> void <B>DNG</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>)</I>
+<DD><A NAME="IDX82"></A>
+<DT><U>Macro:</U> void <B>DNH</B> <I>(bool <VAR>e</VAR>, Macro <VAR>h</VAR>)</I>
+<DD><A NAME="IDX83"></A>
+<DT><U>Macro:</U> void <B>DNP</B> <I>(bool <VAR>e</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX84"></A>
+<DT><U>Macro:</U> void <B>DNGH</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Macro <VAR>h</VAR>)</I>
+<DD><A NAME="IDX85"></A>
+<DT><U>Macro:</U> void <B>DNGP</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX86"></A>
+<DT><U>Macro:</U> void <B>DNHP</B> <I>(bool <VAR>e</VAR>, Macro <VAR>h</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX87"></A>
+<DT><U>Macro:</U> void <B>DNGHP</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Macro <VAR>h</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX88"></A>
+
+</P>
+<P>
+All of these macros are used to individually override the
+default values defined above. Normally these macros
+would be used in a system wide header file to define macros appropriate 
+for the application.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>DS</B> <I>(<VAR>e</VAR>)</I>
+<DD><A NAME="IDX89"></A>
+<DT><U>Macro:</U> void <B>DSG</B> <I>(<VAR>e</VAR>, <VAR>g</VAR>)</I>
+<DD><A NAME="IDX90"></A>
+These macros are used to assign values to convenience variables in the
+debugger. Convenience variables are dynamically typed, global in scope
+and initialised to 0. They start with a single <CODE>$</CODE> and can be used be
+used for saving the state of program or for counting events. The
+<SAMP>`DS'</SAMP> macro executes <VAR>e</VAR> under the same rules as <CODE>DI</CODE>.
+The <SAMP>`DSG'</SAMP> macro executes <VAR>e</VAR> only if the the expression
+<VAR>g</VAR> is true.
+
+</P>
+<P>
+Note that <SAMP>`DS'</SAMP> and <SAMP>`DSG'</SAMP> can also be used for modifying
+C variables and calling functions.
+</DL>
+
+</P>
+
+
+<H2><A NAME="SEC21" HREF="nana_toc.html#TOC21">L.h: support for printf style logging</A></H2>
+<P>
+These routines are used to provide logging functions. Messages can be
+divided into classes and separately enabled and disabled.
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>L</B> <I>(<VAR>args</VAR>...)</I>
+<DD><A NAME="IDX91"></A>
+Used to log a message in a similar way to printf.
+
+</P>
+<P>
+Defaults to a using <CODE>fprintf</CODE> on <CODE>stderr</CODE>.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>LG</B> <I>(bool <VAR>guard</VAR>, <VAR>args</VAR>...)</I>
+<DD><A NAME="IDX92"></A>
+<DT><U>Macro:</U> void <B>LH</B> <I>(function <VAR>handler</VAR>, <VAR>args</VAR>...)</I>
+<DD><A NAME="IDX93"></A>
+<DT><U>Macro:</U> void <B>LP</B> <I>(text <VAR>param</VAR>, <VAR>args</VAR>...)</I>
+<DD><A NAME="IDX94"></A>
+<DT><U>Macro:</U> void <B>LGP</B> <I>(bool <VAR>guard</VAR>, text <VAR>param</VAR>, <VAR>args</VAR>...)</I>
+<DD><A NAME="IDX95"></A>
+<DT><U>Macro:</U> void <B>LHP</B> <I>(function <VAR>handler</VAR>, text <VAR>param</VAR>, <VAR>args</VAR>...)</I>
+<DD><A NAME="IDX96"></A>
+<DT><U>Macro:</U> void <B>LGHP</B> <I>(bool <VAR>guard</VAR>, function <VAR>handler</VAR>, text <VAR>param</VAR>, <VAR>args</VAR>...)</I>
+<DD><A NAME="IDX97"></A>
+And all of the special functions.
+
+</P>
+</DL>
+
+<P>
+The macros such as <SAMP>`L'</SAMP> depend on the GNU CC variable number of arguments 
+to macros extension. If you wish to compile your code on other systems
+you might wish to use the following variations on <SAMP>`L'</SAMP>, etc.
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>VL</B> <I>((<VAR>args</VAR>...))</I>
+<DD><A NAME="IDX98"></A>
+<DT><U>Macro:</U> void <B>VLG</B> <I>((bool <VAR>guard</VAR>, <VAR>args</VAR>...))</I>
+<DD><A NAME="IDX99"></A>
+<DT><U>Macro:</U> void <B>VLH</B> <I>((function <VAR>handler</VAR>, <VAR>args</VAR>...))</I>
+<DD><A NAME="IDX100"></A>
+<DT><U>Macro:</U> void <B>VLP</B> <I>((text <VAR>param</VAR>, <VAR>args</VAR>...))</I>
+<DD><A NAME="IDX101"></A>
+<DT><U>Macro:</U> void <B>VLGP</B> <I>((bool <VAR>guard</VAR>, <VAR>text param</VAR>, <VAR>args</VAR>...))</I>
+<DD><A NAME="IDX102"></A>
+<DT><U>Macro:</U> void <B>VLHP</B> <I>((function <VAR>handler</VAR>, text <VAR>param</VAR>, <VAR>args</VAR>...))</I>
+<DD><A NAME="IDX103"></A>
+<DT><U>Macro:</U> void <B>VLGHP</B> <I>((bool <VAR>guard</VAR>, function <VAR>handler</VAR>, text <VAR>param</VAR>, <VAR>args</VAR>...))</I>
+<DD><A NAME="IDX104"></A>
+Each of these macros calls the corresponding function from the previous
+group, i.e. by default <SAMP>`VLG'</SAMP> is the same as a call to <SAMP>`LG'</SAMP>.
+If you define <SAMP>`WITHOUT_NANA'</SAMP> all these macros are translated
+to <SAMP>`/* empty */'</SAMP>. 
+
+</P>
+<P>
+Thus you can have nana under GCC whilst the code is still portable
+to other compilers. However debugging information will not be available
+on other platforms.
+
+</P>
+<P>
+<STRONG>Note:</STRONG> the argument list is surrounded by <STRONG>two</STRONG> sets of 
+brackets. For example:
+
+</P>
+
+<PRE>
+   VL(("haze in darwin = %d\n", 3.4));
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>L_LEVEL</B>
+<DD><A NAME="IDX105"></A>
+Used to enable and disable logging independently of guard expressions.
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>2</CODE>
+<DD>
+<A NAME="IDX106"></A>
+Always print message
+<DT><CODE>1</CODE>
+<DD>
+<A NAME="IDX107"></A>
+Print message only if the guard expression is true.
+<DT><CODE>0</CODE>
+<DD>
+<A NAME="IDX108"></A>
+Never print any messages.
+</DL>
+
+<P>
+Defaults to <CODE>1</CODE>.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> text <B>L_DEFAULT_HANDLER</B>
+<DD><A NAME="IDX109"></A>
+The default handler for printing which is simply the name of the
+logging function or macro.
+
+</P>
+<P>
+Defaults to <CODE>fprintf</CODE>
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> bool <B>L_DEFAULT_GUARD</B>
+<DD><A NAME="IDX110"></A>
+The default guard condition for logging. 
+
+</P>
+<P>
+Defaults to <CODE>TRUE</CODE>.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> text <B>L_DEFAULT_PARAMS</B>
+<DD><A NAME="IDX111"></A>
+The default parameter passed off to the logging function or macro.
+
+</P>
+<P>
+Defaults to <CODE>stderr</CODE>
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>L_SHOW_TIME</B>
+<DD><A NAME="IDX112"></A>
+If defined then display the time in front of each message.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> char* <B>L_SHOW_TIME_FORMAT</B>
+<DD><A NAME="IDX113"></A>
+A format string for the time stamp in the log. By default it prints the
+time out in seconds.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> value <B>L_SHOW_TIME_NOW</B>
+<DD><A NAME="IDX114"></A>
+The name of a function that returns the time for the time stamp. This
+defaults to the <SAMP>`now'</SAMP> function from <SAMP>`now.h'</SAMP>.
+</DL>
+
+</P>
+
+
+<H2><A NAME="SEC22" HREF="nana_toc.html#TOC22">L_buffer.h: a circular buffer for logging.</A></H2>
+<P>
+A traditional embedded systems trick is to log messages to a circular
+buffer in core. This has the following benefits:
+
+</P>
+
+<OL>
+<LI>Speed -- writing to a in core buffer is much faster than spitting
+
+out messages to a file on disk. It is often fast enough to leave at least
+most of the messages in the final product.
+<LI>Field debugging -- what the ... was the user doing before the
+
+system crashed. Oh lets ask them, I'm sure they'll give us a good
+problem report. 
+</OL>
+
+<P>
+<DL>
+<DT><U>Type:</U> struct <B>L_BUFFER</B>
+<DD><A NAME="IDX115"></A>
+Used to define buffer variables, it is similar to <SAMP>`FILE*'</SAMP> type in 
+<SAMP>`stdio.h'</SAMP>. To create an instance use <SAMP>`L_buffer_create'</SAMP>.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> L_BUFFER* <B>L_buffer_create</B> <I>(size_t <VAR>size</VAR>)</I>
+<DD><A NAME="IDX116"></A>
+<DT><U>Function:</U> L_BUFFER* <B>L_buffer_delete</B> <I>(L_BUFFER <VAR>*b</VAR>)</I>
+<DD><A NAME="IDX117"></A>
+These are used to create or delete a buffer which can contain <VAR>size</VAR>
+characters. 
+
+</P>
+
+<PRE>
+  L_BUFFER *lbuffer;
+
+  lbuffer = L_buffer_create(32*1024); /* create a 32K buffer */
+  ...;
+  L_buffer_delete(lbuffer); /* and delete it after use */
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Function:</U> void <B>L_buffer_wraparound</B> <I>(L_BUFFER <VAR>*b</VAR>, int <VAR>w</VAR>)</I>
+<DD><A NAME="IDX118"></A>
+A buffer created by <SAMP>`L_buffer_create'</SAMP> is set up so that the new
+messages will overwrite the older messages in the buffer. If you wish 
+to disable this overwriting, e.g. to keep the first 32K bytes
+of your system startup messages you should use <SAMP>`L_buffer_wraparound'</SAMP>.
+For example:
+
+</P>
+
+<PRE>
+  L_BUFFER *lb = L_buffer_create(32*1024);
+  L_buffer_wraparound(lb, 0); /* disable wraparound */
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Function:</U> void <B>L_buffer_printf</B> <I>(L_BUFFER <VAR>*b</VAR>, const char <VAR>*fmt</VAR>, ...)</I>
+<DD><A NAME="IDX119"></A>
+<DT><U>Function:</U> void <B>L_buffer_puts</B> <I>(L_BUFFER <VAR>*b</VAR>, const char <VAR>*str</VAR>)</I>
+<DD><A NAME="IDX120"></A>
+<DT><U>Function:</U> void <B>L_buffer_putchar</B> <I>(L_BUFFER <VAR>*b</VAR>, char <VAR>ch</VAR>)</I>
+<DD><A NAME="IDX121"></A>
+These are the routines which do that actual printing to the buffer.
+
+</P>
+
+<PRE>
+  L_buffer_printf(lbuffer, "U: user input %c\n", c);
+  L_buffer_puts(lbuffer, "warning: its too hot");
+  L_buffer_putchar(lbuffer, '*');
+</PRE>
+
+<P>
+Note: a null pointer passed to the <SAMP>`L_buffer_puts'</SAMP> function prints
+as <SAMP>`(null)'</SAMP>. <A NAME="DOCF7" HREF="nana_foot.html#FOOT7">(7)</A>
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> void <B>L_buffer_clear</B> <I>(L_BUFFER <VAR>*b</VAR>)</I>
+<DD><A NAME="IDX122"></A>
+Clear the log, i.e. remove all messages and start again.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> void <B>L_buffer_dump</B> <I>(L_BUFFER <VAR>*b</VAR>, FILE *<VAR>fp</VAR>)</I>
+<DD><A NAME="IDX123"></A>
+Dump the contents of the log <VAR>*b</VAR> to the file descriptor <VAR>*fp</VAR>. 
+Typically <VAR>*fp</VAR> would be <SAMP>`stderr'</SAMP>. 
+
+</P>
+<P>
+Note that this does not change the contents of the buffer.  This is
+important since we may have a hardware or software problem part of the
+way through the dump operation and you don't want to loose anything.
+
+</P>
+<P>
+To reset the buffer after a successful dump use <SAMP>`L_buffer_clear'</SAMP>.
+
+</P>
+<P>
+The output of <SAMP>`L_buffer_dump'</SAMP> consists of a starting message
+followed by the contents of the log. If a character in the log is not
+printable we print it out in hex on a line by itself.
+
+</P>
+
+<PRE>
+* L_buffer_dump =
+log message
+and another
+* non-printable character 0x1
+more log messages
+* end of dump
+</PRE>
+
+</DL>
+
+<P>
+You also need to be able to integrate these functions into your
+design. See <SAMP>`examples/ott.c'</SAMP> for a complicated example. Here we
+will provide a simplified version which implements a new logging macro
+called <SAMP>`LFAST'</SAMP> which does a <SAMP>`printf'</SAMP> to the <SAMP>`log_buffer'</SAMP>.
+If you want to have all messages going to a <SAMP>`L_BUFFER'</SAMP> then you can
+redefine <SAMP>`L_DEFAULT_HANDLER'</SAMP>.
+
+</P>
+
+<PRE>
+/* project.h - the project wide include file */
+
+#include &#60;nana.h&#62;
+#include &#60;L_buffer.h&#62;
+
+/* LFAST(char *, ...) - log a message to the log_buffer */
+/*     ##f translates as the rest of the arguments to LFAST */
+
+#define LFAST(f...) LHP(L_buffer_printf,log_buffer,##f)
+
+extern L_BUFFER *log_buffer; /* the log buffer */
+</PRE>
+
+<P>
+The main program merely creates the <VAR>log_buffer</VAR> and eventually
+calls <SAMP>`L_buffer_dump'</SAMP> to print out the buffer when the system dies.
+
+<PRE>
+/* main.c - initialise the system and start things */
+
+#include &#60;project.h&#62;
+
+L_BUFFER *log_buffer;
+
+main() {
+  log_buffer = L_buffer_create(16000); 
+  if(log_buffer == NULL) { /* not enough store */
+    ...
+  }
+  LFAST("system starting at %f\n", now());
+  ...;
+}
+
+void fatal_error() { /* called on fatal errors */
+  FILE *f = fopen("project.errors","w");
+  L_buffer_dump(b, stderr); /* print log to stderr */
+  L_buffer_dump(b, f); /* print log to file */
+}
+</PRE>
+
+
+
+<H2><A NAME="SEC23" HREF="nana_toc.html#TOC23">L_times.h: recording events and times.</A></H2>
+<P>
+This component is used to record events and times with a lower time 
+and space overhead than the <SAMP>`L_buffer.h'</SAMP> component. Instead
+of using a <SAMP>`printf'</SAMP> style string we simply record the time
+and a pointer to a string identifying the event in a circular buffer.
+
+</P>
+<P>
+<STRONG>Note 0:</STRONG> the string arguments should not be modified after
+a call since we record pointers to the strings rather
+than the strings themselves.
+
+</P>
+<P>
+<STRONG>Note 1:</STRONG> there is no <VAR>printf</VAR> style formatting, e.g.
+<SAMP>`%d'</SAMP> in this package.
+
+</P>
+<P>
+<DL>
+<DT><U>Type:</U> struct <B>L_TIMES</B>
+<DD><A NAME="IDX124"></A>
+Used to define buffers, it is similar to <SAMP>`FILE*'</SAMP> type in 
+<SAMP>`stdio.h'</SAMP>. To create an instance use <SAMP>`L_times_create'</SAMP>.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> L_TIMES* <B>L_times_create</B> <I>(int <VAR>size</VAR>)</I>
+<DD><A NAME="IDX125"></A>
+<DT><U>Function:</U> L_TIMES* <B>L_times_delete</B> <I>(L_BUFFER <VAR>*b</VAR>)</I>
+<DD><A NAME="IDX126"></A>
+These are used to create or delete a buffer which can contain <VAR>size</VAR>
+messages.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> void <B>L_times_wraparound</B> <I>(L_TIMES <VAR>*b</VAR>, int <VAR>w</VAR>)</I>
+<DD><A NAME="IDX127"></A>
+A buffer created by <SAMP>`L_times_create'</SAMP> is set up so that the new
+messages will overwrite the oldest messages in the buffer. If you wish 
+to disable this overwriting, e.g. to keep the first few messages
+messages you could use <SAMP>`L_times_wraparound(b,0)'</SAMP>.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> void <B>L_times_add</B> <I>(L_BUFFER <VAR>*b</VAR>, char <VAR>*m</VAR>, NANA_TIME <VAR>t</VAR>)</I>
+<DD><A NAME="IDX128"></A>
+Add an event identified by message <VAR>m</VAR> at time <VAR>t</VAR> to <VAR>b</VAR>.  
+The type <VAR>NANA_TIME</VAR> defaults to <SAMP>`double'</SAMP>. 
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> void <B>L_times_dump</B> <I>(L_TIMES <VAR>*b</VAR>, FILE <VAR>*fd</VAR>)</I>
+<DD><A NAME="IDX129"></A>
+Dump the contents of the buffer out.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> void <B>L_times_clear</B> <I>(L_TIMES <VAR>*b</VAR>)</I>
+<DD><A NAME="IDX130"></A>
+Clear all the messages from <VAR>b</VAR>.
+</DL>
+
+</P>
+
+
+<H2><A NAME="SEC24" HREF="nana_toc.html#TOC24">DL.h: support for printf style logging</A></H2>
+<P>
+These routines are used to provide logging functions. Messages can be
+divided into classes and separately enabled and disabled.
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>DL</B> <I>(<VAR>args</VAR>...)</I>
+<DD><A NAME="IDX131"></A>
+Used to log a message.
+
+</P>
+<P>
+Defaults to a using <CODE>fprintf</CODE> on <CODE>stderr</CODE>.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>DLG</B> <I>(bool <VAR>guard</VAR>, <VAR>args</VAR>...)</I>
+<DD><A NAME="IDX132"></A>
+<DT><U>Macro:</U> void <B>DLH</B> <I>(function <VAR>handler</VAR>, <VAR>args</VAR>...)</I>
+<DD><A NAME="IDX133"></A>
+<DT><U>Macro:</U> void <B>DLP</B> <I>(text <VAR>param</VAR>, <VAR>args</VAR>...)</I>
+<DD><A NAME="IDX134"></A>
+<DT><U>Macro:</U> void <B>DLGP</B> <I>(bool <VAR>guard</VAR>, text <VAR>param</VAR>, <VAR>args</VAR>...)</I>
+<DD><A NAME="IDX135"></A>
+<DT><U>Macro:</U> void <B>DLHP</B> <I>(function <VAR>handler</VAR>, <VAR>args</VAR>...)</I>
+<DD><A NAME="IDX136"></A>
+<DT><U>Macro:</U> void <B>DLGHP</B> <I>(bool <VAR>guard</VAR>, function <VAR>handler</VAR>, <VAR>args</VAR>...)</I>
+<DD><A NAME="IDX137"></A>
+And all of the special functions.
+
+</P>
+</DL>
+
+<P>
+The macros such as <SAMP>`DL'</SAMP> depend on the GNU CC variable number of arguments 
+to macros extension. If you wish to compile your code on other systems
+you might wish to use the following variations on <SAMP>`DL'</SAMP>, etc.
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>VDL</B> <I>((<VAR>args</VAR>...))</I>
+<DD><A NAME="IDX138"></A>
+<DT><U>Macro:</U> void <B>VDLG</B> <I>((bool <VAR>guard</VAR>, <VAR>args</VAR>...))</I>
+<DD><A NAME="IDX139"></A>
+<DT><U>Macro:</U> void <B>VDLH</B> <I>((function <VAR>handler</VAR>, <VAR>args</VAR>...))</I>
+<DD><A NAME="IDX140"></A>
+<DT><U>Macro:</U> void <B>VDLP</B> <I>((text <VAR>param</VAR>, <VAR>args</VAR>...))</I>
+<DD><A NAME="IDX141"></A>
+<DT><U>Macro:</U> void <B>VDLGP</B> <I>((bool <VAR>guard</VAR>, <VAR>text param</VAR>, <VAR>args</VAR>...))</I>
+<DD><A NAME="IDX142"></A>
+<DT><U>Macro:</U> void <B>VDLHP</B> <I>((function <VAR>handler</VAR>, <VAR>args</VAR>...))</I>
+<DD><A NAME="IDX143"></A>
+<DT><U>Macro:</U> void <B>VDLGHP</B> <I>((bool <VAR>guard</VAR>, function <VAR>handler</VAR>, <VAR>args</VAR>...))</I>
+<DD><A NAME="IDX144"></A>
+Each of these macros calls the corresponding function from the previous
+group, i.e. by default <SAMP>`VDL'</SAMP> is equivelant to a call to <SAMP>`DL'</SAMP>.
+If <SAMP>`WITHOUT_NANA'</SAMP> is defined then the call too <SAMP>`VDL'</SAMP> is 
+equivelant to <SAMP>`/* empty */'</SAMP>.
+
+</P>
+<P>
+Thus you can have debugging under GCC whilst the code is still portable
+to other compilers. However debugging information will not be available
+on other platforms.
+
+</P>
+<P>
+<STRONG>Note:</STRONG> the argument list is surrounded by <STRONG>two</STRONG> sets of 
+brackets. For example:
+
+</P>
+
+<PRE>
+   VDL(("haze in darwin = %d\n", 3.4));
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> int <B>DL_LEVEL</B>
+<DD><A NAME="IDX145"></A>
+Used to enable and disable logging independently of guard expressions.
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>2</CODE>
+<DD>
+<A NAME="IDX146"></A>
+Always print message
+<DT><CODE>1</CODE>
+<DD>
+<A NAME="IDX147"></A>
+Print message only if the guard expression is true.
+<DT><CODE>0</CODE>
+<DD>
+<A NAME="IDX148"></A>
+Never print any messages.
+</DL>
+
+<P>
+Defaults to <CODE>1</CODE>.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> text <B>DL_DEFAULT_HANDLER</B>
+<DD><A NAME="IDX149"></A>
+The default handler for printing which is simply the name of the
+printing function. 
+
+</P>
+<P>
+Defaults to <CODE>fprintf</CODE>
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> bool <B>DL_DEFAULT_GUARD</B>
+<DD><A NAME="IDX150"></A>
+
+</P>
+<P>
+Defaults to <CODE>TRUE</CODE>.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> text <B>DL_DEFAULT_PARAMS</B>
+<DD><A NAME="IDX151"></A>
+Defaults to <CODE>stderr</CODE>
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> flag <B>DL_SHOW_TIME</B>
+<DD><A NAME="IDX152"></A>
+Each message can be given an individual time stamp by defining 
+<CODE>DL_SHOW_TIME</CODE>. This causes the <CODE>_L_gettime</CODE> routine to be
+called before each message which generates the timestamp. A default
+version is provided by the nana library.
+</DL>
+
+</P>
+
+
+<H2><A NAME="SEC25" HREF="nana_toc.html#TOC25">GDB.h: sending plain gdb commands to the debugger</A></H2>
+<P>
+<SAMP>`GDB.h'</SAMP> provides macros for generating user specified commands in
+the output of the <SAMP>`nana'</SAMP> command.
+They are not included by default in the <SAMP>`nana.h'</SAMP> file.
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>GDB</B> <I>(<VAR>command</VAR>)</I>
+<DD><A NAME="IDX153"></A>
+Emit a single line command when running this file through <SAMP>`nana'</SAMP>. 
+Note that each line must be passed off separately to the <SAMP>`GDB'</SAMP>
+macro. 
+
+</P>
+<P>
+This could be used to set debugger options or to define procedures
+inside <SAMP>`gdb'</SAMP>, e.g.
+
+</P>
+
+<PRE>
+  GDB(define checkstack);
+  GDB(  if 0 &#60;= n &#38;&#38; n &#60;= 10);
+  GDB(    print "stack ok");
+  GDB(  else);
+  GDB(    print "stack corrupted");
+  GDB(  end);
+  GDB(end);
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>GDBCALL</B> <I>(<VAR>command</VAR>)</I>
+<DD><A NAME="IDX154"></A>
+Causes a single gdb <VAR>command</VAR> to be executed whenever control
+passes through this line of code. After the users command is executed
+control automatically returns to the program.
+
+</P>
+
+<PRE>
+  GDBCALL(set memory_check = 1)
+</PRE>
+
+</DL>
+
+<P>
+These macros could used for instrumenting code or setting up test
+harnesses, e.g.
+
+</P>
+
+<PRE>
+
+GDB(set $siocall = 0);
+GDB(set $sioerr = 0);
+
+void sio_driver() {
+  GDBCALL(set $siocall++)
+  if(SIO_REQ &#38; 0x010) {
+    GDBCALL(set $sioerr++); 
+    ...
+  }
+}
+</PRE>
+
+
+
+<H2><A NAME="SEC26" HREF="nana_toc.html#TOC26">Q.h: support for quantifiers</A></H2>
+<P>
+<SAMP>`Q.h'</SAMP> provides support for the quantifiers of predicate logic.  For
+example to check that all elements in a data structure have some
+property we would use universal (forall, upside down A) quantification.
+To check that one or more values in a data structure have some property
+we would use existential (exists, back the front E) quantification.  For
+example:
+
+</P>
+
+<PRE>
+  /* all values in a[] must be between 0 and 10 */
+  I(A(int i = 0, i &#60; n_array, i++, 0 &#60;= a[i] &#38;&#38; a[i] &#60;= 10));
+
+  /* there exists a value in linked list l which is smaller than 10 */
+  I(E(node *p = l, p != NULL, p = p-&#62;next, p-&#62;data &#60;= 10));
+</PRE>
+
+<P>
+The first three arguments to <SAMP>`A'</SAMP> and <SAMP>`E'</SAMP> are similar 
+to a C <SAMP>`for'</SAMP> loop which iterates over the values we wish to
+check. The final argument is the expression that must be true.
+
+</P>
+<P>
+The only minor difference from the C <SAMP>`for'</SAMP> loop is that variables
+may be declared at the start of the loop, even if you are using C rather
+than C++ which already supports this.<A NAME="DOCF8" HREF="nana_foot.html#FOOT8">(8)</A>
+
+</P>
+<P>
+The <SAMP>`Q.h'</SAMP> macros can also be nested and used anywhere a boolean 
+value is required. For example:
+
+</P>
+
+<PRE>
+  if(A(int i = 0, i &#60; MAXX, i++,
+       A(int j = 0, j &#60; MAXY, j++,
+         m[i][j] == (i == j ? 1 : 0)))) { 
+        /* identity matrix, i.e. all 0's except for 1's on */
+        /* the diagonal */
+        ...
+  } else {
+        /* not an identity matrix */
+        ...
+  }
+</PRE>
+
+<P>
+The results from these 
+macros can also be combined using boolean operations, e.g.
+
+</P>
+
+<PRE>
+  /* the values in a[i]  are either ALL positive or ALL negative */
+  I(A(int i = 0, i &#60; MAX, i++, a[i] &#62;= 0)
+    ||
+    A(int i = 0, i &#60; MAX, i++, a[i] &#60; 0));
+</PRE>
+
+<P>
+<STRONG>Portability:</STRONG> note the macros in this file require the GNU
+CC/C++ statement expression extension of GCC to work. If your not using GNU CC
+then for now you are out of luck. At some time in the future we may
+implement a method which will work for standard C++, standard C is a bit of
+a challenge.
+
+</P>
+<P>
+<STRONG>Portability:</STRONG> unfortunately these macros do not for the 
+<SAMP>`DI'</SAMP> and <SAMP>`DL'</SAMP> macros since the statement expression extension has 
+not been implemented in GDB.
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> bool <B>A</B> <I>(<VAR>init</VAR>,<VAR>condition</VAR>,<VAR>next</VAR>,<VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX155"></A>
+For all values generated by
+ <SAMP>`for(<VAR>int</VAR>;<VAR>condition</VAR>;<VAR>next</VAR>)'</SAMP> the <VAR>exprn</VAR> must be
+true. 
+
+<PRE>
+  I(A(int i = 0, i &#60; MAX, i++, a[i] &#62;= 0)); /* all a[i] are +ve */
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> bool <B>E</B> <I>(<VAR>init</VAR>,<VAR>condition</VAR>,<VAR>next</VAR>,<VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX156"></A>
+There exists at least one value for <VAR>exprn</VAR> generated by
+ <SAMP>`for (<VAR>int</VAR>;<VAR>condition</VAR>;<VAR>next</VAR>)'</SAMP> which is true.
+
+</P>
+
+<PRE>
+  /* one or more a[i] &#62;= 0 */
+  I(E(int i = 0, i &#60; MAX, i++, a[i] &#62;= 0));
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> long <B>C</B> <I>(<VAR>init</VAR>,<VAR>condition</VAR>,<VAR>next</VAR>,<VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX157"></A>
+Returns the number of times the <VAR>exprn</VAR> is true over the values
+generated by <SAMP>`for(<VAR>int</VAR>;<VAR>condition</VAR>;<VAR>next</VAR>)'</SAMP>.
+
+</P>
+
+<PRE>
+  /* 3 elements of a[] are +ve */
+  I(C(int i = 0, i &#60; MAX, i++, a[i] &#62;= 0) == 3); 
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> bool <B>E1</B> <I>(<VAR>init</VAR>,<VAR>condition</VAR>,<VAR>next</VAR>,<VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX158"></A>
+There exists only one value generated by 
+ <SAMP>`for(<VAR>int</VAR>;<VAR>condition</VAR>;<VAR>next</VAR>)'</SAMP> for which the <VAR>exprn</VAR>
+is true.
+
+</P>
+
+<PRE>
+  /* a single elements of a[] is +ve */
+  I(E1(int i = 0, i &#60; MAX, i++, a[i] &#62;= 0)); 
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> typeof(<VAR>exprn</VAR>) <B>S</B> <I>(<VAR>init</VAR>,<VAR>condition</VAR>,<VAR>next</VAR>,<VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX159"></A>
+Sum the values generated by <VAR>exprn</VAR> for all values given by
+ <SAMP>`for(<VAR>int</VAR>;<VAR>condition</VAR>;<VAR>next</VAR>)'</SAMP>. The type of the value
+returned  is given by the type of the <VAR>exprn</VAR>.<A NAME="DOCF9" HREF="nana_foot.html#FOOT9">(9)</A>
+
+</P>
+
+<PRE>
+  /* sum of a[] is 10 */
+  I(S(int i = 0, i &#60; MAX, i++, a[i]) == 10);
+
+  /* sum of all +ve numbers in a[] is 10 */
+  I(S(int i = 0, i &#60; MAX, i++, a[i] &#62;= 0 ? a[i] : 0) == 10);
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> typeof(<VAR>exprn</VAR>) <B>P</B> <I>(<VAR>init</VAR>,<VAR>condition</VAR>,<VAR>next</VAR>,<VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX160"></A>
+Returns the product of the 
+values generated by <VAR>exprn</VAR> for all values given by
+ <SAMP>`for(<VAR>int</VAR>;<VAR>condition</VAR>;<VAR>next</VAR>)'</SAMP>.
+The type returned is the type of the expression.
+
+</P>
+
+<PRE>
+  /* product of all the values in a[] is 10 */
+  I(P(int i = 0, i &#60; MAX, i++, a[i]) == 10); 
+
+  /* a = x^y i.e. x*x..*x y times */
+  I(P(int i = 0, i &#60; y, i++, x) == a);
+</PRE>
+
+</DL>
+
+
+
+<H2><A NAME="SEC27" HREF="nana_toc.html#TOC27">Qstl.h: quantifiers for STL containers.</A></H2>
+<P>
+The Standard Template Library (STL) is a library for C++ that makes
+extensive use of templates to implement the standard container
+classes and much more. Each of the container classes provides an
+interface to iterate over all the objects in the container, e.g.
+
+</P>
+
+<PRE>
+// MAP is an associate array from location(lat,long) onto the name.
+typedef map&#60;location,string,locationlt&#62; MAP;
+
+void print_map_names(MAP&#38; m) { // print out all the names in the map
+  for(MAP::iterator i = m.begin(); i != m.end(); ++i) {
+    cout &#60;&#60; (*i).second &#60;&#60; "\n";
+  }
+}
+</PRE>
+
+<P>
+<SAMP>`Qstl.h'</SAMP> provides the same facilities as <SAMP>`Q.h'</SAMP> but uses the
+standard STL iterator protocol shown above. The names in <SAMP>`Qstl.h'</SAMP>
+are generated by appending a <SAMP>`O'</SAMP> (O not zero!) to the names in
+<SAMP>`Q.h'</SAMP>. In particular:
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> bool <B>AO</B> <I>(<VAR>name</VAR>,<VAR>container</VAR>,<VAR>predicate</VAR>)</I>
+<DD><A NAME="IDX161"></A>
+For all values in the <VAR>container</VAR> class the <VAR>predicate</VAR> must
+be true. The <VAR>predicate</VAR> refers to individual values using
+<VAR>name</VAR>. See the STL documentation for more details. 
+Another way of putting this is forall <VAR>name</VAR> in
+<VAR>container</VAR> the <VAR>predicate</VAR> must be true. 
+
+</P>
+
+<PRE>
+  map&#60;int,char *,ltint&#62; m;
+  // all keys (or indexes) into m are positive	
+  I(AO(i, m, (*i).first &#62;= 0)); 
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> bool <B>EO</B> <I>(<VAR>name</VAR>,<VAR>container</VAR>,<VAR>predicate</VAR>)</I>
+<DD><A NAME="IDX162"></A>
+There exists one or more values in the <VAR>container</VAR> class for which
+the <VAR>predicate</VAR> is true. 
+
+</P>
+
+<PRE>
+  map&#60;int,char,ltint&#62; m;
+
+  // one or more characters in m are '$'
+  I(EO(i, m, (*i).second == '$')); 
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> bool <B>E1O</B> <I>(<VAR>name</VAR>,<VAR>container</VAR>,<VAR>predicate</VAR>)</I>
+<DD><A NAME="IDX163"></A>
+There exists one value in the <VAR>container</VAR> for which
+the <VAR>predicate</VAR> is true. 
+
+</P>
+
+<PRE>
+  map&#60;int,char,ltint&#62; m;
+
+  // one characters in m is a '$'
+  I(E1O(i, m, (*i).second == '$')); 
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> int <B>CO</B> <I>(<VAR>name</VAR>,<VAR>container</VAR>,<VAR>predicate</VAR>)</I>
+<DD><A NAME="IDX164"></A>
+Returns the number of times the <VAR>predicate</VAR> was true for all
+values in the <VAR>container</VAR>.
+
+</P>
+
+<PRE>
+  map&#60;int,char,ltint&#62; m;
+  int nalpha; 
+  // count the number of alphabetic chars in the map
+  nalpha = CO(i, m, isalpha((*i).second)); 
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> typeof(<VAR>exprn</VAR>) <B>SO</B> <I>(<VAR>name</VAR>,<VAR>container</VAR>,<VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX165"></A>
+Sum the <VAR>exprn</VAR> for all values in the <VAR>container</VAR>.
+
+</P>
+
+<PRE>
+  map&#60;int,float,ltint&#62; m;
+  float sum;
+  // sum all the values in m
+  sum = SO(i, m, (*i).second); 
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> typeof(<VAR>exprn</VAR>) <B>PO</B> <I>(<VAR>name</VAR>,<VAR>container</VAR>,<VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX166"></A>
+Take the product of the <VAR>exprn</VAR> for all values in the <VAR>container</VAR>.
+
+</P>
+
+<PRE>
+  map&#60;int,float,ltint&#62; m;
+  float product;
+  // multiply all the values in m
+  product = PO(i, m, (*i).second); 
+</PRE>
+
+</DL>
+
+
+
+<H2><A NAME="SEC28" HREF="nana_toc.html#TOC28">now.h: measuring time</A></H2>
+<P>
+The <SAMP>`now.h'</SAMP> file provides some simple time measurement routines.
+It is not included in <SAMP>`nana.h'</SAMP> so you must include this file 
+separately.  
+
+</P>
+<P>
+It uses the <SAMP>`gettimeofday'</SAMP> system call and has an accuracy of
+between 1us and 10ms depending on the operating system and hardware
+configuration.
+
+</P>
+<P>
+See the IPM package if you require better measurement tools.<A NAME="DOCF10" HREF="nana_foot.html#FOOT10">(10)</A>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> double <B>now</B> <I>()</I>
+<DD><A NAME="IDX167"></A>
+Returns the time in seconds since the beginning of time as defined by
+your system. If you call <SAMP>`now_reset'</SAMP> the time will start again at
+0.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> double <B>now_reset</B> <I>()</I>
+<DD><A NAME="IDX168"></A>
+Reset the times returned by <SAMP>`now'</SAMP> to 0.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> double <B>now_delta</B> <I>(double *<VAR>dp</VAR>)</I>
+<DD><A NAME="IDX169"></A>
+Returns the elapsed time between <VAR>*dp</VAR> and <VAR>now()</VAR>. It then sets
+<VAR>*dp</VAR> to <VAR>now</VAR>, thus giving a delta time between particular
+events. 
+
+</P>
+
+<PRE>
+  t = now();
+  for(;;) {
+    ...; /* code that must finish in 50ms */
+    I(now_delta(&#38;t) &#60;= 0.050);
+  }
+</PRE>
+
+</DL>
+
+
+
+<H2><A NAME="SEC29" HREF="nana_toc.html#TOC29">eiffel.h: eiffel type assertions</A></H2>
+<P>
+Eiffel is a very nice language which provides the assertion checking
+facilities of nana inside the language itself.  The <SAMP>`eiffel.h'</SAMP>
+library is intended to provide a similar setup to Eiffel in the C++
+language. It is a pretty poor emulation, but it is hopefully
+better than nothing.
+
+</P>
+<P>
+Assertion checking is controlled by the <VAR>EIFFEL_CHECK</VAR> variable
+which can take on any of the following values:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>CHECK_NO</CODE>
+<DD>
+<A NAME="IDX170"></A>
+Disable all checking.
+<DT><CODE>CHECK_REQUIRE</CODE>
+<DD>
+<A NAME="IDX171"></A>
+Check the preconditions for each method.
+<DT><CODE>CHECK_ENSURE</CODE>
+<DD>
+<A NAME="IDX172"></A>
+And also check the postconditions.
+<DT><CODE>CHECK_INVARIANT</CODE>
+<DD>
+<A NAME="IDX173"></A>
+And also check the class invariant before and after each method is
+called. The programmer should provide a class method called
+<SAMP>`invariant'</SAMP> which returns <SAMP>`true'</SAMP> if the object is consistent, 
+<SAMP>`false'</SAMP> otherwise.
+<DT><CODE>CHECK_LOOP</CODE>
+<DD>
+<A NAME="IDX174"></A>
+And also check the loop invariants.
+<DT><CODE>CHECK_ALL</CODE>
+<DD>
+<A NAME="IDX175"></A>
+And also check any assertions using the <SAMP>`CHECK'</SAMP> instruction.
+</DL>
+
+<P>
+A typical compile flag to the compile might be:
+
+</P>
+
+<PRE>
+% g++ -c -DEIFFEL_CHECK=CHECK_ALL play.cc
+</PRE>
+
+<P>
+And then we have the actual assertion macros.
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>REQUIRE</B> <I>(<VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX176"></A>
+Called at the beginning of each method.
+This checks the precondition to a method and the class invariant.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>ENSURE</B> <I>(<VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX177"></A>
+Called at the end of each method.
+This checks the postcondition to a method and the class invariant.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>INVARIANT</B> <I>(<VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX178"></A>
+Used to check a loop invariant.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>CHECK</B> <I>(<VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX179"></A>
+Used for any other inline assertions.
+</DL>
+
+</P>
+<P>
+And finally a small example:
+
+</P>
+
+<PRE>
+#include &#60;eiffel.h&#62;
+
+class example {
+  int nobjects;
+  map&#60;location,string,locationlt&#62; layer;
+public:
+  bool invariant();
+  void changeit(location l);
+};
+
+bool example::invariant() {
+  return AO(i,layer,valid_location((*i).first)) &#38;&#38; 
+         nobjects &#62;= 0;
+}
+
+void example::changeit(string n, location l) {
+  REQUIRE(E1O(i,layer,(*i).second == n));
+  ...;
+  while(..) {
+    INVARIANT(...);
+    ...
+    INVARIANT(...);
+  }
+  ...
+  CHECK(x == 5);
+  ...
+  ENSURE(layer[l] == n);
+}
+</PRE>
+
+<P>
+Note that the invariant checking macro <SAMP>`example::invariant'</SAMP>
+is called automatically on function entry/exit using the 
+<SAMP>`REQUIRE'</SAMP> and <SAMP>`ENSURE'</SAMP> macros.
+
+</P>
+
+
+<H2><A NAME="SEC30" HREF="nana_toc.html#TOC30">assert.h: a drop in replacement for assert.h</A></H2>
+<P>
+A drop in replacement for <SAMP>`assert.h'</SAMP> is provided in the <SAMP>`src'</SAMP>
+directory. It is <STRONG>not</STRONG> installed by default. If you wish to use
+it then you need to copy it to your include directory by hand.
+
+</P>
+<P>
+This might be of use if you are already using <SAMP>`assert.h'</SAMP> and
+wish to save some code space since the nana implementation is more 
+space efficient. 
+
+</P>
+<P>
+Calls to <SAMP>`assert'</SAMP> are translated to calls to <SAMP>`I'</SAMP> and 
+can be disabled by defining <SAMP>`NDEBUG'</SAMP>.
+
+</P>
+
+
+<H2><A NAME="SEC31" HREF="nana_toc.html#TOC31">calls.h: checking/printing many objects/facts.</A></H2>
+<P>
+The <SAMP>`calls'</SAMP> module implements a simple list of functions which can be 
+modified and executed at run-time. It is similar in spirit to the 
+ANSI C <SAMP>`atexit'</SAMP> function. It is intended to be used for: 
+
+</P>
+
+<UL>
+<LI>Checking the consistency of the components in your system.
+
+For example each module could register a self checking function which
+uses the rest of the nana library. All of these functions would then be
+called using <SAMP>`calls.h'</SAMP> to check that the entire system is consistent.
+
+<LI>Printing out the state of your program in a readable format.
+
+</UL>
+
+<P>
+<DL>
+<DT><U>Type:</U> <B>typedef</B> <I>FUNC</I>
+<DD><A NAME="IDX180"></A>
+A pointer to a <SAMP>`void'</SAMP> function which takes a single <SAMP>`void*'</SAMP>
+argument. The <SAMP>`void *'</SAMP> argument is intended to be used to pass
+information such as arguments or pointers to objects (e.g. <SAMP>`this'</SAMP>
+in C++). All of the checking/printing functions must be of this type, e.g.
+
+</P>
+
+<PRE>
+void print_object(void *f) {
+  ...;
+}
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Type:</U> <B>struct</B> <I>CALL</I>
+<DD><A NAME="IDX181"></A>
+This structure represents a single call to a function, i.e. a function 
+pointer (<SAMP>`FUNC'</SAMP>) and the <SAMP>`void*'</SAMP> argument. 
+
+</P>
+
+<PRE>
+	CALL *head = 0;
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Function:</U> void <B>calls_add</B> <I>(CALL **head, FUNC fp, *arg)</I>
+<DD><A NAME="IDX182"></A>
+Adds a call to function <SAMP>`fp'</SAMP> with argument <SAMP>`arg'</SAMP> to
+the list pointed to by <SAMP>`head'</SAMP>. 
+
+</P>
+
+<PRE>
+	CALL *global_checks = 0;
+
+	calls_add(&#38;global_checks,complex_ok,(void *)x); 
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Function:</U> void <B>calls_exec</B> <I>(CALL **head, FUNC fp, void *arg)</I>
+<DD><A NAME="IDX183"></A>
+Execute all/some of the calls in the list given by <SAMP>`head'</SAMP>.
+The arguments <SAMP>`fp'</SAMP> and <SAMP>`arg'</SAMP> must both
+match for each individual call. The null pointer (<SAMP>`0'</SAMP>) matches 
+anything whilst any other value requires an exact match between
+the <SAMP>`CALL'</SAMP> and the arguments to <SAMP>`calls_exec'</SAMP>. 
+For example:
+
+</P>
+
+<PRE>
+calls_exec(&#38;l,0,0); /* execute all functions in l  */
+calls_exec(&#38;l,complex_print,0); /* calls complex_print(*) in l */
+calls_exec(&#38;l,0,(void*) &#38;b); /* calls *(&#38;b) in l */
+calls_exec(&#38;l,f,(void*) &#38;b); /* calls f(&#38;b) in l */
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Function:</U> void <B>calls_delete</B> <I>(CALL **head, FUNC fp, void *arg)</I>
+<DD><A NAME="IDX184"></A>
+Delete all/some of the calls in the list given by <SAMP>`head'</SAMP>.
+The arguments <SAMP>`fp'</SAMP> and <SAMP>`arg'</SAMP> must both
+match for each individual call. The null pointer (<SAMP>`0'</SAMP>) matches 
+anything whilst any other value requires an exact match between
+the <SAMP>`CALL'</SAMP> and the arguments to <SAMP>`calls_delete'</SAMP>. 
+For example:
+
+</P>
+
+<PRE>
+calls_delete(&#38;l,0,0); /* delete all functions in l  */
+calls_delete(&#38;l,complex_print,0); /* delete complex_print(*) in l */
+calls_delete(&#38;l,0,(void*) &#38;b); /* delete *(&#38;b) in l */
+calls_delete(&#38;l,f,(void*) &#38;b); /* delete f(&#38;b) in l */
+</PRE>
+
+</DL>
+
+<P>
+<STRONG>Note:</STRONG> that calls are added to the head of the list rather than the 
+tail. This means that the most recently added call will be 
+executed first (as in a stack).
+
+</P>
+<P><HR><P>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_3.html">previous</A>, <A HREF="nana_5.html">next</A>, <A HREF="nana_8.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+</BODY>
+</HTML>

@@ -1,0 +1,100 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.04 [en] (X11; I; Linux 2.1.123 i586) [Netscape]">
+   <META NAME="Author" CONTENT="Angel Jimenez">
+   <TITLE>Panorama: Procedural language</TITLE>
+</HEAD>
+<BODY TEXT="#33CC00" BGCOLOR="#000000" LINK="#FFCC00" VLINK="#999900" ALINK="#FF6666">
+
+<H2>
+Procedural animation language</H2>
+&nbsp; Current declarative scene language in Panorama will soon be replaced
+with this language. It's main structure is similar to the previous one,
+but declarative expressions of attribute values like this:
+
+<P><TT>&nbsp; location&nbsp;&nbsp; &lt;0, 0, 0></TT>
+
+<P>&nbsp; will be replaced with an assignment sentence:
+
+<P><TT>&nbsp; location = Vector (0, 0, 0);</TT>
+
+<P>&nbsp; I won't talk too much about details, as I'm still in the language
+specification phase, and they can be changed later on. Anyway, here is
+an outline of its main characteristics:
+<UL>
+<LI>
+Language is event based. An object can be given a "program", that is a
+collection of event-response pairs. This response will work much like a
+"C" function, with the event being the name of the function.</LI>
+
+<LI>
+You can declare global variables, object variables (shared between all
+events in an object), and local variables (inside the function implementing
+the event response).</LI>
+
+<LI>
+Some of the events are:</LI>
+
+<UL>
+<LI>
+init, sent to every object before any action take place. This is the place
+where you will normally put object initialization.</LI>
+
+<LI>
+time, sent to an object to make it recalculate every time-dependent attribute.
+This event will normally be sent to every object in the beginning of each
+frame.</LI>
+
+<LI>
+collision, when 2 objects taking part in a physical simulation collide.</LI>
+</UL>
+
+<LI>
+User can send its own events. You can send a new event to any object, or
+to the whole system, any time you want. This facilitates communication
+between objects taking part in an animation.</LI>
+
+<LI>
+Being a procedural language, it will have flow control statements, like
+"for", "if/else", "while", "goto", etc.</LI>
+
+<LI>
+You can create or destroy objects dynamically in any place and time.</LI>
+
+<LI>
+Language has some common types, like "Int", "Real", "Bool", and other not-so-common,
+like "Vector", "Color", "String". All of them can be used in algebraic
+expressions with common operators.</LI>
+
+<LI>
+Other types are the internal structures of Panorama, like "Camera", "Object",
+"Light", etc. This can't be used in algebraic expressions. They have some
+other features, like internal attributes you can get or set, the ability
+to recieve an event you send, etc.</LI>
+</UL>
+&nbsp; There is something I don't know how to solve yet. Materials can
+be procedurally defined, meaning their attributes can change over time,
+but I still don't know how to make this attributes change with space (I
+mean I don't know how to integrate it with current event based syntax).
+<BR>&nbsp;
+
+<CENTER>
+<P>
+<HR WIDTH="100%"><FONT SIZE=-1>For any questions, comments or suggestions
+about this pages, email <A HREF="mailto:ajimenez@gnu.org">ajimenez@gnu.org</A></FONT></CENTER>
+
+<P><BR>
+<P><FONT SIZE=-1>Copyright (C) 1999 Angel Jimenez Jimenez</FONT>
+<P>
+<FONT SIZE=-1>Please send FSF &amp; GNU inquiries &amp; questions to
+<I><A HREF="mailto:gnu@gnu.org">gnu@gnu.org</A></I>.
+There are also <A HREF="http://www.gnu.org/home.html#ContactInfo">other
+ways to contact</A> the FSF.</FONT>
+<P><FONT SIZE=-1>Verbatim copying and distribution of this entire article
+is permitted in any medium, provided this notice is preserved.</FONT>
+<BR>&nbsp;
+<BR>&nbsp;
+
+</BODY>
+</HTML>

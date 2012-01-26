@@ -1,0 +1,234 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - All environment variables which affect CVS</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_21.html">previous</A>, <A HREF="cvs_23.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC151" HREF="cvs_toc.html#TOC151">All environment variables which affect CVS</A></H1>
+<P>
+<A NAME="IDX406"></A>
+<A NAME="IDX407"></A>
+
+</P>
+<P>
+This is a complete list of all environment variables
+that affect CVS.
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>$CVSIGNORE</CODE>
+<DD>
+<A NAME="IDX408"></A>
+ 
+A whitespace-separated list of file name patterns that
+CVS should ignore. See section <A HREF="cvs_21.html#SEC148">Ignoring files via cvsignore</A>.
+
+<A NAME="IDX409"></A>
+<DT><CODE>$CVSWRAPPERS</CODE>
+<DD>
+A whitespace-separated list of file name patterns that
+CVS should treat as wrappers. See section <A HREF="cvs_21.html#SEC138">The cvswrappers file</A>.
+
+<A NAME="IDX410"></A>
+<A NAME="IDX411"></A>
+<DT><CODE>$CVSREAD</CODE>
+<DD>
+If this is set, <CODE>checkout</CODE> and <CODE>update</CODE> will
+try hard to make the files in your working directory
+read-only.  When this is not set, the default behavior
+is to permit modification of your working files.
+
+<A NAME="IDX412"></A>
+<DT><CODE>$CVSROOT</CODE>
+<DD>
+Should contain the full pathname to the root of the CVS
+source repository (where the RCS history files are
+kept).  This information must be available to CVS for
+most commands to execute; if <CODE>$CVSROOT</CODE> is not set,
+or if you wish to override it for one invocation, you
+can supply it on the command line: <SAMP>`cvs -d cvsroot
+cvs_command...'</SAMP> Once you have checked out a working
+directory, CVS stores the appropriate root (in
+the file <TT>`CVS/Root'</TT>), so normally you only need to
+worry about this when initially checking out a working 
+directory.
+
+<A NAME="IDX413"></A>
+<A NAME="IDX414"></A>
+<DT><CODE>$EDITOR</CODE>
+<DD>
+<DT><CODE>$CVSEDITOR</CODE>
+<DD>
+Specifies the program to use for recording log messages
+during commit.  If not set, the default is
+<SAMP>`/usr/ucb/vi'</SAMP>.  <CODE>$CVSEDITOR</CODE> overrides
+<CODE>$EDITOR</CODE>.  <CODE>$CVSEDITOR</CODE> does not exist in
+CVS 1.3, but the next release will probably
+include it.
+
+<A NAME="IDX415"></A>
+<DT><CODE>$PATH</CODE>
+<DD>
+If <CODE>$RCSBIN</CODE> is not set, and no path is compiled
+into CVS, it will use <CODE>$PATH</CODE> to try to find all
+programs it uses.
+
+<A NAME="IDX416"></A>
+<DT><CODE>$RCSBIN</CODE>
+<DD>
+This is the value CVS is using for where to find
+RCS binaries.  See section <A HREF="cvs_20.html#SEC89">Global options</A>, for a
+description of how to specify this.  If not set, a
+compiled-in value is used, or your <CODE>$PATH</CODE> is searched.
+
+<A NAME="IDX417"></A>
+<DT><CODE>$HOME</CODE>
+<DD>
+<A NAME="IDX418"></A>
+<DT><CODE>$HOMEPATH</CODE>
+<DD>
+Used to locate the directory where the <TT>`.cvsrc'</TT>
+file is searched (<CODE>$HOMEPATH</CODE> is used for Windows-NT).
+see section <A HREF="cvs_20.html#SEC88">Default options and the ~/.cvsrc file</A>
+
+<A NAME="IDX419"></A>
+<DT><CODE>$CVS_RSH</CODE>
+<DD>
+Specifies the external program which CVS connects with,
+when <CODE>:ext:</CODE> access method is specified.
+see section <A HREF="cvs_5.html#SEC25">Connecting with rsh</A>.
+
+<DT><CODE>$CVS_SERVER</CODE>
+<DD>
+Used in client-server mode when accessing a remote
+repository using RSH.  It specifies the name of
+the program to start on the server side when accessing
+a remote repository using RSH.  The default value
+is <CODE>cvs</CODE>.  see section <A HREF="cvs_5.html#SEC25">Connecting with rsh</A>
+
+<DT><CODE>$CVS_PASSFILE</CODE>
+<DD>
+Used in client-server mode when accessing the <CODE>cvs
+login server</CODE>.  Default value is <TT>`$HOME/.cvspass'</TT>.
+see section <A HREF="cvs_5.html#SEC28">Using the client with password authentication</A>
+
+<DT><CODE>$CVS_PASSWORD</CODE>
+<DD>
+Used in client-server mode when accessing the <CODE>cvs
+login server</CODE>.
+see section <A HREF="cvs_5.html#SEC28">Using the client with password authentication</A>
+
+<DT><CODE>$CVS_CLIENT_PORT</CODE>
+<DD>
+Used in client-server mode when accessing the server
+via Kerberos.
+see section <A HREF="cvs_5.html#SEC30">Direct connection with kerberos</A>
+
+<A NAME="IDX420"></A>
+<DT><CODE>$CVS_RCMD_PORT</CODE>
+<DD>
+Used in client-server mode.  If set, specifies the port
+number to be used when accessing the RCMD demon on
+the server side. (Currently not used for Unix clients).
+
+<A NAME="IDX421"></A>
+<DT><CODE>$CVS_CLIENT_LOG</CODE>
+<DD>
+Used for debugging only in client-server
+mode.  If set, everything send to the server is logged
+into <TT>`<CODE>$CVS_CLIENT_LOG</CODE>.in'</TT> and everything
+send from the server is logged into
+<TT>`<CODE>$CVS_CLIENT_LOG</CODE>.out'</TT>.
+
+<A NAME="IDX422"></A>
+<DT><CODE>$CVS_SERVER_SLEEP</CODE>
+<DD>
+Used only for debugging the server side in
+client-server mode.  If set, delays the start of the
+server child process the the specified amount of
+seconds so that you can attach to it with a debugger.
+
+<A NAME="IDX423"></A>
+<DT><CODE>$CVS_IGNORE_REMOTE_ROOT</CODE>
+<DD>
+(What is the purpose of this variable?)
+
+<A NAME="IDX424"></A>
+<DT><CODE>$COMSPEC</CODE>
+<DD>
+Used under OS/2 only.  It specifies the name of the
+command interpreter and defaults to CMD.EXE.
+
+<A NAME="IDX425"></A>
+<DT><CODE>$TMPDIR</CODE>
+<DD>
+<A NAME="IDX426"></A>
+<DT><CODE>$TMP</CODE>
+<DD>
+<A NAME="IDX427"></A>
+<DT><CODE>$TEMP</CODE>
+<DD>
+<A NAME="IDX428"></A>
+Directory in which temporary files are located.  Those
+parts of CVS which are implemented using RCS
+inspect the above variables in the order they appear
+above and the first value found is taken; if none of
+them are set, a host-dependent default is used,
+typically <TT>`/tmp'</TT>.  The CVS server uses
+<CODE>TMPDIR</CODE>.  See section <A HREF="cvs_20.html#SEC89">Global options</A>, for a
+description of how to specify this.
+Some parts of CVS will always use <TT>`/tmp'</TT> (via
+the <CODE>tmpnam</CODE> function provided by the system).
+
+On Windows NT, <CODE>TMP</CODE> is used (via the <CODE>_tempnam</CODE>
+function provided by the system).
+
+The <CODE>patch</CODE> program which is used by the CVS
+client uses <CODE>TMPDIR</CODE>, and if it is not set, uses
+<TT>`/tmp'</TT> (at least with GNU patch 2.1).
+</DL>
+
+<P>
+CVS invokes RCS to perform certain
+operations.  The following environment
+variables affect RCS.  Note that if you are using
+the client/server CVS, these variables need to be
+set on the server side (which may or not may be
+possible depending on how you are connecting).  There
+is probably not any need to set any of them, however.
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>$LOGNAME</CODE>
+<DD>
+<A NAME="IDX429"></A>
+ 
+<A NAME="IDX430"></A>
+<DT><CODE>$USER</CODE>
+<DD>
+If set, they affect who RCS thinks you are.  If you
+have trouble checking in files it might be because your
+login name differs from the setting of e.g.
+<CODE>$LOGNAME</CODE>.
+
+<A NAME="IDX431"></A>
+<DT><CODE>$RCSINIT</CODE>
+<DD>
+Options prepended to the argument list, separated by
+spaces.  A backslash escapes spaces within an option.
+The <CODE>$RCSINIT</CODE> options are prepended to the
+argument lists of most RCS commands.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_21.html">previous</A>, <A HREF="cvs_23.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

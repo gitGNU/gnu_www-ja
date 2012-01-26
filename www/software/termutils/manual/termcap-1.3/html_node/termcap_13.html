@@ -1,0 +1,227 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Encode Parameters</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_12.html">previous</A>, <A HREF="termcap_14.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC13" HREF="termcap_toc.html#TOC13">Describing the Encoding</A></H3>
+<P>
+<A NAME="IDX13"></A>
+
+</P>
+<P>
+A terminal command string that requires parameters contains special
+character sequences starting with <SAMP>`%'</SAMP> to say how to encode the
+parameters.  These sequences control the actions of <CODE>tparam</CODE> and
+<CODE>tgoto</CODE>.
+
+</P>
+<P>
+The parameters values passed to <CODE>tparam</CODE> or <CODE>tgoto</CODE> are
+considered to form a vector.  A pointer into this vector determines
+the next parameter to be processed.  Some of the <SAMP>`%'</SAMP>-sequences
+encode one parameter and advance the pointer to the next parameter.
+Other <SAMP>`%'</SAMP>-sequences alter the pointer or alter the parameter
+values without generating output.
+
+</P>
+<P>
+For example, the <SAMP>`cm'</SAMP> string for a standard ANSI terminal is written
+as <SAMP>`\E[%i%d;%dH'</SAMP>.  (<SAMP>`\E'</SAMP> stands for <KBD>ESC</KBD>.)  <SAMP>`cm'</SAMP> by
+convention always requires two parameters, the vertical and horizontal goal
+positions, so this string specifies the encoding of two parameters.  Here
+<SAMP>`%i'</SAMP> increments the two values supplied, and each <SAMP>`%d'</SAMP> encodes
+one of the values in decimal.  If the cursor position values 20,58 are
+encoded with this string, the result is <SAMP>`\E[21;59H'</SAMP>.
+
+</P>
+<P>
+First, here are the <SAMP>`%'</SAMP>-sequences that generate output.  Except for
+<SAMP>`%%'</SAMP>, each of them encodes one parameter and advances the pointer
+to the following parameter.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`%%'</SAMP>
+<DD>
+Output a single <SAMP>`%'</SAMP>.  This is the only way to represent a literal
+<SAMP>`%'</SAMP> in a terminal command with parameters.  <SAMP>`%%'</SAMP> does not
+use up a parameter.
+
+<DT><SAMP>`%d'</SAMP>
+<DD>
+As in <CODE>printf</CODE>, output the next parameter in decimal.
+
+<DT><SAMP>`%2'</SAMP>
+<DD>
+Like <SAMP>`%02d'</SAMP> in <CODE>printf</CODE>: output the next parameter in
+decimal, and always use at least two digits.
+
+<DT><SAMP>`%3'</SAMP>
+<DD>
+Like <SAMP>`%03d'</SAMP> in <CODE>printf</CODE>: output the next parameter in
+decimal, and always use at least three digits.  Note that <SAMP>`%4'</SAMP>
+and so on are <EM>not</EM> defined.
+
+<DT><SAMP>`%.'</SAMP>
+<DD>
+Output the next parameter as a single character whose ASCII code is
+the parameter value.  Like <SAMP>`%c'</SAMP> in <CODE>printf</CODE>.
+
+<DT><SAMP>`%+<VAR>char</VAR>'</SAMP>
+<DD>
+Add the next parameter to the character <VAR>char</VAR>, and output the
+resulting character.  For example, <SAMP>`%+ '</SAMP> represents 0 as a space,
+1 as <SAMP>`!'</SAMP>, etc.
+</DL>
+
+<P>
+The following <SAMP>`%'</SAMP>-sequences specify alteration of the parameters
+(their values, or their order) rather than encoding a parameter for output.
+They generate no output; they are used only for their side effects
+on the parameters.  Also, they do not advance the "next parameter" pointer
+except as explicitly stated.  Only <SAMP>`%i'</SAMP>, <SAMP>`%r'</SAMP> and <SAMP>`%&#62;'</SAMP> are
+defined in standard Unix termcap.  The others are GNU extensions.
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`%i'</SAMP>
+<DD>
+Increment the next two parameters.  This is used for terminals that
+expect cursor positions in origin 1.  For example, <SAMP>`%i%d,%d'</SAMP> would
+output two parameters with <SAMP>`1'</SAMP> for 0, <SAMP>`2'</SAMP> for 1, etc.
+
+<DT><SAMP>`%r'</SAMP>
+<DD>
+Interchange the next two parameters.  This is used for terminals whose
+cursor positioning command expects the horizontal position first.
+
+<DT><SAMP>`%s'</SAMP>
+<DD>
+Skip the next parameter.  Do not output anything.
+
+<DT><SAMP>`%b'</SAMP>
+<DD>
+Back up one parameter.  The last parameter used will become once again
+the next parameter to be output, and the next output command will use
+it.  Using <SAMP>`%b'</SAMP> more than once, you can back up any number of
+parameters, and you can refer to each parameter any number of times.
+
+<DT><SAMP>`%&#62;<VAR>c1</VAR><VAR>c2</VAR>'</SAMP>
+<DD>
+Conditionally increment the next parameter.  Here <VAR>c1</VAR> and
+<VAR>c2</VAR> are characters which stand for their ASCII codes as numbers.
+If the next parameter is greater than the ASCII code of <VAR>c1</VAR>, the
+ASCII code of <VAR>c2</VAR> is added to it.
+<DT><SAMP>`%a <VAR>op</VAR> <VAR>type</VAR> <VAR>pos</VAR>'</SAMP>
+<DD>
+Perform arithmetic on the next parameter, do not use it up, and do not
+output anything.  Here <VAR>op</VAR> specifies the arithmetic operation,
+while <VAR>type</VAR> and <VAR>pos</VAR> together specify the other operand.
+
+Spaces are used above to separate the operands for clarity; the spaces
+don't appear in the data base, where this sequence is exactly five
+characters long.
+
+The character <VAR>op</VAR> says what kind of arithmetic operation to
+perform.  It can be any of these characters:
+
+<DL COMPACT>
+
+<DT><SAMP>`='</SAMP>
+<DD>
+assign a value to the next parameter, ignoring its old value.
+The new value comes from the other operand.
+
+<DT><SAMP>`+'</SAMP>
+<DD>
+add the other operand to the next parameter.
+
+<DT><SAMP>`-'</SAMP>
+<DD>
+subtract the other operand from the next parameter.
+
+<DT><SAMP>`*'</SAMP>
+<DD>
+multiply the next parameter by the other operand.
+
+<DT><SAMP>`/'</SAMP>
+<DD>
+divide the next parameter by the other operand.
+</DL>
+
+The "other operand" may be another parameter's value or a constant;
+the character <VAR>type</VAR> says which.  It can be:
+
+<DL COMPACT>
+
+<DT><SAMP>`p'</SAMP>
+<DD>
+Use another parameter.  The character <VAR>pos</VAR> says which
+parameter to use.  Subtract 64 from its ASCII code to get the
+position of the desired parameter relative to this one.  Thus,
+the character <SAMP>`A'</SAMP> as <VAR>pos</VAR> means the parameter after the
+next one; the character <SAMP>`?'</SAMP> means the parameter before the
+next one.
+
+<DT><SAMP>`c'</SAMP>
+<DD>
+Use a constant value.  The character <VAR>pos</VAR> specifies the
+value of the constant.  The 0200 bit is cleared out, so that 0200
+can be used to represent zero.
+</DL>
+</DL>
+
+<P>
+The following <SAMP>`%'</SAMP>-sequences are special purpose hacks to compensate
+for the weird designs of obscure terminals.  They modify the next parameter
+or the next two parameters but do not generate output and do not use up any
+parameters.  <SAMP>`%m'</SAMP> is a GNU extension; the others are defined in
+standard Unix termcap.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`%n'</SAMP>
+<DD>
+Exclusive-or the next parameter with 0140, and likewise the parameter
+after next.
+
+<DT><SAMP>`%m'</SAMP>
+<DD>
+Complement all the bits of the next parameter and the parameter after next.
+
+<DT><SAMP>`%B'</SAMP>
+<DD>
+Encode the next parameter in BCD.  It alters the value of the
+parameter by adding six times the quotient of the parameter by ten.
+Here is a C statement that shows how the new value is computed:
+
+
+<PRE>
+<VAR>parm</VAR> = (<VAR>parm</VAR> / 10) * 16 + <VAR>parm</VAR> % 10;
+</PRE>
+
+<DT><SAMP>`%D'</SAMP>
+<DD>
+Transform the next parameter as needed by Delta Data terminals.
+This involves subtracting twice the remainder of the parameter by 16.
+
+
+<PRE>
+<VAR>parm</VAR> -= 2 * (<VAR>parm</VAR> % 16);
+</PRE>
+
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_12.html">previous</A>, <A HREF="termcap_14.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

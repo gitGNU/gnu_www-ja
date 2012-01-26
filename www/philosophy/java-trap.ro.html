@@ -1,0 +1,247 @@
+<!--#include virtual="/server/header.ro.html" -->
+<title>Liber dar încătușat - capcana Java</title>
+<!--#include virtual="/server/banner.ro.html" -->
+
+<h2>Liber dar încătușat - capcana Java</h2>
+
+<p>de <a href="http://www.stallman.org/">Richard Stallman</a></p>
+
+
+<div class="announcement"><h3>Notă</h3>
+<p>În luna decembrie 2006, Sun se află în procesul de 
+<a href="http://www.fsf.org/news/fsf-welcomes-gpl-java.html">relansare a platformei lor Java sub GNU GPL</a>.
+Când schimbarea licenței va fi completă, ne așteptăm ca Java să nu mai fie o capcană.
+Făcând abstracție de aceasta, chestiune generală descrisă aici va rămâne importantă,
+pentru că orice bibliotecă sau platformă ne-liberă poate cauza o problemă similară.
+Trebuie să învățăm o lecție din istoria lui Java, pentru a putea evita alte capcane
+în viitor.</p>
+</div>
+
+<p>12 aprilie 2004</p>
+
+<p>
+  Dacă programul dvs. este software liber, acesta este în pricipiu etic, dar
+  există o capcană de care trebuie să fiți conștient.  Programul dvs., deși
+  liber, poate fi restricționat de software ne-liber de care depinde.
+  Întrucât problema este proeminentă azi pentru programele Java, o numim
+  Capcana Java.
+</p>
+
+<p>
+  Un program este software liber dacă utilizatorii săi au anumite libertăți cruciale.
+  Pe scurt, acestea sunt: libertatea de a rula programul, libertatea de a studia
+  și schimba codul sursă, libertatea de a redistribui codul sursă și binarele și
+  libertatea de a publica versiuni îmbunătățite. (Vedeți 
+  <a href="http://www.gnu.org/philosophy/free-sw.ro.html">http://www.gnu.org/philosophy/free-sw.ro.html</a>.) 
+  Dacă un anumit program este software liber depinde în întregime de
+  înțelesul licenței sale.
+</p>
+
+<p>
+  Dacă programul poate fi folosit în Lumea Liberă, folosit de cei ce vor
+  să trăiască în libertate, este o întrebare mai complexă.  Aceasta nu este
+  determinată numai de licența programului, pentru că un program nu funcționează
+  în izolare.  Fiecare program depinde de alte programe.  De exemplu, un program
+  trebuie compilat sau interpretat, așa că depinde de un compilator sau un
+  interpretor.  Dacă este compilat în byte code, programul depinde de
+  interpretorul de byte code.  Mai mult, aceste depinde de biblioteci pentru
+  a rula și mai poate invoca alte programe separate care rulează în alte procese.
+  Toate aceste programe sunt dependențe.  Dependențele pot fi necesare pentru
+  ca programul să ruleze, sau pot fi necesare numai pentru anumite capabilități.
+  În ambele cazuri, părți din program sau tot programul nu pot opera fără
+  dependențe.
+</p>
+
+<p>
+  Dacă unele dintre dependențele programului nu sunt libere, aceasta înseamnă
+  că unele părți din program sau întreg programul nu pot rula într-un sistem
+  liber în totalitate--el este de nefolosit în Lumea Liberă.  Desigur, noi
+  am putea redistribui programul și am putea avea copii în computerele noastre,
+  dar n-ar fi de prea mare folos dacă nu l-am putea rula.  Acel program este
+  software liber, dar este în fapt încătușat de dependențele sale ne-libere.
+</p>
+
+<p>
+  Această problemă poate avea loc în orice tip de software, în orice limbaj.
+  De exemplu, un program liber care rulează numai pe Microsoft Windows
+  este în mod clar de nefolosit în Lumea Liberă.  Dar software-ul care rulează
+  pe GNU/Linux poate de asemenea fi de nefolosit dacă depinde de alt
+  software ne-liber.  În trecut, Motif (înainte de a avea LessTif) și Qt
+  (înainte ca dezvoltatorii săi să-l facă software liber) au fost cauze
+  majore ale acestei probleme.  Cele mai multe carduri video 3D funcționează
+  la parametrii nominali numai cu drivere ne-libere, care cauzează de
+  asemenea această problemă.  Dar sursa majoră a acestei probleme este
+  azi Java, pentru că cei ce scriu software liber simt adeseori că Java
+  este sexy.  Orbiți de atracția lor pentru limbaj, ei neglijează chestiunea
+  dependențelor și cad în Capcana Java.
+</p>
+
+<p>
+  Implementarea lui Sun de Java este ne-liberă.  Blackdown este de asemenea
+  ne-liberă pentru că este o adaptare a codului proprietar a lui Sun.
+  Bibliotecile standard Java sunt de asemenea ne-libere.  Noi avem implementări
+  libere de Java, cum ar fi <a href="http://gcc.gnu.org/java/">Compilatorul
+  GNU pentru Java</a> (GCJ) și <a href="/software/classpath">GNU Classpath</a>,
+  dar ele încă nu suportă toate capabilitățile.  Încă ne străduim să-i prindem
+  din urmă.
+</p>
+
+<p>
+  Dacă dezvoltați un program Java pe platforma Java a lui Sun, sunteți în
+  pericol să folosiți capabilități disponibile numai în versiunea Sun fără
+  nici măcar să realizați acest lucru.  Pe când vă dați seama ar putea trece
+  luni de zile și repararea situației ar putea lua alte câteva luni.
+  Ați putea spune: "E prea mult de lucru să o iau de la capăt." și atunci
+  programul dvs. a căzut în Capcana Java; el nu va putea fi folosit în
+  Lumea Liberă.
+</p>
+
+<p>
+  Modul eficace în care puteți evita Capcana Java este să aveți doar o implementare
+  liberă de Java pe sistemul dvs..  Atunci, dacă folosiți o capabilitate Java sau
+  o bibliotecă pe care software-ul liber încă nu o suportă, vă veți da seama
+  de acest lucru pe loc și veți putea rescrie codul imediat.
+</p>
+
+<p>
+  Sun continuă să dezvolte biblioteci Java "standard" adiționale și aproape toate
+  sunt ne-libere; în multe cazuri, chiar și specificațiile bibliotecii sunt
+  "trade secret"  iar cea mai recentă licență a lui Sun pentru aceste specificații
+  interzice lansarea/distribuirea a unor implementări incomplete ale specificațiilor.
+  (Vedeți de exemplu 
+  <a href="http://jcp.org/aboutJava/communityprocess/JSPA2.pdf">http://jcp.org/aboutJava/communityprocess/JSPA2.pdf</a> și 
+  <a href="http://jcp.org/aboutJava/communityprocess/final/jsr129/j2me_pb-1_0-fr-spec-license.html">http://jcp.org/aboutJava/communityprocess/final/jsr129/j2me_pb-1_0-fr-spec-license.html</a>).
+</p>
+
+<p>
+  Din fericire, licența pentru specificații permite lansarea unei implementări
+  ca software liber; cei care primesc biblioteca o pot modifica și nu sunt
+  obligați să adere la specificație.  Dar cerința are efectul de a interzice
+  folosirea unui model de dezvoltare colaborativ de producere a implementației
+  libere.  Folosirea acelui model ar însemna publicarea de versiuni incomplete,
+  ceea ce este interzis celor care au citit specificațiile.
+</p>
+
+<p>
+  La începuturile Mișcării pentru Software Liber, erau imposibil de evitat
+  dependențele de programe ne-libere.  Înainte de a avea compilatorul C GNU,
+  fiecare program C (liber sau nu) depindea de un compilator C ne-liber.
+  Înainte de a avea biblioteca C GNU, fiecare program depindea de o bibliotecă
+  C ne-liberă.  Înainte de a avea Linux, primul kernel liber, fiecare program
+  depindea de un kernel ne-liber.  Înainte de a avea Bash, fiecare script
+  shell trebuia să fie interpretat de un shell ne-liber.  A fost inevitabil
+  ca primele noastre programe să fie inițial îngrădite de aceste dependențe,
+  dar noi am acceptat această situație pentru că planul nostru includea
+  salvarea lor ulterioară.  Scopul nostru final, un sistem de operare GNU
+  auto-susținut, includea înlocuitori liberi pentru toate acele dependențe;
+  dacă atingeam scopul, toate programele noastre ar fi salvate.  Acest lucru
+  s-a întâmplat: cu sistemul GNU/Linux, noi putem rula aceste programe
+  pe platforme libere.
+</p>
+
+<p>
+  Situația este diferită azi.  Noi avem acum sisteme de operare libere puternice
+  și multe unelte de programare libere.  Orice lucru pe care ați dori să-l faceți
+  poate fi făcut acum pe o pllatformă liberă; nu există nici o nevoie să acceptați
+  o dependență ne-liberă, nici măcar temporar.  Principalul motiv pentru care
+  oamenii cad în capcană acum este faptul că nu se gândesc la aceasta.  Cea
+  mai ușoară soluție la problema Capcanei Java este educarea despre existența
+  acesteia.
+</p>
+
+<p>
+  Pentru a ține codul dvs. Java în siguranță față de Capcana Java, instalați
+  un mediu de dezvoltare Java și folosiți-l.  În general, orice limbaj ați
+  folosi, țineți ochii deschiși și verificați starea libertății a programelor
+  de care depinde codul dvs..  Cel mai ușor puteți verifica dacă un program este
+  liber căutându-l în Directorul de Software Liber (<a
+  href="http://www.fsf.org/directory">http://www.fsf.org/directory</a>).
+  Dacă un program nu este în director, puteți să-i verificați licența
+  comparând-o cu lista de licențe pentru software liber (<a
+  href="http://www.gnu.org/licenses/license-list.html">http://www.gnu.org/licenses/license-list.html</a>).
+</p>
+
+<p>
+  Noi încercăm să salvăm programele Java căzute în capcană, așa că dacă
+  vă place limbajul Java, vă invităm să ajutați la dezvoltarea lui
+  GNU Classpath.  Încercându-vă programele cu compilatorul GCJ și
+  GNU Classpath și raportând problemele pe care le aveți în clasele
+  deja implementate este de asemenea folositor.  Totuși, ne va lua ceva
+  timp să terminăm GNU Classpath; dacă adăugarea altor biblioteci ne-libere
+  va continua, s-ar putea să nu le aveți niciodată pe cele mai recente.
+  Așa că vă rugăm să nu puneți software-ul dvs. liber în lanțuri.
+  Când scrieți o aplicație azi, scrieți-o să ruleze pe platforme libere
+  de la început.
+</p>
+
+<h3>Vedeți și:-</h3>
+<p><a href="/philosophy/sun-in-night-time.ro.html">Incidentul ciudat cu soarele (Sun) în timpul nopții</a></p>
+</div>
+<!--#include virtual="/server/footer.ro.html" -->
+
+<div id="footer">
+
+<p>
+Vă rugăm trimiteți întrebări despre GNU și Fundația pentru Software Liber (FSF - Free Software Foundation) la
+<a href="mailto:gnu@gnu.org"><em>gnu@gnu.org</em></a>.
+Există și <a href="/home.html#ContactInfo">alte moduri de a contacta FSF.</a>
+</p>
+
+<p>Vă rugăm raportați legături incorecte și alte corecturi (sau sugestii) la
+<a href="mailto:webmasters@gnu.org">webmasters@gnu.org</a>.
+</p>
+
+<p>
+Vedeți pagina 
+<a href="/server/standards/README.translations.html">Translations
+README</a> pentru informații despre coordonarea și furnizarea de
+traduceri ale acestui articol.
+</p>
+
+<p>Copyright &copy; 2004 Richard Stallman</p>
+
+<p>Reproducerea exactă și distribuirea acestui articol în întregime
+este permisă pe orice mediu, cu condiția ca această notă să fie păstrată.
+</p>
+
+<p>
+Actualizat:
+<!-- timestamp start -->
+$Date: 2011/12/30 05:18:43 $ $Author: ineiev $
+<!-- timestamp end -->
+</p>
+</div>
+
+<div id="translations">
+<h4>Traduceri ale acestei pagini</h4>
+
+<!-- Please keep this list alphabetical, and in the original -->
+
+<!-- language if possible, otherwise default to English -->
+<!-- If you do not have it English, please comment what the -->
+<!-- English is.  If you add a new language here, please -->
+<!-- advise web-translators@gnu.org and add it to -->
+<!--    - in /home/www/bin/nightly-vars either TAGSLANG or WEBLANG -->
+<!--    - in /home/www/html/server/standards/README.translations.html -->
+<!--      one of the lists under the section "Translations Underway" -->
+<!--    - if there is a translation team, you also have to add an alias -->
+<!--      to mail.gnu.org:/com/mailer/aliases -->
+<!-- Please also check you have the 2 letter language code right versus -->
+<!--     http://www.w3.org/WAI/ER/IG/ert/iso639.htm -->
+
+<ul class="translations-list">
+<li><a href="/philosophy/java-trap.bg.html">&#x431;&#x44A;&#x43B;&#x433;&#x430;&#x440;&#x441;&#x43A;&#x438;</a>          <!-- Bulgarian --></li>
+<li><a href="/philosophy/java-trap.en.html">English</a></li>
+<li><a href="/philosophy/java-trap.de.html">Deutsch</a>         <!-- German --></li>
+<li><a href="/philosophy/java-trap.fr.html">Fran&#x00e7;ais</a> <!-- French --></li>
+<li><a href="/philosophy/java-trap.el.html">&#x0395;&#x03bb;&#x03bb;&#x03b7;&#x03bd;&#x03b9;&#x03ba;&#x03ac;</a>        <!-- Greek --></li>
+<li><a href="/philosophy/java-trap.es.html">Espa&#x00f1;ol</a>  <!-- Spanish --></li>
+<li><a href="/philosophy/java-trap.it.html">Italiano</a>        <!-- Italian --></li>
+<li><a href="/philosophy/java-trap.pl.html">polski</a>	      <!-- Polish --></li>
+<li><a href="/philosophy/java-trap.ro.html">Română</a>	      <!-- Romanian --></li>
+</ul>
+</div>
+</div>
+
+</body>
+</html>

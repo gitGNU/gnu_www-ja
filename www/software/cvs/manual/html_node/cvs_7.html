@@ -1,0 +1,107 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Revision numbers</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_6.html">previous</A>, <A HREF="cvs_8.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC8" HREF="cvs_toc.html#TOC8">Revision numbers</A></H2>
+<P>
+<A NAME="IDX24"></A>
+<A NAME="IDX25"></A>
+<A NAME="IDX26"></A>
+<A NAME="IDX27"></A>
+<A NAME="IDX28"></A>
+<A NAME="IDX29"></A>
+<A NAME="IDX30"></A>
+<A NAME="IDX31"></A>
+
+</P>
+<P>
+Each version of a file has a unique <EM>revision
+number</EM>.  Revision numbers look like <SAMP>`1.1'</SAMP>,
+<SAMP>`1.2'</SAMP>, <SAMP>`1.3.2.2'</SAMP> or even <SAMP>`1.3.2.2.4.5'</SAMP>.
+A revision number always has an even number of
+period-separated decimal integers.  By default revision
+1.1 is the first revision of a file.  Each successive
+revision is given a new number by increasing the
+rightmost number by one.  The following figure displays
+a few revisions, with newer revisions to the right.
+
+</P>
+
+<PRE>
+       +-----+    +-----+    +-----+    +-----+    +-----+
+       ! 1.1 !----! 1.2 !----! 1.3 !----! 1.4 !----! 1.5 !
+       +-----+    +-----+    +-----+    +-----+    +-----+
+</PRE>
+
+<P>
+CVS is not limited to linear development.  The
+<EM>revision tree</EM> can be split into <EM>branches</EM>,
+where each branch is a self-maintained line of
+development.  Changes made on one branch can easily be
+moved back to the main trunk.  
+
+</P>
+<P>
+Each branch has a <EM>branch number</EM>, consisting of an
+odd number of period-separated decimal integers.  The
+branch number is created by appending an integer to the
+revision number where the corresponding branch forked
+off.  Having branch numbers allows more than one branch
+to be forked off from a certain revision.
+
+</P>
+<P>
+All revisions on a branch have revision numbers formed
+by appending an ordinal number to the branch number.
+The following figure illustrates branching with an
+example.
+
+</P>
+
+<PRE>
+                                                     +-------------+
+                          Branch 1.2.2.3.2 -&#62;        ! 1.2.2.3.2.1 !
+                                                   / +-------------+
+                                                  /
+                                                 /
+                 +---------+    +---------+    +---------+    +---------+
+Branch 1.2.2 -&#62; _! 1.2.2.1 !----! 1.2.2.2 !----! 1.2.2.3 !----! 1.2.2.4 !
+               / +---------+    +---------+    +---------+    +---------+
+              /
+             /
++-----+    +-----+    +-----+    +-----+    +-----+
+! 1.1 !----! 1.2 !----! 1.3 !----! 1.4 !----! 1.5 !      &#60;- The main trunk
++-----+    +-----+    +-----+    +-----+    +-----+
+                !
+                !
+                !   +---------+    +---------+    +---------+
+Branch 1.2.4 -&#62; +---! 1.2.4.1 !----! 1.2.4.2 !----! 1.2.4.3 !
+                    +---------+    +---------+    +---------+
+
+</PRE>
+
+<P>
+The exact details of how the branch number is
+constructed is not something you normally need to be
+concerned about, but here is how it works: When
+CVS creates a branch number it picks the first
+unused even integer, starting with 2.  So when you want
+to create a branch from revision 6.4 it will be
+numbered 6.4.2.  All branch numbers ending in a zero
+(such as 6.4.0) are used internally by CVS
+(see section <A HREF="cvs_146.html#SEC153">Magic branch numbers</A>).  The branch 1.1.1 has a
+special meaning.  See section <A HREF="cvs_61.html#SEC63">Tracking third-party sources</A>.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_6.html">previous</A>, <A HREF="cvs_8.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

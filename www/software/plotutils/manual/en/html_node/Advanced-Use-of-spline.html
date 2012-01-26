@@ -1,0 +1,129 @@
+<html lang="en">
+<head>
+<title>Advanced Use of spline - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="spline.html#spline" title="spline">
+<link rel="prev" href="spline-Examples.html#spline-Examples" title="spline Examples">
+<link rel="next" href="spline-Invocation.html#spline-Invocation" title="spline Invocation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Advanced-Use-of-spline"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="spline-Invocation.html#spline-Invocation">spline Invocation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="spline-Examples.html#spline-Examples">spline Examples</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="spline.html#spline">spline</a>
+<hr>
+</div>
+
+<h3 class="section">7.2 Advanced use of <code>spline</code></h3>
+
+<p>The preceding section explains how <code>spline</code> can be employed to
+interpolate a function y of a scalar variable t, in the
+case when y is a scalar.  In this section we explain how to
+perform more sophisticated interpolations.  This includes
+multidimensional interpolations, and interpolations that are splinings
+of curves, rather than of functions.
+
+   <p><code>spline</code> can handle the case when y&nbsp;is<!-- /@w --> a vector of
+arbitrary specified dimensionality.  The dimension can be specified with
+the &lsquo;<samp><span class="samp">-d</span></samp>&rsquo; option.  For example, an input file could contain the
+multidimensional dataset
+
+<pre class="example">     0.0  0.0  1.0
+     1.0  1.0  0.0
+     2.0  0.0  1.0
+</pre>
+   <p class="noindent">which are the coordinates (t,y) of the data points (0,0,1),
+(1,1,0), and (2,0,1).  You would construct a spline (the graph of an
+interpolating function) passing through the points in this dataset by
+doing
+
+<pre class="example">     spline -d 2 input_file &gt; output_file
+</pre>
+   <p class="noindent">The option &lsquo;<samp><span class="samp">-d 2</span></samp>&rsquo; is used because in this example, the dependent
+variable y is a two-dimensional vector.  Each of the components
+of y will be interpolated independently, and the output file will
+contain points that lie along the graph of the resulting interpolating
+function.
+
+   <p>When doing multidimensional splining, you may use any of the options
+that apply in the default one-dimensional case.  For example, the
+&lsquo;<samp><span class="samp">-f</span></samp>&rsquo; option will yield real-time cubic Bessel interpolation.  As&nbsp;in<!-- /@w --> the one-dimensional case, if the &lsquo;<samp><span class="samp">-f</span></samp>&rsquo; option is used then the
+&lsquo;<samp><span class="samp">-t</span></samp>&rsquo; option must be used as&nbsp;well<!-- /@w -->, to specify an interpolation
+interval (a&nbsp;range<!-- /@w --> of t&nbsp;values<!-- /@w -->).  The &lsquo;<samp><span class="samp">-p</span></samp>&rsquo; option
+will yield a periodic spline, i.e., the graph of a periodic
+vector-valued function.  For this, the first and last dataset
+y&nbsp;values<!-- /@w --> must be the same.
+
+   <p><code>spline</code> can also be used to draw a curve through arbitrarily
+chosen points in the plane, or in&nbsp;general<!-- /@w --> through arbitrarily chosen
+points in d-dimensional space.  This is not the same as splining,
+at&nbsp;least<!-- /@w --> as the term is conventionally defined.  The reason is that
+`splining' refers to construction of a function, rather than the
+construction of a curve that may or may not be the graph of a function. 
+Not every curve is the graph of a function.
+
+   <p>The following example shows how you may `spline a curve'.  The command
+
+<pre class="example">     echo 0 0 1 0 1 1 0 1 | spline -d 2 -a -s | graph -T X
+</pre>
+   <p class="noindent">will construct a curve in the plane through the four points (0,0),
+(1,0), (1,1), and (0,1), and graph it on an X&nbsp;Window<!-- /@w --> System display. 
+The &lsquo;<samp><span class="samp">-d 2</span></samp>&rsquo; option specifies that the dependent variable y is
+two-dimensional.  The &lsquo;<samp><span class="samp">-a</span></samp>&rsquo; option specifies that t&nbsp;values<!-- /@w --> are missing from the input, and should be automatically
+generated.  By&nbsp;default<!-- /@w -->, the first t&nbsp;value<!-- /@w --> is&nbsp;0<!-- /@w -->, the
+second is&nbsp;1<!-- /@w -->, etc.  The &lsquo;<samp><span class="samp">-s</span></samp>&rsquo; option specifies that the
+t&nbsp;values<!-- /@w --> should be stripped from the output.
+
+   <p>The same technique may be used to spline a closed curve.  For example,
+doing
+
+<pre class="example">     echo 0 0 1 0 0 1 0 0 | spline -d 2 -a -s -p | graph -T X
+</pre>
+   <p class="noindent">will construct and graph a closed, lozenge-shaped curve through the
+three points (0,0), (1,0), and (0,1).  The construction of a closed
+curve is guaranteed by the &lsquo;<samp><span class="samp">-p</span></samp>&rsquo; (i.e., &lsquo;<samp><span class="samp">--periodic</span></samp>&rsquo;) option,
+and by the repetition of the initial point (0,0) at the end of the
+sequence.
+
+   <p>When splining a curve, whether open or closed, you may wish to
+substitute the &lsquo;<samp><span class="samp">-A</span></samp>&rsquo; option for the &lsquo;<samp><span class="samp">-a</span></samp>&rsquo; option.  Like the
+&lsquo;<samp><span class="samp">-a</span></samp>&rsquo; option, the &lsquo;<samp><span class="samp">-A</span></samp>&rsquo; option specifies that t&nbsp;values<!-- /@w --> are missing from the input and should be automatically
+generated.  However, the increment from one t&nbsp;value<!-- /@w --> to the
+next will be the distance between the corresponding values of&nbsp;y<!-- /@w -->.  This scheme for generating t&nbsp;values<!-- /@w -->, when
+constructing a curve through a sequence of data points, is the scheme
+that is used in the well&nbsp;known<!-- /@w --> FITPACK subroutine library.  It&nbsp;is<!-- /@w --> probably the best approach when the distances between successive
+points fluctuate considerably.
+
+   <p>A curve through a sequence of points in the plane, whether open or
+closed, may cross itself.  Some interesting visual effects can be
+obtained by adding negative tension to such a curve.  For example, doing
+
+<pre class="example">     echo 0 0 1 0 1 1 0 0 | spline -d 2 -a -s -p -T -14 -n 500 | graph -T X
+</pre>
+   <p class="noindent">will construct a closed curve through the three points (0,0), (1,0),
+and (0,1), which is wound into curlicues.  The &lsquo;<samp><span class="samp">-n 500</span></samp>&rsquo; option is
+included because there are so many windings.  It&nbsp;specifies<!-- /@w --> that 501
+points should be generated, which is enough to draw a smooth curve.
+
+<p class="noindent">
+
+   </body></html>
+

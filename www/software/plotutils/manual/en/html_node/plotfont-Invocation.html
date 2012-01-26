@@ -1,0 +1,277 @@
+<html lang="en">
+<head>
+<title>plotfont Invocation - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="plotfont.html#plotfont" title="plotfont">
+<link rel="prev" href="plotfont-Examples.html#plotfont-Examples" title="plotfont Examples">
+<link rel="next" href="plotfont-Environment.html#plotfont-Environment" title="plotfont Environment">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="plotfont-Invocation"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="plotfont-Environment.html#plotfont-Environment">plotfont Environment</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="plotfont-Examples.html#plotfont-Examples">plotfont Examples</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="plotfont.html#plotfont">plotfont</a>
+<hr>
+</div>
+
+<h3 class="section">6.2 <code>plotfont</code> command-line options</h3>
+
+<p>The <code>plotfont</code> font display utility will produce a character map
+for any of the fonts available to the GNU plotting utilities
+<code>graph</code>, <code>plot</code>, <code>pic2plot</code>, and <code>tek2plot</code>, and the
+GNU <code>libplot</code> graphics library on which they are based.  The map
+may be produced in any supported output format, or displayed on an X&nbsp;Window<!-- /@w --> System display.  The output format is specified
+with the &lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option.
+
+   <p>The names of the fonts for which a character map will be produced may
+appear anywhere on the <code>plotfont</code> command line.  That is, the
+relative order of font names and command-line options does not matter. 
+The character map is written to standard output, unless the &lsquo;<samp><span class="samp">-T X</span></samp>&rsquo;
+option is specified.  In&nbsp;that<!-- /@w --> case the character map is displayed in
+a window on an X&nbsp;Window<!-- /@w --> System display, and there is no output file.
+
+   <p>The possible options are listed below.  There are three sorts of option:
+
+     <ol type=1 start=1>
+<li>General options. 
+<li>Options relevant only to raw <code>plotfont</code>, i.e., relevant only if no
+output format is specified with the &lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option. 
+<li>Options requesting information (e.g., &lsquo;<samp><span class="samp">--help</span></samp>&rsquo;).
+        </ol>
+
+<p class="noindent">Each option that takes an argument is followed, in parentheses, by the
+type and default value of the argument.
+
+   <p>The following are general options.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-1</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--lower-half</span></samp>&rsquo;<dd>Generate a character map for the lower half of each specified font. 
+This is the default.
+
+     <br><dt>&lsquo;<samp><span class="samp">-2</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--upper-half</span></samp>&rsquo;<dd>Generate a character map for the upper half of each specified font.
+
+     <br><dt>&lsquo;<samp><span class="samp">-o</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--octal</span></samp>&rsquo;<dd>Number the characters in octal rather than in decimal (the default).
+
+     <br><dt>&lsquo;<samp><span class="samp">-x</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--hexadecimal</span></samp>&rsquo;<dd>Number the characters in hexadecimal rather than in decimal (the default).
+
+     <br><dt>&lsquo;<samp><span class="samp">--box</span></samp>&rsquo;<dd>Surround each character with a box, showing its extent to left and
+right.  The default is not to do this.
+
+     <br><dt>&lsquo;<samp><span class="samp">-j </span><var>row</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--jis-row </span><var>row</var></samp>&rsquo;<dd>Generate a character map for row <var>row</var> of a Japanese font arranged
+according to JIS [Japanese Industrial Standard] X0208.  The only such
+font currently available is the HersheyEUC [Extended Unix Code] font. 
+If&nbsp;used<!-- /@w -->, this option overrides the &lsquo;<samp><span class="samp">-1</span></samp>&rsquo; and &lsquo;<samp><span class="samp">-2</span></samp>&rsquo; options.
+
+     <p>The valid rows are 1<small class="dots">...</small>94.  In the JIS X0208 standard, Roman
+characters are located in row&nbsp;3<!-- /@w -->, and Japanese syllabic characters
+(Hiragana and Katakana) are located in rows 4 and&nbsp;5<!-- /@w -->.  Greek and
+Cyrillic characters are located in rows 6 and&nbsp;7<!-- /@w -->.  Japanese
+ideographic characters (Kanji) are located in rows 16<small class="dots">...</small>84.  Rows
+16<small class="dots">...</small>47 contain the JIS Level&nbsp;1<!-- /@w --> Kanji, which are the most
+frequently used.  They are arranged according to&nbsp;On<!-- /@w --> (old Chinese)
+reading.  Rows 48<small class="dots">...</small>84 contain the less frequently used JIS Level&nbsp;2<!-- /@w --> Kanji.
+
+     <p>The HersheyEUC font contains 596 of the 2965 Level&nbsp;1<!-- /@w --> Kanji, and
+seven of the Level&nbsp;2<!-- /@w --> Kanji.  It&nbsp;uses<!-- /@w --> the 8-bit EUC-JP encoding. 
+This encoding is a multibyte encoding that includes the ASCII character
+set as&nbsp;well<!-- /@w --> as the JIS X0208 characters.  It represents each ASCII
+character in the usual way, i.e., as a single byte that does not have
+its high bit set.  Each JIS X0208 character is represented as two bytes,
+each with the high bit set.  The first byte contains the row number
+(plus&nbsp;32)<!-- /@w -->, and the second byte contains the character number.
+
+     <br><dt>&lsquo;<samp><span class="samp">-T </span><var>type</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--output-format </span><var>type</var></samp>&rsquo;<dd>(String, default "meta".)  Select an output format of type <var>type</var>,
+which may be one of the strings "X", "png", "pnm", "gif", "svg", "ai",
+"ps", "cgm", "fig", "pcl", "hpgl", "regis", "tek", and "meta".  These
+refer respectively to the X&nbsp;Window&nbsp;System<!-- /@w -->, PNG format, portable
+anymap (PBM/PGM/PPM) format, pseudo-GIF format, the XML-based Scalable
+Vector Graphics format, the format used by Adobe Illustrator,
+<code>idraw</code>-editable Postscript, the WebCGM format for Web-based
+vector graphics, the format used by the <code>xfig</code> drawing editor,
+the Hewlett&ndash;Packard PCL&nbsp;5<!-- /@w --> printer language, the Hewlett&ndash;Packard
+Graphics Language (by&nbsp;default<!-- /@w -->, HP-GL/2), the ReGIS (remote
+graphics instruction set) format developed by&nbsp;DEC<!-- /@w -->, Tektronix
+format, and device-independent GNU graphics metafile format.  The
+option &lsquo;<samp><span class="samp">--display-type</span></samp>&rsquo; is an obsolete alternative to
+&lsquo;<samp><span class="samp">--output-format</span></samp>&rsquo;.
+
+     <p>Files in PNG, PNM, pseudo-GIF, SVG, AI, or Fig format may contain only a
+single page of graphics.  So if the &lsquo;<samp><span class="samp">-T png</span></samp>&rsquo; option, the &lsquo;<samp><span class="samp">-T
+pnm</span></samp>&rsquo; option, the &lsquo;<samp><span class="samp">-T gif</span></samp>&rsquo; option, the &lsquo;<samp><span class="samp">-T svg</span></samp>&rsquo; option, the
+&lsquo;<samp><span class="samp">-T ai</span></samp>&rsquo; option, or the &lsquo;<samp><span class="samp">-T fig</span></samp>&rsquo; option is used, a character
+map will be produced for only the first-specified font.
+
+     <br><dt>&lsquo;<samp><span class="samp">--bg-color </span><var>name</var></samp>&rsquo;<dd>(String, default "white".)  Set the color used for the background to be
+<var>name</var>.  This is relevant only to <code>plotfont -T&nbsp;X<!-- /@w --></code>,
+<code>plotfont -T png</code>, <code>plotfont -T pnm</code>, <code>plotfont -T gif</code>,
+<code>plotfont -T cgm</code>, <code>plotfont -T regis</code>, and <code>plotfont -T
+meta</code>.  An&nbsp;unrecognized<!-- /@w --> name sets the color to the default.  For
+information on what names are recognized, see <a href="Color-Names.html#Color-Names">Color Names</a>.  The
+environment variable <code>BG_COLOR</code> can equally well be used to specify
+the background color.
+
+     <p>If the &lsquo;<samp><span class="samp">-T png</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-T gif</span></samp>&rsquo; option is used, a transparent PNG
+file or a transparent pseudo-GIF, respectively, may be produced by
+setting the <code>TRANSPARENT_COLOR</code> environment variable to the name of
+the background color.  See <a href="plotfont-Environment.html#plotfont-Environment">plotfont Environment</a>.  If&nbsp;the<!-- /@w --> &lsquo;<samp><span class="samp">-T
+svg</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-T cgm</span></samp>&rsquo; option is used, an output file without a
+background may be produced by setting the background color to "none".
+
+     <br><dt>&lsquo;<samp><span class="samp">--bitmap-size </span><var>bitmap_size</var></samp>&rsquo;<dd>(String, default "570x570".)  Set the size of the graphics display in
+which the character map will be drawn, in terms of pixels, to be
+<var>bitmap_size</var>.  This is relevant only to <code>plotfont -T&nbsp;X<!-- /@w --></code>,
+<code>plotfont -T png</code>, <code>plotfont -T pnm</code>, and <code>plotfont -T
+gif</code>, for all of which the size can be expressed in terms of pixels. 
+The environment variable <code>BITMAPSIZE</code> may equally well be used to
+specify the size.
+
+     <p>The graphics display used by <code>plotfont -T X</code> is a popped-up X&nbsp;window<!-- /@w -->.  Command-line positioning of this window on an X&nbsp;Window<!-- /@w -->
+System display is supported.  For example, if <var>bitmap_size</var> is
+"570x570+0+0" then the window will be popped&nbsp;up<!-- /@w --> in the upper left
+corner.
+
+     <p>If you choose a rectangular (non-square) window size, the fonts in the
+plot will be scaled anisotropically, i.e., by different factors in the
+horizontal and vertical direction.
+
+     <p>For backward compatibility, <code>plotfont -T X</code> allows the user to set
+the window size and position by setting the X&nbsp;resource<!-- /@w -->
+<code>Xplot.geometry</code>, instead of &lsquo;<samp><span class="samp">--bitmap-size</span></samp>&rsquo; or
+<code>BITMAPSIZE</code>.
+
+     <br><dt>&lsquo;<samp><span class="samp">--emulate-color </span><var>option</var></samp>&rsquo;<dd>(String, default "no".)  If <var>option</var> is "yes", replace each color in
+the output by an appropriate shade of gray.  This is seldom useful,
+except when using &lsquo;<samp><span class="samp">plotfont -T pcl</span></samp>&rsquo; to prepare output for a PCL&nbsp;5<!-- /@w --> device.  (Many monochrome PCL&nbsp;5<!-- /@w --> devices, such as monochrome
+LaserJets, do a poor job of emulating color on their own.  They usually
+map HP-GL/2's seven standard pen colors, including even yellow, to
+black.)  You may equally well request color emulation by setting the
+environment variable <code>EMULATE_COLOR</code> to "yes".
+
+     <br><dt>&lsquo;<samp><span class="samp">--numbering-font-name </span><var>font_name</var></samp>&rsquo;<dd>(String, default "Helvetica" except for <code>plotfont -T pcl</code>, for
+which "Univers" is the default, and <code>plotfont -T png</code>,
+<code>plotfont -T pnm</code>, <code>plotfont -T gif</code>, <code>plotfont -T hpgl</code>,
+<code>plotfont -T regis</code>, and <code>plotfont -T tek</code>, for all of which
+"HersheySerif" is the default.)  Set the font used for the numbering of
+the characters in the character map(s) to be <var>font_name</var>.
+
+     <br><dt>&lsquo;<samp><span class="samp">--page-size </span><var>pagesize</var></samp>&rsquo;<dd>(String, default "letter".)  Set the size of the page on which the
+character map(s) will be drawn.  This is relevant only to <code>plotfont
+-T svg</code>, <code>plotfont -T ai</code>, <code>plotfont -T ps</code>, <code>plotfont -T
+fig</code>, <code>plotfont -T pcl</code>, and <code>plotfont -T<!-- /@w --> hpgl</code>.  "letter"
+means an 8.5<span class="dmn">in</span> by 11<span class="dmn">in</span> page.  Any ISO page size in the range
+"a0"<small class="dots">...</small>"a4" or ANSI page size in the range "a"<small class="dots">...</small>"e" may be
+specified ("letter" is an alias for&nbsp;"a"<!-- /@w --> and "tabloid" is an alias
+for&nbsp;"b"<!-- /@w -->).  "legal", "ledger", and&nbsp;"b5"<!-- /@w --> are recognized page sizes
+also.  The environment variable <code>PAGESIZE</code> can equally well be used
+to specify the page size.
+
+     <p>For <code>plotfont -T ai</code>, <code>plotfont -T ps</code>, <code>plotfont -T
+pcl</code>, and <code>plotfont -T fig</code>, the graphics display (or `viewport')
+within which the character map is drawn will be, by default, a square
+region centered on the specified page.  For <code>plotfont -T hpgl</code>, it
+will be a square region of the same size, but may be positioned
+differently.  Either or both of the dimensions of the graphics display
+can be specified explicitly.  For example, <var>pagesize</var> could be
+specified as "letter,xsize=4in", or "a4,xsize=10cm,ysize=15cm".  The
+dimensions are allowed to be negative (a&nbsp;negative<!-- /@w --> dimension results
+in a reflection).
+
+     <p>The position of the graphics display, relative to its default
+position, may optionally be adjusted by specifying an offset vector. 
+For example, <var>pagesize</var> could be specified as
+"letter,yoffset=1.2in", or "a4,xoffset=&minus;5mm,yoffset=2.0cm". 
+It&nbsp;is<!-- /@w --> also possible to position the graphics display precisely, by
+specifying the location of its lower left corner relative to the lower
+left corner of the page.  For example, <var>pagesize</var> could be
+specified as "letter,xorigin=2in,yorigin=3in", or
+"a4,xorigin=0.5cm,yorigin=0.5cm".  The preceding options may be
+intermingled.
+
+     <p><code>plotfont -T svg</code> and <code>plotfont -T cgm</code> ignore the
+"xoffset", "yoffset", "xorigin", and "yorigin" options, since SVG
+format and WebCGM format have no notion of the Web page on which the
+graphics display will ultimately be positioned.  However, they do
+respect the "xsize" and "ysize" options.  For more on page sizes, see
+<a href="Page-and-Viewport-Sizes.html#Page-and-Viewport-Sizes">Page and Viewport Sizes</a>.
+
+     <br><dt>&lsquo;<samp><span class="samp">--pen-color </span><var>name</var></samp>&rsquo;<dd>(String, default "black".)  Set the pen color to be <var>name</var>.  An
+unrecognized name sets the pen color to the default.  For information on
+what color names are recognized, see <a href="Color-Names.html#Color-Names">Color Names</a>.
+
+     <br><dt>&lsquo;<samp><span class="samp">--rotation </span><var>angle</var></samp>&rsquo;<dd>(Float, default 0.0.)  Set the rotation angle of the graphics display
+to be <var>angle</var> degrees.  The rotation is counterclockwise.  The
+environment variable <code>ROTATION</code> can equally well be used to
+specify the rotation angle.
+
+     <p>This option is used for switching between portrait and landscape
+orientations, which have rotation angles 0&nbsp;and<!-- /@w --> 90 degrees
+respectively.  Postmodernists may also find it useful.
+
+     <br><dt>&lsquo;<samp><span class="samp">--title-font-name </span><var>font_name</var></samp>&rsquo;<dd>(String) Set the font used for the title of each character map to be
+<var>font_name</var>.  Normally the font used for the title is the same as
+the font whose character set is being displayed.  This option is useful
+when producing character maps for unusual fonts such as "ZapfDingbats"
+and "Wingdings". 
+</dl>
+
+   <p>The following option is relevant only to raw <code>plotfont</code>, i.e.,
+relevant only if no output format is specified with the
+&lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option.  In this case <code>plotfont</code> outputs a graphics
+metafile, which may be translated to other formats by invoking
+<code>plot</code>.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-O</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--portable-output</span></samp>&rsquo;<dd>Output the portable (human-readable) version of GNU metafile format,
+rather than a binary version (the default).  This can also be requested
+by setting the environment variable <code>META_PORTABLE</code> to "yes". 
+</dl>
+
+   <p>The following options request information.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">--help</span></samp>&rsquo;<dd>Print a list of command-line options, and then exit.
+
+     <br><dt>&lsquo;<samp><span class="samp">--help-fonts</span></samp>&rsquo;<dd>Print a table of available fonts, and then exit.  The table will depend
+on which output format is specified with the &lsquo;<samp><span class="samp">-T</span></samp>&rsquo;
+option.  <code>plotfont -T&nbsp;X<!-- /@w --></code>, <code>plotfont -T svg</code>,
+<code>plotfont -T ai</code>, <code>plotfont -T ps</code>, <code>plotfont -T cgm</code>,
+and <code>plotfont -T fig</code> each support the 35 standard Postscript
+fonts.  <code>plotfont -T svg</code>, <code>plotfont -T ai</code>, <code>plotfont -T
+pcl</code>, and <code>plotfont -T hpgl</code> support the 45 standard PCL&nbsp;5<!-- /@w -->
+fonts, and <code>plotfont -T pcl</code> and <code>plotfont -T hpgl</code> support a
+number of Hewlett&ndash;Packard vector fonts.  All of the preceding, together
+with <code>plotfont -T png</code>, <code>plotfont -T pnm</code>, <code>plotfont -T
+gif</code>, <code>plotfont -T regis</code>, and <code>plotfont -T tek</code>, support a
+set of 22 Hershey vector fonts.  Raw <code>plotfont</code> in&nbsp;principle<!-- /@w -->
+supports any of these fonts, since its output must be translated to
+other formats with <code>plot</code>.
+
+     <br><dt>&lsquo;<samp><span class="samp">--list-fonts</span></samp>&rsquo;<dd>Like &lsquo;<samp><span class="samp">--help-fonts</span></samp>&rsquo;, but lists the fonts in a single column to
+facilitate piping to other programs.  If&nbsp;no<!-- /@w --> output
+format is specified with the &lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option, the full set of supported
+fonts is listed.
+
+     <br><dt>&lsquo;<samp><span class="samp">--version</span></samp>&rsquo;<dd>Print the version number of <code>plotfont</code> and the plotting utilities
+package, and exit. 
+</dl>
+
+   </body></html>
+

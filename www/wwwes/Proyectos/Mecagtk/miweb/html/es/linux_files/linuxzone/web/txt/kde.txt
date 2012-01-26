@@ -1,0 +1,98 @@
+****************************************************************************
+****** KDE Micro-HOWTO ****************************** Por Daniel Molina ****
+****************************************************************************
+
+Este documento ha sido creado usando la propia documentacion de KDE
+y por mi propia experiencia.
+
+Solo lo he probado con la Beta 4 de KDE en Red Hat 5.0, por lo ke
+la localizacion de los archivos puede cambiar en otras distribuciones.
+
+El primer paso es conseguir los archivos.
+KDE se distribuye en forma de binarios en los tres formatos mayoritarios,
+TGZ RPM y DEB, por lo ke en principio no habra ke compilarlos, aunke
+para los ke lo prefieran tambien pueden conseguirse las fuentes, tanto
+en RPM como en TGZ.
+
+KDE si distribuye en dos versiones, una para libc 5 y otra para glibc.
+Si tu sistema esta basado en glibc (por ejemplo la Red Hat 5.0) deberas
+conseguir los paketes de glibc, en otro caso deberas conseguir los de
+libc 5.
+
+1. Conseguir la libreria Qt.
+	Esta libreria es basica para el funcionamiento de KDE por
+	lo ke sera el primer paso. Las versiones validas son 1.32 y
+	1.33 aunke se recomienda la 1.33
+
+	Se pueden conseguir del mismo ftp de KDE o de alguno de sus
+	mirrors:
+
+		ftp.kde.org
+
+	Tambien se encuentran en TGZ RPM y DEB. Si se van a compilar
+	programas para KDE tambien sera necesario conseguir la Qt-devel.
+
+2. Conseguir KDE.
+	El ftp es:
+
+		ftp.kde.org
+
+	Este ftp suele estar lleno por lo ke es interesante ke utiliceis
+	algun mirror. Al entrar en el web o el ftp de KDE encontrareis
+	una lista de mirrors.
+
+	Son muchos paketes, aunke los imprescindibles son:
+
+		KDE-support
+		KDE-libs
+		KDE-base
+	
+	Los demas son opcionales, pero recomiendo ke se cogan todos
+	pues contienen aplicaciones muy utiles.
+
+	Puede ser necesario actualizar algunos componentes de sistema,
+	en mi caso fue necesario actualizar la libstdc y la lig++ a
+	la version 2.8.2 para poder instalar la Beta4 para glibc.
+
+3. Instalacion de los paketes.
+	Por este orden:
+
+		(Primero los posibles prerekisitos: libstdc ...)
+		Qt-1.33 (o 1.32)
+		KDE-support
+		KDE-libs
+		KDE-base
+		KDE-* (todos los demas)
+
+	Y si se kieren compilar programas:
+
+		Qt-devel-1.33 (o Qt-devel-1.32)
+
+4. Modificacion de archivos de sistema.
+	(Asumo ke KDE esta instalado en /opt/kde)
+
+	En el archivo /etc/profile:		
+
+		KDEDIR="/opt/kde"
+		QTDIR="/usr/include/qt"
+		PATH="$PATH:$KDEDIR/bin"
+
+		export KDEDIR QTDIR PATH
+
+	En el archivo /etc/ld.so.conf
+
+		/opt/kde/lib
+
+5. Arrancar KDE.
+	En el archivo /etc/X11/xinit/xinitrc, cambiar el gestor de 
+	ventanas actual por:
+
+		exec startkde
+
+	Esta linea sera la ultima en el archivo y no llevara la '&'
+	(Si no reconoceis en ke linea se arranca el gestor de ventanas
+	buscad algo parecido a 'exec fvwm')
+
+6. Arrancar X.
+
+		startx

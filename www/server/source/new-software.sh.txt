@@ -1,0 +1,77 @@
+#!/bin/bash
+
+ftproot=/home/ftp/gnu
+changelogroot=/home/www/html/software/changelogs
+changelogwebroot=/software/changelogs
+changelogs="*/NEWS */ChangeLog"
+tmp="/tmp"
+htmlroot=/home/www/html
+bindir=/home/www/bin
+
+if ! test -d ${changelogroot}; then
+  mkdir -p ${changelogroot}
+fi
+rm -f ${tmp}/$$.programs ${tmp}/$$.html
+touch ${tmp}/$$.programs ${tmp}/$$.html
+
+find ${ftproot} -maxdepth 1 -type d -printf "%f\n"| while read DIR; do
+  if ls ${ftproot}/$DIR/$DIR-[0-9.]*.tar.gz >/dev/null 2>&1; then
+    # Find the latest release version and make changelog directory
+    LATEST=`ls ${ftproot}/$DIR/$DIR-[0-9.]*.tar.gz|\
+            sed -n "s/.*$DIR-\([0-9.]*\).tar.gz/\1/p"|sort -r|head -1`
+    if ! test -d ${changelogroot}/$DIR; then
+      mkdir -p ${changelogroot}/$DIR;
+    fi
+
+    # Extract changelogs and NEWS files
+    for i in ${changelogs}; do
+      tar -x -C ${changelogroot}/$DIR -f ${ftproot}/$DIR/$DIR-$LATEST.tar.gz\
+          --force-local -z $i 2>/dev/null > /dev/null
+    done
+
+    # Remove unwanted files and insert entry into program table
+    find ${changelogroot}/$DIR -size 0b -exec rm {} \;
+    find ${ftproot}/$DIR/$DIR-$LATEST.tar.gz -printf "%TY%Tj %Td %TB $DIR $LATEST\n" 2>/dev/null\
+         >> ${tmp}/$$.programs
+  fi
+done
+
+# Get a list of the latest 25 programs and create HTML code
+echo "<dl>" >> ${tmp}/$$.html
+cat ${tmp}/$$.programs|sort -rn|head -25|while read PROG; do
+  thisdate="`echo $PROG|cut -d' ' -f2,3`"
+  name="`echo $PROG|cut -d' ' -f4`"
+  version="`echo $PROG|cut -d' ' -f5`"
+
+  if test "${thisdate}" != "${olddate}"; then
+    if test "${olddate}" != ""; then
+      echo "</ul>" >> ${tmp}/$$.html
+    fi
+    olddate="${thisdate}"
+    echo "<dt>${thisdate}<dd><ul>" >> ${tmp}/$$.html
+  fi
+  if test -f ${htmlroot}/software/${name}/${name}.html; then
+    echo -n "<li><a href=\"/software/${name}/${name}.html\"><strong>${name} ${version}</strong></a>" >> ${tmp}/$$.html
+  else
+    echo -n "<li><strong>${name} ${version}</strong>" >> ${tmp}/$$.html
+  fi
+  find ${changelogroot}/${name}/${name}-${version}/ -type f 2>/dev/null|while read i; do
+    reali=`echo "$i"|sed "s/.*${name}-${version}\///"`
+    echo -n " [<a href=\"${changelogwebroot}/${name}/${name}-${version}/${reali}\">${reali}</a>] " >> ${tmp}/$$.html
+  done
+  echo >> ${tmp}/$$.html
+done
+echo "</ul></dl>" >> ${tmp}/$$.html
+
+cat ${bindir}/new-software-head.html /tmp/$$.html ${bindir}/new-software-footer.html > ${htmlroot}/server/new-software.html.tmp
+# do the move, just in case the cat fails - more atomic -len
+mv ${htmlroot}/server/new-software.html.tmp ${htmlroot}/server/new-software.html
+rm -f ${tmp}/$$.html ${tmp}/$$.programs
+
+# this compile-command lets you syntax check the script.  -len
+#
+# local variables:
+# eval: (make-local-variable 'compile-command)
+# eval: (setq compile-command (concat "/bin/bash -n " buffer-file-name))
+# quote-region-quote: "# "
+# end:

@@ -1,0 +1,281 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Javier Orovengua Miguel">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; Linux 2.2.12-20 i586) [Netscape]">
+   <title>Gesti&oacute;n y Administraci&oacute;n de usuarios</title>
+</head>
+<body>
+<a NAME="Arriba"></a>
+<br><a href="../tutorial.html">[ &lt; ]</a><a href="contenidos.html">[
+|| ]</a>[ > ]
+<h1>
+Gestionando usuarios.</h1>
+
+<ul>Linux, como cl&oacute;nico de Unix, sistema nacido en Internet, est&aacute;
+pensado para servir a varios usuarios a la vez. Para ello existe la <a href="glosary.html#cuentaOusuario">cuenta</a>
+de "<a href="glosary.html#root">root</a>" o <a href="glosary.html#root">superususario</a>,
+y la de los dem&aacute;s usuarios del sistema.
+<br>&nbsp;
+<ul>
+<li>
+<a href="#CrearUsuarios">Creando un usuario.</a></li>
+
+<li>
+<a href="#EditarUsuarios">Editando usuarios.</a></li>
+
+<li>
+<a href="#BorrandoUsuarios">Borrando a un usuario.</a></li>
+
+<li>
+<a href="#DesdeX">Desde X-Window</a></li>
+</ul>
+</ul>
+
+<hr WIDTH="100%">
+<ul><a NAME="CrearUsuarios"></a>
+<h2>
+Creando un usuario.</h2>
+
+<ul>Para crear un usuario, escribimos, entrando como <a href="glosary.html#root">root</a>,&nbsp;
+"useradd" o "adduser" sin las comillas m&aacute;s el nombre del usuario.
+Ej.:
+<p><b>adduser carlos.</b>
+<p>Habr&aacute;s creado un usuario sin clave de acceso, y escribiendo al
+inicio de Linux en <a href="glosary.html#login">login</a> el nombre <b>carlos,</b>
+entrar&aacute;s en TU SESI&Oacute;N.
+<p>NOTA
+<br>(Si no existiera la sentencia "adduser", o "useradd", pudiera ser porque
+tienes "linuxconf" instalado, escribe linuxconf, que es un frontend (entorno
+amigable o entorno final) muy c&oacute;modo para gestionar todo linux,
+entre ellos la creaci&oacute;n de usuarios.)
+<br>FIN NOTA
+<p>De esta forma crearemos un usuario con las caracter&iacute;sticas por
+defecto, que suelen ser las mejores, pero para crear un usuario a nuestra
+medida, tambi&eacute;n podemos escribir:
+<br>(Forma general)
+<p>[root@Wakitaki /root]# adduser -u <b>500</b> -g <b>users</b> carlos
+<br>[root@Wakitaki /root]# passwd carlos
+<br>(y asignamos la clave para carlos)
+<p>[root@Wakitaki /root]# adduser -u <b>501</b> -g <b>users</b> javier
+<br>[root@Wakitaki /root]# passwd javier
+<br>(y asignamos la clave para javier)
+<p>o tambi&eacute;n:
+<p>[root@Wakitaki /root]# adduser -u&nbsp; 500 -g 100 -p 123 -r carlos.</ul>
+</ul>
+
+<ul>
+<ul>
+<ul>Ahora ya sabemos que<b> -u 500 -g 100 -p 123 -r </b>son opcionales,
+y no hace falta escribirlos para crear al usuario</ul>
+Esta son algunas de las caracter&iacute;sticas m&aacute;s importantes a
+la hora de crear usuarios.</ul>
+</ul>
+
+<ul>
+<ul>
+<ul>
+<li>
+adduser -u : Indica la <a href="glosary.html#UID">UID</a> del usuario,
+o sea, el n&uacute;mero con el que el sistema identificar&aacute; al usuario.
+Su n&uacute;mero debe ser mayor que el &uacute;ltimo usuario/cuenta que
+exista en el fichero <a href="Passwd.sample.txt">/etc/passwd</a>, por ejemplo
+podemos ponerle 500 para el primer usuario. El usuario 501 ser&aacute;
+el siguiente,&nbsp; 502 el 3&ordm;, etc.</li>
+</ul>
+</ul>
+</ul>
+
+<ul>
+<ul>
+<ul>
+<li>
+-g 100.&nbsp; Indica el <a href="glosary.html#GID">GID</a>, esto es, el
+grupo al que ese usuario pertenece. Esto es importante porque en Linux
+un grupo de usuarios puede compartir una serie de ficheros y directorios.
+El n&uacute;mero ha de ser el mismo para todos los que formen el grupo.
+As&iacute;, el grupo de los que formen el grupo 100 ser&aacute; uno, el
+101 ser&aacute; otro, el 102 otro, etc. (TODOS los USUARIOS, deber&iacute;an
+estar bajo el mismo grupo, "users", que suele ser el grupo 100). El fichero
+que identifica a los grupos es: <a href="group.sample.txt">/etc/group</a></li>
+</ul>
+</ul>
+</ul>
+
+<ul>
+<ul>
+<ul>
+<li>
+-p 123. Se refiere a la <a href="glosary.html#password">clave del usuario</a>
+para entrar en el sistema. Si se quiere, puede no ponerse ninguna si tu
+ordenador no va a estar conectado a ninguna red o si tu eres el &uacute;nico
+que entra. Veremos como hacerlo en Editando usuarios.</li>
+
+<li>
+-r carlos.&nbsp; Ser&aacute; el nombre con el que el usuario entre en el
+sistema.</li>
+</ul>
+</ul>
+</ul>
+
+<ul>
+<ul>
+<ul>
+<li>
+Otra forma m&aacute;s f&aacute;cil de crear usuarios es a trav&eacute;s
+de las X-Window con el programa control-panel.</li>
+</ul>
+
+<ul>
+<ul>Para comprobar su funcionamiento, pulsa [ctrl]+[F2], y escribe el nombre
+con el que hayas creado al nuevo usuario</ul>
+</ul>
+</ul>
+</ul>
+
+<ul>
+<ul>
+<ul>
+<ul>Si, al crear al nuevo usuario (y si no has especificado clave) te pide
+el <a href="glosary.html#password">password</a> y no eres capaz de entrar
+como &eacute;l, deber&aacute;s entonces <a href="#EditarUsuarios">editar
+el fichero passwd</a> para suprimir el car&aacute;cter de admiraci&oacute;n
+( ! ) "u otro(s)" que aparece en el segundo campo, pues el car&aacute;cter
+<b><u>!</u></b>
+impedir&aacute; todav&iacute;a entrar en la cuenta de carlos.
+<p>Tambi&eacute;n, es MUY probable que tengas que editar adem&aacute;s
+el fichero <b>/etc/shadow, </b>para activar la cuenta: (al que le pasar&aacute;
+algo parecido)
+<p>Ej.:
+<ul><b># fichero: /etc/passwd (ANTES de la modificaci&oacute;n)</b>
+<br>carlos:<b><u>!</u></b>:501:100:carlos orovengua:/home/carlos:/bin/bash
+<p><b># fichero: /etc/passwd (DESPU&Eacute;S de la modificaci&oacute;n)</b>
+<br>carlos::501:100:carlos orovengua:/home/carlos:/bin/bash
+<br>
+<hr WIDTH="100%">
+<br>Despu&eacute;s de quitarlo, (y si no hay que modificar el fichero <b>/etc/shadow</b>),
+con escribir en <a href="glosary.html#login">login</a> tu nombre, bastar&aacute;
+para entrar al sistema. Por ejemplo:</ul>
+
+<hr WIDTH="100%">
+<br>Ej:
+<ul><b># fichero: /etc/shadow (ANTES de la modificaci&oacute;n)</b>
+<br>carlos:xx:10745::99999::::
+<p><b># fichero: /etc/shadow (DESPU&Eacute;S de la modificaci&oacute;n)</b>
+<br>carlos::10745::99999::::
+<br>&nbsp;</ul>
+</ul>
+</ul>
+El usuario creado se guardar&aacute; en el directorio /home, y con el directorio
+con el nombre del usuario creado, en este caso ser&aacute;: /home/carlos,
+con todas las configuraciones por definir, un .bashrc y un fichero .bash_profile,
+que tienen una m&iacute;nima configuraci&oacute;n, la cual recomendamos
+(ver cap&iacute;tulos anteriores) para una gesti&oacute;n adecuada.</ul>
+</ul>
+<a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<ul>
+<ul><a NAME="EditarUsuarios"></a></ul>
+
+<h2>
+Editando usuarios.</h2>
+Para editar usuarios, editamos el archivo passwd, con el joe, por ej.:
+<p>Escribiremos:
+<p>cd /etc
+<br>joe <a href="Passwd.sample.txt">passwd</a>
+<br>joe <b>shadow</b>
+<p>o bien:
+<p>joe /etc/<a href="Passwd.sample.txt">passwd</a>.
+<br>joe <b>/etc/shadow</b>
+<p>En este fichero hemos incluido su estructura:
+<br>&nbsp;
+<ul>
+<li>
+Cada l&iacute;nea de este archivo corresponde con un usuario, y cada uno
+de sus campos (separados por dos puntos) se refiere a un dato.</li>
+</ul>
+
+<ul>
+<li>
+Los asteriscos (*)&nbsp; en el segundo campo indican las cuentas que no
+se pueden usar como usuarios normales. Pueden usarse tambi&eacute;n cuando
+queremos dar de baja temporalmente a un usuario.</li>
+</ul>
+
+<ul>
+<li>
+Para eliminar una clave (password), podemos borrar lo que viene situado
+en el segundo campo de cada l&iacute;nea entre los dos puntos (:), o usar
+el comando:</li>
+
+<ul>
+<li>
+passwd carlos</li>
+</ul>
+</ul>
+para cambiarle la clave a Carlos. S&oacute;lo&nbsp; root puede cambiarle
+la clave a otros usuarios, y puede cambiarse cada uno la suya (incluido
+root, claro), si como usuarios normales escribimos:
+<p>passwd
+<p>donde nos preguntar&aacute; por la vieja, la nueva y que la verifiquemos.
+<p>Si no te acuerdas, o cualquier usuario no se acuerda de su password,
+root, deber&aacute; encargarse de editar el fichero /etc/passwd y suprimir
+la l&iacute;nea donde aparece la clave:
+<p>javier:<b>ClaveOlvidada</b>:...
+<p>Para quedar:
+<p>javier::...
+<br>&nbsp;</ul>
+<a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<ul><a NAME="BorrandoUsuarios"></a>
+<h2>
+Borrando a un usuario.</h2>
+
+<ul>Para borrar un usurio, bastar&aacute; con escribir el comando:
+<p>"userdel" y el nombre del usuario, ejemplo.:
+<p>userdel carlos
+<p>Tambi&eacute;n, se podr&aacute; editar el fichero <a href="Passwd.sample.txt">passwd</a>
+y quitar la l&iacute;nea entera donde aparece el nombre del usuario en
+cuesti&oacute;n, y despu&eacute;s borraremos su directorio de /home. (tambi&eacute;n
+conocido como directorio ra&iacute;z de cada usuario)
+<p>De todas formas es conveniente hacerlo con el comando <b>userdel, </b>o
+desde X-Window en su defecto, ya que tambi&eacute;n se eliminar&aacute;
+el directorio "carlos" del directorio "home", ya que si no, como root,
+deber&aacute;s borrar el directorio del usuario eliminado.
+<p>NOTA IMPORTANTE:
+<br>&nbsp;
+<ul>Esta es una opci&oacute;n excesivamente TR&Aacute;GICA, ya, que al
+suprimir a un usuario, tambi&eacute;n se le elimina su configuraci&oacute;n,
+todos los programas y configuraciones particulares que tenga en su directorio
+/home/<b>usuario</b>, as&iacute; como semanas, incluso meses de trabajo
+que tenga, tanto en sus propios documentos, trabajos y horas que tard&oacute;
+en configurar a su gusto, el gestor de ventanas de <a href="glosary.html#X-Window">X-Window</a>,
+su <a href="glosary.html#Netscape">navegador Netscape</a>, sus StarOffices,
+su WordPerfect..., por esto, y si lo que se quiere es dar un toque de atenci&oacute;n,
+lo mejor es editar el fichero <a href="Passwd.sample.txt">passwd</a>, y
+colocar un signo "!", para desactivarlo, una vez dado el toque de atenci&oacute;n,
+quitas el signo "!", y su <a href="glosary.html#cuentaOusuario">cuenta</a>
+volver&aacute; a estar activa.</ul>
+</ul>
+</ul>
+<a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<ul><a NAME="DesdeX"></a></ul>
+
+<h2>
+Desde X-Window</h2>
+Todas estas gestiones tambi&eacute;n lo podr&aacute;s hacer desde X-Window
+m&aacute;s f&aacute;cilmente, y claro est&aacute; de una forma gr&aacute;fica,
+existen multitud de programas para realizar estas tareas, el m&aacute;s
+utilizado es: 'linuxconf', que existe para los gestores de ventanas KDE
+y GNOME, adem&aacute;s de otros existentes.
+<p><img SRC="xadduser.gif" height=463 width=638>
+<p><a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

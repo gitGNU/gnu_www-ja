@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="iso-8859-2" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+
+<head>
+<title>Porady dotyczące prowadzenia serwerów lustrzanych
+		- Projekt GNU - Free Software Foundation (FSF)</title>
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-2" />
+	<link rel="stylesheet" type="text/css" href="/gnu.css" />
+	<link rev="made" href="mailto:webmasters@gnu.org" />
+	<link rev="translated" href="mailto:web-translators-pl@gnu.org" />
+	<!-- transl.  wkotwica -->
+</head>
+
+<body>
+
+<p><a href="#translations">Tłumaczenia</a> tej strony</p>
+
+<h2>Porady dotyczące prowadzenia serwerów lustrzanych</h2>
+
+<p>
+<a href="/graphics/atypinggnu.pl.html">
+<img src="/graphics/gnu-type-sm.jpg"
+   alt=" [rysunek GNU piszącej na klawiaturze] "
+   width="137" height="114" /></a>
+</p>
+
+<h3>Spis treści</h3>
+
+<ul>
+  <li><a href="#MirrorWeb"
+       id="TOCMirrorWeb">Prowadzenie kopii serwera WWW Projektu GNU</a></li>
+  <li><a href="#MirrorFTP"
+       id="TOCMirrorFTP">Prowadzenie kopii serwera FTP Projektu GNU</a></li>
+</ul>
+
+<hr />
+
+<h3><a href="#TOCMirrorWeb" id="MirrorWeb">Prowadzenie kopii serwera WWW
+     Projektu GNU</a></h3>
+
+<p>
+Utrzymywanie lustrzanej kopii serwera WWW GNU wymaga w przybliżeniu 2,5GB miejsca na dysku (stan na 25&nbsp;czerwca 2003).</p>
+<p>
+We wszystkich odsyłaczach pomiędzy stronami naszej witryny występują pełne nazwy plików (zaczynające się ukośnikiem <strong>/</strong>). Zdecydowaliśmy się na tę konwencję, ponieważ niektóre przeglądarki gubią się przy względnych nazwach plików w&nbsp;odnośnikach. Ponadto, na zliczaniu, ilu <strong>../</strong>
+należy użyć we względnej nazwie plików, nie można polegać.</p>
+<p>
+W bezwzględnych nazwach plików przyjęto, że najwyżej położonym katalogiem stron GNU jest główny katalog WWW. Jeśli swojego serwera lustrzanego nie przeznaczyliście tylko na sam projekt GNU, będzie inaczej. Da się to skompensować na kilka sposobów:</p>
+
+<ul>
+	<li>Skonfigurowanie odrębnego &bdquo;serwera wirtualnego&rdquo;, którego głównym katalogiem stron WWW będzie szczytowy katalog GNU.	Ten wirtualny serwer będzie serwerem lustrzanym GNU.</li>
+	<li>Napisanie skryptu powłoki modyfikującego zawartość stron, tak by prowadziły do podkatalogu nie powinno być zbyt trudne. Taki skrypt powinien po każdym wystąpieniu <strong>HREF="/</strong> wewnątrz znacznika <strong>&lt;A</strong> i&nbsp;po każdym <strong>src="/</strong> wewnątrz znacznika <strong>&lt;IMG</strong> wstawiać dodatkową	nazwę katalogu i&nbsp;ukośnik. Nie powinien modyfikować innych wystąpień <strong>HREF</strong> lub <strong>SRC</strong>.
+	<p>
+	Gdybyście zechcielibyście napisać taki skrypt i zweryfikować, że działa poprawnie dla wszystkich naszych stron, byłby przydatny.</p></li>
+</ul>
+
+<p>
+Kiedy już ośrodek lustrzany zacznie działać, trzeba będzie regularnie aktualizować jego zawartość. Z&nbsp;uwagi na zasoby i&nbsp;ze względów bezpieczeństwa, przestaliśmy oferować bezpośredni dostęp do zasobów poprzez usługi rsync lub FTP, których używano do aktualizacji serwerów lustrzanych.
+</p>
+
+<p>
+Jeśli chcielibyście zastosować rsync (co jest zalecane) lub FTP, to istnieje godny zaufania niezależny ośrodek (ibiblio.org), który oferuje dostęp do zawartości www.gnu.org przy użyciu obu tych metod. Regularnie aktualizują zawartość pobierając dane bezpośrednio od nas. Są one dostępne pod adresami:
+</p>
+<ul>
+	<li><tt>rsync://ftp.ibiblio.org/pub/gnu/www</tt></li>
+	<li><tt>ftp://ftp.ibiblio.org/pub/mirrors/gnu/www</tt></li>
+</ul>
+
+<p>
+[Dziękujemy Johnowi Reuningowi i ibiblio za zapewnienie nam tej uslugi. Prosimy o przeczytanie 
+umieszczonych poniżej <a href="#Ibiblio">wskazówek dotyczących aktualizacji kopii zwierciadlanej z&nbsp;ibiblio</a>].
+</p>
+
+<p>
+Obecnie nie dysponujemy zadowalającą usługą, która pomagałaby w&nbsp;aktualizowaniu kopii a&nbsp;korzystała bezpośrednio z&nbsp;naszych zasobów. Jeśli mielibyście ochotę spróbować, być może będzie wam odpowiadał jeden z&nbsp;poniższych sposobów:
+</p>
+
+<ul>
+	<li>Wykorzystanie <a href="/copyleft/copyleft.pl.html">wydanego na GPL</a> programu GNU Wget, nieinteraktywnego narzędzia do tworzenia kopii WWW.
+	<p>
+	Wget można pobrać przez anonimowy FTP z	<a href="http://ftp.gnu.org/pub/gnu/wget/">http://ftp.gnu.org/pub/gnu/wget/</a>, lub z&nbsp;jakiegoś <a href="http://www.gnu.org/order/ftp.html">lokalnego ośrodka lustrzanego</a>. Ten sposób (podobnie jak mirror.pl) jest nie najlepszy, gdyż strony są przekazywane w&nbsp;postaci już zinterpretowanej przez serwer WWW, a&nbsp;nie w&nbsp;takiej, w&nbsp;jakiej serwer je otrzymuje. Metoda ta może też okazać się mało wydajna i&nbsp;wystawić na próbę zasoby maszyny tworzącej kopię.</p></li>
+	<li>Skorzystania z anonimowego cvs. Poniższe polecenie pobiera cały ośrodek WWW, prócz paru wyjątków (mianowicie katalogu /prep, części /software, /directory, /brave-gnu-world oraz&nbsp;order.gnu.org i&nbsp;paru innych stron, które są generowane automatycznie gdzie indziej. Dla tych przypadków trzeba użyć wget-a lub innej metody):<br /><br />
+	<tt>
+	export CVS_RSH="ssh"<br />
+	cvs -z3 -d:ext:anoncvs@savannah.gnu.org:/webcvs/www co www
+	</tt>
+	<p>
+	Zachowanie aktualności kopii lustrzanej zapewni cron i "cvs update -P" oraz wget dla tych części, których nie ma w CVS.</p>
+	</li>
+	<li>Użycie modułu Apache'a <a href="http://httpd.apache.org/docs/mod/mod_proxy.html">mod_proxy</a>. Do codziennego wykonywania kopii lustrzanej może się przydać poniższy przykład:<br /><br />
+	<tt>
+	ProxyPass / http://www.gnu.org/<br />
+	CacheDefaultExpire 24
+	</tt>
+	</li>
+</ul>
+
+<p>
+[Uwaga]: jeśli ktoś z powodzeniem stosuje inną metodę do tworzenia kopii zwierciadlanej www.gnu.org, a&nbsp;mógłby nam przekazać informacje o&nbsp;niej, prosimy o&nbsp;kontakt z&nbsp;webmasters@gnu.org.
+</p>
+
+<h3><a href="#TOCMirrorFTP" id="MirrorFTP">Prowadzenie kopii serwera FTP Projektu GNU</a></h3>
+
+<p>
+Utrzymywanie lustrzanej kopii serwera FTP GNU wymaga w przybliżeniu 20GB miejsca na dysku (stan na 29&nbsp;czerwca 2003).</p>
+<p>
+Z&nbsp;uwagi na zasoby i&nbsp;ze względów bezpieczeństwa, przestaliśmy oferować bezpośredni dostęp do zasobów poprzez usługi rsync lub FTP, których używano do aktualizacji serwerów lustrzanych.
+Jeśli chcielibyście zastosować rsync (co jest zalecane) lub FTP, to istnieje godny zaufania niezależny ośrodek (ibiblio.org), który oferuje dostęp do zawartości www.gnu.org przy użyciu obu tych metod. Regularnie aktualizują zawartość pobierając dane bezpośrednio od nas. Są one dostępne pod adresami:
+</p>
+<ul>
+	<li><tt>rsync://ftp.ibiblio.org/pub/gnu/www</tt></li>
+	<li><tt>ftp://ftp.ibiblio.org/pub/mirrors/gnu/ftp</tt></li>
+</ul>
+
+<p>
+[Dziękujemy Johnowi Reuningowi i ibiblio za zapewnienie nam tej uslugi. Prosimy o przeczytanie
+umieszczonych poniżej <a href="#Ibiblio">wskazówek dotyczących aktualizacji kopii zwierciadlanej z&nbsp;ibiblio</a>].
+</p>
+
+<p>
+Dostęp do zasobów servera FTP GNU poprzez rsync (i ftp) oferuje także ftp.funet.fi:
+<tt>rsync://ftp.funet.fi/ftp/pub/mirrors/ftp.gnu.org/pub/gnu/</tt>.
+</p>
+
+<p>
+Obecnie nie dysponujemy zadowalającą usługą, która pomagałaby w&nbsp;aktualizowaniu kopii a&nbsp;korzystała bezpośrednio z&nbsp;naszych zasobów. Jeśli mielibyście ochotę spróbować, być może będzie wam odpowiadał jeden z&nbsp;poniższych sposobów:
+</p>
+<ul>
+	<li>Skorzystanie z programu <a href="ftp://gnjilux.cc.fer.hr/pub/unix/util/wget/wget.tar.gz">GNU Wget</a> lub innego wolnego programu do pobierania przez ftp.<br />
+	[Uwaga] Gdyby Wget miał problemy z files.tar albo jeśli po prostu nie macie ochoty ściągać przestarzałego, liczącego 7,7GB pliku, możecie wykluczyć go z&nbsp;pobierania za pomocą '<tt>wget --reject files.tar</tt>'.
+	</li>
+</ul>
+
+<h4><a id="Ibiblio">Wskazówki dotyczące aktualizacji kopii zwierciadlanych z&nbsp;wykorzystaniem serwerów ibiblio</a></h4>
+<ul>
+    <li>Do uzyskiwania kopii zwierciadlanych z ftp.ibiblio.org zalecane jest korzystanie z&nbsp;opcji <tt>-rltp</tt> polecenia rsync. Użycie opcji <tt>-x</tt> czasami powoduje kłopoty po stronie klienta, gdyż po stronie serwera wyłączono kompresję.
+    </li>
+    <li>Dla administratorów kopii zwierciadlanych tworzonych na podstawie serwerów ibiblio założono korespondencyjną listę wysyłkową ibiblio-mirrors. Na liście panuje stosunkowo niewielki ruch. Oto odnośnik do głównej strony internetowej tej listy:
+        <a href="http://lists.ibiblio.org/mailman/listinfo/ibiblio-mirrors">
+        http://lists.ibiblio.org/mailman/listinfo/ibiblio-mirrors</a>
+    </li>
+    <li>Pytania o szczegóły i zgłoszenia problemów można przesyłać na adres: help-at-ibiblio-dot-org.
+    </li>
+</ul>
+
+
+
+<hr />
+
+<div class="translations">
+<p><a id="translations"></a>
+<b>Tłumaczenia tej strony</b>:<br />
+[
+  <a href="/server/mirror.html">English</a>
+| <a href="/server/mirror.es.html">Espa&#x00f1;ol</a>
+| <a href="/server/mirror.ko.html">&#xd55c;&#xad6d;&#xc5b4;</a>
+| <a href="/server/mirror.pl.html">polski</a>
+]
+</p>
+</div>
+
+<div class="copyright">
+<p>
+Powrót do <a href="/home.pl.html">strony głównej Projektu GNU</a>.
+</p>
+
+<p>
+Pytania dotyczące GNU i FSF prosimy kierować na adres <a href="mailto:gnu@gnu.org"><em>gnu@gnu.org</em></a>.
+Istnieją także <a href="/home.pl.html#ContactInfo">inne sposoby skontaktowania się</a> z&nbsp;FSF.
+<br />
+Uwagi dotyczące naszych stron internetowych prosimy wysyłać na adres <a href="mailto:webmasters@www.gnu.org"><em>webmasters@www.gnu.org</em></a>, natomiast inne pytania na adres
+<a href="mailto:gnu@gnu.org"><em>gnu@gnu.org</em></a>.</p>
+<p>
+Copyright (C) 1996, 1997, 1998, 1999, 2004, 2006
+Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+<br />
+Verbatim copying and distribution of this entire article is permitted 
+in any medium without royalty provided this notice is preserved.
+<br />
+Zezwala się na wykonywanie i&nbsp;dystrybucję wiernych kopii tego tekstu,
+bez tantiem i&nbsp;niezależnie od nośnika, pod warunkiem zachowania niniejszego zezwolenia.
+</p>
+<p>
+Tłumaczenie:
+<a href="/server/standards/README.Polish-translation.pl.html"><em>Grupa tłumaczy witryny Projektu GNU</em></a>
+(<a href="mailto:web-translators-pl@gnu.org"><em>web-translators-pl@gnu.org</em></a>).
+<br />
+</p>
+<p>
+Aktualizowane:
+<!-- timestamp start -->
+$Date: 2011/07/13 17:36:47 $ $Author: jsowoc $
+<!-- timestamp end -->
+</p>
+</div>
+
+</body>
+</html>

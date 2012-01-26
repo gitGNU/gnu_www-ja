@@ -1,0 +1,186 @@
+<html lang="en">
+<head>
+<title>Control Functions - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Functions.html#Functions" title="Functions">
+<link rel="prev" href="Functions.html#Functions" title="Functions">
+<link rel="next" href="Drawing-Functions.html#Drawing-Functions" title="Drawing Functions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Control-Functions"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Drawing-Functions.html#Drawing-Functions">Drawing Functions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Functions.html#Functions">Functions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Functions.html#Functions">Functions</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.4.1 Control functions</h4>
+
+<p>The following are the &ldquo;control functions&rdquo; in <code>libplot</code>.  They are
+the basic functions that open, initialize, or close an already-created
+Plotter.  They are listed in the approximate order in which they would
+be called.
+
+   <p>In the current C&nbsp;binding<!-- /@w -->, each of these functions takes a pointer to
+a <code>plPlotter</code> as its first argument.  Also in the current C&nbsp;binding<!-- /@w -->, the name of each function begins with "pl_" and ends with&nbsp;"_r"<!-- /@w -->.  ("_r"&nbsp;stands<!-- /@w --> for `revised' or `reentrant'.)  For information
+on older C&nbsp;bindings<!-- /@w -->, see <a href="Older-C-APIs.html#Older-C-APIs">Older C APIs</a>.  In&nbsp;the<!-- /@w --> C++
+binding, these are member functions of the <code>Plotter</code> class and its
+subclasses, and the prefix and suffix are not used.
+
+     <dl>
+<dt>int <tt>openpl</tt> ();<dd><tt>openpl</tt> opens a Plotter, i.e., begins a page of graphics.  This
+resets the Plotter's drawing attributes to their default values.  A&nbsp;negative<!-- /@w --> return value indicates the Plotter could not be opened.
+
+     <p>Currently, an X Plotter pops&nbsp;up<!-- /@w --> a new window on an X&nbsp;Window<!-- /@w -->
+System display for each page of graphics, i.e., with each invocation of
+<code>openpl</code>.  Future releases may support window re-use.
+
+     <br><dt>int <tt>bgcolor</tt> (int <var>red</var>, int <var>green</var>, int <var>blue</var>);<dd><tt>bgcolor</tt> sets the background color for the Plotter's graphics
+display, using a 48-bit RGB color model.  The arguments <var>red</var>,
+<var>green</var> and <var>blue</var> specify the red, green and blue intensities
+of the background color.  Each is an integer in the range
+<tt>0x0000</tt><small class="dots">...</small><tt>0xffff</tt>, i.e., 0<small class="dots">...</small>65535.  The choice (0,&nbsp;0,&nbsp;0)<!-- /@w --> signifies black, and the choice (65535, 65535, 65535) signifies
+white.
+
+     <p><tt>bgcolor</tt> affects only Plotters that have a notion of background
+color, i.e., X&nbsp;Plotters<!-- /@w -->, X Drawable Plotters, PNG Plotters, PNM
+Plotters, and GIF Plotters (all of which produce bitmaps), CGM Plotters,
+ReGIS Plotters and Metafile Plotters.  Its effect is simple: the next
+time the <tt>erase</tt> operation is invoked on such a Plotter, its display
+will be filled with the specified color.
+
+     <br><dt>int <tt>bgcolorname</tt> (const char *<var>name</var>);<dd><tt>bgcolorname</tt> sets the background color for the the graphics display
+to be <var>name</var>.  Unrecognized colors are interpreted as "white".  For
+information on what color names are recognized, see <a href="Color-Names.html#Color-Names">Color Names</a>. 
+A&nbsp;24-bit<!-- /@w --> RGB color may also be specified as a six-digit hexadecimal
+string, e.g., "#c0c0c0".
+
+     <p><tt>bgcolorname</tt> affects only Plotters that have a notion of background
+color, i.e., X&nbsp;Plotters<!-- /@w -->, X&nbsp;Drawable<!-- /@w --> Plotters, PNG Plotters, PNM
+Plotters, and GIF Plotters (all of which produce bitmaps), CGM Plotters,
+ReGIS Plotters, and Metafile Plotters.  Its effect is simple: the next
+time the <tt>erase</tt> operation is invoked on such a Plotter, its display
+will be filled with the specified color.
+
+     <p>SVG Plotters and CGM Plotters support "none" as a value for the
+background color.  It will turn&nbsp;off<!-- /@w --> the background: the drawn
+objects will not be backed by anything.  This is useful when the
+generated SVG or WebCGM file is to be placed on a Web page.
+
+     <br><dt>int <tt>erase</tt> ();<dd><tt>erase</tt> begins the next frame of a multiframe page, by clearing all
+previously plotted objects from the graphics display, and filling it
+with the background color (if&nbsp;any)<!-- /@w -->.
+
+     <p>It is frequently useful to invoke <tt>erase</tt> at the beginning of each
+page, i.e., immediately after invoking <tt>openpl</tt>.  That is because some
+Plotters are persistent, in the sense that objects drawn within an
+<code>openpl</code><small class="dots">...</small><code>closepl</code> pair remain on the graphics display
+even after a new page is begun by a subsequent invocation of
+<code>openpl</code>.  Currently, only X&nbsp;Drawable<!-- /@w --> Plotters and Tektronix
+Plotters are persistent.  Future releases may support optional
+persistence for X&nbsp;Plotters<!-- /@w --> also.
+
+     <p>On X Plotters and X Drawable Plotters the effects of invoking <tt>erase</tt>
+will be altogether different if the Plotter parameter
+<code>USE_DOUBLE_BUFFERING</code> is set to "yes".  In&nbsp;this<!-- /@w --> case, objects
+will be written to an off-screen buffer rather than to the graphics
+display, and invoking <tt>erase</tt> will (1)&nbsp;copy<!-- /@w --> the contents of this
+buffer to the display, and (2)&nbsp;erase<!-- /@w --> the buffer by filling it with
+the background color.  This `double buffering' feature facilitates
+smooth animation.  See <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.
+
+     <br><dt>int <tt>space</tt> (int <var>x0</var>, int <var>y0</var>, int <var>x1</var>, int <var>y1</var>);<dt>int <tt>fspace</tt> (double <var>x0</var>, double <var>y0</var>, double <var>x1</var>, double <var>y1</var>);<dd><tt>space</tt> and <tt>fspace</tt> take two pairs of arguments, specifying the
+positions of the lower left and upper right corners of a rectangular
+window in the user coordinate system that will be mapped to the
+`viewport': the rectangular portion of the output device that graphics
+will be drawn&nbsp;in<!-- /@w -->.  The default window is a square, with opposite
+corners (0,0) and&nbsp;(1,1)<!-- /@w -->.
+
+     <p>In mathematical terms, calling <tt>space</tt> or <tt>fspace</tt> sets the affine
+transformation from user coordinates to device coordinates.  That is, it
+sets the transformation matrix attribute for each object subsequently
+drawn on the display.  Either <tt>space</tt> or <tt>fspace</tt> would usually be
+invoked at the beginning of each page of graphics, i.e., immediately
+after the call to <tt>openpl</tt>.  Additional calls to <tt>space</tt> or
+<tt>fspace</tt> are allowed, and there are several &ldquo;mapping functions&rdquo; that
+also affect the transformation matrix attribute.  See <a href="Mapping-Functions.html#Mapping-Functions">Mapping Functions</a>.
+
+     <p>Note that the size and location of the viewport depend on the type of
+Plotter, and on the Plotter parameters that are specified at Plotter
+creation time.  For example, the default viewport used by any
+Illustrator, Postscript, Fig, PCL, and HP-GL Plotter is a square whose
+size depends on the Plotter's page type.  See <a href="Page-and-Viewport-Sizes.html#Page-and-Viewport-Sizes">Page and Viewport Sizes</a>.
+
+     <br><dt>int <tt>space2</tt> (int <var>x0</var>, int <var>y0</var>, int <var>x1</var>, int <var>y1</var>, int <var>x2</var>, int <var>y2</var>);<dt>int <tt>fspace2</tt> (double <var>x0</var>, double <var>y0</var>, double <var>x1</var>, double <var>y1</var>, double <var>x2</var>, double <var>y2</var>);<dd><tt>space2</tt> and <tt>fspace2</tt> are extended versions of <tt>space</tt> and
+<tt>fspace</tt>.  Their arguments are the three defining vertices of an
+parallelogram-shaped window in the user coordinate system.  The
+specified vertices are the lower left, the lower right, and the upper
+left.  This window will be mapped affinely onto the viewport: the
+rectangular portion of the output device that graphics will be drawn&nbsp;in<!-- /@w -->.
+
+     <br><dt>int <tt>havecap</tt> (const char *<var>s</var>);<dd><tt>havecap</tt> is not really a control function: it is a query function. 
+It&nbsp;tests<!-- /@w --> whether or not a Plotter, which need not be open, has a
+specified capability.  The return value is 0,&nbsp;1<!-- /@w -->, or&nbsp;2<!-- /@w -->,
+signifying no/yes/maybe.  For unrecognized capabilities the return value
+is zero.  Recognized capabilities include "WIDE_LINES" (i.e., the
+ability to draw lines with a non-default thickness), "DASH_ARRAY" (the
+ability to draw in arbitrary dashing styles, as requested by the
+<tt>linedash</tt> function), "SETTABLE_BACKGROUND" (the ability to set the
+color of the background), and "SOLID_FILL".  The "HERSHEY_FONTS",
+"PS_FONTS", "PCL_FONTS", and "STICK_FONTS" capabilities indicate whether
+or not fonts of a particular class are supported.  See <a href="Text-Fonts.html#Text-Fonts">Text Fonts</a>.
+
+     <p>All Plotters except Tektronix Plotters have the "SOLID_FILL" capability,
+meaning they can fill paths with solid color.  Each such Plotter has at
+least one of the "EVEN_ODD_FILL" and "NONZERO_WINDING_NUMBER_FILL"
+capabilities.  These indicate the supported rules for determining the
+`inside' of a path.
+
+     <p>The `maybe' value is returned for most capabilities by Metafile
+Plotters, which do no drawing themselves.  The output of a Metafile
+Plotter must be translated to another format, or displayed, by invoking
+<code>plot</code>.
+
+     <br><dt>int <tt>flushpl</tt> ();<dd><tt>flushpl</tt> flushes (i.e., pushes onward) all previously plotted objects
+to the graphics display.  This is useful only if the affected Plotter is
+one that does real-time plotting (X&nbsp;Plotters<!-- /@w -->, X&nbsp;Drawable<!-- /@w -->
+Plotters, ReGIS Plotters, Tektronix Plotters, and Metafile Plotters). 
+It&nbsp;ensures<!-- /@w --> that all previously plotted objects are visible to the
+user.  On&nbsp;Plotters<!-- /@w --> that do not do real-time plotting, this operation
+has no effect.
+
+     <br><dt>int <tt>closepl</tt> ();<dd><tt>closepl</tt> closes a Plotter, i.e., ends a page of graphics.  If a path
+is in progress, it is first ended and plotted, as if <tt>endpath</tt> had
+been called.  A&nbsp;negative<!-- /@w --> return value indicates the Plotter could
+not be closed.
+
+     <p>In the present release of <code>libplot</code>, some Plotters output each page
+of graphics immediately after it is plotted, i.e., when <tt>closepl</tt> is
+invoked to end the page.  That is the case with PCL and HP-GL Plotters,
+in particular.  Plotters that can output only a single page of graphics
+(PNG, PNM, GIF, SVG, Illustrator, and Fig Plotters) do so immediately
+after the first page is plotted, i.e., when <tt>closepl</tt> is invoked for
+the first time.  Postscript and CGM Plotters store all pages of graphics
+internally, and do not produce output until they are deleted. 
+</dl>
+
+   </body></html>
+

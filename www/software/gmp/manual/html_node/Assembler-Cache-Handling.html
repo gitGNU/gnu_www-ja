@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="Assembler%20Cache%20Handling">Assembler Cache Handling</a>,
+Next:<a rel=next accesskey=n href="Assembler-Floating-Point.html#Assembler%20Floating%20Point">Assembler Floating Point</a>,
+Previous:<a rel=previous accesskey=p href="Assembler-Carry-Propagation.html#Assembler%20Carry%20Propagation">Assembler Carry Propagation</a>,
+Up:<a rel=up accesskey=u href="Assembler-Coding.html#Assembler%20Coding">Assembler Coding</a>
+<hr><br>
+
+<h4>Cache Handling</h4>
+
+<p>GMP aims to perform well both on operands that fit entirely in L1 cache and
+those which don't.
+
+<p>Basic routines like <code>mpn_add_n</code> or <code>mpn_lshift</code> are often used on
+large operands, so L2 and main memory performance is important for them. 
+<code>mpn_mul_1</code> and <code>mpn_addmul_1</code> are mostly used for multiply and
+square basecases, so L1 performance matters most for them, unless assembler
+versions of <code>mpn_mul_basecase</code> and <code>mpn_sqr_basecase</code> exist, in
+which case the remaining uses are mostly for larger operands.
+
+<p>For L2 or main memory operands, memory access times will almost certainly be
+more than the calculation time.  The aim therefore is to maximize memory
+throughput, by starting a load of the next cache line which processing the
+contents of the previous one.  Clearly this is only possible if the chip has a
+lock-up free cache or some sort of prefetch instruction.  Most current chips
+have both these features.
+
+<p>Prefetching sources combines well with loop unrolling, since a prefetch can be
+initiated once per unrolled loop (or more than once if the loop covers more
+than one cache line).
+
+<p>On CPUs without write-allocate caches, prefetching destinations will ensure
+individual stores don't go further down the cache hierarchy, limiting
+bandwidth.  Of course for calculations which are slow anyway, like
+<code>mpn_divrem_1</code>, write-throughs might be fine.
+
+<p>The distance ahead to prefetch will be determined by memory latency versus
+throughput.  The aim of course is to have data arriving continuously, at peak
+throughput.  Some CPUs have limits on the number of fetches or prefetches in
+progress.
+
+<p>If a special prefetch instruction doesn't exist then a plain load can be used,
+but in that case care must be taken not to attempt to read past the end of an
+operand, since that might produce a segmentation violation.
+
+<p>Some CPUs or systems have hardware that detects sequential memory accesses and
+initiates suitable cache movements automatically, making life easy.
+
+</body></html>
+

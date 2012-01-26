@@ -1,0 +1,86 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="I%2fO%20of%20Rationals">I/O of Rationals</a>,
+Previous:<a rel=previous accesskey=p href="Applying-Integer-Functions.html#Applying%20Integer%20Functions">Applying Integer Functions</a>,
+Up:<a rel=up accesskey=u href="Rational-Number-Functions.html#Rational%20Number%20Functions">Rational Number Functions</a>
+<hr><br>
+
+<h3>Input and Output Functions</h3>
+
+<p>When using any of these functions, it's a good idea to include <code>stdio.h</code>
+before <code>gmp.h</code>, since that will allow <code>gmp.h</code> to define prototypes
+for these functions.
+
+<p>Passing a <code>NULL</code> pointer for a <var>stream</var> argument to any of these
+functions will make them read from <code>stdin</code> and write to <code>stdout</code>,
+respectively.
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">size_t <b>mpq_out_str</b><i> (FILE *<var>stream</var>, int <var>base</var>, mpq_t <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Output <var>op</var> on stdio stream <var>stream</var>, as a string of digits in base
+<var>base</var>.  The base may vary from 2 to 36.  Output is in the form
+<code>num/den</code> or if the denominator is 1 then just <code>num</code>.
+
+<p>Return the number of bytes written, or if an error occurred, return 0. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">size_t <b>mpq_inp_str</b><i> (mpq_t <var>rop</var>, FILE *<var>stream</var>, int <var>base</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Read a string of digits from <var>stream</var> and convert them to a rational in
+<var>rop</var>.  Any initial white-space characters are read and discarded.  Return
+the number of characters read (including white space), or 0 if a rational
+could not be read.
+
+<p>The input can be a fraction like <code>17/63</code> or just an integer like
+<code>123</code>.  Reading stops at the first character not in this form, and white
+space is not permitted within the string.  If the input might not be in
+canonical form, then <code>mpq_canonicalize</code> must be called (see <a href="Rational-Number-Functions.html#Rational%20Number%20Functions">Rational Number Functions</a>).
+
+<p>The <var>base</var> can be between 2 and 36, or can be 0 in which case the leading
+characters of the string determine the base, <code>0x</code> or <code>0X</code> for
+hexadecimal, <code>0</code> for octal, or decimal otherwise.  The leading characters
+are examined separately for the numerator and denominator of a fraction, so
+for instance <code>0x10/11</code> is 16/11, whereas <code>0x10/0x11</code> is 16/17. 
+</td></tr>
+</table>
+
+</body></html>
+

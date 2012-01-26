@@ -1,0 +1,127 @@
+<html lang="en">
+<head>
+<title>The Plotter Class - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="C_002b_002b-Programming.html#C_002b_002b-Programming" title="C++ Programming">
+<link rel="prev" href="C_002b_002b-Programming.html#C_002b_002b-Programming" title="C++ Programming">
+<link rel="next" href="C_002b_002b-Compiling-and-Linking.html#C_002b_002b-Compiling-and-Linking" title="C++ Compiling and Linking">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="The-Plotter-Class"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="C_002b_002b-Compiling-and-Linking.html#C_002b_002b-Compiling-and-Linking">C++ Compiling and Linking</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="C_002b_002b-Programming.html#C_002b_002b-Programming">C++ Programming</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="C_002b_002b-Programming.html#C_002b_002b-Programming">C++ Programming</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.3.1 The <code>Plotter</code> class</h4>
+
+<p>The C++ binding for <code>libplot</code> is provided by a class library named
+<code>libplotter</code>.  This library implements a <code>Plotter</code> class of&nbsp;which<!-- /@w --> all Plotters are instances.  Actually, a Plotter would normally
+be an instance of an appropriate derived class, determined by the
+Plotter's output format.  Derived classes include <code>XPlotter</code>,
+<code>XDrawablePlotter</code>, <code>PNGPlotter</code>, <code>PNMPlotter</code>,
+<code>GIFPlotter</code>, <code>AIPlotter</code>, <code>PSPlotter</code>,
+<code>CGMPlotter</code>, <code>FigPlotter</code>, <code>PCLPlotter</code>,
+<code>HPGLPlotter</code>, <code>ReGISPlotter</code>, <code>TekPlotter</code>, and
+<code>MetaPlotter</code>.  The names should be self-explanatory.  The
+operations that may be applied to any Plotter (e.g., the <code>openpl</code>
+operation, which begins a page of graphics) are implemented as public
+function members of the <code>Plotter</code> class.
+
+   <p>At the time a Plotter is created, its input, output, and error streams
+must be specified, along with a PlotterParams object that optionally
+contains other Plotter parameters.  (The input stream is ignored, since
+at&nbsp;present<!-- /@w -->, all Plotters are write-only.)  The streams may be
+specified either as iostreams or as <code>FILE</code> pointers.  That is, the
+two constructors
+
+<pre class="example">       Plotter(istream&amp; instream, ostream&amp; outstream, ostream&amp; errstream,
+               PlotterParams &amp;params);
+       Plotter(FILE *infile, FILE *outfile, FILE *errfile,
+               PlotterParams &amp;params);
+</pre>
+   <p class="noindent">are provided for the base Plotter class, and similarly for each of its
+derived classes.  So, for example, both
+
+<pre class="example">     PSPlotter plotter(cin, cout, cerr, params);
+</pre>
+   <p class="noindent">and
+
+<pre class="example">     PSPlotter plotter(stdin, stdout, stderr, params);
+</pre>
+   <p class="noindent">are possible declarations of a Postscript Plotter that writes to
+standard output.  In the iostream case, an ostream with a null stream
+buffer may be specified as the output stream and/or the error stream, to
+request that no output take place.  In&nbsp;the<!-- /@w --> <code>FILE</code> pointer case,
+specifying a null <code>FILE</code> pointer would accomplish the same thing. 
+Instances of the <code>XPlotter</code> and <code>XDrawablePlotter</code> classes
+always ignore the output stream argument, since they write graphics to
+an X&nbsp;Display<!-- /@w --> rather than to a stream.
+
+   <p>The <code>PlotterParams</code> class supports copying and assignment, but has
+only a single public function member, <code>setplparam</code>.  The following
+is a formal description.
+
+     <dl>
+<dt>int <tt>PlotterParams::setplparam</tt> (const char *<var>parameter</var>, void *<var>value</var>);<dd>Set the value of the Plotter parameter <var>parameter</var> to <var>value</var>. 
+For most parameters, <var>value</var> should be a <code>char *</code>, i.e., a
+string.  Unrecognized parameters are ignored.  For a list of the
+recognized parameters and their meaning, see <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>. 
+</dl>
+
+   <p>Like the <code>plPlotterParams</code> datatype and the function
+<code>pl_setplparam</code> of the C binding, the <code>PlotterParams</code> class
+and the <code>PlotterParams::setplparam</code> function of the C++ binding
+give the programmer fine control over the parameters of subsequently
+created Plotters.  The parameter values used by any Plotter are constant
+over the lifetime of the Plotter, and are those that were specified when
+the Plotter was created.  If&nbsp;at<!-- /@w --> Plotter creation time a parameter
+has <em>not</em> been set in the specified <code>PlotterParams</code> object,
+its default value will be used, unless the parameter is string-valued
+and there is an environment variable of the same name, in which case the
+value of that environment variable will be used.
+
+   <p>Once set in a PlotterParams object, a&nbsp;parameter<!-- /@w --> may be unset by the
+programmer by invoking <code>PlotterParams::setplparam</code> with a value
+argument of NULL.  This further increases flexibility.
+
+   <p>There is an alternative (older) way of constructing a Plotter, which is
+deprecated but still supported.  By using either of
+
+<pre class="example">       Plotter(istream&amp; instream, ostream&amp; outstream, ostream&amp; errstream);
+       Plotter(FILE *infile, FILE *outfile, FILE *errfile);
+</pre>
+   <p class="noindent">one may construct a Plotter without specifying a PlotterParams object. 
+In&nbsp;this<!-- /@w --> case the parameter values for the Plotter are copied from
+static storage.  A&nbsp;parameter<!-- /@w --> may be set in static storage by
+invoking a static member function of the Plotter class,
+<code>Plotter::parampl</code>, which has declaration
+
+     <dl>
+int <tt>PlotterParams::parampl</tt> (const char *<var>parameter</var>, void *<var>value</var>);
+</dl>
+
+<p class="noindent">This alternative way of creating a Plotter is not thread-safe, which is
+why it is deprecated.
+
+   </body></html>
+

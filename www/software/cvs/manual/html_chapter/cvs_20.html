@@ -1,0 +1,3145 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Reference manual for CVS commands</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_19.html">previous</A>, <A HREF="cvs_21.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC86" HREF="cvs_toc.html#TOC86">Reference manual for CVS commands</A></H1>
+<P>
+<A NAME="IDX293"></A>
+<A NAME="IDX294"></A>
+<A NAME="IDX295"></A>
+
+</P>
+
+<P>
+This appendix describes how to invoke CVS, and
+describes in detail those subcommands of CVS which
+are not fully described elsewhere.  To look up a
+particular subcommand, see section <A HREF="cvs_25.html#SEC155">Index</A>.
+
+</P>
+
+
+
+<H2><A NAME="SEC87" HREF="cvs_toc.html#TOC87">Overall structure of CVS commands</A></H2>
+<P>
+<A NAME="IDX296"></A>
+<A NAME="IDX297"></A>
+<A NAME="IDX298"></A>
+<A NAME="IDX299"></A>
+
+</P>
+<P>
+The overall format of all CVS commands is:
+
+</P>
+
+<PRE>
+cvs [ cvs_options ] cvs_command [ command_options ] [ command_args ]
+</PRE>
+
+<DL COMPACT>
+
+<DT><CODE>cvs</CODE>
+<DD>
+The name of the CVS program.
+
+<DT><CODE>cvs_options</CODE>
+<DD>
+Some options that affect all sub-commands of CVS.  These are
+described below.
+
+<DT><CODE>cvs_command</CODE>
+<DD>
+One of several different sub-commands.  Some of the commands have
+aliases that can be used instead; those aliases are noted in the
+reference manual for that command.  There are only two situations
+where you may omit <SAMP>`cvs_command'</SAMP>: <SAMP>`cvs -H'</SAMP> elicits a
+list of available commands, and <SAMP>`cvs -v'</SAMP> displays version
+information on CVS itself.
+
+<DT><CODE>command_options</CODE>
+<DD>
+Options that are specific for the command.
+
+<DT><CODE>command_args</CODE>
+<DD>
+Arguments to the commands.
+</DL>
+
+<P>
+There is unfortunately some confusion between
+<CODE>cvs_options</CODE> and <CODE>command_options</CODE>.
+<SAMP>`-l'</SAMP>, when given as a <CODE>cvs_option</CODE>, only
+affects some of the commands.  When it is given as a
+<CODE>command_option</CODE> is has a different meaning, and
+is accepted by more commands.  In other words, do not
+take the above categorization too seriously.  Look at
+the documentation instead.
+
+</P>
+
+
+<H2><A NAME="SEC88" HREF="cvs_toc.html#TOC88">Default options and the ~/.cvsrc file</A></H2>
+<P>
+<A NAME="IDX300"></A>
+<A NAME="IDX301"></A>
+
+</P>
+<P>
+There are some <CODE>command_options</CODE> that are used so
+often that you might have set up an alias or some other
+means to make sure you always specify that option.  One
+example (the one that drove the implementation of the
+.cvsrc support, actually) is that many people find the
+default output of the <SAMP>`diff'</SAMP> command to be very
+hard to read, and that either context diffs or unidiffs
+are much easier to understand.
+
+</P>
+<P>
+The <TT>`~/.cvsrc'</TT> file is a way that you can add
+default options to <CODE>cvs_commands</CODE> within cvs,
+instead of relying on aliases or other shell scripts.
+
+</P>
+<P>
+The format of the <TT>`~/.cvsrc'</TT> file is simple.  The
+file is searched for a line that begins with the same
+name as the <CODE>cvs_command</CODE> being executed.  If a
+match is found, then the remainder of the line is split
+up (at whitespace characters) into separate options and
+added to the command arguments <EM>before</EM> any
+options from the command line.
+
+</P>
+<P>
+If a command has two names (e.g., <CODE>checkout</CODE> and
+<CODE>co</CODE>), the official name, not necessarily the one
+used on the command line, will be used to match against
+the file.  So if this is the contents of the user's
+<TT>`~/.cvsrc'</TT> file:
+
+</P>
+
+<PRE>
+log -N
+diff -u
+update -P
+co -P
+</PRE>
+
+<P>
+the command <SAMP>`cvs checkout foo'</SAMP> would have the
+<SAMP>`-P'</SAMP> option added to the arguments, as well as
+<SAMP>`cvs co foo'</SAMP>.
+
+</P>
+<P>
+With the example file above, the output from <SAMP>`cvs
+diff foobar'</SAMP> will be in unidiff format.  <SAMP>`cvs diff
+-c foobar'</SAMP> will provide context diffs, as usual.
+Getting "old" format diffs would be slightly more
+complicated, because <CODE>diff</CODE> doesn't have an option
+to specify use of the "old" format, so you would need
+<SAMP>`cvs -f diff foobar'</SAMP>.
+
+</P>
+<P>
+In place of the command name you can use <CODE>cvs</CODE> to
+specify global options (see section <A HREF="cvs_20.html#SEC89">Global options</A>).  For
+example the following line in <TT>`.cvsrc'</TT>
+
+</P>
+
+<PRE>
+cvs -z6
+</PRE>
+
+<P>
+causes CVS to use compression level 6
+
+</P>
+
+
+<H2><A NAME="SEC89" HREF="cvs_toc.html#TOC89">Global options</A></H2>
+<P>
+<A NAME="IDX302"></A>
+<A NAME="IDX303"></A>
+<A NAME="IDX304"></A>
+
+</P>
+<P>
+The available <SAMP>`cvs_options'</SAMP> (that are given to the
+left of <SAMP>`cvs_command'</SAMP>) are:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-b <VAR>bindir</VAR></CODE>
+<DD>
+<A NAME="IDX305"></A>
+ <A NAME="IDX306"></A>
+ 
+Use <VAR>bindir</VAR> as the directory where RCS programs are
+located.  Overrides the setting of the <CODE>$RCSBIN</CODE> environment
+variable and any precompiled directory.  This parameter should be
+specified as an absolute pathname.
+
+<A NAME="IDX307"></A>
+<A NAME="IDX308"></A>
+<DT><CODE>-T <VAR>tempdir</VAR></CODE>
+<DD>
+Use <VAR>tempdir</VAR> as the directory where temporary files are
+located.  Overrides the setting of the <CODE>$TMPDIR</CODE> environment
+variable and any precompiled directory.  This parameter should be
+specified as an absolute pathname.
+
+<A NAME="IDX309"></A>
+<A NAME="IDX310"></A>
+<DT><CODE>-d <VAR>cvs_root_directory</VAR></CODE>
+<DD>
+Use <VAR>cvs_root_directory</VAR> as the root directory
+pathname of the repository.  Overrides the setting of
+the <CODE>$CVSROOT</CODE> environment variable.  See section <A HREF="cvs_5.html#SEC15">The Repository</A>.
+
+<A NAME="IDX311"></A>
+<A NAME="IDX312"></A>
+<DT><CODE>-e <VAR>editor</VAR></CODE>
+<DD>
+Use <VAR>editor</VAR> to enter revision log information.  Overrides the
+setting of the <CODE>$CVSEDITOR</CODE> and <CODE>$EDITOR</CODE> environment variables.
+
+<DT><CODE>-f</CODE>
+<DD>
+Do not read the <TT>`~/.cvsrc'</TT> file.  This
+option is most often used because of the
+non-orthogonality of the CVS option set.  For
+example, the <SAMP>`cvs log'</SAMP> option <SAMP>`-N'</SAMP> (turn off
+display of tag names) does not have a corresponding
+option to turn the display on.  So if you have
+<SAMP>`-N'</SAMP> in the <TT>`~/.cvsrc'</TT> entry for <SAMP>`log'</SAMP>,
+you may need to use <SAMP>`-f'</SAMP> to show the tag names.
+
+<DT><CODE>-H</CODE>
+<DD>
+Display usage information about the specified <SAMP>`cvs_command'</SAMP>
+(but do not actually execute the command).  If you don't specify
+a command name, <SAMP>`cvs -H'</SAMP> displays a summary of all the
+commands available.
+
+<DT><CODE>-l</CODE>
+<DD>
+Do not log the cvs_command in the command history (but execute it
+anyway).  See section <A HREF="cvs_20.html#SEC110">history--Show status of files and users</A>, for information on command history.
+
+<A NAME="IDX313"></A>
+<DT><CODE>-n</CODE>
+<DD>
+Do not change any files.  Attempt to execute the
+<SAMP>`cvs_command'</SAMP>, but only to issue reports; do not remove,
+update, or merge any existing files, or create any new files.
+
+<DT><CODE>-Q</CODE>
+<DD>
+Cause the command to be really quiet; the command will only
+generate output for serious problems.
+
+<DT><CODE>-q</CODE>
+<DD>
+Cause the command to be somewhat quiet; informational messages,
+such as reports of recursion through subdirectories, are
+suppressed.
+
+<A NAME="IDX314"></A>
+<DT><CODE>-r</CODE>
+<DD>
+Make new working files files read-only.  Same effect
+as if the <CODE>$CVSREAD</CODE> environment variable is set
+(see section <A HREF="cvs_22.html#SEC151">All environment variables which affect CVS</A>).  The default is to
+make working files writable, unless watches are on
+(see section <A HREF="cvs_7.html#SEC43">Mechanisms to track who is editing files</A>).
+
+<DT><CODE>-s <VAR>variable</VAR>=<VAR>value</VAR></CODE>
+<DD>
+Set a user variable (see section <A HREF="cvs_21.html#SEC150">Expansions in administrative files</A>).
+
+<A NAME="IDX315"></A>
+<DT><CODE>-t</CODE>
+<DD>
+Trace program execution; display messages showing the steps of
+CVS activity.  Particularly useful with <SAMP>`-n'</SAMP> to explore the
+potential impact of an unfamiliar command.
+
+<DT><CODE>-v</CODE>
+<DD>
+Display version and copyright information for CVS.
+
+<A NAME="IDX316"></A>
+<A NAME="IDX317"></A>
+<DT><CODE>-w</CODE>
+<DD>
+Make new working files read-write.  Overrides the
+setting of the <CODE>$CVSREAD</CODE> environment variable.
+Files are created read-write by default, unless <CODE>$CVSREAD</CODE> is
+set or <SAMP>`-r'</SAMP> is given.
+
+<DT><CODE>-x</CODE>
+<DD>
+Encrypt all communication between the client and the
+server.  Only has an effect on the CVS client.  As
+of this writing, this is only implemented when using a
+Kerberos connection (see section <A HREF="cvs_5.html#SEC30">Direct connection with kerberos</A>).
+Encryption support is not available by default; it must
+be enabled using a special configure option,
+<TT>`--enable-encryption'</TT>, when you build CVS.
+
+<DT><CODE>-z <VAR>gzip-level</VAR></CODE>
+<DD>
+Set the compression level.  Only has an effect on the
+CVS client.
+
+</DL>
+
+
+
+<H2><A NAME="SEC90" HREF="cvs_toc.html#TOC90">Common command options</A></H2>
+<P>
+<A NAME="IDX318"></A>
+<A NAME="IDX319"></A>
+
+</P>
+<P>
+This section describes the <SAMP>`command_options'</SAMP> that
+are available across several CVS commands.  These
+options are always given to the right of
+<SAMP>`cvs_command'</SAMP>. Not all
+commands support all of these options; each option is
+only supported for commands where it makes sense.
+However, when a command has one of these options you
+can almost always count on the same behavior of the
+option as in other commands.  (Other command options,
+which are listed with the individual commands, may have
+different behavior from one CVS command to the other).
+
+</P>
+<P>
+<STRONG>Warning:</STRONG> the <SAMP>`history'</SAMP> command is an exception; it supports
+many options that conflict even with these standard options.
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-D <VAR>date_spec</VAR></CODE>
+<DD>
+<A NAME="IDX320"></A>
+ <A NAME="IDX321"></A>
+ <A NAME="IDX322"></A>
+ 
+Use the most recent revision no later than <VAR>date_spec</VAR>.
+<VAR>date_spec</VAR> is a single argument, a date description
+specifying a date in the past.
+
+The specification is <EM>sticky</EM> when you use it to make a
+private copy of a source file; that is, when you get a working
+file using <SAMP>`-D'</SAMP>, CVS records the date you specified, so that
+further updates in the same directory will use the same date
+(for more information on sticky tags/dates, see section <A HREF="cvs_8.html#SEC54">Sticky tags</A>).
+
+<A NAME="IDX323"></A>
+<A NAME="IDX324"></A>
+A wide variety of date formats are supported by
+CVS.  The <VAR>date_spec</VAR> is interpreted as being
+in the local timezone, unless a specific timezone is
+specified.  Examples of valid date specifications
+include:
+
+
+<PRE>
+                    1 month ago
+                    2 hours ago
+                    400000 seconds ago
+                    last year
+                    last Monday
+                    yesterday
+                    a fortnight ago
+                    3/31/92 10:00:07 PST
+                    January 23, 1987 10:05pm
+                    22:00 GMT
+</PRE>
+
+<SAMP>`-D'</SAMP> is available with the <CODE>checkout</CODE>,
+<CODE>diff</CODE>, <CODE>export</CODE>, <CODE>history</CODE>,
+<CODE>rdiff</CODE>, <CODE>rtag</CODE>, and <CODE>update</CODE> commands.
+(The <CODE>history</CODE> command uses this option in a
+slightly different way; see section <A HREF="cvs_20.html#SEC111">history options</A>).  Note
+that when specifying a date like <SAMP>`3/31/92'</SAMP> it is
+<CODE><VAR>month</VAR>/<VAR>day</VAR>/<VAR>year</VAR></CODE>.  So
+<SAMP>`1/4/96'</SAMP> is January 4, not March 1.
+
+Remember to quote the argument to the <SAMP>`-D'</SAMP>
+flag so that your shell doesn't interpret spaces as
+argument separators.  A command using the <SAMP>`-D'</SAMP>
+flag can look like this:
+
+
+<PRE>
+$ cvs diff -D "1 hour ago" cvs.texinfo
+</PRE>
+
+<A NAME="IDX325"></A>
+<DT><CODE>-f</CODE>
+<DD>
+When you specify a particular date or tag to CVS commands, they
+normally ignore files that do not contain the tag (or did not
+exist prior to the date) that you specified.  Use the <SAMP>`-f'</SAMP> option
+if you want files retrieved even when there is no match for the
+tag or date.  (The most recent revision of the file
+will be used). 
+
+<SAMP>`-f'</SAMP> is available with these commands: <CODE>checkout</CODE>,
+<CODE>export</CODE>, <CODE>rdiff</CODE>, <CODE>rtag</CODE>, and <CODE>update</CODE>.
+
+<STRONG>Warning:</STRONG>  The <CODE>commit</CODE> command also has a
+<SAMP>`-f'</SAMP> option, but it has a different behavior for
+that command.  See section <A HREF="cvs_20.html#SEC100">commit options</A>.
+
+<DT><CODE>-H</CODE>
+<DD>
+Help; describe the options available for this command.  This is
+the only option supported for all CVS commands.
+
+<DT><CODE>-k <VAR>kflag</VAR></CODE>
+<DD>
+Alter the default RCS processing of keywords.
+See section <A HREF="cvs_17.html#SEC77">Keyword substitution</A>, for the meaning of
+<VAR>kflag</VAR>.  Your <VAR>kflag</VAR> specification is
+<EM>sticky</EM> when you use it to create a private copy
+of a source file; that is, when you use this option
+with the <CODE>checkout</CODE> or <CODE>update</CODE> commands,
+CVS associates your selected <VAR>kflag</VAR> with the
+file, and continues to use it with future update
+commands on the same file until you specify otherwise.
+
+The <SAMP>`-k'</SAMP> option is available with the <CODE>add</CODE>,
+<CODE>checkout</CODE>, <CODE>diff</CODE> and
+<CODE>update</CODE> commands.
+
+<DT><CODE>-l</CODE>
+<DD>
+Local; run only in current working directory, rather than
+recursing through subdirectories.  
+
+<STRONG>Warning:</STRONG> this is not the same
+as the overall <SAMP>`cvs -l'</SAMP> option, which you can specify to the
+left of a cvs command!
+
+Available with the following commands: <CODE>checkout</CODE>,
+<CODE>commit</CODE>, <CODE>diff</CODE>, <CODE>export</CODE>, <CODE>log</CODE>,
+<CODE>remove</CODE>, <CODE>rdiff</CODE>, <CODE>rtag</CODE>,
+<CODE>status</CODE>, <CODE>tag</CODE>, and <CODE>update</CODE>.
+
+<A NAME="IDX326"></A>
+<A NAME="IDX327"></A>
+<DT><CODE>-m <VAR>message</VAR></CODE>
+<DD>
+Use <VAR>message</VAR> as log information, instead of
+invoking an editor.
+
+Available with the following commands: <CODE>add</CODE>,
+<CODE>commit</CODE> and <CODE>import</CODE>.
+
+<DT><CODE>-n</CODE>
+<DD>
+Do not run any checkout/commit/tag program.  (A program can be
+specified to run on each of these activities, in the modules
+database (see section <A HREF="cvs_21.html#SEC137">The modules file</A>); this option bypasses it). 
+
+<STRONG>Warning:</STRONG> this is not the same as the overall <SAMP>`cvs -n'</SAMP>
+option, which you can specify to the left of a cvs command!
+
+Available with the <CODE>checkout</CODE>, <CODE>commit</CODE>, <CODE>export</CODE>,
+and <CODE>rtag</CODE> commands.
+
+<DT><CODE>-P</CODE>
+<DD>
+Prune (remove) directories that are empty after being updated, on
+<CODE>checkout</CODE>, or <CODE>update</CODE>.  Normally, an empty directory
+(one that is void of revision-controlled files) is left alone.
+Specifying <SAMP>`-P'</SAMP> will cause these directories to be silently
+removed from your checked-out sources.  This does not remove the
+directory from the repository, only from your checked out copy.
+Note that this option is implied by the <SAMP>`-r'</SAMP> or <SAMP>`-D'</SAMP>
+options of <CODE>checkout</CODE> and <CODE>export</CODE>.
+
+<DT><CODE>-p</CODE>
+<DD>
+Pipe the files retrieved from the repository to standard output,
+rather than writing them in the current directory.  Available
+with the <CODE>checkout</CODE> and <CODE>update</CODE> commands.
+
+<DT><CODE>-W</CODE>
+<DD>
+Specify file names that should be filtered.  You can
+use this option repeatedly.  The spec can be a file
+name pattern of the same type that you can specify in
+the <TT>`.cvswrappers'</TT> file.
+Avaliable with the following commands: <CODE>import</CODE>,
+and <CODE>update</CODE>.
+
+<DT><CODE>-r <VAR>tag</VAR></CODE>
+<DD>
+Use the revision specified by the <VAR>tag</VAR> argument instead of the
+default <EM>head</EM> revision.  As well as arbitrary tags defined
+with the <CODE>tag</CODE> or <CODE>rtag</CODE> command, two special tags are
+always available: <SAMP>`HEAD'</SAMP> refers to the most recent version
+available in the repository, and <SAMP>`BASE'</SAMP> refers to the
+revision you last checked out into the current working directory.
+
+The tag specification is sticky when you use this
+with <CODE>checkout</CODE> or <CODE>update</CODE> to make your own
+copy of a file: CVS remembers the tag and continues to use it on
+future update commands, until you specify otherwise (for more information
+on sticky tags/dates, see section <A HREF="cvs_8.html#SEC54">Sticky tags</A>).  The
+tag can be either a symbolic or numeric tag.
+See section <A HREF="cvs_8.html#SEC51">Tags--Symbolic revisions</A>.
+
+Specifying the <SAMP>`-q'</SAMP> global option along with the
+<SAMP>`-r'</SAMP> command option is often useful, to suppress
+the warning messages when the RCS history file
+does not contain the specified tag.
+
+<STRONG>Warning:</STRONG> this is not the same as the overall `cvs -r' option,
+which you can specify to the left of a cvs command!
+
+<SAMP>`-r'</SAMP> is available with the <CODE>checkout</CODE>, <CODE>commit</CODE>,
+<CODE>diff</CODE>, <CODE>history</CODE>, <CODE>export</CODE>, <CODE>rdiff</CODE>,
+<CODE>rtag</CODE>, and <CODE>update</CODE> commands.
+
+</DL>
+
+
+
+<H2><A NAME="SEC91" HREF="cvs_toc.html#TOC91">admin--Administration front end for rcs</A></H2>
+<P>
+<A NAME="IDX328"></A>
+
+</P>
+
+<UL>
+<LI>
+
+Requires: repository, working directory.
+<LI>
+
+Changes: repository.
+<LI>
+
+Synonym: rcs
+</UL>
+
+<P>
+This is the CVS interface to assorted administrative RCS
+facilities, documented in rcs(1).  <CODE>admin</CODE> simply passes
+all its options and arguments to the <CODE>rcs</CODE> command; it does
+no filtering or other processing.  This command <EM>does</EM> work
+recursively, however, so extreme care should be used.
+
+</P>
+<P>
+If there is a group whose name matches a compiled in
+value which defaults to <CODE>cvsadmin</CODE>, only members
+of that group can use <CODE>cvs admin</CODE>.  To disallow
+<CODE>cvs admin</CODE> for all users, create a group with no
+users in it.
+
+</P>
+
+
+
+<H3><A NAME="SEC92" HREF="cvs_toc.html#TOC92">admin options</A></H3>
+
+<P>
+Not all valid <CODE>rcs</CODE> options are useful together
+with CVS.  Some even makes it impossible to use
+CVS until you undo the effect!
+
+</P>
+<P>
+This description of the available options is based on
+the <SAMP>`rcs(1)'</SAMP> man page, but modified to suit
+readers that are more interrested in CVS than
+RCS.
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-A<VAR>oldfile</VAR></CODE>
+<DD>
+Might not work together with CVS.  Append the
+access list of <VAR>oldfile</VAR> to the access list of the
+RCS file.
+
+<DT><CODE>-a<VAR>logins</VAR></CODE>
+<DD>
+Might not work together with CVS.  Append the
+login names appearing in the comma-separated list
+<VAR>logins</VAR> to the access list of the RCS file.
+
+<DT><CODE>-b[<VAR>rev</VAR>]</CODE>
+<DD>
+When used with bare RCS, this
+option sets the default branch to <VAR>rev</VAR>; in
+CVS sticky tags (see section <A HREF="cvs_8.html#SEC54">Sticky tags</A>) are a better
+way to decide which branch you want to work on.  With
+CVS, this option can be used to control behavior
+with respect to the vendor branch.
+
+<DT><CODE>-c<VAR>string</VAR></CODE>
+<DD>
+Useful with CVS.  Sets the comment leader to
+<VAR>string</VAR>.  The comment leader is printed before
+every log message line generated by the keyword
+<CODE>$</CODE>Log$ (see section <A HREF="cvs_17.html#SEC77">Keyword substitution</A>).
+This is useful for programming languages without
+multi-line comments.  RCS initially guesses the
+value of the comment leader from the file name
+extension when the file is first committed.
+
+<DT><CODE>-e[<VAR>logins</VAR>]</CODE>
+<DD>
+Might not work together with CVS.  Erase the login
+names appearing in the comma-separated list
+<VAR>logins</VAR> from the access list of the RCS file.  If
+<VAR>logins</VAR> is omitted, erase the entire access list.
+
+<DT><CODE>-I</CODE>
+<DD>
+Run interactively, even if the standard input is not a
+terminal.
+
+<DT><CODE>-i</CODE>
+<DD>
+Useless with CVS.  When using bare RCS, this
+is used to create and initialize a new RCS file,
+without depositing a revision.
+
+<DT><CODE>-k<VAR>subst</VAR></CODE>
+<DD>
+Useful with CVS.  Set the default keyword
+substitution to <VAR>subst</VAR>.  See section <A HREF="cvs_17.html#SEC77">Keyword substitution</A>.  Giving an explicit <SAMP>`-k'</SAMP> option to
+<CODE>cvs update</CODE>, <CODE>cvs export</CODE>, or <CODE>cvs
+checkout</CODE> overrides this default.
+
+<DT><CODE>-l[<VAR>rev</VAR>]</CODE>
+<DD>
+Lock the revision with number <VAR>rev</VAR>.  If a branch
+is given, lock the latest revision on that branch.  If
+<VAR>rev</VAR> is omitted, lock the latest revision on the
+default branch.
+
+This can be used in conjunction with the
+<TT>`rcslock.pl'</TT> script in the <TT>`contrib'</TT>
+directory of the CVS source distribution to
+provide reserved checkouts (where only one user can be
+editing a given file at a time).  See the comments in
+that file for details (and see the <TT>`README'</TT> file
+in that directory for disclaimers about the unsupported
+nature of contrib).  According to comments in that
+file, locking must set to strict (which is the default).
+
+<DT><CODE>-L</CODE>
+<DD>
+Set locking to strict.  Strict locking means that the
+owner of an RCS file is not exempt from locking for
+checkin.  For use with CVS, strict locking must be
+set; see the discussion under the <SAMP>`-l'</SAMP> option above.
+
+<A NAME="IDX329"></A>
+<A NAME="IDX330"></A>
+<A NAME="IDX331"></A>
+<A NAME="IDX332"></A>
+<A NAME="IDX333"></A>
+<DT><CODE>-m<VAR>rev</VAR>:<VAR>msg</VAR></CODE>
+<DD>
+Replace the log message of revision <VAR>rev</VAR> with
+<VAR>msg</VAR>.
+
+<DT><CODE>-N<VAR>name</VAR>[:[<VAR>rev</VAR>]]</CODE>
+<DD>
+Act like <SAMP>`-n'</SAMP>, except override any previous
+assignment of <VAR>name</VAR>.
+
+<DT><CODE>-n<VAR>name</VAR>[:[<VAR>rev</VAR>]]</CODE>
+<DD>
+Associate the symbolic name <VAR>name</VAR> with the branch
+or revision <VAR>rev</VAR>.  It is normally better to use
+<SAMP>`cvs tag'</SAMP> or <SAMP>`cvs rtag'</SAMP> instead.  Delete the
+symbolic name if both <SAMP>`:'</SAMP> and <VAR>rev</VAR> are
+omitted; otherwise, print an error message if
+<VAR>name</VAR> is already associated with another number.
+If <VAR>rev</VAR> is symbolic, it is expanded before
+association.  A <VAR>rev</VAR> consisting of a branch number
+followed by a <SAMP>`.'</SAMP> stands for the current latest
+revision in the branch.  A <SAMP>`:'</SAMP> with an empty
+<VAR>rev</VAR> stands for the current latest revision on the
+default branch, normally the trunk.  For example,
+<SAMP>`rcs -n<VAR>name</VAR>: RCS/*'</SAMP> associates <VAR>name</VAR> with the
+current latest revision of all the named RCS files;
+this contrasts with <SAMP>`rcs -n<VAR>name</VAR>:$ RCS/*'</SAMP> which
+associates <VAR>name</VAR> with the revision numbers
+extracted from keyword strings in the corresponding
+working files.
+
+<A NAME="IDX334"></A>
+<A NAME="IDX335"></A>
+<A NAME="IDX336"></A>
+<DT><CODE>-o<VAR>range</VAR></CODE>
+<DD>
+Potentially useful, but dangerous, with CVS (see below).
+Deletes (<EM>outdates</EM>) the revisions given by
+<VAR>range</VAR>.  A range consisting of a single revision
+number means that revision.  A range consisting of a
+branch number means the latest revision on that branch.
+A range of the form <SAMP>`<VAR>rev1</VAR>:<VAR>rev2</VAR>'</SAMP> means
+revisions <VAR>rev1</VAR> to <VAR>rev2</VAR> on the same branch,
+<SAMP>`:<VAR>rev</VAR>'</SAMP> means from the beginning of the
+branch containing <VAR>rev</VAR> up to and including
+<VAR>rev</VAR>, and <SAMP>`<VAR>rev</VAR>:'</SAMP> means from revision
+<VAR>rev</VAR> to the end of the branch containing
+<VAR>rev</VAR>.  None of the outdated revisions may have
+branches or locks.
+
+Due to the way CVS handles branches <VAR>rev</VAR>
+cannot be specified symbolically if it is a branch.
+See section <A HREF="cvs_23.html#SEC153">Magic branch numbers</A>, for an explanation.
+
+Make sure that no-one has checked out a copy of the
+revision you outdate.  Strange things will happen if he
+starts to edit it and tries to check it back in.  For
+this reason, this option is not a good way to take back
+a bogus commit; commit a new revision undoing the bogus
+change instead (see section <A HREF="cvs_9.html#SEC58">Merging differences between any two revisions</A>).
+
+<DT><CODE>-q</CODE>
+<DD>
+Run quietly; do not print diagnostics.
+
+<DT><CODE>-s<VAR>state</VAR>[:<VAR>rev</VAR>]</CODE>
+<DD>
+Useful with CVS.  Set the state attribute of the
+revision <VAR>rev</VAR> to <VAR>state</VAR>.  If <VAR>rev</VAR> is a
+branch number, assume the latest revision on that
+branch.  If <VAR>rev</VAR> is omitted, assume the latest
+revision on the default branch.  Any identifier is
+acceptable for <VAR>state</VAR>.  A useful set of states is
+<SAMP>`Exp'</SAMP> (for experimental), <SAMP>`Stab'</SAMP> (for
+stable), and <SAMP>`Rel'</SAMP> (for released).  By default,
+the state of a new revision is set to <SAMP>`Exp'</SAMP> when
+it is created.  The state is visible in the output from
+<VAR>cvs log</VAR> (see section <A HREF="cvs_20.html#SEC116">log--Print out log information for files</A>), and in the
+<SAMP>`$'</SAMP>Log$ and <SAMP>`$'</SAMP>State$ keywords
+(see section <A HREF="cvs_17.html#SEC77">Keyword substitution</A>).  Note that CVS
+uses the <CODE>dead</CODE> state for its own purposes; to
+take a file to or from the <CODE>dead</CODE> state use
+commands like <CODE>cvs remove</CODE> and <CODE>cvs add</CODE>, not
+<CODE>cvs admin -s</CODE>.
+
+<DT><CODE>-t[<VAR>file</VAR>]</CODE>
+<DD>
+Useful with CVS.  Write descriptive text from the
+contents of the named <VAR>file</VAR> into the RCS file,
+deleting the existing text.  The <VAR>file</VAR> pathname
+may not begin with <SAMP>`-'</SAMP>.  If <VAR>file</VAR> is omitted,
+obtain the text from standard input, terminated by
+end-of-file or by a line containing <SAMP>`.'</SAMP> by itself.
+Prompt for the text if interaction is possible; see
+<SAMP>`-I'</SAMP>.  The descriptive text can be seen in the
+output from <SAMP>`cvs log'</SAMP> (see section <A HREF="cvs_20.html#SEC116">log--Print out log information for files</A>).
+
+<DT><CODE>-t-<VAR>string</VAR></CODE>
+<DD>
+Similar to <SAMP>`-t<VAR>file</VAR>'</SAMP>. Write descriptive text
+from the <VAR>string</VAR> into the RCS file, deleting
+the existing text.
+
+<DT><CODE>-U</CODE>
+<DD>
+Set locking to non-strict.  Non-strict locking means
+that the owner of a file need not lock a revision for
+checkin.  For use with CVS, strict locking must be
+set; see the discussion under the <SAMP>`-l'</SAMP> option
+above.
+
+<DT><CODE>-u[<VAR>rev</VAR>]</CODE>
+<DD>
+See the option <SAMP>`-l'</SAMP> above, for a discussion of
+using this option with CVS.  Unlock the revision
+with number <VAR>rev</VAR>.  If a branch is given, unlock
+the latest revision on that branch.  If <VAR>rev</VAR> is
+omitted, remove the latest lock held by the caller.
+Normally, only the locker of a revision may unlock it.
+Somebody else unlocking a revision breaks the lock.
+This causes a mail message to be sent to the original
+locker.  The message contains a commentary solicited
+from the breaker.  The commentary is terminated by
+end-of-file or by a line containing <CODE>.</CODE> by itself.
+
+<DT><CODE>-V<VAR>n</VAR></CODE>
+<DD>
+Emulate RCS version <VAR>n</VAR>. Use -V<VAR>n</VAR> to make
+an RCS file acceptable to RCS version <VAR>n</VAR>
+by discarding information that would confuse version
+<VAR>n</VAR>.
+
+<DT><CODE>-x<VAR>suffixes</VAR></CODE>
+<DD>
+Useless with CVS. Use <VAR>suffixes</VAR> to
+characterize RCS files.
+</DL>
+
+
+
+<H3><A NAME="SEC93" HREF="cvs_toc.html#TOC93">admin examples</A></H3>
+
+
+
+<H4><A NAME="SEC94" HREF="cvs_toc.html#TOC94">Outdating is dangerous</A></H4>
+
+<P>
+First, an example of how <EM>not</EM> to use the
+<CODE>admin</CODE> command.  It is included to stress the
+fact that this command can be quite dangerous unless
+you know <EM>exactly</EM> what you are doing.
+
+</P>
+<P>
+The <SAMP>`-o'</SAMP> option can be used to <EM>outdate</EM> old revisions
+from the history file.  If you are short on disc this option
+might help you.  But think twice before using it--there is no
+way short of restoring the latest backup to undo this command!
+
+</P>
+<P>
+The next line is an example of a command that you would
+<EM>not</EM> like to execute.
+
+</P>
+
+<PRE>
+$ cvs admin -o:R_1_02 .
+</PRE>
+
+<P>
+The above command will delete all revisions up to, and
+including, the revision that corresponds to the tag
+R_1_02.  But beware!  If there are files that have not
+changed between R_1_02 and R_1_03 the file will have
+<EM>the same</EM> numerical revision number assigned to
+the tags R_1_02 and R_1_03.  So not only will it be
+impossible to retrieve R_1_02; R_1_03 will also have to
+be restored from the tapes!
+
+</P>
+
+
+<H4><A NAME="SEC95" HREF="cvs_toc.html#TOC95">Comment leaders</A></H4>
+<P>
+<A NAME="IDX337"></A>
+<A NAME="IDX338"></A>
+<A NAME="IDX339"></A>
+
+</P>
+<P>
+If you use the <CODE>$</CODE>Log$ keyword and you do
+not agree with the guess for comment leader that
+CVS has done, you can enforce your will with
+<CODE>cvs admin -c</CODE>.  This might be suitable for
+<CODE>nroff</CODE> source:
+
+</P>
+
+<PRE>
+$ cvs admin -c'.\" ' *.man
+$ rm *.man
+$ cvs update
+</PRE>
+
+<P>
+The two last steps are to make sure that you get the
+versions with correct comment leaders in your working
+files.
+
+</P>
+
+
+<H2><A NAME="SEC96" HREF="cvs_toc.html#TOC96">checkout--Check out sources for editing</A></H2>
+<P>
+<A NAME="IDX340"></A>
+<A NAME="IDX341"></A>
+
+</P>
+
+<UL>
+<LI>
+
+Synopsis: checkout [options] modules...
+<LI>
+
+Requires: repository.
+<LI>
+
+Changes: working directory.
+<LI>
+
+Synonyms: co, get
+</UL>
+
+<P>
+Make a working directory containing copies of the
+source files specified by <VAR>modules</VAR>.  You must execute
+<CODE>checkout</CODE> before using most of the other CVS
+commands, since most of them operate on your working
+directory.
+
+</P>
+<P>
+The <VAR>modules</VAR> part of the command are either
+symbolic names for some
+collection of source directories and files, or paths to
+directories or files in the repository.  The symbolic
+names are defined in the <SAMP>`modules'</SAMP> file.
+See section <A HREF="cvs_21.html#SEC137">The modules file</A>.
+
+</P>
+<P>
+Depending on the modules you specify, <CODE>checkout</CODE> may
+recursively create directories and populate them with
+the appropriate source files.  You can then edit these
+source files at any time (regardless of whether other
+software developers are editing their own copies of the
+sources); update them to include new changes applied by
+others to the source repository; or commit your work as
+a permanent change to the source repository.
+
+</P>
+<P>
+Note that <CODE>checkout</CODE> is used to create
+directories.  The top-level directory created is always
+added to the directory where <CODE>checkout</CODE> is
+invoked, and usually has the same name as the specified
+module.  In the case of a module alias, the created
+sub-directory may have a different name, but you can be
+sure that it will be a sub-directory, and that
+<CODE>checkout</CODE> will show the relative path leading to
+each file as it is extracted into your private work
+area (unless you specify the <SAMP>`-Q'</SAMP> global option).
+
+</P>
+<P>
+The files created by <CODE>checkout</CODE> are created
+read-write, unless the <SAMP>`-r'</SAMP> option to CVS
+(see section <A HREF="cvs_20.html#SEC89">Global options</A>) is specified, the
+<CODE>CVSREAD</CODE> environment variable is specified
+(see section <A HREF="cvs_22.html#SEC151">All environment variables which affect CVS</A>), or a watch is in
+effect for that file (see section <A HREF="cvs_7.html#SEC43">Mechanisms to track who is editing files</A>).
+
+</P>
+<P>
+Running <CODE>checkout</CODE> on a directory that was already
+built by a prior <CODE>checkout</CODE> is also permitted, and
+has the same effect as specifying the <SAMP>`-d'</SAMP> option
+to the <CODE>update</CODE> command, that is, any new
+directories that have been created in the repository
+will appear in your work area.  See section <A HREF="cvs_20.html#SEC132">update--Bring work tree in sync with repository</A>.
+
+</P>
+<P>
+For the output produced by the <CODE>checkout</CODE> command
+see section <A HREF="cvs_20.html#SEC134">update output</A>.
+
+</P>
+
+
+
+<H3><A NAME="SEC97" HREF="cvs_toc.html#TOC97">checkout options</A></H3>
+
+<P>
+These standard options are supported by <CODE>checkout</CODE>
+(see section <A HREF="cvs_20.html#SEC90">Common command options</A>, for a complete description of
+them):
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-D <VAR>date</VAR></CODE>
+<DD>
+Use the most recent revision no later than <VAR>date</VAR>.
+This option is sticky, and implies <SAMP>`-P'</SAMP>.  See
+section <A HREF="cvs_8.html#SEC54">Sticky tags</A>, for more information on sticky tags/dates.
+
+<DT><CODE>-f</CODE>
+<DD>
+Only useful with the <SAMP>`-D <VAR>date</VAR>'</SAMP> or <SAMP>`-r
+<VAR>tag</VAR>'</SAMP> flags.  If no matching revision is found,
+retrieve the most recent revision (instead of ignoring
+the file).
+
+<DT><CODE>-k <VAR>kflag</VAR></CODE>
+<DD>
+Process RCS keywords according to <VAR>kflag</VAR>.  See
+co(1).  This option is sticky; future updates of
+this file in this working directory will use the same
+<VAR>kflag</VAR>.  The <CODE>status</CODE> command can be viewed
+to see the sticky options.  See section <A HREF="cvs_20.html#SEC128">status--Display status information on checked out files</A>.
+
+<DT><CODE>-l</CODE>
+<DD>
+Local; run only in current working directory.
+
+<DT><CODE>-n</CODE>
+<DD>
+Do not run any checkout program (as specified
+with the <SAMP>`-o'</SAMP> option in the modules file;
+see section <A HREF="cvs_21.html#SEC137">The modules file</A>).
+
+<DT><CODE>-P</CODE>
+<DD>
+Prune empty directories.
+
+<DT><CODE>-p</CODE>
+<DD>
+Pipe files to the standard output.
+
+<DT><CODE>-r <VAR>tag</VAR></CODE>
+<DD>
+Use revision <VAR>tag</VAR>.  This option is sticky, and implies <SAMP>`-P'</SAMP>.
+See section <A HREF="cvs_8.html#SEC54">Sticky tags</A>, for more information on sticky tags/dates.
+</DL>
+
+<P>
+In addition to those, you can use these special command
+options with <CODE>checkout</CODE>:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-A</CODE>
+<DD>
+Reset any sticky tags, dates, or <SAMP>`-k'</SAMP> options.
+See section <A HREF="cvs_8.html#SEC54">Sticky tags</A>, for more information on sticky tags/dates.
+
+<DT><CODE>-c</CODE>
+<DD>
+Copy the module file, sorted, to the standard output,
+instead of creating or modifying any files or
+directories in your working directory.
+
+<DT><CODE>-d <VAR>dir</VAR></CODE>
+<DD>
+Create a directory called <VAR>dir</VAR> for the working
+files, instead of using the module name.  Unless you
+also use <SAMP>`-N'</SAMP>, the paths created under <VAR>dir</VAR>
+will be as short as possible.
+
+<DT><CODE>-j <VAR>tag</VAR></CODE>
+<DD>
+With two <SAMP>`-j'</SAMP> options, merge changes from the
+revision specified with the first <SAMP>`-j'</SAMP> option to
+the revision specified with the second <SAMP>`j'</SAMP> option,
+into the working directory.
+
+With one <SAMP>`-j'</SAMP> option, merge changes from the
+ancestor revision to the revision specified with the
+<SAMP>`-j'</SAMP> option, into the working directory.  The
+ancestor revision is the common ancestor of the
+revision which the working directory is based on, and
+the revision specified in the <SAMP>`-j'</SAMP> option.
+
+In addition, each -j option can contain an optional
+date specification which, when used with branches, can
+limit the chosen revision to one within a specific
+date.  An optional date is specified by adding a colon
+(:) to the tag:
+<SAMP>`-j<VAR>Symbolic_Tag</VAR>:<VAR>Date_Specifier</VAR>'</SAMP>.
+
+See section <A HREF="cvs_9.html#SEC55">Merging</A>.
+
+<DT><CODE>-N</CODE>
+<DD>
+Only useful together with <SAMP>`-d <VAR>dir</VAR>'</SAMP>.  With this
+option, CVS will not shorten module paths in your
+working directory.  (Normally, CVS shortens paths as
+much as possible when you specify an explicit target
+directory).
+
+<DT><CODE>-s</CODE>
+<DD>
+Like <SAMP>`-c'</SAMP>, but include the status of all modules,
+and sort it by the status string.  See section <A HREF="cvs_21.html#SEC137">The modules file</A>, for
+info about the <SAMP>`-s'</SAMP> option that is used inside the
+modules file to set the module status.
+</DL>
+
+
+
+<H3><A NAME="SEC98" HREF="cvs_toc.html#TOC98">checkout examples</A></H3>
+
+<P>
+Get a copy of the module <SAMP>`tc'</SAMP>:
+
+</P>
+
+<PRE>
+$ cvs checkout tc
+</PRE>
+
+<P>
+Get a copy of the module <SAMP>`tc'</SAMP> as it looked one day
+ago:
+
+</P>
+
+<PRE>
+$ cvs checkout -D yesterday tc
+</PRE>
+
+
+
+<H2><A NAME="SEC99" HREF="cvs_toc.html#TOC99">commit--Check files into the repository</A></H2>
+<P>
+<A NAME="IDX342"></A>
+
+</P>
+
+<UL>
+<LI>
+
+Version 1.3 Synopsis: commit [-lnR] [-m 'log_message' |
+-f file] [-r revision] [files...]
+<LI>
+
+Version 1.3.1 Synopsis: commit [-lnRf] [-m 'log_message' |
+-F file] [-r revision] [files...]
+<LI>
+
+Requires: working directory, repository.
+<LI>
+
+Changes: repository.
+<LI>
+
+Synonym: ci
+</UL>
+
+<P>
+<STRONG>Warning:</STRONG> The <SAMP>`-f <VAR>file</VAR>'</SAMP> option will
+probably be renamed to <SAMP>`-F <VAR>file</VAR>'</SAMP>, and <SAMP>`-f'</SAMP>
+will be given a new behavior in future releases of CVS.
+
+</P>
+<P>
+Use <CODE>commit</CODE> when you want to incorporate changes
+from your working source files into the source
+repository.
+
+</P>
+<P>
+If you don't specify particular files to commit, all of
+the files in your working current directory are
+examined.  <CODE>commit</CODE> is careful to change in the
+repository only those files that you have really
+changed.  By default (or if you explicitly specify the
+<SAMP>`-R'</SAMP> option), files in subdirectories are also
+examined and committed if they have changed; you can
+use the <SAMP>`-l'</SAMP> option to limit <CODE>commit</CODE> to the
+current directory only.
+
+</P>
+<P>
+<CODE>commit</CODE> verifies that the selected files are up
+to date with the current revisions in the source
+repository; it will notify you, and exit without
+committing, if any of the specified files must be made
+current first with <CODE>update</CODE> (see section <A HREF="cvs_20.html#SEC132">update--Bring work tree in sync with repository</A>).
+<CODE>commit</CODE> does not call the <CODE>update</CODE> command
+for you, but rather leaves that for you to do when the
+time is right.
+
+</P>
+<P>
+When all is well, an editor is invoked to allow you to
+enter a log message that will be written to one or more
+logging programs (see section <A HREF="cvs_21.html#SEC137">The modules file</A>, and see section <A HREF="cvs_21.html#SEC144">Loginfo</A>)
+and placed in the RCS history file inside the
+repository.  This log message can be retrieved with the
+<CODE>log</CODE> command; See section <A HREF="cvs_20.html#SEC116">log--Print out log information for files</A>.  You can specify the
+log message on the command line with the <SAMP>`-m
+<VAR>message</VAR>'</SAMP> option, and thus avoid the editor invocation,
+or use the <SAMP>`-f <VAR>file</VAR>'</SAMP> option to specify
+that the argument file contains the log message.
+
+</P>
+
+
+
+<H3><A NAME="SEC100" HREF="cvs_toc.html#TOC100">commit options</A></H3>
+
+<P>
+These standard options are supported by <CODE>commit</CODE>
+(see section <A HREF="cvs_20.html#SEC90">Common command options</A>, for a complete description of
+them):
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-l</CODE>
+<DD>
+Local; run only in current working directory.
+
+<DT><CODE>-n</CODE>
+<DD>
+Do not run any module program.
+
+<DT><CODE>-R</CODE>
+<DD>
+Commit directories recursively.  This is on by default.
+
+<DT><CODE>-r <VAR>revision</VAR></CODE>
+<DD>
+Commit to <VAR>revision</VAR>.  <VAR>revision</VAR> must be
+either a branch, or a revision on the main trunk that
+is higher than any existing revision number.  You
+cannot commit to a specific revision on a branch.
+</DL>
+
+<P>
+<CODE>commit</CODE> also supports these options:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-F <VAR>file</VAR></CODE>
+<DD>
+This option is present in CVS releases 1.3-s3 and
+later.  Read the log message from <VAR>file</VAR>, instead
+of invoking an editor.
+
+<DT><CODE>-f</CODE>
+<DD>
+This option is present in CVS 1.3-s3 and later releases
+of CVS.  Note that this is not the standard behavior of
+the <SAMP>`-f'</SAMP> option as defined in See section <A HREF="cvs_20.html#SEC90">Common command options</A>.
+
+Force CVS to commit a new revision even if you haven't
+made any changes to the file.  If the current revision
+of <VAR>file</VAR> is 1.7, then the following two commands
+are equivalent:
+
+
+<PRE>
+$ cvs commit -f <VAR>file</VAR>
+$ cvs commit -r 1.8 <VAR>file</VAR>
+</PRE>
+
+<DT><CODE>-f <VAR>file</VAR></CODE>
+<DD>
+This option is present in CVS releases 1.3, 1.3-s1 and
+1.3-s2.  Note that this is not the standard behavior of
+the <SAMP>`-f'</SAMP> option as defined in See section <A HREF="cvs_20.html#SEC90">Common command options</A>.
+
+Read the log message from <VAR>file</VAR>, instead
+of invoking an editor.
+
+<DT><CODE>-m <VAR>message</VAR></CODE>
+<DD>
+Use <VAR>message</VAR> as the log message, instead of
+invoking an editor.
+</DL>
+
+
+
+<H3><A NAME="SEC101" HREF="cvs_toc.html#TOC101">commit examples</A></H3>
+
+
+
+<H4><A NAME="SEC102" HREF="cvs_toc.html#TOC102">New major release number</A></H4>
+
+<P>
+When you make a major release of your product, you
+might want the revision numbers to track your major
+release number.  You should normally not care about
+the revision numbers, but this is a thing that many
+people want to do, and it can be done without doing any
+harm.
+
+</P>
+<P>
+To bring all your files up to the RCS revision 3.0
+(including those that haven't changed), you might do:
+
+</P>
+
+<PRE>
+$ cvs commit -r 3.0
+</PRE>
+
+<P>
+Note that it is generally a bad idea to try to make the
+RCS revision number equal to the current release number
+of your product.  You should think of the revision
+number as an internal number that the CVS package
+maintains, and that you generally never need to care
+much about.  Using the <CODE>tag</CODE> and <CODE>rtag</CODE>
+commands you can give symbolic names to the releases
+instead.  See section <A HREF="cvs_20.html#SEC130">tag--Add a symbolic tag to checked out versions of files</A> and See section <A HREF="cvs_20.html#SEC126">rtag--Add a symbolic tag to a module</A>.
+
+</P>
+<P>
+Note that the number you specify with <SAMP>`-r'</SAMP> must be
+larger than any existing revision number.  That is, if
+revision 3.0 exists, you cannot <SAMP>`cvs commit
+-r 1.3'</SAMP>.
+
+</P>
+
+
+<H4><A NAME="SEC103" HREF="cvs_toc.html#TOC103">Committing to a branch</A></H4>
+
+<P>
+You can commit to a branch revision (one that has an
+even number of dots) with the <SAMP>`-r'</SAMP> option.  To
+create a branch revision, use the <SAMP>`-b'</SAMP> option
+of the <CODE>rtag</CODE> or <CODE>tag</CODE> commands (see section <A HREF="cvs_20.html#SEC130">tag--Add a symbolic tag to checked out versions of files</A>
+or see section <A HREF="cvs_20.html#SEC126">rtag--Add a symbolic tag to a module</A>).  Then, either <CODE>checkout</CODE> or
+<CODE>update</CODE> can be used to base your sources on the
+newly created branch.  From that point on, all
+<CODE>commit</CODE> changes made within these working sources
+will be automatically added to a branch revision,
+thereby not disturbing main-line development in any
+way.  For example, if you had to create a patch to the
+1.2 version of the product, even though the 2.0 version
+is already under development, you might do:
+
+</P>
+
+<PRE>
+$ cvs rtag -b -r FCS1_2 FCS1_2_Patch product_module
+$ cvs checkout -r FCS1_2_Patch product_module
+$ cd product_module
+[[ hack away ]]
+$ cvs commit
+</PRE>
+
+<P>
+This works automatically since the <SAMP>`-r'</SAMP> option is
+sticky.
+
+</P>
+
+
+<H4><A NAME="SEC104" HREF="cvs_toc.html#TOC104">Creating the branch after editing</A></H4>
+
+<P>
+Say you have been working on some extremely
+experimental software, based on whatever revision you
+happened to checkout last week.  If others in your
+group would like to work on this software with you, but
+without disturbing main-line development, you could
+commit your change to a new branch.  Others can then
+checkout your experimental stuff and utilize the full
+benefit of CVS conflict resolution.  The scenario might
+look like:
+
+</P>
+
+<PRE>
+[[ hacked sources are present ]]
+$ cvs tag -b EXPR1
+$ cvs update -r EXPR1
+$ cvs commit
+</PRE>
+
+<P>
+The <CODE>update</CODE> command will make the <SAMP>`-r
+EXPR1'</SAMP> option sticky on all files.  Note that your
+changes to the files will never be removed by the
+<CODE>update</CODE> command.  The <CODE>commit</CODE> will
+automatically commit to the correct branch, because the
+<SAMP>`-r'</SAMP> is sticky.  You could also do like this:
+
+</P>
+
+<PRE>
+[[ hacked sources are present ]]
+$ cvs tag -b EXPR1
+$ cvs commit -r EXPR1
+</PRE>
+
+<P>
+but then, only those files that were changed by you
+will have the <SAMP>`-r EXPR1'</SAMP> sticky flag.  If you hack
+away, and commit without specifying the <SAMP>`-r EXPR1'</SAMP>
+flag, some files may accidentally end up on the main
+trunk.
+
+</P>
+<P>
+To work with you on the experimental change, others
+would simply do
+
+</P>
+
+<PRE>
+$ cvs checkout -r EXPR1 whatever_module
+</PRE>
+
+
+
+<H2><A NAME="SEC105" HREF="cvs_toc.html#TOC105">diff--Run diffs between revisions</A></H2>
+<P>
+<A NAME="IDX343"></A>
+
+</P>
+
+<UL>
+<LI>
+
+Synopsis: diff [-l] [rcsdiff_options] [[-r rev1 | -D date1] [-r rev2 |  -D date2]] [files...]
+<LI>
+
+Requires: working directory, repository.
+<LI>
+
+Changes: nothing.
+</UL>
+
+<P>
+The <CODE>diff</CODE> command is used to compare different
+revisions of files.  The default action is to compare
+your working files with the revisions they were based
+on, and report any differences that are found.
+
+</P>
+<P>
+If any file names are given, only those files are
+compared.  If any directories are given, all files
+under them will be compared.
+
+</P>
+<P>
+The exit status will be 0 if no differences were found,
+1 if some differences were found, and 2 if any error
+occurred.
+
+</P>
+
+
+
+<H3><A NAME="SEC106" HREF="cvs_toc.html#TOC106">diff options</A></H3>
+
+<P>
+These standard options are supported by <CODE>diff</CODE>
+(see section <A HREF="cvs_20.html#SEC90">Common command options</A>, for a complete description of
+them):
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-D <VAR>date</VAR></CODE>
+<DD>
+Use the most recent revision no later than <VAR>date</VAR>.
+See <SAMP>`-r'</SAMP> for how this affects the comparison.
+
+CVS can be configured to pass the <SAMP>`-D'</SAMP> option
+through to <CODE>rcsdiff</CODE> (which in turn passes it on
+to <CODE>diff</CODE>.  GNU diff uses <SAMP>`-D'</SAMP> as a way to
+put <CODE>cpp</CODE>-style <SAMP>`#define'</SAMP> statements around the output
+differences.  There is no way short of testing to
+figure out how CVS was configured.  In the default
+configuration CVS will use the <SAMP>`-D <VAR>date</VAR>'</SAMP> option.
+
+<DT><CODE>-k <VAR>kflag</VAR></CODE>
+<DD>
+Process RCS keywords according to <VAR>kflag</VAR>.  See
+co(1).
+
+<DT><CODE>-l</CODE>
+<DD>
+Local; run only in current working directory.
+
+<DT><CODE>-R</CODE>
+<DD>
+Examine directories recursively.  This option is on by
+default.
+
+<DT><CODE>-r <VAR>tag</VAR></CODE>
+<DD>
+Compare with revision <VAR>tag</VAR>.  Zero, one or two
+<SAMP>`-r'</SAMP> options can be present.  With no <SAMP>`-r'</SAMP>
+option, the working file will be compared with the
+revision it was based on.  With one <SAMP>`-r'</SAMP>, that
+revision will be compared to your current working file.
+With two <SAMP>`-r'</SAMP> options those two revisions will be
+compared (and your working file will not affect the
+outcome in any way).
+
+One or both <SAMP>`-r'</SAMP> options can be replaced by a
+<SAMP>`-D <VAR>date</VAR>'</SAMP> option, described above.
+</DL>
+
+<P>
+Any other options that are found are passed through to
+<CODE>rcsdiff</CODE>, which in turn passes them to
+<CODE>diff</CODE>.  The exact meaning of the options depends
+on which <CODE>diff</CODE> you are using.  The long options
+introduced in GNU diff 2.0 are not yet supported in
+CVS.  See the documentation for your <CODE>diff</CODE> to see
+which options are supported.
+
+</P>
+
+
+<H3><A NAME="SEC107" HREF="cvs_toc.html#TOC107">diff examples</A></H3>
+
+<P>
+The following line produces a Unidiff (<SAMP>`-u'</SAMP> flag)
+between revision 1.14 and 1.19 of
+<TT>`backend.c'</TT>.  Due to the <SAMP>`-kk'</SAMP> flag no
+keywords are substituted, so differences that only depend
+on keyword substitution are ignored.
+
+</P>
+
+<PRE>
+$ cvs diff -kk -u -r 1.14 -r 1.19 backend.c
+</PRE>
+
+<P>
+Suppose the experimental branch EXPR1 was based on a
+set of files tagged RELEASE_1_0.  To see what has
+happened on that branch, the following can be used:
+
+</P>
+
+<PRE>
+$ cvs diff -r RELEASE_1_0 -r EXPR1
+</PRE>
+
+<P>
+A command like this can be used to produce a context
+diff between two releases:
+
+</P>
+
+<PRE>
+$ cvs diff -c -r RELEASE_1_0 -r RELEASE_1_1 &#62; diffs
+</PRE>
+
+<P>
+If you are maintaining ChangeLogs, a command like the following
+just before you commit your changes may help you write
+the ChangeLog entry.  All local modifications that have
+not yet been committed will be printed.
+
+</P>
+
+<PRE>
+$ cvs diff -u | less
+</PRE>
+
+
+
+<H2><A NAME="SEC108" HREF="cvs_toc.html#TOC108">export--Export sources from CVS, similar to checkout</A></H2>
+<P>
+<A NAME="IDX344"></A>
+
+</P>
+
+<UL>
+<LI>
+
+Synopsis: export [-flNn] [-r rev|-D date] [-k subst] [-d dir] module...
+<LI>
+
+Requires: repository.
+<LI>
+
+Changes: current directory.
+</UL>
+
+<P>
+This command is a variant of <CODE>checkout</CODE>; use it
+when you want a copy of the source for module without
+the CVS administrative directories.  For example, you
+might use <CODE>export</CODE> to prepare source for shipment
+off-site.  This command requires that you specify a
+date or tag (with <SAMP>`-D'</SAMP> or <SAMP>`-r'</SAMP>), so that you
+can count on reproducing the source you ship to others.
+
+</P>
+<P>
+One often would like to use <SAMP>`-kv'</SAMP> with <CODE>cvs
+export</CODE>.  This causes any RCS keywords to be
+expanded such that an import done at some other site
+will not lose the keyword revision information.  But be
+aware that doesn't handle an export containing binary
+files correctly.  Also be aware that after having used
+<SAMP>`-kv'</SAMP>, one can no longer use the <CODE>ident</CODE>
+command (which is part of the RCS suite--see
+ident(1)) which looks for RCS keyword strings.  If
+you want to be able to use <CODE>ident</CODE> you must not
+use <SAMP>`-kv'</SAMP>.
+
+</P>
+
+
+
+<H3><A NAME="SEC109" HREF="cvs_toc.html#TOC109">export options</A></H3>
+
+<P>
+These standard options are supported by <CODE>export</CODE>
+(see section <A HREF="cvs_20.html#SEC90">Common command options</A>, for a complete description of
+them):
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-D <VAR>date</VAR></CODE>
+<DD>
+Use the most recent revision no later than <VAR>date</VAR>.
+
+<DT><CODE>-f</CODE>
+<DD>
+If no matching revision is found, retrieve the most
+recent revision (instead of ignoring the file).
+
+<DT><CODE>-l</CODE>
+<DD>
+Local; run only in current working directory.
+
+<DT><CODE>-n</CODE>
+<DD>
+Do not run any checkout program.
+
+<DT><CODE>-R</CODE>
+<DD>
+Export directories recursively.  This is on by default.
+
+<DT><CODE>-r <VAR>tag</VAR></CODE>
+<DD>
+Use revision <VAR>tag</VAR>.
+</DL>
+
+<P>
+In addition, these options (that are common to
+<CODE>checkout</CODE> and <CODE>export</CODE>) are also supported:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-d <VAR>dir</VAR></CODE>
+<DD>
+Create a directory called <VAR>dir</VAR> for the working
+files, instead of using the module name.  Unless you
+also use <SAMP>`-N'</SAMP>, the paths created under <VAR>dir</VAR>
+will be as short as possible.
+
+<DT><CODE>-k <VAR>subst</VAR></CODE>
+<DD>
+Set keyword expansion mode (see section <A HREF="cvs_17.html#SEC81">Substitution modes</A>).
+
+<DT><CODE>-N</CODE>
+<DD>
+Only useful together with <SAMP>`-d <VAR>dir</VAR>'</SAMP>.  With this
+option, CVS will not shorten module paths in your
+working directory.  (Normally, CVS shortens paths as
+much as possible when you specify an explicit target
+directory.)
+</DL>
+
+
+
+<H2><A NAME="SEC110" HREF="cvs_toc.html#TOC110">history--Show status of files and users</A></H2>
+<P>
+<A NAME="IDX345"></A>
+
+</P>
+
+<UL>
+<LI>
+
+Synopsis:     history [-report] [-flags] [-options args] [files...]
+<LI>
+
+Requires: the file <TT>`$CVSROOT/CVSROOT/history'</TT>
+<LI>
+
+Changes: nothing.
+</UL>
+
+<P>
+CVS can keep a history file that tracks each use of the
+<CODE>checkout</CODE>, <CODE>commit</CODE>, <CODE>rtag</CODE>,
+<CODE>update</CODE>, and <CODE>release</CODE> commands.  You can
+use <CODE>history</CODE> to display this information in
+various formats.
+
+</P>
+<P>
+Logging must be enabled by creating the file
+<TT>`$CVSROOT/CVSROOT/history'</TT>.
+
+</P>
+<P>
+<STRONG>Warning:</STRONG> <CODE>history</CODE> uses <SAMP>`-f'</SAMP>, <SAMP>`-l'</SAMP>,
+<SAMP>`-n'</SAMP>, and <SAMP>`-p'</SAMP> in ways that conflict with the
+normal use inside CVS (see section <A HREF="cvs_20.html#SEC90">Common command options</A>).
+
+</P>
+
+
+
+<H3><A NAME="SEC111" HREF="cvs_toc.html#TOC111">history options</A></H3>
+
+<P>
+Several options (shown above as <SAMP>`-report'</SAMP>)  control  what
+kind of report is generated:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-c</CODE>
+<DD>
+Report on each time commit was used (i.e., each time
+the repository was modified).
+
+<DT><CODE>-e</CODE>
+<DD>
+Everything (all record types); equivalent to specifying
+<SAMP>`-xMACFROGWUT'</SAMP>.
+
+<DT><CODE>-m <VAR>module</VAR></CODE>
+<DD>
+Report on a particular module.  (You can meaningfully
+use <SAMP>`-m'</SAMP> more than once on the command line.)
+
+<DT><CODE>-o</CODE>
+<DD>
+Report on checked-out modules.
+
+<DT><CODE>-T</CODE>
+<DD>
+Report on all tags.
+
+<DT><CODE>-x <VAR>type</VAR></CODE>
+<DD>
+Extract a particular set of record types <VAR>type</VAR> from the CVS
+history.  The types are indicated by single letters,
+which you may specify in combination.  
+
+Certain commands have a single record type: 
+
+<DL COMPACT>
+
+<DT><CODE>F</CODE>
+<DD>
+release
+<DT><CODE>O</CODE>
+<DD>
+checkout
+<DT><CODE>T</CODE>
+<DD>
+rtag
+</DL>
+
+One of four record types may result from an update:
+
+<DL COMPACT>
+
+<DT><CODE>C</CODE>
+<DD>
+A merge was necessary but collisions were
+detected (requiring manual merging).  
+<DT><CODE>G</CODE>
+<DD>
+A merge was necessary and it succeeded.
+<DT><CODE>U</CODE>
+<DD>
+A working file was copied from the repository.
+<DT><CODE>W</CODE>
+<DD>
+The working copy of a file was deleted during
+update (because it was gone from the repository).
+</DL>
+
+One of three record types results from commit:
+
+<DL COMPACT>
+
+<DT><CODE>A</CODE>
+<DD>
+A file was added for the first time.
+<DT><CODE>M</CODE>
+<DD>
+A file was modified.
+<DT><CODE>R</CODE>
+<DD>
+A file was removed.
+</DL>
+</DL>
+
+<P>
+The options shown as <SAMP>`-flags'</SAMP> constrain or expand
+the report without requiring option arguments:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-a</CODE>
+<DD>
+Show data for all users (the default is to show data
+only for the user executing <CODE>history</CODE>).
+
+<DT><CODE>-l</CODE>
+<DD>
+Show last modification only.
+
+<DT><CODE>-w</CODE>
+<DD>
+Show only the records for modifications done from the
+same working directory where <CODE>history</CODE> is
+executing.
+</DL>
+
+<P>
+The options shown as <SAMP>`-options <VAR>args</VAR>'</SAMP> constrain the report
+based on an argument:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-b <VAR>str</VAR></CODE>
+<DD>
+Show data back to a record containing  the  string
+<VAR>str</VAR>  in  either the module name, the file name, or
+the repository path.
+
+<DT><CODE>-D <VAR>date</VAR></CODE>
+<DD>
+Show data since <VAR>date</VAR>.  This is slightly different
+from the normal use of <SAMP>`-D <VAR>date</VAR>'</SAMP>, which
+selects the newest revision older than <VAR>date</VAR>.
+
+<DT><CODE>-p <VAR>repository</VAR></CODE>
+<DD>
+Show data for a particular source repository  (you
+can specify several <SAMP>`-p'</SAMP> options on the same command
+line).
+
+<DT><CODE>-r <VAR>rev</VAR></CODE>
+<DD>
+Show records referring to revisions since the revision
+or tag named <VAR>rev</VAR> appears in individual RCS
+files.  Each RCS file is searched for the revision or
+tag.
+
+<DT><CODE>-t <VAR>tag</VAR></CODE>
+<DD>
+Show records since tag <VAR>tag</VAR> was last added to the the
+history file.  This differs from the <SAMP>`-r'</SAMP> flag
+above in that it reads only the history file, not the
+RCS files, and is much faster.
+
+<DT><CODE>-u <VAR>name</VAR></CODE>
+<DD>
+Show records for user <VAR>name</VAR>.
+</DL>
+
+
+
+<H2><A NAME="SEC112" HREF="cvs_toc.html#TOC112">import--Import sources into CVS, using vendor branches</A></H2>
+<P>
+<A NAME="IDX346"></A>
+
+</P>
+
+<UL>
+<LI>
+
+Synopsis: import [-options] repository vendortag releasetag...
+<LI>
+
+Requires: Repository, source distribution directory.
+<LI>
+
+Changes: repository.
+</UL>
+
+<P>
+Use <CODE>import</CODE> to incorporate an entire source
+distribution from an outside source (e.g., a source
+vendor) into your source repository directory.  You can
+use this command both for initial creation of a
+repository, and for wholesale updates to the module
+from the outside source.  See section <A HREF="cvs_13.html#SEC63">Tracking third-party sources</A>, for
+a discussion on this subject.
+
+</P>
+<P>
+The <VAR>repository</VAR> argument gives a directory name
+(or a path to a directory) under the CVS root directory
+for repositories; if the directory did not exist,
+import creates it.
+
+</P>
+<P>
+When you use import for updates to source that has been
+modified in your source repository (since a prior
+import), it will notify you of any files that conflict
+in the two branches of development; use <SAMP>`checkout
+-j'</SAMP> to reconcile the differences, as import instructs
+you to do.
+
+</P>
+<P>
+If CVS decides a file should be ignored
+(see section <A HREF="cvs_21.html#SEC148">Ignoring files via cvsignore</A>), it does not import it and prints
+<SAMP>`I '</SAMP> followed by the filename (see section <A HREF="cvs_20.html#SEC114">import output</A>, for a
+complete description of the output).
+
+</P>
+<P>
+If the file <TT>`$CVSROOT/CVSROOT/cvswrappers'</TT> exists,
+any file whose names match the specifications in that
+file will be treated as packages and the appropriate
+filtering will be performed on the file/directory
+before being imported, See section <A HREF="cvs_21.html#SEC138">The cvswrappers file</A>.
+
+</P>
+<P>
+The outside source is saved in a first-level RCS
+branch, by default 1.1.1.  Updates are leaves of this
+branch; for example, files from the first imported
+collection of source will be revision 1.1.1.1, then
+files from the first imported update will be revision
+1.1.1.2, and so on.
+
+</P>
+<P>
+At least three arguments are required.
+<VAR>repository</VAR> is needed to identify the collection
+of source.  <VAR>vendortag</VAR> is a tag for the entire
+branch (e.g., for 1.1.1).  You must also specify at
+least one <VAR>releasetag</VAR> to identify the files at
+the leaves created each time you execute <CODE>import</CODE>.
+
+</P>
+
+
+
+<H3><A NAME="SEC113" HREF="cvs_toc.html#TOC113">import options</A></H3>
+
+<P>
+This standard option is supported by <CODE>import</CODE>
+(see section <A HREF="cvs_20.html#SEC90">Common command options</A>, for a complete description):
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-m <VAR>message</VAR></CODE>
+<DD>
+Use <VAR>message</VAR> as log information, instead of
+invoking an editor.
+</DL>
+
+<P>
+There are three additional special options.
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-b <VAR>branch</VAR></CODE>
+<DD>
+Specify a first-level branch other than 1.1.1.  Unless
+the <SAMP>`-b <VAR>branch</VAR>'</SAMP> flag is given, revisions will
+<EM>always</EM> be made to the branch 1.1.1--even if a
+<VAR>vendortag</VAR> that matches another branch is given!
+What happens in that case, is that the tag will be
+reset to 1.1.1.  Warning: This behavior might change
+in the future.
+
+<DT><CODE>-k <VAR>subst</VAR></CODE>
+<DD>
+Indicate the RCS keyword expansion mode desired.  This
+setting will apply to all files created during the
+import, but not to any files that previously existed in
+the repository.  See section <A HREF="cvs_17.html#SEC81">Substitution modes</A> for a
+list of valid <SAMP>`-k'</SAMP> settings.
+
+<DT><CODE>-I <VAR>name</VAR></CODE>
+<DD>
+Specify file names that should be ignored during
+import.  You can use this option repeatedly.  To avoid
+ignoring any files at all (even those ignored by
+default), specify `-I !'.
+
+<VAR>name</VAR> can be a file name pattern of the same type
+that you can specify in the <TT>`.cvsignore'</TT> file.
+See section <A HREF="cvs_21.html#SEC148">Ignoring files via cvsignore</A>.
+
+<DT><CODE>-W <VAR>spec</VAR></CODE>
+<DD>
+Specify file names that should be filtered during
+import.  You can use this option repeatedly.
+
+<VAR>spec</VAR> can be a file name pattern of the same type
+that you can specify in the <TT>`.cvswrappers'</TT>
+file. See section <A HREF="cvs_21.html#SEC138">The cvswrappers file</A>.
+</DL>
+
+
+
+<H3><A NAME="SEC114" HREF="cvs_toc.html#TOC114">import output</A></H3>
+
+<P>
+<CODE>import</CODE> keeps you informed of its progress by printing a line
+for each file, preceded by one character indicating the status of the file:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>U <VAR>file</VAR></CODE>
+<DD>
+The file already exists in the repository and has not been locally
+modified; a new revision has been created (if necessary).
+
+<DT><CODE>N <VAR>file</VAR></CODE>
+<DD>
+The file is a new file which has been added to the repository.
+
+<DT><CODE>C <VAR>file</VAR></CODE>
+<DD>
+The file already exists in the repository but has been locally modified;
+you will have to merge the changes.
+
+<DT><CODE>I <VAR>file</VAR></CODE>
+<DD>
+The file is being ignored (see section <A HREF="cvs_21.html#SEC148">Ignoring files via cvsignore</A>).
+
+<DT><CODE>L <VAR>file</VAR></CODE>
+<DD>
+The file is a symbolic link; at the moment (and for the forseeable
+future), symbolic links are ignored.
+(Various options in the <TT>`modules'</TT> file can be used
+to recreate symbolic links on checkout, update, etc.;
+see section <A HREF="cvs_21.html#SEC137">The modules file</A>.)
+</DL>
+
+
+
+<H3><A NAME="SEC115" HREF="cvs_toc.html#TOC115">import examples</A></H3>
+
+<P>
+See section <A HREF="cvs_13.html#SEC63">Tracking third-party sources</A>, and See section <A HREF="cvs_6.html#SEC33">Creating a directory tree from a number of files</A>.
+
+</P>
+
+
+<H2><A NAME="SEC116" HREF="cvs_toc.html#TOC116">log--Print out log information for files</A></H2>
+<P>
+<A NAME="IDX347"></A>
+
+</P>
+
+<UL>
+<LI>
+
+Synopsis: log [options] [files...]
+<LI>
+
+Requires: repository, working directory.
+<LI>
+
+Changes: nothing.
+</UL>
+
+<P>
+Display log information for files.  <CODE>log</CODE> used to
+call the RCS utility <CODE>rlog</CODE>.  Although this
+is no longer true in the current sources, this history
+determines the format of the output and the options,
+which are not quite in the style of the other CVS
+commands.
+
+</P>
+<P>
+<A NAME="IDX348"></A>
+<A NAME="IDX349"></A>
+The output includes the location of the RCS file,
+the <EM>head</EM> revision (the latest revision on the
+trunk), all symbolic names (tags) and some other
+things.  For each revision, the revision number, the
+author, the number of lines added/deleted and the log
+message are printed.  All times are displayed in
+Coordinated Universal Time (UTC).  (Other parts of
+CVS print times in the local timezone).
+
+</P>
+
+
+
+<H3><A NAME="SEC117" HREF="cvs_toc.html#TOC117">log options</A></H3>
+
+<P>
+By default, <CODE>log</CODE> prints all information that is
+available.  All other options restrict the output.
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-b</CODE>
+<DD>
+Print information about the revisions on the default
+branch, normally the highest branch on the trunk.
+
+<DT><CODE>-d <VAR>dates</VAR></CODE>
+<DD>
+Print information about revisions with a checkin
+date/time in the range given by the
+semicolon-separated list of dates.  The date formats
+accepted are those accepted by the <SAMP>`-D'</SAMP> option to
+many other CVS commands (see section <A HREF="cvs_20.html#SEC90">Common command options</A>).
+Dates can be combined into ranges as follows:
+
+<DL COMPACT>
+
+<DT><CODE><VAR>d1</VAR>&#60;<VAR>d2</VAR></CODE>
+<DD>
+<DT><CODE><VAR>d2</VAR>&#62;<VAR>d1</VAR></CODE>
+<DD>
+Select the revisions that were deposited between
+<VAR>d1</VAR> and <VAR>d2</VAR>.
+
+<DT><CODE>&#60;<VAR>d</VAR></CODE>
+<DD>
+<DT><CODE><VAR>d</VAR>&#62;</CODE>
+<DD>
+Select all revisions dated <VAR>d</VAR> or earlier.
+
+<DT><CODE><VAR>d</VAR>&#60;</CODE>
+<DD>
+<DT><CODE>&#62;<VAR>d</VAR></CODE>
+<DD>
+Select all revisions dated <VAR>d</VAR> or later.
+
+<DT><CODE><VAR>d</VAR></CODE>
+<DD>
+Select the single, latest revision dated <VAR>d</VAR> or
+earlier.
+</DL>
+
+The <SAMP>`&#62;'</SAMP> or <SAMP>`&#60;'</SAMP> characters may be followed by
+<SAMP>`='</SAMP> to indicate an inclusive range rather than an
+exclusive one.
+
+Note that the separator is a semicolon (;).
+
+<DT><CODE>-h</CODE>
+<DD>
+Print only the RCS pathname, working pathname, head,
+default branch, access list, locks, symbolic names, and
+suffix.
+
+<DT><CODE>-l</CODE>
+<DD>
+Local; run only in current working directory.  (Default
+is to run recursively).
+
+<DT><CODE>-N</CODE>
+<DD>
+Do not print the list of tags for this file.  This
+option can be very useful when your site uses a lot of
+tags, so rather than "more"'ing over 3 pages of tag
+information, the log information is presented without
+tags at all.  
+
+<DT><CODE>-R</CODE>
+<DD>
+Print only the name of the RCS history file.
+
+<DT><CODE>-r<VAR>revisions</VAR></CODE>
+<DD>
+Print information about revisions given in the
+comma-separated list <VAR>revisions</VAR> of revisions and
+ranges.  The following table explains the available
+range formats:
+
+<DL COMPACT>
+
+<DT><CODE><VAR>rev1</VAR>:<VAR>rev2</VAR></CODE>
+<DD>
+Revisions <VAR>rev1</VAR> to <VAR>rev2</VAR> (which must be on
+the same branch).
+
+<DT><CODE>:<VAR>rev</VAR></CODE>
+<DD>
+Revisions from the beginning of the branch up to
+and including <VAR>rev</VAR>.
+
+<DT><CODE><VAR>rev</VAR>:</CODE>
+<DD>
+Revisions starting with <VAR>rev</VAR> to the end of the
+branch containing <VAR>rev</VAR>.
+
+<DT><CODE><VAR>branch</VAR></CODE>
+<DD>
+An argument that is a branch means all revisions on
+that branch.
+
+<DT><CODE><VAR>branch1</VAR>:<VAR>branch2</VAR></CODE>
+<DD>
+A range of branches means all revisions
+on the branches in that range.
+
+<DT><CODE><VAR>branch</VAR>.</CODE>
+<DD>
+The latest revision in <VAR>branch</VAR>.
+</DL>
+
+A bare <SAMP>`-r'</SAMP> with no revisions means the latest
+revision on the default branch, normally the trunk.
+There can be no space between the <SAMP>`-r'</SAMP> option and
+its argument.
+
+<DT><CODE>-s <VAR>states</VAR></CODE>
+<DD>
+Print information about revisions whose state
+attributes match one of the states given in the
+comma-separated list <VAR>states</VAR>.
+
+<DT><CODE>-t</CODE>
+<DD>
+Print the same as <SAMP>`-h'</SAMP>, plus the descriptive text.
+
+<DT><CODE>-w<VAR>logins</VAR></CODE>
+<DD>
+Print information about revisions checked in by users
+with login names appearing in the comma-separated list
+<VAR>logins</VAR>.  If <VAR>logins</VAR> is omitted, the user's
+login is assumed.  There can be no space between the
+<SAMP>`-w'</SAMP> option and its argument.
+</DL>
+
+<P>
+<CODE>log</CODE> prints the intersection of the revisions
+selected with the options <SAMP>`-d'</SAMP>, <SAMP>`-s'</SAMP>, and
+<SAMP>`-w'</SAMP>, intersected with the union of the revisions
+selected by <SAMP>`-b'</SAMP> and <SAMP>`-r'</SAMP>.
+
+</P>
+
+
+<H3><A NAME="SEC118" HREF="cvs_toc.html#TOC118">log examples</A></H3>
+
+<P>
+Contributed examples are gratefully accepted.
+
+</P>
+
+
+<H2><A NAME="SEC119" HREF="cvs_toc.html#TOC119">rdiff---'patch' format diffs between releases</A></H2>
+<P>
+<A NAME="IDX350"></A>
+
+</P>
+
+<UL>
+<LI>
+
+rdiff [-flags] [-V vn] [-r t|-D d [-r t2|-D d2]] modules...
+<LI>
+
+Requires: repository.
+<LI>
+
+Changes: nothing.
+<LI>
+
+Synonym: patch
+</UL>
+
+<P>
+Builds a Larry Wall format patch(1) file between two
+releases, that can be fed directly into the patch
+program to bring an old release up-to-date with the new
+release.  (This is one of the few CVS commands that
+operates directly from the repository, and doesn't
+require a prior checkout.) The diff output is sent to
+the standard output device.
+
+</P>
+<P>
+You can specify (using the standard <SAMP>`-r'</SAMP> and
+<SAMP>`-D'</SAMP> options) any combination of one or two
+revisions or dates.  If only one revision or date is
+specified, the patch file reflects differences between
+that revision or date and the current head revisions in
+the RCS file.
+
+</P>
+<P>
+Note that if the software release affected is contained
+in more than one directory, then it may be necessary to
+specify the <SAMP>`-p'</SAMP> option to the patch command when
+patching the old sources, so that patch is able to find
+the files that are located in other directories.
+
+</P>
+
+
+
+<H3><A NAME="SEC120" HREF="cvs_toc.html#TOC120">rdiff options</A></H3>
+
+<P>
+These standard options are supported by <CODE>rdiff</CODE>
+(see section <A HREF="cvs_20.html#SEC90">Common command options</A>, for a complete description of
+them):
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-D <VAR>date</VAR></CODE>
+<DD>
+Use the most recent revision no later than <VAR>date</VAR>.
+
+<DT><CODE>-f</CODE>
+<DD>
+If no matching revision is found, retrieve the most
+recent revision (instead of ignoring the file).
+
+<DT><CODE>-l</CODE>
+<DD>
+Local; don't descend subdirectories.
+
+<DT><CODE>-r <VAR>tag</VAR></CODE>
+<DD>
+Use revision <VAR>tag</VAR>.
+</DL>
+
+<P>
+In addition to the above, these options are available:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-c</CODE>
+<DD>
+Use the context diff format.  This is the default format.
+
+<DT><CODE>-s</CODE>
+<DD>
+Create a summary change report instead of a patch.  The
+summary includes information about files that were
+changed or added between the releases.  It is sent to
+the standard output device.  This is useful for finding
+out, for example, which files have changed between two
+dates or revisions.
+
+<DT><CODE>-t</CODE>
+<DD>
+A diff of the top two revisions is sent to the standard
+output device.  This is most useful for seeing what the
+last change to a file was.
+
+<DT><CODE>-u</CODE>
+<DD>
+Use the unidiff format for the context diffs.
+This option is not available if your diff does not
+support the unidiff format.  Remember that old versions
+of the <CODE>patch</CODE> program can't handle the unidiff
+format, so if you plan to post this patch to the net
+you should probably not use <SAMP>`-u'</SAMP>.
+
+<DT><CODE>-V <VAR>vn</VAR></CODE>
+<DD>
+Expand RCS keywords according to the rules current in
+RCS version <VAR>vn</VAR> (the expansion format changed with
+RCS version 5).
+</DL>
+
+
+
+<H3><A NAME="SEC121" HREF="cvs_toc.html#TOC121">rdiff examples</A></H3>
+
+<P>
+Suppose you receive mail from <TT>foo@bar.com</TT> asking for an
+update from release 1.2 to 1.4 of the tc compiler.  You
+have no such patches on hand, but with CVS that can
+easily be fixed with a command such as this:
+
+</P>
+
+<PRE>
+$ cvs rdiff -c -r FOO1_2 -r FOO1_4 tc | \
+$$ Mail -s 'The patches you asked for' foo@bar.com
+</PRE>
+
+<P>
+Suppose you have made release 1.3, and forked a branch
+called <SAMP>`R_1_3fix'</SAMP> for bugfixes.  <SAMP>`R_1_3_1'</SAMP>
+corresponds to release 1.3.1, which was made some time
+ago.  Now, you want to see how much development has been
+done on the branch.  This command can be used:
+
+</P>
+
+<PRE>
+$ cvs patch -s -r R_1_3_1 -r R_1_3fix module-name
+cvs rdiff: Diffing module-name
+File ChangeLog,v changed from revision 1.52.2.5 to 1.52.2.6
+File foo.c,v changed from revision 1.52.2.3 to 1.52.2.4
+File bar.h,v changed from revision 1.29.2.1 to 1.2
+</PRE>
+
+
+
+<H2><A NAME="SEC122" HREF="cvs_toc.html#TOC122">release--Indicate that a Module is no longer in use</A></H2>
+<P>
+<A NAME="IDX351"></A>
+
+</P>
+
+<UL>
+<LI>
+
+release [-d] directories...
+<LI>
+
+Requires: Working directory.
+<LI>
+
+Changes: Working directory, history log.
+</UL>
+
+<P>
+This command is meant to safely cancel the effect of
+<SAMP>`cvs checkout'</SAMP>.  Since CVS doesn't lock files, it
+isn't strictly necessary to use this command.  You can
+always simply delete your working directory, if you
+like; but you risk losing changes you may have
+forgotten, and you leave no trace in the CVS history
+file (see section <A HREF="cvs_21.html#SEC149">The history file</A>) that you've abandoned your
+checkout.
+
+</P>
+<P>
+Use <SAMP>`cvs release'</SAMP> to avoid these problems.  This
+command checks that no uncommitted changes are
+present; that you are executing it from immediately
+above a CVS working directory; and that the repository
+recorded for your files is the same as the repository
+defined in the module database.
+
+</P>
+<P>
+If all these conditions are true, <SAMP>`cvs release'</SAMP>
+leaves a record of its execution (attesting to your
+intentionally abandoning your checkout) in the CVS
+history log.
+
+</P>
+
+
+
+<H3><A NAME="SEC123" HREF="cvs_toc.html#TOC123">release options</A></H3>
+
+<P>
+The <CODE>release</CODE> command supports one command option:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-d</CODE>
+<DD>
+Delete your working copy of the file if the release
+succeeds.  If this flag is not given your files will
+remain in your working directory.
+
+<STRONG>Warning:</STRONG>  The <CODE>release</CODE> command deletes
+all directories and files recursively.  This
+has the very serious side-effect that any directory
+that you have created inside your checked-out sources,
+and not added to the repository (using the <CODE>add</CODE>
+command; see section <A HREF="cvs_11.html#SEC61">Adding files to a directory</A>) will be silently deleted--even
+if it is non-empty!
+</DL>
+
+
+
+<H3><A NAME="SEC124" HREF="cvs_toc.html#TOC124">release output</A></H3>
+
+<P>
+Before <CODE>release</CODE> releases your sources it will
+print a one-line message for any file that is not
+up-to-date.  
+
+</P>
+<P>
+<STRONG>Warning:</STRONG>  Any new directories that you have
+created, but not added to the CVS directory hierarchy
+with the <CODE>add</CODE> command (see section <A HREF="cvs_11.html#SEC61">Adding files to a directory</A>) will be
+silently ignored (and deleted, if <SAMP>`-d'</SAMP> is
+specified), even if they contain files.
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>U <VAR>file</VAR></CODE>
+<DD>
+There exists a newer revision of this file in the
+repository, and you have not modified your local copy
+of the file.
+
+<DT><CODE>A <VAR>file</VAR></CODE>
+<DD>
+The file has been added to your private copy of the
+sources, but has not yet been committed to the
+repository.  If you delete your copy of the sources
+this file will be lost.
+
+<DT><CODE>R <VAR>file</VAR></CODE>
+<DD>
+The file has been removed from your private copy of the
+sources, but has not yet been removed from the
+repository, since you have not yet committed the
+removal.  See section <A HREF="cvs_20.html#SEC99">commit--Check files into the repository</A>.
+
+<DT><CODE>M <VAR>file</VAR></CODE>
+<DD>
+The file is modified in your working directory.  There
+might also be a newer revision inside the repository.
+
+<DT><CODE>? <VAR>file</VAR></CODE>
+<DD>
+<VAR>file</VAR> is in your working directory, but does not
+correspond to anything in the source repository, and is
+not in the list of files for CVS to ignore (see the
+description of the <SAMP>`-I'</SAMP> option, and
+see section <A HREF="cvs_21.html#SEC148">Ignoring files via cvsignore</A>).  If you remove your working
+sources, this file will be lost.
+
+Note that no warning message like this is printed for
+spurious directories that CVS encounters.  The
+directory, and all its contents, are silently ignored.
+
+</DL>
+
+
+
+<H3><A NAME="SEC125" HREF="cvs_toc.html#TOC125">release examples</A></H3>
+
+<P>
+Release the module, and delete your local working copy
+of the files.
+
+</P>
+
+<PRE>
+$ cd ..         # You must stand immediately above the
+                # sources when you issue <SAMP>`cvs release'</SAMP>.
+$ cvs release -d tc
+You have [0] altered files in this repository.
+Are you sure you want to release (and delete) module `tc': y
+$
+</PRE>
+
+
+
+<H2><A NAME="SEC126" HREF="cvs_toc.html#TOC126">rtag--Add a symbolic tag to a module</A></H2>
+<P>
+<A NAME="IDX352"></A>
+
+</P>
+
+<UL>
+<LI>
+
+rtag [-falnR] [-b] [-d] [-r tag | -Ddate] symbolic_tag modules...
+<LI>
+
+Requires: repository.
+<LI>
+
+Changes: repository.
+<LI>
+
+Synonym: rfreeze
+</UL>
+
+<P>
+You can use this command to assign symbolic tags to
+particular, explicitly specified source revisions in
+the repository.  <CODE>rtag</CODE> works directly on the
+repository contents (and requires no prior checkout).
+Use <CODE>tag</CODE> instead (see section <A HREF="cvs_20.html#SEC130">tag--Add a symbolic tag to checked out versions of files</A>), to base the
+selection of revisions on the contents of your
+working directory.
+
+</P>
+<P>
+If you attempt to use a tag name that already exists,
+CVS will complain and not overwrite that tag.  Use
+the <SAMP>`-F'</SAMP> option to force the new tag value.
+
+</P>
+
+
+
+<H3><A NAME="SEC127" HREF="cvs_toc.html#TOC127">rtag options</A></H3>
+
+<P>
+These standard options are supported by <CODE>rtag</CODE>
+(see section <A HREF="cvs_20.html#SEC90">Common command options</A>, for a complete description of
+them):
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-D <VAR>date</VAR></CODE>
+<DD>
+Tag the most recent revision no later than <VAR>date</VAR>.
+
+<DT><CODE>-f</CODE>
+<DD>
+Only useful with the <SAMP>`-D <VAR>date</VAR>'</SAMP> or <SAMP>`-r <VAR>tag</VAR>'</SAMP>
+flags.  If no matching revision is found, use the most
+recent revision (instead of ignoring the file).
+
+<DT><CODE>-F</CODE>
+<DD>
+Overwrite an existing tag of the same name on a
+different revision.  This option is new in CVS
+1.4.  The old behavior is matched by <SAMP>`cvs tag -F'</SAMP>.
+
+<DT><CODE>-l</CODE>
+<DD>
+Local; run only in current working directory.
+
+<DT><CODE>-n</CODE>
+<DD>
+Do not run any tag program that was specified with the
+<SAMP>`-t'</SAMP> flag inside the <TT>`modules'</TT> file.
+(see section <A HREF="cvs_21.html#SEC137">The modules file</A>).
+
+<DT><CODE>-R</CODE>
+<DD>
+Commit directories recursively.  This is on by default.
+
+<DT><CODE>-r <VAR>tag</VAR></CODE>
+<DD>
+Only tag those files that contain <VAR>tag</VAR>.  This can
+be used to rename a tag: tag only the files identified
+by the old tag, then delete the old tag, leaving the
+new tag on exactly the same files as the old tag.
+</DL>
+
+<P>
+In addition to the above common options, these options
+are available:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-a</CODE>
+<DD>
+Use the <SAMP>`-a'</SAMP> option to have <CODE>rtag</CODE> look in the
+<TT>`Attic'</TT> (see section <A HREF="cvs_12.html#SEC62">Removing files from a module</A>) for removed files
+that contain the specified tag.  The tag is removed from
+these files, which makes it convenient to re-use a
+symbolic tag as development continues (and files get
+removed from the up-coming distribution).
+
+<DT><CODE>-b</CODE>
+<DD>
+Make the tag a branch tag.  See section <A HREF="cvs_8.html#SEC50">Branches</A>.
+
+<DT><CODE>-d</CODE>
+<DD>
+Delete the tag instead of creating it.
+
+In general, tags (often the symbolic names of software
+distributions) should not be removed, but the <SAMP>`-d'</SAMP>
+option is available as a means to remove completely
+obsolete symbolic names if necessary (as might be the
+case for an Alpha release, or if you mistagged a
+module).
+</DL>
+
+
+
+<H2><A NAME="SEC128" HREF="cvs_toc.html#TOC128">status--Display status information on checked out files</A></H2>
+<P>
+<A NAME="IDX353"></A>
+
+</P>
+
+
+<UL>
+<LI>
+
+status [-lR] [-v] [files...]
+<LI>
+
+Requires: working directory, repository.
+<LI>
+
+Changes: nothing.
+</UL>
+
+<P>
+Display a brief report on the current status of files
+with respect to the source repository.  For information
+on the basic output see section <A HREF="cvs_7.html#SEC38">File status</A>.  For
+information on the <CODE>Sticky tag</CODE> and <CODE>Sticky
+date</CODE> output, see section <A HREF="cvs_8.html#SEC54">Sticky tags</A>.  For information
+on the <CODE>Sticky options</CODE> output, see the <SAMP>`-k'</SAMP>
+option in section <A HREF="cvs_20.html#SEC133">update options</A>.
+
+</P>
+<P>
+You can also use this command to determine the
+potential impact of a <SAMP>`cvs update'</SAMP> on your working
+source directory--but remember that things might
+change in the repository before you run <CODE>update</CODE>.
+
+</P>
+
+
+
+<H3><A NAME="SEC129" HREF="cvs_toc.html#TOC129">status options</A></H3>
+
+<P>
+These standard options are supported by <CODE>status</CODE>
+(see section <A HREF="cvs_20.html#SEC90">Common command options</A>, for a complete description of
+them):
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-l</CODE>
+<DD>
+Local; run only in current working directory.
+
+<DT><CODE>-R</CODE>
+<DD>
+Commit directories recursively.  This is on by default.
+</DL>
+
+<P>
+There is one additional option:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-v</CODE>
+<DD>
+Verbose.  In addition to the information normally
+displayed, print all symbolic tags, together with the
+numerical value of the revision or branch they refer
+to.  For more information, see section <A HREF="cvs_8.html#SEC51">Tags--Symbolic revisions</A>
+</DL>
+
+
+
+<H2><A NAME="SEC130" HREF="cvs_toc.html#TOC130">tag--Add a symbolic tag to checked out versions of files</A></H2>
+<P>
+<A NAME="IDX354"></A>
+
+</P>
+
+<UL>
+<LI>
+
+tag [-lR] [-b] [-c] [-d] symbolic_tag [files...]
+<LI>
+
+Requires: working directory, repository.
+<LI>
+
+Changes: repository.
+<LI>
+
+Synonym: freeze
+</UL>
+
+<P>
+Use this command to assign symbolic tags to the nearest
+repository versions to your working sources.  The tags
+are applied immediately to the repository, as with
+<CODE>rtag</CODE>, but the versions are supplied implicitly by the
+CVS records of your working files' history rather than
+applied explicitly.
+
+</P>
+<P>
+One use for tags is to record a snapshot of the
+current sources when the software freeze date of a
+project arrives.  As bugs are fixed after the freeze
+date, only those changed sources that are to be part of
+the release need be re-tagged.
+
+</P>
+<P>
+The symbolic tags are meant to permanently record which
+revisions of which files were used in creating a
+software distribution.  The <CODE>checkout</CODE> and
+<CODE>update</CODE> commands allow you to extract an exact
+copy of a tagged release at any time in the future,
+regardless of whether files have been changed, added,
+or removed since the release was tagged.
+
+</P>
+<P>
+This command can also be used to delete a symbolic tag,
+or to create a branch.  See the options section below.
+
+</P>
+<P>
+If you attempt to use a tag name that already exists,
+CVS will complain and not overwrite that tag.  Use
+the <SAMP>`-F'</SAMP> option to force the new tag value.
+
+</P>
+
+
+
+<H3><A NAME="SEC131" HREF="cvs_toc.html#TOC131">tag options</A></H3>
+
+<P>
+These standard options are supported by <CODE>tag</CODE>
+(see section <A HREF="cvs_20.html#SEC90">Common command options</A>, for a complete description of
+them):
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-F</CODE>
+<DD>
+Overwrite an existing tag of the same name on a
+different revision.  This option is new in CVS
+1.4.  The old behavior is matched by <SAMP>`cvs tag -F'</SAMP>.
+
+<DT><CODE>-l</CODE>
+<DD>
+Local; run only in current working directory.
+
+<DT><CODE>-R</CODE>
+<DD>
+Commit directories recursively.  This is on by default.
+</DL>
+
+<P>
+Two special options are available:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-b</CODE>
+<DD>
+The -b option makes the tag a branch tag
+(see section <A HREF="cvs_8.html#SEC50">Branches</A>), allowing concurrent, isolated
+development.  This is most useful for creating a patch
+to a previously released software distribution.
+
+<DT><CODE>-c</CODE>
+<DD>
+The -c option checks that all files which are to be tagged are
+unmodified.  This can be used to make sure that you can reconstruct the
+current file contents.
+
+<DT><CODE>-d</CODE>
+<DD>
+Delete a tag.
+
+If you use <SAMP>`cvs tag -d symbolic_tag'</SAMP>, the symbolic
+tag you specify is deleted instead of being added.
+Warning: Be very certain of your ground before you
+delete a tag; doing this permanently discards some
+historical information, which may later turn out to
+be valuable.
+</DL>
+
+
+
+<H2><A NAME="SEC132" HREF="cvs_toc.html#TOC132">update--Bring work tree in sync with repository</A></H2>
+<P>
+<A NAME="IDX355"></A>
+
+</P>
+
+<UL>
+<LI>
+
+update [-AdflPpR] [-d] [-r tag|-D date] files...
+<LI>
+
+Requires: repository, working directory.
+<LI>
+
+Changes: working directory.
+</UL>
+
+<P>
+After you've run checkout to create your private copy
+of source from the common repository, other developers
+will continue changing the central source.  From time
+to time, when it is convenient in your development
+process, you can use the <CODE>update</CODE> command from
+within your working directory to reconcile your work
+with any revisions applied to the source repository
+since your last checkout or update.
+
+</P>
+
+
+
+<H3><A NAME="SEC133" HREF="cvs_toc.html#TOC133">update options</A></H3>
+
+<P>
+These standard options are available with <CODE>update</CODE>
+(see section <A HREF="cvs_20.html#SEC90">Common command options</A>, for a complete description of
+them):
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-D date</CODE>
+<DD>
+Use the most recent revision no later than <VAR>date</VAR>.
+This option is sticky, and implies <SAMP>`-P'</SAMP>.
+See section <A HREF="cvs_8.html#SEC54">Sticky tags</A>, for more information on sticky tags/dates.
+
+<DT><CODE>-f</CODE>
+<DD>
+Only useful with the <SAMP>`-D <VAR>date</VAR>'</SAMP> or <SAMP>`-r
+<VAR>tag</VAR>'</SAMP> flags.  If no matching revision is found,
+retrieve the most recent revision (instead of ignoring
+the file).
+
+<DT><CODE>-k <VAR>kflag</VAR></CODE>
+<DD>
+Process RCS keywords according to <VAR>kflag</VAR>.  See
+co(1).  This option is sticky; future updates of
+this file in this working directory will use the same
+<VAR>kflag</VAR>.  The <CODE>status</CODE> command can be viewed
+to see the sticky options.  See section <A HREF="cvs_20.html#SEC128">status--Display status information on checked out files</A>.
+
+<DT><CODE>-l</CODE>
+<DD>
+Local; run only in current working directory.  See section <A HREF="cvs_10.html#SEC60">Recursive behavior</A>.
+
+<DT><CODE>-P</CODE>
+<DD>
+Prune empty directories.
+
+<DT><CODE>-p</CODE>
+<DD>
+Pipe files to the standard output.
+
+<DT><CODE>-R</CODE>
+<DD>
+Operate recursively.  This is on by default.
+See section <A HREF="cvs_10.html#SEC60">Recursive behavior</A>.
+
+<DT><CODE>-r tag</CODE>
+<DD>
+Retrieve revision <VAR>tag</VAR>.  This option is sticky,
+and implies <SAMP>`-P'</SAMP>.
+See section <A HREF="cvs_8.html#SEC54">Sticky tags</A>, for more information on sticky tags/dates.
+</DL>
+
+<P>
+These special options are also available with
+<CODE>update</CODE>.
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-A</CODE>
+<DD>
+Reset any sticky tags, dates, or <SAMP>`-k'</SAMP> options.
+See section <A HREF="cvs_8.html#SEC54">Sticky tags</A>, for more information on sticky tags/dates.
+
+<DT><CODE>-d</CODE>
+<DD>
+Create any directories that exist in the repository if
+they're missing from the working directory.  Normally,
+<CODE>update</CODE> acts only on directories and files that
+were already enrolled in your working directory.  
+
+This is useful for updating directories that were
+created in the repository since the initial checkout;
+but it has an unfortunate side effect.  If you
+deliberately avoided certain directories in the
+repository when you created your working directory
+(either through use of a module name or by listing
+explicitly the files and directories you wanted on the
+command line), then updating with <SAMP>`-d'</SAMP> will create
+those directories, which may not be what you want.
+
+<DT><CODE>-I <VAR>name</VAR></CODE>
+<DD>
+Ignore files whose names match <VAR>name</VAR> (in your
+working directory) during the update.  You can specify
+<SAMP>`-I'</SAMP> more than once on the command line to specify
+several files to ignore.  Use <SAMP>`-I !'</SAMP> to avoid
+ignoring any files at all.  See section <A HREF="cvs_21.html#SEC148">Ignoring files via cvsignore</A>, for other
+ways to make CVS ignore some files.
+
+<DT><CODE>-W<VAR>spec</VAR></CODE>
+<DD>
+Specify file names that should be filtered during
+update.  You can use this option repeatedly.
+
+<VAR>spec</VAR> can be a file name pattern of the same type
+that you can specify in the <TT>`.cvswrappers'</TT>
+file. See section <A HREF="cvs_21.html#SEC138">The cvswrappers file</A>.
+
+<DT><CODE>-j<VAR>revision</VAR></CODE>
+<DD>
+With two <SAMP>`-j'</SAMP> options, merge changes from the
+revision specified with the first <SAMP>`-j'</SAMP> option to
+the revision specified with the second <SAMP>`j'</SAMP> option,
+into the working directory.
+
+With one <SAMP>`-j'</SAMP> option, merge changes from the
+ancestor revision to the revision specified with the
+<SAMP>`-j'</SAMP> option, into the working directory.  The
+ancestor revision is the common ancestor of the
+revision which the working directory is based on, and
+the revision specified in the <SAMP>`-j'</SAMP> option.
+
+In addition, each -j option can contain an optional
+date specification which, when used with branches, can
+limit the chosen revision to one within a specific
+date.  An optional date is specified by adding a colon
+(:) to the tag:
+<SAMP>`-j<VAR>Symbolic_Tag</VAR>:<VAR>Date_Specifier</VAR>'</SAMP>.
+
+See section <A HREF="cvs_9.html#SEC55">Merging</A>.
+
+</DL>
+
+
+
+<H3><A NAME="SEC134" HREF="cvs_toc.html#TOC134">update output</A></H3>
+
+<P>
+<CODE>update</CODE> and <CODE>checkout</CODE> keep you informed of
+its progress by printing a line for each file, preceded
+by one character indicating the status of the file:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>U <VAR>file</VAR></CODE>
+<DD>
+The file was brought up to date with respect to the
+repository.  This is done for any file that exists in
+the repository but not in your source, and for files
+that you haven't changed but are not the most recent
+versions available in the repository.
+
+<DT><CODE>A <VAR>file</VAR></CODE>
+<DD>
+The file has been added to your private copy of the
+sources, and will be added to the source repository
+when you run <CODE>commit</CODE> on the file.  This is a
+reminder to you that the file needs to be committed.
+
+<DT><CODE>R <VAR>file</VAR></CODE>
+<DD>
+The file has been removed from your private copy of the
+sources, and will be removed from the source repository
+when you run <CODE>commit</CODE> on the file.  This is a
+reminder to you that the file needs to be committed.
+
+<DT><CODE>M <VAR>file</VAR></CODE>
+<DD>
+The file is modified in  your  working  directory.
+
+<SAMP>`M'</SAMP> can indicate one of two states for a file
+you're working on: either there were no modifications
+to the same file in the repository, so that your file
+remains as you last saw it; or there were modifications
+in the repository as well as in your copy, but they
+were merged successfully, without conflict, in your
+working directory.
+
+CVS will print some messages if it merges your work,
+and a backup copy of your working file (as it looked
+before you ran <CODE>update</CODE>) will be made.  The exact
+name of that file is printed while <CODE>update</CODE> runs.
+
+<DT><CODE>C <VAR>file</VAR></CODE>
+<DD>
+<A NAME="IDX356"></A>
+<A NAME="IDX357"></A>
+A conflict was detected while trying to merge your
+changes to <VAR>file</VAR> with changes from the source
+repository.  <VAR>file</VAR> (the copy in your working
+directory) is now the output of the rcsmerge(1) command
+on the two revisions; an unmodified copy of your file
+is also in your working directory, with the name
+<TT>`.#<VAR>file</VAR>.<VAR>revision</VAR>'</TT> where <VAR>revision</VAR>
+is the RCS revision that your modified file started
+from.  Resolve the conflict as described in
+section <A HREF="cvs_7.html#SEC40">Conflicts example</A>
+(Note that some systems automatically purge
+files that begin with <TT>`.#'</TT> if they have not been
+accessed for a few days.  If you intend to keep a copy
+of your original file, it is a very good idea to rename
+it.)  Under VMS, the file name starts with
+<TT>`__'</TT> rather than <TT>`.#'</TT>.
+
+<DT><CODE>? <VAR>file</VAR></CODE>
+<DD>
+<VAR>file</VAR> is in your working directory, but does not
+correspond to anything in the source repository, and is
+not in the list of files for CVS to ignore (see the
+description of the <SAMP>`-I'</SAMP> option, and
+see section <A HREF="cvs_21.html#SEC148">Ignoring files via cvsignore</A>).
+
+Note that no warning message like this is printed for
+spurious directories that CVS encounters.  The
+directory, and all its contents, are silently ignored.
+</DL>
+
+
+
+<H3><A NAME="SEC135" HREF="cvs_toc.html#TOC135">update examples</A></H3>
+
+<P>
+The following line will display all files which are not
+up-to-date without actually change anything in your
+working directory.  It can be used to check what has
+been going on with the project.
+
+</P>
+
+<PRE>
+$ cvs -n -q update
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_19.html">previous</A>, <A HREF="cvs_21.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

@@ -1,0 +1,325 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% LaTeXeado by Miquel Vidal <miquel@barrapunto.com> 
+%% Version 1.0 - 12-12-2004
+%% Instrucciones de compilación
+%% A) compilando la partitura desde free4.tex. Output PDF sin links (1.2)
+%% 1. latex softlibre.tex
+%% 2. dvips -Ppdf -u+lilypond -u+ec-mftrace softlibre.dvi
+%% 3. ps2pdf softlibre.ps
+
+%% B) compilando con PDFLaTeX --Output PDF 1.4 con links-- (partitura 
+%% debe ser una imagen JPG. Se puede generar con convert desde el PS). 
+%% 1. Comentar líneas marcadas mas abajo (linea 262)
+%% 2. (ocpional) lilypond free-song.ly (Para producir ps y pdf de la partitura)
+%% 3. pdflatex softlibre.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[11pt,a4paper,oneside]{book}
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{setspace}
+% \usepackage[pdftex]{hyperref}
+% \usepackage{epsfig}
+\usepackage{geometry}
+% \usepackage{lettrine}
+\usepackage{palatino}
+\usepackage[T1]{fontenc}
+\usepackage{titlesec}
+\newcommand{\bigrule}{\titlerule[0.5mm]} 
+\titleformat{\chapter}[display] % cambiamos el formato de los capitulos
+{\bfseries\huge} % por defecto se usarán caracteres de tamaño \Huge en negrita
+{% contenido de la etiqueta
+ \titlerule % linea horizontal
+ \filleft % texto alineado a la derecha
+ \Large\chaptertitlename\ % ``Capitulo'' o ``Apendice'' en tamaño \Large en lugar de \Huge
+ \Large\thechapter}
+{0mm}
+{\filleft}
+[\vspace{0.5mm} \bigrule]
+
+\hbadness=10000 %karl
+\usepackage{url} %karl
+%karl \usepackage{hthtml}
+
+% simbolo del copyleft
+% \usepackage{textcomp}
+
+%Check if we are compiling under latex or pdflatex
+% \ifx\pdftexversion\undefined
+%   \usepackage[dvips]{graphicx}
+% \else
+%    \usepackage[pdftex]{graphicx}
+% \fi
+
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+    \pdffalse           % no corremos PDFLaTeX
+\else\ifnum\pdfoutput=0 %karl
+    \pdffalse           %karl
+\else
+    \pdfoutput=1        % estamos corriendo PDFLaTeX
+    \pdftrue
+\fi                     %karl
+\fi
+
+\ifpdf
+	\usepackage[pdftex]{graphicx}
+	\pdfcompresslevel9
+% info del archivo PDF
+	\pdfinfo{
+/Author (Richard M. Stallman)
+/Title (Software libre para una sociedad libre)
+/CreationDate (20041213015600)
+/Subject (Recopilación de artículos de Richard Stallman)
+/Keywords (software libre, copyleft, rms, gnu, fsf)
+/Creator (Miquel Vidal, with LaTeX2e and PDFTeX)
+}
+\else
+	\usepackage{graphicx}
+\fi
+
+\usepackage{fancyhdr}
+\pagestyle{fancy} 
+\fancyhf{}
+%\fancyhead[LO]{\chaptermark}
+\fancyhead{} % clear all fields
+\fancyhead[RO,LE]{\textsf\thepage}
+\fancyhead[LO]{\scriptsize{\leftmark}} 
+\fancyhead[RE]{\scriptsize{Software libre para una sociedad libre}}
+
+\addto\captionsspanish{%
+   \renewcommand{\contentsname}%
+     {Índice}%
+}
+
+\selectlanguage{spanish}
+
+% redefinimos el contador de secciones para que solo muestre el numero de
+% seccion
+% \renewcommand{\thesection}{\arabic{section}}
+% no mostramos secciones
+\setcounter{secnumdepth}{0}
+
+\sloppy % suaviza las reglas de ruptura de líneas de LaTeX
+\frenchspacing % usar espaciado normal después de '.'
+
+\headsep=7mm % separacion entre cabecera y texto
+
+% para prevenir líneas viudas y huerfanas
+\widowpenalty=9999
+\clubpenalty=9999
+
+\renewcommand{\footnotesep}{11pt} % separacion entre notas
+
+% portada
+\makeatletter
+\def\thickhrulefill{\leavevmode \leaders \hrule height 1pt\hfill \kern
+\z@}
+\def\maketitle{%
+  \null
+  \thispagestyle{empty}%
+% \vskip 1cm
+  \begin{center}
+    \Huge \strut \@title \par
+  \end{center}
+  \ifhmode\par\fi
+%  \vskip 0.5cm
+  \hbox to \hsize{\hfill
+    \vrule height 2pt width.5\hsize
+    \hfill}%
+%  \vskip 0.5cm
+  \begin{center}
+    \normalfont\LARGE\@author\par
+  \end{center}
+  \vskip 0.7cm
+  \begin{center}
+     \includegraphics{portada_img}
+   \end{center}
+%  \vskip 0.1cm
+  \begin{center}
+    \normalfont\large\@date\par
+  \end{center}
+  \vfil
+  \vfil
+ \cleardoublepage
+  }
+\thispagestyle{empty}
+\makeatother
+
+\title{Software libre para una sociedad libre}
+\author{Richard M. Stallman \\ \normalsize{Introducción de Lawrence Lessig}}
+\date{Diciembre 2004 \\ Versión 1.0}
+\begin{document}
+\maketitle
+% fin portada
+
+% pagina de créditos
+\thispagestyle{empty}
+
+\vspace*{5cm}
+\noindent \textbf{Software libre para una sociedad libre} \\
+Richard M. Stallman
+
+\vspace{8mm}
+
+\footnotesize
+
+\noindent Título original: \textit{Free Software, Free Society: Selected
+Essays of Richard M. Stallman} (GNU Press, 2002) \\
+Primera edición en castellano (en papel): Noviembre 2004 \\
+
+\noindent Traducción principal: Jaron Rowan, Diego Sanz Paratcha y Laura
+Trinidad \\
+
+\noindent Edición: Traficantes de Sueños \\
+\noindent c/ Hortaleza 19, 1º Dcha. \\
+\noindent 28004 Madrid. Tlfno: +34 1 5320928 \\
+\noindent http://traficantes.net
+
+\medskip
+
+\noindent
+\textcopyright~ Copyright 2004 de los artículos de este libro, 
+Richard M. Stallman \\   
+\noindent
+\textcopyright~ Copyright 2004 de la Introducción, Lawrence Lessig \\
+\noindent
+\textcopyright~ Copyright 2004 de la Edición, Traficantes de Sueños
+
+\bigskip
+
+\noindent
+Se permite la copia, ya sea de uno o más artículos completos de esta obra o
+del conjunto de la edición, en cualquier formato, mecánico o digital, siempre
+y cuando no se modifique el contenido de los textos, se respete su autoría y
+esta nota se mantenga.
+
+\bigskip
+
+\noindent ISBN: 84-933555-1-8 \\
+\noindent Depósito Legal: M-44298-2004
+
+\bigskip
+
+\noindent \textit{Edición digital a cargo de:} Miquel Vidal
+<miquel@barrapunto.com>. Esta edición electrónica se 
+ha realizado íntegramente con software libre, mediante el 
+procesador \LaTeXe{}, GNU Emacs y AUC\TeX{}.
+
+
+%fin pagina de creditos
+
+\newpage
+
+\normalsize
+
+% pagina de presentacion TdS
+\include{presentacion}
+
+\newpage
+
+% indice
+\tableofcontents 
+
+\thispagestyle{empty}
+
+\newpage
+
+% acerca
+\include{acerca}
+
+% prologo
+\include{introduccion}
+
+\thispagestyle{empty}
+\newpage
+
+% cabeceras normales
+\fancyhead[LO,RE]{\scriptsize{\leftmark}}
+
+% seccion uno
+\part{El proyecto GNU y el software libre}
+
+\include{1_El_proyecto_GNU}
+\include{2_Manifiesto_GNU}
+\include{3_La_definicion_de_software_libre}
+\include{4_no_propietarios}
+\include{5_que_encierra_un_nombre}
+\include{6}
+\include{7_la_distribucion_de_sl_en_la_Universidad}
+\include{8_Vender_software_libre}
+\include{9_El_software_libre_necesita_doc_libre}
+% capitulo 10 - partitura
+\chapter{La canción del software libre}
+
+%\begin{flushright}
+
+%\textit{La melodía procede de la canción popular búlgara <<Sadi Moma>>}
+
+%\end{flushright}
+
+% \input free4.tex
+% \begin{figure}[htb!]
+% \begin{flushleft}
+% \includegraphics*[3cm,2cm][2cm,3cm]{free-song}
+
+% descomentar para compilar con PDFLaTeX
+%\includegraphics[scale=0.81, viewport=30 722 556 732]{free-song}
+\includegraphics[scale=1]{free-song}
+
+% \end{flushleft}
+% \vskip 1cm
+
+% \begin{quote}
+
+% \footnotesize
+
+% \begin{center}
+% \noindent Copyright \copyright~1993 Richard Stallman. \\
+% \noindent Se permite la copia y distribución literal de esta partitura por
+% cualquier medio, siempre que se mantenga esta nota.  
+% \end{center}
+
+% \smallskip
+
+% \noindent Transcrito con GNU LilyPond por David Madore. \LaTeX eado y 
+% convertido a la versión 2.2 de LilyPond para la edición de Traficantes de
+% Sueños por Miquel Vidal.
+
+% \end{quote}
+
+\normalsize
+
+%% fin partitura %%
+
+
+%   sección dos
+\part{Copyright, copyleft, patentes}
+
+\include{11_El_derecho_a_leer}
+\include{12_malinterpretar_copyright}
+\include{13_La_ciencia_debe_desechar_copyright}
+\include{14_que_es_el_copyleft}
+\include{15_copyleft_pragmatismo_o_idealismo}
+\include{16_El_peligro_de_las_patentes_del_software}
+
+% sección tres
+
+\part{Libertad, sociedad y software}
+
+\include{17_Puedes_confiar_en_tu_ordenador}
+\include{18_pqel_softw_debe_ser_libre}
+\include{19_copyright_y_globalizacion}
+\include{20_softwlibre.libertad_y_coper}
+\include{21_algunas_palabras_a_evitar}
+
+% sección cuatro
+
+ \part{Licencias}
+\appendix
+\include{licencia_publicagnu}
+\include{licenciapublica_menor}
+\include{GFDL}
+
+\end{document}

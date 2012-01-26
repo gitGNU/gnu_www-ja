@@ -1,0 +1,248 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/finger.texinfo on 7 November 1998 -->
+
+<TITLE>GNU Finger - Basic Installation</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="finger_1.html">first</A>, <A HREF="finger_14.html">previous</A>, <A HREF="finger_16.html">next</A>, <A HREF="finger_24.html">last</A> section, <A HREF="finger_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC15" HREF="finger_toc.html#TOC15">Basic Installation</A></H2>
+
+<P>
+Here are the steps that you will need to take in order to install
+GNU Finger. 
+
+</P>
+
+<OL>
+<LI>
+
+Pick a machine which will be the local finger server for your network.
+Create a <TT>`clients'</TT> file, and install it in
+<TT>`/usr/local/etc/fingerdir'</TT> (or the EtcDir as specified in
+<TT>`config.h'</TT>). Put the names of all hosts that should report to the
+finger server in this file. Don't forget to include the finger server
+itself.
+
+<LI>
+
+For each client (the designated server is also a client), do the
+following,
+
+<LI>
+
+Change your working directory to be the top of the GNU Finger sources.
+For instance, if you have placed the source in <TT>`/src/gnu/finger'</TT>
+you would type <SAMP>`cd /src/gnu/finger'</SAMP>.
+
+<LI>
+
+In the source directory, type <SAMP>`make clean'</SAMP> and <SAMP>`./configure'</SAMP>
+if this host is different from the previous one.  If you're using
+<CODE>csh</CODE> on an old version of System V, you might need to type
+<SAMP>`sh ./configure'</SAMP> instead to prevent <CODE>csh</CODE> from trying to
+execute <CODE>configure</CODE> itself.
+
+The <CODE>configure</CODE> shell script attempts to guess correct values for
+various system-dependent variables used during compilation, and
+creates the Makefile(s) (one in each subdirectory of the source
+directory).  In some packages it creates a C header file containing
+system-dependent definitions.  It also creates a file <TT>`config.status'</TT>
+that you can run in the future to recreate the current configuration.
+
+Running <CODE>configure</CODE> takes a minute or two.  While it is running, it
+prints some messages that tell what it is doing.  If you don't want to
+see the messages, run <CODE>configure</CODE> with its standard output redirected
+to <TT>`/dev/null'</TT>; for example, <SAMP>`./configure &#62;/dev/null'</SAMP>.
+
+To compile the package in a different directory from the one containing
+the source code, you must use a version of make that supports the VPATH
+variable, such as GNU make.  <SAMP>`cd'</SAMP> to the directory where you want
+the object files and executables to go and run <CODE>configure</CODE>.
+<CODE>configure</CODE> automatically checks for the source code in the
+directory that <CODE>configure</CODE> is in and in <TT>`..'</TT>.  If for some
+reason <CODE>configure</CODE> is not in the source code directory that you are
+configuring, then it will report that it can't find the source code.  In
+that case, run <CODE>configure</CODE> with the option <SAMP>`--srcdir=DIR'</SAMP>,
+where DIR is the directory that contains the source code.
+
+You can tell <SAMP>`configure'</SAMP> to figure out the configuration for your
+system, and record it in <TT>`config.status'</TT>, without actually
+configuring the package (creating <TT>`Makefile'</TT> and perhaps a
+configuration header file).  To do this, give <CODE>configure</CODE> the
+<SAMP>`--no-create'</SAMP> option.  Later, you can run <CODE>./config.status</CODE> to
+actually configure the package for a particular host.  This option is
+useful mainly in <TT>`Makefile'</TT> rules for updating <TT>`config.status'</TT>
+and <TT>`Makefile'</TT>.  You can also give <TT>`config.status'</TT> the
+<SAMP>`--recheck'</SAMP> option, which makes it re-run <CODE>configure</CODE> with the
+same arguments you used before.  This is useful if you change
+<CODE>configure</CODE>.
+
+<SAMP>`configure'</SAMP> ignores any other arguments that you give it.
+
+If you want to install the GNU Finger configuration files somewhere
+other than <TT>`/usr/local/etc/fingerdir'</TT>, then you should edit the
+files <TT>`./config.h'</TT> and <TT>`include/fingerpaths.h'</TT> now.  You need
+to specify the alternate locations of where the configuration files will
+be kept. If you want to include the unsupported code for mugshots, then
+you should now also choose one of the face formats, as well as edit
+<TT>`lib/Makefile.in'</TT>, <TT>`lib/site/Makefile.in'</TT>, and
+<TT>`src/Makefile.in'</TT> to compile and link in the files necessary.
+
+If your system requires unusual options for compilation or linking that
+<CODE>configure</CODE> doesn't know about, you can give <CODE>configure</CODE>
+initial values for some variables by setting them in the environment.
+In Bourne-compatible shells, you can do that on the command line like
+this:
+
+
+<PRE>
+CC='gcc -traditional' DEFS=-D_POSIX_SOURCE ./configure
+</PRE>
+
+The <SAMP>`make'</SAMP> variables that you might want to override with environment
+variables when running <CODE>configure</CODE> are:
+
+(For these variables, any value given in the environment overrides the
+value that `configure' would choose:)
+
+<DL COMPACT>
+
+<DT><CODE>CC</CODE>
+<DD>
+C compiler program. Default is <SAMP>`cc'</SAMP>, or <SAMP>`gcc'</SAMP> if <SAMP>`gcc'</SAMP> is
+in your search path.
+<DT><CODE>INSTALL</CODE>
+<DD>
+Program to use to install files. Default is <SAMP>`install'</SAMP> if you have
+it, <SAMP>`cp'</SAMP> otherwise.
+</DL>
+
+(For these variables, any value given in the environment is added to
+the value that `configure' chooses:)
+
+<DL COMPACT>
+
+<DT><CODE>DEFS</CODE>
+<DD>
+Configuration options, in the form <SAMP>`-Dfoo -Dbar ...'</SAMP>
+<DT><CODE>LIBS</CODE>
+<DD>
+Libraries to link with, in the form <SAMP>`-lfoo -lbar ...'</SAMP>
+</DL>
+
+<LI>
+
+To build and/or install the GNU Finger executables and standard targets,
+issue one of the following commands:
+
+<DL COMPACT>
+
+<DT><SAMP>`make server'</SAMP>
+<DD>
+To build and install all executables, plus install the finger-specific
+server configuration files. Use this if the host is the designated
+finger server.
+
+<DT><SAMP>`make client'</SAMP>
+<DD>
+To build all executables, but install only those used by the non-server
+clients. Use this unless the host is the designated finger server.
+
+<DT><SAMP>`make all'</SAMP>
+<DD>
+To build all executables, but perform no installation.
+</DL>
+
+The above commands build <TT>`lib/libfinger.a'</TT> and the main programs in
+<TT>`src'</TT>: <CODE>finger</CODE>, <CODE>in.fingerd</CODE>, and <CODE>in.cfingerd</CODE>, as
+well as <CODE>fingerd</CODE> on the server.  If you want to, you can override
+the <SAMP>`make'</SAMP> variables <CODE>CFLAGS</CODE> and <CODE>LDFLAGS</CODE> like this:
+
+
+<PRE>
+make CFLAGS=-O2 LDFLAGS=-s
+</PRE>
+
+<LI>
+
+Modify the system configuration so that the client has (refer to the
+system documentation for details on how to do this on a particular
+system):
+
+
+<UL>
+<LI>
+
+Entries in the system <TT>`services'</TT> file, or equivalent, which
+mentions the correct TCP port for <CODE>in.cfingerd</CODE> (port 2003) and
+<CODE>in.fingerd</CODE> (port 79). If port 2003 is already used by something
+else, then read the section on Configuration Files for details on how to
+specify a port other than 2003 in the
+<TT>`/usr/local/etc/fingerdir/clients'</TT> file. A good name for the
+service is <SAMP>`cfinger'</SAMP>.
+<LI>
+
+Entries in the system <TT>`inetd.conf'</TT> file, or equivalent, which
+contains references to <CODE>in.cfingerd</CODE> and <CODE>in.fingerd</CODE>.
+<CODE>in.fingerd</CODE> needs to be run with UID <CODE>root</CODE>.  Consult your
+system documentation for details on how to do this. <CODE>in.cfingerd</CODE>
+should be run with UID <CODE>root</CODE> on System V derivatives.
+<LI>
+
+a <TT>`/usr/local/etc/fingerdir/serverhost'</TT> file which contains the
+name of the GNU Finger server host,
+<LI>
+
+a <TT>`/usr/local/etc/fingerdir/mailhost'</TT> file which contains the name
+of the mail server to ask for user mail forwarding information and
+mailing list expansion, and
+<LI>
+
+the inetd daemon restarted, so that server and user requests can be
+answered.
+</UL>
+
+<LI>
+
+When you have performed the above steps for each client, log onto the
+designated GNU Finger server.
+
+<LI>
+
+Start the server daemon, <CODE>fingerd</CODE>. You should arrange to have
+<CODE>fingerd</CODE> started every time the server host is rebooted. For exact
+details on how to do this, please refer to the server host's system
+documentation.
+
+<LI>
+
+If you chose to include the mugshots option, now might be a good time to
+install the mugshots.  But first, try getting a face from another site
+running GNU Finger!  For example, you might try
+
+<PRE>
+<CODE>finger --face bfox@aurel.cns.caltech.edu</CODE>
+</PRE>
+
+<LI>
+
+Modify the files <TT>`x-.help'</TT> and <TT>`x-.site'</TT> in
+<TT>`/usr/local/etc/fingerdir/targets'</TT> for your site.
+
+</OL>
+
+<P>
+Now you're all set! You might like to read through the section on
+Configuration Files.
+
+</P>
+
+<P><HR><P>
+Go to the <A HREF="finger_1.html">first</A>, <A HREF="finger_14.html">previous</A>, <A HREF="finger_16.html">next</A>, <A HREF="finger_24.html">last</A> section, <A HREF="finger_toc.html">table of contents</A>.
+</BODY>
+</HTML>

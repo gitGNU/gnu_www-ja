@@ -1,0 +1,152 @@
+<html lang="en">
+<head>
+<title>Multiple Datasets - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="graph.html#graph" title="graph">
+<link rel="prev" href="Non_002dSquare-Plots.html#Non_002dSquare-Plots" title="Non-Square Plots">
+<link rel="next" href="Multiplotting.html#Multiplotting" title="Multiplotting">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Multiple-Datasets"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Multiplotting.html#Multiplotting">Multiplotting</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Non_002dSquare-Plots.html#Non_002dSquare-Plots">Non-Square Plots</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="graph.html#graph">graph</a>
+<hr>
+</div>
+
+<h3 class="section">2.3 Preparing a plot from more than one dataset</h3>
+
+<p>It is frequently the case that several datasets need to be displayed on
+the same plot.  If&nbsp;so<!-- /@w -->, you may wish to distinguish the points in
+different datasets by joining them by lines of different types, or by
+using marker symbols of different types.
+
+   <p>A more complicated example would be the following.  You may have a file
+containing a dataset that is the result of experimental observations,
+and a file containing closely spaced points that trace out a theoretical
+curve.  The second file is a dataset in its own right.  You would
+presumably plot it with line segments joining successive data points, so
+as to trace out the theoretical curve.  But the first dataset, resulting
+from experiment, would be plotted without such line segments.  In&nbsp;fact<!-- /@w -->, a marker symbol would be plotted at each of its points.
+
+   <p>These examples, and others like them, led us to define a set of seven
+<em>attributes</em> that define the way a dataset should be plotted. 
+These attributes, which can be set by command-line options, are the
+following.
+
+     <ol type=1 start=1>
+<li>color/monochrome
+<li>linemode
+<li>linewidth
+<li>symbol type
+<li>symbol size
+<li>symbol font name
+<li>fill fraction
+        </ol>
+
+<p class="noindent">Color/monochrome (a choice of one or the other) is the simplest.  The
+choice is toggled with the &lsquo;<samp><span class="samp">-C</span></samp>&rsquo; option.  The `linemode' (i.e., line
+style) specifies how the line segments joining successive points should
+be drawn; it is specified with the &lsquo;<samp><span class="samp">-m</span></samp>&rsquo; option.  Linemode #0 means
+no linemode at&nbsp;all<!-- /@w -->, for&nbsp;example<!-- /@w -->.  `Linewidth' means line
+thickness; it&nbsp;is<!-- /@w --> specified with the &lsquo;<samp><span class="samp">-W</span></samp>&rsquo; option. `Symbol type'
+and `symbol size', which are specified with the &lsquo;<samp><span class="samp">-S</span></samp>&rsquo; option,
+specify the symbol plotted at each point of the dataset.  `Symbol font
+name' refers to the font from which marker symbols #32 and above, which
+are taken to be characters rather than geometric symbols, are selected. 
+It&nbsp;is<!-- /@w --> set with the &lsquo;<samp><span class="samp">--symbol-font-name</span></samp>&rsquo; option, and is relevant
+only if &lsquo;<samp><span class="samp">-S</span></samp>&rsquo; is used to request such special marker symbols. 
+Finally, the polygonal line joining the points in a dataset may be
+<em>filled</em>, to create a filled or shaded polygon.  The `fill
+fraction' is set with the &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; option.  A&nbsp;negative<!-- /@w --> fill
+fraction means no fill, or transparent; zero means white, and 1.0 means
+solid, or fully colored.
+
+   <p>The preceding seven attributes refer to the way in which datasets are
+plotted.  Datasets may also differ from one another in the way in which
+they are read from files.  The dataset(s) in a file may or may not
+contain error bars, for&nbsp;example<!-- /@w -->.  If&nbsp;a<!-- /@w --> file contains data with
+error bars, the &lsquo;<samp><span class="samp">-I e</span></samp>&rsquo; option should occur on the command line
+before the file name.  (The &lsquo;<samp><span class="samp">-I</span></samp>&rsquo; option specifies the input format
+for the following files.)
+
+   <p>The following illustrates how datasets in three different input files
+could be plotted simultaneously.
+
+<pre class="example">     graph -T ps -m 0 -S 3 file1 -C -m 3 file2 -C -W 0.02 file3 &gt; output.ps
+</pre>
+   <p class="noindent">The dataset in <code>file1</code> will be plotted in linemode #0, so
+successive points will not be joined by lines.  But symbol #3 (an
+asterisk) will be plotted at each point.  The dataset in <code>file2</code>
+will be plotted in color, and linemode #3 will be used.  In color
+plotting, linemode #3 is interpreted as a solid blue line.  The second
+&lsquo;<samp><span class="samp">-C</span></samp>&rsquo; on the command line turns off color for <code>file3</code>.  The
+points in the third dataset will be joined by a black line with
+thickness 0.02, as a fraction of the size (i.e., minimum dimension) of
+the graphics display.
+
+   <p>The above command line could be made even more complicated by specifying
+additional options (e.g., &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-I</span></samp>&rsquo;) before each file. 
+In&nbsp;fact<!-- /@w --> the command line could also include such standard options as
+&lsquo;<samp><span class="samp">-x</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-y</span></samp>&rsquo;, which specify the range of each axis.  Such
+options, which refer to the plot as a whole rather than to individual
+datasets, should appear before the first file name.  For&nbsp;example<!-- /@w -->,
+you could do
+
+<pre class="example">     graph -T ps -x 0 1 0.5 -m 0 -S 3 file1 -C -m 3 file2 &gt; output.ps
+</pre>
+   <p class="noindent">Note that it is possible to include the special file name&nbsp;&lsquo;<samp><span class="samp">-</span></samp>&rsquo;<!-- /@w -->,
+which refers to standard input, on the command line.  So you may pipe
+the output of another program into <code>graph</code>.  You may even generate
+a plot in&nbsp;part<!-- /@w --> from piped output, and in&nbsp;part<!-- /@w --> from files.
+
+   <p>Each input file may include more than one dataset.  If so, the command
+line options preceding a file on the command line will take effect for
+all datasets in that file.  There are two exceptions to this.  By&nbsp;default<!-- /@w -->, the linemode is incremented (`bumped') from one dataset to the
+next.  This feature is usually quite convenient.  For&nbsp;example<!-- /@w -->, if
+you do
+
+<pre class="example">     graph -T ps -m 3 file1 &gt; output.ps
+</pre>
+   <p class="noindent">the first dataset in <code>file1</code> will appear in linemode #3, the second
+in linemode #4, etc.  In&nbsp;fact<!-- /@w -->, if you do
+
+<pre class="example">     graph -T ps file1 file2 ... &gt; output.ps
+</pre>
+   <p class="noindent">without specifying linemode explicitly, the successive datasets read
+from the files on the command line will appear in linemode #1, linemode
+#2, <small class="dots">...</small>.  If&nbsp;you<!-- /@w --> do not like this feature, you may turn it
+off, or in general toggle&nbsp;it<!-- /@w -->, by using the &lsquo;<samp><span class="samp">-B</span></samp>&rsquo; option.
+
+   <p>You may also control manually the linemode and symbol type used for the
+datasets within any file.  You would do this by including directives in
+the file itself, rather than on the command line.  For example, if the
+line
+
+<pre class="example">     #m=-5,S=10
+</pre>
+   <p class="noindent">appeared in an ASCII-format input file, it would be interpreted as a
+directive to switch to linemode #&minus;5 and symbol type #10 for the
+following dataset.  Future releases of <code>graph</code> may provide the
+ability to set each of the seven dataset attributes in this way.
+
+   </body></html>
+

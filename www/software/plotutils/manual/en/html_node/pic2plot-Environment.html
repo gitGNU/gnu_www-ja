@@ -1,0 +1,169 @@
+<html lang="en">
+<head>
+<title>pic2plot Environment - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="pic2plot.html#pic2plot" title="pic2plot">
+<link rel="prev" href="pic2plot-Invocation.html#pic2plot-Invocation" title="pic2plot Invocation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="pic2plot-Environment"></a>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="pic2plot-Invocation.html#pic2plot-Invocation">pic2plot Invocation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="pic2plot.html#pic2plot">pic2plot</a>
+<hr>
+</div>
+
+<h3 class="section">4.3 Environment variables</h3>
+
+<p>The behavior of <code>pic2plot</code> is affected by several environment
+variables.  We have already mentioned the environment variables
+<code>BITMAPSIZE</code>, <code>PAGESIZE</code>, <code>BG_COLOR</code>,
+<code>EMULATE_COLOR</code>, <code>MAX_LINE_LENGTH</code>, and <code>ROTATION</code>. 
+They serve as backups for the several options &lsquo;<samp><span class="samp">--bitmap-size</span></samp>&rsquo;,
+&lsquo;<samp><span class="samp">--page-size</span></samp>&rsquo;, &lsquo;<samp><span class="samp">--bg-color</span></samp>&rsquo;, &lsquo;<samp><span class="samp">--emulate-color</span></samp>&rsquo;,
+&lsquo;<samp><span class="samp">--max-line-length</span></samp>&rsquo;, and &lsquo;<samp><span class="samp">--rotation</span></samp>&rsquo;.  The remaining
+environment variables are specific to individual output formats.
+
+   <p><code>pic2plot -T&nbsp;X<!-- /@w --></code>, which pops up a window on an X&nbsp;Window<!-- /@w -->
+System display for each figure, checks the <code>DISPLAY</code> environment
+variable.  The value of this variable determines the display on which
+the windows will be popped&nbsp;up<!-- /@w -->.
+
+   <p><code>pic2plot -T png</code> and <code>pic2plot -T gif</code>, which produce output
+in PNG format and pseudo-GIF format respectively, are affected by two
+environment variables.  If the value of the <code>INTERLACE</code> variable is
+"yes", the output file will be interlaced.  Also, if the value of the
+<code>TRANSPARENT_COLOR</code> environment variable is the name of a color
+that appears in the output file, that color will be treated as
+transparent by most applications.  For information on what color names
+are recognized, see <a href="Color-Names.html#Color-Names">Color Names</a>.
+
+   <p><code>pic2plot -T pnm</code>, which produces output in Portable Anymap
+(PBM/PGM/PPM) format, is affected by the <code>PNM_PORTABLE</code> environment
+variable.  If its value is "yes", the output file will be in the
+portable (human readable) version of PBM, PGM, or PPM format, rather
+than the default (binary) version.
+
+   <p><code>pic2plot -T cgm</code>, which produces CGM files that comply with the
+WebCGM profile for Web-based vector graphics, is affected by two
+environment variables.  By default, a version&nbsp;3<!-- /@w --> CGM file is
+generated.  Many older CGM interpreters and viewers, such as the ones
+built into Microsoft Office and other commercial software, only support
+version&nbsp;1<!-- /@w --> CGM files.  The <code>CGM_MAX_VERSION</code> environment
+variable may be set to "1", "2", "3", or&nbsp;"4"<!-- /@w --> (the default) to
+specify a maximum value for the version number.  The <code>CGM_ENCODING</code>
+variable may also be set, to specify the type of encoding used in the
+CGM file.  Supported values are "clear_text" (i.e., human readable) and
+"binary" (the default).  The WebCGM profile requires that the binary
+encoding be used.
+
+   <p><code>pic2plot -T pcl</code>, which produces PCL&nbsp;5<!-- /@w --> output for
+Hewlett&ndash;Packard printers, is affected by the environment variable
+<code>PCL_ASSIGN_COLORS</code>.  It should be set to "yes" when producing
+PCL&nbsp;5<!-- /@w --> output for a color printer or other color device.  This will
+ensure accurate color reproduction by giving the output device complete
+freedom in assigning colors, internally, to its &ldquo;logical pens&rdquo;.  If it
+is "no" then the device will use a fixed set of colored pens, and will
+emulate other colors by shading.  The default is "no" because monochrome
+PCL&nbsp;5<!-- /@w --> devices, which are more common than colored ones, must use
+shading to emulate color.
+
+   <p><code>pic2plot -T hpgl</code>, which produces Hewlett&ndash;Packard Graphics
+Language output, is also affected by several environment variables.  The
+most important is <code>HPGL_VERSION</code>, which may be set to "1", "1.5",
+or&nbsp;"2"<!-- /@w --> (the default).  "1"&nbsp;means<!-- /@w --> that the output should be
+generic HP-GL, "1.5"&nbsp;means<!-- /@w --> that the output should be suitable for
+the HP7550A graphics plotter and the HP758x, HP7595A and HP7596A
+drafting plotters (HP-GL with some HP-GL/2 extensions), and "2"&nbsp;means<!-- /@w --> that the output should be modern HP-GL/2.  If&nbsp;the<!-- /@w --> version is
+"1" or&nbsp;"1.5"<!-- /@w --> then the only available fonts will be vector fonts, and
+all lines will be drawn with a default thickness (the &lsquo;<samp><span class="samp">-W</span></samp>&rsquo; option
+will not work).  Additionally, if the version is&nbsp;"1"<!-- /@w --> then the
+filling of arbitrary curves with solid color will not be supported
+(circles and rectangles aligned with the coordinate axes may be filled,
+though).
+
+   <p>The position of the <code>pic2plot -T hpgl</code> graphics display on the page
+can be rotated 90&nbsp;degrees<!-- /@w --> counterclockwise by setting the
+<code>HPGL_ROTATE</code> environment variable to "yes".  This is not the same
+as the rotation obtained with the &lsquo;<samp><span class="samp">--rotation</span></samp>&rsquo; option, since it
+both rotates the graphics display and repositions its lower left corner
+toward another corner of the page.  Besides "no" and "yes", recognized
+values for the <code>HPGL_ROTATE</code> variable are "0", "90", "180", and&nbsp;"270"<!-- /@w -->.  "no"&nbsp;and<!-- /@w --> "yes" are equivalent to "0"&nbsp;and&nbsp;"90"<!-- /@w -->,
+respectively.  "180" and "270" are supported only if <code>HPGL_VERSION</code>
+is&nbsp;"2"<!-- /@w --> (the default).
+
+   <p><em>Opaque</em> filling and the drawing of visible white lines are
+supported only if <code>HPGL_VERSION</code> is "2" (the default) and the
+environment variable <code>HPGL_OPAQUE_MODE</code> is "yes" (the default). 
+If&nbsp;the<!-- /@w --> value is "no" then opaque filling will not be used, and white
+lines (if&nbsp;any<!-- /@w -->), which are normally drawn with pen&nbsp;#0<!-- /@w -->, will not
+be drawn.  This feature is to accommodate older HP-GL/2 devices. 
+HP-GL/2 pen plotters, for&nbsp;example<!-- /@w -->, do not support opacity or the use
+of pen&nbsp;#0<!-- /@w --> to draw visible white lines.  Some older HP-GL/2 devices
+reportedly malfunction if asked to draw opaque objects.
+
+   <p>By&nbsp;default<!-- /@w -->, <code>pic2plot -T hpgl</code> will draw with a fixed set of
+pens.  Which pens are present may be specified by setting the
+<code>HPGL_PENS</code> environment variable.  If <code>HPGL_VERSION</code> is&nbsp;"1"<!-- /@w -->, the default value of <code>HPGL_PENS</code> is "1=black"; if
+<code>HPGL_VERSION</code> is "1.5" or&nbsp;"2"<!-- /@w -->, the default value of
+<code>HPGL_PENS</code> is
+"1=black:2=red:3=green:4=yellow:5=blue:6=magenta:7=cyan".  The format
+should be self-explanatory.  By setting <code>HPGL_PENS</code>, you may
+specify a color for any pen in the range #1<small class="dots">...</small>#31.  For information
+on what color names are recognized, see <a href="Color-Names.html#Color-Names">Color Names</a>.  Pen&nbsp;#1<!-- /@w -->
+must always be present, though it need not be black. Any pen in
+the range #2<small class="dots">...</small>#31 may be omitted.
+
+   <p>If <code>HPGL_VERSION</code> is "2" then <code>pic2plot -T hpgl</code> will also be
+affected by the environment variable <code>HPGL_ASSIGN_COLORS</code>.  If&nbsp;the<!-- /@w --> value of this variable is "yes", then <code>plot -T hpgl</code> will not
+be restricted to the palette specified in <code>HPGL_PENS</code>: it&nbsp;will<!-- /@w -->
+assign colors to &ldquo;logical pens&rdquo; in the range #1<small class="dots">...</small>#31, as&nbsp;needed<!-- /@w -->.  The default value is "no" because other than color LaserJet
+printers and DesignJet plotters, not many HP-GL/2 devices allow the
+assignment of colors to logical pens.  In particular, HP-GL/2 pen
+plotters do not.
+
+   <p><code>pic2plot -T tek</code>, which produces output for a Tektronix terminal
+or emulator, checks the <code>TERM</code> environment variable.  If&nbsp;the<!-- /@w -->
+value of <code>TERM</code> is a string beginning with "xterm", "nxterm", or
+"kterm", it&nbsp;is<!-- /@w --> taken as a sign that <code>pic2plot</code> is running in an
+X&nbsp;Window<!-- /@w --> System VT100 terminal emulator: an&nbsp;<code>xterm</code><!-- /@w -->,
+<code>nxterm</code>, or <code>kterm</code>.  Before drawing graphics, <code>pic2plot
+-T tek</code> will emit an escape sequence that causes the terminal emulator's
+auxiliary Tektronix window, which is normally hidden, to pop&nbsp;up<!-- /@w -->. 
+After the graphics are drawn, an escape sequence that returns control to
+the original VT100 window will be emitted.  The Tektronix window will
+remain on the screen.
+
+   <p>If the value of <code>TERM</code> is a string beginning with "kermit",
+"ansi.sys", or "nansi.sys", it&nbsp;is<!-- /@w --> taken as a sign that
+<code>pic2plot</code> is running in the VT100 terminal emulator provided by
+the MS-DOS version of <code>kermit</code>.  Before drawing graphics,
+<code>pic2plot -T tek</code> will emit an escape sequence that switches the
+terminal emulator to Tektronix mode.  Also, some of the Tektronix
+control codes emitted by <code>pic2plot -T tek</code> will be
+<code>kermit</code>-specific.  There will be a limited amount of color
+support, which is not normally the case (the 16 <code>ansi.sys</code> colors
+will be supported).  After drawing graphics, <code>pic2plot -T tek</code> will
+emit an escape sequence that returns the emulator to VT100 mode.  The
+key sequence `ALT&nbsp;minus<!-- /@w -->' can be employed manually within
+<code>kermit</code> to switch between the two modes.
+
+   </body></html>
+

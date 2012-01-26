@@ -1,0 +1,165 @@
+<HTML>
+<HEAD>
+<!-- Created by texi2html 1.56k from ../bc.texi on 20 March 2001 -->
+
+<TITLE>bc Command Manual - GNU bc and Other Implementations</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_20.html">previous</A>, <A HREF="bc_22.html">next</A>, <A HREF="bc_23.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC21" HREF="bc_toc.html#TOC21">GNU <CODE>bc</CODE> and Other Implementations</A></H1>
+
+<P>
+This version of <CODE>bc</CODE> was implemented from the POSIX P1003.2/D11
+draft and contains several differences and extensions relative to the
+draft and traditional implementations.  It is not implemented in the
+traditional way using <CODE>dc</CODE>.  This version is a single process
+which parses and runs a byte code translation of the program.  There is
+an "undocumented" option (-c) that causes the program to output the byte
+code to the standard output instead of running it.  It was mainly used
+for debugging the parser and preparing the math library.
+
+
+<P>
+A major source of differences is extensions, where a feature is extended
+to add more functionality and additions, where new features are added.
+The following is the list of differences and extensions.
+
+
+<DL COMPACT>
+
+<DT><VAR>LANG environment</VAR>
+<DD>
+This version does not conform to the POSIX standard in the processing
+of the LANG environment variable and all environment variables starting
+with LC_.
+
+<DT><VAR>names</VAR>
+<DD>
+Traditional and POSIX <CODE>bc</CODE>
+have single letter names for functions, variables and arrays.  They have
+been extended to be multi-character names that start with a letter and
+may contain letters, numbers and the underscore character.
+
+<DT><VAR>Strings</VAR>
+<DD>
+Strings are not allowed to contain NUL characters.  POSIX says all characters
+must be included in strings.
+
+<DT><VAR>last</VAR>
+<DD>
+POSIX <CODE>bc</CODE> does not have a \fBlast variable.  Some implementations
+of <CODE>bc</CODE> use the period (.) in a similar way.  
+
+<DT><VAR>comparisons</VAR>
+<DD>
+POSIX <CODE>bc</CODE> allows comparisons only in the <CODE>if</CODE> statement,
+the <CODE>while</CODE> statement, and the second expression of the <CODE>for</CODE>
+statement.  Also, only one relational operation is allowed in each of
+those statements.
+
+<DT><VAR>if statement, else clause</VAR>
+<DD>
+POSIX <CODE>bc</CODE> does not have an <CODE>else</CODE> clause.
+
+<DT><VAR>for statement</VAR>
+<DD>
+POSIX <CODE>bc</CODE> requires all expressions to be present in the
+<CODE>for</CODE> statement.
+
+<DT><VAR>&#38;&#38;, ||, !</VAR>
+<DD>
+POSIX <CODE>bc</CODE> does not have the logical operators.
+
+<DT><VAR>read function</VAR>
+<DD>
+POSIX <CODE>bc</CODE> does not have a <CODE>read</CODE> function.
+
+<DT><VAR>print statement</VAR>
+<DD>
+POSIX <CODE>bc</CODE> does not have a <CODE>print</CODE> statement.
+
+<DT><VAR>continue statement</VAR>
+<DD>
+POSIX <CODE>bc</CODE> does not have a continue statement.
+
+<DT><VAR>array parameters</VAR>
+<DD>
+POSIX <CODE>bc</CODE> does not (currently) support array parameters in full.
+The POSIX grammar allows for arrays in function definitions, but does
+not provide a method to specify an array as an actual parameter.  (This
+is most likely an oversight in the grammar.)  Traditional implementations
+of <CODE>bc</CODE> have only call by value array parameters.
+
+<DT><VAR>function format</VAR>
+<DD>
+POSIX <CODE>bc</CODE> requires the opening brace on the same line as the 
+<CODE>define</CODE> key word and the <CODE>auto</CODE> statement on the next line.
+
+<DT><VAR>=+, =-, =*, =/, =%, =^</VAR>
+<DD>
+POSIX <CODE>bc</CODE> does not require these "old style" assignment
+operators to be defined.  This version may allow these "old style"
+assignments.  Use the <CODE>limits</CODE> statement to see if the installed
+version supports them.  If it does support the "old style" assignment
+operators, the statement "a =- 1" will decrement <CODE>a</CODE> by 1 instead
+of setting <CODE>a</CODE> to the value -1.
+
+<DT><VAR>spaces in numbers</VAR>
+<DD>
+Other implementations of <CODE>bc</CODE> allow spaces in numbers.  For example,
+"x=1 3" would assign the value 13 to the variable x.  The same statement
+would cause a syntax error in this version of <CODE>bc</CODE>.
+
+<DT><VAR>errors and execution</VAR>
+<DD>
+This implementation varies from other implementations in terms of what
+code will be executed when syntax and other errors are found in the
+program.  If a syntax error is found in a function definition, error
+recovery tries to find the beginning of a statement and continue to
+parse the function.  Once a syntax error is found in the function, the
+function will not be callable and becomes undefined.
+Syntax errors in the interactive execution code will invalidate the
+current execution block.  The execution block is terminated by an
+end of line that appears after a complete sequence of statements.
+For example, 
+
+
+<PRE>
+a = 1
+b = 2
+</PRE>
+
+has two execution blocks and
+
+
+<PRE>
+{ a = 1
+  b = 2 }
+</PRE>
+
+has one execution block.  Any runtime error will terminate the execution
+of the current execution block.  A runtime warning will not terminate the
+current execution block.
+
+<DT><VAR>Interrupts</VAR>
+<DD>
+During an interactive session, the SIGINT signal (usually generated by
+the control-C character from the terminal) will cause execution of the
+current execution block to be interrupted.  It will display a "runtime"
+error indicating which function was interrupted.  After all runtime
+structures have been cleaned up, a message will be printed to notify the
+user that <CODE>bc</CODE> is ready for more input.  All previously defined
+functions remain defined and the value of all non-auto variables are the
+value at the point of interruption.  All auto variables and function
+parameters are removed during the clean up process.  During a
+non-interactive session, the SIGINT signal will terminate the entire run
+of <CODE>bc</CODE>.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_20.html">previous</A>, <A HREF="bc_22.html">next</A>, <A HREF="bc_23.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+</BODY>
+</HTML>

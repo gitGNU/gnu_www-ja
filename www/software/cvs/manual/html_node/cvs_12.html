@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Cleaning up</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_11.html">previous</A>, <A HREF="cvs_13.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC13" HREF="cvs_toc.html#TOC13">Cleaning up</A></H2>
+<P>
+<A NAME="IDX50"></A>
+<A NAME="IDX51"></A>
+<A NAME="IDX52"></A>
+<A NAME="IDX53"></A>
+
+</P>
+<P>
+Before you turn to other tasks you decide to remove your working copy of
+tc.  One acceptable way to do that is of course
+
+</P>
+
+<PRE>
+$ cd ..
+$ rm -r tc
+</PRE>
+
+<P>
+but a better way is to use the <CODE>release</CODE> command (see section <A HREF="cvs_115.html#SEC122">release--Indicate that a Module is no longer in use</A>):
+
+</P>
+
+<PRE>
+$ cd ..
+$ cvs release -d tc
+M driver.c
+? tc
+You have [1] altered files in this repository.
+Are you sure you want to release (and delete) module `tc': n
+** `release' aborted by user choice.
+</PRE>
+
+<P>
+The <CODE>release</CODE> command checks that all your modifications have been
+committed.  If history logging is enabled it also makes a note in the
+history file.  See section <A HREF="cvs_142.html#SEC149">The history file</A>.
+
+</P>
+<P>
+When you use the <SAMP>`-d'</SAMP> flag with <CODE>release</CODE>, it
+also removes your working copy.
+
+</P>
+<P>
+In the example above, the <CODE>release</CODE> command wrote a couple of lines
+of output.  <SAMP>`? tc'</SAMP> means that the file <TT>`tc'</TT> is unknown to CVS.
+That is nothing to worry about: <TT>`tc'</TT> is the executable compiler,
+and it should not be stored in the repository.  See section <A HREF="cvs_141.html#SEC148">Ignoring files via cvsignore</A>,
+for information about how to make that warning go away.
+See section <A HREF="cvs_117.html#SEC124">release output</A>, for a complete explanation of
+all possible output from <CODE>release</CODE>.
+
+</P>
+<P>
+<SAMP>`M driver.c'</SAMP> is more serious.  It means that the
+file <TT>`driver.c'</TT> has been modified since it was
+checked out.
+
+</P>
+<P>
+The <CODE>release</CODE> command always finishes by telling
+you how many modified files you have in your working
+copy of the sources, and then asks you for confirmation
+before deleting any files or making any note in the
+history file.
+
+</P>
+<P>
+You decide to play it safe and answer <KBD>n <KBD>RET</KBD></KBD>
+when <CODE>release</CODE> asks for confirmation.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_11.html">previous</A>, <A HREF="cvs_13.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

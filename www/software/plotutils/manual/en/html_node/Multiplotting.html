@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+<title>Multiplotting - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="graph.html#graph" title="graph">
+<link rel="prev" href="Multiple-Datasets.html#Multiple-Datasets" title="Multiple Datasets">
+<link rel="next" href="Data-Formats.html#Data-Formats" title="Data Formats">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Multiplotting"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Data-Formats.html#Data-Formats">Data Formats</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Multiple-Datasets.html#Multiple-Datasets">Multiple Datasets</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="graph.html#graph">graph</a>
+<hr>
+</div>
+
+<h3 class="section">2.4 Multiplotting: placing multiple plots on a single page</h3>
+
+<p>It is occasionally useful to display several plots at once on a single
+page, or on a single graphics display.  We call such a composite plot a
+<em>multiplot</em>.  One common sort of multiplot is a small plot inset
+into a larger one.  Another sort is two or more plots side by side.
+
+   <p><code>graph</code> can draw multiplots consisting of an arbitrarily large
+number of plots.  When multiplotting, <code>graph</code> draws each plot in
+its own `virtual display'.  When an ordinary plot is drawn, the virtual
+display is the same as the physical display.  But when a plot of a
+multiplot is drawn, the virtual display may be any smaller square
+region.  The following two-plot example illustrates the idea.
+
+<pre class="example">     graph -T X datafile1 --reposition .35 .35 .3 datafile2
+</pre>
+   <p class="noindent">Here <code>datafile1</code> is plotted in the usual way.  The
+&lsquo;<samp><span class="samp">--reposition</span></samp>&rsquo; option, which serves as a separator between plots,
+specifies that the second plot will be drawn in a virtual display.  For
+the purposes of the &lsquo;<samp><span class="samp">--reposition</span></samp>&rsquo; option, the physical display is
+a square with lower left corner (0.0,0.0) and upper right corner
+(1.0,1.0).  In&nbsp;those<!-- /@w --> coordinates the virtual display will be a
+square of size 0.3, with lower left corner (0.35,0.35).  So&nbsp;the<!-- /@w -->
+second plot will be inset into the first.
+
+   <p>Just as the &lsquo;<samp><span class="samp">-w</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-h</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-r</span></samp>&rsquo;, and &lsquo;<samp><span class="samp">-u</span></samp>&rsquo; options may
+be used to set the size and position of a plotting box within the
+physical display, so they may be used to set the size and position of a
+plotting box within a virtual display.  For example,
+
+<pre class="example">     graph -T X datafile1 --reposition .35 .35 .3 -w .4 -r .3 datafile2
+</pre>
+   <p class="noindent">will yield a two-plot multiplot in which the second plot is
+significantly different.  Its plotting box will have a width only 0.4
+times the width of the virtual display.  However, the plotting box will
+be centered within the virtual display, since the distance between the
+left edge of the plotting box and the left edge of the virtual display
+will be 0.3&nbsp;times<!-- /@w --> the width of the virtual display.
+
+   <p>By convention, before each plot of a multiplot other than the first is
+drawn, a `blankout region' surrounding its plotting box is erased. 
+(That&nbsp;is<!-- /@w -->, it&nbsp;is<!-- /@w --> filled with white, or whatever the background
+color&nbsp;is<!-- /@w -->.)  This erasure prevents the plots from overlapping and
+producing a messy result.  By&nbsp;default<!-- /@w -->, the blankout region is a
+rectangular region 30% larger in each dimension than the plotting box
+for the plot.  That is appropriate if the plot is a small one that is
+inset into the first plot.  It&nbsp;may<!-- /@w --> not be appropriate, however,
+if&nbsp;you<!-- /@w --> are preparing a multiplot in which several plots appear side
+by side.  You may use the &lsquo;<samp><span class="samp">--blankout</span></samp>&rsquo; option to adjust this
+parameter.  For&nbsp;example<!-- /@w -->, specifying &lsquo;<samp><span class="samp">--blankout 1.0</span></samp>&rsquo; will make
+the blankout region for a plot coincide with its plotting box. 
+Specifying &lsquo;<samp><span class="samp">--blankout 0.0</span></samp>&rsquo; will prevent any blanking out from
+occurring.  The blankout parameter may be set more than once, so&nbsp;as<!-- /@w -->
+to differ from plot to plot.
+
+   <p>It should be emphasized that every plot in a multiplot is a plot in its
+own right.  All the usual options (&lsquo;<samp><span class="samp">-m</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-S</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-x</span></samp>&rsquo;,
+&lsquo;<samp><span class="samp">-y</span></samp>&rsquo;, etc.) can be applied to each plot separately.  The options
+for a plot should occur on the <code>graph</code> command line immediately
+after the &lsquo;<samp><span class="samp">--reposition</span></samp>&rsquo; option that applies to it.  Each plot may
+be prepared from more than a single dataset, also.  The names of the
+data files for each plot should occur on the command line before the
+following &lsquo;<samp><span class="samp">--reposition</span></samp>&rsquo; option, if&nbsp;any<!-- /@w -->.
+
+   </body></html>
+

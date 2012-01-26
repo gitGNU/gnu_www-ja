@@ -1,0 +1,319 @@
+\input texinfo @c -*-texinfo-*-
+@c %**start of header
+@setfilename rms-essays-v2.info
+@settitle Free Software, Free Society, 2nd ed.
+@smallerbook
+@raggedbottom
+@defindex rg
+@c %**end of header
+
+@tex
+@fonttextsize 10                 @c 10pt type for body
+\global\parskip = 0pt            % no space between paragraphs
+\gdef\putwordShortTOC{Contents}  % no long contents
+\global\let\urlcolor=\rgbBlack   % don't print links in grayscale
+\global\let\linkcolor=\rgbBlack
+\global\hbadness=6666 % don't worry about not-too-underfull boxes
+\global\envskipamount = 6pt plus8pt minus8pt
+\global\lispnarrowing = 0.3in
+@end tex
+
+@set txiindexlquoteignore
+
+@c
+
+@c to offset text images of translations in words-to-avoid
+@macro lowerbox{amt, stuff}
+@lower \amt\ @hbox{\stuff\}
+@end macro
+
+@macro copyingnotice
+@vskip 0pt plus1filll
+@def@thisfootno{}
+@dofootnote{Verbatim copying and distribution of this entire article is
+permitted in any medium,@* provided this notice is preserved.}
+@end macro
+
+@macro lessigbio
+@vskip 0pt plus1filll
+@let@textindent=@gobble
+@def@hang{@kern-@defaultparindent}@hangindent=0pt@relax
+@def@thisfootno{}
+@dofootnote{@kern-10pt
+Lawrence Lessig is a Professor of Law at Harvard Law
+School, the director of the@* Edmond J.@tie{}Safra Foundation Center
+for Ethics, and the founder of Stanford Law@* School's Center for
+Internet and Society. For much of his career, he focused his@* work on
+law and technology, especially as it affects copyright. He is the
+author of numerous books and has served as a board member of many
+organizations,@* including the Free Software Foundation.} 
+@end macro
+
+@macro righttoreadauthorsnote
+@vskip 0pt plus1filll
+@let@textindent=@gobble
+@def@hang{@kern-@defaultparindent}@hangindent=0pt@relax
+@def@thisfootno{}
+@dofootnote{@kern-10pt
+@math{^1}This note has been updated several times since the first publication of the story.} 
+@end macro
+
+@macro fsfstwocite
+@cite{Free Software, Free Society: Selected Essays of Richard
+M. Stallman,} 2nd@tie{}ed.@: (Boston: GNU Press, 2010).
+@end macro
+
+@macro pageref{nodename}
+p.@tie{}@refx{\nodename\-pg}{}
+@end macro
+
+@macro rmorbold{stuff}
+@r{\stuff\}
+@end macro
+
+@macro forceindent
+@leavevmode @kern@defaultparindent
+@end macro
+
+@macro firstcopyingnotice{stuff}
+@def@thisfootno{@ignorespaces}
+@let@textindent=@gobble
+@dofootnote{@ifnum @footnoteno=0 @kern-10pt @fi
+@def@hang{@kern-@defaultparindent}@hangindent=0pt@relax
+@raggedright @hyphenpenalty=10000
+\stuff\
+@end raggedright
+@par
+@medskip
+@noindent Verbatim copying and distribution of this entire chapter are permitted worldwide, without royalty, in any medium, provided this notice is preserved.}
+@end macro
+
+@macro secondcopyingnotice{stuff}
+@def@thisfootno{@ignorespaces}
+@let@textindent=@gobble
+@dofootnote{@ifnum @footnoteno=0 @kern-10pt @fi
+@def@hang{@kern-@defaultparindent}@hangindent=0pt@relax
+@raggedright @hyphenpenalty=10000
+\stuff\
+@end raggedright
+@par
+@medskip
+@noindent This chapter is licensed under the Creative Commons Attribution-NoDerivs@tie{}3.0 United States License. To view a copy of this license, visit
+@url{http://creativecommons.@/org/@/licenses/@/by-nd/@/3.0/us/} or send a letter to Creative Commons, 171@tie{}Second Street, Suite@tie{}300, San Francisco, California@tie{}94105, USA.}
+@end macro
+
+@ifnottex
+@alias unnumberedfootnote = footnote
+@end ifnottex
+
+@setchapternewpage odd
+
+@copying
+@raggedright
+This is the second edition of @cite{Free Software, Free Society: Selected Essays of Richard M. Stallman.}@*
+@end raggedright
+Free Software Foundation@*
+51 Franklin Street, Fifth Floor@*
+Boston, MA 02110-1335
+@sp 1
+Copyright @copyright{} 2002, 2010 Free Software Foundation, Inc.
+@quotation
+Verbatim copying and distribution of this entire book are permitted
+worldwide, without royalty, in any medium, provided this notice is
+preserved. Permission is granted to copy and distribute translations
+of this book from the original English into another language provided
+the translation has been approved by the Free Software Foundation and
+the copyright notice and this permission notice are preserved on all
+copies.
+@end quotation
+ISBN 978-0-9831592-0-9
+@sp 2
+Cover design by Rob Myers.@*
+Cover photograph by Peter Hinely.
+@end copying
+@include praise.texi
+@w{ }
+@page
+@titlepage
+@title Free Software, Free Society
+@subtitle Selected Essays of Richard M. Stallman
+@subtitle Second Edition
+@author Richard M. Stallman
+@c 
+@page
+@vskip 0pt plus 1 filll
+@insertcopying
+
+@end titlepage
+
+@pageno = -3
+@shortcontents
+
+@c so the table of contents is printed at the start
+
+@documentdescription
+This is the second edition of Richard Stallman's collection of essays.
+@end documentdescription
+@ifnottex
+@node Top
+@top FSFSv2
+This is the second edition of Richard Stallman's collection of essays.
+@insertcopying
+@end ifnottex
+
+@node Top, Foreword, (dir), (dir)
+@menu
+* Foreword::
+* Preface::
+* Part One::
+* Definition::
+* GNU Project::
+* Initial Announcement::
+* Manifesto::
+* Why Free:
+* Should Be Free::
+* Schools::
+* University::
+* Free Doc::
+* Selling::
+* Song::
+* Part Two::
+* Whats Name::
+* Categories::
+* OS Misses Point::
+* Not IPR::
+* Words to Avoid::
+* Part Three::
+* Right to Read::
+* Mis Cop::
+* Push Cop Aside::
+* Freedom or Copyright::
+* Copyleft::
+* Pragmatic::
+* Part Four::
+* Trivial Patent::
+* SPLP::
+* DSP::
+* New Monopoly::
+* Part Five::
+* Licenses Intro::
+* GPL::
+* Why V3::
+* LGPL::
+* FDL::
+* Part Six::
+* Can You Trust::
+* Server::
+* Java Trap::
+* JavaScript Trap:
+* X::
+* No Word Attachments::
+* Root::
+* McVoy::
+* Part Seven::
+* Computing Progress::
+* Compromise::
+* Social Inertia::
+* Freedom or Power::
+* Appendix A::
+* Appendix B::
+@end menu
+
+@c Don't put too much white space between lines/paragraphs.
+@c software_note.texi
+@c introduction.texi
+
+@global@pageno = @lastnegativepageno
+@include foreword.texi
+@include preface-v2.texi
+@page
+@headings off
+@w{ }
+@page
+@headings double
+@global@pageno = 1
+
+@c PART ONE:
+@c The GNU Project and Free Software
+@include part-one.texi
+@include free-sw.texi
+@include thegnuproject.texi
+@include initial-announcement.texi
+@include manifesto.texi
+@include why-free.texi
+@include shouldbefree.texi
+@include schools.texi
+@include university.texi
+@include free-doc.texi
+@include selling.texi
+@include song.texi
+
+@c PART TWO:
+@c What's in a Name?
+@include part-two.texi
+@include why-gnu-linux.texi
+@include categories.texi
+@include open-source-misses-the-point.texi
+@include not-ipr.texi
+@include words-to-avoid.texi
+
+@c PART THREE:
+@c Copyright, Copyleft
+@include part-three.texi
+@include right-to-read.texi
+@include misinterpreting-copyright.texi
+@include push-copyright-aside.texi
+@include freedom-or-copyright.texi
+@include copyleft.texi
+@include pragmatic.texi
+
+@c PART FOUR:
+@c Patents
+@include part-four.texi
+@include trivial-patent.texi
+@include software-literary-patents.texi
+@include dsp.texi
+@include microsoft-new-monopoly.texi
+
+@c PART FIVE:
+@c The Licenses
+@include part-five.texi
+@include licenses-introduction.texi
+@include gpl.texi
+@include rms-why-gplv3.texi
+@include lgpl.texi
+@include fdl.texi
+
+@c PART SIX:
+@c Traps and Challenges
+@include part-six.texi
+@include can-you-trust.texi
+@include server.texi
+@include java-trap.texi
+@include javascript-trap.texi
+@include x.texi
+@include root-of-problem.texi
+@include no-word-attachments.texi
+@include mcvoy.texi
+
+@c PART SEVEN:
+@c An Assessment and a Look Ahead
+@include part-seven.texi
+@include computing-progress.texi
+@include compromise.texi
+@include social-inertia.texi
+@include freedom-or-power.texi
+
+@tex
+\immediate\write\tocfile{@@sp 1}
+\immediate\write\tocfile{@@let@@rmorbold=@@b}
+@end tex
+
+@include appendix-a.texi
+@include appendix-b.texi
+@node Index
+@unnumbered @rmorbold{Index}
+
+@printindex merge
+
+@bye

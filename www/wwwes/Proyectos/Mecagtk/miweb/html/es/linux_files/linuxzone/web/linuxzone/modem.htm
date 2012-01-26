@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.07 [en] (X11; I; Linux 2.2.5 i586) [Netscape]">
+   <TITLE>Instalacion del modem Howto</TITLE>
+</HEAD>
+<BODY BGCOLOR="#000000" BACKGROUND="marble2.jpg">
+
+<CENTER><IMG SRC="modem.gif" ALT="Instalacion del modem HOWTO" >
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Por Daniel
+Molina</FONT></FONT></FONT></CENTER>
+
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Este documento
+ha sido creado usando mensajes aparecidos en el &aacute;rea de mensajes
+R34.linux de Fido y por mi propia experiencia.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Solo lo
+he probado en Red Hat 5.0 por lo ke los nombres y localizaciones de los
+archivos pueden variar respecto a otras distribuciones.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Indice</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#1">1.
+Instalaci&oacute;n f&iacute;sica del modem</A></FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#2">2.
+Elecci&oacute;n del puerto COM</A></FONT></FONT></FONT>
+<UL>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#2.1">2.1
+Linux y los puertos COM</A></FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#2.2">2.2
+Linux y el Plug'n'Play</A></FONT></FONT></FONT></LI>
+</UL>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#3">3.
+El comando setserial</A></FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#4">4.
+El archivo rc.serial</A></FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#5">5.
+Permisos de los archivos</A></FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#6">6.
+Contactar con el autor</A></FONT></FONT></FONT>
+<P>
+<HR>
+<P><A NAME="1"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>1.
+Instalaci&oacute;n f&iacute;sica del modem:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Esto no tiene
+complicaci&oacute;n, se hace perfectamente leyendo las instrucciones del
+manual del modem.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Tan solo
+recordar ke los Win-Modem no funcionan bajo Linux (de momento) ni los MWAVE
+de IBM.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>En funci&oacute;n
+del tipo de instalaci&oacute;n nos encontramos con modems internos y externos.</FONT></FONT></FONT>
+<P><A NAME="2"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>2.
+Elecci&oacute;n del puerto COM:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Los modems
+usan el puerto COM para comunicarse con el ordenador por lo ke la correcta
+elecci&oacute;n y configuraci&oacute;n de este puerto es imprescindible.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>En algunos
+modems hay ke seleccionar el puerto a trav&eacute;s de jumpers situados
+en el propio modem, mientras ke los Plug'n'Play (PnP a partir de ahora)
+se configuran mediante software o usan los recursos disponibles del sistema.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Es muy com&uacute;n
+asignar el COM2 al modem, pues la mayor&iacute;a tenemos el mouse en COM1
+aunque va a gusto del usuario. Usar cualquier puerto del 1 al 4 no deber&iacute;a
+ser ning&uacute;n problema.</FONT></FONT></FONT>
+<P><A NAME="2.1"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>2.1
+Linux y los puertos COM:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Linux trata
+los puertos COM de la misma manera ke todos los dispositivos de sistema,
+con una entrada en el directorio /dev</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Los archivos
+son:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/dev/cua0
+o /dev/ttyS0 : COM1</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/dev/cua1
+o /dev/ttyS1 : COM2</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/dev/cua2
+o /dev/ttyS2 : COM3</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/dev/cua3
+o /dev/ttyS3 : COM4</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Existen mas,
+pero su uso no es necesario en la mayor&iacute;a de los casos. Los dispositivos
+cuaX y ttySX son an&aacute;logos aunque se recomienda el uso de ttySX por
+sus mayores prestaciones (los cuaX est&aacute;n obsoletos)</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Nota: Por
+alg&uacute;n motivo DOSEmu no se entiende bien con ttySX, (al menos en
+mi sistema) por lo ke en dosemu.conf deberemos definir el modem en /dev/cuaX.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Podemos ver
+los puertos COM ke detecta el kernel durante el arranke con un simple:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1># dmesg |
+grep tty</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Ademas esto
+nos muestra las opciones por defecto de los puertos.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Una vez determinado
+ke puerto va a usar el modem crearemos un nuevo dispositivo ke use ese
+puerto, con la orden:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1># ln -s /dev/ttySX
+/dev/modem</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>En lugar
+de ttyS puede usarse cua (no recomendado), la X se substituye por un numero
+(0-3) ke determina el puerto.</FONT></FONT></FONT>
+<P><A NAME="2.2"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>2.2
+Linux y el PnP:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>En primer
+lugar recomiendo siempre el uso de dispositivos ke no sean PnP, ya sean
+modems, tarjetas de red, de sonido ... Existen varias alternativas para
+el uso de modems PnP bajo Linux:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>a) Las isapnptools</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Estas utilidades
+nos permiten usar modems PnP incluso con BIOS antiguas ke no soportan esta
+norma. Instala el paquete isapnptools-1.11 o posterior y teclea:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1># man isapnp</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1># man pnpdump</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>b) Soporte
+PnP en el kernel:</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Los kernels
+experimentales de la serie 2.1.xxx y 2.2.x soportan PnP desde hace muchas
+versiones. Para dar soporte PnP deberemos recompilar el kernel y seleccionar
+PnP como modulo.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>c) Inicializaci&oacute;n
+en MS-DOS/WIN95:</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Algunos
+modems llevan utilidades MSDOS/WIN para ajustar los valores de los puertos.
+Puedes usar este software para situar tu modem en COM2.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>En general
+esta operaci&oacute;n solo habr&aacute; ke realizarla una vez.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Nota: si
+tu software no encuentra recursos para el COM2 intenta inhabilitarlo desde
+la BIOS.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Nota: si
+tu modem funciona bien en otro sistema operativo apunta los par&aacute;metros
+para usarlos mas tarde en linux.</FONT></FONT></FONT>
+<P><A NAME="3"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>3.
+El comando setserial:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>En la mayor&iacute;a
+de los casos el modem ya esta instalado y listo para ser usado en el dispositivo
+/dev/modem, pero algunos modems requieren cambiar algunos par&aacute;metros
+del puerto.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Para eso
+se usa el comando setserial, el uso es:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1># setserial
+dispositivo opciones</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Un ejemplo
+de empleo completo de setserial seria:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1># setserial
+/dev/ttyS1 port 2f8 irq 3 uart 16550A baud_base 115200</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>port: Indica
+la regi&oacute;n I/O</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>irq: Indica
+la interrupci&oacute;n</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>uart: Indica
+el tipo de uart</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>baud_base:
+Indica la velocidad</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Tambi&eacute;n
+puedes usar este script de fabricaci&oacute;n casera para configurar las
+lineas seriales usando el comando setserial: <A HREF="setserial.sh.gz">setserial.sh.gz</A>,
+este sencillo script permite cambiar de una manera sencilla los par&aacute;metros
+de los puertos ttyS, recomendado para los ke no se quieren liar con el
+man.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Todos estos
+par&aacute;metros pueden modificarse para un uso optimo del dispositivo.
+Mas informaci&oacute;n en 'man setserial'</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Para ver
+toda la informaci&oacute;n disponible sobre nuestro modem escribiremos:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1># setserial
+-a /dev/modem</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Y comprobamos
+ke todos los datos son lo ke queremos.</FONT></FONT></FONT>
+<P><A NAME="4"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>4.
+El archivo rc.serial:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Si debemos
+hacer modificaciones en los puertos, estas pueden automatizarse colocandolas
+en el archivo /etc/rc.d/rc.serial</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>La sintaxis
+correcta de este archivo podr&iacute;a ser:</FONT></FONT></FONT>
+<PRE><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ---- /etc/rc.d/rc.serial --------- Cut here ----
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #!/bin/bash
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; setserial /dev/ttyS1 irq 5
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ---- /etc/rc.d/rc.serial --------- Cut here ----</FONT></FONT></FONT></PRE>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Esto fuerza
+a ke el sistema asigne la IRQ 5 al COM2 en cada arranke.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Parece ser
+ke los usuarios de Debian tienen este archivo en /etc/rc.boot/0setserial
+(agradecer&iacute;a mas informaci&oacute;n sobre esto)</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Para asegurarnos
+de ke este archivo es le&iacute;do por el sistema escribimos las siguientes
+lineas en el archivo /etc/rc.d/rc.sysinit:</FONT></FONT></FONT>
+<PRE><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ---- /etc/rc.d/rc.sysinit -------- Cut here ----
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [...]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if [ -f /etc/rc.d/rc.serial ]; then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /etc/rc.d/rc.serial
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [...]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ---- /etc/rc.d/rc.sysinit -------- Cut here ----</FONT></FONT></FONT></PRE>
+<A NAME="5"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>5.
+Permisos de los archivos:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Los usuarios
+ke vayan a usar el modem deben tener permisos de escritura en el dispositivo
+correspondiente:</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/dev/cuaX
+o /dev/ttySX : crw-rw-rw-</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1># chmod
+666 /dev/xxxxX</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/dev/modem
+: lrwxrwxrwx</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1># chmod
+777 /dev/modem</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Los archivos
+de inicializaci&oacute;n deben ser ejecutables:</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/etc/rc.d/rc.serial:
+-rwxr-xr-x</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1># chmod
+755 /.../rc.serial</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/etc/rc.d/rc.sysinit:
+-rwxr-xr-x</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1># chmod
+755 /.../rc.sysinit</FONT></FONT></FONT>
+<P><A NAME="6"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>6.
+Contactar con el autor:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Cualquier
+sugerencia o correcci&oacute;n ser&aacute;n bienvenidas.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>E-mail: <A HREF="mailto:dmolinap@geocities.com">dmolinap@geocities.com</A></FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>HTTP: <A HREF="http://www.geocities.com/soho/lofts/3682">http://www.geocities.com/soho/lofts/3682</A></FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>IRC: IRC-Hispano
+#linux Nick dan-man</FONT></FONT></FONT>
+<P>
+<HR>
+<BR>&nbsp;
+<P><BR>
+<CENTER>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="index.htm">Volver
+a la pagina principal</A></FONT></FONT></FONT></CENTER>
+
+<BR>&nbsp;
+</BODY>
+</HTML>

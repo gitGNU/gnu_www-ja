@@ -1,0 +1,97 @@
+<html lang="en">
+<head>
+<title>Data Formats - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="graph.html#graph" title="graph">
+<link rel="prev" href="Multiplotting.html#Multiplotting" title="Multiplotting">
+<link rel="next" href="graph-Invocation.html#graph-Invocation" title="graph Invocation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Data-Formats"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="graph-Invocation.html#graph-Invocation">graph Invocation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Multiplotting.html#Multiplotting">Multiplotting</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="graph.html#graph">graph</a>
+<hr>
+</div>
+
+<h3 class="section">2.5 Reading binary and other data formats</h3>
+
+<p>By default, <code>graph</code> reads datasets in ASCII format.  But it can
+also read datasets in any of three binary formats (single precision
+floating point, double precision floating point, and integer). 
+These three input formats are specified by the &lsquo;<samp><span class="samp">-I d</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-I f</span></samp>&rsquo;,
+and &lsquo;<samp><span class="samp">-I i</span></samp>&rsquo; options, respectively.
+
+   <p>There are two advantages to using binary data: 1)&nbsp;<code>graph</code><!-- /@w --> runs
+significantly faster because the computational overhead for converting
+data from ASCII to binary is eliminated, and 2)&nbsp;the<!-- /@w --> input files may
+be significantly smaller.  If&nbsp;you<!-- /@w --> have very large datasets, using
+binary format may reduce storage and runtime costs.
+
+   <p>For example, you may create a single precision binary dataset as output
+from a C language program:
+
+<pre class="example">     #include &lt;stdio.h&gt;
+     void write_point (float x, float y)
+     {
+       fwrite(&amp;x, sizeof (float), 1, stdout);
+       fwrite(&amp;y, sizeof (float), 1, stdout);
+     }
+</pre>
+   <p class="noindent">You may plot data written this way by doing:
+
+<pre class="example">     graph -T ps -I f &lt; binary_datafile &gt; plot.ps
+</pre>
+   <p class="noindent">The inclusion of multiple datasets within a single binary file is
+supported.  If a binary file contains more than a single dataset,
+successive datasets should be separated by a single occurrence of the
+the largest possible number.  For single precision datasets this is the
+quantity <code>FLT_MAX</code>, for double precision datasets it is the
+quantity <code>DBL_MAX</code>, and for integer datasets it is the quantity
+<code>INT_MAX</code>.  On&nbsp;most<!-- /@w --> machines <code>FLT_MAX</code> is approximately
+3.4x10^38, <code>DBL_MAX</code> is approximately 1.8x10^308, and
+<code>INT_MAX</code> is 2^32-1.
+
+   <p>If you are reading datasets from more than one file, it is not required
+that the files be in the same format.  For example,
+
+<pre class="example">     graph -T ps -I f binary_datafile -I a ascii_datafile &gt; plot.ps
+</pre>
+   <p class="noindent">will read <code>binary_datafile</code> in &lsquo;<samp><span class="samp">f</span></samp>&rsquo; (binary single precision)
+format, and <code>datafile</code> in &lsquo;<samp><span class="samp">a</span></samp>&rsquo; (normal ASCII) format.
+
+   <p>There is currently no support for reading and plotting binary data with
+error bars.  If you have data with error bars, you should supply the data
+to <code>graph</code> in ASCII, and use the &lsquo;<samp><span class="samp">-I e</span></samp>&rsquo; option.
+
+   <p><code>graph</code> can also read data files in the ASCII `table' format
+produced by the <code>gnuplot</code> plotting program.  For this, you should
+use the &lsquo;<samp><span class="samp">-I g</span></samp>&rsquo; option.  Such a data file may consist of more than
+one dataset.
+
+   <p>To sum up: there are six supported data formats, &lsquo;<samp><span class="samp">a</span></samp>&rsquo; (normal
+ASCII), &lsquo;<samp><span class="samp">e</span></samp>&rsquo; (ASCII with error bars), &lsquo;<samp><span class="samp">g</span></samp>&rsquo; (the ASCII `table'
+format produced by <code>gnuplot</code>), &lsquo;<samp><span class="samp">f</span></samp>&rsquo; (binary single precision),
+&lsquo;<samp><span class="samp">d</span></samp>&rsquo; (binary double precision), and &lsquo;<samp><span class="samp">i</span></samp>&rsquo; (binary integer). 
+Input files may be in any of these six formats.
+
+   </body></html>
+

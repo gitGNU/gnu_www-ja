@@ -1,0 +1,187 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Tags</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_48.html">previous</A>, <A HREF="cvs_50.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC51" HREF="cvs_toc.html#TOC51">Tags--Symbolic revisions</A></H2>
+<P>
+<A NAME="IDX197"></A>
+
+</P>
+<P>
+The revision numbers live a life of their own.  They
+need not have anything at all to do with the release
+numbers of your software product.  Depending
+on how you use CVS the revision numbers might change several times
+between two releases.  As an example, some of the
+source files that make up RCS 5.6 have the following
+revision numbers:
+<A NAME="IDX198"></A>
+
+</P>
+
+<PRE>
+ci.c            5.21
+co.c            5.9
+ident.c         5.3
+rcs.c           5.12
+rcsbase.h       5.11
+rcsdiff.c       5.10
+rcsedit.c       5.11
+rcsfcmp.c       5.9
+rcsgen.c        5.10
+rcslex.c        5.11
+rcsmap.c        5.2
+rcsutil.c       5.10
+</PRE>
+
+<P>
+<A NAME="IDX199"></A>
+<A NAME="IDX200"></A>
+<A NAME="IDX201"></A>
+<A NAME="IDX202"></A>
+You can use the <CODE>tag</CODE> command to give a symbolic name to a
+certain revision of a file.  You can use the <SAMP>`-v'</SAMP> flag to the
+<CODE>status</CODE> command to see all tags that a file has, and
+which revision numbers they represent.  Tag names can
+contain uppercase and lowercase letters, digits,
+<SAMP>`-'</SAMP>, and <SAMP>`_'</SAMP>.  The two tag names <CODE>BASE</CODE>
+and <CODE>HEAD</CODE> are reserved for use by CVS.  It
+is expected that future names which are special to
+CVS will contain characters such as <SAMP>`%'</SAMP> or
+<SAMP>`='</SAMP>, rather than being named analogously to
+<CODE>BASE</CODE> and <CODE>HEAD</CODE>, to avoid conflicts with
+actual tag names.
+
+</P>
+<P>
+<A NAME="IDX203"></A>
+<A NAME="IDX204"></A>
+The following example shows how you can add a tag to a
+file.  The commands must be issued inside your working
+copy of the module.  That is, you should issue the
+command in the directory where <TT>`backend.c'</TT>
+resides.
+
+</P>
+
+<PRE>
+$ cvs tag release-0-4 backend.c
+T backend.c
+$ cvs status -v backend.c
+===================================================================
+File: backend.c         Status: Up-to-date
+
+    Version:            1.4     Tue Dec  1 14:39:01 1992
+    RCS Version:        1.4     /usr/local/cvsroot/yoyodyne/tc/backend.c,v
+    Sticky Tag:         (none)
+    Sticky Date:        (none)
+    Sticky Options:     (none)
+
+    Existing Tags:
+        release-0-4                     (revision: 1.4)
+
+</PRE>
+
+<P>
+There is seldom reason to tag a file in isolation.  A more common use is
+to tag all the files that constitute a module with the same tag at
+strategic points in the development life-cycle, such as when a release
+is made.
+
+</P>
+
+<PRE>
+$ cvs tag release-1-0 .
+cvs tag: Tagging .
+T Makefile
+T backend.c
+T driver.c
+T frontend.c
+T parser.c
+</PRE>
+
+<P>
+(When you give CVS a directory as argument, it generally applies the
+operation to all the files in that directory, and (recursively), to any
+subdirectories that it may contain.  See section <A HREF="cvs_58.html#SEC60">Recursive behavior</A>.)
+
+</P>
+<P>
+<A NAME="IDX205"></A>
+<A NAME="IDX206"></A>
+The <CODE>checkout</CODE> command has a flag, <SAMP>`-r'</SAMP>, that lets you check out
+a certain revision of a module.  This flag makes it easy to
+retrieve the sources that make up release 1.0 of the module <SAMP>`tc'</SAMP> at
+any time in the future:
+
+</P>
+
+<PRE>
+$ cvs checkout -r release-1-0 tc
+</PRE>
+
+<P>
+This is useful, for instance, if someone claims that there is a bug in
+that release, but you cannot find the bug in the current working copy.
+
+</P>
+<P>
+You can also check out a module as it was at any given date.
+See section <A HREF="cvs_93.html#SEC97">checkout options</A>.
+
+</P>
+<P>
+When you tag more than one file with the same tag you
+can think about the tag as "a curve drawn through a
+matrix of filename vs. revision number."  Say we have 5
+files with the following revisions:
+
+</P>
+
+<PRE>
+        file1   file2   file3   file4   file5
+
+        1.1     1.1     1.1     1.1  /--1.1*      &#60;-*-  TAG
+        1.2*-   1.2     1.2    -1.2*-
+        1.3  \- 1.3*-   1.3   / 1.3
+        1.4          \  1.4  /  1.4
+                      \-1.5*-   1.5
+                        1.6
+</PRE>
+
+<P>
+At some time in the past, the <CODE>*</CODE> versions were tagged.
+You can think of the tag as a handle attached to the curve
+drawn through the tagged revisions.  When you pull on
+the handle, you get all the tagged revisions.  Another
+way to look at it is that you "sight" through a set of
+revisions that is "flat" along the tagged revisions,
+like this:
+
+</P>
+
+<PRE>
+        file1   file2   file3   file4   file5
+
+                        1.1
+                        1.2
+                1.1     1.3                       _
+        1.1     1.2     1.4     1.1              /
+        1.2*----1.3*----1.5*----1.2*----1.1     (--- &#60;--- Look here
+        1.3             1.6     1.3              \_
+        1.4                     1.4
+                                1.5
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_48.html">previous</A>, <A HREF="cvs_50.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

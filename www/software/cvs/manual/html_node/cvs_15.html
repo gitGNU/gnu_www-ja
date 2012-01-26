@@ -1,0 +1,79 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Specifying a repository</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_14.html">previous</A>, <A HREF="cvs_16.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC16" HREF="cvs_toc.html#TOC16">Telling CVS where your repository is</A></H2>
+
+<P>
+There are a couple of different ways to tell CVS
+where to find the repository.  You can name the
+repository on the command line explicitly, with the
+<CODE>-d</CODE> (for "directory") option:
+
+</P>
+
+<PRE>
+cvs -d /usr/local/cvsroot checkout yoyodyne/tc
+</PRE>
+
+<P>
+<A NAME="IDX63"></A>
+<A NAME="IDX64"></A>
+<A NAME="IDX65"></A>
+<A NAME="IDX66"></A>
+<A NAME="IDX67"></A>
+        Or you can set the <CODE>$CVSROOT</CODE> environment
+variable to an absolute path to the root of the
+repository, <TT>`/usr/local/cvsroot'</TT> in this example.
+To set <CODE>$CVSROOT</CODE>, all <CODE>csh</CODE> and <CODE>tcsh</CODE>
+users should have this line in their <TT>`.cshrc'</TT> or
+<TT>`.tcshrc'</TT> files:
+
+</P>
+
+<PRE>
+setenv CVSROOT /usr/local/cvsroot
+</PRE>
+
+<P>
+<CODE>sh</CODE> and <CODE>bash</CODE> users should instead have these lines in their
+<TT>`.profile'</TT> or <TT>`.bashrc'</TT>:
+
+</P>
+
+<PRE>
+CVSROOT=/usr/local/cvsroot
+export CVSROOT
+</PRE>
+
+<P>
+        A repository specified with <CODE>-d</CODE> will
+override the <CODE>$CVSROOT</CODE> environment variable.
+Once you've checked a working copy out from the
+repository, it will remember where its repository is
+(the information is recorded in the
+<TT>`CVS/Root'</TT> file in the working copy).  
+
+</P>
+<P>
+The <CODE>-d</CODE> option and the <TT>`CVS/Root'</TT> file both
+override the <CODE>$CVSROOT</CODE> environment variable.  If
+<CODE>-d</CODE> option differs from <TT>`CVS/Root'</TT>, the
+former is used (and specifying <CODE>-d</CODE> will cause
+<TT>`CVS/Root'</TT> to be updated).  Of course, for proper
+operation they should be two ways of referring to the
+same repository.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_14.html">previous</A>, <A HREF="cvs_16.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

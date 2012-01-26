@@ -1,0 +1,147 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="Debugging">Debugging</a>,
+Next:<a rel=next accesskey=n href="Profiling.html#Profiling">Profiling</a>,
+Previous:<a rel=previous accesskey=p href="Efficiency.html#Efficiency">Efficiency</a>,
+Up:<a rel=up accesskey=u href="GMP-Basics.html#GMP%20Basics">GMP Basics</a>
+<hr><br>
+
+<h3>Debugging</h3>
+
+<dl>
+<dt>Stack Overflow
+<dd>Depending on the system, a segmentation violation or bus error might be the
+only indication of stack overflow.  See <code>--enable-alloca</code> choices in
+<a href="Build-Options.html#Build%20Options">Build Options</a>, for how to address this.
+
+<br><dt>Heap Problems
+<dd>The most likely cause of application problems with GMP is heap corruption. 
+Failing to <code>init</code> GMP variables will have unpredictable effects, and
+corruption arising elsewhere in a program may well affect GMP.  Initializing
+GMP variables more than once or failing to clear them will cause memory leaks.
+
+<p>In all such cases a malloc debugger is recommended.  On a GNU or BSD system
+the standard C library <code>malloc</code> has some diagnostic facilities, see
+<a href="../libc/Allocation-Debugging.html#Allocation%20Debugging">Allocation Debugging</a>, or
+<code>man 3 malloc</code>.  Other possibilities, in no particular order, include
+
+<br><pre><a href="http://www.inf.ethz.ch/personal/biere/projects/ccmalloc">http://www.inf.ethz.ch/personal/biere/projects/ccmalloc</a>
+<a href="http://quorum.tamu.edu/jon/gnu">http://quorum.tamu.edu/jon/gnu</a>  (debauch)
+<a href="http://dmalloc.com">http://dmalloc.com</a>
+<a href="http://www.perens.com/FreeSoftware">http://www.perens.com/FreeSoftware</a>  (electric fence)
+<a href="http://packages.debian.org/fda">http://packages.debian.org/fda</a>
+<a href="http://www.gnupdate.org/components/leakbug">http://www.gnupdate.org/components/leakbug</a>
+<a href="http://people.redhat.com/~otaylor/memprof">http://people.redhat.com/~otaylor/memprof</a>
+<a href="http://www.cbmamiga.demon.co.uk/mpatrol">http://www.cbmamiga.demon.co.uk/mpatrol</a>
+</pre>
+
+<p>The GMP default allocation routines in <code>memory.c</code> also have a simple
+sentinel scheme which can be enabled with <code>#define DEBUG</code> in that file. 
+This is mainly designed for detecting buffer overruns during GMP development,
+but might find other uses.
+
+<br><dt>Stack Backtraces
+<dd>On some systems the compiler options GMP uses by default can interfere with
+debugging.  In particular on x86 and 68k systems <code>-fomit-frame-pointer</code>
+is used and this generally inhibits stack backtracing.  Recompiling without
+such options may help while debugging, though the usual caveats about it
+potentially moving a memory problem or hiding a compiler bug will apply.
+
+<br><dt>GNU Debugger
+<dd>A sample <code>.gdbinit</code> is included in the distribution, showing how to call
+some undocumented dump functions to print GMP variables from within GDB.  Note
+that these functions shouldn't be used in final application code since they're
+undocumented and may be subject to incompatible changes in future versions of
+GMP.
+
+<br><dt>Source File Paths
+<dd>GMP has multiple source files with the same name, in different directories. 
+For example <code>mpz</code>, <code>mpq</code>, <code>mpf</code> and <code>mpfr</code> each have an
+<code>init.c</code>.  If the debugger can't already determine the right one it may
+help to build with absolute paths on each C file.  One way to do that is to
+use a separate object directory with an absolute path to the source directory.
+
+<br><pre>cd /my/build/dir
+/my/source/dir/gmp-4.1/configure
+</pre>
+
+<p>This works via <code>VPATH</code>, and might require GNU <code>make</code>. 
+Alternately it might be possible to change the <code>.c.lo</code> rules
+appropriately.
+
+<br><dt>Assertion Checking
+<dd>The build option <code>--enable-assert</code> is available to add some consistency
+checks to the library (see <a href="Build-Options.html#Build%20Options">Build Options</a>).  These are likely to be of
+limited value to most applications.  Assertion failures are just as likely to
+indicate memory corruption as a library or compiler bug.
+
+<p>Applications using the low-level <code>mpn</code> functions, however, will benefit
+from <code>--enable-assert</code> since it adds checks on the parameters of most
+such functions, many of which have subtle restrictions on their usage.  Note
+however that only the generic C code has checks, not the assembler code, so
+CPU <code>none</code> should be used for maximum checking.
+
+<br><dt>Temporary Memory Checking
+<dd>The build option <code>--enable-alloca=debug</code> arranges that each block of
+temporary memory in GMP is allocated with a separate call to <code>malloc</code> (or
+the allocation function set with <code>mp_set_memory_functions</code>).
+
+<p>This can help a malloc debugger detect accesses outside the intended bounds,
+or detect memory not released.  In a normal build, on the other hand,
+temporary memory is allocated in blocks which GMP divides up for its own use,
+or may be allocated with a compiler builtin <code>alloca</code> which will go
+nowhere near any malloc debugger hooks.
+
+<br><dt>Checker
+<dd>The checker program (<a href="http://savannah.gnu.org/projects/checker">http://savannah.gnu.org/projects/checker</a>) can be
+used with GMP.  It contains a stub library which means GMP applications
+compiled with checker can use a normal GMP build.
+
+<p>A build of GMP with checking within GMP itself can be made.  This will run
+very very slowly.  Configure with
+
+<br><pre>./configure --host=none-pc-linux-gnu CC=checkergcc
+</pre>
+
+<p><code>--host=none</code> must be used, since the GMP assembler code doesn't support
+the checking scheme.  The GMP C++ features cannot be used, since current
+versions of checker (0.9.9.1) don't yet support the standard C++ library.
+
+<br><dt>Valgrind
+<dd>The valgrind program (<a href="http://devel-home.kde.org/~sewardj">http://devel-home.kde.org/~sewardj</a>) is a memory
+checker for x86s.  It translates and emulates machine instructions to do
+strong checks for uninitialized data (at the level of individual bits), memory
+accesses through bad pointers, and memory leaks.
+
+<p>Current versions (20020226 snapshot) don't support MMX or SSE, so GMP must be
+configured for an x86 without those (eg. plain <code>i386</code>), or with a special
+<code>MPN_PATH</code> that excludes those subdirectories (see <a href="Build-Options.html#Build%20Options">Build Options</a>).
+
+<br><dt>Other Problems
+<dd>Any suspected bug in GMP itself should be isolated to make sure it's not an
+application problem, see <a href="Reporting-Bugs.html#Reporting%20Bugs">Reporting Bugs</a>. 
+</dl>
+
+</body></html>
+

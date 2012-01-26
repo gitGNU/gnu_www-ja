@@ -1,0 +1,82 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Moving and renaming directories</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_14.html">previous</A>, <A HREF="cvs_16.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC71" HREF="cvs_toc.html#TOC71">Moving and renaming directories</A></H1>
+<P>
+<A NAME="IDX260"></A>
+<A NAME="IDX261"></A>
+<A NAME="IDX262"></A>
+
+</P>
+<P>
+If you want to be able to retrieve old versions of the
+module, you must move each file in the directory
+with the CVS commands.  See section <A HREF="cvs_14.html#SEC68">The Normal way to Rename</A>.  The old, empty
+directory will remain inside the repository, but it
+will not appear in your workspace when you check out
+the module in the future.
+
+</P>
+<P>
+If you really want to rename or delete a directory, you
+can do it like this:
+
+</P>
+
+<OL>
+<LI>
+
+Inform everyone who has a copy of the module that the
+directory will be renamed.  They should commit all
+their changes, and remove their working copies of the
+module, before you take the steps below.
+
+<LI>
+
+Rename the directory inside the repository.
+
+
+<PRE>
+$ cd $CVSROOT/<VAR>module</VAR>
+$ mv <VAR>old-dir</VAR> <VAR>new-dir</VAR>
+</PRE>
+
+<LI>
+
+Fix the CVS administrative files, if necessary (for
+instance if you renamed an entire module).
+
+<LI>
+
+Tell everyone that they can check out the module and continue
+working.
+
+</OL>
+
+<P>
+If someone had a working copy of the module the CVS commands will
+cease to work for him, until he removes the directory
+that disappeared inside the repository.
+
+</P>
+<P>
+It is almost always better to move the files in the
+directory instead of moving the directory.  If you move the
+directory you are unlikely to be able to retrieve old
+releases correctly, since they probably depend on the
+name of the directories.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_14.html">previous</A>, <A HREF="cvs_16.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

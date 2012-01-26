@@ -1,0 +1,434 @@
+<html lang="en">
+<head>
+<title>Attribute Functions - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Functions.html#Functions" title="Functions">
+<link rel="prev" href="Drawing-Functions.html#Drawing-Functions" title="Drawing Functions">
+<link rel="next" href="Mapping-Functions.html#Mapping-Functions" title="Mapping Functions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Attribute-Functions"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Mapping-Functions.html#Mapping-Functions">Mapping Functions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Drawing-Functions.html#Drawing-Functions">Drawing Functions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Functions.html#Functions">Functions</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.4.3 Attribute-setting functions</h4>
+
+<p>The following are the &ldquo;attribute functions&rdquo; in <code>libplot</code>.  When
+invoked on a Plotter, these functions set its drawing attributes, or
+save them or restore them.  Path-related attributes include graphics
+cursor position, pen color, fill color, fill rule, line thickness, line
+style, cap style, join style, miter limit, and transformation matrix. 
+Text-related attributes include pen color, font name, font size, text
+angle, and transformation matrix.
+
+   <p>Setting any path-related drawing attribute automatically terminates and
+draws the path under construction (if&nbsp;any<!-- /@w -->), as&nbsp;if<!-- /@w --> the
+<code>endpath</code> operation had been invoked.  The `orientation' attribute
+(clockwise/counterclockwise), which affects circles, ellipses, and
+boxes, is an exception to this.  The exception allows a compound path to
+include circles, ellipses, and boxes with different orientations.
+
+   <p>In the current C&nbsp;binding<!-- /@w -->, each of these functions takes a pointer to
+a <code>plPlotter</code> as its first argument.  Also in the current C&nbsp;binding<!-- /@w -->, the name of each function begins with "pl_" and ends with&nbsp;"_r"<!-- /@w -->.  ("_r"&nbsp;stands<!-- /@w --> for `revised' or `reentrant'.)  For information
+on older C&nbsp;bindings<!-- /@w -->, see <a href="Older-C-APIs.html#Older-C-APIs">Older C APIs</a>.  In&nbsp;the<!-- /@w --> C++
+binding, these are member functions of the <code>Plotter</code> class and its
+subclasses, and the prefix and suffix are not used.
+
+     <dl>
+<dt>int <tt>capmod</tt> (const char *<var>s</var>);<dd><tt>capmod</tt> terminates and draws the path under construction (if&nbsp;any<!-- /@w -->), as if <tt>endpath</tt> had been called, and sets the cap mode (i.e.,
+cap style) for all paths subsequently drawn on the graphics display. 
+Recognized styles are "butt" (the default), "round", and "projecting". 
+The three styles are visibly distinct only if the line thickness is
+fairly large.  Butt caps do&nbsp;not<!-- /@w --> extend beyond the end of the path. 
+The other two kinds do, however.  Round caps are filled semicircles, and
+projecting caps are filled rectangular regions that extend a distance
+equal to half the line width beyond the end of the path.
+
+     <p>PNG, PNM, GIF, PCL, and HP-GL Plotters support a fourth cap mode,
+"triangular".  (For all but PCL and HP-GL Plotters, the support is
+currently only partial.)  Plotters other than these treat "triangular"
+as equivalent to "round".
+
+     <p>This function has no effect on ReGIS or Tektronix Plotters.  Also, it
+has no effect on HP-GL Plotters if the parameter <code>HPGL_VERSION</code> is
+set to a value less than&nbsp;"2"<!-- /@w --> (the default), or on CGM Plotters if
+the parameter <code>CGM_MAX_VERSION</code> is set to a value less than&nbsp;"3"<!-- /@w -->.  See <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.
+
+     <br><dt>int <tt>color</tt> (int <var>red</var>, int <var>green</var>, int <var>blue</var>);<dd><tt>color</tt> is a convenience function.  Calling <tt>color</tt> is equivalent to
+calling both <tt>pencolor</tt> and <tt>fillcolor</tt>, to set both the the pen
+color and fill color of all objects subsequently drawn on the graphics
+display.  Note that the physical fill color depends also on the fill
+level, which is specified by calling <tt>filltype</tt>.
+
+     <br><dt>int <tt>colorname</tt> (const char *<var>name</var>);<dd><tt>colorname</tt> is a convenience function.  Calling <tt>colorname</tt> is
+equivalent to calling both <tt>pencolorname</tt> and <tt>fillcolorname</tt>, to
+set both the the pen color and fill color of all objects subsequently
+drawn on the graphics display.  Note that the physical fill color
+depends also on the fill level, which is specified by calling
+<tt>filltype</tt>.
+
+     <br><dt>int <tt>fillcolor</tt> (int <var>red</var>, int <var>green</var>, int <var>blue</var>);<dd><tt>fillcolor</tt> terminates and draws the path under construction (if&nbsp;any<!-- /@w -->), as if <tt>endpath</tt> had been called, and sets the fill color for
+all paths subsequently drawn on the graphics display, using a 48-bit RGB
+color model.  The arguments <var>red</var>, <var>green</var> and <var>blue</var>
+specify the red, green and blue intensities of the fill color.  Each is
+an integer in the range <tt>0x0000</tt><small class="dots">...</small><tt>0xffff</tt>, i.e.,
+0<small class="dots">...</small>65535.  The choice (0,&nbsp;0,&nbsp;0)<!-- /@w --> signifies black, and the choice
+(65535, 65535, 65535) signifies white.  Note that the physical fill
+color depends also on the fill level, which is specified by calling
+<tt>filltype</tt>.
+
+     <br><dt>int <tt>fillcolorname</tt> (const char *<var>name</var>);<dd><tt>fillcolorname</tt> sets the fill color of all paths subsequently drawn on
+the graphics display to be <var>name</var>.  Unrecognized colors are
+interpreted as "black".  For information on what color names are
+recognized, see <a href="Color-Names.html#Color-Names">Color Names</a>.  A&nbsp;24-bit<!-- /@w --> RGB color may also be
+specified as a six-digit hexadecimal string, e.g., "#c0c0c0".
+
+     <p>Note that the physical fill color depends also on the fill level, which
+is specified by calling <tt>filltype</tt>.
+
+     <br><dt>int <tt>fillmod</tt> (const char *<var>s</var>);<dd><tt>fillmod</tt> terminates and draws the path under construction (if&nbsp;any<!-- /@w -->), as if <tt>endpath</tt> had been called, and sets the fill mode, i.e.,
+fill rule, for all paths subsequently drawn on the graphics display. 
+The fill rule affects only compound paths and self-intersecting simple
+paths: it determines which points are `inside'.  Two rules are
+supported: "even-odd" (the default for all Plotters), and
+"nonzero-winding".  For the distinction, see the <cite>Postscript
+Language Reference Manual</cite>.  "alternate" is an alias for "even-odd" and
+"winding" is an alias for "nonzero-winding".
+
+     <p>CGM, Fig, and ReGIS Plotters do not support the "nonzero-winding" rule,
+because the CGM, Fig, and ReGIS vector graphics formats do not
+support&nbsp;it<!-- /@w -->.  Also, HP-GL Plotters do not support "nonzero-winding"
+if <code>HPGL_VERSION</code> is set to a value less than "2" (the default). 
+See <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.
+
+     <p>The LaserJet III, which was Hewlett&ndash;Packard's first PCL&nbsp;5<!-- /@w --> printer,
+did not support the nonzero-winding fill rule.  However, all later
+PCL&nbsp;5<!-- /@w --> printers from Hewlett&ndash;Packard support&nbsp;it<!-- /@w -->.
+
+     <br><dt>int <tt>filltype</tt> (int <var>level</var>);<dd><tt>filltype</tt> terminates and draws the path under construction (if&nbsp;any<!-- /@w -->), as if <tt>endpath</tt> had been called, and sets the fill level for
+all subsequently drawn paths.  A&nbsp;value<!-- /@w --> of&nbsp;0<!-- /@w --> for <var>level</var>
+specifies no filling.  This is the default.  A&nbsp;value<!-- /@w --> of&nbsp;1<!-- /@w -->
+specifies 100% filling: the fill color will be the color previously
+specified by calling <tt>fillcolor</tt> or <tt>fillcolorname</tt>.
+
+     <p>As a convenience to the user, <var>level</var> may be set to any value in the
+range <tt>0x0000</tt><small class="dots">...</small><tt>0xffff</tt>, i.e., 0<small class="dots">...</small>65535.  Any nonzero
+value will produce filling.  If <var>level</var>=<tt>0xffff</tt>, the fill color
+will be white.  Values in the range <tt>0x0001</tt><small class="dots">...</small><tt>0xffff</tt> are
+interpreted as specifying a desaturation, or gray level.  For&nbsp;example<!-- /@w -->, <tt>0x8000</tt> specifies 50% filling (the fill color will be
+half-way between the color specified by calling <tt>fillcolor</tt> or
+<tt>fillcolorname</tt>, and white).
+
+     <p>To draw the region bounded by a path in an edgeless way, you would call
+<tt>filltype</tt> to turn&nbsp;on<!-- /@w --> the filling of the interior, and <tt>pentype</tt>
+to turn&nbsp;off<!-- /@w --> the drawing of the boundary.
+
+     <p>Tektronix Plotters do not support filling, and HP-GL Plotters support
+filling of arbitrary paths only if the parameter <code>HPGL_VERSION</code> is
+equal to "1.5" or&nbsp;"2"<!-- /@w --> (the default).  (If the version is&nbsp;"1"<!-- /@w -->
+then only circles and rectangles aligned with the coordinate axes may be
+filled.)  <em>Opaque</em> filling, including white filling, is supported
+only if the parameter <code>HPGL_VERSION</code> is&nbsp;"2"<!-- /@w --> and the parameter
+<code>HPGL_OPAQUE_MODE</code> is "yes" (the default).  See <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.
+
+     <br><dt>int <tt>fmiterlimit</tt> (double <var>limit</var>);<dd><tt>fmiterlimit</tt> terminates and draws the path under construction (if&nbsp;any<!-- /@w -->), as if <tt>endpath</tt> had been called, and sets the miter limit for
+all paths subsequently drawn on the graphics display.  The miter limit
+controls the treatment of corners, if the join mode is set to "miter"
+(the default).  At&nbsp;a<!-- /@w --> join point of a path, the `miter length' is
+defined to be the distance between the inner corner and the outer
+corner.  The miter limit is the maximum value that will be tolerated for
+the miter length divided by the line thickness.  If this value is
+exceeded, the miter will be cut&nbsp;off<!-- /@w -->: the "bevel" join mode will be
+used instead.
+
+     <p>Examples of typical values for <var>limit</var> are 10.43 (the default, which
+cuts off miters if the join angle is less than 11 degrees), 2.0 (the
+same, for 60 degrees), and 1.414 (the same, for 90 degrees).  In&nbsp;general<!-- /@w -->, the miter limit is the cosecant of one-half the minimum angle
+for mitered joins.  The minimum meaningful value for <var>limit</var> is&nbsp;1.0<!-- /@w -->, which converts all mitered joins to beveled joins, irrespective of
+join angle.  Specifying a value less than 1.0 resets the limit to the
+default.
+
+     <p>This function has no effect on X&nbsp;Drawable<!-- /@w --> Plotters or X&nbsp;Plotters<!-- /@w -->, since the X&nbsp;Window<!-- /@w --> System miter limit, which is also
+10.43, cannot be altered.  It also has no effect on Tektronix, ReGIS, or
+Fig Plotters, or on HP-GL Plotters if the parameter <code>HPGL_VERSION</code>
+is set to a value less than&nbsp;"2"<!-- /@w --> (the default).  See <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.  The miter limit used by HP-GL or PCL Plotters is always
+rounded to the closest integer, downward.
+
+     <br><dt>int <tt>fontname</tt> (const char *<var>font_name</var>);<dt>double <tt>ffontname</tt> (const char *<var>font_name</var>);<dd><tt>fontname</tt> and <tt>ffontname</tt> take a single case-insensitive string
+argument, <var>font_name</var>, specifying the name of the font to be used
+for all text strings subsequently drawn on the graphics display.  (The
+font for plotting strings is fully specified by calling <tt>fontname</tt>,
+<tt>fontsize</tt>, and <tt>textangle</tt>.)  The size of the font in user
+coordinates is returned.
+
+     <p>The default font name depends on the type of Plotter.  It&nbsp;is<!-- /@w -->
+"Helvetica" for all Plotters except for PCL Plotters, for which it is
+"Univers", and PNG, PNM, GIF, HP-GL, ReGIS, Tektronix and Metafile
+Plotters, for which it is "HersheySerif".  If&nbsp;the<!-- /@w --> argument
+<var>font_name</var> is NULL or the empty string, or the font is not
+available, the default font name will be used.  Which fonts are
+available also depends on the type of Plotter; for a list of all
+available fonts, see <a href="Text-Fonts.html#Text-Fonts">Text Fonts</a>.
+
+     <br><dt>int <tt>fontsize</tt> (int <var>size</var>);<dt>double <tt>ffontsize</tt> (double <var>size</var>);<dd><tt>fontsize</tt> and <tt>ffontsize</tt> take a single argument, interpreted as
+the size, in the user coordinate system, of the font to be used for all
+text strings subsequently drawn on the graphics display.  (The font for
+plotting strings is fully specified by calling <tt>fontname</tt>,
+<tt>fontsize</tt>, and <tt>textangle</tt>.)  The size of the font in user
+coordinates is returned.
+
+     <p>A&nbsp;negative<!-- /@w --> value for <var>size</var> sets the size to the default, which
+depends on the type of Plotter.  Typically, the default font size is
+1/50 times the size (i.e., minimum dimension) of the display.  The
+interpretation of zero font size is also Plotter-dependent (most
+Plotters do not draw text strings if the font size is zero).
+
+     <br><dt>int <tt>joinmod</tt> (const char *<var>s</var>);<dd><tt>joinmod</tt> terminates and draws the path under construction (if&nbsp;any<!-- /@w -->), as if <tt>endpath</tt> had been called, and sets the join mode (i.e.,
+join style) for all paths subsequently drawn on the graphics display. 
+Recognized styles are "miter" (the default), "round", and "bevel".  The
+three styles are visibly distinct only if the line thickness is fairly
+large.  Mitered joins are sharp, rounded joins are round, and beveled
+joins are squared&nbsp;off<!-- /@w -->.  However, unusually sharp joins are never
+mitered: instead, they are beveled.  The angle at which beveling
+replaces mitering may be specified by calling <tt>fmiterlimit</tt>.
+
+     <p>PNG, PNM, GIF, PCL, and HP-GL Plotters support a fourth join mode,
+"triangular".  Other Plotters treat "triangular" as equivalent to
+"round".
+
+     <p>This function has no effect on ReGIS or Tektronix Plotters.  Also, it
+has no effect on HP-GL Plotters if the parameter <code>HPGL_VERSION</code> is
+set to a value less than&nbsp;"2"<!-- /@w --> (the default), or on CGM Plotters if
+the parameter <code>CGM_MAX_VERSION</code> is set to a value less than&nbsp;"3"<!-- /@w -->.  See <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.
+
+     <br><dt>int <tt>linedash</tt> (int <var>n</var>, const int *<var>dashes</var>, int <var>offset</var>);<dt>int <tt>flinedash</tt> (int <var>n</var>, const double *<var>dashes</var>, double <var>offset</var>);<dd><tt>linedash</tt> and <tt>flinedash</tt> terminate and draw the path under
+construction (if&nbsp;any<!-- /@w -->), as if <tt>endpath</tt> had been called, and set
+the line style for all paths subsequently drawn on the graphics display. 
+They provide much finer control of dash patterns than the <tt>linemod</tt>
+function (see below) provides.  <var>dashes</var> should be an array of
+length&nbsp;<var>n</var><!-- /@w -->.  Its elements, which should be positive, are
+interpreted as distances in the user coordinate system.  Along any path,
+circle, or ellipse, the elements
+<var>dashes</var>[0]<small class="dots">...</small><var>dashes</var>[<var>n</var>-1] alternately specify the
+length of a dash and the length of a gap between dashes.  When the end
+of the array is reached, the reading of the array wraps around to the
+beginning.  If the array is empty, i.e., <var>n</var> equals zero, there is
+no dashing: the drawn line is solid.
+
+     <p>The <var>offset</var> argument specifies the `phase' of the dash pattern
+relative to the start of the path.  It is interpreted as the distance
+into the dash pattern at which the dashing should begin.  For example,
+if <var>offset</var> equals zero then the path will begin with a dash, of
+length <var>dashes</var>[0] in user space.  If&nbsp;<var>offset</var><!-- /@w --> equals
+<var>dashes</var>[0] then the path will begin with a gap of length
+<var>dashes</var>[1], and so&nbsp;forth<!-- /@w -->.  <var>offset</var> is allowed to be
+negative.
+
+     <p>Not all Plotters fully support <tt>linedash</tt> and <tt>flinedash</tt>.  PCL and
+HP-GL Plotters cannot dash with a nonzero offset, and in the dash
+patterns used by X&nbsp;and<!-- /@w --> X&nbsp;Drawable<!-- /@w --> Plotters, each dash or gap has
+a maximum length of 255 pixels.  <tt>linedash</tt> and <tt>flinedash</tt> have no
+effect at&nbsp;all<!-- /@w --> on Tektronix, ReGIS, and Fig Plotters.  Also, they
+have no effect on HP-GL Plotters for which the parameter
+<code>HPGL_VERSION</code> is less than&nbsp;"2"<!-- /@w --> (the default), or on CGM
+Plotters for which the parameter <code>CGM_MAX_VERSION</code> is less than&nbsp;"3"<!-- /@w -->.  For information on Plotter parameters, see <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.
+
+     <p><strong>Warning</strong>: If the transformation from the user coordinate system
+to the device coordinate system is anisotropic, each dash pattern should
+ideally be drawn on the graphics display with a length that depends on
+its direction.  But currently, only SVG and Postscript Plotters do&nbsp;this<!-- /@w -->.  Other Plotters always draw any specified dash pattern with the
+same length, irrespective of its direction.  The length that is used is
+the minimum length, in the device coordinate system, that can correspond
+to the specified dash pattern length in the user coordinate system.
+
+     <br><dt>int <tt>linemod</tt> (const char *<var>s</var>);<dd><tt>linemod</tt> terminates and draws the path under construction (if&nbsp;any<!-- /@w -->), as if <tt>endpath</tt> had been called, and sets the line style for
+all paths subsequently drawn on the graphics display.  The supported
+line styles are "solid", "dotted", "dotdashed", "shortdashed",
+"longdashed", "dotdotdashed", "dotdotdotdashed", and "disconnected". 
+The first seven correspond to the following dash patterns:
+
+     <pre class="example">          "solid"             --------------------------------
+          "dotted"            -   -   -   -   -   -   -   -
+          "dotdashed"         ----   -   ----   -   ----   -
+          "shortdashed"       ----    ----    ----    ----
+          "longdashed"        -------    -------    -------
+          "dotdotdashed"      ----   -   -   ----   -   -
+          "dotdotdotdashed"   ----   -   -   -   ----   -   -   -
+</pre>
+     <p class="noindent">In&nbsp;the<!-- /@w --> preceding patterns, each hyphen stands for one line
+thickness.  This is the case for sufficiently thick lines, at&nbsp;least<!-- /@w -->. 
+So&nbsp;for<!-- /@w --> sufficiently thick lines, the distance over which a dash
+pattern repeats is scaled proportionately to the line thickness.
+
+     <p>The "disconnected" line style is special.  A "disconnected" path is
+rendered as a set of filled circles, each of which has diameter equal to
+the nominal line thickness.  One of these circles is centered on each of
+the juncture points of the path (i.e., the endpoints of the line
+segments or arcs from which it is constructed).  Circles and ellipses
+with "disconnected" line style are invisible.  Disconnected paths are
+not filled; this includes circles and ellipses.
+
+     <p>All line styles are supported by all Plotters, with the following
+exceptions.  HP-GL Plotters do not support the "dotdotdotdashed" style
+unless the parameter <code>HPGL_VERSION</code> is set to "2" (the default). 
+Tektronix Plotters do not support the "dotdotdotdashed" style, and do
+not support the "dotdotdashed" style unless the parameter <code>TERM</code> is
+set to "kermit".  See <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.
+
+     <br><dt>int <tt>linewidth</tt> (int <var>size</var>);<dt>int <tt>flinewidth</tt> (double <var>size</var>);<dd><tt>linewidth</tt> and <tt>flinewidth</tt> terminate and draws the path under
+construction (if&nbsp;any<!-- /@w -->), as if <tt>endpath</tt> had been called, and set
+the thickness, in the user coordinate system, of all paths subsequently
+drawn on the graphics display.  A&nbsp;negative<!-- /@w --> value resets the
+thickness to the default.  The default thickness depends on the type of
+Plotter.  For most Plotters, it is 1/850 times the size of the viewport,
+i.e., the drawn-on portion of the display.  (Here `size' means minimum
+dimension.)  But for Plotters that produce bitmaps, i.e., X&nbsp;Plotters<!-- /@w -->, X&nbsp;Drawable<!-- /@w --> Plotters, PNG Plotters, PNM Plotters, and GIF
+Plotters, it&nbsp;is<!-- /@w --> zero.
+
+     <p>By convention, a zero-thickness line is the thinnest line that can be
+drawn.  However, the drawing editors <code>idraw</code> and <code>xfig</code> treat
+zero-thickness lines as invisible.  So&nbsp;when<!-- /@w --> producing editable
+graphics with a Postscript or Fig Plotter, using a zero line thickness
+may not be desirable.
+
+     <p>Tektronix and ReGIS Plotters do not support drawing with other than a
+default thickness, and HP-GL Plotters do not support doing so if the
+parameter <code>HPGL_VERSION</code> is set to a value less than&nbsp;"2"<!-- /@w --> (the
+default; see <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>).
+
+     <p><strong>Warning</strong>: If the transformation from the user coordinate system
+to the device coordinate system is anisotropic, each line segment in a
+polygonal path should ideally be drawn on the graphics display with a
+thickness that depends on its direction.  But currently, only SVG and
+Postscript Plotters do&nbsp;this<!-- /@w -->.  Other Plotters draw all line segments
+in a path with the same thickness.  The thickness that is used is the
+minimum thickness, in the device coordinate system, that can correspond
+to the specified line thickness in the user coordinate system.
+
+     <br><dt>int <tt>move</tt> (int <var>x</var>, int <var>y</var>);<dt>int <tt>fmove</tt> (double <var>x</var>, double <var>y</var>);<dt>int <tt>moverel</tt> (int <var>x</var>, int <var>y</var>);<dt>int <tt>fmoverel</tt> (double <var>x</var>, double <var>y</var>);<dd><tt>move</tt> and <tt>fmove</tt> take two arguments specifying the coordinates
+(<var>x</var>, <var>y</var>) of a point to which the graphics cursor should be
+moved.  The path under construction (if&nbsp;any)<!-- /@w --> is ended and drawn, as
+if <tt>endpath</tt> had been called, and the graphics cursor is moved to
+(<var>x</var>, <var>y</var>).  This is equivalent to lifting the pen on a plotter
+and moving it to a new position, without drawing any line.  <tt>moverel</tt>
+and <tt>fmoverel</tt> are similar to <tt>move</tt> and <tt>fmove</tt>, but use
+cursor-relative coordinates.
+
+     <p>When a new page of graphics is begun by invoking <tt>openpl</tt>, the cursor
+is initially at the point (0,0) in user space.  Most of the drawing
+functions reposition the cursor.  See <a href="Drawing-Functions.html#Drawing-Functions">Drawing Functions</a>.
+
+     <br><dt>int <tt>orientation</tt> (int <var>direction</var>);<dd><tt>orientation</tt> sets the orientation for all circles, ellipses, and
+boxes subsequently drawn on the graphics display.  <var>direction</var> must
+be&nbsp;1<!-- /@w -->, meaning counterclockwise, or&nbsp;&minus;1<!-- /@w -->, meaning clockwise. 
+The default is&nbsp;1<!-- /@w -->.
+
+     <p><tt>orientation</tt> will have a visible effect on a circle, ellipse, or box
+only if it is dashed, or if it is one of the simple paths in a filled
+compound path.  Its effects on filling, when the "nonzero-winding" fill
+rule is used, are dramatic, since it is the orientation of each simple
+path in a compound path that determines which points are `inside' and
+which are `outside'.
+
+     <br><dt>int <tt>pencolor</tt> (int <var>red</var>, int <var>green</var>, int <var>blue</var>);<dd><tt>pencolor</tt> terminates and draws the path under construction (if&nbsp;any<!-- /@w -->), as if <tt>endpath</tt> had been called, and sets the pen color for all
+objects subsequently drawn on the graphics display, using a 48-bit RGB
+color model.  The arguments <var>red</var>, <var>green</var> and <var>blue</var>
+specify the red, green and blue intensities of the pen color.  Each is
+an integer in the range <tt>0x0000</tt><small class="dots">...</small><tt>0xffff</tt>, i.e.,
+0<small class="dots">...</small>65535.  The choice (0,&nbsp;0,&nbsp;0)<!-- /@w --> signifies black, and the choice
+(65535, 65535, 65535) signifies white.
+
+     <p>HP-GL Plotters support drawing with a white pen only if the value of the
+parameter <code>HPGL_VERSION</code> is&nbsp;"2"<!-- /@w --> (the default), and the value of
+the parameter <code>HPGL_OPAQUE_MODE</code> is "yes" (the default). 
+See <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.
+
+     <br><dt>int <tt>pencolorname</tt> (const char *<var>name</var>);<dd><tt>pencolorname</tt> sets the pen color of all objects subsequently drawn on
+the graphics display to be <var>name</var>.  Unrecognized colors are
+interpreted as "black".  For information on what color names are
+recognized, see <a href="Color-Names.html#Color-Names">Color Names</a>.  A&nbsp;24-bit<!-- /@w --> RGB color may also be
+specified as a six-digit hexadecimal string, e.g., "#c0c0c0".
+
+     <p>HP-GL Plotters support drawing with a white pen only if the value of the
+parameter <code>HPGL_VERSION</code> is&nbsp;"2"<!-- /@w --> (the default) and the value of
+the parameter <code>HPGL_OPAQUE_MODE</code> is "yes" (the default). 
+See <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.
+
+     <br><dt>int <tt>pentype</tt> (int <var>level</var>);<dd><tt>pentype</tt> terminates and draws the path under construction (if&nbsp;any<!-- /@w -->), as if <tt>endpath</tt> had been called, and sets the pen level for all
+subsequently drawn paths.  A&nbsp;value<!-- /@w --> of&nbsp;1<!-- /@w --> for <var>level</var>
+specifies that an outline of each of these objects should be drawn, in
+the color previously specified by calling <tt>pencolor</tt> or
+<tt>pencolorname</tt>.  This is the default.  A&nbsp;value<!-- /@w --> of&nbsp;0<!-- /@w --> specifies
+that outlines should not be drawn.
+
+     <p>To draw the region bounded by a path in an edgeless way, you would call
+<tt>pentype</tt> to turn&nbsp;off<!-- /@w --> the drawing of the boundary, and
+<tt>filltype</tt> to turn&nbsp;on<!-- /@w --> the filling of the interior.
+
+     <p><tt>pentype</tt> also affects the drawing of marker symbols and points, i.e.,
+pixels.  A&nbsp;value<!-- /@w --> of&nbsp;0<!-- /@w --> specifies that they should not be drawn.
+
+     <p><strong>Note</strong>: In future releases, <tt>pentype</tt> may also affect the
+drawing of text strings (a&nbsp;value<!-- /@w --> of&nbsp;0<!-- /@w --> will specify that they
+should not be drawn).  It&nbsp;already<!-- /@w --> affects text strings that are
+rendered using Hershey fonts, since they are drawn using polygonal
+paths.
+
+     <br><dt>int <tt>restorestate</tt> ();<dd><tt>restorestate</tt> pops the current graphics context off the stack of
+drawing states.  The graphics context consists largely of
+<code>libplot</code>'s drawing attributes, which are set by the attribute
+functions documented in this section.  So popping&nbsp;off<!-- /@w --> the graphics
+context restores the drawing attributes to values they previously had. 
+A&nbsp;path<!-- /@w --> under construction is regarded as part of the graphics
+context.  For this reason, calling <tt>restorestate</tt> automatically calls
+<tt>endpath</tt> to terminate and draw the path under construction, if&nbsp;any<!-- /@w -->.  All graphics contexts on the stack are popped&nbsp;off<!-- /@w --> when
+<code>closepl</code> is called, as&nbsp;if<!-- /@w --> <code>restorestate</code> had been called
+repeatedly.
+
+     <br><dt>int <tt>savestate</tt> ();<dd><tt>savestate</tt> pushes the current graphics context onto the stack of
+drawing states.  The graphics context consists largely of
+<code>libplot</code>'s drawing attributes, which are set by the attribute
+functions documented in this section.  A&nbsp;path<!-- /@w --> under construction,
+if&nbsp;any<!-- /@w -->, is regarded as part of the graphics context.  That is
+because paths may be drawn incrementally, one line segment or arc at a
+time.  The new graphics context created by <tt>savestate</tt> will contain no
+path.  When the previous graphics context is returned&nbsp;to<!-- /@w --> by calling
+<tt>restorestate</tt>, the path previously under construction may be
+continued.
+
+     <br><dt>int <tt>textangle</tt> (int <var>angle</var>);<dt>double <tt>ftextangle</tt> (double <var>angle</var>);<dd><tt>textangle</tt> and <tt>ftextangle</tt> take one argument, which specifies the
+angle in degrees counterclockwise from the x (horizontal) axis in
+the user coordinate system, for text strings subsequently drawn on the
+graphics display.  The default angle is zero.  (The font for plotting
+strings is fully specified by calling <tt>fontname</tt>, <tt>fontsize</tt>, and
+<tt>textangle</tt>.)  The size of the font for plotting strings, in user
+coordinates, is returned.
+
+     <p><strong>Warning:</strong> Some X Window System displays do not generate or
+display rotated fonts correctly.  In effect, they only support a zero
+rotation angle. 
+</dl>
+
+   </body></html>
+

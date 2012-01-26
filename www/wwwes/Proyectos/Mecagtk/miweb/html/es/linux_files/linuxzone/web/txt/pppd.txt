@@ -1,0 +1,49 @@
+****************************************************************************
+****** PPPD +ua Micro-HOWTO ************************* Por Daniel Molina ****
+****************************************************************************
+
+Este documento ha sido creado usando mensajes aparecidos en el area
+de mensajes R34.linux de Fido y por mi propia experiencia.
+
+Solo lo he probado con el pppd 2.2.0 y el pppd 2.3.0-3 en Red Hat 5.0
+la localizacion de los archivos puede cambiar en otras distribuciones.
+
+La opcion +ua del pppd no es valida para las versiones mas modernas.
+En su lugar debe usarse la opcion user. Este documento es perfectamente 
+complementario al Infovia-HOWTO de LuCAS. 
+
+-Autentificacion por metodo pap (infovia).
+
+1. Archivo /etc/ppp/options
+	Si existe una linea ke empieza por +ua eliminarla y escribir
+	en su lugar:
+
+		user usuario@servidor
+
+	El servidor debe indicarse sin el dominio, es decir, para el
+	usuario pepe de arrakis.es kedaria asi:
+
+		user pepe@arrakis
+
+2. Archivo /etc/ppp/pap-secrets
+	Eliminar todo lo ke haya y poner en su lugar:
+
+		usuario@servidor	*	password
+	
+	En el ejemplo anterior, si el password de pepe era petardo:
+
+		pepe@arrakis	*	petardo
+
+-Autentificacion por metodo chap (poco comun)
+
+1. Archivo /etc/ppp/options
+	Si existe una linea ke empieza por +ua eliminarla y escribir
+	en su lugar
+
+		name usuario@servidor
+
+2. Archivo /etc/ppp/chap-secrets
+	Eliminar todo lo ke haya y poner en su lugar
+
+		usuario@servidor	ppp0	password
+

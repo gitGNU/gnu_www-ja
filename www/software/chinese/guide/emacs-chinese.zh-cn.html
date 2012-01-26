@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<HTML>
+<HEAD>
+<TITLE>GNU Emacs 中文处理说明 - GNU 工程 - 自由软件基金会 (FSF)</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<LINK REV="made" HREF="mailto:webmasters@www.gnu.org">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#1F00FF" ALINK="#FF0000" VLINK="#9900DD">
+<H3>GNU Emacs 中文处理说明</H3>
+
+<P>
+
+<A HREF="/graphics/philosophicalgnu.html"><IMG SRC="/graphics/philosophical-gnu-sm.jpg"
+   ALT=" [image of a Philosophical Gnu] "
+   WIDTH="160" HEIGHT="200"></A>
+
+[ <A HREF="/software/chinese/guide/emacs-chinese.cn.html">简体中文</A>
+| <A HREF="/software/chinese/guide/emacs-chinese.zh.html">繁体中文</A>
+]
+<P>
+
+<h3>介绍</h3>
+
+您应该要参阅 <a href="/software/chinese/manual/TUTORIAL.cn">Emacs 快速指南</a> 以取得操作 Emacs 编辑环境的基本介绍。
+
+<h3>游标移动指令</h3>
+
+最近我们将大部份的 <a href="/software/chinese/efforts/punct.cn.txt">中文标点符号</a> 都视为合法的语法单位，这使得现在在 Emacs 上编辑中文与英文一样地方便了。（作者后来在观察源码时发现：原本编辑简体中文 gb2312 编码时就己经有了最基本的语法功能了。但无论如何，目前我们为简繁中文都取了必要的四十个相对应的标点符号来结构化中文文本。）
+
+<p>
+
+因此，原先建议的按照标点符号进行断行，或使用英文标点符号的作法都没有必要了。现在一个段落键入一个 RET 就好了。下面我们说明一下目前的游标移动指令，在中文文本中的相关议题：
+
+<pre>
+C-a 往回移到行首（段落首） M-a 往回移到句首（中文句号也是中断点）
+C-e 往前移到行尾（段落尾） M-e 往前移到句尾（中文句号也是中断点）
+
+C-b 往回移一个字元（中文字） M-b 往回移一个英文字（到上一个中文标点符号）
+C-f 往前移一个字元（中文字） M-f 往前移一个英文字（到下一个中文标点符号）
+</pre>
+
+所以，即使是没有使用「标记」〈markup〉的没有格式的纯文字中文文本，只要是在 Emacs 环境中编辑，基本上都具有一定程度的「结构」。下面作者提供一个助忆图形给您作为参考：
+
+<pre>
+Home〈到档首〉
+                                C-p
+                                 |
+C-a  --  M-a  --  M-b  --  C-b  +++  C-f  --  M-f  --  M-e  --  C-e
+                                 |
+                                C-n
+End〈到档尾〉
+</pre>
+
+由於中文的标点间隔和英文字的字元数目大约可以类比，因此在逻辑上还说得通。就没有格式的纯文字档案而言，如果还想要再进一步地结构化，大概就要以建立中文词库作为手段才有办法了。大家继续努力！〈但作者以为最近的进展，实际上已经使 Emacs 成为最佳的中文编辑器了。不知其它编辑器的使用者觉得如何？〉
+
+<h3>输入法</h3>
+
+没有了中文输入法， Emacs 对於中文使用者一点用处都没有。想要知道您可以使用哪些输入法，您可以键入 C-x RET C-\ SPC ，接著 Emacs 会出现一个所有多国语文的输入法列表窗格。然后您就可以在其中键入您所使用的输入法名称了。下面是作者的作法：（作者使用的是行列输入法，名称为 chinese-array30 。）
+
+<pre>
+1. 设定预设的输入法，将下面这一行加入到 ~/.emacs 档案中：
+
+(custom-set-variables '(default-input-method "chinese-array30"))
+
+这样子在启动 Emacs 后，
+您就可以直接以 C-\ 指令在英文输入和行列输入法之间切换了。
+
+2. 但是有时候用行列打不出来，需要切换成注音输入法。
+   有两种方式可以达成这个目的：
+
+   a. C-x RET C-\ chinese-zozy RET
+   b. C-u C-\ chinese-zozy RET
+
+作者建议您使用第二种方式，因为它同时也是作为两种输入法间切换的指令。
+接下来您只要键入 C-u C-\ RET 就可以在行列和注音这两者间作切换了。
+（注意：中英输入法间的切换还是以 C-\ 指令为之。）
+
+以后我们在不同中文输入法间作切换将可以 C-u C-u C-\ 达成，
+原本作者是建议以 M-\ 来补足这个想法，
+但是 M-\ 很不幸已经作为 delete-horizontal-space 指令了。
+不然 C-\ 搭配 M-\ 不是很漂亮吗？
+
+这样子您应该可以理解如何使用中文输入环境了吧！
+当然，您必须将行列改为自己喜欢的输入法。
+
+如果您找不到自己喜欢的输入法，那么您可以：
+
+1. 自己造一个（相关文献在  .../emacs/leim/quail/ 。）
+2. 利用现成的输入法档案做出一个
+   （ .../emacs/lisp/international/titdic-cnv.el 。）
+   只要是 cxterm 的 *.tit 和 xcin 的 *.cin
+   有提供的输入法都可以。
+   但是作法上对於终端使用者而言并不十分“自动”，
+   因此现阶段可能还是需要志愿者协助进行才有办法。
+
+不知道 cxterm 和 xcin 的开发人员是否可以协助提供。
+（对了， cxterm 的行列输入法有个小臭虫，应该和谁联系？）
+</pre>
+
+<p>
+
+<h3>帮忙引导 Emacs 的未来开发</h3>
+
+记得，您永远可以发挥影响力来帮忙引导 Emacs 的未来开发。如果您想要看到 Emacs 拥有哪些功能，请告诉我们。这里有几封由作者作出建议的邮件片断，提供您作为如何提出建议的参考：
+
+<ul>
+<li><a href="/software/chinese/guide/suggest.meta-aefb.emacs.txt">suggest.meta-aefb.emacs.txt</a></li>
+<li><a href="/software/chinese/guide/suggest.meta-backslash.emacs.txt">suggest.meta-backslash.emacs.txt</a></li>
+<li><a href="/software/chinese/guide/bug-report.show-radicals-incorrect.emacs.txt">bug-report.show-radicals-incorrect.emacs.txt</a></li>
+</ul>
+
+关於这些建议，经由 RMS 的帮忙最后由日本的 Ken'ishi HANDA 先生完成实作工作。如果您有兴趣知道他对哪些档案作出了修改，这里是 HANDA 先生的说明：
+
+<pre>
+* international/characters.el: Fix syntaxes of gb2312 and big5.
+
+* language/japan-util.el (sentence-end-save): Variable deleted.
+(setup-japanese-environment-internal): Don't setup sentence-end.
+(exit-japanese-environment): Function deleted.
+
+* language/japanese.el ("Japanese"): Delete `exit-function'.
+
+* textmodes/paragraphs.el (sentence-end): Add Chinese and Japanese
+characters.
+
+
+Index: quail.el
+===================================================================
+RCS file: /cvsroot/emacs/emacs/lisp/international/quail.el,v
+retrieving revision 1.126
+retrieving revision 1.127
+diff -u -c -r1.126 -r1.127
+cvs server: conflicting specifications of output style
+*** quail.el	4 Feb 2003 13:09:38 -0000	1.126
+--- quail.el	12 Mar 2003 02:37:07 -0000	1.127
+***************
+*** 1912,1923 ****
+      (let ((default-enable-multibyte-characters enable-multibyte-characters))
+        (or (buffer-live-p quail-guidance-buf)
+  	  (setq quail-guidance-buf (generate-new-buffer " *Quail-guidance*"))))
+!     (let ((name (quail-name))
+! 	  (title (quail-title)))
+        (with-current-buffer quail-guidance-buf
+  	;; To show the title of Quail package.
+! 	(setq current-input-method name
+! 	      current-input-method-title title)
+  	(erase-buffer)
+  	(or (overlayp quail-overlay)
+  	    (progn
+--- 1912,1923 ----
+      (let ((default-enable-multibyte-characters enable-multibyte-characters))
+        (or (buffer-live-p quail-guidance-buf)
+  	  (setq quail-guidance-buf (generate-new-buffer " *Quail-guidance*"))))
+!     (let ((package quail-current-package))
+        (with-current-buffer quail-guidance-buf
+  	;; To show the title of Quail package.
+! 	(setq quail-current-package package
+! 	      current-input-method (quail-name)
+! 	      current-input-method-title (quail-title))
+  	(erase-buffer)
+  	(or (overlayp quail-overlay)
+  	    (progn
+</pre>
+
+当然，并不是每一个建议都是可行的。但是您永远有作梦的权利！特别是当有可能让大家的日子过得更好时，请务必告诉我们您作了什么梦。
+
+<p>
+
+也请通知您所使用的〔中文〕散布件的开发者，请他们更新 Emacs 为目前的版本，并将下述的链接提供给他们：<br />
+
+<a href="/software/chinese/index.html#ctt-manual-list">如何下载 Emacs 包</a>。
+
+<hr>
+
+<P>
+返回 <A HREF="/home.cn.html">GNU 首页</A>。
+
+<P>
+请将有关 自由软件基金会 与 GNU 的 查询 与 问题 送到 <A HREF="mailto:gnu@gnu.org"><EM>gnu@gnu.org</EM></A>。您也可以使用 <A HREF="/home.cn.html#ContactInfo">其它方法联系</A> 自由软件基金会。
+
+<P>
+请将有关网页的意见送到 <A HREF="mailto:webmasters@www.gnu.org"><EM>webmasters@www.gnu.org</EM></A>，其它问题则送到 <A HREF="mailto:gnu@gnu.org"><EM>gnu@gnu.org</EM></A>。
+
+<P>
+请将有关中文网页的意见送到 <A HREF="mailto:chinese-coordinators@gnu.org"><EM>chinese-coordinators@gnu.org</EM></A>，其它问题则送到 <A HREF="mailto:chliu@gnu.org"><EM>chliu@gnu.org</EM></A>。
+
+<P>
+Copyright (C) 2003 Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111,  USA
+
+<P>
+Verbatim copying and distribution of this entire article is permitted in any medium, provided this notice is preserved.
+<BR>
+【本文允许在不变更文档内容的前提下刊登在任何形式的媒体中，但需保留此声明。】
+
+<P>
+作者：刘 昭宏 &lt;<A HREF="mailto:chliu@gnu.org">chliu@gnu.org</A>&gt;
+<BR>
+验证：马 雪萍
+<BR>
+请将有关翻译的问题送到
+<A HREF="http://savannah.gnu.org/projects/chinese/">GNU/CTT</A> 的
+<A HREF="mailto:chinese-translators@gnu.org">翻译人员</A>。
+
+<!-- CTT: LEAVE THE TIMESTAMP NOTIFICATION UNFETTERED -->
+<!-- CTT: THIS IS MODIFIED BY SAVANNAH SERVER         -->
+<P>
+Updated:
+<!-- timestamp start -->
+$Date: 2007/03/31 13:26:21 $ $Author: yavor $
+<!-- timestamp end -->
+
+<HR>
+</BODY>
+</HTML>

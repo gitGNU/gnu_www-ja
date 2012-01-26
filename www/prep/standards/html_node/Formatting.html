@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated January 8, 2012.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+2011, 2012 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 0.01, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: Formatting</title>
+
+<meta name="description" content="GNU Coding Standards: Formatting">
+<meta name="keywords" content="GNU Coding Standards: Formatting">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Writing-C.html#Writing-C" rel="up" title="Writing C">
+<link href="Comments.html#Comments" rel="next" title="Comments">
+<link href="Writing-C.html#Writing-C" rel="previous" title="Writing C">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Formatting"></a>
+<div class="header">
+<p>
+Next: <a href="Comments.html#Comments" accesskey="n" rel="next">Comments</a>, Up: <a href="Writing-C.html#Writing-C" accesskey="u" rel="up">Writing C</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Formatting-Your-Source-Code"></a>
+<h3 class="section">5.1 Formatting Your Source Code</h3>
+<a name="index-formatting-source-code"></a>
+
+<a name="index-open-brace"></a>
+<a name="index-braces_002c-in-C-source"></a>
+<p>It is important to put the open-brace that starts the body of a C
+function in column one, so that they will start a defun.  Several
+tools look for open-braces in column one to find the beginnings of C
+functions.  These tools will not work on code not formatted that way.
+</p>
+<p>Avoid putting open-brace, open-parenthesis or open-bracket in column
+one when they are inside a function, so that they won&rsquo;t start a defun.
+The open-brace that starts a <code>struct</code> body can go in column one
+if you find it useful to treat that definition as a defun.
+</p>
+<p>It is also important for function definitions to start the name of the
+function in column one.  This helps people to search for function
+definitions, and may also help certain tools recognize them.  Thus,
+using Standard C syntax, the format is this:
+</p>
+<div class="example">
+<pre class="example">static char *
+concat (char *s1, char *s2)
+{
+  &hellip;
+}
+</pre></div>
+
+<p>or, if you want to use traditional C syntax, format the definition like
+this:
+</p>
+<div class="example">
+<pre class="example">static char *
+concat (s1, s2)        /* Name starts in column one here */
+     char *s1, *s2;
+{                     /* Open brace in column one here */
+  &hellip;
+}
+</pre></div>
+
+<p>In Standard C, if the arguments don&rsquo;t fit nicely on one line,
+split it like this:
+</p>
+<div class="example">
+<pre class="example">int
+lots_of_args (int an_integer, long a_long, short a_short,
+              double a_double, float a_float)
+&hellip;
+</pre></div>
+
+<p>The rest of this section gives our recommendations for other aspects of
+C formatting style, which is also the default style of the <code>indent</code>
+program in version 1.2 and newer.  It corresponds to the options
+</p>
+<div class="smallexample">
+<pre class="smallexample">-nbad -bap -nbc -bbo -bl -bli2 -bls -ncdb -nce -cp1 -cs -di2
+-ndj -nfc1 -nfca -hnl -i2 -ip5 -lp -pcs -psl -nsc -nsob
+</pre></div>
+
+<p>We don&rsquo;t think of these recommendations as requirements, because it
+causes no problems for users if two different programs have different
+formatting styles.
+</p>
+<p>But whatever style you use, please use it consistently, since a mixture
+of styles within one program tends to look ugly.  If you are
+contributing changes to an existing program, please follow the style of
+that program.
+</p>
+<p>For the body of the function, our recommended style looks like this:
+</p>
+<div class="example">
+<pre class="example">if (x &lt; foo (y, z))
+  haha = bar[4] + 5;
+else
+  {
+    while (z)
+      {
+        haha += foo (z, z);
+        z--;
+      }
+    return ++x + bar ();
+  }
+</pre></div>
+
+<a name="index-spaces-before-open_002dparen"></a>
+<p>We find it easier to read a program when it has spaces before the
+open-parentheses and after the commas.  Especially after the commas.
+</p>
+<p>When you split an expression into multiple lines, split it
+before an operator, not after one.  Here is the right way:
+</p>
+<a name="index-expressions_002c-splitting"></a>
+<div class="example">
+<pre class="example">if (foo_this_is_long &amp;&amp; bar &gt; win (x, y, z)
+    &amp;&amp; remaining_condition)
+</pre></div>
+
+<p>Try to avoid having two operators of different precedence at the same
+level of indentation.  For example, don&rsquo;t write this:
+</p>
+<div class="example">
+<pre class="example">mode = (inmode[j] == VOIDmode
+        || GET_MODE_SIZE (outmode[j]) &gt; GET_MODE_SIZE (inmode[j])
+        ? outmode[j] : inmode[j]);
+</pre></div>
+
+<p>Instead, use extra parentheses so that the indentation shows the nesting:
+</p>
+<div class="example">
+<pre class="example">mode = ((inmode[j] == VOIDmode
+         || (GET_MODE_SIZE (outmode[j]) &gt; GET_MODE_SIZE (inmode[j])))
+        ? outmode[j] : inmode[j]);
+</pre></div>
+
+<p>Insert extra parentheses so that Emacs will indent the code properly.
+For example, the following indentation looks nice if you do it by hand,
+</p>
+<div class="example">
+<pre class="example">v = rup-&gt;ru_utime.tv_sec*1000 + rup-&gt;ru_utime.tv_usec/1000
+    + rup-&gt;ru_stime.tv_sec*1000 + rup-&gt;ru_stime.tv_usec/1000;
+</pre></div>
+
+<p>but Emacs would alter it.  Adding a set of parentheses produces
+something that looks equally nice, and which Emacs will preserve:
+</p>
+<div class="example">
+<pre class="example">v = (rup-&gt;ru_utime.tv_sec*1000 + rup-&gt;ru_utime.tv_usec/1000
+     + rup-&gt;ru_stime.tv_sec*1000 + rup-&gt;ru_stime.tv_usec/1000);
+</pre></div>
+
+<p>Format do-while statements like this:
+</p>
+<div class="example">
+<pre class="example">do
+  {
+    a = foo (a);
+  }
+while (a &gt; 0);
+</pre></div>
+
+<a name="index-formfeed"></a>
+<a name="index-control_002dL"></a>
+<p>Please use formfeed characters (control-L) to divide the program into
+pages at logical places (but not within a function).  It does not matter
+just how long the pages are, since they do not have to fit on a printed
+page.  The formfeeds should appear alone on lines by themselves.
+</p>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Comments.html#Comments" accesskey="n" rel="next">Comments</a>, Up: <a href="Writing-C.html#Writing-C" accesskey="u" rel="up">Writing C</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<p>
+
+
+</p>
+</body>
+</html>

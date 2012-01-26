@@ -1,0 +1,24 @@
+       # Usa /bin/bash para arrancar comandos, no importa lo que /etc/passwd
+diga.
+       SHELL=/bin/bash
+       # mail a carlos, no importe de quién sea el crontab 
+       MAILTO=carlos
+       #
+# Arranca 23 minutos después de las 6pm, todos los días
+       23 18 * * *     	$HOME/trabajos/diario.job >> $HOME/tmp/diario 2>&1
+       
+# Arranca a las 7:15pm a primeros de mes --con salida de mail a carlos
+       15 19 1 * *     	$HOME/trabajos/mensual.job >> $HOME/tmp/mensual 2>&1
+
+# Arranca a las 20 y a las 21 horas en punto todas las semanas y hace copias de seguridad
+      0 20,21 * * mon 	$HOME/trabajos/semanal.job >> $HOME/tmp/semanal 2>&1
+
+# Arranca de las 18:00  a las 21 horas en días de diario, y le recuerda a Javier
+     0 18-21 * * 1-5   	mail -s "Fíjate qué hora es" javier%Javier, ¿aquí pretendes ligar?%Así no te echarás novia nunca.%%Perdona la coña, macho%%Tu "brother":%José Carlos.%
+
+# Arranca cada 2 horas los días de diario, molesta a Carlos
+       * */2 * * 1-5   mail -s "Son las 5 pm" carlos%Carlos,%%¿Hoy no tomas café?%
+
+# Arranca a las 18:00 pm el 25 de diciembre y recuérdame que estamos en Navidad.
+       0 18 25 12 *   mail -s  "Llegó la Navidad" carlos%José Carlos, %%¡ FELIZ NAVIDAD !%
+

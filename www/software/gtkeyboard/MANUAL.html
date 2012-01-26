@@ -1,0 +1,1899 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML><HEAD>
+<META name="description" content="GTKeyboard Manual">
+<META name="keywords" content="GTKeyboard gtkeyboard David Allen
+manual documentation Free Software Foundation Free Software GNU GPL">
+<TITLE>GTKeyboard Manual</TITLE></HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF">
+
+<P><CENTER><H1><STRONG><A NAME="tiptop">GTKeyboard Manual</A></STRONG>
+           </H1></CENTER>
+<CENTER>Written by David Allen, <A HREF="mailto:s2mdalle@titan.vcu.edu">&lt;s2mdalle@titan.vcu.edu&gt;</A></CENTER>
+<CENTER><A HREF="http://opop.nols.com">http://opop.nols.com/</A></CENTER>
+<CENTER><A
+HREF="http://www.gnu.org/software/gtkeyboard/gtkeyboard.html">http://www.gnu.org/software/gtkeyboard/gtkeyboard.html</A></CENTER>
+
+<P>
+<CENTER>GTKeyboard is Free Software and is licensed under the terms of the
+GNU General Public License (<A
+HREF="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</A>)
+.</CENTER><CENTER>Copyright (C) <A
+HREF="mailto:s2mdalle@titan.vcu.edu">David Allen</A> 1999, 2000
+</CENTER>
+<CENTER>This manual is distributed under the terms of the GNU Free
+Documentation License, located at <A
+HREF="http://www.gnu.org/copyleft/fdl.html">http://www.gnu.org/copyleft/fdl.html</A></CENTER>
+
+<P>
+<h2><STRONG><A NAME="TOC">Table of Contents:</A></STRONG></H2>
+<UL>
+<LI><A HREF="#intro">Intro</A>
+    <UL>
+    <LI><A HREF="#snotes">Startup notes</A>
+    <LI><A HREF="#manbug">Problems with this manual?</A>
+    <LI><A HREF="#whoami">Who am I</A>
+    <LI><A HREF="#obtaining">Where to get GTKeyboard</A>
+    <LI><A HREF="#overview">Overview of GTKeyboard Features</A>
+    <LI><A HREF="#rcfile">Setting up your rc file.</A>
+        <UL>
+	<LI><A HREF="#optionfu">Regular Options</A>
+        <LI><A HREF="#optionnames">Option Names</A>
+	<LI><A HREF="#layoutfu">Layout Statements</A>
+	<LI><A HREF="#keyboardfu">Keyboard Statements</A>
+	<LI><A HREF="#toolbarfu">Toolbar statements</A>
+	</UL>
+    </UL>
+<LI><A HREF="#textedit">Text Editing</A>
+    <UL>
+    <LI><A HREF="#threemode">Three-mode buttons</A>
+    <LI><A HREF="#redirecting">Editing text in a non-GTKeyboard
+    window</A> (Redirecting keypresses to other windows)
+    <LI><A HREF="#explicitimplicit">Explicit versus Implicit methods
+    of choosing a redirect window</A>
+    </UL>
+<LI><A HREF="#userdef">User Defined Shortcuts</A>
+    <UL>
+    <LI><A HREF="#defining">Defining</A>
+    <LI><A HREF="#changing">Changing</A>
+    </UL>
+<LI><A HREF="#looks">Customizing the Look of GTKeyboard</A>
+    <UL>
+    <LI><A HREF="#keylayout">Customizing Keyboard Layout</A>
+    <LI><A HREF="#colors">Customizing Colors</A>
+    <LI><A HREF="#fonts">Customizing Text Fonts/Sizes</A>
+    <LI><A HREF="#kfonts">Customizing Keyboard Fonts/Sizes</A>
+    <LI><A HREF="#widgets">Customizing Screen Size</A> or, what's
+    shown and what's not shown.  (Customizing the look of the application)
+    </UL>
+<LI><A HREF="#remapping">Remapping the Keyboard with GTKeyboard</A>
+    <UL>
+    <LI><A HREF="#whyremaperror">Why do I keep getting this error
+    &quot;Cannot send key - do you need to remap your keyboard?&quot;</A>
+    </UL>
+<LI><A HREF="#wordcompletion">Word Completion with GTKeyboard</A>
+    <UL>
+    <LI><A HREF="#usingwordcompletion">Using Word Completion</A>
+    <LI><A HREF="#completionoptions">Completion Options</A>
+    <LI><A HREF="#cachefiles">Word Completion Cache Files</A>
+    <LI><A HREF="#creatingcachefiles">Creating Cache Files</A>
+    </UL>
+<LI><A HREF="#htmlsubmenu">HTML Coding</A>
+    <UL>
+    <LI><A HREF="#tagbehavior">Tag Behavior</A>
+    <LI><A HREF="#supported">Supported Tags</A>
+    </UL>
+<LI><A HREF="#otherfeatures">Other Features</A>
+    <UL>
+    <LI><A HREF="#doublesending">Double Output Mode</A>
+    <LI><A HREF="#externalprogs">External Programs</A>
+    </UL>
+<LI><A HREF="#language">Language Coding (C, perl, etc.)</A>
+<LI><A HREF="#coders">For coders/developers</A>
+    <UL>
+    <LI><A HREF="#debugging">Debugging</A>
+    <LI><A HREF="#macros">Extra Macros</A>
+    <LI><A HREF="#htmlmode">HTML Mode</A>
+    <LI><A HREF="#future">The Future</A>
+    </UL>
+<LI><A HREF="#problems">Problems?  Troubleshooting guide</A>
+    <UL>
+    <LI><A HREF="#compiling">Compiling</A>
+    <LI><A HREF="#installing">Installing</A>
+    <LI><A HREF="#redirectionproblems">Redirecting to another
+    window</A>
+    <LI><A HREF="#layoutproblems">Program Layout</A>
+    </UL>
+<LI><A HREF="#miscstuff">Miscellaneous Stuff</A>
+    <UL>
+    <LI><A HREF="#undocfeatures">Some other undocumented Features</A>
+    <LI><A HREF="#others">Other similar programs</A>
+    <LI><A HREF="#buggy">Bugs?  Naaaah.... :)</A>
+    <LI><A HREF="#helping">Helping with GTKeyboard</A>
+    <LI><A HREF="#whereto">Where is this thing going</A>
+    <LI><A HREF="#cruft">Things that don't belong in any other
+    category</A>
+    <LI><A HREF="#disclaim">Disclaimers and "important" things</A>
+    </UL>
+<LI><A HREF="#outro">Outro, and useful Links pertaining to GTKeyboard</A>
+</UL>
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><STRONG><H2><A NAME="intro">Intro</A></H2></STRONG>
+<P><STRONG><h3><A NAME="snotes">Startup Notes</A></H3></STRONG>
+<P>
+Upon starting GTKeyboard, you'll be presented with a full keyboard
+including all punctuation and symbols available to you on the
+keyboard.
+
+<P>
+The window that is displayed has two different text boxes.  The first,
+which is not editable by the user, contains GTKeyboard status messages
+to the user, for example, whether the CAPS LOCK key is ON or OFF,
+whether the SHIFT key is ON or OFF, and other messages pertaining to
+options that you can change within the program, such as whether or not
+the program will ask you if you want to save on exit, and so on. 
+
+<P>
+The second text box below the first, is the editable input/output
+box.  In this box, you can type as you would normally in any other
+program, or you can hit any of the keys above on the keyboard to
+insert text into this location.  If you write text past the end of the
+line, you will notice that the text automatically wraps around with a
+small curling arrow sign at the end of the previous line showing that
+you have gone past the end of that line.  You may also toggle word
+wrap under the <EM>Misc</EM> window.
+
+<P>
+All punctuation necessary for writing should be available on the
+keyboard for editing.
+
+<P>
+When you are ready to save your document, you have a choice of two
+things.  You can either save the file under the default filename,
+which is usually /tmp/GTKeyboard, or you can specify the filename you
+wish to save it under and then save it.  To specify the filename you
+wish to save it as, click the <EM>File</EM> menu on the top bar, and
+select <EM>New File</EM>.  A dialog box will pop up, prompting you for
+the new filename.  
+
+<P>
+The status logging toggle option in the <EM>Misc</EM> menu is what controls
+whether or not the status window's text is saved on exit of the
+program.  When you use the menu, it will let you know in the status
+menu itself what the current setting is.
+
+<P>
+A few quick notes:  The &quot;Clear All&quot; button, which is located
+at the very bottom of the button row at the bottom of the application,
+is <STRONG>not</STRONG> a cut button.  It will clear all of the text
+in the buffer, and it will not copy it to the X cut buffer, i.e. you
+will not be able to paste that text back into the document again.  For
+that reason, I had to put in an "are you sure" popup dialog.
+
+<P><H3><STRONG><A NAME="manbug">Problems with this
+Manual?</A></STRONG></H3>
+
+<P>
+This manual was a plaintext to HTML conversion of the old GTKeyboard
+manual that came with the program.  I've tried to mention just about
+everything, but I'm sure there are things that I missed. 
+
+<P>If you would like to report some feature documentation missing that
+you'd like to see, suggest another subtopic, correct my spelling or
+grammar, please email me at <A
+HREF="mailto:s2mdalle@titan.vcu.edu">&lt;s2mdalle@titan.vcu.edu&gt;</A>
+and I'll clear it up as quickly as possible.  If you would like to
+write a section, go for it, and I'll incorporate it as long as it's
+relevant to GTKeyboard.
+
+<P><H3><STRONG><A NAME="whoami">Who am I?</A></STRONG></H3>
+<P>
+I am David Allen, I'm a college student attending <A
+HREF="http://www.vcu.edu">Virginia Commonwealth University</A> in
+Richmond, Virginia (as of this writing).  I major in Computer Science 
+and Psychology.  I originally wrote the program to learn the GTK+
+toolkit, but as time went on, people found some new uses for the
+software I hadn't imagined, and were requesting new features and
+bugfixes, which I was more than happy to provide.
+
+<P><h3><STRONG><A NAME="obtaining">Obtaining GTKeyboard</A></STRONG></h3>
+<P>
+I try to make it as easy as possible to get a copy of GTKeyboard.
+Here is a list of places that you're likely to find GTKeyboard hanging
+out if you want the latest copy, and older copy, (they're pretty
+embarassing for me, but sometimes so are the newer versions :) or an
+RPM (source or i386).  As of this
+writing, I don't make or provide any debian, stampede, or other
+packages of GTKeyboard.  For this, I recommend either alien, a package
+converter, or that you make your own.  If you do make your own, let me
+know, and I'll arrange to distribute them with the rest of the packages.
+
+<P>
+Where to find GTKeyboard:<BR>
+<UL>
+<LI><A HREF="http://opop.nols.com/gtkeyboard.html">
+http://opop.nols.com/gtkeyboard.html</A> 
+<LI><A HREF="http://www.gnu.org/software/gtkeyboard/gtkeyboard.html">
+http://www.gnu.org/software/gtkeyboard/gtkeyboard.html</A>
+<LI><A HREF="ftp://alpha.gnu.org/pub/gnu/gtkeyboard/">
+ftp://alpha.gnu.org/pub/gnu/gtkeyboard/</A>
+<LI><A HREF="ftp://contrib.redhat.com/">
+ftp://contrib.redhat.com/</A>  (src and i386 RPMs)
+<LI>By email.  If you can't find a copy anywhere, or if tornadoes and
+nuclear war have eliminated my site and all of GNU, email me at
+<A HREF="mailto:s2mdalle@titan.vcu.edu">&lt;s2mdalle@titan.vcu.edu&gt;</A> and
+I'll mail you a copy in your preferred available format.  This
+includes versions that are statically linked for people who prefer
+those.  Because of their size, I don't plan to include many on the
+GTKeyboard page.
+</UL> 
+
+<P><H3><STRONG><A NAME="overview">Overview of GTKeyboard
+Features</A></STRONG></H3> 
+<P>
+GTKeyboard has many features that hopefully help the user out in
+getting many and varied tasks done.  Here is a brief overview of some
+of the features available.
+
+<UL><LI>Editing Shortcuts
+    <UL><LI>HTML Editing Shortcuts
+        <LI>Language Shortcuts
+	<LI>User defineable shortcuts
+	<LI>Shortcuts to speed document editing
+        <LI>Word completion (ala GNU Readline)
+            <UL>
+            <LI>Word completion against user-specified caches
+            <LI>Conversion of text files to cache-files
+            </UL>
+    </UL>
+    <LI>External Program Launching
+    <UL><LI>Lynx
+        <LI>Telnet
+	<LI>FTP
+	<LI>Can be hacked to include support for other external
+	programs.
+	<LI>Uses RXVT by default, but can use Xterm as well.
+    </UL>
+    <LI>Output Redirection
+    <UL><LI>System console (/dev/console)
+        <LI>Printer (/dev/printer)
+	<LI>Can be hacked to include support for other output devices.
+    </UL>
+    <LI>The Ability to redirect keypresses to other X applications
+    <UL><LI>Implicit redirection:  Whichever window last had focus
+        <LI>Explicit redirection:  Explicitly choose a window for
+            redirection
+    </UL>
+    <LI>Screen Control
+    <UL><LI>Hide/Show just about any major widget
+        <LI>Specify screen layout in the rc file including what should
+            and shouldn't be in toolbars.
+    </UL>
+    <LI>Regular text editing features common to <A
+    HREF="http://www.gtk.org">GTK+ programs</A>
+    <LI>Licensed under the <A
+    HREF="http://www.gnu.org/copyleft/gpl.html">GNU 
+    General Public License</A> as Free Software
+</UL>
+
+<P>There is one other point that I'd like to make about the feature
+set of GTKeyboard.  Although it's constantly growing, sometimes I get
+an email that asks me why I put in a specific feature.  Currently,
+there are people who are working towards using GTKeyboard in an ICU/OR
+setting whos user interface requirements are much different from that
+of the standard user.  I have attempted to make each feature as small
+as possible, to minimize growth of the binary and memory usage.  If
+you find that a certain feature is strange, or doesn't sound like
+something you'd ever use, that's fine, but most likely they will stay
+in GTKeyboard to add flexibility to the application in addition to
+letting other people with different agendas use the application for
+their purposes.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><h3><STRONG><A NAME="rcfile">Setting up your rcfile</A></STRONG></h3>
+<P>
+GTKeyboard reads a configuration file at startup to determine which
+options you want functioning in the program, and which you don't want
+functioning.  The file is always located in your home directory with
+the name <EM>.gtkeyboardrc</EM>.  <EM>~/.gtkeyboardrc</EM> contains a
+few lines that toggle features on and off at the start of GTKeyboard.
+You may specify a default file to edit at startup, whether you want to use
+word wrap or not, whether to ask you to save the document on exit, and
+so on.  If there are other aspects of GTKeyboard you would like to be
+able to customize, mail me, and I'll see if I can work it in.
+
+<P>
+If a configuration file is not present, GTKeyboard will copy a default
+configuration file and choose values that I think are reasonable.  But
+not everybody likes things the same way, what I think is reasonable
+you might consider absurd, so please edit the file to your liking.
+Editing this file is optional though, since GTKeyboard can run with
+the default provided resource file.
+
+<P>
+Entries in the file look like this:<BR>
+<PRE>set OPTION_NAME VALUE</PRE>
+Or, alternatively, like this:<BR>
+<PRE>toolbar ELEMENT [ON|OFF]</PRE>
+
+<P>First, the option names.  &quot;Toolbar&quot;
+statements are explained <A HREF="#toolbarfu">below</A>
+
+<P><H3><STRONG><A NAME="optionfu">Regular Option Syntax</A></STRONG></h3>
+
+<P>
+OPTION_NAMEs include ASK_SAVE_ON_EXIT, WORKING_FILE, WORD_WRAP,
+STATUS_LOGGING, RANDOM_STRLEN, with more to come in the 
+future.  VALUE is any integer value that you want to set the feature
+to.   If you enter 0, the feature is turned OFF, any other value will
+result in the feature being enabled.  That is, <BR>
+<PRE>set ASK_SAVE_ON_EXIT 1</PRE>
+and<BR>
+<PRE>set ASK_SAVE_ON_EXIT 323</PRE>
+and even<BR>
+<PRE>set ASK_SAVE_ON_EXIT ON</PRE>
+
+Are functionally equivalent.  Both will cause GTKeyboard to prompt you
+as to whether or not you want to save the file before you quit.  But
+if you enter<BR>
+<PRE>set ASK_SAVE_ON_EXIT 0</PRE>
+then you will not be prompted.
+
+<P>Some option names take strings as arguments, examples being
+<STRONG>WORKING_FILE</STRONG> and <STRONG>KEYBOARD_FILE</STRONG>.  In
+these cases, syntax is simply:<BR>
+<PRE>set variable_name string_value</PRE><BR>
+An example would be:<BR>
+<PRE>set KEYBOARD_FILE /home/user/gtkeyboard-layouts/DE.key</PRE>
+
+<P>
+<A NAME="optionnames">Option</A> Names (listed alphabetically):<BR>
+
+<CENTER> | <A HREF="#ask_save_on_exit">ASK_SAVE_ON_EXIT</A> | <A
+HREF="#borderless">BORDERLESS</A> | <A
+HREF="#extra_files">EXTRA_FILES</A> | <A HREF="#eyecandy">EYECANDY</A>
+| <A HREF="#handlebars">HANDLEBARS</A> | <A
+HREF="#ignore_layout_file">IGNORE_LAYOUT_FILE</A> | <A
+HREF="#info_popups">INFO_POPUPS</A> | <A
+HREF="#keyboard_file">KEYBOARD_FILE</A> | <A
+HREF="#keyboard_font">KEYBOARD_FONT</A> | <A
+HREF="#pulloffs">PULLOFFS</A> | <A
+HREF="#random_strlen">RANDOM_STRLEN</A> | <A
+HREF="#redirect_policy">REDIRECT_POLICY</A> | <A
+HREF="#send_data_to_both_windows">SEND_DATA_TO_BOTH_WINDOWS</A> | <A
+HREF="#show_tooltips">SHOW_TOOLTIPS</A> | <A
+HREF="#status_logging">STATUS_LOGGING</A> | <A
+HREF="#text_font">TEXT_FONT</A> | <A HREF="#word_wrap">WORD_WRAP</A> |
+<A HREF="#working_file">WORKING_FILE</A> | <A HREF="#xpos">XPOS</A> |
+<A HREF="#ypos">YPOS</A> |</CENTER>
+
+<UL>
+<LI><STRONG><A NAME="ask_save_on_exit">ASK_SAVE_ON_EXIT</A></STRONG>:
+If on, you will be asked if you want 
+to save the file before you exit.  If off, it won't ask you,
+<STRONG><EM>even if the file needs saving</EM></STRONG> <EM>ON</EM> by
+default.
+<LI><STRONG><A NAME="borderless">BORDERLESS</A></STRONG>:  This makes
+GTKeyboard pop up as a "popup" window, which with many window managers
+makes it borderless. You might want to be careful with this one
+though, since some window managers make popup windows always stay on
+top.  In this event, you may not see a dialog window that GTKeyboard
+pops up because it will be behind the main window.  This is good for
+decreasing the amount of screen realestate the program takes though.
+This option is <EM>OFF</EM> by default.
+<LI><STRONG><A NAME="extra_files">EXTRA_FILES</A></STRONG>:  This is
+the directory GTKeyboard will look in for extra configuration files
+including the ChangeLog, README files, (which are displayed in windows
+through the help menu) as well as the default location to look for
+.KEY files.  This variable is not set by default.
+<LI><STRONG><A NAME="eyecandy">EYECANDY</A></STRONG>:  This is
+actually a bit silly.  If on, two pixmapped buttons will appear to the
+left and right of the up cursor key.  The pixmaps are generated at
+random, and look like multicolored snow.  This was mostly added
+"because I could".  If you think it's annoying, keep this option off,
+and instead you will have two buttons with the labels "About" and
+"License".  This is <STRONG>off</STRONG> by default, since some people
+find it annoying, but it's a way to conserve more screen space. 
+<LI><STRONG><A NAME="handlebars">HANDLEBARS</A></STRONG>:  If on, it
+adds a handlebar to the left hand side (by default) of each of the
+major widgets so that users can pull them off into separate windows.
+This used to be the default, but was placed into an option because it
+confused some users. 
+<LI><STRONG><A
+NAME="ignore_layout_file">IGNORE_LAYOUT_FILE</A></STRONG>:  If this is
+set on, then GTKeyboard will ignore your ~/.gtkeyboard-layout file.
+This file is produced by using the &quot;Save Layout Settings&quot;
+functionality located under the <EM>Options-&gt;Looks</EM> menu.
+Normally, whenever a layout file exists, it will be read, and the
+layout settings defined in that file will override your layout
+statements in your resource file.  Setting this option tells
+GTKeyboard to disregard the settings found in that file.  This is set
+to <EM>OFF</EM> by default, meaning that your ~/.gtkeyboard-layout
+file will be used. 
+<LI><STRONG><A NAME="info_popups">INFO_POPUPS</A></STRONG>:  If you
+set this, GTKeyboard will pop up small windows letting you know what's
+going on, rather than just outputting the text to the status window.
+The author is not that wild about this, but some people prefer it, so
+it was added added in 0.97.2. <EM>OFF</EM> by default.
+<LI><STRONG><A NAME="keyboard_file">KEYBOARD_FILE</A></STRONG>:  This
+will load the keyboard file you specify and use it as the keyboard on
+startup.  The default is to use the QWERTY.key file which comes with
+GTKeyboard.  Specify the keyboard file as a string.  The default is
+always the &quot;QWERTY.key&quot; that comes with the GTKeyboard
+distribution. 
+<LI><STRONG><A NAME="keyboard_font">KEYBOARD_FONT</A></STRONG>:
+Requires a string argument of the font that should be used for
+displaying keyboard buttons.  This font should be of the same form as
+the <EM>TEXT_FONT</EM> variable.  This variable is not set by default.
+<LI><STRONG><A NAME="pulloffs">PULLOFFS</A></STRONG>:  This value can
+be one of several, "top", "bottom", "left", and "right".  The default
+is "left" which looks the best in my opinion, but options are there
+for people who want them.  This controls what side the pull off bars
+for various screen items are positioned on.  Note that this variable
+will have no effect if <EM><A HREF="#handlebars">HANDLEBARS</A></EM>
+is <EM>OFF</EM>.  The default for this variable is <EM>LEFT</EM>.
+<LI><STRONG><A NAME="random_strlen">RANDOM_STRLEN</A></STRONG>: If you
+use the random string function, (not many people do, it's just for
+fun) then you will get the absolute value of the characters you
+specify.  That is, if you say 20, it will be 20. If you say -10, it
+will be 10.  This variable has a value of <EM>20</EM> by default.
+<LI><STRONG><A NAME="redirect_policy">REDIRECT_POLICY</A></STRONG>:
+This sets the redirect policy.  The default is <EM>implicit</EM> which
+means that whichever window last had focus will be the redirect
+window.  The two possible options are <EM>implicit</EM> and
+<EM>explicit</EM>.  This is an important subtopic to itself; see the
+section on <A HREF="#explicitimplicit">redirection</A> for more information. 
+<LI><STRONG><A
+NAME="send_data_to_both_windows">SEND_DATA_TO_BOTH_WINDOWS</A></STRONG>:
+If this is specified as on or a nonzero number, then whenever a key is
+pressed, the key that you pressed will be sent to the redirect window
+<STRONG>and</STRONG> the regular text buffer.  This way you can log
+your keystrokes in other windows.  The default is <EM>OFF</EM>.
+<LI><STRONG><A NAME="show_tooltips">SHOW_TOOLTIPS</A></STRONG>:  If
+set to <EM>ON</EM>, then tooltips will be available for each key on
+the keyboard showing its keycode, and the different symbols the key
+can produce.  If it is <EM>OFF</EM>, then tooltips (only on the
+keyboard) will not be shown. The defalut is <EM>ON</EM>.
+<LI><STRONG><A NAME="status_logging">STATUS_LOGGING</A></STRONG>:  If
+on, the status buffer will be saved after each session in the current
+working directory. <EM>ON</EM> by default.
+<LI><STRONG><A NAME="text_font">TEXT_FONT</A></STRONG>:  Requires a
+string argument of the font that should be used in the main text area
+for display.  This should be of the X font form similar to
+&quot;-biznet-fotinos-bold-r-normal-*-*-180-*-*-p-*-iso8859-2&quot;
+(that particular font may not be on your system).  The default is the
+standard GTK+ text font.
+<LI><STRONG><A NAME="word_wrap">WORD_WRAP</A></STRONG>:  Turns on word
+wrap within the text 
+widget. <EM>OFF</EM> by default.
+<LI><STRONG><A NAME="working_file">WORKING_FILE</A></STRONG>:
+Whatever string you give it will 
+be the file GTKeyboard opens on startup as its default file.  If you
+specify a file on the command line in addition to having a
+WORKING_FILE, your working filename is
+ignored. <EM>$HOME/.gtkeyboardrc</EM> by default.
+<LI><STRONG><A NAME="xpos">XPOS</A></STRONG>:  Sets the X position of
+the keyboard as it 
+should be when the window pops up.  The upper left hand corner of the
+application will move to (XPOS, YPOS)
+<LI><STRONG><A NAME="ypos">YPOS</A></STRONG>:  Sets the Y position of
+the keyboard as it 
+should be when the window pops up.  Note that both a valid XPOS and
+YPOS must be set for this to have any effect.  The upper left hand
+corner of the window will appear at (XPOS, YPOS) on your screen at
+startup.
+</UL>
+
+<P>
+Each statement goes on a line by itself, and at this point, all lines
+that are not of that form are ignored or rejected as illegal input.
+You can find a sample rc file with this package, called
+<EM>defaults.gtkeyboard</EM> which should be changed and moved to your
+home directory as <EM>.gtkeyboardrc</EM>.  You can then edit it and go on with
+your bad self. :) You will mostly likely want to edit the WORKING_FILE
+option .. for example, at home in my gtkeyboardrc I use<BR>
+<PRE>
+set WORKING_FILE /home/x/.gtkeyboardrc
+</PRE>
+
+<P>
+If you choose not to have a working file, then just put something in
+there that isn't a real filename.  GTKeyboard will complain in the
+status window about not being able to open it, but hey, that's life.
+
+<P>
+If you specify a file on the command line to edit with GTKeyboard, the
+default file option in the rcfile will be ignored and you will work
+with the file you specified.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H3><STRONG><A NAME="layoutfu">Layout Statements</A></STRONG></H3>
+<P>These are simple statements of the form:<BR>
+<PRE>[show|hide] element</PRE><BR>
+The element list is as follows:<BR>
+<UL><LI><STRONG>KEYBOARD</STRONG>:  The actual keyboard display
+    <LI><STRONG>BUTTONBAR</STRONG>:  The bottom row buttons
+    <LI><STRONG>MENUBAR</STRONG>:  The pulldown menus
+    <LI><STRONG>TEXT</STRONG>:  The main text editing area
+    <LI><STRONG>STATUS</STRONG>:  The status buffer
+    <LI><STRONG>TOOLBAR</STRONG>:  The icon toolbar
+</UL>
+
+Each statement contains the word &quot;show&quot; or &quot;hide&quot;
+followed by an element name.  The corresponding element is either
+shown or hidden when the application starts.  Using the Looks menu you
+can always display or hide things after the application starts
+though.  The default for all elements is show.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H3><STRONG><A NAME="keyboardfu">Keyboard
+Statements</A></STRONG></H3>
+<P>Keyboard statments are very similar to layout statements.  The only
+main difference is that a keyboard statement only controls a
+subsection of the keyboard.  It allows the user to show/hide arbitrary
+parts of the keyboard.
+
+<P>Syntax for keyboard statements is:<BR>
+<PRE>keyboard element_name [on|off]</PRE><BR>
+Where <EM>element_name</EM> is one of the following:
+
+<UL><LI><STRONG>CURSOR_KEYS</STRONG>:  The cursor keys, containing the
+    up, down, left, and right cursor keys, and also
+    Insert/Home/Delete/End/Page Up/Page Down.
+    <LI><STRONG>F_KEYS</STRONG>:  The function keys, including
+    escape.  Keys ESC, F1-F12.
+    <LI><STRONG>MAIN_KEYBOARD</STRONG>:  The main keyboard area.  This
+    includes the number keys, the main alphabet, enter, caps lock, shift,
+    etc.  <EM>Note</EM>:  In versions before 1.0, this option was known by
+    <EM>KEYBOARD</EM> 
+    <LI><STRONG>NUMBER_PAD</STRONG>:  The number pad located on the
+    far right hand side of the keyboard.  This includes the numbers
+    0-9, enter, num lock, -, /, *, and +.
+</UL>
+
+<P>For example, a layout file that wanted to only show the main
+keyboard and nothing else would have statements looking like this
+(note that case doesn't matter in resource file statements):
+
+<PRE>
+keyboard keyboard on           # Turns the main keyboard ON
+keyboard cursor_keys off       # Turns the cursor keys off
+keyboard number_pad off        # Do not show the number pad
+keyboard f_keys off            # Do not show the f-keys.
+</PRE>
+
+<P>The default value for all of the above elements is <EM>ON</EM>.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H3><STRONG><A NAME="toolbarfu">Toolbar
+Statements</A></STRONG></H3>
+<P>Mentioned above, a statement of the form <BR>
+<PRE>toolbar ELEMENT VALUE</PRE>
+Allows the user to customize the toolbar via the resource file.
+ELEMENT stands for the name of a toolbar element, and VALUE for what
+that element should be.  An example of this would be something like
+the following:<BR>
+<PRE>toolbar window_grab OFF</PRE>
+Which would cause the window grabbing button on the toolbar not to be
+shown when GTKeyboard starts.   ELEMENTs are case INSENSITIVE, which
+is to say, there is no difference between specifying the ELEMENT as
+&quot;copy&quot; or &quot;COPY&quot;.
+
+<P>Each button on the toolbar has a name associated with it, which
+corresponds to an ELEMENT.  You can control which ELEMENTs are shown
+and which are hidden by using the ON/OFF specifiers in the resource
+file.  Note that ALL toolbar buttons are always ON by default.  If you
+don't want to see them, you must set them OFF in your resource file.
+
+<P>The following are the names of the different ELEMENT statements
+possible when using the &quot;toolbar&quot; line in an rcfile.  More
+can be added upon request as well as more possible toolbar buttons in
+general.  Note that if you disable all of the toolbar buttons, the
+toolbar will not appear on the screen, but if that is your intention,
+it is probably easier to use the Hide Toolbar command in the
+Options-&gt;Looks&gt;Toolbar&gt;Hide menu to achieve the same effect.
+
+<UL>
+<LI><STRONG>Open</STRONG>:  The open-file toolbar button
+<LI><STRONG>New</STRONG>:  The new-file toolbar button
+<LI><STRONG>Save</STRONG>:  The save-file toolbar button
+<LI><STRONG>Cut</STRONG>:  The cut-text toolbar button
+<LI><STRONG>Copy</STRONG>:  The copy-text toolbar button
+<LI><STRONG>Paste</STRONG>:  The paste-text toolbar button
+<LI><STRONG>Window_grab</STRONG>:  The grab-window button
+<LI><STRONG>Window_ignore</STRONG>:  The ignore-window button.
+<LI><STRONG>Color</STRONG>:  Button to change gtkeyboard's colors
+<LI><STRONG>Font</STRONG>:  Button to change text fonts
+<LI><STRONG>Kbd_font</STRONG>:  Button to change keyboard fonts.
+<EM>Note:  This was known as <STRONG>keyboard_font</STRONG> in
+previous versions</EM>
+<LI><STRONG>Reset_style</STRONG>: The button to reset application
+defaults.
+<LI><STRONG>Positioning</STRONG>:  If ON, a series of buttons will be
+on the toolbar to control repositioning of the application on the screen.
+<LI><STRONG>Shortcuts</STRONG>:  If this is ON, (which it is by
+default) a row of 6 buttons and a define user shortcuts button will be
+present on the toolbar.
+<LI><STRONG>Status_report</STRONG>:  Shows/hides a button that when
+clicked, outputs a status report into the status window.
+<LI><STRONG>Raise</STRONG>:  Shows an up arrow on the toolbar that you
+can use to stack the GTKeyboard window above all others
+<LI><STRONG>Lower</STRONG>:  Shows a down arrow on the toolbar that
+when clicked sends GTKeyboard to the background.
+</UL>
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H2><STRONG><A NAME="textedit">Text Editing</A></STRONG></h2>
+<P>
+The onscreen keyboard in GTKeyboard functions exactly like a normal
+keyboard on your desktop.  Each of the buttons has its normal
+function, with the exception of the buttons on the top row, (F1-F12,
+ESC, Scroll Lock, etc) which do not have any function yet.  The shift
+and caps lock buttons work just like they would on a normal keyboard,
+as well as all the other symbols like !@#$ etc.
+
+<P>
+As soon as the application starts, you can begin typing, and the
+output of your typing will appear in the output buffer, the text space
+near the bottom of the screen where the guide buttons are at the
+bottom.  Each key that you press will put its corresponding symbol
+into the buffer at the bottom, possibly modified if the shift key is
+on.  In addition, the NUM LOCK key and the CAPS LOCK key are toggle
+keys - the status buffer will inform you when they are turned off or
+on, and they will remain pressed down when on.  To release them, just
+press them again.
+
+<P>
+On the bottom row of the main window, there are convenience shortcut
+buttons to perform common tasks such as to select all of the text in
+the widget, to open a file, to clear all the text out, to quit the
+application, and so on.
+
+<P>For convenience, there is also a popup menu that you can use with
+GTKeyboard.  Just right-click in the text area at the bottom where you
+normally type into, and a menu will appear to let you perform common
+GTKeyboard tasks with, such as hiding/showing different screen
+elements, customizing fonts/colors, and so on.
+
+<P>
+Don't bother wasting button presses on repetitive things like quoting
+certain sections of text!  The shortcuts menu in the top menubar will
+help you out with things like that.  If you go into the quoting
+submenu, and click on "Quote", it will produce "" and put the cursor
+between the two quotes so that you can continue typing your quoted
+text.  When you're done with the quoted text, use the cursor keys next
+to the spacebar to go to the left or right of where you currently are
+to continue typing.
+
+<P>
+In the Misc menu, there are also functions to move the cursor
+automatically to the beginning or end of the file, as well as the
+beginning or end of a particular line.  It will place the cursor
+appropriately so that you don't have to worry about hitting the cursor
+keys the right number of times in order to go to the beginning/end of
+the line/document.  They function just like the HOME and END keys on a
+normal keyboard.
+
+<P>
+Also, currently with the keypad, you have the buttons Home, End, and
+Delete.  They function just like the keys on the keyboard.  The HOME
+key takes you to the beginning of the current line, delimited by a
+linebreak, the END key takes you to the very end of the line, and the
+delete key deletes one key forward from your current position, just
+like on a normal keyboard.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H3><STRONG><A NAME="threemode">Three-mode
+Buttons</A></STRONG></H3>
+
+<P>GTKeyboard can define up to three different symbols for each key on
+the keyboard.  Those three symbols are referred to as the normal
+symbol, the &quot;shift&qout; symbol, and the &quot;mode-switch&quot;
+or &quot;alt-gr&quot; symbols.  
+
+<P>Generally, the way you generate those symbols is as follows.  If
+you just want the regular symbol, (the same thing as the symbol that
+shows on the face of the key) you just mouse-click on top of that
+button.  If you want the shift symbol, you click on the Shift keyboard
+key, or possibly the Caps Lock key, and then click your symbol.  For
+alt-gr symbols, an Alt-Gr or Mode Switch key must be present on the
+keyboard.
+
+<P>GTKeyboard offers a shortcut to skip through the symbols you need
+to select with each button.  The first mouse button generates the
+&quot;normal&quot; symbol, the second mouse button generates the
+&quot;shift&quot; or upper case symbol, and the third button generates
+the &quot;alt-gr&quot; symbol if one exists.  If it doesn't exist,
+nothing happens.  Note that button 3 on most people's mouse will
+actually be the middle button, not the right-most button.
+
+<P><H3><STRONG><A NAME="redirecting">Text Editing in Another
+Window</A></STRONG></h3>
+
+<P><H4><STRONG><A NAME="explicitimplicit">Explicit Versus Implicit Methods
+of Choosing A Redirect Window</A></STRONG></H4>
+<P>There are two ways to choose a
+window to redirect data from the keyboard to.  They are the implicit
+method, and the explicit method. The implicit method, which is the
+default, is quite easy.  Whichever window had the focus last is the
+window that is designated to receive the key presses.  The explicit
+mode is where the user chooses a window explicitly for redirection.
+
+<P>In order to use the implicit mode, all you have to do is make sure
+that the window you want to redirect to is the window that last had
+the keyboard focus in your window manager.  That's it.  Generally, if
+you need to assign this, you can just click on the window you want to
+focus on with your mouse, and then click on GTKeyboard again.  You
+should see a message in your status window saying &quot;Found new focus
+window:  window name&quot;  All keyboard usage after that will go into
+the foreign window.
+
+<P>
+In order to choose a new window to redirect output to (using explicit
+mode), click on the Output menu, then click on Choose a Window.  Your
+cursor will change, at which time you go out and choose a window by
+clicking on an active window.  When that is done, you just type with
+the on-screen keyboard as normal, or do whatever you would normall do,
+except that output goes into the foreign window rather than where it
+usually goes.  See the BUGS file about some things that don't seem to
+want to  work properly like xterm which are traditionally a pain to
+send X events to.  For most things, this will work just that easily.
+(e.g. an rxvt window/other terminal emulator)
+
+<P>Sometimes, you will want to redirect text to a certain box within a
+certain window.  (Like for example, the URL box in Netscape
+Navigator).  This is no problem, GTKeyboard will let you do that too,
+but you must make sure that the box you want to type into has the
+focus.  Basically, after you select the window, click on the box that
+you want one more time so a thin black border comes up around it as is
+traditional for most windows that have the focus, and then you can
+begin typing into that window. 
+
+<P>Some notes about redirection to other windows:
+<UL><LI>Although implicit focus is the default, some users may want to
+        toggle to explicit mode, particularly if you are using GTKeyboard in
+	its editing facilities.  If GTKeyboard has a valid window to
+	redirect to, it will use that window, which may cause problems
+	if you expect your text to show up in the editing buffer!
+    <LI>The most common problem is forgetting to give focus to the
+    item inside an application you're typing into.  Don't forget to do that.
+    <LI>It should work fine for most "well-behaved" X applications,
+    provided that the widget you want to enter text into has the 
+    focus.
+    <LI>Xterm will work, but in order to make it work, you must
+    control+click on your Xterm window and hit &quot;Allow
+    SendEvents&quot; before the keypresses will show up in an Xterm
+    <LI>Some people have reported problems with using <A
+    HREF="http://xemacs.org">XEmacs</A> with GTKeyboard.  I can't
+    reproduce these problems on my GNU/Linux machine, but if you have
+    them, please email me and let me know what version of X11, and
+    XEmacs that you're running just so I'll know.  If any Elisp is
+    involved in making XEmacs play nicely, I would appreciate any code
+    you have.
+    <LI>If you find an application that it doesn't work with, let me
+    know.
+</UL>
+
+<P>
+You will also find a "Choose Window" and "Ignore Window" option under
+the shortcuts menu.  They're just there for convenience, there is no
+difference between them, only that some people look in different
+places for the same things.
+
+<P>
+The ignore window button does exactly what it says it does:  It
+ignores the current active window.  So if you're workin on something
+within an rxvt window, and you want to go back to editing within the
+GTKeyboard text buffer, click on the Ignore Window button either at
+the bottom of the screen or in the Shortcuts or Output menus, and
+GTKeyboard will take focus away from that window and begin sending all
+keystrokes back into the GTKeyboard editing buffer.  This allows you
+the flexibility to flip back and forth between small editing tasks
+and/or using GTKeyboard like a clipboard for text, and actually
+editing in other windows or performing other tasks with the on screen
+keyboard.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H2><STRONG><A NAME="userdef">User Defined
+Shortcuts</A></STRONG></H2>
+<P>
+By request of several users, GTKeyboard now has the ability to let
+users define their own shortcuts and use them for quick advanced
+editing.  On the toolbar, you will find several buttons, DS, S1, S2,
+and so on.  These buttons provide access to the different GTKeyboard
+User Defined Shortcuts features.
+
+<P><h3><STRONG><A NAME="defining">Defining Your Custom
+Shortcuts</A></STRONG></H3>
+<P>
+All you have to do to define your own shorcuts is to click on either
+the "DS" button on the toolbar, or go to the options menu, and choose
+Define User Shortcuts.
+
+<P>
+Once you are in the definition menu, you will be able to type in
+whatever you want GTKeyboard to spit out when you click on the
+corresponding shortcut button.  Right now, what you can add is pretty
+primitive, but it is functional, and also works when redirecting to
+other windows.  <EM>Important:</EM> if you want the shortcuts to work,
+you must click "Install" after each shortcut to let GTKeyboard know
+that you have chosen what you want for that shortcut and it is to
+remember the shortcut.
+
+<P>Unfortunately, GTKeyboard does not currently remember which
+shortcuts you defined between sessions, but that will change soon.
+Also, currently you must actually use the keyboard to use the user
+defined shortcuts feature, but when the window redirection code gets
+rewritten, you should be able to choose those widgets as redirect
+windows and type in using the on screen keyboard provided what you
+want for that shortcut.
+
+<P><h3><STRONG><A NAME="changing">Changing the
+Shortcuts</A></STRONG></H3>
+
+<P>
+All you have to do to change the shortcuts is to reopen the shortcut
+definition window, as described <A HREF="#defining">above</A>, and
+type in the new shortcut value.  In the status window, GTKeyboard will
+let you know that it is throwing away the old value, and what that
+value was.  After you click the "Install" button after entering the
+new shortcut text, you're done.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H2><STRONG><A NAME="looks">Customizing the looks of
+GTKeyboard</A></STRONG></H2> 
+
+<P>For users who want to, GTKeyboard allows the customization of 
+fonts, screen layout, and colors that the application is displayed in.
+This section is about how to take advantage of that support to make
+GTKeyboard look they way you want it to look.
+
+<P><H3><STRONG><A NAME="keylayout">Customizing Keyboard
+Layout</A></STRONG></H3> 
+
+<P>GTKeyboard comes with several different foreign keyboard, at this
+point in time including Spanish, Italian, German, American, UK, and
+French keyboard layouts.  If you don't see support for the national
+keyboard you prefer to use with GTKeyboard, see the KEY/ directory of
+the source distribution, which contains notes on how to create a
+keyboard for your country.  If you create any keyboards that
+GTKeyboard doesn't have, I would greatly appreciate hearing about it
+so I can include it in future releases of GTKeyboard.
+
+<P>To change keyboard layouts, just click on the Options menu, and
+select the &quot;choose layout&quot; menu item.  It will bring up a
+file selection dialog which you can use to select the .key file
+corresponding to the keyboard that you want to use.  Multiple key
+files are installed wherever you installed GTKeyboard, which will most
+likely be in /usr/local/share/gtkeyboard/ - but it may also be in
+/usr/share/gtkeyboard/ depending on how your copy was installed.
+GTKeyboard will try to choose the correct directory where the files
+are located by default.  After you have chosen the correct file, press
+OK in the dialog, and the keyboard will remap itself.  At this point,
+if you wish to use the foreign keys in a redirect window, you will
+have to remap the keyboard before continuing.  Otherwise, if you just
+want to edit text, then you don't have to do anything extra.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H3><STRONG><A NAME="colors">Customizing Colors</A></STRONG></H3>
+
+<P>To customize the color look of GTKeyboard, all you have to do is
+either click on the four-colored toolbar icon on the toolbar with the
+C on it, or go to the Options menu, then Looks, then Colors, then
+choose colors.  You will be presented with a standard GTK+ color
+selection dialog that will let you choose which color you would like
+to have your application displayed in.
+
+<P>When you've found a color you like, click ok, and the color will be
+applied to the entire keyboard and application layout.  At this time,
+the color is NOT applied to the pulldown menus.  I believe this is a
+GTK+ issue, but I'll keep looking on my end of things too.
+
+<P>Please note that just because you can choose a color doesn't mean
+that it will look good or be useful when you apply it to the
+application.  Case in point, choose all black for your colors, and all
+of the buttons will effectively disappear, making it impossible to see
+which key you're hitting!  When choosing a color, you should probably
+choose a color that looks ok against black, since that's usually what
+color the button labels are in.  (This could differ, depending on
+whether or not you're using a GTK+ Theme.)
+
+<P>If you ever want to return to the original application default,
+i.e., what GTKeyboard looked like when you started it, click on either
+the black "C" icon on the toolbar, or go to
+Options-&gt;Looks-&gt;Colors-&gt;Reset Colors to change them back to
+the application defaults.  That's it.  With GTKeyboard, you can choose
+just about any color that your X server can display to be the working
+color for the application.
+
+<P>If you find a color that you like, and would like to keep using for
+GTKeyboard in the future, you can use the
+<EM>Options-&gt;Looks-&gt;Save Layout Settings</EM> menu item to save
+those settings to a file.  That file will then be loaded each time
+GTKeyboard runs.  (For exceptions to that rule, see the <A
+HREF="#ignore_layout_file">IGNORE_LAYOUT_FILE</A> rcfile option.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H3><STRONG><A NAME="fonts">Customizing Text Fonts</A></STRONG></H3>
+
+<P>You may also customize the font type, weight, and size that the
+main text widget uses for editing text with the font button on the
+toolbar.  Just click on the italic "F" button on the toolbar, choose
+your font, and click ok to apply it to the main text editing window.
+
+<P>As with application colors, this can be saved for future use with
+the use of the <EM>Options-&gt;Looks&gt;Save Layout Settings</EM> menu item.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H3><STRONG><A NAME="kfonts">Customizing Keyboard 
+Fonts/Size</A></STRONG></H3>
+
+<P>Many people find that the keyboard is either too big or too small
+for their use.  That's no problem.  On the toolbar, and in the Options
+menu, there are items that allow you to select the font of the
+keyboard.  Click on the red &quot;f&quot; letter on the toolbar to
+customize the keyboard's font.  Not only will it allow you to downsize
+the font, but you can also change the type of font used for different
+&quot;looks&quot; 
+
+<P>Depending on the font size, the buttons will shrink or grow, along
+with the rest of the window.  If you want a very small window, go with
+an 8 or 10 point font, although this can be hard to read.
+
+<P>As with application colors and text fonts, this can be saved for
+future use with the use of the <EM>Options-&gt;Looks&gt;Save Layout
+Settings</EM> menu item. 
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H3><STRONG><A NAME="widgets">Customizing Screen
+Layout</A></STRONG></H3> 
+
+<P>Sometimes people use GTKeyboard primarily to type into an rxvt, or
+for some other task that does not require showing all of the different
+screen elements on the screen.  For this, in the Options menu, there
+is a Looks submenu, where you can choose from options having to do
+with the main text box, the status box, the keyboard itself, the
+toolbar, the bottom row of buttons, and a few other things.  All you
+have to do to customize the layout of the screen is to go to the
+submenu of your choice within Options-&gt;Looks and choose the "Hide"
+option.  Whenever you want it to come back, click the "Show" option
+within the same menu, and that screen element will be redisplayed on
+the screen.
+
+<P>For convenience, items have been added to the Options menu to
+include the ability to hide <EM>everything</EM> except the keyboard,
+and also to show everything.  This way you can toggle back and forth
+between using GTKeyboard primarily as a tool to insert text into other
+windows and using it as a simple text editor.
+
+<P>Currently, there are options to show or hide the following
+GTKeyboard screen elements:  The keyboard itself, the toolbar, the
+bottom row of buttons, the text area
+where normal buttonpresses go, and the status area that tells you what is
+going on with the application.  Using these, you can make GTKeyboard
+as small as you like.  Note that when you hide the output text area,
+the bottom row of buttons is automatically hidden with it.  
+
+<P>Once you've found a screen layout that you like, you can click on
+the &quot;Save Layout&quot; item underneath the Options-&gt;Layout
+menu.  A file called <EM>~/.gtkeyboard-layout</EM> will be saved that will be
+used to determine your keyboard layout for subsequent runs of the
+program.  <STRONG>IMPORTANT NOTE</STRONG>:  When you use this feature,
+it creates a file in your home directory called <EM>~/.gtkeyboard-layout</EM>.
+It contains statements on how the application should be laid out.
+This file is read and used each time the application starts up,
+<STRONG><EM>overriding any <A HREF="#layoutfu">layout statements</A>
+you may have in your ~/.gtkeyboardrc</EM></STRONG>.  To avoid this
+behavior, use the <EM>IGNORE_LAYOUT_FILE</EM> option, described in the
+<A HREF="#optionfu">configuration section</A>.  Also, if you wish for
+the application to stop using your layout settings permanently, you
+can use the &quot;Forget Layout Settings&quot; located just under the
+&quot;Save Layout Settings&quot; menu item in the
+<EM>Options-&gt;Looks</EM> menu.
+
+<P>In recent releases of GTKeyboard, a directory called
+&quot;CONFIG&quot; has appeared in the source distribution - it holds
+several different configuration files for GTKeyboard that seem to be
+used the most by various people.  It has one file that enables all of
+GTKeyboard's features, one that makes the program appear only as a
+menu system and a small keyboard, and others.  Please check those
+files out for different styles of layout to use the program with.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><h2><STRONG><A NAME="remapping">Remapping the Keyboard with
+GTKeyboard</A></STRONG></H2> 
+
+<P>
+GTKeyboard allows you to use several different foreign character
+keyboard layouts to edit text in the text window of the application,
+but at the same time, it lets you direct characters to foreign
+windows.  Remapping the keyboard is the way that you coordinate these
+two objectives.
+
+<P>X provides a way to change what each keypress on the keyboard
+does.  In order to go from using an American keyboard to a German
+keyboard in a foriegn window, you first have to change the layout of
+your window to &quot;DE&quot; for German layout, and then you have to
+choose the option Misc-&gt;Remap Keyboard which will essentially
+change the function of just about every key on your keyboard.  There
+are several very important things that you need to
+know about this process.
+
+<UL>
+<LI><STRONG>The process is display wide</STRONG> meaning that if you
+remap the keyboard using GTKeyboard, it will make those changes
+everywhere.  What this means is that if you remap the keyboard, and
+open another terminal emulator and begin typing into that with the
+physical keyboard, it will produce foreign characters corresponding to
+the way GTKeyboard is laid out, <STRONG>not</STRONG> the way your
+default keyboard is laid out. <LI><STRONG>There are two ways to remap
+back to your original configuration</STRONG>.
+The first is to select your normal keyboard for your layout and use
+the Remap Keyboard option, and the second is to <STRONG>restart your X
+server</STRONG>.  I recommend you remember to remap your keyboard back
+to the original before you quit the application.  
+<LI><STRONG>The keyboard file must be &quot;fully
+specified&quot;</STRONG>.  Unless the .key file that you are using was
+properly created, GTKeyboard will not remap to that keyboard type.
+You should never have this problem with .key files distributed with
+GTKeyboard, but it may be a problem with others.
+</UL>
+
+<P><H3><A NAME="whyremaperror"><STRONG>Why do I keep getting this
+error &quot;Cannot send key - do you need to remap your
+keyboard?&quot;</STRONG></A></h3>
+
+<P>This error is generated when GTKeyboard tries to send a key to a
+foreign window that is not a key that <A
+HREF="http://www.xfree86.org">X</A> understands.  In order to send
+nonstandard keys to redirect windows, you must <A
+HREF="#remapping">remap the keyboard</A>.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H2><STRONG><A NAME="wordcompletion">GTKeyboard Word 
+Completion</A></STRONG></h2>
+
+<P>Starting in version 1.1, GTKeyboard provides a mechanism for word
+completion, similar to the mechanism provided by GNU readline.  The
+only difference is that rather than working with commands, the word
+completion facility in GTKeyboard works with real English (or any
+other language) words.  The word completion facility allows the user
+to type using the on-screen keyboard much faster than he/she would
+ordinarily be able to type, because GTKeyboard can fill the rest of
+the word in for you.  The majority of the guts of the code for word
+completion was written by Dr. Tom <A
+HREF="mailto:tomh@po.crl.go.jp">tomh@po.crl.go.jp</A> who allowed the
+code to be used in GTKeyboard.
+
+<P><H3><STRONG><A NAME="usingwordcompletion">Using Word
+Completion</A></STRONG></H3> 
+
+<P>In order to use the word completion facilities in GTKeyboard, you
+need to select the &quot;New Completion Window&quot; menu item from the
+<EM>Misc</EM> menu.  A new window will pop up, containing ten numbered
+items with small arrow buttons on the right hand side of the rows.
+
+<P>This is the completion window.  Whenever you type a new character
+into GTKeyboard, regardless of whether it goes to the text editing
+buffer or to a redirect window, the redirection window will
+&quot;listen&quot; to the character you press, and will suggest up to
+10 words that start with what you typed.
+
+<P>If you wish to use on of the listed completions, simply click on
+the arrow icon to the right of the completion that is listed.
+GTKeyboard will insert the remainder of the word wherever your output
+was going.  (That is, if you were using a redirect window, the
+completion will go there, otherwise it will go to the text editing
+buffer).
+
+<P><H3><STRONG><A NAME="completionoptions">Word Completion 
+Options</A></STRONG></H3> 
+
+<P>In the main word completion window, you will notice two check
+buttons.  One is labeled &quot;Show Empty Completion Slots&qout;, and
+the other is labeled &quot;Insert space after completion&quot;.  
+
+<P>The first option, &quot;Show Empty Completion Slots&quot; controls
+whether or not GTKeyboard presents you with empty options.  This is
+merely a visual distinction - if this button is pressed down, then all
+10 completion possibilities will be shown all of the time, even if one
+or more of them is empty.  If this button is unchecked, then options
+that do not contain a valid completion will be hidden from view.
+
+<P>The second option is &quot;Insert space after completion&quot;
+which controls the way GTKeyboard completes words.  Normally, if you
+type <STRONG>q</STRONG> and GTKeyboard suggests the completion
+<STRONG>quickening</STRONG>, when you choose to insert the completion,
+the result is &quot;<STRONG>quickening</STRONG>&quot;, as it should
+be.  If the &quot;Insert space after completion&quot; button is
+checked, instead of inserting &quot;<STRONG>quickening</STRONG>&quot;
+GTKeyboard will insert
+&quot;<STRONG>quickening</STRONG>&nbsp;&nbsp;&quot;. (The same word
+followed by a space character). For people who use this feature, it is
+to account for the fact that if a word is completed, the user will
+usually go on to type the next word rather than adding on to the
+current word.  If that is the case, it can save time to insert a
+regular space for the user. 
+
+<P><H3><STRONG><A NAME="cachefiles">Word Completion 
+Cache Files</A></STRONG></H3> 
+
+<P>Word completion in GTKeyboard uses a special cache file that guides
+GTKeyboard in suggesting which word may be the most useful to insert
+given a particular set of characters.  For example, when you type the
+letter &quot;c&quot;, how does GTKeyboard know whether you're thinking
+of the word &quot;cache&quot;, &quot;communist&quot;,
+&quot;catchy&quot;, &quot;cantankerous&quot;, or any of the other
+hundreds of words that start with &quot;c&quot;?
+
+<P>Well, frankly, it doesn't.  But it can take a good guess.  This is
+what cache files are for.  A cache file specifies a list of words with
+their frequencies.  For example, in a text file about Darwin and
+Evolution, the term &quot;evolution&quot; or the term
+&quot;species&quot; may be quite common.  The common terms are the
+terms that we want to appear first in the completion list given the
+beginning of the word.  The frequency of different words provided by
+the cache file fits this role perfectly.
+
+<P>The default user cache file is located at
+<EM>~/.gtkeyboard-wordcache</EM>.  It will contain a list of an
+arbitrary number of words with their frequencies in a given document.
+Although the file is not meant to be edited by hand, its general form
+looks like this:<BR>
+<PRE>
+5 above
+1 absence
+2 accept
+1 acceptance
+2 access
+1 accompanies
+1 accord
+1 achieve
+2 act
+1 actions
+2 add
+1 addition
+</PRE>
+
+Simply a number corresponding to the number of times the word occured
+in the document followed by the word itself.  (The word
+&quot;above&quot; occurred 5 times, but the word
+&quot;acceptance&quot; occured only once) If this cache file were
+used in GTKeyboard, and the character &quot;a&quot; were typed,
+GTKeyboard would suggest 10 completions, from the most often occuring
+to the least often occuring.  The way the words are ranked is by the
+frequency number found in the cache file.
+
+<P>When a new completion window is created, GTKeyboard will always
+load <EM>~/.gtkeyboard-wordcache</EM> if it exists.  If it doesn't,
+then GTKeyboard has to do the best it can, and usually loads the
+dictionary file.  (This file is often located at
+<EM>/usr/dict/words</EM> on may GNU/Linux systems).  While the
+dictionary file is not optimal, it still produces decent results
+depending on the application.
+
+<P>To load a new cache file into GTKeyboard's word completion
+facility, click on the &quot;Load Cache File&quot; button in the main
+word completion window.  It will present you with a file chooser
+dialog.  Once you hit &quot;OK&quot;, the new cache file will be
+loaded in.
+
+<P>Users may find it interesting to have different cache files for
+different tasks to speed up the task at hand.  For general text
+editing that doesn't really have a particularly well defined domain,
+using no cache file, (letting GTKeyboard use only
+<EM>/usr/dict/words</EM>) is usually best.  For specialized tasks,
+such as Perl or HTML programming with GTKeyboard, a specialized cache
+file may be most helpful.  For example, a Perl cache file that ranked
+the word &quot;print&quot; over the word &quot;perfect&quot; would be
+very helpful, since &quot;print&quot; is the name of a built in Perl
+function, and &quot;perfect&quot; isn't, even though it would occur
+more often than &quot;print&quot; if the document were a general text
+document. 
+
+<P><H3><STRONG><A NAME="creatingcachefiles">Creating Word Completion 
+Cache Files</A></STRONG></H3> 
+
+<P>Please note that you may find several different cache files which
+may be of use located in the <EM>cache/</EM> subdirectory of the
+GTKeyboard documentation directory.  
+
+<P>Creating word completion cache files is quite easy - simply choose
+the &quot;Convert Text File to Word Cache&quot; button located in the
+main word completion window.  It will present you with a dialog asking
+you to specify which file is to be converted, and what it should be
+saved as.  The default is to save the newly created cache file as
+<EM>~/.gtkeyboard-wordcache</EM>, which will overwrite your previous
+word cache.
+
+<P>Using the browse buttons to the right of the entry areas, you may
+choose a filename to convert, and what to convert it to.  Note that
+this process works only for text files.  It will also work on any file
+you give it, but the results will most likely be an ugly, unusable
+cache.  The cache file creation mechanism makes each block of letters
+it sees into a word in the cache.  If you try to make a cache out of a
+bit of HTML such as &quot;&lt;P&gt;This is a bit of HTML&quot; the
+result will be a cache that looks like this:
+
+<PRE>
+1 &lt;P&gt;This
+1 is
+1 a 
+1 bit
+1 of 
+1 HTML
+</PRE>
+
+(Notice that GTKeyboard saw &quot;&lt;P&gt;This&quot; as a word, which you
+probably didn't intend)
+
+<P>You may also choose to click the toggle button below the entry
+areas, labled &quot;Cache words in lower case&quot; which will cause
+words in the cache to be all lower case.  This can be helpful, since
+GTKeyboard would normall consider the words &quot;Hello&quot; and
+&quot;hello&quot; to be different words and would count their
+occurance seperately.
+
+<P>When you are done picking options, click the &quot;OK&quot; button,
+and the cache will be created.  A status message signalling completion
+will be printed into the status window.  <EM>Note: GTKeyboard does not
+automatically load newly converted cache files.</EM>
+
+<P>In addition to this method, there is a perl script distributed with
+GTKeyboard called gtkeyboard-create-cache-file.  It is located in the
+same directory that the GTKeyboard binary was installed in.  To use
+this program, call it with two arguments.  The first argument should
+be the file to read from, and the second argument the file to save the
+new cache to.  
+
+<P>By default, gtkeyboard-create-cache-file caches all words as lower
+case, and strips all punctuation from the words.  Please note that
+using this additional program requires Perl, which is freely available
+from <A HREF="http://www.perl.com/">http://www.perl.com/</A>.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H2><STRONG><A NAME="htmlsubmenu">HTML Submenus</A></STRONG></h2>
+<P>
+GTKeyboard is also in the early stages of supporting HTML editing by
+way of the graphical user interface.  In the HTML menu on the top bar
+of the application, you will find a menu full of different items, all
+corresponding to HTML tags.  Clicking on any of the tagnames will
+cause the related tag to pop into the output text box at the bottom of
+the screen.
+
+<P><H3><STRONG><A NAME="tagbehavior">Tag behavior</A></STRONG></h3>
+<P>
+Some tags have mandatory input areas.  Rather than pop up a dialog as
+other applications do, (which I happen to hate :)  GTKeyboard prints
+the full tag out to the output section, and then places the cursor (or
+point) at the location where the FIRST input is needed.
+
+<P>
+Example:  When clicking on the LINK item in the HTML menu, the
+following text is inserted into the output buffer:
+
+<P>
+&lt;A HREF=""&gt;<BLINK>_</BLINK>&lt;/A&gt;
+
+<P>
+GTKeyboard will then place the point between the set of quotation
+marks, where the first input for the link is expected, i.e. the target
+of the link.  (<STRONG>Note</STRONG>:  Sometimes the cursor doesn't
+appear to be in the right place right after a tag has been inserted, 
+but it is.) 
+
+<P><H3><STRONG><A NAME="supported">Currently Supported Tags</A></STRONG></H3>
+<P>
+Any tags that are not included in GTKeyboard can be added very quickly
+by simply requesting them.  <A
+HREF="mailto:s2mdalle@titan.vcu.edu">contact me</A> and let me know
+which tag you'd like in GTKeyboard, and I'll add it.  Alternately,
+write your own function to put into html_mode.c and send it to me
+
+<P>
+GTKeyboard already has a long list of supported tags.  You can't find
+a complete list here, but here's a sampling of some of the most
+commonly used tags in super-unorganized format: 
+
+<P>
+&lt;HTML&gt; &lt;/HTML&gt; &lt;BODY&gt; &lt;/BODY&gt;<BR>
+&lt;A HREF=""&gt;&lt;/A&gt; &lt;B&gt; &lt;/B&gt; &lt;STRONG&gt;<BR>
+&lt;/STRONG&gt; &lt;I&gt; &lt;/I&gt; &lt;BR&gt; &lt;HR&gt; &lt;P&gt;<BR>
+&lt;UL&gt;&lt;/UL&gt; &lt;LI&gt; &lt;TABLE&gt;&lt;/TABLE&gt;<BR>
+&lt;TD&gt;&lt;/TD&gt; &lt;TR&gt;&lt;/TR&gt; &lt;H1&gt;&lt;/H1&gt;<BR>
+&lt;H2&gt;&lt;/H2&gt; &lt;H3&gt;&lt;/H3&gt; &lt;H4&gt;&lt;/H4&gt;<BR>
+&lt;H5&gt;&lt;/H5&gt; &lt;H6&gt;&lt;/H6&gt; &lt;PRE&gt;&lt;/PRE&gt;<BR>
+&lt;!-- HTML Comments --&gt; &lt;FONT COLOR=#""&gt;&lt;/FONT&gt;<BR>
+&lt;FONT SIZE=&gt;&lt;/FONT&gt; &lt;BLINK&gt;&lt;/BLINK&gt;<BR>
+
+<P>
+There are also a few "convenience" buttons that include FTP and HTTP
+which simply print out "ftp://" and "http://" respectively for quicker
+editing of links.  There's even a "Close Anonymous Tag" for any
+closing HTML tag, that will print &lt;/&gt; and put the cursor in the
+appropriate place for closing a tag off.
+
+<P>For those of you with special needs for HTML coding, or who want
+more possibilities, I suggest you check out the shortcut ability to
+define your own shortcuts.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H2><STRONG><A NAME="otherfeatures">Other Features</A></STRONG></h2>
+
+<P><H3><STRONG><A NAME="doublesending">Double Output</A></STRONG></H3>
+
+<P>GTKeyboard provides a method of doubling the output of any
+keystroke on the keyboard.  In these situations, whenever the user
+presses a button on the graphical keyboard, it is both sent to the
+redirect window, (if there is one) <STRONG>and</STRONG> the normal
+text editing buffer.
+
+<P>This feature is used most often for people who want complete logs
+of their keystrokes.  Normally, you would use this by hiding the
+editing text buffer, and typing as normal into the redirect window.
+When you're done with the redirect window, you can show the text
+buffer on the screen again which will contain a rough carbon copy of
+whatever you typed into the foreign buffer.  This can be used as
+somewhat of a virtual &quot;typescript&quot; feature.
+
+<P>The option is toggled off and on through the use of the
+Options-&gt;Output-&gt;Double Output menu item.  Alternatively, it can
+be specified through the resource file by using the <A
+HREF="#send_data_to_both_windows">SEND_DATA_TO_BOTH_WINDOWS</A> option.
+
+<P><H3><STRONG><A NAME="externalprogs">External
+Programs</A></STRONG></H3>
+
+<P>GTKeyboard provides a quick way to get to several commonly used
+networking applications as well.  Under the Shortcuts-&gt;External
+Progs menu, there is a list of applications, containing Lynx, Telnet,
+and FTP.  Selecting each of those items will launch the corresponding
+application.  By default, they are launched inside of an RXVT terminal
+emulation window if that program is available.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H2><STRONG><A NAME="language">Language Coding (C, Perl, 
+etc)</A></STRONG></h2>
+
+<P>
+The first thing that should be said under any heading in the manual
+for GTKeyboard is that if you don't see a shortcut in the menu that
+you would like to have, please email me and I'll see what I can do
+about building it into the program.  They are very easy and quick to
+build in, and if you check what things look like in the shortcuts.c
+file and in master.h you may be able to add them yourself even.  Even
+obscure ones are ok with me, because you can put the less used ones
+fairly deep into a branching hierarchy so it doesn't clutter things
+but is still there to speed up the process.
+
+<P>
+If you would like to use GTKeyboard for programming, no problem!  The
+shortcuts provided in the shortcuts menu should speed the entry of
+programming code in just about any language.  For example, in C, where
+you might have to enter something like<BR>
+
+#include &lt;stdio.h&gt;<BR>
+
+there is a shortcut for the angle braces, that will produce &lt; &gt; and
+position the cursor between the angle braces.  You may also use the
+quotation short cut for grouping text, and so on, so that if you were
+to print the perl command<BR>
+
+<PRE>print "Hello World!\n";  </PRE>
+
+you can speed up cursor positioning and not have to hit the shift key
+and the " to produce the quotation marks.
+
+<P>
+There are many shortcuts that are available for the user to speed
+things up, from the most normal to some that are a bit strange, such
+as the smiley, which will automatically insert :).  Play around with
+the shortcuts menu a while, and you'll definately find a bunch of
+shortcuts that can help speed up your work with GTKeyboard.
+
+<P>
+You can use these shortcuts to use emacs within a rxvt window, run
+make to compile the latest version of GTKeyboard, or do any number of
+other things.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><h2><STRONG><A NAME="coders">For Coders</A></STRONG></h2>
+<P>
+If you are a user of GTKeyboard, and have no interest in developing on
+it, feel free to ignore this section.
+
+<P>
+Please, If you create any additions or modifications of this program,
+I would really appreciate it if you let me know, and if it seems
+reasonable, I will add it into the &quot;official&quot; 
+release of GTKeyboard giving credit to you
+in the README and AUTHORS files as well as where the actual code is.
+
+<P><h3><STRONG><A NAME="debugging">Debugging</A></STRONG></h3>
+<P>
+Compilation with debugging symbols is usually OFF by default.  If you
+would like to change that, then just add the -g option inside of
+the CFLAGS variable in the main "Makefile".  Different versions differ
+in policy about that.  Along with debugging, there is an option in the
+help menu, under debugging, that is for you to be able to dump core if
+you want to.  That's something I've used on and off, and it can be
+useful, so it was added in.  I'm trying to force people to use that if
+they want a corefile, since hopefully it's set up so you can't get it
+to dump core any other  way. :)
+
+<P>If you would like to compile with all debugging enabled, make sure
+that the symbol "PROD" is <STRONG>not</STRONG> defined in the
+Makefile, and recompile with "make static".  (Note:  Before you can
+"make static", you have to run "make obscure" which copies your static
+libraries into the foo/ directory, where it will link against them.
+If your static libraries are in different places, you'll need to copy
+them into that location.)  With "make static", GTKeyboard will compile
+with static libraries, with calls like g_mem_profile() compiled in.
+(You <EM>did</EM> compile your glib/GTK+ with memory profiling, didn't
+you?)  It will also print the result of various memory macros that are
+located in the include/ directory in mem_header.h.  This causes quite
+verbose output, but in the end you get a total of how much memory has
+been allocated/freed by GTKeyboard.  The g_mem_profile() call of
+course includes statistics on memory allocated by GTK+ as well.
+
+<P>Note that in the file <EM>include/memheader.h</EM> there are
+several macros for tracking memory usage which won't really expanded
+to much if debugging is not on, but if it is, sometimes to multiple
+statements.  Particularly the <EM>glib</EM> calls that end with an
+underscore.  Because they are multiexpression macros, you really don't
+want to do something like:<BR>
+<PRE>
+if(mem)
+     g_free_(mem);
+</PRE>
+But rather do this:<BR>
+<PRE>
+if(mem)
+  {
+     g_free_(mem);
+  }
+</PRE>
+
+To account for the fact that it may or may not be a single replacement
+line macro.
+
+<P>Also of interest to developers are the files INTERNALS and
+gtkeyboard-arch.txt located in the
+main directory of the source tree.  They explain parts of the way the
+source works, to facilitate others in hacking on GTKeyboard.  At the
+moment, that documentation isn't really all that great, but at least
+it's there, and it's something.  If you would like to see any more
+specific information in that document, please write the section and
+submit it to <A HREF="mailto:s2mdalle@titan.vcu.edu">s2mdalle@titan.vcu.edu</A>
+for inclusion in the next version or let me know and I'll do the write
+up myself when time becomes available.
+
+<P><h3><STRONG><A NAME="macros">Extra defined Macros</A></STRONG></h3>
+
+<P>
+Extra debugging messages that are normally sent to stderr are also off
+for regular use as a program.  If you'd like to see those messages,
+then make sure the symbol "DEBUGGING" is defined, for example, insert
+the line -DDEBUGGING=1 into the CFLAGS line of the Makefile.  Then the
+program will compile with extra debugging messages letting you know
+what it's doing at any given time.  Also, for a given version, defining
+TEMP_DEBUGGING will spit out debugging messages that have been
+recently added and so on.  Finally, if you're paranoid about the way
+that keysym_callback() is working, (it is what
+drives the insertion of text into output_text widget) then define
+CONSOLE_OUTPUT and it will spit diagnosticts to stdout and stderr as
+it's needed.  To enable all possible ugliness in the code, put the
+following in the CFLAGS variable in the top level Makefile:
+-DCONSOLE_OUTPUT=1 -DDEBUGGING=1 -DTEMP_DEBUGGING=1 -DV_DEBUGGING=1
+and recompile. Also, if you define GUI_EVERYTHING in app.c, then write
+success/error messages will pop up in their own windows rather than
+just in the status buffer. 
+
+<P><H3><STRONG><A NAME="htmlmode">HTML Mode</A></STRONG></H3>
+
+<P>
+Probably the easiest part of GTKeyboard to hack on is to add HTML
+items. If you're interested, check out html_mode.c where you can add all of
+the new HTML tags that you want.  You then have to edit master.h and
+edit the menu structure to include whatever function you put in
+there.  If you're familiar with item factories, it's criminally
+simple.  The same goes for shortcuts.c which I would like to see more
+shortcuts in.  Basically when I code, I put in what I think people can
+use, and if anybody sends me a suggestion that gets put in to.  In
+html_mode.c I use the function vanilla(char *input) which inserts into
+output_text heavily.  That way, if I find I wanna redirect things
+later, I make some simple changes to vanilla and change where
+everything goes.  Also I provided cursor_left_x_times(int whatever) so
+that you could repeat cursor_left() without having to set up for loops
+and extra variables.  Just pass it the strlen(something) where
+something is usually the closing HTML tag.  (html_mode.c has 1000 examples)
+
+<P><H3><STRONG><A NAME="future">The Future</A></STRONG></H3>
+<P>
+We're currently working on cleaning up the issues with remapping
+keyboards, and adding more keyboards, which may be somewhat slow.  I
+incorporate user requests for features as long as they're reasonable.
+(Don't ask for a 3D graphics keyboard &quot;visualizer&quot;  :)
+
+<P>And of course, the future brings the hope that I will ruthlessly
+eradicate any bug that I (or you) can find in GTKeyboard.  As said,
+the redirection code is up for a rewrite, and when that happens, there
+may be some small issues to work out.
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><h2><STRONG><A NAME="problems">Problems with GTKeyboard?</A></STRONG></H2>
+
+<P><H3><STRONG><A NAME="compiling">Compilation
+Problems</A></STRONG></h3>
+
+<P>
+To successfully compile GTKeyboard, you need a few things.  First,
+you'll need GTK+/glib (The GIMP Toolkit) which can be obtained from <A
+HREF="http://www.gtk.org">http://www.gtk.org</A>,
+a standard C library, an ANSI C compiler, (such as
+gcc/egcs), the GNU make program, and of course, a shell, and a
+reasonably recent version of X11 (with headers).  If you already have
+GTK+ installed, you shouldn't have much of a problem, since GTK+ and
+GTKeyboard share many prerequisites.
+
+<P>GTKeyboard is written and tested on a PII 233Mhz system running a
+variant of Red Hat Linux 6.1
+(heavily modified).  The program compiles with special flags telling
+the compiler to issue all relevant warnings, and compiles without any
+warnings on my machine.  I have also compiled it on a few 64bit alpha
+CPUs with a few warnings, but no problem in the functioning of the
+resulting binary.
+
+<P>If you have problems compiling GTKeyboard, I'm betting that its one
+of a few things right off the bat:  Do you
+<STRONG><EM>really</EM></STRONG> have an ANSI C standard compiler?  If
+not, go grab a copy of GCC from the Cygnus EGCS page <A
+HREF="http://egcs.cygnus.com">http://egcs.cygnus.com</A>
+Previously, you would have also needed to have
+a libc that contained the <EM>strsep()</EM> call, but this requirement
+has been eliminated and replaced with <EM>glib</EM> calls.
+
+<P>If you have a compilation problem that you're sure is not one of
+the above, and you have all of the needed libraries/software to
+compile it, please mail <A
+HREF="mailto:s2mdalle@titan.vcu.edu">s2mdalle@titan.vcu.edu</A> and
+let me know about it, along with the <EM>exact</EM> output of the
+configure script, and of the make process, and a copy of your config.h
+file which will be generated at the end of the configure process.
+
+<P><H3><STRONG><A NAME="installing">Installation
+Problems</A></STRONG></h3>
+
+<P>When you ran the configure script, did you give it a
+--prefix=/my/home/directory argument?  If you didn't, then GTKeyboard
+is going to install itself into /usr/local/bin/ by default, with the
+documentation in /usr/local/share/gtkeyboard.  If you have problems
+installing, edit the Makefile, and change the PREFIX = line to
+wherever you want it to install.  Failing that, just move the
+gtkeyboard binary to wherever you like, and copy the documentation
+wherever you like as well.  (Some information popups look for the
+documentation in predictable places though, and if it can't find it
+there, it won't display properly.)
+
+<P><H3><STRONG><A NAME="redirectionproblems">Problems With Redirection To
+Other Windows</A></STRONG></h3>
+
+<P>First, are you trying to insert text into a box within a window?
+If so, make sure that the box you want to redirect to is focused.
+(Just click on it once, and it should get a thin black border to let
+you know that it's focused).
+
+<P>Are you using xterm or XEmacs?  Some users just have problems with
+that.  <A HREF="#redirecting">See the section on redirecting to other
+windows</A> for some notes on what will work and what will work with
+some special configuration.
+
+<P>Are you using an application that should work, but doesn't?  <A
+HREF="mailto:s2mdalle@titan.vcu.edu">Mail me</A> and let me know about
+it. 
+
+<P><H3><STRONG><A NAME="layoutproblems">Problems With
+Layout</A></STRONG></h3>
+
+<P>(i.e. getting the application to look the way you want it to look)
+
+<P>The most common problem in this area is that a person will have
+spent a few minutes writing his/her <EM>~/.gtkeyboardrc</EM> file to make the
+program look the way he/she wants it to, they start the application
+up, and the layout is totally different.  What gives?  Usually this is
+due to a <EM>~/.gtkeyboard-layout</EM> file which the program is reading and
+using as your layout, ignoring your configuration file settings.  If
+you'd rather use your configuration file to specify layout, use the
+<EM>IGNORE_LAYOUT_FILE</EM> option in your <EM>.gtkeyboardrc</EM> to tell the
+program to ignore the layout file.  Restart the program, and
+everything should be peachy.
+
+<P>To customize the program's looks, your first stop is the <A
+HREF="#optionfu">the options section of the manual</A> to see what's
+available.  Then, check out the <A HREF="#layoutfu">layout section</A>
+to see what you can do in the way of showing/hiding different elements
+of the screen layout.
+
+<P>Other than that, if you've gotten GTKeyboard to a layout that you
+like, use the &quot;Save Layout Settings&quot; option in the
+<EM>Options-&gt;Looks</EM> menu to save it all to a file,
+<EM>~/.gtkeyboard-layout</EM>.  Please note though that this may cause the
+first problem in this section if you're not paying attention. :)
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><h2><STRONG><A NAME="miscstuff">Miscellaneous Stuff</A></STRONG></H2>
+
+<P><H3><STRONG><A NAME="undocfeatures">Other
+Features (Undocumented)</A></STRONG></H3>
+
+<P>There are a lot of other features to GTKeyboard that aren't
+included in this manual that give you various degrees of freedom with
+the application.  Among the (currently) undocumented features in
+GTKeyboard are the following that you can play with.  Most that aren't
+described here are fairly straightforward.  Actually, some are
+documented in the various README files within the source distribution,
+if you're interested.
+
+<UL>
+    <LI>Defining new keyboard layouts for GTKeyboard.  (see
+        KEY/README)  This is the big one
+    <LI>Building RPMs of GTKeyboard
+    <LI>Hacking on GTKeyboard
+</UL>
+
+<P><H3><STRONG><A NAME="others">Other Similar Software
+Packages</A></STRONG></h3>
+
+<P>
+There is a package similar to GTKeyboard available currently for <A
+HREF="http://www.microsoft.com">Windows</A> called <A
+HREF="http://www.eoskkey.com">EOSK</A> the Extended On Screen Keyboard.
+As I understand, this package is available under the GNU General
+Public License, and is written in Delphi if my memory serves me right.
+
+<P><H3><STRONG><A NAME="buggy">Bugs</A></STRONG></h3>
+<P>
+The buglist for gtkeyboard is <A 
+HREF="mailto:bug-gtkeyboard@gnu.org">bug-gtkeyboard@gnu.org</A> for
+your enlightenment. It is a currently a mail alias, but may be a list
+in the future.  Send all bug reports there.  You will find a list of
+known bugs in the BUGS file in the main source directory.  You may
+also send bug reports to <A
+HREF="mailto:s2mdalle@titan.vcu.edu">s2mdalle@titan.vcu.edu</A>. 
+
+<P>The current bugs in GTKeyboard are usually small cosmetic issues,
+and sometimes minor annoying things that I'm working on currently or
+are planned to be fixed.  There aren't any major stability issues that
+I know of.  If you find one, email the bug list and let us know.
+
+<P><h3><STRONG><A NAME="helping">Helping Out</A></STRONG></h3>
+If you would like to help with the development of GTKeyboard, please email
+the author, and specify what you'd like to help with.  There are currently 
+about 4 active people working on the project, with many others helping
+out by sending in coredumps, compilation problems, requests for documentation
+updates, and so on.  If you think this documentation sucks, 
+<UL>
+<LI>I agree
+<LI>Help out.
+</UL>
+
+<P><H3><STRONG><A NAME="whereto">Where is this thing going???</A>
+       </STRONG></h3>
+
+<P>
+There should be a good number of very interesting things happening
+with the program in the future.  I've gotten submissions from various
+people around the net of pieces of code that would possibly allow us
+to build in handwriting recognition and word completion against a
+fixed cache of words.  There also seem to always be the calls for more
+customizeability which will possibly be added as we get the time to
+deal with them.
+
+<P>
+If you think you can do any part of GTKeyboard better, let me know and I'd
+love to get other people involved to speed up development.  I'm also always
+totally open to suggestions for features.  Whether they're incorporated or
+not has to do with whether I can code them, but I try hard to keep the users
+happy since this project is primarily for the users.
+
+<P><H3><STRONG><A NAME="cruft">Information that doesn't belong in any other
+category</A></STRONG></H3> 
+<P>
+GTKeyboard is written in C, using the fine <A
+HREF="http://www.gtk.org">GTK+ toolkit</A> available from
+<A HREF="http://www.gtk.org">http://www.gtk.org</A>.  It is written
+and tested on a RedHat Linux
+machine running a PII 233 Mhz processor, currently using <A
+HREF="http://www.xfree86.org">XFree86-3.3.5</A>.  It has not been
+tested on other X servers to my knowledge, but if you have tested it
+successfully (or unsuccessfully) on another X server, please let me
+know.  GTKeyboard is completely Free Software, licensed under the
+terms of the GNU General Public License.  If you would like to reuse
+some of the code that is in GTKeyboard, feel free.  I would appreciate
+it if you would mention my name in the list of contributors to the
+project that you include some of this code into - and most of all,
+that if you use any of the code from this program, you respect the
+fact that it is covered under the GPL... 
+
+<P>
+The file COPYING that should come with the source distribution of
+GTKeyboard as well as any binary packages you may download contains
+the terms of the license.  If you did not get a copy of the license
+with this program, you can either write me, David Allen,
+<A
+HREF="mailto:s2mdalle@titan.vcu.edu">&lt;s2mdalle@titan.vcu.edu&gt;</A>,
+or you can get in touch with the Free Software Foundation, at <A
+HREF="http://www.gnu.org">http://www.gnu.org/</A> for a copy of the
+license.  Since it is under the GNU General Public License, I should
+probably tell you about... 
+
+<P><h3><STRONG><A NAME="disclaim">The Usual Disclaimers</A></STRONG></h3>
+
+<P>
+Do not use GTKeyboard to run nuclear power plants, pilot aircraft,
+please your wife, start international war, blend fruits and nuts into
+a creamy shake, self-medicate, or as a treatment or cure for any
+disease.  I have tried to make the program as robust as possible, but
+there is always the vague possibility that the application will
+suddenly start cursing at you in Russian or otherwise behave strangely
+depending on your platform, operating system, or configuration.
+GTKeyboard is written and tested on a hybrid <A
+HREF="http://www.redhat.com">Red Hat Linux</A> workstation, with
+several other users contributing patches for interoperability with
+other operating systems including Solaris, and Linux/PPC.
+
+<P>
+And now less chicanery and what I really came here to say...
+
+<P><CENTER>GTKEYBOARD COMES WITH NO WARRANTY</CENTER>
+
+BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT
+WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER
+PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE
+PROGRAM IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME
+THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+<P>
+So, hoping that didn't scare you off, enjoy the program!  If you enjoy
+the software, you can pay me simply by emailing me with your name, and
+where you live, and how you use GTKeyboard.  You are of course not
+obligated to do that, I just enjoy hearing about where GTKeyboard has
+traveled, as I like to live vicariously through software.  :)
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P><H2><STRONG><A NAME="outro">Outro and useful links</A></STRONG></h2>
+<P>Closing observations:
+<UL>
+    <LI>I am not a writer, and I don't particularly think much of my
+    own documenting skills.  Email me at <A
+    HREF="mailto:s2mdalle@titan.vcu.edu">&lt;s2mdalle@titan.vcu.edu&gt;</A> if
+    you have any questions or problems relating to GTKeyboard that
+    aren't addressed here, or if you can alleviate some of the
+    discomfort of my pathetic wallowing attempts at documentation.  :)
+    <LI>This document is the manual, and the FAQ, both wrapped into
+    one cumbersome document.  :)  If someone told you to RTFM, you are
+    in the right place.
+    <LI>Documentation is like sex; when it's <STRONG>good</STRONG>,
+    it's very, very good.  And when it's <STRONG>bad</STRONG>, it's
+    better than nothing.
+</UL>
+
+<P>Useful GTKeyboard Links:
+<UL><LI>The Free Software Foundation <A
+        HREF="http://www.gnu.org">http://www.gnu.org/</A> providers of Free
+        Software.  Life is good. 
+    <LI>David Allen's Page <A
+    HREF="http://opop.nols.com">http://opop.nols.com/</A> 
+    <LI>GNU GTKeyboard pages <A
+    HREF="http://www.gnu.org/software/gtkeyboard/">http://www.gnu.org/software/gtkeyboard/</A> 
+    <LI>David Allen's GTKeyboard pages <A
+    HREF="http://opop.nols.com/gtkeyboard.html">http://opop.nols.com/gtkeyboard.html</A>.
+    <LI>GNU GTKeyboard downloads <A
+    HREF="ftp://alpha.gnu.org/pub/gnu/">ftp://alpha.gnu.org/pub/gnu/</A> 
+</UL>
+
+<P>Other links:
+<UL><LI>XKeyCaps <A
+HREF="http://www.jwz.org/xkeycaps">http://www.jwz.org/xkeycaps</A> a program
+    written by <A HREF="http://www.jwz.org">JWZ</A> that is a front end
+    for xmodmap.  It has the ability to remap keyboards, and type into
+    other windows, but that's about it.
+    <LI><A HREF="http://www.freshmeat.net">Freshmeat.net</A> a
+    clearing house for GNU/Linux software.  It is a directory in which
+    GTKeyboard is listed.
+</UL>
+<P>Author Contact information:<BR>
+<BLOCKQUOTE>
+M. David Allen<BR>
+1108 W. Franklin St.<BR>
+Apartment #206<BR>
+Richmond, VA 23220 USA<BR>
+Email: <A
+HREF="mailto:s2mdalle@titan.vcu.edu">&lt;s2mdalle@titan.vcu.edu&gt;</A><BR>
+Web: <A HREF="http://opop.nols.com">http://opop.nols.com</A><BR>
+
+</BLOCKQUOTE>
+
+<P>Document last updated: Sunday, May 7, 2000 18:13 to reflect GTKeyboard
+1.1 -  Weblinted for your
+reading pleasure, and written with (what else) The One True Editor <A
+HREF="http://www.gnu.org/software/emacs/">Emacs</A>
+
+<P><CENTER><A HREF="#tiptop">Head</A> | <A HREF="#TOC">Table of
+Contents</A></CENTER>
+<P><HR> 
+
+<P>
+Thank you, drive through.  
+<STRONG><EM>EOF</EM></STRONG>
+</BODY></HTML>

@@ -1,0 +1,145 @@
+<html lang="en">
+<head>
+<title>pic2plot Introduction - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="pic2plot.html#pic2plot" title="pic2plot">
+<link rel="prev" href="pic2plot.html#pic2plot" title="pic2plot">
+<link rel="next" href="pic2plot-Invocation.html#pic2plot-Invocation" title="pic2plot Invocation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="pic2plot-Introduction"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="pic2plot-Invocation.html#pic2plot-Invocation">pic2plot Invocation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="pic2plot.html#pic2plot">pic2plot</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="pic2plot.html#pic2plot">pic2plot</a>
+<hr>
+</div>
+
+<h3 class="section">4.1 What <code>pic2plot</code> is used for</h3>
+
+<p>The <code>pic2plot</code> program takes one or more files in the pic language,
+and either displays the figures that they contain on an X&nbsp;Window<!-- /@w -->
+System display, or produces an output file containing the figures.  Many
+graphics file formats are supported.
+
+   <p>The pic language is a `little language' that was developed at Bell
+Laboratories for creating box-and-arrow diagrams of the kind frequently
+found in technical papers and textbooks.  A&nbsp;directory<!-- /@w --> containing
+documentation on the pic language is distributed along with the plotting
+utilities.  On&nbsp;most<!-- /@w --> systems it is installed as
+<samp><span class="file">/usr/share/pic2plot</span></samp> or <samp><span class="file">/usr/local/share/pic2plot</span></samp>.  The
+directory includes Brian Kernighan's original technical report on the
+language, Eric&nbsp;S.<!-- /@w --> Raymond's tutorial on the GNU implementation, and
+some sample pic macros contributed by the late W.&nbsp;Richard<!-- /@w --> Stevens.
+
+   <p>The pic language was originally designed to work with the <code>troff</code>
+document formatter.  In that context it is read by a translator called
+<code>pic</code>, or its GNU counterpart <code>gpic</code>.  Since extensive
+documentation on <code>pic</code> and <code>gpic</code> is available, this section
+simply gives an example of an input file, and mentions some extra
+features supported by <code>pic2plot</code>.
+
+   <p>A pic file contains one or more figures, each of the box-and-arrow type. 
+Each figure is begun by a line reading <tt>.PS</tt>, and ended by a line
+reading <tt>.PE</tt>.  Lines that are not contained in a
+<tt>.PS</tt><small class="dots">...</small><tt>.PE</tt> pair are ignored.  Each&nbsp;figure<!-- /@w --> is built from
+geometrical objects, such as rectangular boxes, circles, ellipses,
+quarter circles (&ldquo;arcs&rdquo;), polygonal lines, and splines.  Arcs,
+polygonal lines, and spline may be equipped with arrowheads.  Any object
+may be labeled with one or more lines of text.
+
+   <p>Objects are usually positioned not by specifying their positions in
+absolute coordinates, but rather by specifying their positions relative
+to other, previously drawn objects.  The following figure is an example.
+
+<pre class="example">     .PS
+     box "START"; arrow; circle dashed filled; arrow
+     circle diam 2 thickness 3 "This is a" "big, thick" "circle" dashed; up
+     arrow from top of last circle; ellipse "loopback" dashed
+     arrow dotted from left of last ellipse to top of last box
+     arc cw radius 1/2 from top of last ellipse; arrow
+     box "END"
+     .PE
+</pre>
+   <p class="noindent">If you put this example in a file and run &lsquo;<samp><span class="samp">pic2plot -T X</span></samp>&rsquo; on the
+file, a window containing the figure will be popped&nbsp;up<!-- /@w --> on your X&nbsp;display<!-- /@w -->.  Similarly, if you run &lsquo;<samp><span class="samp">pic2plot -T ps</span></samp>&rsquo; on the file, a
+Postscript file containing the figure will be written to standard
+output.  The Postscript file may be edited with the <code>idraw</code> drawing
+editor.  Other graphics formats such as PNG format, PNM format,
+pseudo-GIF format, SVG format, WebCGM format, or Fig format (which is
+editable with the <code>xfig</code> drawing editor) may be obtained similarly. 
+You would use the options &lsquo;<samp><span class="samp">-T png</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T pnm</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T gif</span></samp>&rsquo;,
+<code>samp -T svg</code>, &lsquo;<samp><span class="samp">-T cgm</span></samp>&rsquo;, and &lsquo;<samp><span class="samp">-T fig</span></samp>&rsquo;, respectively.
+
+   <p>The above example illustrates some of the features of the pic language. 
+By default, successive objects are drawn so as to touch each other.  The
+drawing proceeds in a certain direction, which at startup is
+left-to-right.  The &lsquo;<samp><span class="samp">up</span></samp>&rsquo; command changes this direction to
+bottom-to-top, so that the next object (the arrow extending from the top
+of the big circle) will point upward rather than to the right.
+
+   <p>Objects have sizes and other attributes, which may be set globally, or
+specified on a per-object basis.  For example, the diameter of a circle
+may be specified, or the radius of an arc.  An&nbsp;arc<!-- /@w --> may be oriented
+clockwise rather than counterclockwise by specifying the &lsquo;<samp><span class="samp">cw</span></samp>&rsquo;
+attribute.  The line style of most objects may be altered by specifying
+the &lsquo;<samp><span class="samp">dashed</span></samp>&rsquo; or &lsquo;<samp><span class="samp">dotted</span></samp>&rsquo; attribute.  Also, any object may be
+labeled, by specifying one or more text strings as attributes.  A&nbsp;text<!-- /@w --> string may contain escape sequences that shift the font, append
+subscripts or superscripts, or include non-ASCII characters and
+mathematical symbols.  See <a href="Text-String-Format.html#Text-String-Format">Text String Format</a>.
+
+   <p>Most sizes and positions are expressed in terms of `virtual inches'. 
+The use of virtual inches is peculiar to <code>pic2plot</code>.  The graphics
+display used by <code>pic2plot</code>, i.e., its drawing region, is defined to
+be a square, 8&nbsp;virtual<!-- /@w --> inches wide and 8&nbsp;virtual<!-- /@w --> inches high. 
+If the page size for the output file is the "letter" size, which is the
+default for Postscript output, virtual inches will the same as real
+inches.  But a different page size may be specified; for example, by
+using the &lsquo;<samp><span class="samp">--page-size a4</span></samp>&rsquo; option.  If&nbsp;so<!-- /@w -->, a virtual inch will
+simply equal one-eighth of the width of the graphics display.  On&nbsp;A4<!-- /@w -->
+paper, the graphics display is a square of size 19.81cm.
+
+   <p>By default, each figure is centered in the graphics display.  You may
+turn off centering, so that you can use absolute coordinates, by using
+the &lsquo;<samp><span class="samp">-n</span></samp>&rsquo; option.  For example, a figure consisting only of the
+object &lsquo;<samp><span class="samp">arrow from (8,8) to (4,4)</span></samp>&rsquo; will be positioned in the
+absence of centering so that the head of the arrow is at the center of
+the display.  Its tail will be at the upper right corner.
+
+   <p>The thickness of lines is not specified in terms of virtual inches.  For
+compatibility with <code>gpic</code>, it is specified in terms of virtual
+points.  The example above, which specifies the &lsquo;<samp><span class="samp">thickness</span></samp>&rsquo;
+attribute of one of the objects, illustrates this.  There are 72&nbsp;virtual<!-- /@w --> points per virtual inch.
+
+   <p>If there is more than one figure to be displayed, they will appear in
+different X&nbsp;windows<!-- /@w -->, or on successive pages of the output file. 
+Some output formats (such&nbsp;as<!-- /@w --> PNG, PNM, pseudo-GIF, SVG, Illustrator,
+and Fig) support only a single page of graphics.  If&nbsp;any<!-- /@w --> of those
+output formats is chosen, only the first figure will appear in the
+output file.  Currently, <code>pic2plot</code> cannot produce animated
+pseudo-GIFs.
+
+   <p>The preceding survey does not do justice to the pic language, which is
+actually a full-featured programming language, with support for
+variables, looping constructs, etc.  Its advanced features make the
+drawing of large, repetitive diagrams quite easy.
+
+   </body></html>
+

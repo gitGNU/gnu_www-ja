@@ -1,0 +1,51 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/finger.texinfo on 7 November 1998 -->
+
+<TITLE>GNU Finger - Security</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="finger_1.html">first</A>, <A HREF="finger_11.html">previous</A>, <A HREF="finger_13.html">next</A>, <A HREF="finger_24.html">last</A> section, <A HREF="finger_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC12" HREF="finger_toc.html#TOC12">Security Issues</A></H1>
+
+<P>
+One question that often arises when installing networking software which
+adds new functionality is whether it can be considered sufficiently
+secure. The most significant new function in GNU Finger with regard to
+security is the ability for a user to have a <TT>`.fingerrc'</TT> in the
+home directory. The following are the precautions take by GNU Finger:
+
+</P>
+
+<UL>
+<LI>
+
+Check whether <TT>`.fingerrc'</TT> is writable to anyone except the owner.
+Notice that check is not enabled by default, since FSF users like anyone
+to be able to write any file -- enable this check during installation by
+editing <TT>`config.h'</TT>.
+
+<LI>
+
+Check whether <TT>`.fingerrc'</TT> is owned by the user in whose home
+directory it's found. This, like the previous check, is disabled by
+default. It really only makes sense on systems where ordinary users
+can't give away their files.
+
+<LI>
+
+Execute the script through the user's login shell, using the command
+"<VAR>shell</VAR> -c <VAR>script</VAR>". This means that a user who has had his
+account disabled (i.e. shell set to a program that prints a notice or
+just dies) can't run a <TT>`.fingerrc'</TT> script. This behavior can be
+changed by hard-coding the shell in <TT>`config.h'</TT>.
+</UL>
+
+<P><HR><P>
+Go to the <A HREF="finger_1.html">first</A>, <A HREF="finger_11.html">previous</A>, <A HREF="finger_13.html">next</A>, <A HREF="finger_24.html">last</A> section, <A HREF="finger_toc.html">table of contents</A>.
+</BODY>
+</HTML>

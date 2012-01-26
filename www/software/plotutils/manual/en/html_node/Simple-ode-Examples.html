@@ -1,0 +1,278 @@
+<html lang="en">
+<head>
+<title>Simple ode Examples - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="ode.html#ode" title="ode">
+<link rel="prev" href="Basic-Math.html#Basic-Math" title="Basic Math">
+<link rel="next" href="Additional-ode-Examples.html#Additional-ode-Examples" title="Additional ode Examples">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Simple-ode-Examples"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Additional-ode-Examples.html#Additional-ode-Examples">Additional ode Examples</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Basic-Math.html#Basic-Math">Basic Math</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="ode.html#ode">ode</a>
+<hr>
+</div>
+
+<h3 class="section">8.2 Simple examples using <code>ode</code></h3>
+
+<p>The following examples should illustrate the procedure of stating an
+initial value problem and solving it with <code>ode</code>.  If&nbsp;these<!-- /@w -->
+examples are too elementary, see <a href="Input-Language.html#Input-Language">Input Language</a>, for a formal
+specification of the <code>ode</code> input language.  There is also a
+directory containing examples of <code>ode</code> input, which is distributed
+along with the GNU plotting utilities.  On&nbsp;most<!-- /@w --> systems it is
+installed as <samp><span class="file">/usr/share/ode</span></samp> or <samp><span class="file">/usr/local/share/ode</span></samp>.
+
+   <p>Our first example is a simple one, namely
+
+<pre class="example">     y'(t) = y(t)
+</pre>
+   <p class="noindent">with the initial condition
+
+<pre class="example">     y(0) = 1
+</pre>
+   <p class="noindent">The solution to this differential equation is
+
+<pre class="example">     y(t) = e^t.
+</pre>
+   <p class="noindent">In particular
+
+<pre class="example">     y(1) = e^1 = 2.718282
+</pre>
+   <p class="noindent">to seven digits of accuracy.
+
+   <p>You may obtain this result with the aid of <code>ode</code> by typing on the
+command line the sequence of commands
+
+<pre class="example">     ode
+     y' = y
+     y = 1
+     print t, y
+     step 0, 1
+</pre>
+   <p class="noindent">Two columns of numbers will appear.  Each line will show the value of
+the independent variable&nbsp;t<!-- /@w -->, and the value of the
+variable&nbsp;y<!-- /@w -->, as t is `stepped' from 0 to&nbsp;1<!-- /@w -->.  The
+last line will be
+
+<pre class="example">     1 2.718282
+</pre>
+   <p class="noindent">as expected.  You may use the &lsquo;<samp><span class="samp">-p</span></samp>&rsquo; option to change the precision. 
+If, for&nbsp;example<!-- /@w -->, you type &lsquo;<samp><span class="samp">ode -p 10</span></samp>&rsquo; rather than &lsquo;<samp><span class="samp">ode</span></samp>&rsquo;,
+you will get ten digits of accuracy in the output, rather than seven
+(the default).
+
+   <p>After the above output, <code>ode</code> will wait for further instructions. 
+Entering for example the line
+
+<pre class="example">     step 1, 0
+</pre>
+   <p class="noindent">should yield two more columns of numbers, containing the values of
+t and y that are computed when t&nbsp;is<!-- /@w --> stepped
+back from 1 to&nbsp;0<!-- /@w -->.  You could type instead
+
+<pre class="example">     step 1, 2
+</pre>
+   <p class="noindent">to increase rather than decrease&nbsp;t<!-- /@w -->.  To&nbsp;exit<!-- /@w --> <code>ode</code>,
+you would type a line containing only &lsquo;<samp><span class="samp">.</span></samp>&rsquo;, i.e. a&nbsp;single<!-- /@w --> period,
+and tap `return'.  <code>ode</code> will also exit if it sees an end-of-file
+indicator in its input stream, which you may send from your terminal by
+typing control-D.
+
+   <p>Each line of the preceding example should be self-explanatory.  A&nbsp;&lsquo;<samp><span class="samp">step</span></samp>&rsquo;<!-- /@w --> statement sets the beginning and the end of an interval
+over which the independent variable (here,&nbsp;t<!-- /@w -->) will range, and
+causes <code>ode</code> to set the numerical scheme in motion.  The initial
+value appearing in the first &lsquo;<samp><span class="samp">step</span></samp>&rsquo; statement (i.e.,&nbsp;0<!-- /@w -->) and the
+assignment statement
+
+<pre class="example">     y = 1
+</pre>
+   <p class="noindent">are equivalent to the initial condition y(0) = 1.  The statements
+&lsquo;<samp><span class="samp">y'&nbsp;=&nbsp;y</span></samp>&rsquo;<!-- /@w --> and &lsquo;<samp><span class="samp">y = 1</span></samp>&rsquo; are very different: &lsquo;<samp><span class="samp">y' = y</span></samp>&rsquo;
+defines a way of computing the derivative of&nbsp;y<!-- /@w -->, while &lsquo;<samp><span class="samp">y
+= 1</span></samp>&rsquo; sets the initial value of&nbsp;y<!-- /@w -->.  Whenever a &lsquo;<samp><span class="samp">step</span></samp>&rsquo;
+statement is encountered, <code>ode</code> tries to step the independent
+variable through the interval it specifies.  Which values are to be
+printed at each step is specified by the most recent &lsquo;<samp><span class="samp">print</span></samp>&rsquo;
+statement.  For&nbsp;example<!-- /@w -->,
+
+<pre class="example">     print t, y, y'
+</pre>
+   <p class="noindent">would cause the current value of the independent variable&nbsp;t<!-- /@w -->,
+the variable&nbsp;y<!-- /@w -->, and its derivative to be printed at each
+step.
+
+   <p>To illustrate <code>ode</code>'s ability to take its input or the initial part
+of its input from a file, you could prepare a file containing the
+following lines:
+
+<pre class="example">     # an ode to Euler
+     y  = 1
+     y' = y
+     print t, y, y'
+</pre>
+   <p class="noindent">Call this file <samp><span class="file">euler</span></samp>.  (The &lsquo;<samp><span class="samp">#</span></samp>&rsquo; line is a comment line,
+which may appear at any point.  Everything from the&nbsp;&lsquo;<samp><span class="samp">#</span></samp>&rsquo;<!-- /@w --> to the
+end of the line on which it appears will be ignored.)  To&nbsp;process<!-- /@w -->
+this file with <code>ode</code>, you could type on your terminal
+
+<pre class="example">     ode -f euler
+     step 0, 1
+</pre>
+   <p class="noindent">These two lines cause <code>ode</code> to read the file <samp><span class="file">euler</span></samp>, and the
+stepping to take place.  You will now get three quantities (t,
+y, and y') printed at each of the values of&nbsp;t<!-- /@w -->
+between 0 and&nbsp;1<!-- /@w -->.  At&nbsp;the<!-- /@w --> conclusion of the stepping, <code>ode</code>
+will wait for any further commands to be input from the terminal.  This
+example illustrates that
+
+<pre class="example">     ode -f euler
+</pre>
+   <p class="noindent">is not equivalent to
+
+<pre class="example">     ode &lt; euler
+</pre>
+   <p class="noindent">The latter would cause <code>ode</code> to take all its input from the file
+<samp><span class="file">euler</span></samp>, while the former allows subsequent input from the
+terminal.  For the latter to produce output, you would need to include a
+&lsquo;<samp><span class="samp">step</span></samp>&rsquo; line at the end of the file.  You would not need to include
+a &lsquo;<samp><span class="samp">.</span></samp>&rsquo; line, however.  &lsquo;<samp><span class="samp">.</span></samp>&rsquo;&nbsp;is<!-- /@w --> used to terminate input only
+when input is being read from a terminal.
+
+   <p>A second simple example involves the numerical solution of a
+second-order differential equation.  Consider the initial value problem
+
+<pre class="example">     y''(t) = -y(t)
+     y(0) = 0
+     y'(0) = 1
+</pre>
+   <p class="noindent">Its solution would be
+
+<pre class="example">     y(t) = sin(t)
+</pre>
+   <p class="noindent">To solve this problem using <code>ode</code>, you must express this
+second-order equation as two first-order equations.  Toward this end you
+would introduce a new function, called yp say, of the independent
+variable&nbsp;t<!-- /@w -->.  The pair of equations
+
+<pre class="example">     y' = yp
+     yp' = -y
+</pre>
+   <p class="noindent">would be equivalent to the single equation above.  This sort of
+reduction of an n'th order problem to n first order
+problems is a standard technique.
+
+   <p>To plot the variable y as a function of the variable&nbsp;t<!-- /@w -->, you could create a file containing the lines
+
+<pre class="example">     # sine : y''(t) = -y(t), y(0) = 0, y'(0) = 1
+     sine' = cosine
+     cosine' = -sine
+     sine = 0
+     cosine = 1
+     print t, sine
+</pre>
+   <p class="noindent">(y and yp have been renamed <i>sine</i> and <i>cosine</i>, since
+that is what they will be.)  Call this file <samp><span class="file">sine</span></samp>.  To display the
+generated data points on an X&nbsp;Window<!-- /@w --> System display as they are
+generated, you would type
+
+<pre class="example">     ode -f sine | graph -T X -x 0 10 -y -1 1
+     step 0, 2*PI
+     .
+</pre>
+   <p class="noindent">After you type the <code>ode</code> line, <code>graph -T&nbsp;X<!-- /@w --></code> will pop&nbsp;up<!-- /@w --> a window, and after you type the &lsquo;<samp><span class="samp">step</span></samp>&rsquo; line, the generated
+dataset will be drawn in&nbsp;it<!-- /@w -->.  The &lsquo;<samp><span class="samp">-x 0 10</span></samp>&rsquo; and &lsquo;<samp><span class="samp">-y -1 1</span></samp>&rsquo;
+options, which set the bounds for the two axes, are necessary if you
+wish to display points in real&nbsp;time<!-- /@w -->: as they are generated. 
+If&nbsp;the<!-- /@w --> axis bounds were not specified on the command line,
+<code>graph -T&nbsp;X<!-- /@w --></code> would wait until all points are read from the
+input before determining the bounds, and drawing the plot.
+
+   <p>A slight modification of this example, showing how <code>ode</code> can
+generate several datasets in succession and plot them on the same graph,
+would be the following.  Suppose that you type on your terminal the
+following lines.
+
+<pre class="example">     ode -f sine | graph -T X -C -x 0 10 -y -1 1
+     step 0, PI
+     step PI, 2*PI
+     step 2*PI, 3*PI
+     .
+</pre>
+   <p class="noindent">Then the sine curve will be traced out in three stages.  Since the
+output from each &lsquo;<samp><span class="samp">step</span></samp>&rsquo; statement ends with a blank line,
+<code>graph -T&nbsp;X<!-- /@w --></code> will treat each section of the sine curve as a
+different dataset.  If you are using a color display, each of the three
+sections will be plotted in a different color.  This is a feature
+provided by <code>graph</code>, which normally changes its linemode after each
+dataset it reads.  If you do not like this feature, you may turn it off
+by using <code>graph -T X -B</code> instead of <code>graph -T&nbsp;X<!-- /@w --></code>.
+
+   <p>In the above examples, you could use any of the other variants of
+<code>graph</code> instead of <code>graph -T&nbsp;X<!-- /@w --></code>.  For example, you could use
+<code>graph -T ps</code> to obtain a plot in encapsulated Postscript format,
+by typing
+
+<pre class="example">     ode -f sine | graph -T ps &gt; plot.ps
+     step 0, 2*PI
+     .
+</pre>
+   <p class="noindent">You should note that of the variants of <code>graph</code>, the variants
+<code>graph -T png</code>, <code>graph -T pnm</code>, <code>graph -T gif</code>,
+<code>graph -T svg</code>, <code>graph -T ai</code>, <code>graph -T ps</code>, <code>graph
+-T cgm</code>, <code>graph -T fig</code>, <code>graph -T pcl</code> and <code>graph -T
+hpgl</code> do not produce output in real time, even when the axis bounds are
+specified with the &lsquo;<samp><span class="samp">-x</span></samp>&rsquo; and&nbsp;&lsquo;<samp><span class="samp">-y</span></samp>&rsquo;<!-- /@w --> options.  So&nbsp;if<!-- /@w --> any
+of these variants is used, the plot will be produced only when input
+from <code>ode</code> is terminated, which will occur when you type&nbsp;&lsquo;<samp><span class="samp">.</span></samp>&rsquo;<!-- /@w -->.
+
+   <p>In the preceding examples, the derivatives of the dependent variables
+were specified by comparatively simple expressions.  They are allowed to
+be arbitrarily complicated functions of the dependent variables and the
+independent variable.  They may also involve any of the functions that
+are built into <code>ode</code>.  <code>ode</code> has a fair number of functions
+built&nbsp;in<!-- /@w -->, including <tt>abs</tt>, <tt>sqrt</tt>, <tt>exp</tt>, <tt>log</tt>, <tt>log10</tt>,
+<tt>sin</tt>, <tt>cos</tt>, <tt>tan</tt>, <tt>asin</tt>, <tt>acos</tt>, <tt>atan</tt>, <tt>sinh</tt>,
+<tt>cosh</tt>, <tt>tanh</tt>, <tt>asinh</tt>, <tt>acosh</tt>, and <tt>atanh</tt>.  Less familiar
+functions which are built into&nbsp;it<!-- /@w --> are <tt>besj0</tt>, <tt>besj1</tt>,
+<tt>besy0</tt>, <tt>besy1</tt>, <tt>erf</tt>, <tt>erfc</tt>, <tt>inverf</tt>, <tt>lgamma</tt>,
+<tt>gamma</tt>, <tt>norm</tt>, <tt>invnorm</tt>, <tt>ibeta</tt>, and <tt>igamma</tt>.  These have
+the same definitions as in the plotting program <code>gnuplot</code>.  (All
+functions take a single argument, except for <tt>ibeta</tt>, which takes
+three, and <tt>igamma</tt>, which takes two).  <code>ode</code> also knows the
+meaning of the constant &lsquo;<samp><span class="samp">PI</span></samp>&rsquo;, as the above examples show.  The
+names of the preceding functions are reserved, so, e.g., &lsquo;<samp><span class="samp">cos</span></samp>&rsquo; and
+&lsquo;<samp><span class="samp">sin</span></samp>&rsquo; may not be used as names for variables.
+
+   <p>Other than the restriction of avoiding reserved names and keywords, the
+names of variables may be chosen arbitrarily.  Any sequence of
+alphanumeric characters starting with an alphabetic character may be
+used; the first 32 characters are significant.  It&nbsp;is<!-- /@w --> worth noting
+that <code>ode</code> identifies the independent variable by the fact that it
+is (or should be) the only variable that has not appeared on the left
+side of a differential equation or an initial value assignment.  If&nbsp;there<!-- /@w --> is more than than one such variable then no stepping takes place;
+instead, an error message is printed.  If&nbsp;there<!-- /@w --> is no such variable,
+a&nbsp;dummy<!-- /@w --> independent variable is invented and given the name
+&lsquo;<samp><span class="samp">(indep)</span></samp>&rsquo;, internally.
+
+   </body></html>
+

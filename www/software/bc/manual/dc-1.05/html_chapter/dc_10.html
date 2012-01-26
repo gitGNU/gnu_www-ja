@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/dc.texi on 7 November 1998 -->
+
+<TITLE>dc, an arbitrary precision calculator - Miscellaneous</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="dc_1.html">first</A>, <A HREF="dc_9.html">previous</A>, <A HREF="dc_11.html">next</A>, <A HREF="dc_11.html">last</A> section, <A HREF="dc_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC10" HREF="dc_toc.html#TOC10">Miscellaneous</A></H1>
+
+<DL COMPACT>
+
+<DT><SAMP>`!'</SAMP>
+<DD>
+Will run the rest of the line as a system command.
+Note that parsing of the !&#60;, !=, and !&#62; commands take precidence,
+so if you want to run a command starting with &#60;, =, or &#62; you will
+need to add a space after the !.
+
+<DT><SAMP>`#'</SAMP>
+<DD>
+Will interpret the rest of the line as a comment.
+(This command is a GNU extension.)
+
+<DT><SAMP>`:<VAR>r</VAR>'</SAMP>
+<DD>
+Will pop the top two values off of the stack.
+The old second-to-top value will be stored in the array <VAR>r</VAR>,
+indexed by the old top-of-stack value.
+
+<DT><SAMP>`;<VAR>r</VAR>'</SAMP>
+<DD>
+Pops the top-of-stack and uses it as an index into
+the array <VAR>r</VAR>.
+The selected value is then pushed onto the stack.
+</DL>
+
+<P>
+Note that each stacked instance of a register has its own
+array associated with it.
+Thus <SAMP>`1 <VAR>0:a</VAR> 0S<VAR>a</VAR> 2 <VAR>0:a</VAR> L<VAR>a</VAR> <VAR>0;a</VAR>p'</SAMP>
+will print 1, because the 2 was stored in an instance of <VAR>0:a</VAR>
+that was later popped.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="dc_1.html">first</A>, <A HREF="dc_9.html">previous</A>, <A HREF="dc_11.html">next</A>, <A HREF="dc_11.html">last</A> section, <A HREF="dc_toc.html">table of contents</A>.
+</BODY>
+</HTML>

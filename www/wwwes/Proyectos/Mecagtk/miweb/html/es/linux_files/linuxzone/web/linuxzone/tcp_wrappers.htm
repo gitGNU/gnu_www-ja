@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.07 [en] (X11; I; Linux 2.2.5 i586) [Netscape]">
+   <TITLE>Tcp_wrappers</TITLE>
+</HEAD>
+<BODY BGCOLOR="#000000" BACKGROUND="marble2.jpg">
+
+<CENTER><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Tcp_wrappers</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Controlando
+los puertos</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[ <A HREF="#Introduccion">Introducci&oacute;n</A>
+] [ <A HREF="#Configuracion">Configuraci&oacute;n</A> ] [ <A HREF="#Ejemplos">Ejemplos</A>
+] [ <A HREF="#Limitaciones">Limitaciones</A> ] [ <A HREF="#Avanzado">Avanzado</A>
+] [ <A HREF="#Links">Links</A> ]</FONT></FONT></FONT></CENTER>
+
+<BR>&nbsp;
+<P><BR>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>0.&nbsp;<A NAME="Introduccion"></A>Introducci&oacute;n</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Tcp_wrappers
+te permite controlar los puertos de software de tu PC, o sea que no es
+para los com no los lpt, sino para el puerto telnet, ftp, pop3 ...</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>El primer
+requisito es tener instalado y configurado el superservidor inetd, esto
+es muy f&aacute;cil y solo se trata de instalar el demonio y asegurarse
+de que se arranca durante el inicio de la m&aacute;quina.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Para asegurarnos
+de que lo tenemos instalado i corriendo ejecutaremos el comando: <I>ps
+aux | grep inetd</I>, y debe salir algo como esto:</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>140 ?
+S 0:00 inetd</FONT></FONT></FONT></I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>
+si no es que algo va mal, repasa la instalaci&oacute;n.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Para mas
+informaci&oacute;n: man inetd, man inetd.conf y man services</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Ya tenemos
+el inetd instalado, el principal archivo de configuraci&oacute;n del mismo
+es el /etc/inetd.conf, en el, cada linea se refiere a un puerto/servicio
+que podemos ofrecer. Sin tcp_wrappers cada una de las lineas deber&iacute;a
+parecerse a esto:</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>telnet
+stream tcp nowait root /usr/sbin/in.telnetd</FONT></FONT></FONT></I>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Esto significa
+que cada llamada al puerto telnet ser&aacute; gestionada por el demonio
+in.telnetd</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Ahora instalamos
+el paquete tcp_wrappers, una vez instalado lo &uacute;nico necesario es
+cambiar la linea anterior por algo como esto:</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>telnet
+stream tcp nowait root /usr/sbin/tcpd in.telnetd</FONT></FONT></FONT></I>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>La diferencia
+es que ahora, lo que se ejecuta al recibir un telnet es el demonio tcpd,
+al que se le pasa como par&aacute;metro el demonio que debe controlar,
+en este caso in.telnetd.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Para mas
+informaci&oacute;n: man tcpd, man hosts_access, man hosts.allow y man hosts.deny</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>2.&nbsp;<A NAME="Configuracion"></A>Configuraci&oacute;n</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Se basa &uacute;nicamente
+en dos archivos, /etc/hosts.allow y /etc/hosts.deny, aunque como veremos
+mas adelante solo hace falta uno de ellos.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Por defecto,
+a menos que se indique lo contrario, todos los servicios y/o direcciones
+definidas en el hosts.allow son admitidas mientras que las definidas en
+el hosts.deny son rechazadas.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>La sintaxis
+de estos archivos es muy simple:</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>servicio:
+host: acci&oacute;n</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><I>servicio</I>:
+es la primera palabra que encontramos en cada linea del archivo inetd.conf,
+por ejemplo son servicios el in.telnetd, in.fingerd ...</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Si queremos
+referirnos a todos los puertos bastar&aacute; con poner ALL, tambi&eacute;n
+podemos poner una lista de servicios separados por espacios en blanco.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><I>host</I>:
+es una o mas direcciones de red separadas por espacios en blanco, esta
+direcci&oacute;n se contrasta con la del sistema que nos hace la petici&oacute;n
+de conexi&oacute;n. La direcci&oacute;n puede ser del tipo IP num&eacute;rica,
+IP/mask, rango de IP (por ejemplo 195.116.), dominio (como por ejemplo
+arrakis.es), grupo de dominios (como por ejemplo .es o arrakis.)</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Ademas pueden
+usarse otras palabras como ALL (para referirse a todos los host), LOCAL
+(los que no tienes un . en su nombre) KNOWN o UNKNOWN (de los que se tiene
+informaci&oacute;n o no) y PARANOID (el nombre que te ofrecen no concuerda
+con el que tcp_wrappers espera).</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><I>acci&oacute;n</I>:
+puede tener 4 valores, accept (acepta la conexi&oacute;n si se cumplen
+las condiciones impuestas por servivio/host), deny (rechaza la conexi&oacute;n,
+spawn (acepta la conexi&oacute;n y realiza el comando bash que se le pasa
+como par&aacute;metro) y twist (rechaza la conexi&oacute;n y realiza el
+comando bash).</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>A los comandos
+se les pueden pasar par&aacute;metros relacionados con la conexi&oacute;n,
+estos son:</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>%a, %c,
+%h y %n: nombre de la m&aacute;quina que intenta acceder</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>%d: demonio
+que controla el puerto por el que accede</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>%p: PID
+del proceso que controla la conexi&oacute;n</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Con esto
+ya podemos hacer nuestra primera configuraci&oacute;n super segura:</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>#/etc/hosts.allow</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+ALL: deny</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>El primer
+archivo que se mira es hosts.allow por lo que en este caso no importa lo
+que ponga en hosts.deny, porque todas las conexiones se rechazan de todas
+formas.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>3.&nbsp;<A NAME="Ejemplos"></A>Ejemplos</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Como mejor
+se aprende es viendo algunos ejemplos. De mas sencillos (y por lo tanto
+cerrados) a mas complicados (mas &uacute;tiles, divertidos y peligrosos)</FONT></FONT></FONT>
+<UL>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Completamente
+cerrado:</FONT></FONT></FONT></LI>
+
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>#/etc/hosts.allow</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+ALL: deny</FONT></FONT></FONT></I>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Cerrado para
+todos excepto para las conexiones locales:</FONT></FONT></FONT></LI>
+
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>#/etc/hosts.allow</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+127.0.0.1</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+ALL: deny</FONT></FONT></FONT></I>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Conexi&oacute;n
+local total, red local acceso por telnet y ftp, resto cerrado:</FONT></FONT></FONT></LI>
+
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>#/etc/hosts.allow</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+127.0.0.1</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>in.telnetd
+in.ftpd: LOCAL</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+ALL: deny</FONT></FONT></FONT></I>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Sistema cerrado
+con informe de accesos:</FONT></FONT></FONT></LI>
+
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>#/etc/hosts.allow</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+ALL: twist ( /usr/bin/echo -e "Intruso %a en puerto %d" )</FONT></FONT></FONT></I>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Sistema abierto
+a la red local y cerrado al exterior con acciones diferentes en funci&oacute;n
+del tipo de acceso:</FONT></FONT></FONT></LI>
+
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>#/etc/hosts.allow</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+LOCAL: spawn ( echo -e "Acceso autorizado de %a por %d" ) &amp;</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+PARANOID: twist ( echo -e "ATACANTE %a por puerto %d, lanzando nukes" ;
+/usr/local/bin/nukes.sh %a ) &amp;</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+UNKNOWN: twist ( echo -e "Posible nuke o scan de %a en %d" ) &amp;</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+ALL: twist ( /bin/echo -e "INTRUSO! %a, usando puerto %d" ) &amp;</FONT></FONT></FONT></I></UL>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>4.&nbsp;<A NAME="Limitaciones"></A>Limitaciones</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Este sistema
+aunque es muy f&aacute;cil e intuitivo tiene algunas limitaciones, algunas
+sencillas de solucionar otras no tanto:</FONT></FONT></FONT>
+<UL>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Solo cubre servicios
+definidos en el archivo inetd.conf: por ejemplo no informa de ning&uacute;n
+intento de acceso por el puerto del BO, NetBUS ... ni otros servicios como
+printer o X que no usan inetd.conf para configurar sus conexiones.</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>No detecta algunos
+tipos de conexi&oacute;n: por ejemplo los pings, algunos stealth scan ...
+la soluci&oacute;n es usar alg&uacute;n sistema de 'escucha' mas fino,
+como tcpdump.</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Las lineas de
+los archivos hosts.allow y hosts.deny no deben contener saltos de linea:
+o usas un editor que no rompa las lineas largas o pones un backslash (\)
+antes de cada salto de linea</FONT></FONT></FONT></LI>
+</UL>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>5.&nbsp;<A NAME="Avanzado"></A>Avanzado:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Usos avanzados
+de tcp_wrappers, que mas puedo hacer con esto?</FONT></FONT></FONT>
+<UL>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Detectando spoofing:
+los intentos de spoofing son detectados por tcp_warppers y los clasifica
+dentro de la categor&iacute;a de PARANOID, por lo que esta linea en hosts.allow
+puede ayudarnos bastante a detectarlo:</FONT></FONT></FONT></LI>
+
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+PARANOID: twist ( echo -e "Spoofing en puerto %d \nLa IP %a es falsa" )</FONT></FONT></FONT></I>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Mantener informes
+de red: redirigir toda la informaci&oacute;n de salida a un archivo o una
+consola, nos ayudara a tener informes exhaustivos de los accesos que recibimos,
+los ataques, los accesos ... para hacer esto basta con poner lineas as&iacute;:</FONT></FONT></FONT></LI>
+
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+ALL: spawn ( echo -e "IP %a en %d" > /var/log/archivo )</FONT></FONT></FONT></I>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Realizar m&uacute;ltiples
+comandos: a veces es necesario hacer mas de una cosa frente un acceso,
+la sintaxis es igual que si lo hici&eacute;ramos desde bash:</FONT></FONT></FONT></LI>
+
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+ALL: spawn ( echo -e "IP %a en %d" ; wavplay alarma.wav ; nestea %a )</FONT></FONT></FONT></I>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Enviando mensajes
+al sistema remoto: se puede enviar un mensaje predefinido (banner) al sistema
+remoto, en este mensaje podemos explicar porque no le damos acceso, que
+tipo de m&aacute;quina tnemos, que puede hacer o no ...</FONT></FONT></FONT></LI>
+
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Para que
+el sistema remoto vea el banner utilizaremos la linea:</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+ALL: banners /directorio_de_banners</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Nota: el
+banner debe llamarse como el demonio que se lanza, es decir si queremos
+que se vea un mensaje al entrar por telnet, el banner deber&aacute; llamarse
+in.telnetd</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Ejemplo:
+este banner (al que llamaremos in.telnetd) se ve al hacer acceso por telnet</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Hola
+%a, bienvenido a mi sistema. Tu IP esta siendo guardada para mayor seguridad.</FONT></FONT></FONT></I></UL>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Mas informaci&oacute;n
+en /usr/doc/tcp_wrappers-x.x</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>6.&nbsp;<A NAME="Links"></A>Links</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="ftp://ftp.win.tue.nl/pub/security/tcp_wrapper.ps.Z">Documentaci&oacute;n
+en postscript</A></FONT></FONT></FONT>
+<P>
+<HR>
+<BR>&nbsp;
+<P><BR>
+<CENTER>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="index.htm">Volver
+a la pagina principal</A></FONT></FONT></FONT></CENTER>
+
+<BR>&nbsp;
+</BODY>
+</HTML>

@@ -1,0 +1,98 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Pad Specs</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_39.html">previous</A>, <A HREF="termcap_41.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC40" HREF="termcap_toc.html#TOC40">Padding Capabilities</A></H2>
+<P>
+<A NAME="IDX170"></A>
+
+</P>
+<P>
+There are two terminal capabilities that exist just to explain the proper
+way to obey the padding specifications in all the command string
+capabilities.  One, <SAMP>`pc'</SAMP>, must be obeyed by all termcap-using
+programs.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`pb'</SAMP>
+<DD>
+<A NAME="IDX171"></A>
+Numeric value, the lowest baud rate at which padding is actually
+needed.  Programs may check this and refrain from doing any padding at
+lower speeds.
+
+<DT><SAMP>`pc'</SAMP>
+<DD>
+<A NAME="IDX172"></A>
+String of commands for padding.  The first character of this string is
+to be used as the pad character, instead of using null characters for
+padding.  If <SAMP>`pc'</SAMP> is not provided, use null characters.  Every
+program that uses termcap must look up this capability and use it to
+set the variable <CODE>PC</CODE> that is used by <CODE>tputs</CODE>.
+See section <A HREF="termcap_7.html#SEC7">Padding</A>.
+</DL>
+
+<P>
+Some termcap capabilities exist just to specify the amount of padding that
+the kernel should give to cursor motion commands used in ordinary
+sequential output.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`dC'</SAMP>
+<DD>
+<A NAME="IDX173"></A>
+Numeric value, the number of msec of padding needed for the
+carriage-return character.
+
+<DT><SAMP>`dN'</SAMP>
+<DD>
+<A NAME="IDX174"></A>
+Numeric value, the number of msec of padding needed for the newline
+(linefeed) character.
+
+<DT><SAMP>`dB'</SAMP>
+<DD>
+<A NAME="IDX175"></A>
+Numeric value, the number of msec of padding needed for the backspace
+character.
+
+<DT><SAMP>`dF'</SAMP>
+<DD>
+<A NAME="IDX176"></A>
+Numeric value, the number of msec of padding needed for the formfeed
+character.
+
+<DT><SAMP>`dT'</SAMP>
+<DD>
+<A NAME="IDX177"></A>
+Numeric value, the number of msec of padding needed for the tab
+character.
+</DL>
+
+<P>
+In some systems, the kernel uses the above capabilities; in other systems,
+the kernel uses the paddings specified in the string capabilities
+<SAMP>`cr'</SAMP>, <SAMP>`sf'</SAMP>, <SAMP>`le'</SAMP>, <SAMP>`ff'</SAMP> and <SAMP>`ta'</SAMP>.  Descriptions of
+terminals which require such padding should contain the <SAMP>`dC'</SAMP> ...
+<SAMP>`dT'</SAMP> capabilities and also specify the appropriate padding in the
+corresponding string capabilities.  Since no modern terminals require
+padding for ordinary sequential output, you probably won't need to do
+either of these things.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_39.html">previous</A>, <A HREF="termcap_41.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

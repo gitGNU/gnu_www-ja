@@ -1,0 +1,264 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Javier Orovengua Miguel">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; Linux 2.2.12-20 i586) [Netscape]">
+   <title>Gesti&oacute;n de Ficheros y Gesti&oacute;n AVANZADA.</title>
+</head>
+<body text="#000000" bgcolor="#FFF0F0" link="#FF0000" vlink="#800080" alink="#0000FF">
+<a NAME="Arriba"></a>
+<br><a href="../tutorial.html">[ &lt; ]</a><a href="contenidos.html">[
+|| ]</a>[ > ]
+<h1>
+Gestionar ficheros:</h1>
+
+<p><br>Una vez visto los cap&iacute;tulos anteriores ahora veremos como
+gestionar correctamente los ficheros, deber&aacute;s saber que:
+<br>&nbsp;
+<ul>
+<li>
+<a href="#FicherosPropietarios">Los ficheros tienen propietarios.</a></li>
+
+<li>
+<a href="#CambiamosPermisos">Cambiamos el propietario de un fichero.</a></li>
+
+<li>
+<a href="onlyfile.html">Gesti&oacute;n AVANZADA de ficheros.</a></li>
+
+<li>
+<a href="linux4.html#Seguridad">&iexcl;&iexcl;Seguridad de Ficheros!!</a></li>
+
+<li>
+<a href="linux4.html#ChmodYchattrib">comandos: chmod y chattr.</a></li>
+
+<li>
+<a href="linux4.html#script2exec">Convertir un peque&ntilde;o</a> <a href="glosary.html#script">script</a><a href="linux4.html#script2exec">a
+ejecutable.</a></li>
+</ul>
+
+<hr WIDTH="100%">
+<br><a NAME="FicherosPropietarios"></a>
+<h2>
+Los ficheros tienen propietarios.</h2>
+
+<ul>En todo sistema Linux los archivos pertenecen a quien los crea, que
+es entonces el &uacute;nico que puede borrarlos, ejecutarlos, etc. Esto
+es as&iacute; porque Unix estaba pensado para ser manejado por muchos usuarios
+a la vez, y de esta forma nadie pod&iacute;a acceder a tus archivos sin
+tu consentimiento previo.
+<p>Para ver los permisos de los ficheros, puedes escribir bien
+<br>vdir
+<br>&oacute;
+<br>ls -la
+<br>y ver&iacute;amos algo as&iacute;:
+<p>[Atributos]&nbsp;&nbsp;&nbsp; [Due&ntilde;o] [Grupo]&nbsp;&nbsp;&nbsp;
+[Tama&ntilde;o][Fecha creaci&oacute;n][Nombre del fichero]
+<br>---------------------------------------------------------
+<br>-rw-r--r--&nbsp;&nbsp;&nbsp;&nbsp; carlos users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1024&nbsp;&nbsp;&nbsp; Dic 21&nbsp;&nbsp;&nbsp; 20:30 carta.txt
+<br>---------------------------------------------------------
+<br>Que de forma resumida, expondremos as&iacute;:
+<p>-rw-r--r-- carlos users carta.txt
+<br>&nbsp;
+<p>O como puedes apreciar en la imagen:
+<p><img SRC="amos_files.gif" height=331 width=543>
+<p>Los signos que aparecen al comienzo a la izquierda de la pantalla son
+los atributos. Para entenderlos hay que tomarlos de 3 en 3, menos el gui&oacute;n
+del comienzo, que indica si es fichero, directorio o enlace poniendo:
+<br>&nbsp;
+<ul>
+<li>
+d (directorio)</li>
+
+<li>
+l (enlace)</li>
+
+<li>
+- (fichero)</li>
+</ul>
+Los atributos siguientes tomados de tres en tres significan:
+<br>&nbsp;
+<ul>
+<li>
+r (read): Permiso de lectura.</li>
+
+<li>
+w (write): Permiso de escritura, y</li>
+
+<li>
+x (execute): Permiso de ejecuci&oacute;n.</li>
+</ul>
+Su distribuci&oacute;n de 3 en 3 se debe a que los 3 primeros corresponden
+al due&ntilde;o del archivo, los 3 siguientes al grupo al que ese usuario
+pertenezca, y los &uacute;ltimos al resto de usuarios.
+<p>As&iacute;, ahora utilizando por ejemplo un script que se llamar&aacute;:
+"<b>miscript"</b>
+<p>-rwxr-xr-- carlos users miscript
+<p>tenemos que <b>carlos users </b>nos dicen el due&ntilde;o del fichero
+y el grupo del mismo, respectivamente. Carlos tiene permisos de lectura,
+escritura y ejecuci&oacute;n (para poder borrarlo, por ejemplo) (-<b><u><font color="#FF0000">rwx</font></u></b>r-xr--)
+<b>.
+</b>El
+grupo de Carlos,<b> users</b>, tiene permisos de lectura y ejecuci&oacute;n,
+(-rwx<b><u><font color="#FF0000">r-x</font></u></b>r--)&nbsp; y el resto
+de usuarios de s&oacute;lo lectura (-rwxr-x<b><u><font color="#FF0000">r--</font></u></b>
+).
+<br>&nbsp;</ul>
+<a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="CambiamosPermisos"></a>
+<h2>
+Cambiamos el propietario de un fichero.</h2>
+
+<ul>&nbsp;
+<br>Hay 3 utilidades para cambiar los atributos a un fichero:
+<p>chown - Cambia de due&ntilde;o al fichero.
+<br>chgrp - Cambia de grupo a un fichero.
+<br>chmod - Cambia los atributos a un fichero.
+<br>&nbsp;
+<p>Al crear un fichero, por defecto, ser&aacute; del due&ntilde;o que lo
+crea, osea, si estoy como javier, y escribo: joe carta.txt, la carta creada
+ser&aacute; de javier, con los atributos propios del mismo, pero si estoy
+como root, y creo la misma carta, la carta ahora ser&aacute; de root.
+<p>Antes de empezar a explicarte como cambiar los atributos a un fichero,
+debes saber algo bastante l&oacute;gico:
+<br>&nbsp;
+<ol>
+<li>
+S&oacute;lo el due&ntilde;o de un fichero, podr&aacute; cambiarles sus
+propiedades, e incluso de due&ntilde;o.</li>
+
+<li>
+Ning&uacute;n usuario podr&aacute; cambiarle las propiedades a ning&uacute;n
+fichero, ni su due&ntilde;o</li>
+
+<li>
+root, podr&aacute; cambiarle las propiedades a TODOS los ficheros, e incluso
+cambiarles de due&ntilde;o.</li>
+
+<li>
+Lo de arriba mencionado, no servir&aacute; de nada, si al grupo al que
+pertenece tambi&eacute;n tiene la propiedad de escribir sobre el fichero,
+por lo cual, podr&aacute; cualquier usuario cambiar el due&ntilde;o, grupo
+o propiedades a un fichero.</li>
+</ol>
+Ejemplos de modificaci&oacute;n de un fichero, y su significado.
+<br>&nbsp;
+<ul>
+<li>
+chmod u+rwx carta.txt</li>
+
+<br>Donde "u", se refiere al usuario el cual cre&oacute; el archivo.
+<br>&nbsp;
+<li>
+chmod g+rx-w carta.txt</li>
+
+<br>Donde "g", se refiere al grupo del usuario
+<br>&nbsp;
+<li>
+chmod o+r-wx carta.txt</li>
+
+<br>Donde "o", se refiere al resto de usuarios.
+<p>usar "a", modificar&aacute; todos los atributos
+<li>
+chmod a+x miscript</li>
+
+<br>Le pondr&aacute; todos los atributos de ejecuci&oacute;n al script
+"miscript", para lo ejecuten, el due&ntilde;o, el grupo y otros.
+<p>Tambi&eacute;n puede utilizarse chmod con n&uacute;meros OCTALES, que
+realizar&aacute;n las mismas funciones que las letras, pero no ser&aacute;n
+explicados aqu&iacute;.</ul>
+
+<p><br><b>Para cambiar de due&ntilde;o a un fichero</b>, deber&aacute;s
+usar el comando
+<b>chown</b>, o bien utilizar <a href="glosary.html#mc">mc</a>,
+que es m&aacute;s f&aacute;cil, siempre y cuando tenga los atributos que
+permitan ser cambiados.
+<br>&nbsp;
+<ul>
+<li>
+chown <b>-c javier</b> EsteFichero</li>
+</ul>
+
+<p><br>Ahora "EsteFichero" pertenecer&aacute; a javier.
+<p>Si quieres cambiar de grupo al fichero "EsteFichero"
+<br>&nbsp;
+<ul>
+<li>
+chgrp <b>-c users</b> EsteFichero</li>
+</ul>
+
+<p><br>Y si desde el princio hubieras querido cambiar de usuario y de grupo
+haber escrito:
+<br>&nbsp;
+<ul>
+<li>
+chown <b>-c javier.users</b> EsteFichero</li>
+</ul>
+
+<p><br>Para m&aacute;s informaci&oacute;n escribe:
+<p><b>man chown</b></ul>
+<a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="Seguridad"></a>
+<h2>
+Seguridad de Ficheros</h2>
+
+<ul>Si tiene conexi&oacute;n a internet, y a su m&aacute;quina est&aacute;n
+conectados VARIOS USUARIOS v&iacute;a telnet, es recomendable que algunos
+directorios est&eacute;n fuera del alcance de ciertos curiosos, por lo
+que se recomienda el cambio de atributos a dichos ficheros.
+<p>Mire la secci&oacute;n <a href="onlyfile.html">Gesti&oacute;n AVANZADA
+de ficheros.</a></ul>
+<a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="ChmodYchattrib"></a>
+<h2>
+Comandos chmod y chattr</h2>
+
+<ul>chmod. Cambiar&aacute; los modos a los ficheros, chattr cambiar&aacute;
+los atributos a dichos ficheros, es altamente recomendable que te informes
+para cambiarselos.
+<p>Escribe
+<p>man chmod
+<br>y
+<br>man chattr
+<br>&nbsp;</ul>
+<a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="script2exec"></a>
+<h2>
+Convertir Script a ejecutable</h2>
+
+<ul>Para convertir un script a ejecutable deber&aacute;s hacer:
+<br>&nbsp;
+<br>&nbsp;
+<ol>
+<li>
+Crear el fichero</li>
+
+<li>
+Crear el c&oacute;digo con una salida determinada</li>
+
+<li>
+Guardar el fichero, como por ejemplo "MiScript"</li>
+
+<li>
+Ponerle los atributos de ejecutable escribiendo:</li>
+
+<ol>
+<li>
+chmod a+x MiScript</li>
+</ol>
+</ol>
+</ul>
+<a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

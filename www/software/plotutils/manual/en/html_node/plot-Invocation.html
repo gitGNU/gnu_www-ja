@@ -1,0 +1,328 @@
+<html lang="en">
+<head>
+<title>plot Invocation - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="plot.html#plot" title="plot">
+<link rel="prev" href="plot-Examples.html#plot-Examples" title="plot Examples">
+<link rel="next" href="plot-Environment.html#plot-Environment" title="plot Environment">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="plot-Invocation"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="plot-Environment.html#plot-Environment">plot Environment</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="plot-Examples.html#plot-Examples">plot Examples</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="plot.html#plot">plot</a>
+<hr>
+</div>
+
+<h3 class="section">3.2 <code>plot</code> command-line options</h3>
+
+<p>The plot filter <code>plot</code> translates GNU graphics metafiles to other
+formats.  The &lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option is used to specify the output format. 
+Files in metafile format are produced by GNU <code>graph</code>,
+<code>pic2plot</code>, <code>tek2plot</code>, <code>plotfont</code>, and other
+applications that use the GNU <code>libplot</code> graphics library.  For
+technical details on the metafile format, see <a href="Metafiles.html#Metafiles">Metafiles</a>.
+
+   <p>Input file names may be specified anywhere on the command line.  That
+is, the relative order of file names and command-line options does not
+matter.  If no files are specified, or the file name&nbsp;&lsquo;<samp><span class="samp">-</span></samp>&rsquo;<!-- /@w --> is
+specified, the standard input is read.  An output file is written to
+standard output, unless the &lsquo;<samp><span class="samp">-T X</span></samp>&rsquo; option is specified.  In&nbsp;that<!-- /@w --> case the output is displayed in a window or windows on an X&nbsp;Window<!-- /@w --> System display, and there is no output file.
+
+   <p>The full set of command-line options is listed below.  There are four
+sorts of option:
+
+     <ol type=1 start=1>
+<li>Options setting the values of drawing parameters. 
+<li>Options relevant only to raw <code>plot</code>, i.e., relevant only if no
+output format is specified with the &lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option. 
+<li>Options specifying the type of metafile format the input is in (for
+backward compatibility only). 
+<li>Options requesting information (e.g., &lsquo;<samp><span class="samp">--help</span></samp>&rsquo;).
+        </ol>
+
+<p class="noindent">Each option that takes an argument is followed, in parentheses, by the
+type and default value of the argument.
+
+   <p>The following options set the values of drawing parameters.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-T </span><var>type</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--output-format </span><var>type</var></samp>&rsquo;<dd>(String, default "meta".)  Select an output format of type <var>type</var>,
+which may be one of the strings "X", "png", "pnm", "gif", "svg", "ai",
+"ps", "cgm", "fig", "pcl", "hpgl", "regis", "tek", and "meta".  These
+refer respectively to the X&nbsp;Window&nbsp;System<!-- /@w -->, PNG format, portable
+anymap (PBM/PGM/PPM) format, pseudo-GIF format, the XML-based Scalable
+Vector Graphics format, the format used by Adobe Illustrator,
+<code>idraw</code>-editable Postscript, the WebCGM format for Web-based
+vector graphics, the format used by the <code>xfig</code> drawing editor,
+the Hewlett&ndash;Packard PCL&nbsp;5<!-- /@w --> printer language, the Hewlett&ndash;Packard
+Graphics Language (by&nbsp;default<!-- /@w -->, HP-GL/2), the ReGIS (remote
+graphics instruction set) format developed by&nbsp;DEC<!-- /@w -->, Tektronix
+format, and device-independent GNU graphics metafile format.  The
+option &lsquo;<samp><span class="samp">--display-type</span></samp>&rsquo; is an obsolete alternative to
+&lsquo;<samp><span class="samp">--output-format</span></samp>&rsquo;.
+
+     <br><dt>&lsquo;<samp><span class="samp">-p </span><var>n</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--page-number </span><var>n</var></samp>&rsquo;<dd>(Positive integer.) Display only page number <var>n</var>, within the
+metafile or sequence of metafiles that is being translated.
+
+     <p>Metafiles may consist of one or more pages, numbered beginning with&nbsp;1<!-- /@w -->.  Also, each page may contain multiple `frames'.  <code>plot -T&nbsp;X<!-- /@w --></code>, <code>plot -T regis</code>, or <code>plot -T tek</code>, which plot in real
+time, will separate successive frames by screen erasures.  <code>plot -T
+png</code>, <code>plot -T pnm</code>, <code>plot -T gif</code>, <code>plot -T svg</code>,
+<code>plot -T ai</code>, <code>plot -T ps</code>, <code>plot -T cgm</code>, <code>plot -T
+fig</code>, <code>plot -T pcl</code>, <code>plot -T hpgl</code>, which do not plot in real
+time, will display only the last frame of any multi-frame page.
+
+     <p>The default behavior, if &lsquo;<samp><span class="samp">-p</span></samp>&rsquo; is not used, is to display all pages. 
+For example, <code>plot -T&nbsp;X<!-- /@w --></code> displays each page in its own X&nbsp;window<!-- /@w -->.  If&nbsp;the<!-- /@w --> &lsquo;<samp><span class="samp">-T png</span></samp>&rsquo; option, the &lsquo;<samp><span class="samp">-T pnm</span></samp>&rsquo; option, the
+&lsquo;<samp><span class="samp">-T gif</span></samp>&rsquo; option, the &lsquo;<samp><span class="samp">-T svg</span></samp>&rsquo; option, the &lsquo;<samp><span class="samp">-T ai</span></samp>&rsquo; option,
+or the &lsquo;<samp><span class="samp">-T fig</span></samp>&rsquo; option is used, the default behavior is to display
+only the first page, since files in PNG, PNM, pseudo-GIF, SVG, AI, or
+Fig format may contain only a single page of graphics.
+
+     <p>Most metafiles produced by the GNU plotting utilities (e.g., by raw
+<code>graph</code>) contain only a single page, consisting of two frames: an
+empty one to clear the display, and a second one containing graphics.
+
+     <br><dt>&lsquo;<samp><span class="samp">-s</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--merge-pages</span></samp>&rsquo;<dd>Merge all displayed pages into a single page, and also merge all
+`frames' within each displayed page.
+
+     <p>This option is useful when merging together single-page plots from
+different sources.  For example, it can be used to merge together plots
+obtained from separate invocations of <code>graph</code>.  This is an
+alternative form of multiplotting (see <a href="Multiplotting.html#Multiplotting">Multiplotting</a>).
+
+     <br><dt>&lsquo;<samp><span class="samp">--bitmap-size </span><var>bitmap_size</var></samp>&rsquo;<dd>(String, default "570x570".)  Set the size of the graphics display in
+which the plot will be drawn, in terms of pixels, to be
+<var>bitmap_size</var>.  This is relevant only to <code>plot -T&nbsp;X<!-- /@w --></code>,
+<code>plot -T png</code>, <code>plot -T pnm</code>, and <code>plot -T gif</code>, for all
+of which the size can be expressed in terms of pixels.  The environment
+variable <code>BITMAPSIZE</code> may equally well be used to specify the size.
+
+     <p>The graphics display used by <code>plot -T X</code> is a popped-up X&nbsp;window<!-- /@w -->.  Command-line positioning of this window on an X&nbsp;Window<!-- /@w -->
+System display is supported.  For example, if <var>bitmap_size</var> is
+"570x570+0+0" then the window will be popped&nbsp;up<!-- /@w --> in the upper left
+corner.
+
+     <p>If you choose a rectangular (non-square) window size, the fonts in the
+plot will be scaled anisotropically, i.e., by different factors in the
+horizontal and vertical direction.  Any font that cannot be
+anisotropically scaled will be replaced by a default scalable font,
+such as the Hershey vector font "HersheySerif".
+
+     <p>For backward compatibility, <code>plot -T X</code> allows the user to set the
+window size and position by setting the X&nbsp;resource<!-- /@w -->
+<code>Xplot.geometry</code>, instead of &lsquo;<samp><span class="samp">--bitmap-size</span></samp>&rsquo; or
+<code>BITMAPSIZE</code>.
+
+     <br><dt>&lsquo;<samp><span class="samp">--emulate-color </span><var>option</var></samp>&rsquo;<dd>(String, default "no".)  If <var>option</var> is "yes", replace each color in
+the output by an appropriate shade of gray.  This is seldom useful,
+except when using &lsquo;<samp><span class="samp">plot -T pcl</span></samp>&rsquo; to prepare output for a PCL&nbsp;5<!-- /@w -->
+device.  (Many monochrome PCL&nbsp;5<!-- /@w --> devices, such as monochrome
+LaserJets, do a poor job of emulating color on their own.  They usually
+map HP-GL/2's seven standard pen colors, including even yellow, to
+black.)  You may equally well request color emulation by setting the
+environment variable <code>EMULATE_COLOR</code> to "yes".
+
+     <br><dt>&lsquo;<samp><span class="samp">--max-line-length </span><var>max_line_length</var></samp>&rsquo;<dd>(Integer, default 500.)  Set the maximum number of points that a
+polygonal line may contain, before it is flushed to the output device,
+to equal <var>max_line_length</var>.  If this flushing occurs, the polygonal
+line will be split into two or more sub-lines, though the splitting
+should not be noticeable.  Splitting will not take place if the line is
+the boundary of a filled polygon.
+
+     <p>The reason for splitting long polygonal lines is that some display
+devices (e.g., old Postscript printers and HP-GL pen plotters) have
+limited buffer sizes.  The environment variable <code>MAX_LINE_LENGTH</code>
+can also be used to specify the maximum line length.  This option has no
+effect on <code>plot -T tek</code> or raw <code>plot</code>, since they draw
+polylines in real time and have no buffer limitations.
+
+     <br><dt>&lsquo;<samp><span class="samp">--page-size </span><var>pagesize</var></samp>&rsquo;<dd>(String, default "letter".)  Set the size of the page on which the plot
+will be positioned.  This is relevant only to <code>plot -T svg</code>,
+<code>plot -T ai</code>, <code>plot -T ps</code>, <code>plot -T cgm</code>, <code>plot -T
+fig</code>, <code>plot -T pcl</code>, and <code>plot -T hpgl</code>.  "letter" means an
+8.5<span class="dmn">in</span> by 11<span class="dmn">in</span> page.  Any ISO page size in the range
+"a0"<small class="dots">...</small>"a4" or ANSI page size in the range "a"<small class="dots">...</small>"e" may be
+specified ("letter" is an alias for&nbsp;"a"<!-- /@w --> and "tabloid" is an alias
+for&nbsp;"b"<!-- /@w -->).  "legal", "ledger", and&nbsp;"b5"<!-- /@w --> are recognized page sizes
+also.  The environment variable <code>PAGESIZE</code> can equally well be used
+to specify the page size.
+
+     <p>For <code>plot -T ai</code>, <code>plot -T ps</code>, <code>plot -T pcl</code>, and
+<code>plot -T fig</code>, the graphics display (or `viewport') within which
+the plot is drawn will be, by default, a square region centered on the
+specified page.  For <code>plot -T hpgl</code>, it will be a square region of
+the same size, but may be positioned differently.  Either or both of the
+dimensions of the graphics display can be specified explicitly.  For
+example, <var>pagesize</var> could be specified as "letter,xsize=4in", or
+"a4,xsize=10cm,ysize=15cm".  The dimensions are allowed to be negative
+(a&nbsp;negative<!-- /@w --> dimension results in a reflection).
+
+     <p>The position of the graphics display, relative to its default
+position, may optionally be adjusted by specifying an offset vector. 
+For example, <var>pagesize</var> could be specified as
+"letter,yoffset=1.2in", or "a4,xoffset=&minus;5mm,yoffset=2.0cm". 
+It&nbsp;is<!-- /@w --> also possible to position the graphics display precisely, by
+specifying the location of its lower left corner relative to the lower
+left corner of the page.  For example, <var>pagesize</var> could be
+specified as "letter,xorigin=2in,yorigin=3in", or
+"a4,xorigin=0.5cm,yorigin=0.5cm".  The preceding options may be
+intermingled.
+
+     <p><code>plot -T svg</code> and <code>plot -T cgm</code> ignore the "xoffset",
+"yoffset", "xorigin", and "yorigin" options, since SVG format and
+WebCGM format have no notion of the Web page on which the graphics
+display will ultimately be positioned.  However, they do respect the
+"xsize" and "ysize" options.  For more on page sizes, see <a href="Page-and-Viewport-Sizes.html#Page-and-Viewport-Sizes">Page and Viewport Sizes</a>. 
+</dl>
+
+   <p>The following options set the initial values of additional drawing
+parameters.  Any of these may be overridden by a directive in the
+metafile itself.  In&nbsp;fact<!-- /@w -->, these options are useful only when
+plotting old metafiles in the pre-GNU `plot(5)' format, which did not
+include such directives.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">--bg-color </span><var>name</var></samp>&rsquo;<dd>(String, default "white".)  Set the color used for the plot background
+to be <var>name</var>.  This is relevant only to <code>plot -T&nbsp;X<!-- /@w --></code>,
+<code>plot -T png</code>, <code>plot -T pnm</code>, <code>plot -T gif</code>, <code>plot
+-T cgm</code>, <code>plot -T regis</code>, and <code>plot -Tmeta</code>.  An&nbsp;unrecognized<!-- /@w --> name sets the color to the default.  For information on
+what names are recognized, see <a href="Color-Names.html#Color-Names">Color Names</a>.  The environment
+variable <code>BG_COLOR</code> can equally well be used to specify the
+background color.
+
+     <p>If the &lsquo;<samp><span class="samp">-T png</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-T gif</span></samp>&rsquo; option is used, a transparent PNG
+file or a transparent pseudo-GIF, respectively, may be produced by
+setting the <code>TRANSPARENT_COLOR</code> environment variable to the name of
+the background color.  See <a href="plot-Environment.html#plot-Environment">plot Environment</a>.  If&nbsp;the<!-- /@w --> &lsquo;<samp><span class="samp">-T
+svg</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-T cgm</span></samp>&rsquo; option is used, an output file without a
+background may be produced by setting the background color to "none".
+
+     <br><dt>&lsquo;<samp><span class="samp">-f </span><var>font_size</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--font-size </span><var>font_size</var></samp>&rsquo;<dd>(Float, initial value device-dependent.)  Set the initial size of the
+font used for rendering text, as a fraction of the width of the graphics
+display, to <var>font_size</var>.
+
+     <br><dt>&lsquo;<samp><span class="samp">-F </span><var>font_name</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--font-name </span><var>font_name</var></samp>&rsquo;<dd>(String, default "Helvetica" except for <code>plot -T pcl</code>, for which
+"Univers" is the default, and <code>plot -T png</code>, <code>plot -T pnm</code>,
+<code>plot -T gif</code>, <code>plot -T hpgl</code>, <code>plot -T regis</code>,
+<code>plot -T tek</code>, and raw <code>plot</code>, for all of which "HersheySerif"
+is the default.)  Set the font initially used for text (i.e., for
+`labels') to <var>font_name</var>.  Font names are case-insensitive.  If&nbsp;the<!-- /@w --> specified font is not available, the default font will be used. 
+Which fonts are available depends on which &lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option is used. 
+For a list of all fonts, see <a href="Text-Fonts.html#Text-Fonts">Text Fonts</a>.  The <code>plotfont</code>
+utility will produce a character map of any available font. 
+See <a href="plotfont.html#plotfont">plotfont</a>.
+
+     <br><dt>&lsquo;<samp><span class="samp">-W </span><var>line_width</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--line-width </span><var>line_width</var></samp>&rsquo;<dd>(Float, default &minus;1.0.)  Set the thickness of lines, as a fraction
+of the size (i.e., minimum dimension) of the graphics display, to
+<var>line_width</var>.  A&nbsp;negative<!-- /@w --> value means that the default value
+provided by the GNU <code>libplot</code> graphics library should be used. 
+This is usually 1/850 times the size of the display, although if
+&lsquo;<samp><span class="samp">-T X</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T png</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T pnm</span></samp>&rsquo;, or &lsquo;<samp><span class="samp">-T gif</span></samp>&rsquo; is
+specified, it is zero.  By convention, a zero-thickness line is the
+thinnest line that can be drawn.  This is the case in all output
+formats.  Note, however, that the drawing editors <code>idraw</code> and
+<code>xfig</code> treat zero-thickness lines as invisible.
+
+     <p><code>plot -T tek</code> and <code>plot -T regis</code> do not support drawing lines
+with other than a default thickness, and <code>plot -T hpgl</code> does not
+support doing&nbsp;so<!-- /@w --> if the environment variable <code>HPGL_VERSION</code> is
+set to a value less than&nbsp;"2"<!-- /@w --> (the default).
+
+     <br><dt>&lsquo;<samp><span class="samp">--pen-color </span><var>name</var></samp>&rsquo;<dd>(String, default "black".)  Set the pen color to be <var>name</var>.  An
+unrecognized name sets the pen color to the default.  For information on
+what color names are recognized, see <a href="Color-Names.html#Color-Names">Color Names</a>. 
+</dl>
+
+   <p>The following option is relevant only to raw <code>plot</code>, i.e., relevant
+only if no output type is specified with the &lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option.  In this
+case <code>plot</code> outputs a graphics metafile, which may be translated to
+other formats by a second invocation of <code>plot</code>.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-O</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--portable-output</span></samp>&rsquo;<dd>Output the portable (human-readable) version of GNU metafile format,
+rather than a binary version (the default).  This can also be requested
+by setting the environment variable <code>META_PORTABLE</code> to "yes". 
+</dl>
+
+   <p><code>plot</code> will automatically determine which type of GNU metafile
+format the input is&nbsp;in<!-- /@w -->.  There are two types: binary (the default)
+and portable (human-readable).  The binary format is machine-dependent. 
+See <a href="Metafiles.html#Metafiles">Metafiles</a>.
+
+   <p>For compatibility with older plotting software, the reading of input
+files in the pre-GNU `plot(5)' format is also supported.  This is
+normally a binary format, with each integer in the metafile represented
+as a pair of bytes.  The order of the two bytes is machine dependent. 
+You may specify that input file(s) are in plot(5) format rather than
+ordinary GNU metafile format by using either the &lsquo;<samp><span class="samp">-h</span></samp>&rsquo; option
+(&ldquo;high byte first&rdquo;) or the &lsquo;<samp><span class="samp">-l</span></samp>&rsquo; option (&ldquo;low byte first&rdquo;),
+whichever is appropriate.  Some non-GNU systems support an ASCII
+(human-readable) variant of plot(5) format.  You may specify that the
+input is in this format by using the &lsquo;<samp><span class="samp">-A</span></samp>&rsquo; option.  Irrespective of
+the variant, a file in plot(5) format includes only one page of
+graphics.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-h</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--high-byte-first-input</span></samp>&rsquo;<dd>Input file(s) are assumed to be in traditional `plot(5)' metafile
+format, with the high-order byte of each integer occurring first.  This
+variant is uncommon.
+
+     <br><dt>&lsquo;<samp><span class="samp">-l</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--low-byte-first-input</span></samp>&rsquo;<dd>Input file(s) are assumed to be in traditional `plot(5)' metafile
+format, with the low-order byte of each integer occurring first.  This
+variant is the most common.
+
+     <br><dt>&lsquo;<samp><span class="samp">-A</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--ascii-input</span></samp>&rsquo;<dd>Input file(s) are assumed to be in the ASCII variant of traditional
+`plot(5)' metafile format.  This variant is rare: on some older systems,
+it is produced by a program called <code>plottoa</code>. 
+</dl>
+
+   <p>The following options request information.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">--help</span></samp>&rsquo;<dd>Print a list of command-line options, and then exit.
+
+     <br><dt>&lsquo;<samp><span class="samp">--help-fonts</span></samp>&rsquo;<dd>Print a table of available fonts, and then exit.  The table will depend
+on which output format is specified with the &lsquo;<samp><span class="samp">-T</span></samp>&rsquo;
+option.  <code>plot -T&nbsp;X<!-- /@w --></code>, <code>plot -T svg</code>, <code>plot -T ai</code>,
+<code>plot -T ps</code>, <code>plot -T cgm</code>, and <code>plot -T fig</code> each
+support the 35 standard Postscript fonts.  <code>plot -T svg</code>,
+<code>plot -T ai</code>, <code>plot -T pcl</code>, and <code>plot -T hpgl</code> support
+the 45 standard PCL&nbsp;5<!-- /@w --> fonts, and <code>plot -T pcl</code> and <code>plot
+-T hpgl</code> support a number of Hewlett&ndash;Packard vector fonts.  All of the
+preceding, together with <code>plot -T png</code>, <code>plot -T pnm</code>,
+<code>plot -T gif</code>, <code>plot -T regis</code>, and <code>plot -T tek</code>,
+support a set of 22 Hershey vector fonts.  Raw <code>plot</code> in&nbsp;principle<!-- /@w --> supports any of these fonts, since its output must be
+translated to other formats with <code>plot</code>.  The <code>plotfont</code>
+utility will produce a character map of any available font. 
+See <a href="plotfont.html#plotfont">plotfont</a>.
+
+     <br><dt>&lsquo;<samp><span class="samp">--list-fonts</span></samp>&rsquo;<dd>Like &lsquo;<samp><span class="samp">--help-fonts</span></samp>&rsquo;, but lists the fonts in a single column to
+facilitate piping to other programs.  If&nbsp;no<!-- /@w --> output format is
+specified with the &lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option, the full set of supported fonts
+is listed.
+
+     <br><dt>&lsquo;<samp><span class="samp">--version</span></samp>&rsquo;<dd>Print the version number of <code>plot</code> and the plotting utilities
+package, and exit. 
+</dl>
+
+   </body></html>
+

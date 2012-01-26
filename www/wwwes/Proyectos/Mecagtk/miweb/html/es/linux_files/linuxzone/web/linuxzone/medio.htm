@@ -1,0 +1,712 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.07 [en] (X11; I; Linux 2.2.5 i586) [Netscape]">
+   <TITLE>Linux nivel medio</TITLE>
+</HEAD>
+<BODY BGCOLOR="#000000" BACKGROUND="marble2.jpg">
+
+<CENTER><IMG SRC="medio.gif" ALT="Manual medio" >
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Linux nivel
+medio</FONT></FONT></FONT></CENTER>
+
+<P>
+<HR>
+<UL><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Indice:</FONT></FONT></FONT>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>1. <A HREF="#1">El
+gestor de arranque lilo</A></FONT></FONT></FONT></LI>
+
+<UL>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#ejecucion">ejecuci&oacute;n</A></FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#parametros">par&aacute;metros</A></FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#lilo.conf">lilo.conf</A></FONT></FONT></FONT></LI>
+</UL>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>2. <A HREF="#2">Programas
+para la red en modo texto</A></FONT></FONT></FONT></LI>
+
+<UL>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#pppd">pppd</A>:
+Programa de conexi&oacute;n</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#lynx">lynx</A>:
+Navegador http</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#ncftp">ncftp</A>:
+Navegador ftp</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#wget">wget</A>:
+Bajar archivos de la red</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#BitchX">BitchX</A>:
+Cliente para IRC</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#mutt">mutt</A>:
+Lector de correo</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#herramientas">herramientas</A>:
+Control total</FONT></FONT></FONT></LI>
+</UL>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>3. <A HREF="#3">Cambiando
+el gestor de ventanas X</A></FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>4. <A HREF="#4">Crear
+nuestros propios scripts</A></FONT></FONT></FONT></LI>
+
+<UL>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#rekisitos">requisitos</A></FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#sintaxis">sintaxis</A></FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#ejecutarlos">ejecutarlos</A></FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#ejemplos">ejemplos</A></FONT></FONT></FONT></LI>
+</UL>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>5. <A HREF="#5">Compilar
+el kernel</A></FONT></FONT></FONT></LI>
+
+<UL>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#previo">pasos
+previos</A></FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#compilar">tipos
+de compilaci&oacute;n</A></FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#despues">pasos
+finales</A></FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="#error">si
+algo falla</A></FONT></FONT></FONT></LI>
+</UL>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>6.</FONT></FONT></FONT></LI>
+</UL>
+
+<HR>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>1.&nbsp;<A NAME="1"></A>EL
+gestor de arranque lilo</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>LILO (LInux
+LOader) es el sistema mas flexible y potente para arrancar linux. Seguramente
+ya lo tienes instalado en el sistema, si no es as&iacute; buscalo en tu
+CD de Linux que seguro que esta.</FONT></FONT></FONT>
+<P><A NAME="ejecucion"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Ejecuci&oacute;n:
+simple, pulsa <I>lilo</I> y aparecer&aacute;n una serie de nombres correspondientes
+a las etiquetas de los sistemas operativos que lilo va a ser capaz de arrancar,
+ademas pone un "*" en la etiqueta que arranca por defecto, por ejemplo
+en mi caso:</FONT></FONT></FONT>
+<PRE><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[root:/]# lilo
+Added linux *
+Added 2.2.0
+Added dos</FONT></FONT></FONT></I></PRE>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Seg&uacute;n
+esto, tengo un kernel "linux" (2.2.1) que se arranca por defecto, un kernel
+"2.2.0" como linux accesorio y una partici&oacute;n "dos".</FONT></FONT></FONT>
+<P><A NAME="parametros"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Par&aacute;metros:
+se le pueden pasar un gran numero de par&aacute;metros para ver la configuraci&oacute;n
+actual sin reescribir lilo (-q), dar mas informaci&oacute;n (-v), aun mas
+(-v -v), para ver lo que lilo va a hacer (-t), indicarle un archivo de
+configuraci&oacute;n opcional (-C) ... Mas informaci&oacute;n en <I>man
+lilo</I></FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Durante el
+arranque veremos algo como:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>LILO boot:</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>&nbsp;Tras
+lo cual deberemos poner alguna de las etiquetas de los kernels que lilo
+conoce o dejar que arranque el que tiene por defecto.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Opcionalmente
+se le pueden pasar par&aacute;metros para ayudar a detectar hardware, como
+RAM, IRQ, DMA, I/O ... por ejemplo:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>LILO boot:
+mem=128M</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>&nbsp;Fuerza
+a que linux reconozca 128 megas de RAM. O por ejemplo:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>LILO boot:
+hd=64,32,202</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>&nbsp;Para
+forzar la detecci&oacute;n de los par&aacute;metros del disco duro, independientemente
+de lo que diga la BIOS.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Otras opciones
+son especificas para linux, como:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>LILO boot:
+linux single</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>&nbsp;Entra
+en linux en modo monousuario (para cuando olvidamos el password de root
+o para tareas de administracion/reparacion del sistema)</FONT></FONT></FONT>
+<P><A NAME="lilo.conf"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>lilo.conf:
+Este es el archivo de configuraci&oacute;n para lilo, esta en /etc y dentro
+se definen todas las opciones globales para lilo, as&iacute; como los par&aacute;metros
+que le queremos pasar durante el arranque y se definen todos los sistemas
+operativos que gestiona lilo. Un ejemplo de lilo.conf seria:</FONT></FONT></FONT>
+<PRE><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>boot=/dev/hda
+map=/boot/map
+install=/boot/boot.b
+prompt
+timeout=50
+
+image=/boot/vmlinuz-2.2.1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; label=linux
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; root=/dev/hda3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; read-only
+image=/boot/vmlinuz-2.2.0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; label=2.2.0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; root=/dev/hda3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; read-only
+other=/dev/hda1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; label=dos
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; table=/dev/hda</FONT></FONT></FONT></I></PRE>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Se pueden ver
+una serie de opciones globales, mas tres sistemas operativos con sus propias
+opciones. Mas informaci&oacute;n sobre las sintaxis de lilo.conf en
+<I>man
+lilo.conf</I> y una configuraci&oacute;n real comentada en <A HREF="lilo.txt">lilo.txt</A>.
+Algo a tener en cuenta es que lilo arranca por defecto la primera imagen
+en lilo.conf, por lo que si quisieras arrancar la partici&oacute;n "dos"
+por defecto solo tendr&iacute;as que poner las lineas que definen la partici&oacute;n
+"dos" (las tres ultimas) antes que la primera imagen de linux. Este comportamiento
+puede ser modificado con la linea:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>default=label_del_sistema_a_arrancar_por_defecto</FONT></FONT></FONT></I>
+<BR>&nbsp;
+<BR>&nbsp;
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>2.&nbsp;<A NAME="2"></A>Programas
+para la red en modo texto</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>La mayor&iacute;a
+de estos programas puedes encontrarlos en tu propio CD de linux o a trav&eacute;s
+del servidor ftp de tu distribuci&oacute;n.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>El uso de
+estos programas en lugar de sus equivalentes gr&aacute;ficos tiene como
+resultado un aprovechamiento mucho mas eficiente de nuestros recursos locales
+(al no necesitar entorno gr&aacute;fico) y de los recursos de la red (pues
+en general est&aacute;n mucho mas optimizados).</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Sin embargo
+las desventajas son claras, nada de multimedia (al menos no tan f&aacute;cil
+como en programas gr&aacute;ficos) y la dificultad inicial para los usuarios
+provenientes de sistemas operativos gr&aacute;ficos.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Personalmente
+creo que vale la pena usarlos, y si tenemos necesidad de un entorno gr&aacute;fico
+siempre estamos a tiempo de lanzarlos desde una xterm o cualquier otro
+terminal X.</FONT></FONT></FONT>
+<UL>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>-&nbsp;<A NAME="pppd"></A>pppd:
+Este es el demonio que gestiona las conexiones point-to-point, o sea, las
+normales a infovia. Recomiendo tenerlo siempre actualizado a la ultima
+versi&oacute;n, creo que ahora va por la 2.3.5, al menos esa es la que
+yo uso.</FONT></FONT></FONT></LI>
+
+<P><BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Para
+una configuraci&oacute;n m&iacute;nima que os permita conectar leed este
+<A HREF="infovia.htm">infovia.htm</A>, para una configuraci&oacute;n optimizada/personalizada
+os recomiendo que le&aacute;is detenidamente el <I>man pppd</I> y el pppd-como
+que pod&eacute;is encontrar en <A HREF="http://lucas.ctv.es">LuCAS</A>.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Para iniciar
+una conexi&oacute;n (configurada correctamente) basta con escribir
+<I>pppd</I>
+y para desconectar poner <I>pppd</I> de nuevo, as&iacute; de simple.</FONT></FONT></FONT>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>-&nbsp;<A NAME="lynx"></A>lynx:
+Es el mejor navegador en modo texto. Mucha gente prefiere no usarlo o ni
+siquiera cree que exista. Pues bien, existe, es rapid&iacute;simo y muy
+f&aacute;cil de usar. Sencillamente hay que teclear <I>lynx URL</I> para
+acceder a esa URL, se navega usando los cursores: flecha arriba/abajo para
+cambiar el link activo, flecha izquierda para acceder al link activo, flecha
+derecha para volver a la pagina anterior. As&iacute; de simple.</FONT></FONT></FONT></LI>
+
+<P><BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Sirve
+tanto para http como ftp, ficheros locales como remotos, soporta frames,
+cookies, formularios, bookmarks ... ademas es ideal para pasar archivos
+html a txt, con la orden <I>lynx -crawl -dump archivo.htm > archivo.txt</I></FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Limitaciones:
+no muestra im&aacute;genes, no es compatible Java ni JavaScript, no ve
+mapas ... aunque todas estas limitaciones serian f&aacute;cilmente solucionables
+si los programadores hiciesen mejores webs. No cuesta nada detectar que
+el navegador no es gr&aacute;fico y mostrar una pagina especial solo texto.</FONT></FONT></FONT>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>-&nbsp;<A NAME="ncftp"></A>ncftp:
+Un cliente de ftp basado en ncurses, muy sencillo y eficaz, soporta reget
+(retomar downloads abortados), bookmarks, accesos an&oacute;nimos y no
+an&oacute;nimos, programaci&oacute;n de scripts y alias ... todos los comandos
+tienen una ayuda que se puede leer tecleando (desde dentro del programa)
+<I>help</I> o <I>help comando</I></FONT></FONT></FONT></LI>
+
+<P><BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>LA forma
+de arrancarlo es con <I>ncftp</I> o <I>ncftp FTP-SERVER</I></FONT></FONT></FONT>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>-&nbsp;<A NAME="wget"></A>wget:
+Este sencillo programa sirve para bajar archivos de la red, ya sean de
+ftp o http. Tiene muchas posibilidades y es lo mas eficiente que he visto
+bajando archivos. Permite reget, bajar webs enteras, comodines, conexi&oacute;n
+autom&aacute;tica ...</FONT></FONT></FONT></LI>
+
+<P><BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Se ejecuta
+con el comando <I>wget URL</I>.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Limitaciones:
+no sirve para navegar (no esta hecho para eso).</FONT></FONT></FONT>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>-&nbsp;<A NAME="BitchX"></A>BitchX:
+Posiblemente el mejor cliente de IRC, es una evoluci&oacute;n del cl&aacute;sico
+ircii con soporte de color, gr&aacute;ficos ansi ... Al ser uno de los
+mas extendidos abundan scripts para el BitchX (aunque para mi gusto no
+los necesita).</FONT></FONT></FONT></LI>
+
+<P><BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Es f&aacute;cilmente
+programable y configurable, soporta todos los comandos b&aacute;sicos del
+irc, la mayor&iacute;a de comandos y teclas del mirc mas muchos propios,
+m&uacute;ltiples canales, m&uacute;ltiples ventanas, m&uacute;ltiples servidores
+...</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>La forma
+b&aacute;sica de ejecutarlo es <I>bitchx NICK IRC-SERVER</I></FONT></FONT></FONT>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>-&nbsp;<A NAME="mutt"></A>mutt:
+Es un sencillo lector de correo basado en ncurses, puede leer el correo
+de la mayor&iacute;a de buzones est&aacute;ndar. Permite leer tanto correo
+normal como news, listas, gestiona varios buzones ...</FONT></FONT></FONT></LI>
+
+<P><BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Para
+ejecutarlo basta con la orden <I>mutt</I>, despu&eacute;s podemos seleccionar
+el men&uacute; de ayuda para ver un listado de sus posibilidades.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>NOTA: requiere
+agentes de correo tipo sendmail (enviar) y fetchmail (recoger).</FONT></FONT></FONT>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>-&nbsp;<A NAME="herramientas"></A>herramientas:
+Existe un gran numero de sencillas herramientas de red que mucha gente
+no usa pero son tremendamente &uacute;tiles. Son por ejemplo:</FONT></FONT></FONT></LI>
+
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Ping: detecta
+si existe una determinada URL o IP. <I>ping IP</I></FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Traceroute:
+sigue la pista de la ruta que siguen los paquetes TCP dentro de la red.
+<I>traceroute -OPCIONES IP</I></FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Nslookup:
+transforma URLs en IPs y viceversa. <I>nslookup</I></FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ifconfig/route:
+configuran interfaces de red, su sintaxis es mas compleja debido al gran
+numero de par&aacute;metros que pueden gestionar.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>tcp_wrappers/tcpdump
+y otros: analizadores del trafico a trav&eacute;s de una red.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Telnet:
+la herramienta b&aacute;sica para conexiones TCP. <I>telnet IP PUERTO</I></FONT></FONT></FONT></UL>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>3.&nbsp;<A NAME="3"></A>Cambiando
+el gestor de ventanas X</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>La gran cantidad
+de gestores de ventanas disponibles hacen que de tanto en tanto nos decidamos
+por cambiar el que tenemos o instalar dos o mas gestores y probar nuevas
+sensaciones.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>La manera
+de hacerlo es sencilla, instalamos el nuevo gestor (en algunos casos puede
+ser necesario desinstalar el otro gestor de ventanas, aunque no es normal)
+y le indicamos a las X que usen el nuevo.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Para indicarselo
+se usa el archivo xinitrc. Existen dos topis de archivos xinitrc, uno (global)
+esta en /etc/X11/xinitrc/xinitrc (puede estar en otro directorio, pero
+siempre dentro de /etc) que se aplica a todos los usuarios; y el otro (particular)
+esta en ~/.xinitrc, este archivo, si existe, define un gestor de ventanas
+para el usuario propietario del HOME donde se encuentra, si no existe ~/.xinitrc
+se lee el global.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>El formato
+del xinitrc (las dos versiones son iguales) es sencillo, aunque algunas
+distribuciones lo complican para conseguir mas opciones, gestores personalizados,
+arrancar programas en funci&oacute;n del gestor usado ...</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>La sintaxis
+mas sencilla es:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>#!/bin/bash</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>nombre_del_gestor</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Donde <I>nombre_del_gestor</I>
+es el nombre del ejecutable del gestor de ventanas que queramos usar; por
+ejemplo: twm, fvwm, starkde ...</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>De esta
+manera para cambiar de gestor solo habr&aacute; que cambiar la linea correspondiente
+al nombre_del_gestor por la que queramos usar.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Este sencillo
+script puede complicarse mas y mas en funci&oacute;n de las necesidades
+y preferencias de cada uno, el siguiente ejemplo arranca, si puede, KDE
+y si no puede arranca twm con un terminal y un reloj:</FONT></FONT></FONT>
+<PRE><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>#!/bin/bash
+if [ /opt/kde/bin/startkde ]; then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /opt/kde/bin/startkde
+else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xterm &amp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xclock &amp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; twm&nbsp;
+fi</FONT></FONT></FONT></I></PRE>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Como veis la
+cosa puede complicarse para mejorar la configuraci&oacute;n y las posibilidades,
+como ejemplo aqu&iacute; ten&eacute;is mi xinitrc original, a grandes rasgos
+define una serie de opciones globales, mas otras de usuario, ademas trata
+de encontrar el mejor gestor de ventanas posible y define un navegador
+HTML por defecto:</FONT></FONT></FONT>
+<PRE><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>#!/bin/sh
+# $XConsortium: xinitrc.cpp,v 1.4 91/08/22 11:41:34 rws Exp $
+
+userresources=$HOME/.Xresources
+usermodmap=$HOME/.Xmodmap
+sysresources=/usr/X11R6/lib/X11/xinit/.Xresources
+sysmodmap=/usr/X11R6/lib/X11/xinit/.Xmodmap
+
+# merge in defaults and keymaps
+
+if [ -f $sysresources ]; then
+&nbsp;&nbsp;&nbsp; xrdb -merge $sysresources
+fi
+
+if [ -f $sysmodmap ]; then
+&nbsp;&nbsp;&nbsp; xmodmap $sysmodmap
+fi
+
+if [ -f $userresources ]; then
+&nbsp;&nbsp;&nbsp; xrdb -merge $userresources
+fi
+
+if [ -f $usermodmap ]; then
+&nbsp;&nbsp;&nbsp; xmodmap $usermodmap
+fi
+
+if [ -z "$BROWSER" ] ; then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # we need to find a browser on this system
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BROWSER=hich netscape&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if [ -z "$BROWSER" ] || [ ! -e
+"$BROWSER" ] ; then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # not found yet
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BROWSER=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi
+fi
+if [ -z "$BROWSER" ] ; then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # we need to find a browser on this system
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BROWSER=hich lynx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if [ -z "$BROWSER" ] || [ ! -e "$BROWSER"
+] ; then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # not found yet
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BROWSER=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BROWSER="xterm -font 9x15 -e lynx"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi
+fi
+if [ -z "$BROWSER" ] ; then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # we need to find a browser on this system
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BROWSER=hich arena&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if [ -z "$BROWSER" ] || [ ! -e
+"$BROWSER" ] ; then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # not found yet
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BROWSER=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi
+fi
+export BROWSER
+
+# start some nice programs
+
+if [ -f $HOME/.Xclients ]; then
+&nbsp;&nbsp;&nbsp; exec $HOME/.Xclients
+elif [ -f /etc/X11/xinit/Xclients ]; then
+&nbsp;&nbsp;&nbsp; exec /etc/X11/xinit/Xclients
+else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xclock -geometry 50x50-1+1 &amp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xterm -geometry 80x50+494+51 &amp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xterm -geometry 80x20+494-0 &amp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if [ -f /usr/X11R6/bin/arena -a -f /usr/doc/HTML/index.html ]; then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; arena /usr/doc/HTML/index.html &amp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if [ -f /usr/X11R6/bin/fvwm ]; then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exec fvwm
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exec twm
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi
+fi</FONT></FONT></FONT></I></PRE>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>4.&nbsp;<A NAME="4"></A>Crear
+nuestros propios scripts</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>En el apartado
+anterior ya hemos visto mas o menos como son los scripts, vamos a analizarlos
+ahora con mas detalle.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Los scripts
+son archivos ejecutables que contienen grupos de instrucciones que el bash
+interpreta y ejecuta, no son compilados por lo que la velocidad no es su
+fuerte, aunque solo se usan para tareas sencillas en las que la velocidad
+no es limitante.</FONT></FONT></FONT>
+<P><A NAME="rekisitos"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Requisitos:
+pocos, el archivo ha de ser ejecutable (<I>chmod +x archivo</I>) el nombre
+del archivo es indiferente, as&iacute; como su extensi&oacute;n.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>El segundo
+requisito es que el archivo debe empezar por una linea como esta:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>#!/bin/bash</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>&nbsp;Esta
+debe ser la primera linea, no pueden haber ni comentarios ni otras ordenes
+antes que ella.</FONT></FONT></FONT>
+<P><A NAME="sintaxis"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Sintaxis:
+dentro de un script podemos usar todos los comandos reconocidos por bash
+(cd, ls, rm ...), mas todos los alias, mas todos los programas instalados,
+ademas se pueden usar pipes, redirecciones ...</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Cada orden
+ira en una linea aunque tambi&eacute;n pueden separarse por ";" y las lineas
+que empiecen por "#" no ser&aacute;n le&iacute;das por bash (excepto la
+primera) y se usan para insertar comentarios.</FONT></FONT></FONT>
+<P><A NAME="ejecutarlos"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Ejecutarlos:
+como seguramente el script no se encuentre en el PATH lo ejecutaremos como
+<I>./script</I> si esta en el directorio actual, o
+<I>/ruta_completa/script</I>
+si esta en otro directorio.</FONT></FONT></FONT>
+<P><A NAME="ejemplos"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Ejemplos:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>El primer
+script: este es el t&iacute;pico programa "Hola mundo", como ver&eacute;is
+es sencill&iacute;simo:</FONT></FONT></FONT>
+<PRE><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>#!/bin/bash
+
+# Script Hola mundo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+echo Hola mundo</FONT></FONT></FONT></I></PRE>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Ademas de comandos
+normales, los scripts pueden usar variables, estructuras de control (if),
+bucles (while, until), estructuras iterativas (for) y otras. Para dominar
+el lenguaje de programaci&oacute;n de scripts en bash os recomiendo que
+le&aacute;is el <I>man bash</I> o que sakeis alg&uacute;n buen manual de
+unix de alguna biblioteca publica.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Un sencillo
+script para conectarse a internet podr&iacute;a ser algo as&iacute;:</FONT></FONT></FONT>
+<PRE><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>#!/bin/bash
+
+# Script pppp-up
+clear
+echo Conectando ...
+if [ pppd ]; then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pppd
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tail -f /var/log/messages > /dev/tty12
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; echo Mensajes de sistema en la consola 12
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; echo (Pulsa Alt+F12 para verlos)
+else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; echo No he podido encontrar pppd en tu sistema.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; echo Aseg&uacute;rate que esta instalado y en el PATH
+fi</FONT></FONT></FONT></I></PRE>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>El limite de
+los scripts solo esta en vuestro conocimiento en profundidad del bash y
+de la imaginaci&oacute;n.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Algunos ejemplos
+&uacute;tiles:</FONT></FONT></FONT>
+<UL>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="usuarios.sh.gz">usuarios.sh.gz</A>:
+utilidad visual para controlar los usuarios conectados por telnet a tu
+m&aacute;quina.</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="makina.sh.gz">makina.sh.gz</A>:
+sencill&iacute;sima utilidad que da informaci&oacute;n sobre el hardware.
+(procesador), el software (sistema operativo y versi&oacute;n) y algunos
+par&aacute;metros de configuraci&oacute;n (hora local y nombre del ordenador)</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="setserial.sh.gz">setserial.sh.gz</A>:
+utilidad que facilita la configuraci&oacute;n de lineas seriales.</FONT></FONT></FONT></LI>
+</UL>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>5.&nbsp;<A NAME="5"></A>Compilar
+el kernel</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Compilar
+el kernel es una de las primeras acciones que todo administrador deber&iacute;a
+hacer justo despu&eacute;s de haber instalado el sistema y de haber creado
+un usuario.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>aunque a
+primera vista pueda parecer algo complicado es un procedimiento muy sencillo
+y que nos permitir&aacute; optimizar el sistema eliminando componentes
+no usados y acceder a servicios hardware y software personalizados.</FONT></FONT></FONT>
+<P><A NAME="previo"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Pasos
+previos: lo primero es asegurarnos de que nuestro sistema esta preparado
+para compilar el kernel.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Necesitamos
+las fuentes del kernel (un archivo de mas de 7 megas que podemos encontrar
+en <A HREF="ftp://ftp.kernel.org">ftp.kernel.org</A>) descomprimidas en
+el directorio /usr/src/linux.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Necesitaremos
+al rededor de 50 megas libres en el disco para que pueda hacerse la compilaci&oacute;n.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Una vez
+conseguido y desempaquetado el kernel pasaremos a leer el archivo README,
+donde se explica con detenimiento las instrucciones para que todo salga
+bien.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Otros paquetes
+software que necesitaremos ser&aacute;n: libc-devel, gcc y make (para la
+compilaci&oacute;n), bin86-utils (para la construcci&oacute;n del kernel),
+libncurses y libncurses-devel (solo si queremos men&uacute;s para la selecci&oacute;n
+de opciones), tcl/tk (solo si queremos ver los men&uacute;s en una ventana
+X), lilo (si queremos usarlo para arrancar el kernel).</FONT></FONT></FONT>
+<P><A NAME="compilar"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Tipos
+de compilaci&oacute;n: aqu&iacute; voy a explicar un poco el proceso general
+para la compilaci&oacute;n del kernel.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Lo primero
+es seleccionar las opciones que queremos incluir en el kernel, esto se
+hace desde /usr/src/linux con uno de los siguientes comandos:</FONT></FONT></FONT>
+<UL>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>make config:
+pregunta una a una todas las opciones a incluir/excluir del kernel</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>make menuconfig:
+ordena todas las preguntas en intuitivos men&uacute;s que facilitan la
+comprensi&oacute;n y edici&oacute;n de las opciones (necesita ncurses)</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>make xconfig:
+similar al anterior pero ejecutado desde un terminal X crea una ventana
+con botones desplegables ordenando las opciones de una manera aun mas intuitiva
+(necesita X y tcl/tk)</FONT></FONT></FONT></LI>
+</UL>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Las opciones
+a elegir depender&aacute;n de cada m&aacute;quina y de las funciones que
+vaya a realizar, as&iacute; como del hardware instalado, pulsando "?" en
+cada opci&oacute;n tenemos una breve explicaci&oacute;n de su funci&oacute;n,
+al final suele haber una recomendaci&oacute;n para su uso, si esta ayuda
+no es suficiente las fuentes del kernel llevan abundante informaci&oacute;n
+en el directorio Documentaci&oacute;n/</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Una vez seleccionadas
+las opciones hay que realizar los siguientes comandos:</FONT></FONT></FONT>
+<UL>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>make dep: crea
+los enlaces necesarios para que las opciones elegidas formen parte del
+kernel final</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>make clean:
+elimina restos de compilaciones anteriores que podr&iacute;an interferir
+en el proceso</FONT></FONT></FONT></LI>
+</UL>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>En este momento
+el kernel ya esta listo para empezar a compilarse, lo cual se hace con
+uno de los siguientes comandos:</FONT></FONT></FONT>
+<UL>
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>make zImage:
+el comando est&aacute;ndar, crea un kernel y lo deja en el directorio arch/XXX/boot/
+(donde XXX es la arquitectura de la m&aacute;quina local, i386 para los
+PC)</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>make zdisk:
+igual al anterior pero coloca el kernel en un disco para usarlo como disco
+de arranque</FONT></FONT></FONT></LI>
+
+<LI>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>make zlilo:
+crea el kernel y lo instala usando el lilo (esta opci&oacute;n no es recomendable
+a menos que tengas muy claro lo que estas haciendo)</FONT></FONT></FONT></LI>
+</UL>
+<I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Nota: si
+el kernel es demasiado grande podemos reducir su tama&ntilde;o colocando
+una "b" delante los targets de make, es decir, las ordenes quedar&iacute;an:
+make bzImage, make bzdisk o make bzlilo.</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Opcionalmente
+si hemos seleccionado el uso de m&oacute;dulos deberemos compilarlos con
+la orden <I>make modules</I> e instalarlos con la orden <I>make modules_install</I></FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Un fallo
+muy com&uacute;n es el producido por m&oacute;dulos mal instalados, repetidos
+o no utilizados, para evitarlo aseg&uacute;rate de eliminar (mejor mover
+a otro sitio) los m&oacute;dulos antiguos que se encuentran en el directorio
+/lib/modules.</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Tambi&eacute;n
+es conveniente hacer depmod -a despu&eacute;s de haber instalado los nuevos
+m&oacute;dulos.</FONT></FONT></FONT></I>
+<P><A NAME="despues"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Pasos
+finales: si hemos hecho <I>make zdisk</I> o <I>make zlilo</I> y todo ha
+ido bien solo nos quda reiniciar la m&aacute;quina para usar el nuevo kernel.
+Si hemos hecho <I>make zImage</I> (la opci&oacute;n mas recomendable) nos
+moveremos al directorio
+<I>cd arch/i386/boot</I> y copiaremos el archivo
+zImage (o bzImage, seg&uacute;n el caso) al directorio donde tengamos los
+kernels (generalmente /boot o /, aunque esto es totalmente configurable),
+por ejemplo en mi caso est&aacute;n en /boot:</FONT></FONT></FONT>
+<PRE><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[dani] [/]$ ls /boot
+total 934
+lrwxrwxrwx&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 17 Dec 28 21:33 System.map -> System.map-2.0.32
+-rw-r--r--&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 104597 Nov 18&nbsp; 1997 System.map-2.0.32
+-rw-r--r--&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 512 Dec 28 21:48 boot.0300
+-rw-r--r--&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4536 Oct 19&nbsp; 1997 boot.b
+-rw-r--r--&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 300 Oct 19&nbsp; 1997 chain.b
+-rw-------&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 15872 Feb 18 03:12 map
+lrwxrwxrwx&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 18 Dec 28 21:33 module-info -> module-info-2.0.32
+-rw-r--r--&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11773 Nov 18&nbsp; 1997 module-info-2.0.32
+-rw-r--r--&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 308 Oct 19&nbsp; 1997 os2_d.b
+-rw-r--r--&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 403276 Jan 30 11:55 vmlinuz-2.2.1
+-rw-r--r--&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 402114 Feb&nbsp; 6 14:54 vmlinuz-2.2.2</FONT></FONT></FONT></PRE>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>El ultimo paso
+es editar el archivo /etc/lilo.conf para asegurarnos de que apunta al nuevo
+kernel (ver el capitulo <A HREF="#1">1</A> si ten&eacute;is dudas), en
+mi caso:</FONT></FONT></FONT>
+<PRE><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[dani] [/]$ cat /etc/lilo.conf
+boot=/dev/hda
+map=/boot/map
+install=/boot/boot.b
+prompt
+timeout=50
+
+image=/boot/vmlinuz-2.2.2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; label=linux
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; root=/dev/hda3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; read-only
+image=/boot/vmlinuz-2.2.1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; label=2.2.1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; root=/dev/hda3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; read-only</FONT></FONT></FONT></PRE>
+<I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Nota: fijaos
+en que siempre es importante guardar una copia del anterior kernel, por
+si algo fallara poder arrancar con el.</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Y ejecutar
+el comando <I>/sbin/lilo</I> para guardar los cambios, lilo informar&aacute;
+de los cambios mas o menos as&iacute;:</FONT></FONT></FONT>
+<PRE><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[root] [/]$ /sbin/lilo
+Added linux *
+Added 2.2.1</FONT></FONT></FONT></PRE>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Si lilo se keja
+aseguraos que los directorios y los nombres de archivo que aparecen en
+lilo.conf son correctos.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Solo nos
+quda reiniciar con la orden <I>reboot</I> para arrancar con el nuevo kernel.</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Nota importante:
+Esto son unas instrucciones genericas, no os tom&eacute;is al pie de la
+letra los nombres de archivo ni los directorios, pues pueden variar en
+cada caso. Este es un proceso critico para el sistema y hay que saber bien
+lo que se esta haciendo, una lectura obligada es el Kernel-como de <A HREF="http://lucas.ctv.es">LuCAS</A>.</FONT></FONT></FONT></I>
+<P><A NAME="error"></A><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Si
+algo falla: algunos consejos, revisad que ten&eacute;is todo lo necesario,
+que el kernel esta bien descomprimido en /usr/src/linux, a veces es necesario
+el comando <I>make mrproper</I> (limpieza a fondo) justo despu&eacute;s
+de descomprimirlo.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Procurad
+manteneros a la ultima en cuanto a versiones del kernel.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>En el archivo
+Documentation/Changes hay una lista de los requerimientos software de cada
+kernel, aseguraos de cumplirlos.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Si aun as&iacute;
+sigue fallando podr&iacute;a ser que las fuentes estuviesen corrompidas
+o que hayas encontrado un nuevo bug :-)</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>6.&nbsp;</FONT></FONT></FONT><A NAME="6"></A>
+<P>
+<HR>
+<BR>&nbsp;
+<P><BR>
+<CENTER>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1><A HREF="index.htm">Volver
+a la pagina principal</A></FONT></FONT></FONT></CENTER>
+
+<BR>&nbsp;
+</BODY>
+</HTML>

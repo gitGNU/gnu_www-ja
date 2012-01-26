@@ -1,0 +1,113 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/dc.texi on 7 November 1998 -->
+
+<TITLE>dc, an arbitrary precision calculator - Strings</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="dc_1.html">first</A>, <A HREF="dc_7.html">previous</A>, <A HREF="dc_9.html">next</A>, <A HREF="dc_11.html">last</A> section, <A HREF="dc_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC8" HREF="dc_toc.html#TOC8">Strings</A></H1>
+
+<P>
+DC can operate on strings as well as on numbers.
+The only things you can do with strings are print them
+and execute them as macros
+(which means that the contents of the string are processed as DC commands).
+Both registers and the stack can hold strings,
+and DC always knows whether any given object is a string or a number.
+Some commands such as arithmetic operations demand numbers
+as arguments and print errors if given strings.
+Other commands can accept either a number or a string;
+for example, the <SAMP>`p'</SAMP> command can accept either and prints the object
+according to its type.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`[<VAR>characters</VAR>]'</SAMP>
+<DD>
+Makes a string containing <VAR>characters</VAR> and pushes it on the stack.
+For example, <SAMP>`[foo]P'</SAMP> prints the characters <SAMP>`foo'</SAMP>
+(with no newline).
+
+<DT><SAMP>`a'</SAMP>
+<DD>
+The mnemonic for this is somewhat erroneous: asciify.
+The top-of-stack is popped.
+If it was a number, then the low-order byte of this number
+is converted into a string and pushed onto the stack.
+Otherwise the top-of-stack was a string,
+and the first character of that string is pushed back.
+(This command is a GNU extension.)
+
+<DT><SAMP>`x'</SAMP>
+<DD>
+Pops a value off the stack and executes it as a macro.
+Normally it should be a string;
+if it is a number, it is simply pushed back onto the stack.
+For example, <SAMP>`[1p]x'</SAMP> executes the macro <SAMP>`1p'</SAMP>,
+which pushes 1 on the stack and prints <SAMP>`1'</SAMP> on a separate line.
+
+Macros are most often stored in registers;
+<SAMP>`[1p]sa'</SAMP> stores a macro to print <SAMP>`1'</SAMP> into register <SAMP>`a'</SAMP>,
+and <SAMP>`lax'</SAMP> invokes the macro.
+
+<DT><SAMP>`&#62;<VAR>r</VAR>'</SAMP>
+<DD>
+Pops two values off the stack and compares them
+assuming they are numbers,
+executing the contents of register <VAR>r</VAR> as a macro
+if the original top-of-stack is greater.
+Thus, <SAMP>`1 2&#62;a'</SAMP> will invoke register <SAMP>`a'</SAMP>'s contents
+and <SAMP>`2 1&#62;a'</SAMP> will not.
+
+<DT><SAMP>`!&#62;<VAR>r</VAR>'</SAMP>
+<DD>
+Similar but invokes the macro if the original top-of-stack is not greater
+(is less than or equal to) what was the second-to-top.
+
+<DT><SAMP>`&#60;<VAR>r</VAR>'</SAMP>
+<DD>
+Similar but invokes the macro if the original top-of-stack is less.
+
+<DT><SAMP>`!&#60;<VAR>r</VAR>'</SAMP>
+<DD>
+Similar but invokes the macro if the original top-of-stack is not less
+(is greater than or equal to) what was the second-to-top.
+
+<DT><SAMP>`=<VAR>r</VAR>'</SAMP>
+<DD>
+Similar but invokes the macro if the two numbers popped are equal.
+
+<DT><SAMP>`!=<VAR>r</VAR>'</SAMP>
+<DD>
+Similar but invokes the macro if the two numbers popped are not equal.
+
+<DT><SAMP>`?'</SAMP>
+<DD>
+Reads a line from the terminal and executes it.
+This command allows a macro to request input from the user.
+
+<DT><SAMP>`q'</SAMP>
+<DD>
+During the execution of a macro,
+this command exits from the macro and also from the macro which invoked it.
+If called from the top level,
+or from a macro which was called directly from the top level,
+the <SAMP>`q'</SAMP> command will cause DC to exit.
+
+<DT><SAMP>`Q'</SAMP>
+<DD>
+Pops a value off the stack and uses it as a count
+of levels of macro execution to be exited.
+Thus, <SAMP>`3Q'</SAMP> exits three levels.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="dc_1.html">first</A>, <A HREF="dc_7.html">previous</A>, <A HREF="dc_9.html">next</A>, <A HREF="dc_11.html">last</A> section, <A HREF="dc_toc.html">table of contents</A>.
+</BODY>
+</HTML>

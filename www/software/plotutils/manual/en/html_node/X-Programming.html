@@ -1,0 +1,199 @@
+<html lang="en">
+<head>
+<title>X Programming - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="C-Programming.html#C-Programming" title="C Programming">
+<link rel="prev" href="X-Animations.html#X-Animations" title="X Animations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="X-Programming"></a>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="X-Animations.html#X-Animations">X Animations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="C-Programming.html#C-Programming">C Programming</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.2.9 Advanced X Window System programming</h4>
+
+<p>Applications that run under the X Window System are often built using
+Xt, the X&nbsp;Toolkit<!-- /@w -->.  In&nbsp;Xt<!-- /@w -->, an application is constructed from
+`widgets' such as text entry fields, buttons, sliders, drawing areas,
+etc.  When the application starts&nbsp;up<!-- /@w -->, each widget is configured to
+respond appropriately to `events', which include key presses and mouse
+clicks.  After the widgets are configured, control is transferred to the
+Xt&nbsp;event<!-- /@w --> loop.
+
+   <p>GNU <code>libplot</code> can be used within the Xt event loop to draw vector
+graphics.  For this, it would use one or more X&nbsp;Drawable<!-- /@w --> Plotters. 
+An X&nbsp;Drawable<!-- /@w --> Plotter is a Plotter that can plot into an off-screen
+pixmap or an on-screen window, such as a window associated with a
+widget.
+
+   <p>The following sample application shows how an X&nbsp;Drawable<!-- /@w --> Plotter
+would be used.  The application draws a `C'&nbsp;curve<!-- /@w -->, as defined in a
+previous section, in a popped-up window.  The usual Xt command-line
+options may be used: the window background color is specified with the
+&lsquo;<samp><span class="samp">-bg</span></samp>&rsquo; option, the window geometry with &lsquo;<samp><span class="samp">-geometry</span></samp>&rsquo;, etc.  The
+curve is initially drawn in red, but clicking once with the mouse will
+redraw it in green.  A&nbsp;second<!-- /@w --> mouse click will redraw it in red, and
+so&nbsp;forth<!-- /@w -->.  The application will terminate when &lsquo;<samp><span class="samp">q</span></samp>&rsquo; is typed.
+
+<pre class="example">     #include &lt;stdio.h&gt;
+     #include &lt;stdlib.h&gt;
+     #include &lt;plot.h&gt;
+     #include &lt;X11/Xlib.h&gt;
+     #include &lt;X11/Intrinsic.h&gt;
+     #include &lt;X11/Shell.h&gt;
+     #include &lt;X11/StringDefs.h&gt;
+     #include &lt;X11/Core.h&gt;
+     
+     plPlotter *plotter;
+     int green = 0;                  /* draw in green, not red? */
+     
+     #define MAXORDER 12
+     void draw_c_curve (double dx, double dy, int order)
+     {
+       if (order &gt;= MAXORDER)
+         /* continue path along (dx, dy) */
+         pl_fcontrel_r (plotter, dx, dy);
+       else
+         {
+           draw_c_curve (0.5 * (dx - dy), 0.5 * (dx + dy), order + 1);
+           draw_c_curve (0.5 * (dx + dy), 0.5 * (dy - dx), order + 1);
+         }
+     }
+     
+     void Redraw (Widget w, XEvent *ev, String *params, Cardinal *n_params)
+     {
+       /* draw C curve */
+       pl_erase_r (plotter);
+       pl_pencolorname_r (plotter, green ? "green" : "red");
+       pl_fmove_r (plotter, 600.0, 300.0);
+       draw_c_curve (0.0, 400.0, 0);
+       pl_endpath_r (plotter);
+     }
+     
+     void Toggle (Widget w, XEvent *ev, String *params, Cardinal *n_params)
+     {
+       green = (green ? 0 : 1);
+       Redraw (w, ev, params, n_params);
+     }
+     
+     void Quit (Widget w, XEvent *ev, String *params, Cardinal *n_params)
+     {
+       exit (0);
+     }
+     
+     /* mapping of events to actions */
+     static const String translations =
+     "&lt;Expose&gt;:      redraw()\n\
+     &lt;Btn1Down&gt;:     toggle()\n\
+     &lt;Key&gt;q:         quit()";
+     
+     /* mapping of actions to subroutines */
+     static XtActionsRec actions[] =
+     {
+       {"redraw",            Redraw},
+       {"toggle",            Toggle},
+       {"quit",              Quit},
+     };
+     
+     /* default parameters for widgets */
+     static String default_resources[] =
+     {
+       "Example*geometry:      250x250",
+       (String)NULL
+     };
+     
+     int main (int argc, char *argv[])
+     {
+       plPlotterParams *plotter_params;
+       Arg wargs[10];                /* storage of widget args */
+       Display *display;             /* X display */
+       Widget shell, canvas;         /* toplevel widget; child */
+       Window window;                /* child widget's window */
+       XtAppContext app_con;         /* application context */
+       int i;
+       char *bg_colorname = "white";
+     
+       /* take background color from command line */
+       for (i = 0; i &lt; argc - 1; i++)
+         if (strcmp (argv[i], "-bg") == 0)
+           bg_colorname = argv[i + 1];
+       /* create toplevel shell widget */
+       shell = XtAppInitialize (&amp;app_con,
+                                (String)"Example", /* app class */
+                                NULL,              /* options */
+                                (Cardinal)0,       /* num of options */
+                                &amp;argc,             /* command line */
+                                argv,              /* command line */
+                                default_resources,
+                                NULL,              /* ArgList */
+                                (Cardinal)0        /* num of Args */
+                                );
+       /* set default widget parameters (including window size) */
+       XtAppSetFallbackResources (app_con, default_resources);
+       /* map actions to subroutines */
+       XtAppAddActions (app_con, actions, XtNumber (actions));
+       /* create canvas widget as child of shell widget; realize both */
+       XtSetArg(wargs[0], XtNargc, argc);
+       XtSetArg(wargs[1], XtNargv, argv);
+       canvas = XtCreateManagedWidget ((String)"", coreWidgetClass,
+                                       shell, wargs, (Cardinal)2);
+       XtRealizeWidget (shell);
+       /* for the canvas widget, map events to actions */
+       XtSetArg (wargs[0], XtNtranslations,
+                 XtParseTranslationTable (translations));
+       XtSetValues (canvas, wargs, (Cardinal)1);
+     
+       /* initialize GNU libplot */
+       plotter_params = pl_newplparams ();
+       display = XtDisplay (canvas);
+       window = XtWindow (canvas);
+       pl_setplparam (plotter_params, "XDRAWABLE_DISPLAY", display);
+       pl_setplparam (plotter_params, "XDRAWABLE_DRAWABLE1", &amp;window);
+       pl_setplparam (plotter_params, "BG_COLOR", bg_colorname);
+       plotter = pl_newpl_r ("Xdrawable", NULL, NULL, stderr,
+                             plotter_params);
+       pl_openpl_r (plotter);
+       pl_fspace_r (plotter, 0.0, 0.0, 1000.0, 1000.0);
+       pl_flinewidth_r (plotter, 0.25);
+     
+       /* transfer control to X Toolkit event loop (doesn't return) */
+       XtAppMainLoop (app_con);
+     
+       return 1;
+     }
+</pre>
+   <p>Even if you are not familiar with X&nbsp;Window<!-- /@w --> System programming, the
+structure of this application should be clear.  It&nbsp;defines<!-- /@w --> three
+callbacks: <code>Redraw</code>, <code>Toggle</code>, and <code>Quit</code>.  They are
+invoked respectively in response to (1)&nbsp;a<!-- /@w --> window expose event or
+mouse click, (2)&nbsp;a<!-- /@w --> mouse click, and (3)&nbsp;a<!-- /@w --> typed&nbsp;&lsquo;<samp><span class="samp">q</span></samp>&rsquo;<!-- /@w -->. 
+The first drawing of the `C'&nbsp;curve<!-- /@w --> (in&nbsp;red<!-- /@w -->) takes place because
+the window receives an initial expose event.
+
+   <p>This example could be extended to take window resizing into account. 
+Actually, X&nbsp;Drawable<!-- /@w --> Plotters are usually used to draw vector
+graphics in off-screen pixmaps rather than on-screen windows.  Pixmaps,
+unlike windows, are never resized.
+
+   </body></html>
+

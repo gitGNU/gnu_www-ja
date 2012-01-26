@@ -1,0 +1,95 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Underlining</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_33.html">previous</A>, <A HREF="termcap_35.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC34" HREF="termcap_toc.html#TOC34">Underlining</A></H2>
+<P>
+<A NAME="IDX132"></A>
+
+</P>
+<P>
+Underlining on most terminals is a kind of appearance mode, much like
+standout mode.  Therefore, it may be implemented using magic cookies or as
+a flag in the terminal whose current state affects each character that is
+output.  See section <A HREF="termcap_33.html#SEC33">Standout and Appearance Modes</A>, for a full explanation.
+
+</P>
+<P>
+The <SAMP>`ug'</SAMP> capability is a numeric capability whose presence indicates
+that the terminal uses magic cookies for underlining.  Its value is the
+number of character positions that a magic cookie for underlining occupies;
+it is used for underlining just as <SAMP>`sg'</SAMP> is used for standout.  Aside
+from the simplest applications, it is impossible to use underlining
+correctly without paying attention to the value of <SAMP>`ug'</SAMP>.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`us'</SAMP>
+<DD>
+<A NAME="IDX133"></A>
+String of commands to turn on underline mode or to output a magic cookie
+to start underlining.
+
+<DT><SAMP>`ue'</SAMP>
+<DD>
+<A NAME="IDX134"></A>
+String of commands to turn off underline mode or to output a magic
+cookie to stop underlining.
+
+<DT><SAMP>`ug'</SAMP>
+<DD>
+<A NAME="IDX135"></A>
+Width of magic cookie that represents a change of underline mode;
+or missing, if the terminal does not use a magic cookie for this.
+
+<DT><SAMP>`ms'</SAMP>
+<DD>
+<A NAME="IDX136"></A>
+Flag whose presence means that it is safe to move the cursor while the
+appearance modes are not in the normal state.  Underlining is an
+appearance mode.  If this flag is absent, programs should always turn
+off underlining before moving the cursor.
+</DL>
+
+<P>
+There are two other, older ways of doing underlining: there can be a
+command to underline a single character, or the output of <SAMP>`_'</SAMP>, the
+ASCII underscore character, as an overstrike could cause a character to be
+underlined.  New programs need not bother to handle these capabilities
+unless the author cares strongly about the obscure terminals which support
+them.  However, terminal descriptions should provide these capabilities
+when appropriate.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`uc'</SAMP>
+<DD>
+<A NAME="IDX137"></A>
+String of commands to underline the character under the cursor, and
+move the cursor right.
+
+<DT><SAMP>`ul'</SAMP>
+<DD>
+<A NAME="IDX138"></A>
+Flag whose presence means that the terminal can underline by
+overstriking an underscore character (<SAMP>`_'</SAMP>); some terminals can do
+this even though they do not support overstriking in general.  An
+implication of this flag is that when outputting new text to overwrite
+old text, underscore characters must be treated specially lest they
+underline the old text instead.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_33.html">previous</A>, <A HREF="termcap_35.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

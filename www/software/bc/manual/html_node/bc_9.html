@@ -1,0 +1,50 @@
+<HTML>
+<HEAD>
+<!-- Created by texi2html 1.56k from ../bc.texi on 20 March 2001 -->
+
+<TITLE>bc Command Manual - About Expressions and Special Variables</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_8.html">previous</A>, <A HREF="bc_10.html">next</A>, <A HREF="bc_23.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC9" HREF="bc_toc.html#TOC9">About Expressions and Special Variables</A></H2>
+
+<P>
+The numbers are manipulated by expressions and statements.  Since
+the language was designed to be interactive, statements and expressions
+are executed as soon as possible.  There is no main program.  Instead,
+code is executed as it is encountered.  (Functions, discussed in
+detail later, are defined when encountered.)
+
+
+<P>
+A simple expression is just a constant. <CODE>bc</CODE> converts constants
+into internal decimal numbers using the current input base, specified by
+the variable <VAR>ibase</VAR>. (There is an exception in functions.)  The
+legal values of <VAR>ibase</VAR> are 2 through 16.  Assigning a value outside
+this range to <VAR>ibase</VAR> will result in a value of 2 or 16.  Input
+numbers may contain the characters 0-9 and A-F. (Note: They must be
+capitals.  Lower case letters are variable names.)  Single digit numbers
+always have the value of the digit regardless of the value of
+<VAR>ibase</VAR>. (i.e. A = 10.)  For multi-digit numbers, <CODE>bc</CODE>
+changes all input digits greater or equal to <VAR>ibase</VAR> to the value of
+<VAR>ibase</VAR>-1.  This makes the number <CODE>FFF</CODE> always be the largest
+3 digit number of the input base.
+
+
+<P>
+Full expressions are similar to many other high level languages.
+Since there is only one kind of number, there are no rules for mixing
+types.  Instead, there are rules on the scale of expressions.  Every
+expression has a scale.  This is derived from the scale of original
+numbers, the operation performed and in many cases, the value of the
+variable <VAR>scale</VAR>. Legal values of the variable <VAR>scale</VAR> are
+0 to the maximum number representable by a C integer.
+
+
+<P><HR><P>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_8.html">previous</A>, <A HREF="bc_10.html">next</A>, <A HREF="bc_23.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+</BODY>
+</HTML>

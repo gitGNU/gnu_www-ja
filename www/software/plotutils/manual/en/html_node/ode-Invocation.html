@@ -1,0 +1,129 @@
+<html lang="en">
+<head>
+<title>ode Invocation - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="ode.html#ode" title="ode">
+<link rel="prev" href="Additional-ode-Examples.html#Additional-ode-Examples" title="Additional ode Examples">
+<link rel="next" href="Diagnostics.html#Diagnostics" title="Diagnostics">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="ode-Invocation"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Diagnostics.html#Diagnostics">Diagnostics</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Additional-ode-Examples.html#Additional-ode-Examples">Additional ode Examples</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="ode.html#ode">ode</a>
+<hr>
+</div>
+
+<h3 class="section">8.4 <code>ode</code> command-line options</h3>
+
+<p class="noindent">The command-line options to <code>ode</code> are listed below.  There are
+several sorts of option:
+
+     <ol type=1 start=1>
+<li>Options affecting the way in which input is read. 
+<li>Options affecting the format of the output. 
+<li>Options affecting the choice of numerical solution scheme, and the
+error bounds that will be imposed on&nbsp;it<!-- /@w -->. 
+<li>Options that request information.
+        </ol>
+
+<p class="noindent">The following option affects the way input is read.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-f </span><var>filename</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--input-file </span><var>filename</var></samp>&rsquo;<dd>Read input from <var>filename</var> before reading from standard input. 
+</dl>
+
+<p class="noindent">The following options affect the output format.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-p </span><var>significant-digits</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--precision </span><var>significant-digits</var></samp>&rsquo;<dd>(Positive integer, default 6.)  When printing numerical results, use a
+precision specified by <var>significant-digits</var>.  If&nbsp;this<!-- /@w --> option is
+given, the print format will be scientific notation.
+
+     <br><dt>&lsquo;<samp><span class="samp">-t</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--title</span></samp>&rsquo;<dd>Print a title line at the head of the output, naming the columns.  If&nbsp;this<!-- /@w --> option is given, the print format will be scientific notation. 
+</dl>
+
+<p class="noindent">The following options specify the numerical integration scheme.  Only
+one of the three basic option &lsquo;<samp><span class="samp">-R</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-A</span></samp>&rsquo;, and &lsquo;<samp><span class="samp">-E</span></samp>&rsquo; may be
+specified.  The default is &lsquo;<samp><span class="samp">-R</span></samp>&rsquo; (Runge&ndash;Kutta&ndash;Fehlberg).
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-R [</span><var>stepsize</var><span class="samp">]</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--runge-kutta [</span><var>stepsize</var><span class="samp">]</span></samp>&rsquo;<dd>Use a fifth-order Runge&ndash;Kutta&ndash;Fehlberg algorithm, with an adaptive
+stepsize unless a constant stepsize is specified.  When a constant
+stepsize is specified and no error analysis is requested, then a
+classical fourth-order Runge&ndash;Kutta scheme is used.
+
+     <br><dt>&lsquo;<samp><span class="samp">-A [</span><var>stepsize</var><span class="samp">]</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--adams-moulton [</span><var>stepsize</var><span class="samp">]</span></samp>&rsquo;<dd>Use a fourth-order Adams&ndash;Moulton predictor&ndash;corrector scheme, with an
+adaptive stepsize unless a constant stepsize, <var>stepsize</var>, is
+specified.  The Runge&ndash;Kutta&ndash;Fehlberg algorithm is used to get past
+`bad' points (if&nbsp;any<!-- /@w -->).
+
+     <br><dt>&lsquo;<samp><span class="samp">-E [</span><var>stepsize</var><span class="samp">]</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--euler [</span><var>stepsize</var><span class="samp">]</span></samp>&rsquo;<dd>Use a `quick and dirty' Euler scheme, with a constant stepsize.  The
+default value of <var>stepsize</var> is&nbsp;0.1<!-- /@w -->.  Not recommended for serious
+applications.
+
+     <p>The error bound options &lsquo;<samp><span class="samp">-r</span></samp>&rsquo; and &lsquo;<samp><span class="samp">-e</span></samp>&rsquo; (see below) may not
+be used if &lsquo;<samp><span class="samp">-E</span></samp>&rsquo; is specified.
+
+     <br><dt>&lsquo;<samp><span class="samp">-h </span><var>hmin</var><span class="samp"> [</span><var>hmax</var><span class="samp">]</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--step-size-bound </span><var>hmin</var><span class="samp"> [</span><var>hmax</var><span class="samp">]</span></samp>&rsquo;<dd>Use a lower bound <var>hmin</var> on the stepsize.  The numerical scheme will
+not let the stepsize go below <var>hmin</var>.  The default is to allow the
+stepsize to shrink to the machine limit, i.e., the minimum nonzero
+double-precision floating point number.  The optional argument
+<var>hmax</var>, if included, specifies a maximum value for the stepsize. 
+It&nbsp;is<!-- /@w --> useful in preventing the numerical routine from skipping
+quickly over an interesting region. 
+</dl>
+
+<p class="noindent">The following options set the error bounds on the numerical solution
+scheme.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-r </span><var>rmax</var><span class="samp"> [</span><var>rmin</var><span class="samp">]</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--relative-error-bound </span><var>rmax</var><span class="samp"> [</span><var>rmin</var><span class="samp">]</span></samp>&rsquo;
+<br><dt>&lsquo;<samp><span class="samp">-e </span><var>emax</var><span class="samp"> [</span><var>emin</var><span class="samp">]</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--absolute-error-bound </span><var>emax</var><span class="samp"> [</span><var>emin</var><span class="samp">]</span></samp>&rsquo;<dd>The &lsquo;<samp><span class="samp">-r</span></samp>&rsquo; option sets an upper bound on the relative single-step
+error.  If the &lsquo;<samp><span class="samp">-r</span></samp>&rsquo; option is used, the relative single-step error
+in any dependent variable will never exceed <var>rmax</var> (the default for
+which is 10^(-9)).  If this should occur, the solution will be
+abandoned and an error message will be printed.  If&nbsp;the<!-- /@w --> stepsize is
+not constant, the stepsize will be decreased `adaptively', so that the
+upper bound on the single-step error is not violated.  Thus, choosing a
+smaller upper bound on the single-step error will cause smaller
+stepsizes to be chosen.  A&nbsp;lower<!-- /@w --> bound <var>rmin</var> may optionally be
+specified, to suggest when the stepsize should be increased (the default
+for <var>rmin</var> is <var>rmax</var>/1000).  The &lsquo;<samp><span class="samp">-e</span></samp>&rsquo; option is similar to
+&lsquo;<samp><span class="samp">-r</span></samp>&rsquo;, but bounds the absolute rather than the relative single-step
+error.
+
+     <br><dt>&lsquo;<samp><span class="samp">-s</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--suppress-error-bound</span></samp>&rsquo;<dd>Suppress the ceiling on single-step error, allowing <code>ode</code> to
+continue even if this ceiling is exceeded.  This may result in large
+numerical errors. 
+</dl>
+
+<p class="noindent">Finally, the following options request information.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">--help</span></samp>&rsquo;<dd>Print a list of command-line options, and then exit.
+
+     <br><dt>&lsquo;<samp><span class="samp">--version</span></samp>&rsquo;<dd>Print the version number of <code>ode</code> and the plotting utilities
+package, and exit. 
+</dl>
+
+   </body></html>
+

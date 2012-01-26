@@ -1,0 +1,105 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Output Padding</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_10.html">previous</A>, <A HREF="termcap_12.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC11" HREF="termcap_toc.html#TOC11">Performing Padding with <CODE>tputs</CODE></A></H3>
+<P>
+<A NAME="IDX8"></A>
+
+</P>
+<P>
+<A NAME="IDX9"></A>
+Use the termcap function <CODE>tputs</CODE> to output a string containing an
+optional padding spec of the form described above (see section <A HREF="termcap_10.html#SEC10">Specifying Padding in a Terminal Description</A>).  The function <CODE>tputs</CODE> strips off and decodes the padding
+spec, outputs the rest of the string, and then outputs the appropriate
+padding.  Here is its declaration in ANSI C:
+
+</P>
+
+<PRE>
+char PC;
+short ospeed;
+
+int tputs (char *<VAR>string</VAR>, int <VAR>nlines</VAR>, int (*<VAR>outfun</VAR>) ());
+</PRE>
+
+<P>
+Here <VAR>string</VAR> is the string (including padding spec) to be output;
+<VAR>nlines</VAR> is the number of lines affected by the operation, which is
+used to multiply the amount of padding if the padding spec ends with a
+<SAMP>`*'</SAMP>.  Finally, <VAR>outfun</VAR> is a function (such as <CODE>fputchar</CODE>)
+that is called to output each character.  When actually called,
+<VAR>outfun</VAR> should expect one argument, a character.
+
+</P>
+<P>
+<A NAME="IDX10"></A>
+<A NAME="IDX11"></A>
+The operation of <CODE>tputs</CODE> is controlled by two global variables,
+<CODE>ospeed</CODE> and <CODE>PC</CODE>.  The value of <CODE>ospeed</CODE> is supposed to be
+the terminal output speed, encoded as in the <CODE>ioctl</CODE> system call which
+gets the speed information.  This is needed to compute the number of
+padding characters.  The value of <CODE>PC</CODE> is the character used for
+padding.
+
+</P>
+<P>
+You are responsible for storing suitable values into these variables before
+using <CODE>tputs</CODE>.  The value stored into the <CODE>PC</CODE> variable should be
+taken from the <SAMP>`pc'</SAMP> capability in the terminal description (see section <A HREF="termcap_40.html#SEC40">Padding Capabilities</A>).  Store zero in <CODE>PC</CODE> if there is no <SAMP>`pc'</SAMP>
+capability.
+</P>
+<P>
+The argument <VAR>nlines</VAR> requires some thought.  Normally, it should be
+the number of lines whose contents will be cleared or moved by the command.
+For cursor motion commands, or commands that do editing within one line,
+use the value 1.  For most commands that affect multiple lines, such as
+<SAMP>`al'</SAMP> (insert a line) and <SAMP>`cd'</SAMP> (clear from the cursor to the end
+of the screen), <VAR>nlines</VAR> should be the screen height minus the current
+vertical position (origin 0).  For multiple insert and scroll commands such
+as <SAMP>`AL'</SAMP> (insert multiple lines), that same value for <VAR>nlines</VAR> is
+correct; the number of lines being inserted is <I>not</I> correct.
+</P>
+<P>
+If a "scroll window" feature is used to reduce the number of lines
+affected by a command, the value of <VAR>nlines</VAR> should take this into
+account.  This is because the delay time required depends on how much work
+the terminal has to do, and the scroll window feature reduces the work.
+See section <A HREF="termcap_28.html#SEC28">Scrolling</A>.
+
+</P>
+<P>
+Commands such as <SAMP>`ic'</SAMP> and <SAMP>`dc'</SAMP> (insert or delete characters) are
+problematical because the padding needed by these commands is proportional
+to the number of characters affected, which is the number of columns from
+the cursor to the end of the line.  It would be nice to have a way to
+specify such a dependence, and there is no need for dependence on vertical
+position in these commands, so it is an obvious idea to say that for these
+commands <VAR>nlines</VAR> should really be the number of columns affected.
+However, the definition of termcap clearly says that <VAR>nlines</VAR> is always
+the number of lines affected, even in this case, where it is always 1.  It
+is not easy to change this rule now, because too many programs and terminal
+descriptions have been written to follow it.
+
+</P>
+<P>
+Because <VAR>nlines</VAR> is always 1 for the <SAMP>`ic'</SAMP> and <SAMP>`dc'</SAMP> strings,
+there is no reason for them to use <SAMP>`*'</SAMP>, but some of them do.  These
+should be corrected by deleting the <SAMP>`*'</SAMP>.  If, some day, such entries
+have disappeared, it may be possible to change to a more useful convention
+for the <VAR>nlines</VAR> argument for these operations without breaking any
+programs.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_10.html">previous</A>, <A HREF="termcap_12.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

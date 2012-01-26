@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Keeping a checked out copy</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_138.html">previous</A>, <A HREF="cvs_140.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC146" HREF="cvs_toc.html#TOC146">Keeping a checked out copy</A></H3>
+
+<P>
+<A NAME="IDX393"></A>
+<A NAME="IDX394"></A>
+
+</P>
+<P>
+It is often useful to maintain a directory tree which
+contains files which correspond to the latest version
+in the repository.  For example, other developers might
+want to refer to the latest sources without having to
+check them out, or you might be maintaining a web site
+with CVS and want every checkin to cause the files
+used by the web server to be updated.
+
+</P>
+<P>
+The way to do this is by having loginfo invoke
+<CODE>cvs update</CODE>.  Doing so in the naive way will
+cause a problem with locks, so the <CODE>cvs update</CODE>
+must be run in the background.
+Here is an example (this should all be on one line):
+
+</P>
+
+<PRE>
+^cyclic-pages		(date; cat; (sleep 2; cd /u/www/local-docs;
+ cvs -q update -d) &#38;) &#62;&#62; $CVSROOT/CVSROOT/updatelog 2&#62;&#38;1
+</PRE>
+
+<P>
+This will cause checkins to repository directories
+starting with <CODE>cyclic-pages</CODE> to update the checked
+out tree in <TT>`/u/www/local-docs'</TT>.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_138.html">previous</A>, <A HREF="cvs_140.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

@@ -1,0 +1,159 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - modules</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_129.html">previous</A>, <A HREF="cvs_131.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC137" HREF="cvs_toc.html#TOC137">The modules file</A></H2>
+<P>
+<A NAME="IDX362"></A>
+<A NAME="IDX363"></A>
+
+</P>
+<P>
+The <TT>`modules'</TT> file records your definitions of
+names for collections of source code.  CVS will
+use these definitions if you use CVS to update the
+modules file (use normal commands like <CODE>add</CODE>,
+<CODE>commit</CODE>, etc).
+
+</P>
+<P>
+The <TT>`modules'</TT> file may contain blank lines and
+comments (lines beginning with <SAMP>`#'</SAMP>) as well as
+module definitions.  Long lines can be continued on the
+next line by specifying a backslash (<SAMP>`\'</SAMP>) as the
+last character on the line.
+
+</P>
+<P>
+A module definition is a single line of the
+<TT>`modules'</TT> file, in either of two formats.  In both
+cases, <VAR>mname</VAR> represents the symbolic module name,
+and the remainder of the line is its definition.
+
+</P>
+<DL COMPACT>
+
+<DT><CODE><VAR>mname</VAR> -a <VAR>aliases</VAR>...</CODE>
+<DD>
+This represents the simplest way of defining a module
+<VAR>mname</VAR>.  The <SAMP>`-a'</SAMP> flags the definition as a
+simple alias: CVS will treat any use of <VAR>mname</VAR> (as
+a command argument) as if the list of names
+<VAR>aliases</VAR> had been specified instead.
+<VAR>aliases</VAR> may contain either other module names or
+paths.  When you use paths in aliases, <CODE>checkout</CODE>
+creates all intermediate directories in the working
+directory, just as if the path had been specified
+explicitly in the CVS arguments.
+
+<DT><CODE><VAR>mname</VAR> [ options ] <VAR>dir</VAR> [ <VAR>files</VAR>... ] [ &#38;<VAR>module</VAR>... ]</CODE>
+<DD>
+In the simplest case, this form of module definition
+reduces to <SAMP>`<VAR>mname</VAR> <VAR>dir</VAR>'</SAMP>.  This defines
+all the files in directory <VAR>dir</VAR> as module mname.
+<VAR>dir</VAR> is a relative path (from <CODE>$CVSROOT</CODE>) to a
+directory of source in the source repository.  In this
+case, on checkout, a single directory called
+<VAR>mname</VAR> is created as a working directory; no
+intermediate directory levels are used by default, even
+if <VAR>dir</VAR> was a path involving several directory
+levels.
+
+By explicitly specifying files in the module definition
+after <VAR>dir</VAR>, you can select particular files from
+directory <VAR>dir</VAR>.  The sample definition for
+<SAMP>`modules'</SAMP> is an example of a module defined with a
+single file from a particular directory.  Here is
+another example:
+
+
+<PRE>
+m4test  unsupported/gnu/m4 foreach.m4 forloop.m4
+</PRE>
+
+With this definition, executing <SAMP>`cvs checkout
+m4test'</SAMP> will create a single working directory
+<TT>`m4test'</TT> containing the two files listed, which
+both come from a common directory several levels deep
+in the CVS source repository.
+
+A module definition can refer to other modules by
+including <SAMP>`&#38;<VAR>module</VAR>'</SAMP> in its definition.
+<CODE>checkout</CODE> creates a subdirectory for each such
+module, in your working directory.
+
+<DL COMPACT>
+
+<DT><CODE>-d <VAR>name</VAR></CODE>
+<DD>
+Name the working directory something other than the
+module name.
+
+<A NAME="IDX364"></A>
+<DT><CODE>-e <VAR>prog</VAR></CODE>
+<DD>
+Specify a program <VAR>prog</VAR> to run whenever files in a
+module are exported.  <VAR>prog</VAR> runs with a single
+argument, the module name.
+
+<A NAME="IDX365"></A>
+<DT><CODE>-i <VAR>prog</VAR></CODE>
+<DD>
+Specify a program <VAR>prog</VAR> to run whenever files in a
+module are committed.  <VAR>prog</VAR> runs with a single
+argument, the full pathname of the affected directory
+in a source repository.  The <TT>`commitinfo'</TT>,
+<TT>`loginfo'</TT>, and <TT>`editinfo'</TT> files provide other
+ways to call a program on commit.
+
+<A NAME="IDX366"></A>
+<DT><CODE>-o <VAR>prog</VAR></CODE>
+<DD>
+Specify a program <VAR>prog</VAR> to run whenever files in a
+module are checked out.  <VAR>prog</VAR> runs with a single
+argument, the module name.
+
+<A NAME="IDX367"></A>
+<A NAME="IDX368"></A>
+<DT><CODE>-s <VAR>status</VAR></CODE>
+<DD>
+Assign a status to the module.  When the module file is
+printed with <SAMP>`cvs checkout -s'</SAMP> the modules are
+sorted according to primarily module status, and
+secondarily according to the module name.  This option
+has no other meaning.  You can use this option for
+several things besides status: for instance, list the
+person that is responsible for this module.
+
+<A NAME="IDX369"></A>
+<DT><CODE>-t <VAR>prog</VAR></CODE>
+<DD>
+Specify a program <VAR>prog</VAR> to run whenever files in a
+module are tagged with <CODE>rtag</CODE>.  <VAR>prog</VAR> runs
+with two arguments: the module name and the symbolic
+tag specified to <CODE>rtag</CODE>.  There is no way to
+specify a program to run when <CODE>tag</CODE> is executed.
+
+<A NAME="IDX370"></A>
+<DT><CODE>-u <VAR>prog</VAR></CODE>
+<DD>
+Specify a program <VAR>prog</VAR> to run whenever <SAMP>`cvs
+update'</SAMP> is executed from the top-level directory of the
+checked-out module.  <VAR>prog</VAR> runs with a single
+argument, the full path to the source repository for
+this module.
+</DL>
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_129.html">previous</A>, <A HREF="cvs_131.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

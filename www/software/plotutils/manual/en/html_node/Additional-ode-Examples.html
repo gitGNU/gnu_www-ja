@@ -1,0 +1,203 @@
+<html lang="en">
+<head>
+<title>Additional ode Examples - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="ode.html#ode" title="ode">
+<link rel="prev" href="Simple-ode-Examples.html#Simple-ode-Examples" title="Simple ode Examples">
+<link rel="next" href="ode-Invocation.html#ode-Invocation" title="ode Invocation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Additional-ode-Examples"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="ode-Invocation.html#ode-Invocation">ode Invocation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Simple-ode-Examples.html#Simple-ode-Examples">Simple ode Examples</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="ode.html#ode">ode</a>
+<hr>
+</div>
+
+<h3 class="section">8.3 Additional examples using <code>ode</code></h3>
+
+<p>We explain here how to use some additional features of <code>ode</code>. 
+However, the discussion below does not cover all of its capabilities. 
+For a complete list of command-line options, see <a href="ode-Invocation.html#ode-Invocation">ode Invocation</a>.
+
+   <p>It is easy to use <code>ode</code> to create plots of great beauty.  An
+example would be a plot of a <em>strange attractor</em>, namely the Lorenz
+attractor.  Suppose that a file named <samp><span class="file">lorenz</span></samp> contains the
+following lines.
+
+<pre class="example">     # The Lorenz model, a system of three coupled ODE's with parameter r.
+     x' = -3*(x-y)
+     y' = -x*z+r*x-y
+     z' = x*y-z
+     
+     r = 26
+     x = 0; y = 1; z = 0
+     
+     print x, y
+     step 0, 200
+</pre>
+   <p class="noindent">Then executing the command
+
+<pre class="example">     ode &lt; lorenz | graph -T X -C -x -10 10 -y -10 10
+</pre>
+   <p class="noindent">would produce a plot of the Lorenz attractor (strictly speaking, a&nbsp;plot<!-- /@w --> of one of its two-dimensional projections).  You may produce a
+Postscript plot of the Lorenz attractor, and print it, by doing
+something like
+
+<pre class="example">     ode &lt; lorenz | graph -T ps -x -10 10 -y -10 10 -W 0 | lpr
+</pre>
+   <p class="noindent">The &lsquo;<samp><span class="samp">-W 0</span></samp>&rsquo; (&ldquo;zero width&rdquo;) option requests that <code>graph -T ps</code>
+use the thinnest line possible, to improve the visual appearance of the
+plot on a printer or other Postscript device.
+
+   <p>Besides plotting a visually striking object in real time, the Lorenz
+attractor example shows how statements may be separated by semicolons,
+rather than appearing on different lines.  It&nbsp;also<!-- /@w --> shows how to use
+symbolic constants.  In&nbsp;the<!-- /@w --> description read by <code>ode</code> the
+parameter&nbsp;r<!-- /@w --> is a variable like x, y, and&nbsp;z<!-- /@w -->.  But unlike them it is not updated during stepping, since no
+formula for its derivative&nbsp;r'<!-- /@w --> is given.
+
+   <p>Our second example deals with the interactive construction of a `phase
+portrait': a&nbsp;set<!-- /@w --> of solution curves with different initial
+conditions.  Phase portraits are of paramount interest in the
+qualitative theory of differential equations, and also possess
+&aelig;sthetic appeal.
+
+   <p>Since a description read by <code>ode</code> may contain any number of
+&lsquo;<samp><span class="samp">step</span></samp>&rsquo; statements, multiple solution curves may be plotted in a
+single run.  The most recent &lsquo;<samp><span class="samp">print</span></samp>&rsquo; statement will be used with
+each &lsquo;<samp><span class="samp">step</span></samp>&rsquo; statement.  In&nbsp;practice<!-- /@w -->, a phase portrait would be
+drawn from a few well-chosen solution curves.  Choosing a good set of
+solution curves may require experimentation, which makes interactivity
+and real-time plotting all-important.
+
+   <p>As an example, consider a so-called Lotka&ndash;Volterra predator&ndash;prey
+model.  Suppose that in a lake there are two species of fish: A&nbsp;(the&nbsp;prey)<!-- /@w --> who live by eating a plentiful supply of plants, and B (the
+predator) who eat&nbsp;A<!-- /@w -->.  Let x(t) be the population of&nbsp;A<!-- /@w -->
+and y(t) the population of&nbsp;B<!-- /@w --> at time&nbsp;t<!-- /@w -->.  A&nbsp;crude<!-- /@w --> model for the interaction of A and&nbsp;B<!-- /@w --> is given by the
+equations
+
+<pre class="example">     x' = x(a-by)
+     y' = y(cx-d)
+</pre>
+   <p class="noindent">where a, b, c, d are positive constants.  To draw a phase
+portrait for this system interactively, you could type
+
+<pre class="example">     ode | graph -T X -C -x 0 5 -y 0 5
+     x' = (a - b*y) * x
+     y' = (c*x - d) * y
+     a = 1; b = 1; c = 1; d = 1;
+     print x, y
+     x = 1; y = 2
+     step 0, 10
+     x = 1; y = 3
+     step 0, 10
+     x = 1; y = 4
+     step 0, 10
+     x = 1; y = 5
+     step 0, 10
+     .
+</pre>
+   <p class="noindent">Four curves will be drawn in succession, one per &lsquo;<samp><span class="samp">step</span></samp>&rsquo; line.  They
+will be periodic; this periodicity is similar to the fluctuations
+between predator and prey populations that occur in real-world
+ecosystems.  On&nbsp;a<!-- /@w --> color display the curves will appear in different
+colors, since by&nbsp;default<!-- /@w -->, <code>graph</code> changes the linemode between
+datasets.  That feature may be turned&nbsp;off<!-- /@w --> by using <code>graph -T X
+-B</code> rather than <code>graph -T&nbsp;X<!-- /@w --></code>.
+
+   <p>It is sometimes useful to use <code>ode</code> and <code>graph</code> to plot
+discrete points, which are not joined by line segments to form a curve. 
+Our third example illustrates this.  Suppose the file <samp><span class="file">atwoods</span></samp>
+contains the lines
+
+<pre class="example">     m = 1
+     M = 1.0625
+     a = 0.5; adot = 0
+     l = 10; ldot = 0
+     
+     ldot' = ( m * l * adot * adot - M * 9.8 + m * 9.8 * cos(a) ) / (m + M)
+     l'    = ldot
+     adot' = (-1/l) * (9.8 * sin(a) +  2 * adot * ldot)
+     a'    = adot
+     
+     print l, ldot
+     step 0, 400
+</pre>
+   <p class="noindent">The first few lines describe the functioning of a so-called swinging
+Atwood's machine.  An ordinary Atwood's machine consists of a taut cord
+draped over a pulley, with a mass attached to the cord at each end. 
+Normally, the heavier mass&nbsp;(M)<!-- /@w --> would win against the lighter
+mass&nbsp;(m)<!-- /@w -->, and draw it upward.  A&nbsp;swinging<!-- /@w --> Atwood's
+machine allows the lighter mass to swing back and forth as&nbsp;well<!-- /@w --> as
+move vertically.
+
+   <p>The &lsquo;<samp><span class="samp">print l, ldot</span></samp>&rsquo; statement requests that the vertical position
+and vertical velocity of the lighter mass be printed out at each step. 
+If&nbsp;you<!-- /@w --> run the command
+
+<pre class="example">     ode &lt; atwoods | graph -T X -x 9 11 -y -1 1 -m 0 -S 1 -X l -Y ldot
+</pre>
+   <p class="noindent">you will obtain a real-time plot.  The &lsquo;<samp><span class="samp">-m 0</span></samp>&rsquo; option requests that
+successive data points not be joined by line segments, and the &lsquo;<samp><span class="samp">-S
+1</span></samp>&rsquo; option requests that plotting symbol&nbsp;#1<!-- /@w --> (a&nbsp;dot<!-- /@w -->) be plotted at
+the location of each point.  As you will see if you run this command,
+the heavy mass does not win against the lighter mass.  Instead the
+machine oscillates non-periodically.  Since the motion is non-periodic,
+the plot benefits from being drawn as a sequence of unconnected points.
+
+   <p>We conclude by mentioning a few features of <code>ode</code> that may be
+useful when things are not going quite right.  One of them is the
+&lsquo;<samp><span class="samp">examine</span></samp>&rsquo; statement.  It&nbsp;may<!-- /@w --> be used to discover pertinent
+information about any variable in a system.  For details, see <a href="Input-Language.html#Input-Language">Input Language</a>.
+
+   <p>Another useful feature is that the &lsquo;<samp><span class="samp">print</span></samp>&rsquo; statement may be used to
+print out more than just the value of a variable.  As we have seen, if
+the name of the variable is followed by &lsquo;<samp><span class="samp">'</span></samp>&rsquo;, the derivative of the
+variable will be printed instead.  In&nbsp;a<!-- /@w --> similar way, following the
+variable name with &lsquo;<samp><span class="samp">?</span></samp>&rsquo;, &lsquo;<samp><span class="samp">!</span></samp>&rsquo;, or &lsquo;<samp><span class="samp">~</span></samp>&rsquo; prints respectively
+the relative single-step error, the absolute single-step error, or the
+accumulated error (not currently implemented).  These quantities are
+discussed in <a href="Numerical-Error.html#Numerical-Error">Numerical Error</a>.
+
+   <p>The &lsquo;<samp><span class="samp">print</span></samp>&rsquo; statement may be more complicated than was shown in the
+preceding examples.  Its general structure is
+
+<pre class="example">     print &lt;pr-list&gt; [every &lt;const&gt;] [from &lt;const&gt;]
+</pre>
+   <p class="noindent">The bracket notation &lsquo;<samp><span class="samp">[...]</span></samp>&rsquo; means that the enclosed statements
+are optional.  Until now we have not mentioned the &lsquo;<samp><span class="samp">every</span></samp>&rsquo; clause
+or the &lsquo;<samp><span class="samp">from</span></samp>&rsquo; clause.  The <tt>&lt;pr-list&gt;</tt> is familiar, however; it
+is simply a comma-separated list of variables.  For example, in the
+statement
+
+<pre class="example">     print t, y, y' every 5 from 1
+</pre>
+   <p class="noindent">the <tt>&lt;pr-list&gt;</tt> is <tt>&lt;t, y, y'&gt;</tt>.  The clauses &lsquo;<samp><span class="samp">every 5</span></samp>&rsquo; and
+&lsquo;<samp><span class="samp">from 1</span></samp>&rsquo; specify that printing should take place after every fifth
+step, and that the printing should begin when the independent
+variable&nbsp;t<!-- /@w --> reaches&nbsp;1<!-- /@w -->.  An&nbsp;&lsquo;<samp><span class="samp">every</span></samp>&rsquo;<!-- /@w --> clause is
+useful if you wish to `thin&nbsp;out<!-- /@w -->' the output generated by a
+&lsquo;<samp><span class="samp">step</span></samp>&rsquo; statement, and a &lsquo;<samp><span class="samp">from</span></samp>&rsquo; clause is useful if you wish to
+view only the final portion of a solution curve.
+
+   </body></html>
+

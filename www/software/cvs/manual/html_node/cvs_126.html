@@ -1,0 +1,143 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - update options</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_125.html">previous</A>, <A HREF="cvs_127.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC133" HREF="cvs_toc.html#TOC133">update options</A></H3>
+
+<P>
+These standard options are available with <CODE>update</CODE>
+(see section <A HREF="cvs_88.html#SEC90">Common command options</A>, for a complete description of
+them):
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-D date</CODE>
+<DD>
+Use the most recent revision no later than <VAR>date</VAR>.
+This option is sticky, and implies <SAMP>`-P'</SAMP>.
+See section <A HREF="cvs_52.html#SEC54">Sticky tags</A>, for more information on sticky tags/dates.
+
+<DT><CODE>-f</CODE>
+<DD>
+Only useful with the <SAMP>`-D <VAR>date</VAR>'</SAMP> or <SAMP>`-r
+<VAR>tag</VAR>'</SAMP> flags.  If no matching revision is found,
+retrieve the most recent revision (instead of ignoring
+the file).
+
+<DT><CODE>-k <VAR>kflag</VAR></CODE>
+<DD>
+Process RCS keywords according to <VAR>kflag</VAR>.  See
+co(1).  This option is sticky; future updates of
+this file in this working directory will use the same
+<VAR>kflag</VAR>.  The <CODE>status</CODE> command can be viewed
+to see the sticky options.  See section <A HREF="cvs_121.html#SEC128">status--Display status information on checked out files</A>.
+
+<DT><CODE>-l</CODE>
+<DD>
+Local; run only in current working directory.  See section <A HREF="cvs_58.html#SEC60">Recursive behavior</A>.
+
+<DT><CODE>-P</CODE>
+<DD>
+Prune empty directories.
+
+<DT><CODE>-p</CODE>
+<DD>
+Pipe files to the standard output.
+
+<DT><CODE>-R</CODE>
+<DD>
+Operate recursively.  This is on by default.
+See section <A HREF="cvs_58.html#SEC60">Recursive behavior</A>.
+
+<DT><CODE>-r tag</CODE>
+<DD>
+Retrieve revision <VAR>tag</VAR>.  This option is sticky,
+and implies <SAMP>`-P'</SAMP>.
+See section <A HREF="cvs_52.html#SEC54">Sticky tags</A>, for more information on sticky tags/dates.
+</DL>
+
+<P>
+These special options are also available with
+<CODE>update</CODE>.
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-A</CODE>
+<DD>
+Reset any sticky tags, dates, or <SAMP>`-k'</SAMP> options.
+See section <A HREF="cvs_52.html#SEC54">Sticky tags</A>, for more information on sticky tags/dates.
+
+<DT><CODE>-d</CODE>
+<DD>
+Create any directories that exist in the repository if
+they're missing from the working directory.  Normally,
+<CODE>update</CODE> acts only on directories and files that
+were already enrolled in your working directory.  
+
+This is useful for updating directories that were
+created in the repository since the initial checkout;
+but it has an unfortunate side effect.  If you
+deliberately avoided certain directories in the
+repository when you created your working directory
+(either through use of a module name or by listing
+explicitly the files and directories you wanted on the
+command line), then updating with <SAMP>`-d'</SAMP> will create
+those directories, which may not be what you want.
+
+<DT><CODE>-I <VAR>name</VAR></CODE>
+<DD>
+Ignore files whose names match <VAR>name</VAR> (in your
+working directory) during the update.  You can specify
+<SAMP>`-I'</SAMP> more than once on the command line to specify
+several files to ignore.  Use <SAMP>`-I !'</SAMP> to avoid
+ignoring any files at all.  See section <A HREF="cvs_141.html#SEC148">Ignoring files via cvsignore</A>, for other
+ways to make CVS ignore some files.
+
+<DT><CODE>-W<VAR>spec</VAR></CODE>
+<DD>
+Specify file names that should be filtered during
+update.  You can use this option repeatedly.
+
+<VAR>spec</VAR> can be a file name pattern of the same type
+that you can specify in the <TT>`.cvswrappers'</TT>
+file. See section <A HREF="cvs_131.html#SEC138">The cvswrappers file</A>.
+
+<DT><CODE>-j<VAR>revision</VAR></CODE>
+<DD>
+With two <SAMP>`-j'</SAMP> options, merge changes from the
+revision specified with the first <SAMP>`-j'</SAMP> option to
+the revision specified with the second <SAMP>`j'</SAMP> option,
+into the working directory.
+
+With one <SAMP>`-j'</SAMP> option, merge changes from the
+ancestor revision to the revision specified with the
+<SAMP>`-j'</SAMP> option, into the working directory.  The
+ancestor revision is the common ancestor of the
+revision which the working directory is based on, and
+the revision specified in the <SAMP>`-j'</SAMP> option.
+
+In addition, each -j option can contain an optional
+date specification which, when used with branches, can
+limit the chosen revision to one within a specific
+date.  An optional date is specified by adding a colon
+(:) to the tag:
+<SAMP>`-j<VAR>Symbolic_Tag</VAR>:<VAR>Date_Specifier</VAR>'</SAMP>.
+
+See section <A HREF="cvs_53.html#SEC55">Merging</A>.
+
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_125.html">previous</A>, <A HREF="cvs_127.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

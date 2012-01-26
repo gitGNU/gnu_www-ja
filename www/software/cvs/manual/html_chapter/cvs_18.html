@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Handling binary files</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_17.html">previous</A>, <A HREF="cvs_19.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC83" HREF="cvs_toc.html#TOC83">Handling binary files</A></H1>
+<P>
+<A NAME="IDX288"></A>
+
+</P>
+<P>
+There are two issues with using CVS to store
+binary files.  The first is that CVS by default
+convert line endings between the canonical form in
+which they are stored in the repository (linefeed
+only), and the form appropriate to the operating system
+in use on the client (for example, carriage return
+followed by line feed for Windows NT).
+
+</P>
+<P>
+The second is that a binary file might happen to
+contain data which looks like a keyword (see section <A HREF="cvs_17.html#SEC77">Keyword substitution</A>), so keyword expansion must be turned
+off.
+
+</P>
+<P>
+The <SAMP>`-kb'</SAMP> option available with some CVS
+commands insures that neither line ending conversion
+nor keyword expansion will be done.  If you are using
+an old version of RCS without this option, and you
+are using an operating system, such as unix, which
+terminates lines with linefeeds only, you can use
+<SAMP>`-ko'</SAMP> instead; if you are on another operating
+system, upgrade to a version of RCS, such as 5.7
+or later, which supports <SAMP>`-kb'</SAMP>.
+
+</P>
+<P>
+Here is an example of how you can create a new file
+using the <SAMP>`-kb'</SAMP> flag:
+
+</P>
+
+<PRE>
+$ echo '$Id: cvs_18.html,v 1.1 2003/11/07 20:55:32 sinuhe Exp $' &#62; kotest
+$ cvs add -kb -m"A test file" kotest
+$ cvs ci -m"First checkin; contains a keyword" kotest
+</PRE>
+
+<P>
+If a file accidentally gets added without <SAMP>`-kb'</SAMP>,
+one can use the <CODE>cvs admin</CODE> command to recover.
+For example:
+
+</P>
+
+<PRE>
+$ echo '$Id: cvs_18.html,v 1.1 2003/11/07 20:55:32 sinuhe Exp $' &#62; kotest
+$ cvs add -m"A test file" kotest
+$ cvs ci -m"First checkin; contains a keyword" kotest
+$ cvs admin -kb kotest
+$ cvs update -A kotest
+$ cvs commit -m "make it binary" kotest  # For non-unix systems
+</PRE>
+
+<P>
+When you check in the file <TT>`kotest'</TT> the keywords
+are expanded.  (Try the above example, and do a
+<CODE>cat kotest</CODE> after every command).  The <CODE>cvs
+admin -kb</CODE> command sets the default keyword
+substitution method for this file, but it does not
+alter the working copy of the file that you have.  The
+easiest way to get the unexpanded version of
+<TT>`kotest'</TT> is <CODE>cvs update -A</CODE>.  If you need to
+cope with line endings (that is, you are using a
+CVS client on a non-unix system), then you need to
+check in a new copy of the file, as shown by the
+<CODE>cvs commit</CODE> command above.
+
+</P>
+<P>
+However, in using <CODE>cvs admin -k</CODE> to change the
+keyword expansion, be aware that the keyword expansion
+mode is not version controlled.  This means that, for
+example, that if you have a text file in old releases,
+and a binary file with the same name in new releases,
+CVS provides no way to check out the file in text
+or binary mode depending on what version you are
+checking out.  There is no good workaround for this
+problem.
+
+</P>
+<P>
+You can also set a default for whether <CODE>cvs add</CODE>
+and <CODE>cvs import</CODE> treat a file as binary based on
+its name; for example you could say that files who
+names end in <SAMP>`.exe'</SAMP> are binary.  See section <A HREF="cvs_21.html#SEC138">The cvswrappers file</A>.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_17.html">previous</A>, <A HREF="cvs_19.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

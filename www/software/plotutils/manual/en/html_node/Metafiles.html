@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+<title>Metafiles - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Appendices.html#Appendices" title="Appendices">
+<link rel="prev" href="Page-and-Viewport-Sizes.html#Page-and-Viewport-Sizes" title="Page and Viewport Sizes">
+<link rel="next" href="Auxiliary-Software.html#Auxiliary-Software" title="Auxiliary Software">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Metafiles"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Auxiliary-Software.html#Auxiliary-Software">Auxiliary Software</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Page-and-Viewport-Sizes.html#Page-and-Viewport-Sizes">Page and Viewport Sizes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Appendices.html#Appendices">Appendices</a>
+<hr>
+</div>
+
+<h2 class="appendix">Appendix D The Graphics Metafile Format</h2>
+
+<p>A GNU graphics metafile is produced by any application that uses the
+Metafile Plotter support contained in GNU <code>libplot</code>.  That includes
+the raw variants of <code>graph</code>, <code>plot</code>, <code>pic2plot</code>,
+<code>tek2plot</code>, and <code>plotfont</code>.  A&nbsp;metafile<!-- /@w --> is a sort of audit
+trail, which specifies a sequence of Plotter operations.  Each operation
+is represented by an `op&nbsp;code'<!-- /@w -->: a&nbsp;single<!-- /@w --> ASCII character.  The
+arguments of the operation, if&nbsp;any<!-- /@w -->, immediately follow the op&nbsp;code<!-- /@w -->.
+
+   <p>A metafile may use either of two encodings: binary (the default) or
+portable (human-readable).  Metafiles in the binary encoding begin with
+the magic string "#PLOT&nbsp;1\n"<!-- /@w -->, and metafiles in the portable encoding
+with the magic string "#PLOT&nbsp;2\n"<!-- /@w -->.  If&nbsp;you<!-- /@w --> intend to transfer
+metafiles between machines of different types, you should use the
+portable rather than the binary encoding.  Portable metafiles are
+produced by Metafile Plotters if the <code>META_PORTABLE</code> parameter is
+set to "yes", and by the raw variants of GNU <code>graph</code> and the other
+command-line graphics programs if the &lsquo;<samp><span class="samp">-O</span></samp>&rsquo; option is specified. 
+Both binary and portable metafiles can be translated to other formats by
+GNU <code>plot</code>.  See <a href="plot.html#plot">plot</a>.
+
+   <p>In the portable encoding, the arguments of each operation (integers,
+floating point numbers, or strings) are printed in a human-readable
+form, separated by spaces, and each argument list ends with a newline. 
+In&nbsp;the<!-- /@w --> binary encoding, the arguments are represented as integers,
+single precision floating point numbers, or newline-terminated ASCII
+strings.  Using the newline character as a terminator is acceptable
+because each Plotter operation includes a maximum of one string among
+its arguments, and such a string may not include a newline.  Also, the
+string must come last among the arguments.
+
+   <p>There are 97 Plotter operations in all.  The most important are
+<code>openpl</code> and <code>closepl</code>, which open and close a Plotter, i.e.,
+begin and end a page of graphics.  They are represented by the op&nbsp;codes<!-- /@w --> &lsquo;<samp><span class="samp">o</span></samp>&rsquo;&nbsp;and&nbsp;&lsquo;<samp><span class="samp">x</span></samp>&rsquo;<!-- /@w -->, respectively.  The <code>erase</code>
+operation, if present, separates frames within a page.  On real-time
+display devices, it&nbsp;is<!-- /@w --> interpreted as a screen erasure.  It&nbsp;is<!-- /@w -->
+represented by the op&nbsp;code&nbsp;&lsquo;<samp><span class="samp">e</span></samp>&rsquo;<!-- /@w -->.
+
+   <p>Each of the 94 other Plotter operations has a corresponding op&nbsp;code<!-- /@w -->,
+with 12 exceptions.  These 12 exceptions are (1)&nbsp;the<!-- /@w --> control
+operation <code>flushpl</code>, (2)&nbsp;the<!-- /@w --> operations <code>havecap</code>,
+<code>labelwidth</code>, and <code>flabelwidth</code>, which merely return
+information, (3)&nbsp;the<!-- /@w --> <code>color</code>, <code>colorname</code>,
+<code>pencolorname</code>, <code>fillcolorname</code>, and <code>bgcolorname</code>
+operations, which are internally mapped to <code>pencolor</code>,
+<code>fillcolor</code>, and <code>bgcolor</code>, (4)&nbsp;the<!-- /@w --> <code>frotate</code>,
+<code>fscale</code>, and <code>ftranslate</code> operations, which are internally
+mapped to <code>fconcat</code>, and (5)&nbsp;the<!-- /@w --> <code>ffontname</code> operation,
+which in a metafile would be indistinguishable from <code>fontname</code>. 
+So&nbsp;besides<!-- /@w --> &lsquo;<samp><span class="samp">o</span></samp>&rsquo;&nbsp;and&nbsp;&lsquo;<samp><span class="samp">x</span></samp>&rsquo;<!-- /@w -->, there are 83 possible op&nbsp;codes<!-- /@w -->, for a total of&nbsp;85<!-- /@w -->.  The following table lists 10 of the
+op&nbsp;codes<!-- /@w --> other than &lsquo;<samp><span class="samp">o</span></samp>&rsquo;&nbsp;and&nbsp;&lsquo;<samp><span class="samp">x</span></samp>&rsquo;<!-- /@w -->, followed by the
+Plotter operation they stand&nbsp;for<!-- /@w -->.
+
+     <dl>
+<dt>Op Code<dd>Operation
+<br><dt>&lsquo;<samp><span class="samp">a</span></samp>&rsquo;<dd><code>arc</code>
+<br><dt>&lsquo;<samp><span class="samp">c</span></samp>&rsquo;<dd><code>circle</code>
+<br><dt>&lsquo;<samp><span class="samp">e</span></samp>&rsquo;<dd><code>erase</code>
+<br><dt>&lsquo;<samp><span class="samp">f</span></samp>&rsquo;<dd><code>linemod</code>
+<br><dt>&lsquo;<samp><span class="samp">l</span></samp>&rsquo;<dd><code>line</code>
+<br><dt>&lsquo;<samp><span class="samp">m</span></samp>&rsquo;<dd><code>move</code>
+<br><dt>&lsquo;<samp><span class="samp">n</span></samp>&rsquo;<dd><code>cont</code>
+<br><dt>&lsquo;<samp><span class="samp">p</span></samp>&rsquo;<dd><code>point</code>
+<br><dt>&lsquo;<samp><span class="samp">s</span></samp>&rsquo;<dd><code>space</code>
+<br><dt>&lsquo;<samp><span class="samp">t</span></samp>&rsquo;<dd><code>label</code>
+</dl>
+
+<p class="noindent">The full set of 85 op&nbsp;codes<!-- /@w --> is listed in the <code>libplot</code> header
+file <samp><span class="file">plot.h</span></samp> and the <code>libplotter</code> header file
+<samp><span class="file">plotter.h</span></samp>, which are distributed along with the plotting
+utilities.  On&nbsp;most<!-- /@w --> systems they are installed in
+<samp><span class="file">/usr/include</span></samp> or <samp><span class="file">/usr/local/include</span></samp>.
+
+   <p>The 10 op codes in the table above are actually the op&nbsp;codes<!-- /@w --> of the
+traditional `plot(5)' format produced by pre-GNU versions of
+<code>graph</code> and <code>libplot</code>.  The use of these op&nbsp;codes<!-- /@w --> make GNU
+metafile format compatible with plot(5) format.  The absence of a magic
+string, and the absence of the &lsquo;<samp><span class="samp">o</span></samp>&rsquo;&nbsp;and&nbsp;&lsquo;<samp><span class="samp">x</span></samp>&rsquo;<!-- /@w --> op&nbsp;codes<!-- /@w -->,
+makes it possible to distinguish files in plot(5) format from GNU
+metafiles in the binary encoding.  GNU <code>plot</code> can convert files in
+plot(5) format to GNU metafiles in either the binary or the portable
+encoding.  See <a href="plot.html#plot">plot</a>.
+
+   </body></html>
+

@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+<title>plotfont Examples - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="plotfont.html#plotfont" title="plotfont">
+<link rel="prev" href="plotfont.html#plotfont" title="plotfont">
+<link rel="next" href="plotfont-Invocation.html#plotfont-Invocation" title="plotfont Invocation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="plotfont-Examples"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="plotfont-Invocation.html#plotfont-Invocation">plotfont Invocation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="plotfont.html#plotfont">plotfont</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="plotfont.html#plotfont">plotfont</a>
+<hr>
+</div>
+
+<h3 class="section">6.1 How to use <code>plotfont</code></h3>
+
+<p>GNU <code>plotfont</code> is a simple utility that will produce a character
+map for any font available to the GNU plotting utilities <code>graph</code>,
+<code>plot</code>, <code>pic2plot</code>, and <code>tek2plot</code>, and the GNU
+<code>libplot</code> graphics library on which they are based.  The map may be
+displayed on an X&nbsp;Window<!-- /@w --> System display, or produced in any of
+several output formats.  The &lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option is used to specify the
+desired output format.  Supported output formats include "X", "png",
+"pnm", "gif", "svg", "ai", "ps", "cgm", "fig", "pcl", "hpgl", "regis",
+"tek", and "meta" (the default).
+
+   <p>Which fonts are available depends on the choice of display or output
+format.  To&nbsp;get<!-- /@w --> a list of the available fonts, use the
+&lsquo;<samp><span class="samp">--help-fonts</span></samp>&rsquo; option.  For example,
+
+<pre class="example">     plotfont -T ps --help-fonts
+</pre>
+   <p class="noindent">will list the fonts that are available when producing Postscript output. 
+One of these fonts is "Times-Roman".  Doing
+
+<pre class="example">     plotfont -T ps Times-Roman &gt; map.ps
+</pre>
+   <p class="noindent">will produce a character map of the lower half of this font, which
+consists of printable ASCII characters.  The map will be a 12x8 grid,
+with a character centered in each grid cell.  If you include the
+&lsquo;<samp><span class="samp">-2</span></samp>&rsquo; option, you will get a map of the upper half of the font.
+
+   <p>Most built-in fonts are ISO-Latin-1 fonts, which means that the upper
+half is arranged according to the ISO-Latin-1 encoding.  The
+"HersheyCyrillic" font is one that is not.  If you do
+
+<pre class="example">     plotfont -T ps -2 HersheyCyrillic &gt; map.ps
+</pre>
+   <p class="noindent">you will get a map that illustrates its arrangment, which is called
+KOI8-R<!-- /@w -->.  The KOI8-R<!-- /@w --> arrangement is the standard for Unix and
+networking applications in the former Soviet Union.  So-called dingbats
+fonts, such as "ZapfDingbats" and "Wingdings", also have an
+individualistic layout.  In most installations of the plotting
+utilities, the Wingdings font is not available when producing Postscript
+output.  However, it&nbsp;is<!-- /@w --> available when producing output in PCL&nbsp;5<!-- /@w -->
+or HP-GL/2 format.  If you do
+
+<pre class="example">     plotfont -T hpgl Wingdings &gt; map.plt
+</pre>
+   <p class="noindent">you will get a Wingdings character map, in HP-GL/2 format, that may be
+imported into any application that understands HP-GL/2.  Similarly,
+<code>plotfont -T pcl Wingdings</code> will produce a Wingdings character
+map in PCL&nbsp;5<!-- /@w --> format, which may be printed on a LaserJet or other
+PCL&nbsp;5<!-- /@w --> device.
+
+   <p>In all, more than a hundred fonts are built into the plotting utilities. 
+See <a href="Text-Fonts.html#Text-Fonts">Text Fonts</a>.  Actually, if you are using the plotting utilities to
+display output on an X&nbsp;display<!-- /@w -->, you are not restricted to the
+built-in fonts.  Doing
+
+<pre class="example">     plotfont -T X --help-fonts
+</pre>
+   <p class="noindent">produces a list of the built-in fonts that are available, including
+both Hershey and Postscript fonts.  But fonts available on your X&nbsp;display<!-- /@w --> may also be used.  The <code>xlsfonts</code> command will list the
+core X&nbsp;fonts<!-- /@w --> available on your X&nbsp;display<!-- /@w -->, most font names
+being given in what is called XLFD format.  The plotting utilities
+refer to core X&nbsp;fonts<!-- /@w --> by shortened versions of their XLFD names. 
+For example, the font "CharterBT-Roman" is available on many X&nbsp;displays<!-- /@w -->.  Its XLFD name is
+"-bitstream-charter-medium-r-normal&ndash;0-0-0-0-p-0-iso8859-1", and its
+shortened XLFD name is "charter-medium-r-normal".  If you do
+
+<pre class="example">     plotfont -T X charter-medium-r-normal
+</pre>
+   <p class="noindent">then a character map for this font will be displayed in a popped-up
+X&nbsp;window<!-- /@w -->.
+
+   <p>When using the &lsquo;<samp><span class="samp">-T X</span></samp>&rsquo; option, you may also use the
+&lsquo;<samp><span class="samp">--bitmap-size</span></samp>&rsquo; option to choose the size of the popped-up
+window.  Modern X&nbsp;displays<!-- /@w --> can scale fonts by different amounts in
+the horizontal and vertical directions.  If, for example, you add
+&lsquo;<samp><span class="samp">--bitmap-size 600x300</span></samp>&rsquo; to the above command line, both the
+character map and the CharterBT-Roman font within&nbsp;it<!-- /@w --> will be
+scaled in this way.
+
+   </body></html>
+

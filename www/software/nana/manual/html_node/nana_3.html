@@ -1,0 +1,69 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/nana.texi on 6 November 1998 -->
+
+<TITLE>GNU Nana: improved support for assertions and logging in C and C++ - Assert</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_2.html">previous</A>, <A HREF="nana_4.html">next</A>, <A HREF="nana_42.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC3" HREF="nana_toc.html#TOC3">Assert.h considered harmful</A></H2>
+<P>
+Most C programmers become familiar with assertions from the the
+<CODE>assert.h</CODE> header. As such its a very good thing and has a nice
+simple implementation. However it is also inefficient and leads some
+people to the conclusion that assertion checking is an expensive luxury.
+
+</P>
+<P>
+The implementation of <CODE>assert.h</CODE> as distributed with <CODE>gcc</CODE>
+looks like the following (after a bit of editing):
+
+</P>
+
+<PRE>
+# ifndef NDEBUG
+# define _assert(ex)	{if (!(ex)) \
+                         {(void)fprintf(stderr, \
+                           "Assertion failed: file \"%s\", line %d\n", \
+                           __FILE__, __LINE__);exit(1);}}
+# define assert(ex)	_assert(ex)
+# else
+# define _assert(ex)
+# define assert(ex)
+# endif
+</PRE>
+
+<P>
+There are are two main problems with this:
+
+</P>
+
+<OL>
+<LI>Code space overhead: each call to <SAMP>`assert'</SAMP> generates 2 function
+
+calls with 4 and 1 arguments plus strings for error messages. 
+If <CODE>assert.h</CODE> had library code support we could make the implementation
+much more space efficient, e.g. by calling a single function on error
+detection.   
+<LI>The default behaviour simply prints a message and dies, ideally
+
+you like to be able to use a debugger to determine why the assertion
+failed. Even if you run this under the debugger you can't observe the
+failures of variables are an assert failure because the process exits
+rather than aborting back to the debugger.
+</OL>
+
+<P>
+Of course everyone merely rewrites their own <SAMP>`assert'</SAMP> macro so
+these are not significant objections. The only problem is if the author
+uses the libraries without modification.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_2.html">previous</A>, <A HREF="nana_4.html">next</A>, <A HREF="nana_42.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+</BODY>
+</HTML>

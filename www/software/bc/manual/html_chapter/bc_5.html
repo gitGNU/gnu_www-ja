@@ -1,0 +1,147 @@
+<HTML>
+<HEAD>
+<!-- Created by texi2html 1.56k from ../bc.texi on 20 March 2001 -->
+
+<TITLE>bc Command Manual - Functions</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_4.html">previous</A>, <A HREF="bc_6.html">next</A>, <A HREF="bc_10.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC17" HREF="bc_toc.html#TOC17">Functions</A></H1>
+
+<P>
+Functions provide a method of defining a computation that can be
+executed later.  Functions in <CODE>bc</CODE> always compute a value and
+return it to the caller.  Function definitions are "dynamic" in the
+sense that a function is undefined until a definition is encountered in
+the input.  That definition is then used until another definition
+function for the same name is encountered.  The new definition then
+replaces the older definition.  A function is defined as follows:
+
+
+
+<PRE>
+<CODE>define</CODE> <VAR>name</VAR> <CODE>(</CODE> <VAR>parameters</VAR> <CODE>)</CODE> <CODE>{</CODE> <VAR>newline</VAR>
+    <VAR>auto_list   statement_list</VAR> <CODE>}</CODE>
+</PRE>
+
+<P>
+A function call is just an expression of the form
+"<CODE>name</CODE> <CODE>(</CODE><VAR>parameters</VAR><CODE>)</CODE>".
+
+
+<P>
+Parameters are numbers or arrays (an extension).  In the function definition,
+zero or more parameters are defined by listing their names separated by
+commas.  Numbers are only call by value parameters.  Arrays are only
+call by variable.  Arrays are specified in the parameter definition by
+the notation "<VAR>name</VAR><CODE>[ ]</CODE>".   In the function call, actual parameters
+are full expressions for number parameters.  The same notation is used
+for passing arrays as for defining array parameters.  The named array is
+passed by variable to the function.  Since function definitions are dynamic,
+parameter numbers and types are checked when a function is called.  Any
+mismatch in number or types of parameters will cause a runtime error.
+A runtime error will also occur for the call to an undefined function.
+
+
+<P>
+The <VAR>auto_list</VAR> is an optional list of variables that are for
+"local" use.  The syntax of the auto list (if present) is "<CODE>auto</CODE>
+<VAR>name</VAR>, ... ;".  (The semicolon is optional.)  Each <VAR>name</VAR> is
+the name of an auto variable.  Arrays may be specified by using the
+same notation as used in parameters.  These variables have their
+values pushed onto a stack at the start of the function.  The
+variables are then initialized to zero and used throughout the
+execution of the function.  At function exit, these variables are
+popped so that the original value (at the time of the function call)
+of these variables are restored.  The parameters are really auto
+variables that are initialized to a value provided in the function
+call.  
+Auto variables are different than traditional local variables
+because if function A calls function B, B may access function
+A's auto variables by just using the same name, unless function B has
+called them auto variables.  Due to the fact that auto variables and
+parameters are pushed onto a stack, <CODE>bc</CODE> supports recursive functions.
+
+
+<P>
+The function body is a list of <CODE>bc</CODE> statements.  Again, statements
+are separated by semicolons or newlines.  Return statements cause the
+termination of a function and the return of a value.  There are two
+versions of the return statement.  The first form, "<CODE>return</CODE>", returns
+the value 0 to the calling expression.  The second form, 
+"<CODE>return</CODE> ( <VAR>expression</VAR> )", computes the value of the expression
+and returns that value to the calling expression.  There is an implied
+"<CODE>return</CODE> (0)" at the end of every function.  This allows a function
+to terminate and return 0 without an explicit <CODE>return</CODE> statement.
+
+
+<P>
+Functions also change the usage of the variable <VAR>ibase</VAR>.  All
+constants in the function body will be converted using the value of
+<VAR>ibase</VAR> at the time of the function call.  Changes of <VAR>ibase</VAR>
+will be ignored during the execution of the function except for the
+standard function <CODE>read</CODE>, which will always use the current value
+of <VAR>ibase</VAR> for conversion of numbers.
+
+
+<P>
+As an extension, the format of the definition has been slightly relaxed.
+The standard requires the opening brace be on the same line as the 
+<CODE>define</CODE> keyword and all other parts must be on following lines.
+This version of <CODE>bc</CODE> will allow any number of newlines before and
+after the opening brace of the function.  For example, the following
+definitions are legal.
+
+
+
+<PRE>
+   define d (n) { return (2*n); }
+   define d (n)
+       { return (2*n); }
+</PRE>
+
+
+
+<H2><A NAME="SEC18" HREF="bc_toc.html#TOC18">Math Library Functions</A></H2>
+
+<P>
+If <CODE>bc</CODE> is invoked with the <CODE>-l</CODE> option, a math library is
+preloaded and the default <VAR>scale</VAR> is set to 20.  The math functions will
+calculate their results to the scale set at the time of their call.  The
+math library defines the following functions:
+
+
+<DL COMPACT>
+
+<DT><CODE>s (<VAR>x</VAR>)</CODE>
+<DD>
+The sine of <VAR>x</VAR>, <VAR>x</VAR> is in radians.
+
+<DT><CODE>c (<VAR>x</VAR>)</CODE>
+<DD>
+The cosine of <VAR>x</VAR>, <VAR>x</VAR> is in radians.
+
+<DT><CODE>a (<VAR>x</VAR>)</CODE>
+<DD>
+The arctangent of <VAR>x</VAR>, arctangent returns radians.
+
+<DT><CODE>l (<VAR>x</VAR>)</CODE>
+<DD>
+The natural logarithm of <VAR>x</VAR>.
+
+<DT><CODE><VAR>e</VAR> (<VAR>x</VAR>)</CODE>
+<DD>
+The exponential function of raising <VAR>e</VAR> to the value <VAR>x</VAR>.
+
+<DT><CODE><VAR>j</VAR> (<VAR>n,x</VAR>)</CODE>
+<DD>
+The bessel function of integer order <VAR>n</VAR> of <VAR>x</VAR>.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_4.html">previous</A>, <A HREF="bc_6.html">next</A>, <A HREF="bc_10.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+</BODY>
+</HTML>

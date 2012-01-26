@@ -1,0 +1,168 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.51 [en] (X11; I; Linux 2.2.9 i586) [Netscape]">
+   <meta name="Author" content="Javier Orovengua">
+   <meta name="Description" content="Hoja para la instalación y configuración de las X-Window">
+   <title>Instalaci&oacute;n y Configuraci&oacute;n de las X-Window</title>
+</head>
+<body text="#000000" bgcolor="#33CCFF" link="#0000FF" vlink="#202020" alink="#FF0000">
+<a NAME="Arriba"></a>
+<br><a href="x-window.html">[ &lt; ]</a><a href="contenidos.html">[ ||
+]</a>[ > ]
+<h1>
+La Joya de Linux:</h1>
+
+<h1>
+X-Window</h1>
+
+<hr WIDTH="100%">
+<br>
+<hr WIDTH="100%">
+<br>&nbsp;
+<ul>
+<ul>
+<li>
+<a href="#Upgrade">Actualizaci&oacute;n.</a></li>
+
+<li>
+<a href="#Config">Configuraci&oacute;n.</a></li>
+
+<li>
+<a href="#Running">Hacer funcionar.</a></li>
+
+<li>
+<a href="#NotaX">Nota.</a></li>
+</ul>
+</ul>
+
+<p><br>
+<hr WIDTH="100%">
+<br>
+<hr WIDTH="100%">
+<br><a NAME="Upgrade"></a>
+<h2>
+Actualizaci&oacute;n:</h2>
+
+<blockquote>&nbsp;
+<br>Si ya existiera informaci&oacute;n en el directorio /usr/X11R6/, ya
+lo tendr&aacute;s instalado, si no quieres actualizar tu X-Window, saltate
+a la configuraci&oacute;n.
+<br>&nbsp;
+<p>Pincha aqu&iacute; para ver:<a href="x-window-dir/Lista_xfree.html">
+Lista de paquetes .tar.gz para X-Window</a>
+<br>&nbsp;
+<ol>
+<li>
+Borra toda la informaci&oacute;n (previa copia de seguridad de la documentaci&oacute;n
+o programas que se cree oportuno) que hay en el directorio /usr/X11R6</li>
+
+<li>
+Ejecutar el script de preinstalaci&oacute;n <b>`preinst.sh'</b></li>
+
+<li>
+Ir descomprimiendolos los paquetes mediante la orden: "<b>tar xvfz &lt;nombre
+del fichero.tgz></b>"</li>
+
+<li>
+Ejecutar el ficheros de postinstalaci&oacute;n <b>`postinst.sh'</b></li>
+
+<li>
+Obligaremos al sistema a sincronizar el fs, mediante la orden: "<b>sync;
+sync</b>"</li>
+
+<li>
+Y a releer la tabla de librer&iacute;as mediante: "<b>ldconfig</b>"</li>
+</ol>
+
+<p><br>&iexcl;ACTUALIZACI&Oacute;N TERMINADA!</blockquote>
+<a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br>
+<hr WIDTH="100%">
+<br><a NAME="Config"></a>
+<h2>
+Configuraci&oacute;n:</h2>
+
+<ul>
+<li>
+Ejecutamos primero SuperProbe, apuntando los resultados en un papel.</li>
+
+<li>
+Escribiremos XF86Setup</li>
+</ul>
+Comenzar&iacute;amos por decirle que tipo de rat&oacute;n tenemos, generalmente
+todo el mundo tiene un rat&oacute;n de la serie Microsoft, o compatible
+<br><img SRC="xf86s1.gif" height=486 width=605>
+<br>&nbsp;
+<br>&nbsp;
+<p>Una vez que tengamos definido el rat&oacute;n, lo haremos con el teclado.
+<br><img SRC="xf86s2.gif" height=486 width=605>
+<br>&nbsp;
+<p>Una vez definido el teclado, lo haremos seleccionando nuestra tarjeta
+de v&iacute;deo.
+<br>Ahora es buen momento para ir a por el libro que suele acompa&ntilde;ar
+el equipo cuando lo compraste, que comentar las especificaciones t&eacute;cnicas
+de tu tarjeta de v&iacute;deo, velocidades y procesos, tambi&eacute;n deber&aacute;s
+tener a mano el que vendr&iacute;a con el monitor.
+<p>Y seleccionaremos la marca y modelo de nuestro monitor o en su defecto,
+especificaremos las caracter&iacute;sticas del nuestro si es un "Cl&oacute;nico
+Digital"
+<br><img SRC="xf86s3.gif" height=486 width=605>
+<br>Una vez que tengas configurado el sistema obtendr&aacute;s un fichero
+que se almacena en: /etc/X11, con el nombre: XF86Config similar a los ejemplos:
+<ul>
+<li>
+<a href="x-window-dir/XF86Config1.ejemplo">XF86Config Ejemplo 1</a></li>
+
+<li>
+<a href="x-window-dir/XF86Config2.ejemplo">XF86Config Ejemplo 2</a></li>
+
+<li>
+<a href="x-window-dir/XF86Config3.ejemplo">XF86Config Ejemplo 3</a></li>
+</ul>
+Que son v&aacute;lidos para esa m&aacute;quina que tiene ese monitor con
+esa tarjeta gr&aacute;fica.
+<br><a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br>
+<hr WIDTH="100%">
+<br><a NAME="Running"></a>
+<h1>
+Funcionando:</h1>
+Cuando lo tenga terminado, haga una prueba ejecutando
+<br>&nbsp;
+<p><b>xinit</b>
+<br>Si va mal pulsa: "Ctrl+Alt+Tecla de retroceso", para salir
+<br>y reconfigure otra vez
+<p>cuando se empiece a ver bien, escriba
+<br><b>startx</b>
+<p>Si al salir, ve caracteres extra&ntilde;os, ponga:
+<br><b>setfont</b>
+<br>Y se restablecer&aacute; la pantalla
+<p><b>setfont lat1u-16.psf</b>
+<br>Se restablecer&aacute; la pantalla con las caracter&iacute;sticas de
+las fuentes en Castellano.
+<p>&iexcl;Ya tiene X-Window!
+<br><a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br>
+<hr WIDTH="100%">
+<blockquote><a NAME="NotaX"></a>
+<br>Nos alegramos que hayas decidido por instalar X-Window, en este tutorial
+NO vamos a explicar como instalar X-Window en una u otra distribuci&oacute;n,
+lo haremos como se hace en .TAR.GZ, y como se actualiza, en caso de haber
+querido bajarte unas nuevas librer&iacute;as.
+<p>Tenemos que avisarte que X-Window es GNU, :), y que existen tambi&eacute;n
+entornos gr&aacute;ficos comerciales para Linux, pero sus librer&iacute;as
+no son XFree86, por lo que deber&aacute;s pagar por tener unas librer&iacute;as
+para tu entorno gr&aacute;fico, no podemos decirte (por no usarlas) si
+en dichas entornos gr&aacute;ficos puedes cambiar el gestor de ventanas</blockquote>
+<a href="#Arriba">[ ^ ]</a>
+<br>&nbsp;
+</body>
+</html>

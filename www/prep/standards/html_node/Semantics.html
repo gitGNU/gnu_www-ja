@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated January 8, 2012.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+2011, 2012 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 0.01, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: Semantics</title>
+
+<meta name="description" content="GNU Coding Standards: Semantics">
+<meta name="keywords" content="GNU Coding Standards: Semantics">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Program-Behavior.html#Program-Behavior" rel="up" title="Program Behavior">
+<link href="Libraries.html#Libraries" rel="next" title="Libraries">
+<link href="Non_002dGNU-Standards.html#Non_002dGNU-Standards" rel="previous" title="Non-GNU Standards">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Semantics"></a>
+<div class="header">
+<p>
+Next: <a href="Libraries.html#Libraries" accesskey="n" rel="next">Libraries</a>, Previous: <a href="Non_002dGNU-Standards.html#Non_002dGNU-Standards" accesskey="p" rel="previous">Non-GNU Standards</a>, Up: <a href="Program-Behavior.html#Program-Behavior" accesskey="u" rel="up">Program Behavior</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Writing-Robust-Programs"></a>
+<h3 class="section">4.2 Writing Robust Programs</h3>
+
+<a name="index-arbitrary-limits-on-data"></a>
+<p>Avoid arbitrary limits on the length or number of <em>any</em> data
+structure, including file names, lines, files, and symbols, by allocating
+all data structures dynamically.  In most Unix utilities, &ldquo;long lines
+are silently truncated&rdquo;.  This is not acceptable in a GNU utility.
+</p>
+<a name="index-NUL-characters"></a>
+<a name="index-libiconv"></a>
+<p>Utilities reading files should not drop NUL characters, or any other
+nonprinting characters <em>including those with codes above 0177</em>.
+The only sensible exceptions would be utilities specifically intended
+for interface to certain types of terminals or printers that can&rsquo;t
+handle those characters.  Whenever possible, try to make programs work
+properly with sequences of bytes that represent multibyte characters;
+UTF-8 is the most important.
+</p>
+<a name="index-error-messages"></a>
+<p>Check every system call for an error return, unless you know you wish
+to ignore errors.  Include the system error text (from <code>perror</code>,
+<code>strerror</code>, or equivalent) in <em>every</em> error message
+resulting from a failing system call, as well as the name of the file
+if any and the name of the utility.  Just &ldquo;cannot open foo.c&rdquo; or
+&ldquo;stat failed&rdquo; is not sufficient.
+</p>
+<a name="index-malloc-return-value"></a>
+<a name="index-memory-allocation-failure"></a>
+<p>Check every call to <code>malloc</code> or <code>realloc</code> to see if it
+returned zero.  Check <code>realloc</code> even if you are making the block
+smaller; in a system that rounds block sizes to a power of 2,
+<code>realloc</code> may get a different block if you ask for less space.
+</p>
+<p>In Unix, <code>realloc</code> can destroy the storage block if it returns
+zero.  GNU <code>realloc</code> does not have this bug: if it fails, the
+original block is unchanged.  Feel free to assume the bug is fixed.  If
+you wish to run your program on Unix, and wish to avoid lossage in this
+case, you can use the GNU <code>malloc</code>.
+</p>
+<p>You must expect <code>free</code> to alter the contents of the block that was
+freed.  Anything you want to fetch from the block, you must fetch before
+calling <code>free</code>.
+</p>
+<p>If <code>malloc</code> fails in a noninteractive program, make that a fatal
+error.  In an interactive program (one that reads commands from the
+user), it is better to abort the command and return to the command
+reader loop.  This allows the user to kill other processes to free up
+virtual memory, and then try the command again.
+</p>
+<a name="index-command_002dline-arguments_002c-decoding"></a>
+<p>Use <code>getopt_long</code> to decode arguments, unless the argument syntax
+makes this unreasonable.
+</p>
+<p>When static storage is to be written in during program execution, use
+explicit C code to initialize it.  Reserve C initialized declarations
+for data that will not be changed.
+</p>
+<p>Try to avoid low-level interfaces to obscure Unix data structures (such
+as file directories, utmp, or the layout of kernel memory), since these
+are less likely to work compatibly.  If you need to find all the files
+in a directory, use <code>readdir</code> or some other high-level interface.
+These are supported compatibly by GNU.
+</p>
+<a name="index-signal-handling"></a>
+<p>The preferred signal handling facilities are the BSD variant of
+<code>signal</code>, and the <small>POSIX</small> <code>sigaction</code> function; the
+alternative USG <code>signal</code> interface is an inferior design.
+</p>
+<p>Nowadays, using the <small>POSIX</small> signal functions may be the easiest way
+to make a program portable.  If you use <code>signal</code>, then on GNU/Linux
+systems running GNU libc version 1, you should include
+&lsquo;<tt>bsd/signal.h</tt>&rsquo; instead of &lsquo;<tt>signal.h</tt>&rsquo;, so as to get BSD
+behavior.  It is up to you whether to support systems where
+<code>signal</code> has only the USG behavior, or give up on them.
+</p>
+<a name="index-impossible-conditions"></a>
+<p>In error checks that detect &ldquo;impossible&rdquo; conditions, just abort.
+There is usually no point in printing any message.  These checks
+indicate the existence of bugs.  Whoever wants to fix the bugs will have
+to read the source code and run a debugger.  So explain the problem with
+comments in the source.  The relevant data will be in variables, which
+are easy to examine with the debugger, so there is no point moving them
+elsewhere.
+</p>
+<p>Do not use a count of errors as the exit status for a program.
+<em>That does not work</em>, because exit status values are limited to 8
+bits (0 through 255).  A single run of the program might have 256
+errors; if you try to return 256 as the exit status, the parent process
+will see 0 as the status, and it will appear that the program succeeded.
+</p>
+<a name="index-temporary-files"></a>
+<a name="index-TMPDIR-environment-variable"></a>
+<p>If you make temporary files, check the <code>TMPDIR</code> environment
+variable; if that variable is defined, use the specified directory
+instead of &lsquo;<tt>/tmp</tt>&rsquo;.
+</p>
+<p>In addition, be aware that there is a possible security problem when
+creating temporary files in world-writable directories.  In C, you can
+avoid this problem by creating temporary files in this manner:
+</p>
+<div class="example">
+<pre class="example">fd = open (filename, O_WRONLY | O_CREAT | O_EXCL, 0600);
+</pre></div>
+
+<p>or by using the <code>mkstemps</code> function from Gnulib
+(see <a href="http://www.gnu.org/software/gnulib/manual/html_node/mkstemps.html#mkstemps">mkstemps</a> in <cite>Gnulib</cite>).
+</p>
+<p>In bash, use <code>set -C</code> (long name <code>noclobber</code>) to avoid this
+problem.  In addition, the <code>mktemp</code> utility is a more general
+solution for creating temporary files from shell scripts
+(see <a href="http://www.gnu.org/software/coreutils/manual/html_node/mktemp-invocation.html#mktemp-invocation">mktemp invocation</a> in <cite>GNU Coreutils</cite>).
+</p>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Libraries.html#Libraries" accesskey="n" rel="next">Libraries</a>, Previous: <a href="Non_002dGNU-Standards.html#Non_002dGNU-Standards" accesskey="p" rel="previous">Non-GNU Standards</a>, Up: <a href="Program-Behavior.html#Program-Behavior" accesskey="u" rel="up">Program Behavior</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<p>
+
+
+</p>
+</body>
+</html>

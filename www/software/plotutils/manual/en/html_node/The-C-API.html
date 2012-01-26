@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+<title>The C API - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="C-Programming.html#C-Programming" title="C Programming">
+<link rel="prev" href="C-Programming.html#C-Programming" title="C Programming">
+<link rel="next" href="Older-C-APIs.html#Older-C-APIs" title="Older C APIs">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="The-C-API"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Older-C-APIs.html#Older-C-APIs">Older C APIs</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="C-Programming.html#C-Programming">C Programming</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="C-Programming.html#C-Programming">C Programming</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.2.1 The C application programming interface</h4>
+
+<p>GNU <code>libplot</code> has bindings for several programming languages. 
+Regardless of which binding is used, the concepts behind <code>libplot</code>
+(Plotters, and a fixed set of operations that may be applied to any
+Plotter) remain the same.  However, the ways in which Plotters are
+manipulated (created, selected for&nbsp;use<!-- /@w -->, and deleted) may differ
+between bindings.  This section discusses the current C&nbsp;binding<!-- /@w -->. 
+For information on older C&nbsp;bindings<!-- /@w -->, see <a href="Older-C-APIs.html#Older-C-APIs">Older C APIs</a>.
+
+   <p>In the C&nbsp;binding<!-- /@w -->, a Plotter is implemented as an opaque datatype,
+<code>plPlotter</code>, which must be accessed through a pointer.  Each
+drawing operation takes a pointer to a <code>plPlotter</code> as its first
+argument.  The functions <code>pl_newpl_r</code> and <code>pl_deletepl_r</code> are
+the constructor and destructor for the <code>plPlotter</code> datatype.  The
+final argument of <code>pl_newpl_r</code> must be a pointer to a
+<code>plPlotterParams</code> object, which specifies Plotter parameters. 
+<code>pl_newpl_r</code> returns a pointer to a <code>plPlotter</code>.
+
+   <p>You should always call <code>pl_deletepl_r</code> when you are finished using
+a Plotter.  In general, Plotters that do not plot graphics in real time
+(Postscript Plotters and CGM Plotters in particular) write&nbsp;out<!-- /@w -->
+graphics only when <code>pl_deletepl_r</code> is called.
+
+   <p>The following tables summarize the action of the Plotter manipulation
+functions in the C&nbsp;binding<!-- /@w -->.
+
+     <dl>
+<dt>plPlotter * <tt>pl_newpl_r</tt> (const char *<var>type</var>, FILE *<var>infile</var>, FILE *<var>outfile</var>, FILE *<var>errfile</var>, plPlotterParams *<var>params</var>);<dd>Create a Plotter of type <var>type</var>, where <var>type</var> may be "X",
+"Xdrawable", "png", "pnm", "gif", "svg", "ai", "ps", "cgm", "fig",
+"pcl", "hpgl", "regis", "tek", or "meta".  The Plotter will have input
+stream <var>infile</var>, output stream <var>outfile</var>, and error stream
+<var>errfile</var>.  Any or all of these three may be NULL.  Currently, all
+Plotters are write-only, so <var>infile</var> is ignored.  X&nbsp;Plotters<!-- /@w --> and
+X&nbsp;Drawable<!-- /@w --> Plotters write graphics to an X&nbsp;Window<!-- /@w --> System display
+rather than to an output stream, so if <var>type</var> is "X" or "Xdrawable"
+then <var>outfile</var> is ignored as&nbsp;well<!-- /@w -->.  Error messages (if&nbsp;any<!-- /@w -->)
+are written to the stream <var>errfile</var>, unless <var>errfile</var> is NULL.
+
+     <p>All Plotter parameters will be copied from the <code>plPlotterParams</code>
+object pointed to by <var>params</var>.  A&nbsp;NULL<!-- /@w --> return value indicates
+the Plotter could not be created.
+
+     <br><dt>int <tt>pl_deletepl_r</tt> (plPlotter *<var>plotter</var>);<dd>Delete the specified Plotter.  A negative return value indicates the
+Plotter could not be deleted. 
+</dl>
+
+   <p>The functions <code>pl_newplparams</code>, <code>pl_deleteplparams</code>, and
+<code>pl_copyplparams</code> are the constructor, destructor, and copy
+constructor for the <code>plPlotterParams</code> datatype.  The function
+<code>pl_setplparam</code> sets any single Plotter parameter in a
+<code>plPlotterParams</code> object.
+
+     <dl>
+<dt>plPlotterParams * <tt>pl_newplparams</tt> ();
+<br><dt>int <tt>pl_deleteplparams</tt> (plPlotterParams *<var>plotter_params</var>);
+<br><dt>plPlotterParams * <tt>pl_copyplparams</tt> (const plPlotterParams *<var>params</var>);
+<br><dt>int <tt>pl_setplparam</tt> (plPlotterParams *<var>params</var>, const char *<var>parameter</var>, void *<var>value</var>);<dd>Set the value of the parameter <var>parameter</var> to <var>value</var> in the
+object pointed to by <var>params</var>.  For most parameters, <var>value</var>
+should be a <code>char *</code>, i.e., a string.  If&nbsp;<var>value</var><!-- /@w --> is NULL,
+the parameter is unset.
+
+     <p>For a list of recognized parameters and their meaning, see <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.  Unrecognized parameters are ignored. 
+</dl>
+
+   <p>The reason why the <code>plPlotterParams</code> datatype exists is that even
+though the Plotter interface is largely Plotter-independent, it&nbsp;is<!-- /@w -->
+useful to be able to specify certain aspects of a Plotter's behavior at
+creation time.  If&nbsp;a<!-- /@w --> a parameter has been set in the specified
+<code>plPlotterParams</code> object, that will be the value used by the
+Plotter.  If&nbsp;a<!-- /@w --> parameter is <em>not</em> set, the Plotter will use a
+default value for&nbsp;it<!-- /@w -->, unless the parameter is string-valued and
+there is an environment variable of the same name, in which case the
+value of that environment variable will be used.  This rule increases
+run-time flexibility: an&nbsp;application<!-- /@w --> programmer may allow
+non-critical Plotter parameters to be specified by the user via
+environment variables.
+
+   <p>In the C binding, each drawing operation that may be invoked on a
+Plotter is represented by a function whose name begins with "pl_" and
+ends with "_r".  For example, the <code>openpl</code> operation is invoked on
+a Plotter by calling the function <code>pl_openpl_r</code>, the first argument
+of which is a pointer to the corresponding <code>plPlotter</code> object.
+
+   </body></html>
+

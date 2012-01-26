@@ -1,0 +1,107 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/dc.texi on 7 November 1998 -->
+
+<TITLE>dc, an arbitrary precision calculator - Arithmetic</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="dc_1.html">first</A>, <A HREF="dc_3.html">previous</A>, <A HREF="dc_5.html">next</A>, <A HREF="dc_11.html">last</A> section, <A HREF="dc_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC4" HREF="dc_toc.html#TOC4">Arithmetic</A></H1>
+
+<DL COMPACT>
+
+<DT><SAMP>`+'</SAMP>
+<DD>
+Pops two values off the stack, adds them, and pushes the result.
+The precision of the result is determined only
+by the values of the arguments, and is enough to be exact.
+
+<DT><SAMP>`-'</SAMP>
+<DD>
+Pops two values, subtracts the first one popped
+from the second one popped, and pushes the result.
+
+<DT><SAMP>`*'</SAMP>
+<DD>
+Pops two values, multiplies them, and pushes the result.
+The number of fraction digits in the result is the largest of
+the precision value,
+the number of fraction digits in the multiplier,
+or the number of fraction digits in the multiplicand;
+but in no event exceeding the number of digits required for
+an exact result.
+
+<DT><SAMP>`/'</SAMP>
+<DD>
+Pops two values, divides the second one popped
+from the first one popped, and pushes the result.
+The number of fraction digits is specified by the precision value.
+
+<DT><SAMP>`%'</SAMP>
+<DD>
+Pops two values,
+computes the remainder of the division that
+the <SAMP>`/'</SAMP> command would do,
+and pushes that.
+The value computed is the same as that computed by
+the sequence <CODE>Sd dld/ Ld*-</CODE> .
+
+<DT><SAMP>`~'</SAMP>
+<DD>
+Pops two values,
+divides the second one popped from the first one popped.
+The quotient is pushed first, and the remainder is pushed next.
+The number of fraction digits used in the division
+is specified by the precision value.
+(The sequence <CODE>SdSn lnld/ LnLd%</CODE> could also accomplish
+this function, with slightly different error checking.)
+(This command is a GNU extension.)
+
+<DT><SAMP>`^'</SAMP>
+<DD>
+Pops two values and exponentiates,
+using the first value popped as the exponent
+and the second popped as the base.
+The fraction part of the exponent is ignored.
+The precision value specifies the number of fraction
+digits in the result.
+
+<DT><SAMP>`|'</SAMP>
+<DD>
+Pops three values and computes a modular exponentiation.
+The first value popped is used as the reduction modulus;
+this value must be a non-zero number,
+and the result may not be accurate if the modulus
+is not an integer.
+The second popped is used as the exponent;
+this value must be a non-negative number,
+and any fractional part of this exponent will be ignored.
+The third value popped is the base which gets exponentiated,
+which should be an integer.
+For small integers this is like the sequence <CODE>Sm^Lm%</CODE>,
+but, unlike <CODE>^</CODE>, this command will work with arbritrarily large exponents.
+(This command is a GNU extension.)
+
+<DT><SAMP>`v'</SAMP>
+<DD>
+Pops one value, computes its square root, and pushes that.
+The precision value specifies the number of fraction digits
+in the result.
+</DL>
+
+<P>
+Most arithmetic operations are affected by the <EM>precision value</EM>,
+which you can set with the <SAMP>`k'</SAMP> command.
+The default precision value is zero,
+which means that all arithmetic except for
+addition and subtraction produces integer results.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="dc_1.html">first</A>, <A HREF="dc_3.html">previous</A>, <A HREF="dc_5.html">next</A>, <A HREF="dc_11.html">last</A> section, <A HREF="dc_toc.html">table of contents</A>.
+</BODY>
+</HTML>

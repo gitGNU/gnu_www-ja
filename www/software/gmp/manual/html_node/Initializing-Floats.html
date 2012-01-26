@@ -1,0 +1,200 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="Initializing%20Floats">Initializing Floats</a>,
+Next:<a rel=next accesskey=n href="Assigning-Floats.html#Assigning%20Floats">Assigning Floats</a>,
+Previous:<a rel=previous accesskey=p href="Floating-point-Functions.html#Floating-point%20Functions">Floating-point Functions</a>,
+Up:<a rel=up accesskey=u href="Floating-point-Functions.html#Floating-point%20Functions">Floating-point Functions</a>
+<hr><br>
+
+<h3>Initialization Functions</h3>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_set_default_prec</b><i> (unsigned long int <var>prec</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set the default precision to be <strong>at least</strong> <var>prec</var> bits.  All
+subsequent calls to <code>mpf_init</code> will use this precision, but previously
+initialized variables are unaffected. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">unsigned long int <b>mpf_get_default_prec</b><i> (void)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Return the default default precision actually used. 
+</td></tr>
+</table>
+
+<p>An <code>mpf_t</code> object must be initialized before storing the first value in
+it.  The functions <code>mpf_init</code> and <code>mpf_init2</code> are used for that
+purpose.
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_init</b><i> (mpf_t <var>x</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Initialize <var>x</var> to 0.  Normally, a variable should be initialized once only
+or at least be cleared, using <code>mpf_clear</code>, between initializations.  The
+precision of <var>x</var> is undefined unless a default precision has already been
+established by a call to <code>mpf_set_default_prec</code>. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_init2</b><i> (mpf_t <var>x</var>, unsigned long int <var>prec</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Initialize <var>x</var> to 0 and set its precision to be <strong>at least</strong>
+<var>prec</var> bits.  Normally, a variable should be initialized once only or at
+least be cleared, using <code>mpf_clear</code>, between initializations. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_clear</b><i> (mpf_t <var>x</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Free the space occupied by <var>x</var>.  Make sure to call this function for all
+<code>mpf_t</code> variables when you are done with them. 
+</td></tr>
+</table>
+
+<p>Here is an example on how to initialize floating-point variables:
+<br><pre>{
+  mpf_t x, y;
+  mpf_init (x);           /* use default precision */
+  mpf_init2 (y, 256);     /* precision <em>at least</em> 256 bits */
+  <small>...</small>
+  /* Unless the program is about to exit, do ... */
+  mpf_clear (x);
+  mpf_clear (y);
+}
+</pre>
+
+<p>The following three functions are useful for changing the precision during a
+calculation.  A typical use would be for adjusting the precision gradually in
+iterative algorithms like Newton-Raphson, making the computation precision
+closely match the actual accurate part of the numbers.
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">unsigned long int <b>mpf_get_prec</b><i> (mpf_t <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Return the current precision of <var>op</var>, in bits. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_set_prec</b><i> (mpf_t <var>rop</var>, unsigned long int <var>prec</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set the precision of <var>rop</var> to be <strong>at least</strong> <var>prec</var> bits.  The
+value in <var>rop</var> will be truncated to the new precision.
+
+<p>This function requires a call to <code>realloc</code>, and so should not be used in
+a tight loop. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_set_prec_raw</b><i> (mpf_t <var>rop</var>, unsigned long int <var>prec</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set the precision of <var>rop</var> to be <strong>at least</strong> <var>prec</var> bits,
+without changing the memory allocated.
+
+<p><var>prec</var> must be no more than the allocated precision for <var>rop</var>, that
+being the precision when <var>rop</var> was initialized, or in the most recent
+<code>mpf_set_prec</code>.
+
+<p>The value in <var>rop</var> is unchanged, and in particular if it had a higher
+precision than <var>prec</var> it will retain that higher precision.  New values
+written to <var>rop</var> will use the new <var>prec</var>.
+
+<p>Before calling <code>mpf_clear</code> or the full <code>mpf_set_prec</code>, another
+<code>mpf_set_prec_raw</code> call must be made to restore <var>rop</var> to its original
+allocated precision.  Failing to do so will have unpredictable results.
+
+<p><code>mpf_get_prec</code> can be used before <code>mpf_set_prec_raw</code> to get the
+original allocated precision.  After <code>mpf_set_prec_raw</code> it reflects the
+<var>prec</var> value set.
+
+<p><code>mpf_set_prec_raw</code> is an efficient way to use an <code>mpf_t</code> variable at
+different precisions during a calculation, perhaps to gradually increase
+precision in an iteration, or just to use various different precisions for
+different purposes during a calculation. 
+</td></tr>
+</table>
+
+</body></html>
+

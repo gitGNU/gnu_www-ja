@@ -1,0 +1,107 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Repository files</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_16.html">previous</A>, <A HREF="cvs_18.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC18" HREF="cvs_toc.html#TOC18">Where files are stored within the repository</A></H3>
+
+<P>
+The overall structure of the repository is a directory
+tree corresponding to the directories in the working
+directory.  For example, supposing the repository is in
+<TT>`/usr/local/cvsroot'</TT>, here is a possible directory
+tree (showing only the directories):
+
+</P>
+
+<PRE>
+<TT>/usr</TT>
+ |
+ +--<TT>local</TT>
+ |   |
+ |   +--<TT>cvsroot</TT>
+ |   |    | 
+ |   |    +--<TT>CVSROOT</TT>
+          |      (administrative files) 
+          | 
+          +--<TT>gnu</TT>
+          |   | 
+          |   +--<TT>diff</TT>
+          |   |   (source code to GNU diff) 
+          |   | 
+          |   +--<TT>rcs</TT>
+          |   |   (source code to RCS)
+          |   | 
+          |   +--<TT>cvs</TT>
+          |       (source code to CVS) 
+          | 
+          +--<TT>yoyodyne</TT>
+              | 
+              +--<TT>tc</TT>
+              |    |
+              |    +--<TT>man</TT>
+              |    |
+              |    +--<TT>testing</TT>
+              | 
+              +--(other Yoyodyne software)
+</PRE>
+
+<P>
+With the directories are <EM>history files</EM> for each file
+under version control.  The name of the history file is
+the name of the corresponding file with <SAMP>`,v'</SAMP>
+appended to the end.  Here is what the repository for
+the <TT>`yoyodyne/tc'</TT> directory might look like:
+
+</P>
+
+<PRE>
+  <CODE>$CVSROOT</CODE>
+    |
+    +--<TT>yoyodyne</TT>
+    |   |
+    |   +--<TT>tc</TT>
+    |   |   |
+            +--<TT>Makefile,v</TT>
+            +--<TT>backend.c,v</TT>
+            +--<TT>driver.c,v</TT>
+            +--<TT>frontend.c,v</TT>
+            +--<TT>parser.c,v</TT>
+            +--<TT>man</TT>
+            |    |
+            |    +--<TT>tc.1,v</TT>
+            |     
+            +--<TT>testing</TT>
+                 |
+                 +--<TT>testpgm.t,v</TT>
+                 +--<TT>test2.t,v</TT>
+</PRE>
+
+<P>
+<A NAME="IDX69"></A>
+<A NAME="IDX70"></A>
+The history files contain, among other things, enough
+information to recreate any revision of the file, a log
+of all commit messages and the user-name of the person
+who committed the revision.  The history files are
+known as <EM>RCS files</EM>, because the first program to
+store files in that format was a version control system
+known as RCS.  For a full
+description of the file format, see the <CODE>man</CODE> page
+<CITE>rcsfile(5)</CITE>, distributed with RCS.  This
+file format has become very common--many systems other
+than CVS or RCS can at least import history
+files in this format.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_16.html">previous</A>, <A HREF="cvs_18.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

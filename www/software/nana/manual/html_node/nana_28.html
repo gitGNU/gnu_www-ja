@@ -1,0 +1,71 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/nana.texi on 6 November 1998 -->
+
+<TITLE>GNU Nana: improved support for assertions and logging in C and C++ - now.h</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_27.html">previous</A>, <A HREF="nana_29.html">next</A>, <A HREF="nana_42.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC28" HREF="nana_toc.html#TOC28">now.h: measuring time</A></H2>
+<P>
+The <SAMP>`now.h'</SAMP> file provides some simple time measurement routines.
+It is not included in <SAMP>`nana.h'</SAMP> so you must include this file 
+separately.  
+
+</P>
+<P>
+It uses the <SAMP>`gettimeofday'</SAMP> system call and has an accuracy of
+between 1us and 10ms depending on the operating system and hardware
+configuration.
+
+</P>
+<P>
+See the IPM package if you require better measurement tools.<A NAME="DOCF10" HREF="nana_foot.html#FOOT10">(10)</A>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> double <B>now</B> <I>()</I>
+<DD><A NAME="IDX167"></A>
+Returns the time in seconds since the beginning of time as defined by
+your system. If you call <SAMP>`now_reset'</SAMP> the time will start again at
+0.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> double <B>now_reset</B> <I>()</I>
+<DD><A NAME="IDX168"></A>
+Reset the times returned by <SAMP>`now'</SAMP> to 0.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> double <B>now_delta</B> <I>(double *<VAR>dp</VAR>)</I>
+<DD><A NAME="IDX169"></A>
+Returns the elapsed time between <VAR>*dp</VAR> and <VAR>now()</VAR>. It then sets
+<VAR>*dp</VAR> to <VAR>now</VAR>, thus giving a delta time between particular
+events. 
+
+</P>
+
+<PRE>
+  t = now();
+  for(;;) {
+    ...; /* code that must finish in 50ms */
+    I(now_delta(&#38;t) &#60;= 0.050);
+  }
+</PRE>
+
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_27.html">previous</A>, <A HREF="nana_29.html">next</A>, <A HREF="nana_42.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+</BODY>
+</HTML>

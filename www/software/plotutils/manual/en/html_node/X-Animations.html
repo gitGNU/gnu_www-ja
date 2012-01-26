@@ -1,0 +1,212 @@
+<html lang="en">
+<head>
+<title>X Animations - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="C-Programming.html#C-Programming" title="C Programming">
+<link rel="prev" href="Animated-GIFs.html#Animated-GIFs" title="Animated GIFs">
+<link rel="next" href="X-Programming.html#X-Programming" title="X Programming">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="X-Animations"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="X-Programming.html#X-Programming">X Programming</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Animated-GIFs.html#Animated-GIFs">Animated GIFs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="C-Programming.html#C-Programming">C Programming</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.2.8 X Window System animations in C</h4>
+
+<p>You may use GNU <code>libplot</code> to produce vector graphics animations on
+any Plotter that does real-time plotting (i.e., an&nbsp;X<!-- /@w -->, X&nbsp;Drawable<!-- /@w -->, ReGIS, Tektronix, or Metafile Plotter).  By definition, the
+`frames' in any page of graphics are separated by invocations of
+<code>erase</code>.  So&nbsp;the<!-- /@w --> graphics display will be cleared after each
+frame.  If successive frames differ only slightly, a&nbsp;smooth<!-- /@w -->
+animation will result.
+
+   <p>The following is a sample application, written in&nbsp;C<!-- /@w -->, that produces
+an animation for the X&nbsp;Window<!-- /@w --> System.  It&nbsp;displays<!-- /@w --> a `drifting
+eye'.  As&nbsp;the<!-- /@w --> eye drifts across a popped-up window from left to
+right, it slowly rotates.  After the eye has drifted across twice, the
+window will vanish.
+
+<pre class="example">     #include &lt;stdio.h&gt;
+     #include &lt;plot.h&gt;
+     
+     int main ()
+     {
+       plPlotter *plotter;
+       plPlotterParams *plotter_params;
+       int i = 0, j;
+     
+       /* set Plotter parameters */
+       plotter_params = pl_newplparams ();
+       pl_setplparam (plotter_params, "BITMAPSIZE", "300x150");
+       pl_setplparam (plotter_params, "VANISH_ON_DELETE", "yes");
+       pl_setplparam (plotter_params, "USE_DOUBLE_BUFFERING", "yes");
+     
+       /* create an X Plotter with the specified parameters */
+       if ((plotter = pl_newpl_r ("X", stdin, stdout, stderr,
+                                  plotter_params)) == NULL)
+         {
+           fprintf (stderr, "Couldn't create Plotter\n");
+           return 1;
+         }
+     
+       if (pl_openpl_r (plotter) &lt; 0)         /* open Plotter */
+         {
+           fprintf (stderr, "Couldn't open Plotter\n");
+           return 1;
+         }
+       pl_fspace_r (plotter,
+                    -0.5, -0.5, 299.5, 149.5);  /* set user coor system */
+       pl_linewidth_r (plotter, 8);           /* set line thickness */
+       pl_filltype_r (plotter, 1);            /* objects will be filled */
+       pl_bgcolorname_r (plotter, "saddle brown"); /* set background color */
+       for (j = 0; j &lt; 300; j++)
+         {
+           pl_erase_r (plotter);                 /* erase window */
+           pl_pencolorname_r (plotter, "red");   /* use red pen */
+           pl_fillcolorname_r (plotter, "cyan"); /* use cyan filling */
+           pl_ellipse_r (plotter, i, 75, 35, 50, i);  /* draw an ellipse */
+           pl_colorname_r (plotter, "black"); /* use black pen and filling */
+           pl_circle_r (plotter, i, 75, 12);  /* draw a circle [the pupil] */
+           i = (i + 2) % 300;                 /* shift rightwards */
+         }
+       if (pl_closepl_r (plotter) &lt; 0)        /* close Plotter */
+         {
+           fprintf (stderr, "Couldn't close Plotter\n");
+           return 1;
+         }
+     
+       if (pl_deletepl_r (plotter) &lt; 0)       /* delete Plotter */
+         {
+           fprintf (stderr, "Couldn't delete Plotter\n");
+           return 1;
+         }
+       return 0;
+     }
+</pre>
+   <p>As you can see, this application begins by calling <code>pl_setplparam</code>
+several times to set Plotter parameters, and then calls
+<code>pl_newpl_r</code> to create an X&nbsp;Plotter<!-- /@w -->.  The X&nbsp;Plotter<!-- /@w --> window
+will have size 300x150 pixels.  This window will vanish when the Plotter
+is deleted.  If&nbsp;the<!-- /@w --> <code>VANISH_ON_DELETE</code> parameter were not set
+to "yes", the window would remain on the screen until removed by the
+user (by&nbsp;typing<!-- /@w --> &lsquo;<samp><span class="samp">q</span></samp>&rsquo; in&nbsp;it<!-- /@w -->, or by clicking with a mouse).
+
+   <p>Setting the parameter <code>USE_DOUBLE_BUFFERING</code> to "yes" requests
+that double buffering be used.  This is very important if you wish to
+produce a smooth animation, with no jerkiness.  Normally, an X&nbsp;Plotter<!-- /@w --> draws graphics into a window in real time, and erases the
+window when <code>pl_erase_r</code> is called.  But if double buffering is
+used, each frame of graphics is written into an off-screen buffer, and
+is copied into the window, pixel by pixel, when <code>pl_erase_r</code> is
+called or the Plotter is closed.  This is exactly what is needed for
+smooth animation.
+
+   <p>After the Plotter is created, it is selected for use and opened.  When
+<code>pl_openpl_r</code> is called, the window pops&nbsp;up<!-- /@w -->, and the animation
+begins.  In the body of the <tt>for</tt> loop there is a call to
+<code>pl_erase_r</code>, and also a sequence of <code>libplot</code> operations that
+draws the eye.  The pen color and fill color are changed twice with each
+passage through the loop.  You may wish to experiment with the animation
+parameters to produce the best effects on your video hardware.
+
+   <p>The positions of the objects that are plotted in the animation are
+expressed in terms of user coordinates, not pixel coordinates.  But the
+call to <code>pl_fspace_r</code> defines user and pixel coordinates to be
+effectively the same.  User coordinates are chosen so that the lower
+left corner of the rectangle mapped to the X&nbsp;window<!-- /@w --> is
+(&minus;0.5,&minus;0.5) and the upper right corner is (299.5,149.5). 
+Since this agrees with the window size, individual pixels may be
+addressed in terms of integer user coordinates.  For&nbsp;example<!-- /@w -->,
+<code>pl_point_r(plotter,299,149)</code> would set the pixel in the upper
+right corner of the window to the current pen color.
+
+   <p>The following is another sample animation, this time of a rotating
+letter&nbsp;`A'<!-- /@w -->.
+
+<pre class="example">     #include &lt;stdio.h&gt;
+     #include &lt;plot.h&gt;
+     
+     int main()
+     {
+       plPlotter *plotter;
+       plPlotterParams *plotter_params;
+       int angle = 0;
+     
+       /* set Plotter parameters */
+       plotter_params = pl_newplparams ();
+       pl_setplparam (plotter_params, "BITMAPSIZE", "300x300");
+       pl_setplparam (plotter_params, "USE_DOUBLE_BUFFERING", "yes");
+       pl_setplparam (plotter_params, "BG_COLOR", "blue");
+     
+       /* create an X Plotter with the specified parameters */
+       plotter = pl_newpl_r ("X", stdin, stdout, stderr, plotter_params);
+     
+       /* open X Plotter, initialize coordinates, pen, and font */
+       pl_openpl_r (plotter);
+       pl_fspace_r (plotter, 0.0, 0.0, 1.0, 1.0);  /* use normalized coors */
+       pl_pencolorname_r (plotter, "white");
+       pl_ffontsize_r (plotter, 1.0);
+       pl_fontname_r (plotter, "NewCenturySchlbk-Roman");
+     
+       pl_fmove_r (plotter, 0.5, 0.5);        /* move to center */
+       while (1)                              /* loop endlessly */
+         {
+           pl_erase_r (plotter);
+           pl_textangle_r (plotter, angle++); /* set new rotation angle */
+           pl_alabel_r (plotter, 'c', 'c', "A"); /* draw a centered `A' */
+         }
+       pl_closepl_r (plotter);                /* close Plotter */
+     
+       pl_deletepl_r (plotter);               /* delete Plotter */
+       return 0;
+     }
+</pre>
+   <p>This animation serves as a good test of the capabilities of an X&nbsp;Window<!-- /@w --> System display.  On&nbsp;a<!-- /@w --> modern X11R6 display, animation will
+be smooth and fast.  That is because X11R6 displays can retrieve
+individual characters from a font without retrieving the entire font. 
+If&nbsp;your<!-- /@w --> X&nbsp;display<!-- /@w --> does not support the
+"NewCenturySchlbk-Roman" font, you may substitute most core X&nbsp;fonts<!-- /@w -->, such as the widely available scalable font
+"charter-medium-r-normal", or the traditional screen font "fixed". 
+For the format of font names, see <a href="Text-Fonts-in-X.html#Text-Fonts-in-X">Text Fonts in X</a>.  If&nbsp;the<!-- /@w -->
+X&nbsp;Plotter<!-- /@w --> is unable to retrieve the font you specify, it will
+first attempt to use a default scalable font ("Helvetica", interpreted
+in the context of the X&nbsp;Window<!-- /@w --> System as
+"helvetica-medium-r-normal").  If&nbsp;that<!-- /@w --> too fails, it will use a
+default Hershey vector font ("HersheySerif") instead.
+
+   <p>Animations that use Hershey fonts are normally faster than ones that
+use Postscript fonts or other X&nbsp;Window<!-- /@w --> System fonts, since the
+Hershey fonts are constructed from line segments.  Rasterizing line
+segments can be done rapidly.
+
+   <p>If you are writing an application that performs a lengthy sequence of
+drawing operations on an X&nbsp;Plotter<!-- /@w -->, you may find it useful to set
+the Plotter parameter <code>X_AUTO_FLUSH</code> to "no".  By default, an
+X&nbsp;Plotter<!-- /@w --> flushes all graphics to its X&nbsp;Window<!-- /@w --> System display
+after each drawing operation.  This flushing ensures that graphics are
+visible to the user immediately after they are drawn.  However, it
+sometimes slows down the rendering process.  For additional details on
+Plotter parameters, see <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.
+
+   </body></html>
+

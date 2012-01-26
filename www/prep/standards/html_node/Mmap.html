@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated January 8, 2012.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+2011, 2012 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 0.01, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: Mmap</title>
+
+<meta name="description" content="GNU Coding Standards: Mmap">
+<meta name="keywords" content="GNU Coding Standards: Mmap">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Writing-C.html#Writing-C" rel="up" title="Writing C">
+<link href="Documentation.html#Documentation" rel="next" title="Documentation">
+<link href="Quote-Characters.html#Quote-Characters" rel="previous" title="Quote Characters">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Mmap"></a>
+<div class="header">
+<p>
+Previous: <a href="Quote-Characters.html#Quote-Characters" accesskey="p" rel="previous">Quote Characters</a>, Up: <a href="Writing-C.html#Writing-C" accesskey="u" rel="up">Writing C</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Mmap-1"></a>
+<h3 class="section">5.11 Mmap</h3>
+<a name="index-mmap"></a>
+
+<p>Don&rsquo;t assume that <code>mmap</code> either works on all files or fails
+for all files.  It may work on some files and fail on others.
+</p>
+<p>The proper way to use <code>mmap</code> is to try it on the specific file for
+which you want to use it&mdash;and if <code>mmap</code> doesn&rsquo;t work, fall back on
+doing the job in another way using <code>read</code> and <code>write</code>.
+</p>
+<p>The reason this precaution is needed is that the GNU kernel (the HURD)
+provides a user-extensible file system, in which there can be many
+different kinds of &ldquo;ordinary files&rdquo;.  Many of them support
+<code>mmap</code>, but some do not.  It is important to make programs handle
+all these kinds of files.
+</p>
+
+<p>
+
+
+</p>
+</body>
+</html>

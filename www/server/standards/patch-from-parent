@@ -1,0 +1,59 @@
+#!/bin/sh
+# $Id: patch-from-parent,v 1.2 2009/11/01 18:32:56 karl Exp $
+# patch-from-parent
+# Patch a file in CVS from a notional "parent" from which it "inherits".
+# http://www.gnu.org/server/standards/boilerplate.html is one likely parent.
+
+# Copyright (C) 2009 Free Software Foundation, Inc.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Originally written by Reuben Thomas.
+
+program=`basename $0`
+
+if [ $# -lt 2 ]; then
+    echo Usage: $program FILE PARENT-PATH
+    echo Patch a file from a parent in a different repository
+    echo FILE can be a relative path but PARENT-PATH must be absolute
+    echo The previous version of the parent used is given by a Parent-Version: tag,
+    echo which is updated by the script.
+    echo
+    echo Typical usage:
+    echo
+    echo   1. Run $program foo.html /path/to/parent.html
+    echo   2. /path/to/parent.html will be CVS updated
+    echo   3. foo.html will be updated
+    echo   4. Resolve any conflicts
+    echo
+    echo A checkout of
+    echo http://www.gnu.org/server/standards/boilerplate.html is one
+    echo likely parent, and is the reason CVS is used.
+    exit 1
+fi
+
+FILE=$1
+FILE_PATH=`pwd`/$1
+PARENT_FILE=$2
+PARENT_BASE=`basename $PARENT_FILE`
+PARENT_DIR=`dirname $PARENT_FILE`
+
+CURRENT_VERSION=`sed -n '/Parent-Version:/{p;q;}' $FILE | sed -e 's/^.*Parent-Version: \([a-z0-9._-]\+\).*$/\1/i'`
+
+( cd $PARENT_DIR
+    NEW_VERSION=`cvs stat $PARENT_BASE | grep Working | cut -f 2`
+    sed -i -e 's/\(Parent-Version: \)\([a-z0-9._-]\/+\)/\1'$NEW_VERSION'/i' $FILE_PATH
+    cvs up $PARENT_BASE
+    cvs diff -r $CURRENT_VERSION $PARENT_BASE ) |
+patch $FILE

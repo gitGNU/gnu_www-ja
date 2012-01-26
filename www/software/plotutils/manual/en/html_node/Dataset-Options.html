@@ -1,0 +1,226 @@
+<html lang="en">
+<head>
+<title>Dataset Options - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="graph-Invocation.html#graph-Invocation" title="graph Invocation">
+<link rel="prev" href="Plot-Options.html#Plot-Options" title="Plot Options">
+<link rel="next" href="Multiplot-Options.html#Multiplot-Options" title="Multiplot Options">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Dataset-Options"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Multiplot-Options.html#Multiplot-Options">Multiplot Options</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Plot-Options.html#Plot-Options">Plot Options</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="graph-Invocation.html#graph-Invocation">graph Invocation</a>
+<hr>
+</div>
+
+<h4 class="subsection">2.6.2 Dataset options</h4>
+
+<p>The following options affect the way in which individual datasets are
+read from files, and drawn as part of a plot.  They should appear on the
+command line before the file containing the datasets whose reading or
+rendering they will affect.  They may appear more than once on a command
+line, if more than one file is to be read.
+
+   <p>The following three options affect the way in which datasets are read
+from files.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-I </span><var>data-format</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--input-format </span><var>data-format</var></samp>&rsquo;<dd>This specifies which format the subsequent input file(s) are in.
+
+          <dl>
+<dt>&lsquo;<samp><span class="samp">a</span></samp>&rsquo;<dd>ASCII format.  Each input file is a sequence of floating point numbers,
+interpreted as the x and&nbsp;y<!-- /@w --> coordinates of the
+successive data points in a dataset.  The x and&nbsp;y<!-- /@w -->
+coordinates of a point need not appear on the same line, and points need
+not appear on different lines.  But if a blank line occurs (i.e., two
+newlines in succession are seen), it&nbsp;is<!-- /@w --> interpreted as the end of a
+dataset, and the beginning of the next.
+
+          <br><dt>&lsquo;<samp><span class="samp">e</span></samp>&rsquo;<dd>ASCII format, including error bars.  Similar to &lsquo;<samp><span class="samp">a</span></samp>&rsquo; format, except
+that triples (x,y,<i>error</i>) appear instead of pairs
+(x,y).
+
+          <br><dt>&lsquo;<samp><span class="samp">g</span></samp>&rsquo;<dd>The ASCII `table' format produced by the <code>gnuplot</code> plotting program.
+
+          <br><dt>&lsquo;<samp><span class="samp">f</span></samp>&rsquo;<dd>Single precision binary format.  Each input file is a sequence of single
+precision floating point numbers, interpreted as forming pairs
+(x,y).  Successive datasets are separated by a single
+occurrence of the quantity <code>FLT_MAX</code>, which is the largest possible
+single precision floating point number.  On&nbsp;most<!-- /@w --> machines this is
+approximately 3.4x10^38.
+
+          <br><dt>&lsquo;<samp><span class="samp">d</span></samp>&rsquo;<dd>Double precision binary format.  Each input file is a sequence of double
+precision floating point numbers, interpreted as forming pairs
+(x,y).  Successive datasets are separated by a single
+occurrence of the quantity <code>DBL_MAX</code>, which is the largest possible
+double precision floating point number.  On&nbsp;most<!-- /@w --> machines this is
+approximately 1.8x10^308.
+
+          <br><dt>&lsquo;<samp><span class="samp">i</span></samp>&rsquo;<dd>Integer binary format.  Each input file is a sequence of integers,
+interpreted as forming pairs (x,y).  Successive datasets
+are separated by a single occurrence of the quantity <code>INT_MAX</code>,
+which is the largest possible integer.  On&nbsp;most<!-- /@w --> machines this is
+2^31-1. 
+</dl>
+
+     <br><dt>&lsquo;<samp><span class="samp">-a [</span><var>step_size</var><span class="samp"> [</span><var>lower_limit</var><span class="samp">]]</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--auto-abscissa [</span><var>step_size</var><span class="samp"> [</span><var>lower_limit</var><span class="samp">]]</span></samp>&rsquo;<dd>(Floats, defaults 1.0 and 0.0.) Automatically generate abscissa
+(x) values.  Irrespective of data format (&lsquo;<samp><span class="samp">a</span></samp>&rsquo;, &lsquo;<samp><span class="samp">e</span></samp>&rsquo;,
+&lsquo;<samp><span class="samp">f</span></samp>&rsquo;, &lsquo;<samp><span class="samp">d</span></samp>&rsquo;, or&nbsp;&lsquo;<samp><span class="samp">i</span></samp>&rsquo;<!-- /@w -->), this option specifies that the
+abscissa (x) values are missing from the input file: the
+dataset(s) to be read contain only ordinate (y) values.  The
+increment from each x&nbsp;value<!-- /@w --> to the next will be
+<var>step_size</var>, and the first x&nbsp;value<!-- /@w --> will be
+<var>lower_limit</var>.  To&nbsp;return<!-- /@w --> to reading abscissa values from the
+input, i.e., for subsequent input files, you would use &lsquo;<samp><span class="samp">-a 0</span></samp>&rsquo;,
+which disables automatic generation of the abscissa values and returns
+<var>step_size</var> and <var>lower_limit</var> to their default values.
+
+     <br><dt>&lsquo;<samp><span class="samp">-B</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--toggle-auto-bump</span></samp>&rsquo;<dd>By default, the linemode (set with &lsquo;<samp><span class="samp">-m</span></samp>&rsquo;, see below) is `bumped'
+(incremented by unity) at the beginning of each new dataset.  This
+option toggles auto-bumping: it&nbsp;turns<!-- /@w --> it off if it was on, and on if
+it was off. 
+</dl>
+
+   <p>The following options affect the way in which individual datasets are
+drawn as part of a plot.  These options set the six `attributes' (symbol
+type, symbol font, linemode, line thickness, fill fraction, and
+color/monochrome) that each dataset has.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-m </span><var>line_mode</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--line-mode </span><var>line_mode</var></samp>&rsquo;<dd>(Integer, default 1.)  <var>line_mode</var> specifies the mode (i.e., style)
+of the lines drawn between successive points in a dataset.  By
+convention, linemode #0 means no line at&nbsp;all<!-- /@w --> (data points are
+disconnected).  If&nbsp;the<!-- /@w --> dataset is being rendered in monochrome, the
+interpretation of <var>line_mode</var> is as follows.
+
+          <ol type=1 start=1>
+<li>solid
+<li>dotted
+<li>dotdashed
+<li>shortdashed
+<li>longdashed
+          </ol>
+
+     <p>Thereafter (i.e., for <var>line_mode</var> greater than 5) the sequence of
+five linemodes repeats.  So besides linemode #0, there are a total of
+five distinct monochrome linemodes.  If&nbsp;the<!-- /@w --> dataset is being
+rendered in color (as may be requested with the &lsquo;<samp><span class="samp">-C</span></samp>&rsquo; option), the
+interpretation of linemodes #1 through #5 is instead
+
+          <ol type=1 start=1>
+<li>red, solid
+<li>green, solid
+<li>blue, solid
+<li>magenta, solid
+<li>cyan, solid
+          </ol>
+
+     <p>Linemodes #6 through #10 use the same five colors, but are dotted;
+linemodes #11 through #15 are dotdashed; linemodes #16 through #20 are
+shortdashed; and linemodes #21 through #25 are longdashed.  So besides
+linemode #0, there are a total of 25 distinct colored linemodes.  A&nbsp;negative<!-- /@w --> linemode indicates that no line should be drawn, but that the
+marker symbol, if&nbsp;any<!-- /@w --> (see below), should be in the color of the
+corresponding positive linemode.
+
+     <br><dt>&lsquo;<samp><span class="samp">-S [</span><var>symbol_number</var><span class="samp"> [</span><var>symbol_size</var><span class="samp">]]</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--symbol [</span><var>symbol_number</var><span class="samp"> [</span><var>symbol_size</var><span class="samp">]]</span></samp>&rsquo;<dd>(Integer and float, defaults 0 and 0.03.)  Draw a marker symbol at each
+data point.  <var>symbol_number</var> specifies the symbol type, and
+<var>symbol_size</var> specifies the font size of the symbol, as a fraction
+of the minimum dimension (width or height) of the plotting box.  If&nbsp;the<!-- /@w --> dataset is being rendered in color, the symbol will have the color
+of the line that is being drawn to connect the data points.
+
+     <p>If you use the &lsquo;<samp><span class="samp">-S</span></samp>&rsquo; option, you would usually also use the
+&lsquo;<samp><span class="samp">-m</span></samp>&rsquo; option, to request that the symbols be drawn without any line
+connecting them.  By specifying a negative argument to&nbsp;&lsquo;<samp><span class="samp">-m</span></samp>&rsquo;<!-- /@w -->
+(a&nbsp;`negative<!-- /@w --> linemode'), you may obtain colored symbols.
+
+     <p>The following table lists the first few symbols (by convention,
+symbol&nbsp;#0<!-- /@w --> means no&nbsp;symbol<!-- /@w --> at&nbsp;all<!-- /@w -->).
+
+          <ol type=1 start=1>
+<li>dot
+<li>plus (+)
+<li>asterisk (*)
+<li>circle
+<li>cross
+          </ol>
+
+     <p>Marker symbols 0<small class="dots">...</small>31 are furnished by the GNU <code>libplot</code>
+graphics library.  See <a href="Marker-Symbols.html#Marker-Symbols">Marker Symbols</a>.  Symbol numbers greater than
+or equal to&nbsp;32<!-- /@w --> are interpreted as characters in a symbol font, which
+can be set with the &lsquo;<samp><span class="samp">--symbol-font-name</span></samp>&rsquo; option (see below).
+
+     <br><dt>&lsquo;<samp><span class="samp">-W </span><var>line_width</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--line-width </span><var>line_width</var></samp>&rsquo;<dd>(Float, default &minus;1.0.)  Set the thickness of the lines used to
+join successive points in a dataset, as a fraction of the size (i.e.,
+minimum dimension) of the graphics display, to <var>line_width</var>.  A&nbsp;negative<!-- /@w --> value means that the default value for the line thickness
+provided by the GNU <code>libplot</code> graphics library should be used. 
+This is usually 1/850 times the size of the display, although if
+&lsquo;<samp><span class="samp">-T X</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T png</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T pnm</span></samp>&rsquo;, or &lsquo;<samp><span class="samp">-T gif</span></samp>&rsquo; is
+specified, it is zero.  By convention, a zero-thickness line is the
+thinnest line that can be drawn.  This is the case in all output
+formats.  Note, however, that the drawing editors <code>idraw</code> and
+<code>xfig</code> treat zero-thickness lines as invisible.
+
+     <p><code>graph -T tek</code> and <code>graph -T regis</code> do not support drawing
+lines with other than a default thickness, and <code>graph -T hpgl</code> does
+not support doing&nbsp;so<!-- /@w --> if the environment variable <code>HPGL_VERSION</code>
+is set to a value less than&nbsp;"2"<!-- /@w --> (the default).
+
+     <br><dt>&lsquo;<samp><span class="samp">-q </span><var>fill_fraction</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--fill-fraction </span><var>fill_fraction</var></samp>&rsquo;<dd>(Float, default &minus;1.0.)  If successive points in a dataset are
+joined by line segments, set the shading intensity for the polygon
+formed by the line segments to be <var>fill_fraction</var>.  A&nbsp;solid<!-- /@w -->
+polygon (i.e., one filled with the `pen color' used for drawing the line
+segments) is obtained by choosing <var>fill_fraction</var>=1.0.  The interior
+of the polygon will be white if <var>fill_fraction</var>=0.0.  The polygon
+will be unfilled (transparent) if <var>fill_fraction</var> is negative.
+
+     <p>If&nbsp;the<!-- /@w --> polygon intersects itself, the `even-odd fill rule' will
+normally be used to determine which points are inside rather than
+outside, i.e., to determine which portions of the polygon should be
+shaded.  The even-odd fill rule is explained in the <cite>Postscript
+Language Reference Manual</cite>.
+
+     <p>The &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; option has no effect on <code>graph -T tek</code>, and it is
+only partly effective in <code>graph -T hpgl</code> if the environment
+variable <code>HPGL_VERSION</code> is set to a value less than&nbsp;"2"<!-- /@w --> (the
+default).
+
+     <br><dt>&lsquo;<samp><span class="samp">-C</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--toggle-use-color</span></samp>&rsquo;<dd>Toggle between color and monochrome rendering of datasets.  The
+interpretation of linemode depends on whether the rendering is being
+performed in color or monochrome; see the &lsquo;<samp><span class="samp">-m</span></samp>&rsquo; option above.
+
+     <br><dt>&lsquo;<samp><span class="samp">--symbol-font-name </span><var>symbol_font_name</var></samp>&rsquo;<dd>(String, default "ZapfDingbats" unless &lsquo;<samp><span class="samp">-T png</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T pnm</span></samp>&rsquo;,
+&lsquo;<samp><span class="samp">-T gif</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T pcl</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T hpgl</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T regis</span></samp>&rsquo;, or
+<code>-T&nbsp;tek<!-- /@w --></code> is specified, in which case it is "HersheySerif".) 
+Set the symbol font, from which marker symbols numbered 32 and higher
+are selected, to be <var>symbol_font_name</var>.  Font names are
+case-insensitive.  If&nbsp;the<!-- /@w --> specified font is not available, the
+default font will be used.  Which fonts are available depends on which
+&lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option is used.  For example, if the &lsquo;<samp><span class="samp">-T pcl</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-T
+hpgl</span></samp>&rsquo; option is used then normally the Wingdings font, which is an
+alternative source of symbols, becomes available.  For a list of all
+fonts, see <a href="Text-Fonts.html#Text-Fonts">Text Fonts</a>.  The <code>plotfont</code> utility will produce a
+character map of any available font.  See <a href="plotfont.html#plotfont">plotfont</a>.
+
+   </dl>
+
+   </body></html>
+

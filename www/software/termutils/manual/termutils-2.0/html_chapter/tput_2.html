@@ -1,0 +1,190 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/tput.texi on 7 November 1998 -->
+
+<TITLE>Portable Terminal Control From Scripts - tabs: Setting Terminal Tabs</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="tput_1.html">first</A>, <A HREF="tput_1.html">previous</A>, next, last section, <A HREF="tput_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC10" HREF="tput_toc.html#TOC10"><CODE>tabs</CODE>: Setting Terminal Tabs</A></H1>
+
+<P>
+The <CODE>tabs</CODE> command is used to specify and set hardware tab
+stops on terminals that have remotely-settable tab stops.
+
+</P>
+<P>
+The <CODE>tabs</CODE> command is used to specify and set hardware tab
+stops on terminals that have remotely-settable tab stops.
+
+</P>
+
+<PRE>
+tabs [<VAR>options</VAR>] <VAR>tab-specification</VAR> 
+</PRE>
+
+
+
+<H2><A NAME="SEC11" HREF="tput_toc.html#TOC11">Options</A></H2>
+
+<P>
+The options supported by GNU <CODE>tabs</CODE> are:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-T <VAR>termtype</VAR></CODE>
+<DD>
+<DT><CODE>--terminal=<VAR>termtype</VAR></CODE>
+<DD>
+Specify the terminal type, overriding the environment variable
+<CODE>TERM</CODE>.
+
+<DT><CODE>-V</CODE>
+<DD>
+<DT><CODE>--version</CODE>
+<DD>
+Show the version number of GNU <CODE>tabs</CODE> and exit.
+
+<DT><CODE>-h</CODE>
+<DD>
+<DT><CODE>--help</CODE>
+<DD>
+Show the command line usage of GNU <CODE>tabs</CODE> and exit.
+</DL>
+
+
+
+<H2><A NAME="SEC12" HREF="tput_toc.html#TOC12">Tab Specification</A></H2>
+
+<P>
+GNU <CODE>tabs</CODE> accepts the following types of tab specification:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE><VAR>n1</VAR>[,<VAR>n2</VAR>,...]</CODE>
+<DD>
+Set tab stops at columns <VAR>n1</VAR>, <VAR>n2</VAR>, ... The leftmost
+column is the column 1.  <VAR>n2</VAR> and the rest of the list can be of
+the form <SAMP>`+<VAR>num</VAR>'</SAMP>, in which case it specifies the increment from
+the tab stop last specified by the list.
+
+<DT><CODE>-<VAR>n</VAR></CODE>
+<DD>
+Set tab stops at every <VAR>n</VAR> columns.  For most of the
+terminals, the standard tab stop setting is the equivalent of
+<SAMP>`-8'</SAMP>.
+
+<DT><CODE>-<VAR>code</VAR></CODE>
+<DD>
+<DT><CODE>--code=<VAR>code</VAR></CODE>
+<DD>
+<DT><CODE>-C <VAR>code</VAR></CODE>
+<DD>
+Set tab stops using one of the "canned" specification.  The
+second and the third formats are useful if the name of the canned
+specification conflicts with one of the long options supportred
+by GNU <CODE>tabs</CODE>.
+
+<DT><CODE>--<VAR>filename</VAR></CODE>
+<DD>
+<DT><CODE>--file=<VAR>filename</VAR></CODE>
+<DD>
+<DT><CODE>--F <VAR>filename</VAR></CODE>
+<DD>
+Read the first line of <VAR>filename</VAR>, find parameters separated
+by blanks enclosed by <CODE>&#60;:</CODE> and <CODE>:&#62;</CODE> on that line, find
+a parameter that begins with <CODE>t</CODE>, and then use it as tab
+specification.  If any of the above steps fails, set tab stops to
+every 8 columns.  The second and the third formats are useful if
+the name of the file conflicts with one of the long options
+supportred by GNU <CODE>tabs</CODE>.
+</DL>
+
+
+
+<H2><A NAME="SEC13" HREF="tput_toc.html#TOC13">Canned tab specifications</A></H2>
+
+<P>
+GNU <CODE>tabs</CODE> supports the following "canned" specifications:
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`a'</SAMP>
+<DD>
+Assembler, IBM S/370, first format (1,10,16,36,72)
+
+<DT><SAMP>`a2'</SAMP>
+<DD>
+Assembler, IBM S/370, second format (1,10,16,40,72)
+
+<DT><SAMP>`c'</SAMP>
+<DD>
+COBOL, normal format (1,8,12,16,20,55)
+
+<DT><SAMP>`c2'</SAMP>
+<DD>
+COBOL, compact format (1,6,10,14,49)
+
+<DT><SAMP>`c3'</SAMP>
+<DD>
+COBOL, compact format with more tab stops@hfill@break
+(1,6,10,14,18,22,26,30,34,38,42,46,50,54,58,62,67) 
+
+<DT><SAMP>`f'</SAMP>
+<DD>
+FORTRAN (1,7,11,15,19,23)
+
+<DT><SAMP>`p'</SAMP>
+<DD>
+PL/I (1,5,9,13,17,21,25,29,33,37,41,45,49,53,57,61)
+
+<DT><SAMP>`s'</SAMP>
+<DD>
+SNOBOL (1,10,55)
+
+<DT><SAMP>`u'</SAMP>
+<DD>
+UNIVAC 1100 Assembler (1,12,20,44)
+</DL>
+
+
+
+<H2><A NAME="SEC14" HREF="tput_toc.html#TOC14">Examples</A></H2>
+
+<P>
+To set tab stops for editing FORTRAN programs on
+an <CODE>xterm</CODE>, use the following <CODE>tabs</CODE> command:
+
+<PRE>
+tabs -f --terminal=xterm
+</PRE>
+
+<P>
+Another example: a source file of FORTRAN program may contain its own
+tab specification on its first line:
+
+<PRE>
+C &#60;: t1,7,11,15,19,23,72 :&#62;
+</PRE>
+
+<P>
+Before editing this file, the <CODE>tabs</CODE> command can be used to set
+tab stops to columns this file expects:
+
+</P>
+
+<PRE>
+tabs --Sample.f
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="tput_1.html">first</A>, <A HREF="tput_1.html">previous</A>, next, last section, <A HREF="tput_toc.html">table of contents</A>.
+</BODY>
+</HTML>

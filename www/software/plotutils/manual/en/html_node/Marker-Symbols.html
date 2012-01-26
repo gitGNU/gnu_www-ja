@@ -1,0 +1,117 @@
+<html lang="en">
+<head>
+<title>Marker Symbols - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Fonts-and-Markers.html#Fonts-and-Markers" title="Fonts and Markers">
+<link rel="prev" href="Text-String-Format.html#Text-String-Format" title="Text String Format">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Marker-Symbols"></a>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Text-String-Format.html#Text-String-Format">Text String Format</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Fonts-and-Markers.html#Fonts-and-Markers">Fonts and Markers</a>
+<hr>
+</div>
+
+<h3 class="appendixsec">A.5 Available marker symbols</h3>
+
+<p>The GNU <code>libplot</code> library supports a standard set of marker
+symbols, numbered 0<small class="dots">...</small>31.  A&nbsp;marker<!-- /@w --> symbol is a visual
+representation of a point.  The <code>libplot</code> marker symbols are the
+symbols that the <code>graph</code> program will plot at each point of a
+dataset, if the &lsquo;<samp><span class="samp">-S</span></samp>&rsquo; option is specified.
+
+   <p>Like a text string, a marker symbol has a font size.  In&nbsp;any<!-- /@w --> output
+format, a&nbsp;marker<!-- /@w --> symbol is guaranteed to be visible if its font size
+is sufficiently large.  Marker symbol #0 is an exception to this: by
+convention, symbol&nbsp;#0<!-- /@w --> means no symbol at&nbsp;all<!-- /@w -->.  Marker symbols in
+the range 1<small class="dots">...</small>31 are defined as&nbsp;follows<!-- /@w -->.
+
+     <ol type=1 start=1>
+<li>dot
+<li>plus (+)
+<li>asterisk (*)
+<li>circle
+<li>cross
+<li>square
+<li>triangle
+<li>diamond
+<li>star
+<li>inverted triangle
+<li>starburst
+<li>fancy plus
+<li>fancy cross
+<li>fancy square
+<li>fancy diamond
+<li>filled circle
+<li>filled square
+<li>filled triangle
+<li>filled diamond
+<li>filled inverted triangle
+<li>filled fancy square
+<li>filled fancy diamond
+<li>half filled circle
+<li>half filled square
+<li>half filled triangle
+<li>half filled diamond
+<li>half filled inverted triangle
+<li>half filled fancy square
+<li>half filled fancy diamond
+<li>octagon
+<li>filled octagon
+        </ol>
+
+<p class="noindent">The interpretation of marker symbols 1 through 5 is the same as in the
+well&nbsp;known<!-- /@w --> Graphical Kernel System (GKS).
+
+   <p>By convention, symbols 32 and&nbsp;up<!-- /@w --> are interpreted as characters in a
+certain text font.  For <code>libplot</code>, this is simply the current font. 
+But for the <code>graph</code> program, it&nbsp;is<!-- /@w --> the symbol font selected
+with the &lsquo;<samp><span class="samp">--symbol-font-name</span></samp>&rsquo; option.  By&nbsp;default<!-- /@w -->, the symbol
+font is the ZapfDingbats font except in <code>graph -T png</code>, <code>graph
+-T pnm</code>, <code>graph -T gif</code>, <code>graph -T pcl</code>, <code>graph -T hpgl</code>
+and <code>graph -T tek</code>.  Those variants of <code>graph</code> normally have
+no access to ZapfDingbats and other Postscript fonts, so they use the
+HersheySerif font instead.
+
+   <p>Many of the characters in the ZapfDingbats font are suitable for use as
+marker symbols.  For example, character #74 is the Texas star.  Doing
+
+<pre class="example">     echo 0 0 1 2 2 1 3 2 4 0 | graph -T ps -m 0 -S 74 0.1 &gt; plot.ps
+</pre>
+   <p class="noindent">will produce a Postscript plot consisting of five data points, not
+joined by line segments.  Each data point will be marked by a Texas
+star, of a large font size (0.1&nbsp;times<!-- /@w --> the width of the plotting
+box).
+
+   <p>If you are using <code>graph -T pcl</code> or <code>graph -T hpgl</code> and wish to
+use font characters as marker symbols, you should consider using the
+Wingdings font, which is available when producing PCL&nbsp;5<!-- /@w --> or HP-GL/2
+output.  Doing
+
+<pre class="example">     echo 0 0 1 2 2 1 3 2 4 0 |
+         graph -T pcl -m 0 --symbol-font Wingdings -S 181 0.1 &gt; plot.pcl
+</pre>
+   <p class="noindent">will produce a PCL&nbsp;5<!-- /@w --> plot that is similar to the preceding
+Postscript plot.  The Wingdings font has the Texas star in location
+#181.
+
+   </body></html>
+

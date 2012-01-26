@@ -1,0 +1,258 @@
+================================================================================
+=-                                 Simple Bot                                 -=
+================================================================================
+
+
+DESCRIPTION
+
+    Ce programme est un robot de conversation textuelle tres simple. 
+    
+    Son but est de (plus ou moins bien) simuler un dialogue avec un etre 
+    humain. En pratique et pour le moment, cette interaction se resume a 
+    repondre aux messages de l'utilisateur humain, et ce d'une maniere 
+    relativement frustre. 
+    
+    Le principe de base est en effet de chercher dans le message de 
+    l'utilisateur (une chaine de caracteres) des mots qui peuvent permettre 
+    de choisir une reponse predefinie parmie les autres. Pour ce faire, ce 
+    programme lit les donnees dans plusieurs fichiers :
+    
+      -  le fichier "french.dic" qui contient des mots permettant 
+         d'identifier la langue francaise
+         
+      -  le fichier "spanish.dic" qui contient des mots permettant 
+         d'identifier la langue espagnole
+         
+      -  le fichier "german.dic" qui contient des mots permettant 
+         d'identifier la langue allemande
+         
+      -  le fichier "dutch.dic" qui contient des mots permettant 
+         d'identifier la langue hollandaise
+         
+      -  le fichier "italian.dic" qui contient des mots permettant 
+         d'identifier la langue italienne
+         
+      -  le fichier "corpus.dic" qui contient les relations entre 
+         les mots pouvant se trouver dans le message et les phrases 
+         predefinies. 
+         
+    Ces fichiers sont au format texte, ce qui permet de les editer 
+    facilement avec n'importe quel editeur de texte. 
+    
+    Le format de ces fichiers est assez simple. Il est constitue par :
+    
+      -  une condition, qui est un ensemble de mots relies par les 
+         operateurs booleens ET et OU. Chaque mot ou groupe de mots (qui 
+         doi(ven)t etre entre parentheses) indique que la condition sera 
+         verifiee si le mot (ou le groupe de mots) apparait dans le message 
+         de l'utilisateur. Les operateurs sont le et commercial (l'ampersand) 
+         '&' pour le ET et la barre verticale (le pipe) '|' pour le OU. Dans 
+         la declaration d'une condition (c'est-a-dire entre les parentheses) 
+         la parenthese ouvrante '(' est autorisee, mais la parenthese 
+         fermante ')' doit etre protegee par un anti-slash '\)'. 
+         
+         Exemples : 
+          *  La condition
+                 (maddingue)
+             sera verifiee si le mot "maddingue" est dans le message. 
+             
+          *  La condition 
+                 (vdb) & (maitre)
+             sera verifiee si les mots "vdb" ET "maitre" sont dans le 
+             message. 
+             
+          *  La condition
+                 (vdb) | (maddingue)
+             sera verifiee si le mot "vdb" OU le mot "maddingue" OU les 
+             deux sont dans le message. 
+             
+         Il faut de plus preciser que l'evaluation des conditions se fait 
+         de la gauche vers la droite, et que celle-ci s'arrete des qu'un 
+         resultat valide est trouve (comme en C). 
+         
+         Pour faciliter la presentation, les sauts de ligne, espaces, 
+         tabulations et autres caracteres de controles sont autorises. 
+         Notez qu'il faut toujours employer les minuscules car le message 
+         est convertit ainsi pour eviter le cas des utilisateurs "CAPS-LOCK". 
+    
+      -  le nombre de phrases que le bot a a sa disposition. Ne faites pas 
+         d'erreur en tapant ce nombre car il pourrait en resulter un 
+         plantage du bot... (En fait, si vous mettez un nombre inferieur 
+         au nombre reel de phrases, seul le nombre de phrases indique sera 
+         lu, et l'analyseur s'arretera completement apres. Sans planter. 
+         Si vous mettez un nombre superieur au nombre de phrases reel, 
+         il devrait s'arreter de la meme maniere.)
+    
+      -  les phrases predeclarees. Elles doivent etre mises entre 
+         guillemets (double quotes) <">. Il n'y a aucune restriction 
+         particuliere, sauf celle de proteger d'eventuels guillemets qui
+         apparaitraient dans la phrase par un antislash '\'. 
+         
+         Exemples :
+             
+             "hello the world"
+             
+             "He said : she said \"You said 'foo'\"."
+             
+             "If you want to program in C, program in C.  It's a nice language. 
+             I use it occasionally...   :-)
+               --Larry Wall in <7577@jpl-devvax.JPL.NASA.GOV> "
+         
+         Le nombre de phrases que vous entrez doit correspondre au nombre 
+         que vous avez tape precedemment. Quand plus d'une phrase est 
+         disponible, celle qui sera renvoyee est tiree au hasard. 
+    
+      -  le kick (optionel). Un kick est realise si l'utilisateur a envoye 
+         plus d'un certain nombre de messages dans la meme theme. La 
+         declaration se fait comme suit :
+         
+             k n : 
+         
+         ou n est la limite a partir de laquelle le bot s'enerve. La 
+         lettre 'k' et le double point ':' sont obligatoires. 
+         
+         Si cette declaration est presente, elle doit alors etre 
+         imperativement suivie de la declaration des phrases envoyees a 
+         l'utilisateur lors de son kick. La declaration est semblable a 
+         celle des phrases normales : il doit d'abord y avoir le nombre de 
+         phrases, et ensuite les phrases, chacune entourees de doubles 
+         quotes; les regles donnees plus haut s'appliquent ici de la meme 
+         maniere. 
+    
+    Notez que entre les parentheses dans les conditions et dans les 
+    phrases, TOUT LES CARACTERES QUE VOUS TAPEZ SERONT INTEGRALEMENT LUS 
+    ET STOCKES TELS QUELS. A part les guillemets proteges <\">, il n'y a 
+    aucun traitement, pour le meilleur et pour le pire.. :-)
+    
+    Par ailleurs, vous pouvez entrez des commentaires dans le fichier 
+    source pour mieux vous y retrouver. Un commentaire est defini de la 
+    meme maniere qu'en shell (mais un peu plus restricrif) : tout ce qui 
+    suit un diese '#' jusqu'a la fin de la ligne est considere comme 
+    commentaire. Les dieses utilises a l'interieurs des phrases ou dans 
+    les definitions de conditions ne sont pas concernes. Notez qu'il ne 
+    vaut mieux pas mettre un diese sur la meme ligne qu'une autre 
+    declaration, l'analyseur actuel semble ne pas apprecier quand il y a 
+    plus d'une chose a la fois par ligne.. :-)
+    
+    Pour terminer le fichier, il suffit de mettre un point '.' sur une 
+    ligne. 
+    
+    Pour mieux illustrer ceci, voici un exemple simple : 
+    
+        # 
+        # s'il y a "foo" dans le message, on renvoie "bar"
+        # 
+        (foo)
+        1
+        "bar"
+    
+    En voici un un peu plus complique : 
+    
+        # 
+        # on renvoie une phrase parmi les deux si le message 
+        # contient "vdb" ET "dieu" OU "maitre"
+        # 
+        (vdb) & (dieu) | (maitre)
+        2
+        "Je sais, je sais.."
+        "Restons simples.. Appelle-moi \"Maitre\".."
+        # 
+        # le message "Vdb, toi mon maitre" verifiera la condition
+        # le message "Oh, Dieu!! Vdb!!" verifiera aussi la condition
+        # le message "Vdb, t'es un mastre :=pp" ne verifiera pas la condition
+        # 
+    
+    Encore un autre, plus amusant : 
+    
+        # 
+        # Si on traite Vdb de mastre...
+        # 
+        (vdb) & (mastre)
+        1
+        "grr."
+        k 1 :
+        1
+        ":=pp"
+        # 
+        # ... il vous kicke rapidement car il est susceptible. :-)
+        # 
+    
+    Pour plus d'informations, regardez les fichiers deja livres ou 
+    contactez l'auteur. 
+
+
+COMMANDES
+
+    Pour pouvoir avoir des informations sur une version du bot en cours 
+    d'execution, plusieurs commandes sont disponibles. 
+    
+    Liste des commandes disponibles
+    
+        __ACTIVATE_TYPE_DELAY__
+            Cette commande active la fonction de temporisation. 
+            Cette commande necessite une confirmation. 
+        
+        __DATA__
+            Cette commande affiche des informations sur les donnees 
+            chargees en memoire. 
+        
+        __DATE__
+            Cette commande affiche la date de compilation du bot. 
+        
+        __DESACTIVATE_TYPE_DELAY__
+            Cette commande desactive la fonction de temporisation. 
+        
+        __HELP__
+            Cette commande affiche de l'aide. 
+        
+        __RELOAD__
+            Cette commande recharge les dictionnaires et le corpus en 
+            memoire. Cela permet de prendre en compte des modifications 
+            apportees au corpus ou a un dictionnaire sans devoir 
+            re-executer le bot. 
+            Cette commande necessite une confirmation. 
+        
+        __SIZE__
+            Cette commande affiche une estimation de la memoire utilisee 
+            par les donnees du bot. 
+        
+        __TEST_LOWER_CASE__
+            Cette commande permet de tester la fonction lower_case(). 
+        
+        __TEST_RANDOM__
+            Cette commande permet de tester la fonction irand() : elle est 
+            appellee 10 fois de suite afin de verifier la qualite des 
+            nombres pseudo-aleatoires. 
+        
+        __TIME__
+            Cette commande affiche le temps depuis lequel le système a ete 
+            mis en route. 
+        
+        __TYPE_DELAY__
+            Cette commande affiche l'etat du Type Delay (On ou Off).
+        
+        __VERSION__
+            Cette commande affiche le numero de version du bot. 
+        
+    Les commandes qui necessitent une confirmation doivent etre suivies de 
+    la commande __YES__, ceci afin d'eviter (ou a tout le moins de retarder) 
+    que des personnes non autorisees s'amusent a surcharger le serveur. 
+
+
+AUTEUR
+
+    Sebastien Aperghis-Tramoni <madingue@tango.resus.univ-mrs.fr>
+
+
+DERNIERE MODIFICATION
+
+    Mardi 17/02/1998 par Sebastien Aperghis-Tramoni
+
+
+COPYRIGHT
+
+    Le code de ce programme ainsi que les fichiers inclus avec ce programme 
+    sont tous Copright (C) 1997-1998 The Free Software Association. 
+    Lisez la licence publique generale GNU dans le fichier 'COPYING' pour 
+    plus d'informations. 
+

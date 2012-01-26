@@ -1,0 +1,274 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Standout</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_32.html">previous</A>, <A HREF="termcap_34.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC33" HREF="termcap_toc.html#TOC33">Standout and Appearance Modes</A></H2>
+<P>
+<A NAME="IDX113"></A>
+<A NAME="IDX114"></A>
+<A NAME="IDX115"></A>
+
+</P>
+<P>
+<EM>Appearance modes</EM> are modifications to the ways characters are
+displayed.  Typical appearance modes include reverse video, dim, bright,
+blinking, underlined, invisible, and alternate character set.  Each kind of
+terminal supports various among these, or perhaps none.
+
+</P>
+<P>
+For each type of terminal, one appearance mode or combination of them that
+looks good for highlighted text is chosen as the <EM>standout mode</EM>.  The
+capabilities <SAMP>`so'</SAMP> and <SAMP>`se'</SAMP> say how to enter and leave standout
+mode.  Programs that use appearance modes only to highlight some text
+generally use the standout mode so that they can work on as many terminals
+as possible.  Use of specific appearance modes other than "underlined"
+and "alternate character set" is rare.
+
+</P>
+<P>
+Terminals that implement appearance modes fall into two general classes as
+to how they do it.
+
+</P>
+<P>
+In some terminals, the presence or absence of any appearance mode is
+recorded separately for each character position.  In these terminals, each
+graphic character written is given the appearance modes current at the time
+it is written, and keeps those modes until it is erased or overwritten.
+There are special commands to turn the appearance modes on or off for
+characters to be written in the future.
+
+</P>
+<P>
+In other terminals, the change of appearance modes is represented by a
+marker that belongs to a certain screen position but affects all following
+screen positions until the next marker.  These markers are traditionally
+called <EM>magic cookies</EM>.
+
+</P>
+<P>
+The same capabilities (<SAMP>`so'</SAMP>, <SAMP>`se'</SAMP>, <SAMP>`mb'</SAMP> and so on) for
+turning appearance modes on and off are used for both magic-cookie
+terminals and per-character terminals.  On magic cookie terminals, these
+give the commands to write the magic cookies.  On per-character terminals,
+they change the current modes that affect future output and erasure.  Some
+simple applications can use these commands without knowing whether or not
+they work by means of cookies.
+
+</P>
+<P>
+However, a program that maintains and updates a display needs to know
+whether the terminal uses magic cookies, and exactly what their effect is.
+This information comes from the <SAMP>`sg'</SAMP> capability.
+
+</P>
+<P>
+The <SAMP>`sg'</SAMP> capability is a numeric capability whose presence indicates
+that the terminal uses magic cookies for appearance modes.  Its value is
+the number of character positions that a magic cookie occupies.  Usually
+the cookie occupies one or more character positions on the screen, and these
+character positions are displayed as blank, but in some terminals the
+cookie has zero width.
+
+</P>
+<P>
+The <SAMP>`sg'</SAMP> capability describes both the magic cookie to turn standout
+on and the cookie to turn it off.  This makes the assumption that both
+kinds of cookie have the same width on the screen.  If that is not true,
+the narrower cookie must be "widened" with spaces until it has the same
+width as the other.
+
+</P>
+<P>
+On some magic cookie terminals, each line always starts with normal
+display; in other words, the scope of a magic cookie never extends over
+more than one line.  But on other terminals, one magic cookie affects all
+the lines below it unless explicitly canceled.  Termcap does not define any
+way to distinguish these two ways magic cookies can work.  To be safe, it
+is best to put a cookie at the beginning of each line.
+
+</P>
+<P>
+On some per-character terminals, standout mode or other appearance modes
+may be canceled by moving the cursor.  On others, moving the cursor has no
+effect on the state of the appearance modes.  The latter class of terminals
+are given the flag capability <SAMP>`ms'</SAMP> ("can move in standout").  All
+programs that might have occasion to move the cursor while appearance modes
+are turned on must check for this flag; if it is not present, they should
+reset appearance modes to normal before doing cursor motion.
+
+</P>
+<P>
+A program that has turned on only standout mode should use <SAMP>`se'</SAMP> to
+reset the standout mode to normal.  A program that has turned on only
+alternate character set mode should use <SAMP>`ae'</SAMP> to return it to normal.
+If it is possible that any other appearance modes are turned on, use the
+<SAMP>`me'</SAMP> capability to return them to normal.
+
+</P>
+<P>
+Note that the commands to turn on one appearance mode, including <SAMP>`so'</SAMP>
+and <SAMP>`mb'</SAMP> ... <SAMP>`mr'</SAMP>, if used while some other appearance modes
+are turned on, may combine the two modes on some terminals but may turn off
+the mode previously enabled on other terminals.  This is because some
+terminals do not have a command to set or clear one appearance mode without
+changing the others.  Programs should not attempt to use appearance modes
+in combination except with <SAMP>`sa'</SAMP>, and when switching from one single
+mode to another should always turn off the previously enabled mode and then
+turn on the new desired mode.
+
+</P>
+<P>
+On some old terminals, the <SAMP>`so'</SAMP> and <SAMP>`se'</SAMP> commands may be the same
+command, which has the effect of turning standout on if it is off, or off
+it is on.  It is therefore risky for a program to output extra <SAMP>`se'</SAMP>
+commands for good measure.  Fortunately, all these terminals are obsolete.
+
+</P>
+<P>
+Programs that update displays in which standout-text may be replaced with
+non-standout text must check for the <SAMP>`xs'</SAMP> flag.  In a per-character
+terminal, this flag says that the only way to remove standout once written is
+to clear that portion of the line with the <SAMP>`ce'</SAMP> string or something
+even more powerful (see section <A HREF="termcap_30.html#SEC30">Clearing Parts of the Screen</A>); just writing new characters at those
+screen positions will not change the modes in effect there.  In a magic
+cookie terminal, <SAMP>`xs'</SAMP> says that the only way to remove a cookie is to
+clear a portion of the line that includes the cookie; writing a different
+cookie at the same position does not work.
+
+</P>
+<P>
+Such programs must also check for the <SAMP>`xt'</SAMP> flag, which means that the
+terminal is a Teleray 1061.  On this terminal it is impossible to position
+the cursor at the front of a magic cookie, so the only two ways to remove a
+cookie are (1) to delete the line it is on or (2) to position the cursor at
+least one character before it (possibly on a previous line) and output the
+<SAMP>`se'</SAMP> string, which on these terminals finds and removes the next
+<SAMP>`so'</SAMP> magic cookie on the screen.  (It may also be possible to remove a
+cookie which is not at the beginning of a line by clearing that line.)  The
+<SAMP>`xt'</SAMP> capability also has implications for the use of tab characters,
+but in that regard it is obsolete (See section <A HREF="termcap_26.html#SEC26">Cursor Motion</A>).
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`so'</SAMP>
+<DD>
+<A NAME="IDX116"></A>
+String of commands to enter standout mode.
+
+<DT><SAMP>`se'</SAMP>
+<DD>
+<A NAME="IDX117"></A>
+String of commands to leave standout mode.
+
+<DT><SAMP>`sg'</SAMP>
+<DD>
+<A NAME="IDX118"></A>
+Numeric capability, the width on the screen of the magic cookie.  This
+capability is absent in terminals that record appearance modes
+character by character.
+
+<DT><SAMP>`ms'</SAMP>
+<DD>
+<A NAME="IDX119"></A>
+Flag whose presence means that it is safe to move the cursor while the
+appearance modes are not in the normal state.  If this flag is absent,
+programs should always reset the appearance modes to normal before
+moving the cursor.
+
+<DT><SAMP>`xs'</SAMP>
+<DD>
+<A NAME="IDX120"></A>
+Flag whose presence means that the only way to reset appearance modes
+already on the screen is to clear to end of line.  On a per-character
+terminal, you must clear the area where the modes are set.  On a magic
+cookie terminal, you must clear an area containing the cookie.
+See the discussion above.
+
+<DT><SAMP>`xt'</SAMP>
+<DD>
+<A NAME="IDX121"></A>
+Flag whose presence means that the cursor cannot be positioned right
+in front of a magic cookie, and that <SAMP>`se'</SAMP> is a command to delete
+the next magic cookie following the cursor.  See discussion above.
+
+<DT><SAMP>`mb'</SAMP>
+<DD>
+<A NAME="IDX122"></A>
+String of commands to enter blinking mode.
+
+<DT><SAMP>`md'</SAMP>
+<DD>
+<A NAME="IDX123"></A>
+String of commands to enter double-bright mode.
+
+<DT><SAMP>`mh'</SAMP>
+<DD>
+<A NAME="IDX124"></A>
+String of commands to enter half-bright mode.
+
+<DT><SAMP>`mk'</SAMP>
+<DD>
+<A NAME="IDX125"></A>
+String of commands to enter invisible mode.
+
+<DT><SAMP>`mp'</SAMP>
+<DD>
+<A NAME="IDX126"></A>
+String of commands to enter protected mode.
+
+<DT><SAMP>`mr'</SAMP>
+<DD>
+<A NAME="IDX127"></A>
+String of commands to enter reverse-video mode.
+
+<DT><SAMP>`me'</SAMP>
+<DD>
+<A NAME="IDX128"></A>
+String of commands to turn off all appearance modes, including
+standout mode and underline mode.  On some terminals it also turns off
+alternate character set mode; on others, it may not.  This capability
+must be present if any of <SAMP>`mb'</SAMP> ... <SAMP>`mr'</SAMP> is present.
+
+<DT><SAMP>`as'</SAMP>
+<DD>
+<A NAME="IDX129"></A>
+String of commands to turn on alternate character set mode.  This mode
+assigns some or all graphic characters an alternate picture on the
+screen.  There is no standard as to what the alternate pictures look
+like.
+
+<DT><SAMP>`ae'</SAMP>
+<DD>
+<A NAME="IDX130"></A>
+String of commands to turn off alternate character set mode.
+
+<DT><SAMP>`sa'</SAMP>
+<DD>
+<A NAME="IDX131"></A>
+String of commands to turn on an arbitrary combination of appearance
+modes.  It accepts 9 parameters, each of which controls a particular
+kind of appearance mode.  A parameter should be 1 to turn its appearance
+mode on, or zero to turn that mode off.  Most terminals do not support
+the <SAMP>`sa'</SAMP> capability, even among those that do have various
+appearance modes.
+
+The nine parameters are, in order, <VAR>standout</VAR>, <VAR>underline</VAR>,
+<VAR>reverse</VAR>, <VAR>blink</VAR>, <VAR>half-bright</VAR>, <VAR>double-bright</VAR>,
+<VAR>blank</VAR>, <VAR>protect</VAR>, <VAR>alt char set</VAR>.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_32.html">previous</A>, <A HREF="termcap_34.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

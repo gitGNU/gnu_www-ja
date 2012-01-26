@@ -1,0 +1,284 @@
+================================================================================
+=-                                 Simple Bot                                 -=
+================================================================================
+=-                             Programmer's Notes                             -=
+=-                                   ------                                   -=
+=-                              VERSIONS HISTORY                              -=
+================================================================================
+
+VERSIONS HISTORY
+
+    0.6.1                                                   (15/04/1998)
+      - shared the memory allocation for the *answer and log_str 
+        variables. This reduced the code size by about 300 lines..
+    
+    0.6.0                                                   (15/04/1998)
+      - created the dictionary_parse() function so that all the 
+        dictionaries tests are done in one function. This reduced the 
+        code size by about 200 lines..
+    
+    0.5.4                                                   (02/03/1998)
+      - translation of some of the functions (French -> English); 
+        all names should now be in English
+      - corrected a minor bug (suppressed an exit())
+    
+    0.5.3                                                   (17/02/1998)
+      - translation of all the macros (French -> English)
+      - corrected a possible memory leak bug
+    
+    0.5.2                                                   (06/02/1998)
+      - correction of a bug in the blanc() macro
+    
+    0.5.1                                                   (02/02/1998)
+      - the path variable of init_bot() has been replaced by the extern 
+        variable G
+    
+    0.5.0                                                   (01/02/1998)
+      - functions and classes have been renammed in order to reflect the 
+        new name of the bot
+      - introduction of the warn() and die() functions in order to clear  
+        the code of these fprintf()
+      - correction of this non working 'int random' bug: I replaced 
+            return (rand() * n) / RAND_MAX
+        with
+            return rand() % n
+        because the former didn't worked at all on the bbs machine for a 
+        still unknown reason; the side effect was that irand() always 
+        returned zero. Maybe this operation was considered as a real 
+        division then converted in an integer number? I really don't 
+        understand because the former perfectly worked (and still works) 
+        under MacOS and IRIX..
+      - the visual appearance of some commands has been improved: cyan 
+        now replaces blue
+    
+    0.4.7                                                   (14/12/1997)
+      - "\n" are now translated into '\n' during the reading of the data 
+        from the corpus and dictionaries files
+    
+    0.4.6                                                   (11/12/1997)
+      - correction of warnings returned by gcc : 
+         o bot.cpp:45: return type for `main' changed to integer type
+          => the type of main() has been changed from 'void' to 'int'
+         o bot.cpp:53: unused variable `int i'
+         o KH_rep.cpp:769: int format, long int arg (arg 5)
+         o KH_rep.cpp:769: int format, long int arg (arg 6)
+         o KH_rep.cpp:824: int format, long int arg (arg 4)
+         o KH_rep.cpp:824: int format, long int arg (arg 5)
+          => %d formats changed into %ld
+    
+    0.4.5                                                   (08/12/1997)
+      - improvment of the visual appearance of many messages
+      - improvment of the __TIME__ command
+    
+    0.4.4                                                   (07/12/1997)
+      - the __HELP__ command is supported
+    
+    0.4.3                                                   (07/12/1997)
+      - improvment of the __DATA__ command
+      - some messages now use colors
+      - correction of the rand() bug with a srand() call
+      - modification of the __TIME__ command
+    
+    0.4.2                                                   (05/12/1997)
+      - correction of a warning : added long int in the printf() format 
+        of __SIZE__
+      - correction of a bug (forgot the 'KH_rep::')
+      - correction of a bug (forgot a "%s" in the printf() of 
+        __COMMANDS__)
+    
+    0.4.1                                                   (04/12/1997)
+      - the case where the message is empty is now managed
+    
+    0.4.0                                                   (03/12/1997)
+      - creation of the KH_rep class
+      - public functions are now KH_rep methods
+      - replaced '(char *)malloc(SIZE)' with 'new char []'
+    
+    0.3.32                                                  (28/11/1997)
+      - improvment of the __COMMANDS__ command
+      - added the __TEST_LOWER_CASE__ command
+    
+    0.3.31                                                  (27/11/1997)
+      - improvment of the __SIZE__ command; the memory used by variables 
+        and global constants is splitted in the calculation
+    
+    0.3.30                                                  (26/11/1997)
+      - added the __TYPE_DELAY__ command
+    
+    0.3.29                                                  (26/11/1997)
+      - the commands management code looks better
+      - added the confirmation for the __RELOAD__ and  
+        __ACTIVATE_TYPE_DELAY__ commands
+    
+    0.3.28                                                  (25/11/1997)
+      - the protected closing parenthese '\)' is supported in the 
+        conditions declarations
+    
+    0.3.27                                                  (25/11/1997)
+      - the new file format is supported: optional kick commands are
+        correctly recognized
+    
+    0.3.26                                                  (24/11/1997)
+      - added the __TEST_RANDOM__ command
+    
+    0.3.25                                                  (20/11/1997)
+      - debut de l'implementation du nouveau format de format 
+        (compatible avec l'ancien) qui inclut le kick-limite : ajout 
+        de la fonction kick_at(), modification de la structure BLOC
+      - ajout de la fonction irand() pour remplacer les calculs de 
+        valeurs aleatoires entieres disseminees dans le code
+      - modification de la macro lettre() pour qu'elle prenne en 
+        compte la parenthese ouvrante dans les declarations des 
+        conditions (ainsi (() recherche '(')
+      - ajout de la commande __AUTHOR__
+    
+    0.3.24                                                  (20/11/1997)
+      - support de la librarie G_Path pour l'encapsulation generique 
+        des chemins d'acces des fichiers
+    
+    0.3.23                                                  (19/11/1997)
+      - amelioration de la fonction kill_bot() (tests de nullite des 
+        pointeurs compatible C++ avant les appels a free())
+    
+    0.3.22                                                  (19/11/1997)
+      - amelioration de la commande __DATA__ (elle renvoie le nombre de 
+        mots definis dans chaque dictionnaire); ajout de la fonction 
+        condition_count()
+      - correction de certains test (changement de (ptr == NULL) en 
+        (not ptr) pour la compatibilite C++)
+    
+    0.3.21                                                  (17/11/1997)
+      - added the temporisation function and the __ACTIVATE_TYPE_DELAY__
+        and __DESACTIVATE_TYPE_DELAY__ commands
+    
+    0.3.20                                                  (17/11/1997)
+      - added the __COMMANDS__ and __HELP__ commands
+    
+    0.3.19                                                  (17/11/1997)
+      - corrected the fprintf() of which the arguments were inversed
+    
+    0.3.18                                                  (15/11/1997)
+      - changed the lettre() macro; it now includes some characters 
+        which were forgot (!"#$%&')
+    
+    0.3.17                                                  (15/11/1997)
+      - petit changement dans le code de chargement des phrases (le cas 
+        du bouclage infini devrait ainsi etre ecarte)
+      - amelioration du calcul de la taille memoire utilisee
+    
+    0.3.16                                                  (15/11/1997)
+      - added the kill_bot() function
+      - added the __RELOAD__ command
+    
+    0.3.15                                                  (15/11/1997)
+      - les messages d'erreurs sont tous standardises et renvoie la 
+        valeur courante de errno
+      - correction de petits oublis dus a l'ajout des dictionnaires 
+        allemand, neerlandais et italien
+    
+    0.3.14                                                  (15/11/1997)
+      - ajout du support des dictionnaires allemand, neerlandais et 
+        italien (mais il faut encore rentrer les donnees dans les 
+        fichiers correspondants)
+    
+    0.3.13                                                  (14/11/1997)
+      - changement de la macro lettre(); elle englobe tous les 
+        caracteres US-ASCII qui ne sont pas des caracteres de controle 
+        (et qui sont apres les parentheses, donc tous les caracteres 
+        dans l'intervalle [42,126])
+    
+    0.3.12 release 2                                        (14/11/1997)
+      - les commentaires qui etaient dans le header ont ete transferes 
+        dans le fichier source principal
+      - petit changement dans la commande __VERSION__
+      - commande __DATA__ supportee
+    
+    0.3.12                                                  (12/11/1997)
+      - correction d'un bug mineur : le tirage aleatoire ne marchait 
+        pas; maintenant oui et il est plus rapide que le premier (le 
+        premier utilisait des float, celui-ci seulement des int)
+      - suppression de printf() oublies ca et la..
+      - amelioration de la fonction condition_test(), ce qui corrige un 
+        bug recemment repere (la derniere condition n'etait jamais 
+        verifiee)
+      - la commande __SIZE__ est geree
+      - la commande __DATA__ est reconnue
+    
+    0.3.11                                                  (12/11/1997)
+      - correction des causes des warnings renvoyes par CodeWarrior :
+         o return value expected in KH_reponse()
+         o return value expected in lower_case() 
+      - correction des causes des warnings renvoyes par gcc :
+         o passing `void *' to argument 2 of `new_bloc(condition *, int, 
+           char **)' lacks a cast
+         o unused variable `char    str' in function bloc()
+         o passing `void *' to argument 2 of `new_condition(char *, char, 
+           condition *)' lacks a cast
+      - correction des causes des warnings renvoyes par CodeWarrior et 
+        par gcc :
+         o unused parameter `char msg_type' in function KH_reponse()
+         o unused parameter `char * ans_type' in function KH_reponse()
+        Le premier n'etait pas grave, mais le deuxieme etait un 
+        authentique bug !!  Pour celui-la, un message special est renvoye 
+        si le message n'est pas un eXpress ou un Emote Message. 
+      - utilisation de constantes define pour les codes d'erreur renvoyes 
+        par exit() en cas de probleme
+      - KH_rep.h renomme en KH_rep.H
+      - les tests du type (ptr == NULL) ont ete transformes en (not  ptr)
+        pour etre compatible avec certaines specifications du C++
+    
+    0.3.10
+      - correction de certains bugs
+      - changement du format des dictionnaires : c'est maintenant plus
+        facile a gerer (et c'est surtout plus logique)
+    
+    0.3.9
+      - lettre() inclus aussi les chiffres
+      - une condition peut inclure des espaces (mais pas en premier 
+        caractere)
+      - ajout de fflush dans next_char() et next_useful_char()
+    
+    0.3.8
+      - tous les malloc() dont proteges par des tests de nullite (avec 
+        impression d'un message d'erreur sur stderr et sortie du programme)
+      - certaines optimisations ont ete faites
+    
+    0.3.6
+      - ajout de la fonction condition_test()
+      - ajout de la commande interne __DATE__ (alias __TIME__)
+    
+    0.3.5
+      - le chargement du corpus et des dictionnaire est completement gere
+      - commande __SIZE__ reconnue
+    
+    0.3.0
+      - ajout de la fonction KH_reponse() (c'est-a-dire transformation du 
+        pre-projet file_parsing en KH_rep)
+      - commande __VERSION__ supportee
+    
+    0.2.3
+      - l'ensemble de chaque bloc est rempli (le tableau de phrase ainsi 
+        que la liste chainee des conditions)
+    
+    0.2.2
+      - changement de plusieurs noms de type (pour rendre le code plus
+        clair)
+      - le tableau de phrases est maintenant rempli
+    
+    0.2.1
+      - la fonction phrase() donne maintenant un pointeur sur la phrase 
+        telle qu'elle a ete lue
+    
+    0.2.0
+      - numbers and words are stored
+    
+    0.1.2
+      - protected doubles quotes <\"> are recognized (in function phrase())
+    
+    0.1.1
+      - a complete block can be fully recognized
+    
+    0.1.0
+      - some parts are correctly recognized
+      - comments (sharp '#' till the end of the line) are skipped
+

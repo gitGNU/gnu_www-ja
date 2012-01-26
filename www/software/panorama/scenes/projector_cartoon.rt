@@ -1,0 +1,124 @@
+/*
+*  Projector test
+*/
+
+#include "materials.inc"
+
+define camera c
+{
+  translate	<100, 100, 500>
+  look_at	<0, 0, -200>
+}
+
+define light l
+{
+  translate	<0, 100, 100>
+  color		CWhite
+}
+
+define light lp : class Projector
+{
+  translate	<0, 0, 190>
+  point_at	<50, 50, -200>
+  texture	"f16.tga"
+}
+
+// Floor
+plane
+{
+  translate	<0, -150, 0>
+  normal	<0, 1, 0>
+  material : extends MLambertian
+  {
+    color	CWhite
+  }
+}
+
+// Ceiling
+plane
+{
+  translate	<0, 150, 0>
+  normal	<0, -1, 0>
+  material : extends MLambertian
+  {
+    color	CWhite
+  }
+}
+
+// Left wall
+plane
+{
+  translate	<-200, 0, 0>
+  normal	<1, 0, 0>
+  material : extends MLambertian
+  {
+    color	CWhite
+  }
+}
+
+// Right wall
+plane
+{
+  translate	<200, 0, 0>
+  normal	<-1, 0, 0>
+  material : extends MLambertian
+  {
+    color	CWhite
+  }
+}
+
+// Front wall
+plane
+{
+  translate	<0, 0, -200>
+  normal	<0, 0, 1>
+  material : extends MLambertian
+  {
+    color	CWhite
+  }
+}
+
+// Back wall
+plane
+{
+  translate	<0, 0, 200>
+  normal	<0, 0, -1>
+  one_sided     on
+  material : extends MLambertian
+  {
+    color	CWhite
+  }
+}
+
+box
+{
+  scale         <100, 100, 100>
+  translate     <50, -100, 0>
+  rotate        <0, 0.8, 0>
+  material : extends MPlastic
+  {
+    color	CWhite
+  }
+}
+
+scene
+{
+  camera	c
+//  light		l
+  light		lp
+  width		400
+  height	400
+  background	CBlack
+  output
+  {
+    name	"projector_cartoon.tga"
+  }
+  renderer : class Raytracer
+  {
+    sampling    "adaptive"
+  }
+  filter : class IF_Cartoon
+  {
+    levels      4
+  }
+}

@@ -1,0 +1,84 @@
+<HTML>
+<HEAD>
+<TITLE>main.c.html</TITLE>
+</HEAD>
+<BODY BGcolor=#FFFFFF TEXT=#000000>
+<PRE>
+ <FONT color=#0000ff>/*</FONT>
+<FONT color=#0000ff>   *</FONT>
+<FONT color=#0000ff>   *  AUTOR: Luis</FONT>
+<FONT color=#0000ff>   *  VERSIÓN: 0.0</FONT>
+<FONT color=#0000ff>   *</FONT>
+<FONT color=#0000ff>   *  DESCRIPCIÓN:  Fichero principal</FONT>
+<FONT color=#0000ff>   *  Compilación:</FONT>
+<FONT color=#0000ff>   *                    gcc -c hora.c -I.</FONT>
+<FONT color=#0000ff>   *                    gcc -c matriz.c -I.</FONT>
+<FONT color=#0000ff>   *                    gcc -o tadmatrix main.c hora.o matriz.o -I.</FONT>
+<FONT color=#0000ff>   */</FONT>       
+<FONT color=#a620f7>#include </FONT><FONT color=#ff00ff>&lt;stdio.h&gt;</FONT>
+<FONT color=#a620f7>#include </FONT><FONT color=#ff00ff>&quot;matriz.h&quot;</FONT>
+<FONT color=#a620f7>#include </FONT><FONT color=#ff00ff>&quot;hora.h&quot;</FONT>
+
+main()
+{
+    Matriz A,B;
+    <B><FONT color=#288a51>int</FONT></B> m,n,i,j;
+    <B><FONT color=#288a51>float</FONT></B> x;
+    Hora h;
+    
+    <FONT color=#0000ff>/*</FONT><FONT color=#0000ff> Obtener la dimensión de la matriz */</FONT>
+    printf(<FONT color=#ff00ff>&quot;Altura  :&quot;</FONT>);
+    scanf(<FONT color=#ff00ff>&quot;</FONT><FONT color=#6959cf>%d</FONT><FONT color=#ff00ff>&quot;</FONT>,&amp;m);
+    printf(<FONT color=#ff00ff>&quot;Anchura :&quot;</FONT>);
+    scanf(<FONT color=#ff00ff>&quot;</FONT><FONT color=#6959cf>%d</FONT><FONT color=#ff00ff>&quot;</FONT>,&amp;n);
+
+    <FONT color=#0000ff>/*</FONT><FONT color=#0000ff> Creamos una matriz de floats */</FONT>
+    MatrizCrea(&amp;A, m, n, <B><FONT color=#a62828>sizeof</FONT></B>(<B><FONT color=#288a51>float</FONT></B>));
+
+    <FONT color=#0000ff>/*</FONT><FONT color=#0000ff> Creamos una matriz de horas */</FONT>
+    MatrizCrea(&amp;B, m, n, <B><FONT color=#a62828>sizeof</FONT></B>(h));
+
+    <FONT color=#0000ff>/*</FONT><FONT color=#0000ff> Inicializamos las Matrices */</FONT>
+    <B><FONT color=#a62828>for</FONT></B>(i=<FONT color=#ff00ff>0</FONT>;i &lt; m; i++)
+        <B><FONT color=#a62828>for</FONT></B>(j=<FONT color=#ff00ff>0</FONT>;j &lt; n; j++)
+            {
+                x=(i+j+<FONT color=#ff00ff>2.0</FONT>)/(n+m);
+                MatrizCambia(&amp;A,i,j,&amp;x);
+                HoraInicializa(&amp;h,<FONT color=#ff00ff>1</FONT>,i,j);
+                MatrizCambia(&amp;B,i,j,&amp;h);
+            }
+
+    <FONT color=#0000ff>/*</FONT><FONT color=#0000ff> Recorremos la matriz de floats */</FONT>
+    printf(<FONT color=#ff00ff>&quot;</FONT><FONT color=#6959cf>\n</FONT><FONT color=#ff00ff>Matriz de FLOATS ((i+j+2.0)/(alt+anch)):</FONT><FONT color=#6959cf>\n</FONT><FONT color=#ff00ff>&quot;</FONT>); 
+    <B><FONT color=#a62828>for</FONT></B>(i=<FONT color=#ff00ff>0</FONT>;i &lt; m; i++)
+    {
+        <B><FONT color=#a62828>for</FONT></B>(j=<FONT color=#ff00ff>0</FONT>;j &lt; n; j++)
+            {
+                MatrizObten(&amp;A,i,j,&amp;x);
+                printf(<FONT color=#ff00ff>&quot;</FONT><FONT color=#6959cf>%f</FONT><FONT color=#ff00ff> &quot;</FONT>,x);
+            }      
+        printf(<FONT color=#ff00ff>&quot;</FONT><FONT color=#6959cf>\n</FONT><FONT color=#ff00ff>&quot;</FONT>);
+    }
+
+    <FONT color=#0000ff>/*</FONT><FONT color=#0000ff> Recorremos la matriz de Hora */</FONT>
+     printf(<FONT color=#ff00ff>&quot;</FONT><FONT color=#6959cf>\n</FONT><FONT color=#ff00ff>Matriz de Horas:</FONT><FONT color=#6959cf>\n</FONT><FONT color=#ff00ff>&quot;</FONT>); 
+    <B><FONT color=#a62828>for</FONT></B>(i=<FONT color=#ff00ff>0</FONT>;i &lt; m; i++)
+    {
+        <B><FONT color=#a62828>for</FONT></B>(j=<FONT color=#ff00ff>0</FONT>;j &lt; n; j++)
+            {
+                MatrizObten(&amp;B,i,j,&amp;h);
+                printf(<FONT color=#ff00ff>&quot;</FONT><FONT color=#6959cf>%s</FONT><FONT color=#ff00ff> &quot;</FONT>,HoraACadena(&amp;h));
+            }
+        printf(<FONT color=#ff00ff>&quot;</FONT><FONT color=#6959cf>\n</FONT><FONT color=#ff00ff>&quot;</FONT>);
+    }         
+
+
+    <FONT color=#0000ff>/*</FONT><FONT color=#0000ff> Limpieza */</FONT>
+    MatrizDestruye(&amp;A);
+    MatrizDestruye(&amp;B);
+}
+
+    
+</PRE>
+</BODY>
+</HTML>

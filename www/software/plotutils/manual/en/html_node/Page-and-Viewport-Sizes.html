@@ -1,0 +1,146 @@
+<html lang="en">
+<head>
+<title>Page and Viewport Sizes - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Appendices.html#Appendices" title="Appendices">
+<link rel="prev" href="Color-Names.html#Color-Names" title="Color Names">
+<link rel="next" href="Metafiles.html#Metafiles" title="Metafiles">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Page-and-Viewport-Sizes"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Metafiles.html#Metafiles">Metafiles</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Color-Names.html#Color-Names">Color Names</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Appendices.html#Appendices">Appendices</a>
+<hr>
+</div>
+
+<h2 class="appendix">Appendix C Page Sizes and Viewport Sizes</h2>
+
+<p>When producing output in such vector formats as Illustrator,
+Postscript, PCL&nbsp;5<!-- /@w -->, HP-GL, and Fig, it is important to specify the
+size of the page on which the output will appear.  Supported page
+sizes are "letter", "a4", etc.; a full list appears below.  The page
+size is passed to the the GNU <code>libplot</code> library via the
+<code>PAGESIZE</code> parameter.  The command-line graphics programs
+<code>graph</code>, <code>plot</code>, <code>pic2plot</code>, <code>tek2plot</code>, and
+<code>plotfont</code>, which are built&nbsp;on<!-- /@w --> <code>libplot</code>, similarly
+support a <code>PAGESIZE</code> environment variable and a
+&lsquo;<samp><span class="samp">--page-size</span></samp>&rsquo; option.
+
+   <p>Graphics drawn by <code>libplot</code> are nominally drawn within a graphics
+display, or `viewport'.  When producing raster formats such as PNG,
+PNM, and pseudo-GIF, the viewport is simply a square or rectangular
+bitmap.  But when producing vector formats such as Illustrator,
+Postscript, PCL&nbsp;5<!-- /@w -->, HP-GL, and Fig format, the viewport is a square
+or rectangular region on the output page.  (For the meaning of the
+viewport when the output format is SVG or WebCGM, see below.)  Except
+in the HP-GL case, the viewport will by&nbsp;default<!-- /@w --> be centered on the
+page.  For example, if the page size is "letter", the viewport will be
+a square 8<span class="dmn">in</span> by 8<span class="dmn">in</span> region, centered on a 8.5<span class="dmn">in</span> by
+11.0<span class="dmn">in</span> page.  Graphics will not be clipped to the viewport, so
+the entire page will in&nbsp;principle<!-- /@w --> be imageable.
+
+   <p>Either or both of the dimensions of the viewport can be changed by the
+user.  For example, the page size could be specified as
+"letter,xsize=4in", or "a4,xsize=10cm,ysize=15cm", where the specified
+sizes will override the default dimensions of the viewport.  The
+dimensions of the viewport are allowed to be negative (a&nbsp;negative<!-- /@w -->
+dimension results in a reflection).  Inches, centimeters, and
+millimeters are the supported units.
+
+   <p>For most vector output formats, it is possible to position the
+viewport quite precisely, by specifying the location of its lower left
+corner relative to the lower left corner of the page.  For example,
+the page size could be specified not merely as "letter" or&nbsp;"a4"<!-- /@w -->,
+but as "letter,xorigin=2in,yorigin=3in", or
+"a4,xorigin=0.5cm,yorigin=0.5cm".  (The `xorigin' and `yorigin'
+specifiers may be used in conjunction with `xsize' and `ysize'.)  As
+an alternative to `xorigin' and `yorigin', the viewport position could
+be adjusted by supplying an offset vector, the offset being
+interpreted as a shift away from the default position.  For example,
+the page size could be specified as "letter,yoffset=1.2in", or
+"a4,xoffset=&minus;5mm,yoffset=2.0cm".  The viewport may also be
+rotated, by setting the <code>ROTATION</code> parameter or environment
+variable, or (in&nbsp;the<!-- /@w --> case of the graphics programs) by using the
+&lsquo;<samp><span class="samp">--rotation</span></samp>&rsquo; option.  A rotated viewport does not change the
+position of its four corners.  Rather, the graphics are rotated
+within&nbsp;it<!-- /@w -->.  If&nbsp;the<!-- /@w --> viewport is rectangular rather than square,
+this `rotation' will necessarily include a rescaling.
+
+   <p>Any ISO page size in the range "a0"<small class="dots">...</small>"a4" or ANSI page size in the
+range "a"<small class="dots">...</small>"e" may be specified.  ("letter" is an alias for&nbsp;"a"<!-- /@w -->, which is the default, and "tabloid" is an alias for&nbsp;"b"<!-- /@w -->). 
+"legal", "ledger", and the JIS [Japanese Industrial Standard] size "b5"
+are recognized also.  The following are the supported page sizes and the
+default square viewport size that corresponds to each.
+
+     <dl>
+<dt>"a" (or "letter"; 8.5<span class="dmn">in</span> by 11.0<span class="dmn">in</span>)<dd>8.0<span class="dmn">in</span>
+
+     <br><dt>"b" (or "tabloid"; 11.0<span class="dmn">in</span> by 17.0<span class="dmn">in</span>)<dd>10.0<span class="dmn">in</span>
+
+     <br><dt>"c" (17.0<span class="dmn">in</span> by 22.0<span class="dmn">in</span>)<dd>16.0<span class="dmn">in</span>
+
+     <br><dt>"d" (22.0<span class="dmn">in</span> by 34.0<span class="dmn">in</span>)<dd>20.0<span class="dmn">in</span>
+
+     <br><dt>"e" (34.0<span class="dmn">in</span> by 44.0<span class="dmn">in</span>)<dd>32.0<span class="dmn">in</span>
+
+     <br><dt>"legal" (8.5<span class="dmn">in</span> by 14.0<span class="dmn">in</span>)<dd>8.0<span class="dmn">in</span>
+
+     <br><dt>"ledger" (17.0<span class="dmn">in</span> by 11.0<span class="dmn">in</span>)<dd>10.0<span class="dmn">in</span>
+
+     <br><dt>"a4" (21.0<span class="dmn">cm</span> by 29.7<span class="dmn">cm</span>)<dd>19.81<span class="dmn">cm</span>
+
+     <br><dt>"a3" (29.7<span class="dmn">cm</span> by 42.0<span class="dmn">cm</span>)<dd>27.18<span class="dmn">cm</span>
+
+     <br><dt>"a2" (42.0<span class="dmn">cm</span> by 59.4<span class="dmn">cm</span>)<dd>39.62<span class="dmn">cm</span>
+
+     <br><dt>"a1" (59.4<span class="dmn">cm</span> by 84.1<span class="dmn">cm</span>)<dd>56.90<span class="dmn">cm</span>
+
+     <br><dt>"a0" (84.1<span class="dmn">cm</span> by 118.9<span class="dmn">cm</span>)<dd>81.79<span class="dmn">cm</span>
+
+     <br><dt>"b5" (18.2<span class="dmn">cm</span> by 25.7<span class="dmn">cm</span>)<dd>16.94<span class="dmn">cm</span>
+</dl>
+
+   <p>As noted, SVG and WebCGM format are special.  They have no notion of
+the size of the Web page on which the viewport will ultimately be
+positioned.  They do have a notion of viewport size, though this will
+typically be overridden when the output file is placed on a page by a
+Web page designer.  When producing SVG or WebCGM output, the viewport
+size is set in the usual way: by <code>PAGESIZE</code>, or (in&nbsp;the<!-- /@w --> case
+of the graphics programs) the &lsquo;<samp><span class="samp">--page-size</span></samp>&rsquo; option.  For example,
+if the specified page size is "letter", the viewport within which SVG
+or WebCGM graphics are drawn will be an 8<span class="dmn">in</span> by 8<span class="dmn">in</span> square. 
+If it is "letter,xsize=6in,ysize=7in", then the viewport will be a
+6<span class="dmn">in</span> by 7<span class="dmn">in</span> rectangle, and so forth.  The "xorigin",
+"yorigin", "xoffset", and "yoffset" specifiers, if included, are
+necessarily ignored.
+
+   <p>For a similar reason, the "xorigin" and "yorigin" specifiers are
+ignored when producing HP-GL or HP-GL/2 output.  By&nbsp;default<!-- /@w -->, the
+lower left corner of the viewport is positioned at the HP-GL `scaling
+point'&nbsp;P1<!-- /@w -->, whose location is device-dependent and will not
+normally coincide with the lower left corner of the physical page,
+though it may be close to it.  The "xoffset" and "yoffset" specifiers
+are respected, however, and may be used to shift the viewport away
+from its default position.
+
+   </body></html>
+

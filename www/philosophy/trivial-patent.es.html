@@ -1,0 +1,286 @@
+        <!--#include virtual="/server/header.es.html" -->
+
+  <title>Anatomía de una patente trivial - el proyecto GNU - Free
+  Software Foundation  - GNU/Linux</title>
+
+        <!--#include virtual="/server/banner.es.html" -->
+
+        <h2>Anatomía de una patente trivial</h2>
+
+        <p>por <a href="http://www.stallman.org/"><strong>Richard
+        Stallman</strong></a></p>
+
+<p>Los programadores saben muy bien que muchas patentes de software cubren
+ideas risiblemente obvias. Pero los defensores del sistema de patentes
+argumentan que estas ideas no son triviales, y sólo resultan obvias en
+retrospectiva. Y resulta sorprendentemente difícil derrotarlos en un
+debate. ¿Por qué es así?</p>
+
+<p>Una de las razones es que cualquier idea puede disfrazarse de algo muy
+complejo cuando se la analiza a fondo. Pero otra razón de que estas
+ideas triviales parezcan tan complejas es cómo se las describe en las
+propias patentes. Así, los defensores del sistema de patentes tienen a
+mano una descripción compleja, y dicen «¿cómo puede ser obvio algo 
+tan complejo?»</p>
+
+<p>Se lo demostraré con un ejemplo. Aquí está la primera cláusula de la
+patente US 5.963.916, solicitada en octubre de 1996:</p>
+
+<p>1. Método para permitir a un usuario remoto previsualizar una parte de
+un producto musical pre-grabado de un sitio web en la red que contiene
+fragmentos de distintos productos musicales pre-grabados, usando un
+ordenador, un monitor de ordenador, y una conexión telemática entre el
+ordenador del usuario remoto y el sitio web en la red. Este método se
+compone de los siguientes pasos:</p>
+
+        <ul>
+          <li>Uso del ordenador del usuario remoto para establecer una conexión
+          telemática al sitio web, en tanto que dicho sitio se compone de (i) un
+          servidor central acoplado a una red para recibir y transmitir el
+          fragmento pre-seleccionado del producto musical pre-grabado cada vez
+          que lo solicite el usuario remoto, y (ii) un dispositivo de
+          almacenamiento central para almacenar los fragmentos pre-seleccionados
+          de un número de diferentes productos musicales pre-grabados.</li>
+
+          <li>Transmisión de datos de identificación del usuario remoto desde el ordenador
+          del usuario hasta el servidor central, permitiendo así al
+          servidor identificar y realizar un seguimiento del progreso del
+         usuario en el sitio web.</li>
+
+          <li>Elección de al menos un fragmento pre-seleccionado de los productos
+          musicales pre-grabados en el servidor central.</li>
+
+          <li>Recepción del fragmento pre-seleccionado de entre los productos
+           pre-grabados que se haya elegido.</li>
+
+          <li>Y previsualización interactiva del fragmento pre-seleccionado de entre
+          los fragmentos de productos musicales pre-grabados que elegidos
+          y recibidos.</li>
+        </ul>
+
+<p>Pues sí que parece un sistema complejo ¿verdad? ¿Hace falta ser muy
+listo para inventar algo así? No, pero hay que ser muy listo para
+hacerlo parecer tan complejo. Pasemos a analizar el origen de esta
+complejidad:</p>
+
+<p><i>1. Método para permitir a un usuario remoto previsualizar una parte de
+un producto musical pre-grabado de un sitio web en la red que contiene
+fragmentos de distintos productos musicales pre-grabados.</i></p>
+
+<p>Esto expresa la mayor parte de la idea. Tienen selecciones de ciertas
+piezas musicales en un servidor, de forma que un usuario pueda
+escucharlas.</p>
+
+<p><i>[...] de distintos productos musicales pre-grabados, [...]</i></p>
+
+<p>Esto pone énfasis en que su servidor contiene selecciones de más de una pieza
+musical.</p>
+
+<p>Uno de los principios básicos de la informática consiste en que,
+si un ordenador puede hacer algo una vez, también puede hacerlo muchas
+veces sobre distintos datos. Muchas patentes contienen la
+pretensión de que aplicar este principio a un caso específico constituye
+un «invento».</p>
+
+<p><i>[...] usando un ordenador, un monitor de ordenador, y una conexión
+telemática entre el ordenador del usuario remoto y el sitio web en la
+red [...]</i></p>
+
+<p>Esto indica que están usando un servidor en una red.</p>
+
+<p><i>[...] este método se compone de los siguientes pasos: uso del ordenador del
+usuario remoto para establecer una conexión telemática al sitio web [...]</i></p>
+
+<p>Esto nos dice que el usuario se conecta al servidor por red, así es
+como se usan los servidores.</p>
+
+<p><i>[...] en tanto que dicho sitio se compone de (i) un servidor central
+acoplado a una red [...]</i></p>
+
+<p>Esto nos informa de que el servidor está en la red, algo habitual en los
+servidores.</p>
+
+<p><i>[...] para recibir y transmitir el fragmento pre-seleccionado del producto
+musical pre-grabado cada vez que lo solicite el usuario remoto [...]</i></p>
+
+<p>Esto repite la idea general expresada en las dos primeras líneas.</p>
+
+<p><i>[...] y (ii) un dispositivo de almacenamiento central para almacenar los
+fragmentos pre-seleccionados de un número de diferentes productos
+musicales pre-grabados; [...]</i></p>
+
+<p>Han decidido instalar un disco duro, o algo equivalente, en su ordenador
+para almacenar las muestras musicales. Desde 1980 éste ha sido el
+método habitual para almacenar cosas en un ordenador para tener acceso
+rápido a ellas.</p>
+
+<p>Nótese cómo vuelven a enfatizar el hecho de que pueden almacenar más
+de una selección en este disco. Por supuesto que cualquier sistema de
+ficheros le permite a uno almacenar más de un fichero.</p>
+
+<p><i>b) [...] transmisión de datos de identificación del usuario desde el
+ordenador del usuario remoto hasta el servidor central, permitiendo
+así al servidor identificar y realizar un seguimiento del progreso del
+usuario en el sitio web.</i></p>
+
+<p>Esto nos dice que hacen un seguimiento de quién es, y a qué está
+accediendo; algo común, aunque desagradable, en el funcionamiento de los
+servidores web. Creo que ya era común en 1996.</p>
+
+<p><i>c) [...] elección de al menos un fragmento pre-seleccionado de los productos
+musicales pre-grabados en el servidor central. [...]</i></p>
+
+<p>En otras palabras, el usuario hace <span style="font-style:italic;">click</span> 
+con el ratón para indicar qué enlaces seguir. Esto es típico en el uso de un servidor 
+web. Si hubieran encontrado otra forma de hacer esto, quizás sí se podría tratar de un
+invento.</p>
+
+<p><i>d) [...] recepción del fragmento pre-seleccionado de entre los productos
+pre-grabados que se haya elegido.</i></p>
+
+<p>Cuando sigue un enlace, su navegador lee el contenido enlazado.  Esto
+es un comportamiento típico de los navegadores web.</p>
+
+<p><i>e) [...] previsualización interactiva del fragmento pre-seleccionado de entre
+los fragmentos de productos musicales pre-grabados que hayan sido
+elegidos y recibidos.</i></p>
+
+<p>Esto dice que el navegador reproduce la música. Es lo que hacen
+muchos navegadores cuando se sigue un enlace a un archivo de audio.</p>
+
+<p>Ahora queda claro cómo han maquillado esta solicitud para convertirla en
+una idea compleja: han incluido aspectos importantes de lo que los
+ordenadores, las redes, los servidores web, y los navegadores web
+hacen. Esta complejidad, junto con un par de líneas que describen su
+propia idea, se suman al llamado «invento» por el que han recibido la
+patente.</p>
+
+<p>Esto es un ejemplo típico de las patentes de software. Incluso aquellas
+raras patentes que contengan una idea realmente original están envueltas
+en el mismo tipo de complejidad añadida.</p>
+
+<p>Ahora, fijémonos en la siguiente solicitud:</p>
+
+<p><i>3. El método [149] de la solicitud 1, según la cual el dispositivo de
+memoria central se compone de un número de soportes de discos
+compactos de sólo lectura (CD-ROMs).</i></p>
+
+<p>Lo que nos están diciendo aquí es lo siguiente: «Incluso si no creéis
+que la solicitud 1 es verdaderamente un invento, usar CD-ROMs para
+almacenar datos seguro que lo es. Al informático diseñador de sistemas
+medio nunca se le hubiera ocurrido esto.».</p>
+
+<p>Ahora vean en esta otra solicitud:</p>
+
+<p><i>4. El método [150] de  la solicitud 1, según la cual el dispositivo de
+memoria central se compone de un conjunto de discos RAID.</i></p>
+
+<p>Un conjunto RAID es un grupo de discos dispuestos para funcionar como un
+solo disco, con la particularidad de que incluso en el caso de que
+alguno de los discos del conjunto fallara y dejara de funcionar, todos los
+datos seguirían disponibles en los demás discos del grupo. Este tipo de
+conjuntos de discos han estado disponibles en el mercado desde mucho antes de 1996, y
+son el método estándar para el almacenamiento de datos de alta
+disponibilidad. Pero estos brillantes inventores han patentado el uso de
+los conjuntos RAID de discos para este propósito particular.</p>
+
+<p>Por trivial que pudiera parecer, esta patente no sería declarada
+legalmente inválida si fuera objeto de una demanda judicial. No sólo la Oficina
+de Patentes de EE.UU., sino también los tribunales, tienden a aplicar un
+baremo muy bajo a la hora de evaluar si una patente «no resulta
+obvia». Esta patente podría pasar el proceso de revisión, según dichos tribunales.</p>
+
+<p>Es más, los tribunales se muestran muy cuidadosos de no interferir con
+la Oficina de Patentes, y hay una mayor probabilidad de conseguir que
+una patente sea denegada si puede demostrar conocimiento previo que
+la Oficina de Patentes no ha tomado en consideración. Si los tribunales
+se muestran dispuestos a aplicar un estándar más estricto a la hora de
+decidir si algo es obvio o no, es buena idea guardar el conocimiento
+previos para ellos. De esta manera, las propuestas de «hacer que un
+sistema funcione mejor», al proporcionar a la Oficina de Patentes una
+mejor base de datos de conocimiento previo, podría empeorar las cosas en
+lugar de mejorarlas.</p>
+
+<p>Es muy difícil hacer que el sistema de patentes funcione de manera
+racional: es una burocracia muy compleja, y tiende a seguir sus propios
+imperativos estructurales, al margen de lo que «se supone» que tiene que
+tener. La única forma práctica de librarnos de todas las patentes de
+software obvias y sus prácticas comerciales es librarnos de todas las
+patentes en este campo. Afortunadamente, esto no sería una pérdida muy
+grave; ni siquiera las patentes originales en el campo del software
+aportan nada bueno a lo que hacemos.</p>
+
+<p>Al sistema de patentes se le presupone una intención de promover el
+progreso, y los que se benefician de las patentes de software nos piden
+que nos creamos a pies juntillas que el sistema sí tiene estos
+efectos. Pero la experiencia del programador indica lo contrario.
+Recientes análisis teóricos nos indican que esto no es una paradoja.
+(Véase <a href="http://www.researchoninnovation.org/patent.pdf"
+>http://www.researchoninnovation.org/patent.pdf</a>.)</p>
+
+</div>
+
+    <!--#include virtual="/server/footer.es.html" -->
+
+    <div id="footer">
+      <p><a name="ContactInfo" id="ContactInfo"></a>Por favor, envíe sus comentarios 
+      y preguntas sobre GNU por correo electrónico <a href="mailto:gnu@gnu.org"
+     >&lt;gnu@gnu.org&gt;</a>, teléfono: +1-617-542-5942,
+      o fax: +1-617-542-2652.</p>
+
+      <p>Por favor, envíe enlaces rotos y otras correcciones o sugerencias a
+      <a href="/people/webmeisters.html">los webmasters de GNU</a> a
+      la dirección
+      <a href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a>,
+      gracias.</p>
+
+      <p>Copyright © 2006 Richard Stallman<br />
+      Verbatim copying and distribution of this entire article are
+      permitted in any medium provided this notice is
+      preserved.</p>
+
+      <!-- Translator credits:
+      <p>Traducción: 11/02/2007 de Kamen Nedev 
+      <a href="mailto:kamen@kamennedev.com">mail</a></p>
+       -->
+      <p>Última actualización: <!-- timestamp start -->
+       $Date: 2011/12/30 05:19:05 $
+      <!-- timestamp end --></p>
+    </div><!-- END copyleft -->
+    <!-- BEGIN TranslationList -->
+
+    <div id="translations">
+      <h4><a href=
+      "/server/standards/README.translations.html">Traducciones</a>
+      de esta página</h4><!--
+  Please keep this list alphabetical, and in the original language.
+  If you add a new language here please advise
+  web-translators@gnu.org and add it to
+    - in /home/www/bin/nightly-vars either TAGSLANG or WEBLANG
+    - in /home/www/html/server/standards/README.translations.html
+      one of the lists under the section "Translations Underway"
+    - if there is a translation team, you also have to add an alias
+      to mail.gnu.org:/com/mailer/aliases
+
+  Please also check you have the 2 letter language code right versus
+  http://www.w3.org/WAI/ER/IG/ert/iso639.htm
+-->
+
+      <ul class="translations-list">
+        <li><a href="/philosophy/trivial-patent.en.html" title=
+        "[en] English">English</a>&nbsp;[en]</li>
+        <!-- Spanish -->
+       <li><a href="/philosophy/trivial-patent.es.html">Espa&#x00f1;ol</a>&nbsp;[es]</li>
+        <li><a href="/philosophy/trivial-patent.fr.html" title=
+        "[fr] French">Fran&#x00e7;ais</a>&nbsp;[fr]</li>
+
+        <li><a href="/philosophy/trivial-patent.it.html" title=
+        "[it] Italiano">Italiano</a>&nbsp;[it]</li>
+
+        <li><a href="/philosophy/trivial-patent.nl.html" title=
+        "[nl] Dutch">Nederlands</a>&nbsp;[nl]</li>
+      </ul>
+    </div><!-- END TranslationList -->
+  </div><!-- END layout -->
+</body>
+</html>

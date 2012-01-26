@@ -1,0 +1,147 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Removing files</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_59.html">previous</A>, <A HREF="cvs_61.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC62" HREF="cvs_toc.html#TOC62">Removing files from a module</A></H1>
+<P>
+<A NAME="IDX246"></A>
+<A NAME="IDX247"></A>
+
+</P>
+<P>
+Modules change.  New files are added, and old files
+disappear.  Still, you want to be able to retrieve an
+exact copy of old releases of the module.
+
+</P>
+<P>
+Here is what you can do to remove a file from a module,
+but remain able to retrieve old revisions:
+
+</P>
+
+<UL>
+<LI>
+
+Make sure that you have not made any uncommitted
+modifications to the file.  See section <A HREF="cvs_13.html#SEC14">Viewing differences</A>,
+for one way to do that.  You can also use the
+<CODE>status</CODE> or <CODE>update</CODE> command.  If you remove
+the file without committing your changes, you will of
+course not be able to retrieve the file as it was
+immediately before you deleted it.
+
+<LI>
+
+Remove the file from your working copy of the module.
+You can for instance use <CODE>rm</CODE>.
+
+<LI>
+
+Use <SAMP>`cvs remove <VAR>filename</VAR>'</SAMP> to tell CVS that
+you really want to delete the file.
+
+<LI>
+
+Use <SAMP>`cvs commit <VAR>filename</VAR>'</SAMP> to actually
+perform the removal of the file from the repository.
+</UL>
+
+<P>
+When you commit the removal of the file, CVS
+records the fact that the file no longer exists.  It is
+possible for a file to exist on only some branches and
+not on others, or to re-add another file with the same
+name later.  CVS will correctly create or not create
+the file, based on the <SAMP>`-r'</SAMP> and <SAMP>`-D'</SAMP> options
+specified to <CODE>checkout</CODE> or <CODE>update</CODE>.
+
+</P>
+<P>
+<A NAME="IDX248"></A>
+<DL>
+<DT><U>Command:</U> <B>cvs remove</B> <I>[<CODE>-lR</CODE>] files ...</I>
+<DD><A NAME="IDX249"></A>
+
+</P>
+<P>
+Schedule file(s) to be removed from the repository
+(files which have not already been removed from the
+working directory are not processed).  This command
+does not actually remove the file from the repository
+until you commit the removal.  The <SAMP>`-R'</SAMP> option
+(the default) specifies that it will recurse into
+subdirectories; <SAMP>`-l'</SAMP> specifies that it will not.
+</DL>
+
+</P>
+<P>
+Here is an example of removing several files:
+
+</P>
+
+<PRE>
+$ cd test
+$ rm ?.c
+$ cvs remove
+cvs remove: Removing .
+cvs remove: scheduling a.c for removal
+cvs remove: scheduling b.c for removal
+cvs remove: use 'cvs commit' to remove these files permanently
+$ cvs ci -m "Removed unneeded files"
+cvs commit: Examining .
+cvs commit: Committing .
+</PRE>
+
+<P>
+If you change your mind you can easily resurrect the
+file before you commit it, using the <CODE>add</CODE>
+command.
+
+</P>
+
+<PRE>
+$ ls
+CVS   ja.h  oj.c
+$ rm oj.c
+$ cvs remove oj.c
+cvs remove: scheduling oj.c for removal
+cvs remove: use 'cvs commit' to remove this file permanently
+$ cvs add oj.c
+U oj.c
+cvs add: oj.c, version 1.1.1.1, resurrected
+</PRE>
+
+<P>
+If you realize your mistake before you run the
+<CODE>remove</CODE> command you can use <CODE>update</CODE> to
+resurrect the file:
+
+</P>
+
+<PRE>
+$ rm oj.c
+$ cvs update oj.c
+cvs update: warning: oj.c was lost
+U oj.c
+</PRE>
+
+<P>
+When you remove a file it is added only on the branch
+which you are working on (see section <A HREF="cvs_48.html#SEC50">Branches</A>).  You can
+later merge the additions to another branch if you want
+(see section <A HREF="cvs_57.html#SEC59">Merging can add or remove files</A>).
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_59.html">previous</A>, <A HREF="cvs_61.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

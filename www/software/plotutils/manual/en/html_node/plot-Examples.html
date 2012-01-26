@@ -1,0 +1,133 @@
+<html lang="en">
+<head>
+<title>plot Examples - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="plot.html#plot" title="plot">
+<link rel="prev" href="plot.html#plot" title="plot">
+<link rel="next" href="plot-Invocation.html#plot-Invocation" title="plot Invocation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="plot-Examples"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="plot-Invocation.html#plot-Invocation">plot Invocation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="plot.html#plot">plot</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="plot.html#plot">plot</a>
+<hr>
+</div>
+
+<h3 class="section">3.1 How to use <code>plot</code></h3>
+
+<p>The GNU plot filter <code>plot</code> displays GNU graphics metafiles or
+translates them to other formats.  It&nbsp;will<!-- /@w --> take input from files
+specified on the command line or from standard input.  The &lsquo;<samp><span class="samp">-T</span></samp>&rsquo;
+option is used to specify the desired output format.  Supported output
+formats include "X", "png", "pnm", "gif", "svg", "ai", "ps", "cgm",
+"fig", "pcl", "hpgl", "regis", "tek", and "meta" (the default).
+
+   <p>The metafile format is a device-independent format for storage of vector
+graphics.  By default, it is a binary rather than a human-readable
+format (see <a href="Metafiles.html#Metafiles">Metafiles</a>).  Each of the <code>graph</code>, <code>pic2plot</code>,
+<code>tek2plot</code>, and <code>plotfont</code> utilities will write a graphics
+metafile to standard output if no &lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option is specified on its
+command line.  The GNU <code>libplot</code> graphics library may also be used
+to produce metafiles.  Metafiles may contain arbitrarily many pages of
+graphics, but each metafile produced by <code>graph</code> contains only a
+single page.
+
+   <p><code>plot</code>, like the metafile format itself, is useful if you wish to
+preserve a vector graphics file, and display or edit it with more than
+one drawing editor.  The following example shows how you may do this.
+
+   <p>To produce a plot of data arranged as alternating x and y
+coordinates in an ASCII file, you may use <code>graph</code> as follows:
+
+<pre class="example">     graph &lt; datafile &gt; test.meta
+</pre>
+   <p class="noindent">The file <samp><span class="file">test.meta</span></samp> will be a single-page graphics metafile. 
+Similarly, to create in metafile format a plot consisting of a simple
+figure, you may do:
+
+<pre class="example">     echo 0 0 1 1 2 0 | spline | graph &gt; test.meta
+</pre>
+   <p class="noindent">To display any such plot on an X&nbsp;Window<!-- /@w --> System display, you
+would do
+
+<pre class="example">     plot -T X test.meta
+</pre>
+   <p class="noindent">or
+
+<pre class="example">     plot -T X &lt; test.meta
+</pre>
+   <p class="noindent">To print the plot on a Postscript printer, you would do something
+like
+
+<pre class="example">     plot -T ps &lt; test.meta | lpr
+</pre>
+   <p class="noindent">To edit it with the free <code>idraw</code> drawing editor, you would do
+
+<pre class="example">     plot -T ps &lt; test.meta &gt; test.ps
+     idraw test.ps
+</pre>
+   <p class="noindent">To produce a PNG file, you would do
+<pre class="example">     plot -T png &lt; test.meta &gt; test.png
+</pre>
+   <p class="noindent">To produce a &ldquo;portable anymap&rdquo; (a file in PBM, PGM, or PPM format,
+whichever is most appropriate) you would do
+<pre class="example">     plot -T pnm &lt; test.meta &gt; test.pnm
+</pre>
+   <p class="noindent">and to produce a pseudo-GIF file, you would do
+<pre class="example">     plot -T gif &lt; test.meta &gt; test.gif
+</pre>
+   <p class="noindent">Similarly, to produce versions of the plot in SVG format and WebCGM
+format that can be displayed in a Web browser with SVG and WebCGM
+support, you would do
+
+<pre class="example">     plot -T svg &lt; test.meta &gt; test.svg
+     plot -T cgm &lt; test.meta &gt; test.cgm
+</pre>
+   <p class="noindent">To produce a version of the plot that can be viewed and edited with
+Adobe Illustrator, you would do
+
+<pre class="example">     plot -T ai &lt; test.meta &gt; test.ai
+</pre>
+   <p class="noindent">and to produce a version that can be viewed and edited with the free
+<code>xfig</code> drawing editor, you would do
+
+<pre class="example">     plot -T fig &lt; test.meta &gt; test.fig
+     xfig test.fig
+</pre>
+   <p class="noindent">Other formats may be obtained by using <code>plot -T pcl</code>, <code>plot -T
+hpgl</code>, <code>plot -T regis</code>, and <code>plot -T tek</code>.
+
+   <p><code>plot</code> may behave differently depending on the environment in which
+it is invoked.  In particular, <code>plot -T svg</code>, <code>plot -T ai</code>,
+<code>plot -T ps</code>, <code>plot -T cgm</code>, <code>plot -T fig</code>, <code>plot -T
+pcl</code>, and <code>plot -T hpgl</code> are affected by the environment variable
+<code>PAGESIZE</code>.  <code>plot -T&nbsp;X<!-- /@w --></code>, <code>plot -T png</code>, <code>plot
+-T pnm</code>, and <code>plot -T gif</code> are affected by the environment variable
+<code>BITMAPSIZE</code>.  The <code>DISPLAY</code> environment variable affects the
+operation of <code>plot -T&nbsp;X<!-- /@w --></code>, and the <code>TERM</code> environment
+variable affects the operation of <code>plot -T tek</code>.  There are also
+several environment variables that affect the operation of <code>plot -T
+pcl</code> and <code>plot -T hpgl</code>.  For a complete discussion of the effects
+of the environment on <code>plot</code>, see <a href="plot-Environment.html#plot-Environment">plot Environment</a>.
+
+   </body></html>
+

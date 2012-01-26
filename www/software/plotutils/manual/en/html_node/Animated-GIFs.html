@@ -1,0 +1,136 @@
+<html lang="en">
+<head>
+<title>Animated GIFs - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="C-Programming.html#C-Programming" title="C Programming">
+<link rel="prev" href="Drawing-on-a-Page.html#Drawing-on-a-Page" title="Drawing on a Page">
+<link rel="next" href="X-Animations.html#X-Animations" title="X Animations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Animated-GIFs"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="X-Animations.html#X-Animations">X Animations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Drawing-on-a-Page.html#Drawing-on-a-Page">Drawing on a Page</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="C-Programming.html#C-Programming">C Programming</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.2.7 Animated GIFs in C</h4>
+
+<p>Using GNU <code>libplot</code> to create pseudo-GIF files, including animated
+pseudo-GIFs, is straightforward.  A&nbsp;GIF<!-- /@w --> Plotter is a Plotter like
+any other, and it supports the same drawing operations.  However, it has
+two special properties.  (1)&nbsp;It<!-- /@w --> can draw only a single page of
+graphics, i.e., only the graphics contained in the first
+<code>openpl</code><small class="dots">...</small><code>closepl</code> pair appear in the output file. 
+In&nbsp;this<!-- /@w -->, it resembles other Plotters that do not plot in real time. 
+(2)&nbsp;Within<!-- /@w --> this page, each invocation of <code>erase</code> is normally
+treated as the beginning of a new image in the output file.  There is an
+exception to this: the first invocation of <code>erase</code> begins a new
+image only if something has already been drawn.
+
+   <p>The reason for the exception is that many programmers who use
+<code>libplot</code> are in the habit of invoking <code>erase</code> immediately
+after a Plotter is opened.  That is not a bad habit, since a few types
+of Plotter (e.g., X&nbsp;Drawable<!-- /@w --> and Tektronix Plotters) are
+`persistent' in the sense that previously drawn graphics remain visible.
+
+   <p>The following program creates a simple animated pseudo-GIF, 150 pixels
+wide and 100 pixels high.
+
+<pre class="example">     #include &lt;stdio.h&gt;
+     #include &lt;plot.h&gt;
+     
+     int main()
+     {
+       plPlotter *plotter;
+       plPlotterParams *plotter_params;
+       int i;
+     
+       /* set Plotter parameters */
+       plotter_params = pl_newplparams ();
+       pl_setplparam (plotter_params, "BITMAPSIZE", "150x100");
+       pl_setplparam (plotter_params, "BG_COLOR", "orange");
+       pl_setplparam (plotter_params, "TRANSPARENT_COLOR", "orange");
+       pl_setplparam (plotter_params, "GIF_ITERATIONS", "100");
+       pl_setplparam (plotter_params, "GIF_DELAY", "5");
+     
+       /* create a GIF Plotter with the specified parameters */
+       plotter = pl_newpl_r ("gif", stdin, stdout, stderr, plotter_params);
+     
+       pl_openpl_r (plotter);                 /* begin page of graphics */
+       pl_fspace_r (plotter,
+                    -0.5, -0.5, 149.5, 99.5); /* set user coor system */
+     
+       pl_pencolorname_r (plotter, "red");    /* use red pen */
+       pl_linewidth_r (plotter, 5);           /* set line thickness */
+       pl_filltype_r (plotter, 1);            /* objects will be filled */
+       pl_fillcolorname_r (plotter, "black"); /* set the fill color */
+     
+       for (i = 0; i &lt; 180 ; i += 15)
+         {
+           pl_erase_r (plotter);              /* begin new GIF image */
+           pl_ellipse_r (plotter, 75, 50, 40, 20, i); /* draw an ellipse */
+         }
+     
+       pl_closepl_r (plotter);                /* end page of graphics */
+       pl_deletepl_r (plotter);               /* delete Plotter */
+       return 0;
+     }
+</pre>
+   <p>The animated pseudo-GIF will be written to standard output.  It&nbsp;will<!-- /@w -->
+consist of twelve images, showing the counterclockwise rotation of a
+black-filled red ellipse through 180 degrees.  The pseudo-GIF will be
+`looped' (see below), so the ellipse will rotate repeatedly.
+
+   <p>The parameters of the ellipse are expressed in terms of user
+coordinates, not pixel coordinates.  But the call to <code>pl_fspace_r</code>
+defines user coordinates that are effectively the same as pixel
+coordinates.  In the user coordinate system, the lower left corner of
+the rectangle mapped into the 150x100 pseudo-GIF image is given
+coordinates (&minus;0.5,&minus;0.5), and the upper right corner is
+given coordinates (149.5,99.5).  So individual pixels may be addressed
+in terms of integer user coordinates.  For&nbsp;example<!-- /@w -->, invoking
+<code>pl_point_r(plotter,0,0)</code> and <code>pl_point_r(plotter,149,99)</code>
+would set the pixels in the lower left and upper right corners of the
+image to the current pen color.
+
+   <p>Besides <code>BITMAPSIZE</code> and <code>BG_COLOR</code>, there are several
+important GIF Plotter parameters that may be set with the
+<code>pl_setplparam</code> function.  The <code>TRANSPARENT_COLOR</code> parameter
+may be set to the name of a color.  Pixels in a pseudo-GIF that have
+that color will be treated as transparent by most software.  This is
+usually used to create a transparent background.  In&nbsp;the<!-- /@w --> example
+above, the background color is specified as orange, but the transparent
+color is also specified as orange.  So&nbsp;the<!-- /@w --> background will not
+actually be displayed.
+
+   <p>The <code>GIF_ITERATIONS</code> parameter, if&nbsp;set<!-- /@w -->, specifies the number of
+times that a multi-frame pseudo-GIF should be looped.  The
+<code>GIF_DELAY</code> parameter specifies the number of hundredths of a
+seconds that should elapse between successive images.
+
+   <p>The <code>INTERLACE</code> parameter is sometimes useful.  If it is set to
+"yes", the pseudo-GIF will be interlaced.  This is of greatest value for
+single-frame GIFs.  For full details on Plotter parameters, see
+<a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.
+
+   </body></html>
+

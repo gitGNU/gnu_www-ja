@@ -1,0 +1,72 @@
+/*
+*  Atmosphere test
+*/
+
+#include "materials.inc"
+
+define camera c
+{
+  translate	<0, 0, 450>
+  look_at	<0, 0, 0>
+}
+
+define light l
+{
+  translate	<0, 200, 0>
+  axis          <0, 0, 0>
+  angle_th      20
+  intensity     1
+}
+
+sphere
+{
+  translate     <0, 0, 0>
+  radius        40
+  material : extends MLambertian
+  {
+    color       CRed
+  }
+}
+
+plane
+{
+  translate	<0, -100, 0>
+  normal	<0, 1, 0>
+  material : extends MChecker
+  {
+    color	CBlue
+    color	CCyan
+    size        50
+  }
+}
+
+atm_object : class AtmConst
+{
+  from          <-200, -200, -200>
+  to            <200, 200, 200>
+  albedo        0.004
+  extinction    0.002
+  jitter        0
+  samples       20
+  min_step_size 1
+  transp_th     0.01
+  slope_th      1
+}
+
+scene
+{
+  camera	c
+  light         l
+  width		400
+  height	400
+  background    CBlack
+  participating on
+  output
+  {
+    name	"atmospheric.tga"
+  }
+  renderer : class Raytracer
+  {
+    sampling    "adaptive"
+  }
+}

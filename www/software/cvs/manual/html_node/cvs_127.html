@@ -1,0 +1,99 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - update output</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_126.html">previous</A>, <A HREF="cvs_128.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC134" HREF="cvs_toc.html#TOC134">update output</A></H3>
+
+<P>
+<CODE>update</CODE> and <CODE>checkout</CODE> keep you informed of
+its progress by printing a line for each file, preceded
+by one character indicating the status of the file:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>U <VAR>file</VAR></CODE>
+<DD>
+The file was brought up to date with respect to the
+repository.  This is done for any file that exists in
+the repository but not in your source, and for files
+that you haven't changed but are not the most recent
+versions available in the repository.
+
+<DT><CODE>A <VAR>file</VAR></CODE>
+<DD>
+The file has been added to your private copy of the
+sources, and will be added to the source repository
+when you run <CODE>commit</CODE> on the file.  This is a
+reminder to you that the file needs to be committed.
+
+<DT><CODE>R <VAR>file</VAR></CODE>
+<DD>
+The file has been removed from your private copy of the
+sources, and will be removed from the source repository
+when you run <CODE>commit</CODE> on the file.  This is a
+reminder to you that the file needs to be committed.
+
+<DT><CODE>M <VAR>file</VAR></CODE>
+<DD>
+The file is modified in  your  working  directory.
+
+<SAMP>`M'</SAMP> can indicate one of two states for a file
+you're working on: either there were no modifications
+to the same file in the repository, so that your file
+remains as you last saw it; or there were modifications
+in the repository as well as in your copy, but they
+were merged successfully, without conflict, in your
+working directory.
+
+CVS will print some messages if it merges your work,
+and a backup copy of your working file (as it looked
+before you ran <CODE>update</CODE>) will be made.  The exact
+name of that file is printed while <CODE>update</CODE> runs.
+
+<DT><CODE>C <VAR>file</VAR></CODE>
+<DD>
+<A NAME="IDX356"></A>
+<A NAME="IDX357"></A>
+A conflict was detected while trying to merge your
+changes to <VAR>file</VAR> with changes from the source
+repository.  <VAR>file</VAR> (the copy in your working
+directory) is now the output of the rcsmerge(1) command
+on the two revisions; an unmodified copy of your file
+is also in your working directory, with the name
+<TT>`.#<VAR>file</VAR>.<VAR>revision</VAR>'</TT> where <VAR>revision</VAR>
+is the RCS revision that your modified file started
+from.  Resolve the conflict as described in
+section <A HREF="cvs_38.html#SEC40">Conflicts example</A>
+(Note that some systems automatically purge
+files that begin with <TT>`.#'</TT> if they have not been
+accessed for a few days.  If you intend to keep a copy
+of your original file, it is a very good idea to rename
+it.)  Under VMS, the file name starts with
+<TT>`__'</TT> rather than <TT>`.#'</TT>.
+
+<DT><CODE>? <VAR>file</VAR></CODE>
+<DD>
+<VAR>file</VAR> is in your working directory, but does not
+correspond to anything in the source repository, and is
+not in the list of files for CVS to ignore (see the
+description of the <SAMP>`-I'</SAMP> option, and
+see section <A HREF="cvs_141.html#SEC148">Ignoring files via cvsignore</A>).
+
+Note that no warning message like this is printed for
+spurious directories that CVS encounters.  The
+directory, and all its contents, are silently ignored.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_126.html">previous</A>, <A HREF="cvs_128.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

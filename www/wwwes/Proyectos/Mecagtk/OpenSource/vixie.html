@@ -1,0 +1,249 @@
+<HTML>
+<HEAD>
+<META NAME="DC.title" CONTENT="Open Sources: Voices from the Open Source
+Revolution">
+<META NAME="DC.creator" CONTENT="Paul Vixie">
+<META NAME="DC.publisher" CONTENT="O'Reilly & Associates, Inc.">
+<META NAME="DC.date" CONTENT="1999-03-29">
+<META NAME="DC.type" CONTENT="Text.Article">
+<META NAME="DC.format" CONTENT="text/html" SCHEME="MIME">
+<META NAME="DC.source" CONTENT="1-56592-582-3" SCHEME="ISBN">
+<META NAME="DC.language" CONTENT="en-US">
+<META NAME="GENERATOR" CONTENT="Adobe FrameMaker 5.5/HTML Export Filter">
+<META NAME="Type" CONTENT="SampChapDAO">
+<TITLE>Open Sources: Voices from the Open Source Revolution
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" LINK="#AA0000" VLINK="#000077">
+<table BORDER="0" CELLPADDING="0" CELLSPACING="0" width="90%">
+
+<tr>
+<td colspan=2>
+</td>
+</tr>
+
+<tr>
+<td width="25%" valign="TOP">
+
+<A HREF="http://www.oreilly.com/catalog/opensources/">
+<img hspace=10 vspace=10 src="opensources.s.gif"
+alt="Open Sources: Voices from the Open Source Revolution" 
+align=left valign=top border=0>
+</a>
+</td>
+<td height="105" valign="TOP">
+<br>
+<H2>Open Sources: Voices from the Open Source Revolution
+</h2>
+<font size="-1">
+
+<br>1st Edition January 1999
+<br>1-56592-582-3, Order Number: 5823
+<br>280 pages, $24.95
+</font>
+</td>
+
+</table>
+
+<hr size=1 noshade>
+
+<br>
+
+<!-- Sample chapter begins here -->
+
+<LINK REL="STYLESHEET" HREF="opensrc.css" CHARSET="ISO-8859-1" TYPE="text/css">
+<TITLE>Software Engineering</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<H1 class="ChapterTitle" align="right">Software Engineering</H1>
+<H4 CLASS="ChapterAuthor" align="right">Paul Vixie</H4>
+<P CLASS="BodyStart">Software engineering is a wider field than &quot;writing programs.&quot; Yet, in many Open Source projects, programs are simply written and given away. It's clear from historical examples that software need not be engineered in order to be widely used and enjoyed. In this essay we'll look at some general elements of software engineering, then at the Open Source community's usual equivalents to these elements, and then finally at the implications of the differences between the two approaches.</P>
+<H2 CLASS="HeadA">
+The Software Engineering Process</H2>
+<P CLASS="Body">The elements of a software engineering process are generally enumerated as:</P>
+<UL>
+<LI CLASS="ListBullet">
+Marketing Requirements</LI>
+<LI CLASS="ListBullet">
+System-Level Design</LI>
+<LI CLASS="ListBullet">
+Detailed Design</LI>
+<LI CLASS="ListBullet">
+Implementation</LI>
+<LI CLASS="ListBullet">
+Integration</LI>
+<LI CLASS="ListBullet">
+Field Testing</LI>
+<LI CLASS="ListBullet">
+Support</LI>
+</UL>
+<P CLASS="Body">No element of this process ought to commence before the earlier ones are substantially complete, and whenever a change is made to some element, all dependent elements ought to be reviewed or redone in light of that change. It's possible that a given module will be both specified and implemented before its dependent modules are fully specified--this is called <EM CLASS="Emphasis">advanced development or research</EM>.</P>
+<P CLASS="Body">It is absolutely essential that every element of the software engineering process include several kinds of <EM CLASS="Emphasis">review:</EM> peer review, mentor/management review, and cross-disciplinary review.</P>
+<P CLASS="Body">Software engineering elements (whether documents or source code) must have version numbers and auditable histories. &quot;Checking in&quot; a change to an element should require some form of review, and the depth of the review should correspond directly to the scope of the change.</P>
+<H3 CLASS="HeadB">
+Marketing Requirements</H3>
+<P CLASS="Body">The first step of a software engineering process is to create a document which describes the target customers and their reason for needing this product, and then goes on to list the features of the product which address these customer needs. The Marketing Requirements Document (MRD) is the battleground where the answer to the question &quot;What should we build, and who will use it?&quot; is decided.</P>
+<P CLASS="Body">In many failed projects, the MRD was handed down like an inscribed stone tablet from marketing to engineering, who would then gripe endlessly about the laws of physics and about how they couldn't actually build that product since they had no ready supply of Kryptonite or whatever. The MRD is a joint effort, with engineering not only reviewing but also writing a lot of the text.</P>
+<H3 CLASS="HeadB">
+System-Level Design</H3>
+<P CLASS="Body">This is a high-level description of the product, in terms of &quot;modules&quot; (or sometimes &quot;programs&quot;) and of the interaction between these modules. The goals of this document are first, to gain more confidence that the product could work and could be built, and second, to form a basis for estimating the total amount of work it will take to build it.</P>
+<P CLASS="Body">The system-level design document should also outline the system-level testing plan, in terms of customer needs and whether they would be met by the system design being proposed.</P>
+<H3 CLASS="HeadB">
+Detailed Design</H3>
+<P CLASS="Body">The detailed design is where every module called out in the system-level design document is described in detail. The interface (command line formats, calling API, externally visible data structures) of each module has to be completely determined at this point, as well as dependencies between modules. Two things that will evolve out of the detailed design is a PERT or GANT chart showing what work has to be done and in what order, and more accurate estimates of the time it will take to complete each module.</P>
+<P CLASS="Body">Every module needs a <EM CLASS="Emphasis">unit test plan</EM>, which tells the implementor what test cases or what kind of test cases they need to generate in their unit testing in order to verify functionality. Note that there are additional, nonfunctional unit tests which will be discussed later.</P>
+<H3 CLASS="HeadB">
+Implementation</H3>
+<P CLASS="Body">Every module described in the detailed design document has to be <EM CLASS="Emphasis">implemented</EM>. This includes the small act of <EM CLASS="Emphasis">coding or programming </EM>that is the heart and soul of the software engineering process. It's unfortunate that this small act is sometimes the only part of software engineering that is taught (or learned), since it is also the only part of software engineering which can be effectively self-taught.</P>
+<P CLASS="Body">A module can be considered implemented when it has been created, tested, and successfully used by some other module (or by the system-level testing process). Creating a module is the old edit-compile-repeat cycle. Module testing includes the unit level functional and regression tests called out by the detailed design, and also performance/stress testing, and code coverage analysis.</P>
+<H3 CLASS="HeadB">
+Integration</H3>
+<P CLASS="Body">When all modules are nominally complete, system-level integration can be done. This is where all of the modules move into a single source pool and are compiled and linked and packaged as a system. Integration can be done incrementally, in parallel with the implementation of the various modules, but it cannot authoritatively approach &quot;doneness&quot; until all modules are substantially complete.</P>
+<P CLASS="Body">Integration includes the development of a system-level test. If the built package has to be able to install itself (which could mean just unpacking a tarball or copying files from a CD-ROM) then there should be an automated way of doing this, either on dedicated crash and burn systems or in containerized/simulated environments. </P>
+<P CLASS="Body">Sometimes, in the middleware arena, the package is just a built source pool, in which case no installation tools will exist and system testing will be done on the as-built pool.</P>
+<P CLASS="Body">Once the system has been installed (if it is installable), the automated system-level testing process should be able to invoke every public command and call every public entry point, with every possible reasonable combination of arguments. If the system is capable of creating some kind of database, then the automated system-level testing should create one and then use external (separately written) tools to verify the database's integrity. It's possible that the unit tests will serve some of these needs, and all unit tests should be run in sequence during the integration, build, and packaging process.</P>
+<H3 CLASS="HeadB">
+Field Testing</H3>
+<P CLASS="Body">Field testing usually begins internally. That means employees of the organization that produced the software package will run it on their own computers. This should ultimately include all &quot;production level&quot; systems--desktops, laptops, and servers. The statement you want to be able to make at the time you ask customers to run a new software system (or a new version of an existing software system) is &quot;we run it ourselves.&quot; The software developers should be available for direct technical support during internal field testing.</P>
+<P CLASS="Body">Ultimately it will be necessary to run the software externally, meaning on customers' (or prospective customers') computers. It's best to pick &quot;friendly&quot; customers for this exercise since it's likely that they will find a lot of defects--even some trivial and obvious ones--simply because their usage patterns and habits are likely to be different from those of your internal users. The software developers should be close to the front of the escalation path during external field testing.</P>
+<P CLASS="Body">Defects encountered during field testing need to be triaged by senior developers and technical marketers, to determine which ones can be fixed in the documentation, which ones need to be fixed before the current version is released, and which ones can be fixed in the next release (or never).</P>
+<H3 CLASS="HeadB">
+Support</H3>
+<P CLASS="Body">Software defects encountered either during field testing or after the software has been distributed should be recorded in a tracking system. These defects should ultimately be assigned to a software engineer who will propose a change to either the definition and documentation of the system, or the definition of a module, or to the implementation of a module. These changes should include additions to the unit and/or system-level tests, in the form of a regression test to show the defect and therefore show that it has been fixed (and to keep it from recurring later).</P>
+<P CLASS="Body">Just as the MRD was a joint venture between engineering and marketing, so it is that support is a joint venture between engineering and customer service. The battlegrounds in this venture are the bug list, the categorization of particular bugs, the maximum number of critical defects in a shippable software release, and so on.</P>
+<H2 CLASS="HeadA">
+Testing Details</H2>
+<H3 CLASS="HeadB">
+Code Coverage Analysis</H3>
+<P CLASS="Body">Code coverage testing begins with the instrumentation of the program code, sometimes by a preprocessor, sometimes by an object code modifier, sometimes using a special mode of the compiler or linker, to keep track of all possible code paths in a block of source code and to record, during its execution, which ones were taken.</P>
+<P CLASS="Body">Consider the following somewhat typical C snippet:</P>
+<pre>
+<CODE CLASS="Code">
+1.   if (read(s, buf, sizeof buf) == -1)
+2.   error++;
+3.   else
+4.   error = 0;
+</CODE>
+</pre>
+<P CLASS="Body">If the error variable has not been initialized, then the code is buggy, and if line 2 is ever executed then the results of the rest of the program will be undefined. The likelihood of an error in read (and a return value of -1 from it) occurring during normal testing is somewhat low. The way to avoid costly support events from this kind of bug is to make sure that your unit tests exercise every possible code path and that the results are correct in every case.</P>
+<P CLASS="Body">But wait, it gets better. Code paths are combinatorial. In our example above, the error variable may have been initialized earlier--let's say by a similar code snippet whose predicate (&quot;system call failure&quot;) was false (meaning no error occurred). The following example, which is patently bad code that would not pass any kind of code review anyway, shows how easy it is for simple things to become complicated:</P>
+<pre>
+<CODE CLASS="Code">
+1.   if (connect(s, &amp;sa, &amp;sa_len) == -1)
+2.   error++;
+3.   else
+4.   error = 0;
+5.   if (read(s, buf, sizeof buf) == -1)
+6.   error++;
+7.   else
+8.   error = 0;
+</CODE>
+</pre>
+<P CLASS="Body">There are now four code paths to test:</P>
+<OL>
+<LI CLASS="ListNumberStart">
+				lines 1-2-5-6.</LI>
+<LI CLASS="ListNumber">
+				lines 1-2-5-8.</LI>
+<LI CLASS="ListNumber">
+				lines 1-4-5-6.</LI>
+<LI CLASS="ListNumber">
+				lines 1-4-5-8.</LI>
+</OL>
+<P CLASS="Body">It's usually impossible to test every possible code path--there can be hundreds of paths through even a small function of a few dozen lines. And on the other hand, merely ensuring that your unit tests are capable (on successive runs, perhaps) of exercising every line of code is not sufficient. This kind of coverage analysis is not in the tool bag of every software engineer in the field--and that's why QA is its own specialty.</P>
+<H3 CLASS="HeadB">
+Regression Tests</H3>
+<P CLASS="Body">Fixing a bug is just not enough. &quot;Obvious by inspection&quot; is often a cop-out used to cover the more insidious &quot;writing the smoking gun test would be difficult.&quot; OK, so there are many bugs which <EM CLASS="Emphasis">are </EM>obvious by inspection, like division by the constant zero. But to figure out what to fix, one must look at the surrounding code to find out what the author (who was hopefully somebody else) intended. This kind of analysis should be documented as part of the fix, or as part of the comments in the source code, or both.</P>
+<P CLASS="Body">In the more common case, the bug isn't obvious by inspection and the fix will be in a different part of the source code than the place where the program dumped core or otherwise behaved badly. In these cases, a new test should be written which exercises the bad code path (or the bad program state or whatever) and then the fix should be tested against this new unit test. After review and check-in, the new unit test should <EM CLASS="Emphasis">also</EM> be checked in, so that if the same bug is reintroduced later as a side effect of some other change, QA will have some hope of catching it before the customers do.</P>
+<H2 CLASS="HeadA">
+Open Source Software Engineering</H2>
+<P CLASS="Body">An Open Source project can include every single one of the above elements, and to be fair, some have. The commercial versions of BSD, BIND, and Sendmail are all examples of the standard software engineering process--but they didn't start out that way. A full-blown software engineering process is very resource-hungry, and instantiating one usually requires investment, which usually requires some kind of revenue plan.</P>
+<P CLASS="Body">The far more common case of an open-source project is one where the people involved are having fun and want their work to be as widely used as possible so they give it away without fee and sometimes without restrictions on redistribution. These folks might not have access to so-called &quot;commercial grade&quot; software tools (like code coverage analyzers, bounds-checking interpreters, and memory integrity verifiers). And the primary things they seem to find fun are coding, packaging, and evangelizing--not QA, not MRDs, and usually not hard and fast ship dates.</P>
+<P CLASS="Body">Let's revisit each of the elements of the software engineering process and see what typically takes its place in an unfunded Open Source project--a labor of love. </P>
+<H3 CLASS="HeadB">
+Marketing Requirements</H3>
+<P CLASS="Body">Open Source folks tend to build the tools they need or wish they had. Sometimes this happens in conjunction with one's day job, and often it's someone whose primary job is something like system administration rather than software engineering. If, after several iterations, a software system reaches critical mass and takes on a life of its own, it will be distributed via Internet tarballs and other users will start to either ask for features or just sit down and implement them and send them in.</P>
+<P CLASS="Body">The battleground for an open-source MRD is usually a mailing list or newsgroup, with the users and developers bantering back and forth directly. Consensus is whatever the developers remember or agree with. Failure to consense often enough results in &quot;code splits,&quot; where other developers start releasing their own versions. The MRD equivalent for Open Source can be very nurturing but it has sharp edges--conflict resolution is sometimes not possible (or not attempted).</P>
+<H3 CLASS="HeadB">
+System-Level Design</H3>
+<P CLASS="Body">There usually just is no system-level design for an unfunded Open Source effort. Either the system design is implicit, springing forth whole and complete straight from Zeus's forehead, or it evolves over time (like the software itself). Usually by Version 2 or 3 of an open-source system, there actually <EM CLASS="Emphasis">is</EM> a system design even if it doesn't get written down anywhere.</P>
+<P CLASS="Body">It is here, rather than in any other departure from the normal rules of the software engineering road, that Open Source earns its reputation for being a little bit flakey. You can compensate for a lack of a formal MRD or even formal QA by just having really good programmers (or really friendly users), but if there's no system design (even if it's only in someone's head), the project's quality will be self-limited.</P>
+<H3 CLASS="HeadB">
+Detailed Design</H3>
+<P CLASS="Body">Another casualty of being unfunded and wanting to have fun is a detailed design. Some people do find DDDs fun to work on, but these people generally get all the fun they can stand by writing DDDs during their day jobs. Detailed design ends up being a side effect of the implementation. &quot;I know I need a parser, so I'll write one.&quot; Documenting the API in the form of external symbols in header files or manpages is optional and may not occur if the API isn't intended to be published or used outside of the project.</P>
+<P CLASS="Body">This is a shame, since a lot of good and otherwise reusable code gets hidden this way. Even modules that are not reusable or tightly bound to the project where they are created, and whose APIs are not part of the feature deliverables, really ought to have manpages explaining what they do and how to call them. It's hugely helpful to the other people who want to enhance the code, since they have to start by reading and understanding it.</P>
+<H3 CLASS="HeadB">
+Implementation</H3>
+<P CLASS="Body">This is the fun part. Implementation is what programmers love most; it's what keeps them up late hacking when they could be sleeping. The opportunity to write code is the primary motivation for almost all open-source software development effort ever expended. If one focuses on this one aspect of software engineering to the exclusion of the others, there's a huge freedom of expression.</P>
+<P CLASS="Body">Open-source projects are how most programmers experiment with new styles, either styles of indentation or variable naming or &quot;try to save memory&quot; or &quot;try to save CPU cycles&quot; or what have you. And there are some artifacts of great beauty waiting in tarballs everywhere, where some programmer tried out a style for the first time and it <EM CLASS="Emphasis">worked</EM>.</P>
+<P CLASS="Body">An unfunded Open Source effort can have as much rigor and consistency as it wants--users will run the code if it's functional; most people don't care if the developer switched styles three times during the implementation process. The developers generally care, or they learn to care after a while. In this situation, Larry Wall's past comments about programming being an artistic expression very much hit home. </P>
+<P CLASS="Body">The main difference in an unfunded Open Source implementation is that review is informal. There's usually no mentor or peer looking at the code before it goes out. There are usually no unit tests, regression or otherwise.</P>
+<H3 CLASS="HeadB">
+Integration</H3>
+<P CLASS="Body">Integration of an open-source project usually involves writing some manpages, making sure that it builds on every kind of system the developer has access to, cleaning up the Makefile to remove the random hair that creeps in during the implementation phase, writing a README, making a tarball, putting it up for anonymous FTP somewhere, and posting a note to some mailing list or newsgroup where interested users can find it.</P>
+<P CLASS="Body">Note that the comp.sources.unix newsgroup was rekindled in 1998 by Rob Braun, and it's a fine place to send announcements of new or updated open-source software packages. It also functions as a repository/archive.</P>
+<P CLASS="Body">That's right, no system-level testing. But then there's usually no system-level test plan and no unit tests. In fact, Open Source efforts are pretty light on testing overall. (Exceptions exist, such as Perl and PostgreSQL.) This lack of pre-release testing is not a weakness, though, as explained below.</P>
+<H3 CLASS="HeadB">
+Field Testing</H3>
+<P CLASS="Body">Unfunded open-source software enjoys the best system-level testing in the industry, unless we include NASA's testing on space-bound robots in our comparison. The reason is simply that users tend to be much friendlier when they aren't being charged any money, and power users (often developers themselves) are much more helpful when they can read, and fix, the source code to something they're running.</P>
+<P CLASS="Body">The essence of field testing is its lack of rigor. What software engineering is looking for from its field testers is patterns of use which are inherently unpredictable at the time the system is being designed and built--in other words, real world experiences of real users. Unfunded open-source projects are simply unbeatable in this area.</P>
+<P CLASS="Body">An additional advantage enjoyed by open-source projects is the &quot;peer review&quot; of dozens or hundreds of other programmers looking for bugs by reading the source code rather than just by executing packaged executables. Some of the readers will be looking for security flaws and some of those found will not be reported (other than among other crackers), but this danger does not take away from the overall advantage of having uncounted strangers reading the source code. These strangers can really keep an Open Source developer on his or her toes in a way that no manager or mentor ever could.</P>
+<H3 CLASS="HeadB">
+Support</H3>
+<P CLASS="Body">&quot;Oops, sorry!&quot; is what's usually said when a user finds a bug, or &quot;Oops, sorry, and thanks!&quot; if they also send a patch. &quot;Hey, it works for me&quot; is how Open Source developers do bug triage. If this sounds chaotic, it is. The lack of support can keep some users from being willing (or able) to run unfunded Open Source programs, but it also creates opportunities for consultants or software distributors to sell support contracts and/or enhanced and/or commercial versions.</P>
+<P CLASS="Body">When the Unix vendor community first encountered a strong desire from their users to ship prepackaged open-source software with their base systems, their first reaction was pretty much &quot;Well, OK, but we're not going to support it.&quot; The success of companies like Cygnus has prompted reexamination of that position, but the culture clash runs pretty deep. Traditional software houses, including Unix vendors, just cannot plan or budget for the cost of sales of a support business if there are unreviewed changes being contributed by uncounted strangers. </P>
+<P CLASS="Body">Sometimes the answer is to internalize the software, running it through the normal QA process including unit and system testing, code coverage analysis, and so on. This can involve a reverse-engineered MRD and DDD to give QA some kind of context (i.e., what functionality to test for). Other times the answer is to rewrite the terms of the support agreement to &quot;best efforts&quot; rather than &quot;guaranteed results.&quot; Ultimately the software support market will be filled by who can get leverage from all those uncounted strangers, since a lot of them are good people writing good software, and the Open Source culture is more effective in most cases at generating the level of functionality that users actually want (witness Linux versus Windows).</P>
+<H2 CLASS="HeadA">
+Conclusions</H2>
+<P CLASS="Body">Engineering is an old field, and no matter whether one is building software, hardware, or railroad bridges, the elements of the engineering process are essentially the same:</P>
+<UL>
+<LI CLASS="ListBullet">
+					Identify a requirement, and its requirers.</LI>
+<LI CLASS="ListBullet">
+					Design a solution that meets the requirement.</LI>
+<LI CLASS="ListBullet">
+					Modularize the design; plan the implementation.</LI>
+<LI CLASS="ListBullet">
+					Build it; test it; deliver it; support it.</LI>
+</UL>
+<P CLASS="Body">Some fields put greater emphasis on some phases. For example, railroad bridge builders don't usually have to put a lot of thought into an MRD, the implementation process, or support--but they have to pay very close attention to the SDD and DDD and of course QA.</P>
+<P CLASS="Body">The seminal moment in the conversion of a &quot;programmer&quot; into a &quot;software engineer&quot; is that instant when they realize that engineering is a field and that they are able to enter that field but that it will require a fundamentally different mindset--and a lot more work. Open Source developers often succeed for years before the difference between programming and software engineering finally catches up to them, simply because Open Source projects take longer to suffer from the lack of engineering rigor.</P>
+<P CLASS="Body">This chapter has given a very shallow overview of software engineering, and hopefully provided some motivation and context for Open Source programmers to consider entering that field. Remember that the future is always a hybrid of all the best of what has gone into the past and present. Software engineering isn't just for the slide rule and pocket protector set--it's a rich field with a lot of proven techniques for building high-quality systems, especially high-quality systems that aren't amenable to the &quot;one smart programmer&quot; approach common to Open Source projects.</P>
+
+</font>
+<br>
+<font size="3">
+<P align=right>
+<a href="linus.html"><i><b>Next Chapter ---></b></i></a>
+</font></P>
+
+<!-- Sample chapter ends here -->
+
+<p>
+<CENTER>
+<HR SIZE="1" NOSHADE>
+<FONT SIZE="1" FACE="Verdana, Arial, Helvetica">
+<A HREF="http://www.oreilly.com/">
+<B>O'Reilly Home</B></A> <B> | </B>
+<A HREF="http://www.oreilly.com/sales/bookstores">
+<B>O'Reilly Bookstores</B></A> <B> | </B>
+<A HREF="http://www.oreilly.com/order_new/">
+<B>How to Order</B></A> <B> | </B>
+<A HREF="http://www.oreilly.com/oreilly/contact.html">
+<B>O'Reilly Contacts<BR></B></A>
+<A HREF="http://www.oreilly.com/international/">
+<B>International</B></A> <B> | </B>
+<A HREF="http://www.oreilly.com/oreilly/about.html">
+<B>About O'Reilly</B></A> <B> | </B>
+<A HREF="http://www.oreilly.com/affiliates.html">
+<B>Affiliated Companies</B></A><p>
+<EM>&copy; 1999, O'Reilly &amp; Associates, Inc.</EM>
+</FONT>
+</CENTER>
+</td>
+</tr>
+</table>
+<br>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<html lang="en">
+<head>
+<title>Sample C++ Drawings - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="C_002b_002b-Programming.html#C_002b_002b-Programming" title="C++ Programming">
+<link rel="prev" href="C_002b_002b-Compiling-and-Linking.html#C_002b_002b-Compiling-and-Linking" title="C++ Compiling and Linking">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Sample-C++-Drawings"></a>
+<a name="Sample-C_002b_002b-Drawings"></a>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="C_002b_002b-Compiling-and-Linking.html#C_002b_002b-Compiling-and-Linking">C++ Compiling and Linking</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="C_002b_002b-Programming.html#C_002b_002b-Programming">C++ Programming</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.3.3 Sample drawings in C++</h4>
+
+<p>In a previous section, there are several sample C&nbsp;programs<!-- /@w --> that show
+how to draw vector graphics using <code>libplot</code>'s C&nbsp;binding<!-- /@w -->. 
+See <a href="Sample-C-Drawings.html#Sample-C-Drawings">Sample C Drawings</a>.  In&nbsp;this<!-- /@w --> section, we give a modified
+version of one of the C programs, showing how <code>libplot</code>'s C++
+binding, i.e., <code>libplotter</code>, can be used similarly.
+
+   <p>The following C++ program draws an intricate and beautiful path (Bill
+Gosper's &ldquo;C&rdquo;&nbsp;curve<!-- /@w -->).
+
+<pre class="example">     #include &lt;plotter.h&gt;
+     const int maxorder = 12;
+     
+     void draw_c_curve (Plotter&amp; plotter, double dx, double dy, int order)
+     {
+       if (order &gt;= maxorder)
+         plotter.fcontrel (dx, dy);	// continue path along (dx, dy)
+       else
+         {
+           draw_c_curve (plotter,
+                         0.5 * (dx - dy), 0.5 * (dx + dy), order + 1);
+           draw_c_curve (plotter,
+                         0.5 * (dx + dy), 0.5 * (dy - dx), order + 1);
+         }
+     }
+     
+     int main ()
+     {
+       // set a Plotter parameter
+       PlotterParams params;
+       params.setplparam ("PAGESIZE", (char *)"letter");
+     
+       PSPlotter plotter(cin, cout, cerr, params); // declare Plotter
+       if (plotter.openpl () &lt; 0)                  // open Plotter
+         {
+           cerr &lt;&lt; "Couldn't open Plotter\n";
+           return 1;
+         }
+     
+       plotter.fspace (0.0, 0.0, 1000.0, 1000.0); // specify user coor system
+       plotter.flinewidth (0.25);       // line thickness in user coordinates
+       plotter.pencolorname ("red");    // path will be drawn in red
+       plotter.erase ();                // erase Plotter's graphics display
+       plotter.fmove (600.0, 300.0);    // position the graphics cursor
+       draw_c_curve (plotter, 0.0, 400.0, 0);
+       if (plotter.closepl () &lt; 0)      // close Plotter
+         {
+           cerr &lt;&lt; "Couldn't close Plotter\n";
+           return 1;
+         }
+       return 0;
+     }
+</pre>
+   <p>The above is a straightforward translation of the corresponding C&nbsp;program<!-- /@w -->.  Here, <code>plotter</code> is declared as an instance of the
+<code>PSPlotter</code> class, which will write Postscript graphics to the
+output stream <code>cout</code>.  The graphics are drawn by invoking member
+functions.
+
+   </body></html>
+

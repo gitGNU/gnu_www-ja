@@ -1,0 +1,222 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/finger.texinfo on 7 November 1998 -->
+
+<TITLE>GNU Finger - Arguments</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="finger_1.html">first</A>, <A HREF="finger_3.html">previous</A>, <A HREF="finger_5.html">next</A>, <A HREF="finger_24.html">last</A> section, <A HREF="finger_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC4" HREF="finger_toc.html#TOC4">Arguments to GNU Finger</A></H2>
+
+<P>
+The basic argument to Finger is a <VAR>user</VAR>@<VAR>host</VAR> pair.  The
+<VAR>user</VAR> portion is the name of the user about whom you would like
+information.  The <VAR>host</VAR> is a machine that the user has an
+account on.   When invoked in this manner, GNU Finger displays the list
+of hosts that this user is currently logged in on, or, if the user is
+not logged in, the last time and location that he or she was.
+<VAR>host</VAR> may be expressed as any valid Internet address (i.e.
+<EM>dot-notation</EM>, <EM>host.domain</EM>, etc).
+
+</P>
+<P>
+If <VAR>host</VAR> is non-existent, the local host is assumed.  If <VAR>user</VAR>
+is blank or unspecified, it is assumed that you want information about
+all users.
+
+</P>
+<P>
+The content and format of the output of GNU <CODE>finger</CODE> depends on
+what is being fingered:
+
+</P>
+<DL COMPACT>
+
+<DT><VAR>User</VAR>
+<DD>
+Displays login information about <VAR>user</VAR>. If <SAMP>`--info'</SAMP> or
+<SAMP>`--l'</SAMP> is also specified, <CODE>finger</CODE> will display the full name,
+home directory, shell, mail forwarding, and <TT>`.plan'</TT> and/or
+<TT>`.project'</TT> file. This is what the output will look like:
+
+
+<PRE>
+<CODE>bash$ finger --info bson@gnu.ai.mit.edu</CODE>
+<CODE>[apple-gunkies.gnu.ai.mit.edu]</CODE>
+
+<CODE>Jan Brittenson (bson)</CODE>
+<CODE>Home: /home/fsf/bson</CODE>
+<CODE>Shell: /usr/local/bin/bash</CODE>
+<CODE>Mail forwarded to bson@ai.mit.edu.</CODE>
+<CODE>No mail.</CODE>
+<CODE>  User     Real Name         What    Idle  TTY  Host      Console Location</CODE>
+<CODE>bson     Jan Brittenson     fgrep          *p0 apple-gu (nutrimat.gnu.ai.)</CODE>
+<CODE>bson     Jan Brittenson              1:57  *sb nutrimat </CODE>
+
+<CODE>Plan:</CODE>
+<CODE>	To hack GNU Finger</CODE>
+</PRE>
+
+The following is output, in the order listed, when asking for long
+information (<SAMP>`-l'</SAMP> or <SAMP>`--info'</SAMP>) about a particular user:
+
+
+<UL>
+<LI>
+
+Real and login names.
+<LI>
+
+Home directory.
+<LI>
+
+Login shell.
+<LI>
+
+Mail forwarding.
+<LI>
+
+Whether the user has any unread mail, and if so, when it was last read.
+<LI>
+
+Current login information, in the same format as produced by a short
+finger (see below for an explanation). If the user isn't currently
+logged on, then the last login time and remote host (if known) is
+reported.
+<LI>
+
+A <TT>`~/.plan'</TT> file. If the file isn't readable by everyone, then a
+message is printed to this effect.
+<LI>
+
+A <TT>`~/.projects'</TT> file. This file, like <TT>`~/.plan'</TT>, should
+be readable by everyone.
+</UL>
+
+
+<PRE>
+
+<CODE>bash$ finger bson@gnu.ai.mit.edu</CODE>
+<CODE>[apple-gunkies.gnu.ai.mit.edu]</CODE>
+<CODE>  User     Real Name         What    Idle  TTY  Host      Console Location</CODE>
+<CODE>bson     Jan Brittenson     fgrep          *p0 apple-gu (nutrimat.gnu.ai.)</CODE>
+<CODE>bson     Jan Brittenson              1:57  *sb nutrimat </CODE>
+</PRE>
+
+Here is an explanation of what each column contains in the short
+example:
+
+<DL COMPACT>
+
+<DT><CODE>User</CODE>
+<DD>
+The user login name.
+<DT><CODE>Real Name</CODE>
+<DD>
+The real name of the user.
+<DT><CODE>What</CODE>
+<DD>
+The current or last program run by the user, depending on the system in
+use. On System V Release 4, for instance, the current program is shown,
+but on BSD it will be the last terminated program.
+<DT><CODE>Idle</CODE>
+<DD>
+The time the user has been idle, as <VAR>hours</VAR>:<VAR>minutes</VAR>, or
+the first 7 characters of a string such as "14 days".
+<DT><CODE>TTY</CODE>
+<DD>
+The significant portion of the user's terminal connection. Exactly what
+portion this is is system dependent. For example, on System V Release 4,
+it might be <SAMP>`*40'</SAMP> for <SAMP>`/dev/pty/40'</SAMP>, while on BSD it might
+be <SAMP>`*p0'</SAMP> for <SAMP>`/dev/ttyp0'</SAMP>. If preceded by an asterisk
+("*"), then the user allows anyone to send messages to this particular
+terminal.
+<DT><CODE>Host</CODE>
+<DD>
+The host the user is logged onto.
+<DT><CODE>Console Location</CODE>
+<DD>
+Where the user's console is located. If logged in over the network, then
+this will be the most significant portion of the remote host name if
+known. A host name is always parenthesized.
+
+</DL>
+
+In the general short output (i.e. not for a particular host), GNU Finger
+lists the least idle login for a particular user on each host. A single
+user often has several logins, since on some systems each window opened
+creates its own login record. In addition to the least idle login, the
+console login is also always listed, regardless of how long it has been
+idle.
+
+To list <EM>all</EM> login records for a particular, host, use the special
+target <SAMP>`.local'</SAMP>. For example, while the following may be part of the
+general short finger listing for the host <SAMP>`mole.gnu.ai.mit.edu'</SAMP>:
+
+
+<PRE>
+<CODE>brendan  Brendan Kehoe               5:09  *p8 mole     (lisa.cygnus.com)</CODE>
+<CODE>info     InfoMaster                 12:12  *p4 mole     (hal)</CODE>
+<CODE>law      Jeffrey A. Law              3:52  *p7 mole     (128.110.4.17:0.0)</CODE>
+<CODE>rms      Richard Stallman   sendmai  1:34  *p1 mole     (unix:0.0)</CODE>
+<CODE>rms      Richard Stallman           6 days *co mole</CODE>
+</PRE>
+
+The last line is the console. The following might be listed by the
+command <SAMP>`finger .local@mole.gnu.ai.mit.edu'</SAMP>:
+
+
+<PRE>
+<CODE>[mole.gnu.ai.mit.edu]</CODE>
+<CODE>  User     Real Name         What    Idle  TTY  Host      Console Location</CODE>
+<CODE>brendan  Brendan Kehoe               5:18  *p8 mole     (lisa.cygnus.com)</CODE>
+<CODE>info     InfoMaster                 12:22  *p4 mole     (hal)</CODE>
+<CODE>law      Jeffrey A. Law              4:01  *p7 mole     (128.110.4.17:0.0)</CODE>
+<CODE>rms      Richard Stallman   sendmai  1:44  *p1 mole     (unix:0.0)</CODE>
+<CODE>rms      Richard Stallman           23:08  *p0 mole     (unix:0.0)</CODE>
+<CODE>rms      Richard Stallman           1 day, *p2 mole     (unix:0.0)</CODE>
+<CODE>rms      Richard Stallman           6 days *co mole</CODE>
+</PRE>
+
+<DT><VAR>Mailing List or Alias</VAR>
+<DD>
+Expands the mailing list or alias and displays the recipients. You
+always have to use <SAMP>`--info'</SAMP> or (or <SAMP>`-l'</SAMP>) when fingering a
+mailing list or mail alias, otherwise mail aliases won't be looked up
+due to the extra processing involved. This is what the output will look
+like:
+
+
+<PRE>
+% finger --info postmaster@gnu.ai.mit.edu
+postmaster is an alias for the following:
+    Roland McGrath &#60;roland&#62;,
+    &#60;tower@prep.ai.mit.edu&#62;,
+    Noah Friedman &#60;friedman&#62;,
+    Michael I Bushnell &#60;mib&#62;
+</PRE>
+
+<DT><VAR>User-defined Target</VAR>
+<DD>
+Allows the remote host to display specific information, such as price
+lists, literature, or weather forecasts. For example:
+
+
+<PRE>
+% finger .site@gnu.ai.mit.edu
+
+This is the FSF GNU Project. For more information, please contact
+"postmaster". For information about guest accounts, please contact
+"request".
+</PRE>
+
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="finger_1.html">first</A>, <A HREF="finger_3.html">previous</A>, <A HREF="finger_5.html">next</A>, <A HREF="finger_24.html">last</A> section, <A HREF="finger_toc.html">table of contents</A>.
+</BODY>
+</HTML>

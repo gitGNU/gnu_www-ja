@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated January 8, 2012.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+2011, 2012 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 0.01, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: Non-GNU Standards</title>
+
+<meta name="description" content="GNU Coding Standards: Non-GNU Standards">
+<meta name="keywords" content="GNU Coding Standards: Non-GNU Standards">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Program-Behavior.html#Program-Behavior" rel="up" title="Program Behavior">
+<link href="Semantics.html#Semantics" rel="next" title="Semantics">
+<link href="Program-Behavior.html#Program-Behavior" rel="previous" title="Program Behavior">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Non_002dGNU-Standards"></a>
+<div class="header">
+<p>
+Next: <a href="Semantics.html#Semantics" accesskey="n" rel="next">Semantics</a>, Up: <a href="Program-Behavior.html#Program-Behavior" accesskey="u" rel="up">Program Behavior</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Non_002dGNU-Standards-1"></a>
+<h3 class="section">4.1 Non-GNU Standards</h3>
+
+<p>The GNU Project regards standards published by other organizations as
+suggestions, not orders.  We consider those standards, but we do not
+&ldquo;obey&rdquo; them.  In developing a GNU program, you should implement
+an outside standard&rsquo;s specifications when that makes the GNU system
+better overall in an objective sense.  When it doesn&rsquo;t, you shouldn&rsquo;t.
+</p>
+<p>In most cases, following published standards is convenient for
+users&mdash;it means that their programs or scripts will work more
+portably.  For instance, GCC implements nearly all the features of
+Standard C as specified by that standard.  C program developers would
+be unhappy if it did not.  And GNU utilities mostly follow
+specifications of POSIX.2; shell script writers and users would be
+unhappy if our programs were incompatible.
+</p>
+<p>But we do not follow either of these specifications rigidly, and there
+are specific points on which we decided not to follow them, so as to
+make the GNU system better for users.
+</p>
+<p>For instance, Standard C says that nearly all extensions to C are
+prohibited.  How silly!  GCC implements many extensions, some of which
+were later adopted as part of the standard.  If you want these
+constructs to give an error message as &ldquo;required&rdquo; by the standard,
+you must specify &lsquo;<samp>--pedantic</samp>&rsquo;, which was implemented only so that
+we can say &ldquo;GCC is a 100% implementation of the standard&rdquo;, not
+because there is any reason to actually use it.
+</p>
+<p>POSIX.2 specifies that &lsquo;<samp>df</samp>&rsquo; and &lsquo;<samp>du</samp>&rsquo; must output sizes by
+default in units of 512 bytes.  What users want is units of 1k, so
+that is what we do by default.  If you want the ridiculous behavior
+&ldquo;required&rdquo; by POSIX, you must set the environment variable
+&lsquo;<samp>POSIXLY_CORRECT</samp>&rsquo; (which was originally going to be named
+&lsquo;<samp>POSIX_ME_HARDER</samp>&rsquo;).
+</p>
+<p>GNU utilities also depart from the letter of the POSIX.2 specification
+when they support long-named command-line options, and intermixing
+options with ordinary arguments.  This minor incompatibility with
+POSIX is never a problem in practice, and it is very useful.
+</p>
+<p>In particular, don&rsquo;t reject a new feature, or remove an old one,
+merely because a standard says it is &ldquo;forbidden&rdquo; or &ldquo;deprecated&rdquo;.
+</p>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Semantics.html#Semantics" accesskey="n" rel="next">Semantics</a>, Up: <a href="Program-Behavior.html#Program-Behavior" accesskey="u" rel="up">Program Behavior</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<p>
+
+
+</p>
+</body>
+</html>

@@ -1,0 +1,719 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Javier Orovengua Miguel">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; Linux 2.2.12-20 i586) [Netscape]">
+   <title>Herramientas y administraci&oacute;n, &iquest;Qui&eacute;n, Cu&aacute;ndo?</title>
+</head>
+<body text="#000000" bgcolor="#FFCC99" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<a NAME="AquiArriba"></a>
+<br><a href="../tutorial.html">[ &lt; ]</a><a href="contenidos.html">[
+|| ]</a>[ > ]
+<h2>
+Herramientas, Administraci&oacute;n y Configuraci&oacute;n</h2>
+
+<ul>
+<li>
+<a href="#BasicConfig">Configuraci&oacute;n b&aacute;sica del sistema.</a></li>
+
+<li>
+<a href="#ConfigImpresora">Configuraci&oacute;n de la impresora.</a></li>
+
+<li>
+<a href="linux6.html#HacerRestaurarCopias">Hacer una copia de seguridad/Restaurar
+copia de seguridad.</a></li>
+
+<li>
+<a href="#FormatFloppy">Formatear disquetes y chequear su integridad.</a></li>
+
+<li>
+<a href="rawrite.html">CREAR DISQUETES DE ARRANQUE.</a></li>
+
+<li>
+<a href="#ComunicacionInterna">Comunicaci&oacute;n interna en un sistema
+Linux (principios b&aacute;sicos)</a></li>
+
+<li>
+<a href="#CheckSistemaFicheros">Chequear el sistema de ficheros.</a></li>
+
+<li>
+<a href="#ArchivosRegistro">Archivos de registro.</a></li>
+
+<li>
+<a href="#CasoCatastrofe">En caso de cat&aacute;strofe.</a></li>
+
+<li>
+<a href="kernelYsonido.html">Compilar el n&uacute;cleo y sonido.</a></li>
+
+<li>
+<a href="#Comunica">Comunicaci&oacute;n a todos los usuarios</a></li>
+
+<li>
+<a href="/usr/doc/HOWTO/translations/es/mini/Servidor-Intranet-Como">SERVIDOR
+Intranet -Como-</a></li>
+</ul>
+
+<hr WIDTH="100%">
+<h2>
+<a NAME="BasicConfig"></a></h2>
+
+<h2>
+Configuraci&oacute;n B&aacute;sica del Sistema.</h2>
+
+<ul>Para su configuraci&oacute;n b&aacute;sica, generalmente bastar&aacute;
+con ejecutar el comando 'setup' desde una terminal.
+<p>Ejemplo:
+<p>$ setup
+<p>Actualmente se encuentra un programa muy avanzado para el desarrollo
+de esta tarea, se llama 'linuxconf' es un front-end (o c&oacute;modo acabado),
+por lo que es muy f&aacute;cil e intuitivo de manejar, se usa tanto desde
+una terminal (modo texto) gracias a la instalaci&oacute;n de las librer&iacute;as
+ncurses, y en modo gr&aacute;fico y con el mismo nombre, gracias a las
+librer&iacute;as gtk+
+<p>$ linuxconf
+<br>&nbsp;
+<ul>
+<li>
+Pese a nuestros intentos por estar al d&iacute;a la comunidad Linux es
+una de las comunidades que m&aacute;s r&aacute;pido avanzan, m&aacute;s
+incluso de lo que cabr&iacute;a esperar, por eso, es importante que te
+pongas al d&iacute;a, que visites en Internet&nbsp; P&aacute;ginas Web
+dedicadas a noticias de Linux, o compres revistas.</li>
+</ul>
+
+<p><br>Tras cargarse el programa de configuraci&oacute;n, podremos acceder
+a cualquier parte que queramos configurar.
+<p>Antes de ejecutar <b>un programa de configuraci&oacute;n</b> insistimos
+en leer el manual sobre dicho programa, por ejemplo si queremos programar
+acciones para que se ejecuten a cierta hora, cierto d&iacute;a limpiando
+ficheros viejos, etc., etc., tendremos que usar el <a href="linux3.html#ProcesosEscondidos">crond</a>,
+para saber como se configura el crond, escribimos: <a href="glosary.html#man">man
+</a><a href="linux3.html#ProcesosEscondidos">crond</a>
+<br>
+<hr WIDTH="100%">
+<br>Existen otras muchas aplicaciones para configurar muchas m&aacute;s
+cosas: y aunque puede que nunca tengas que hacer uso de ellas aqu&iacute;
+est&aacute;n algunas: (Estas aplicaciones suelen venir incluidas en otras
+apliciones, por ejemplo en el "control-panel" de redhat, linuxconf, o el
+mismo setup de toda Distribuci&oacute;n.)
+<p>kerneld (Para configurar el kernel una vez instalado y compilado)
+<br>sndconfig (Para configurar la tarjeta de sonido)
+<br>...
+<br>
+<hr WIDTH="100%">
+<ul>
+<li>
+crontab -e</li>
+
+<ul>
+<li>
+Edita el fichero. (Deber&aacute;s aprender el editor vi)</li>
+</ul>
+
+<li>
+crontab -l</li>
+
+<ul>
+<li>
+Lista el contenido de un fichero.</li>
+</ul>
+</ul>
+Como en todo sistema operativo, hay veces que tendremos que editar los
+ficheros manualmente, cosa a la cual no hay que tener miedo, incluso habr&aacute;
+veces que introduzcamos errores, para eso antes de editar un fichero de
+configuraci&oacute;n hay que:
+<br>&nbsp;
+<ol>
+<li>
+Hacer copia de seguridad del fichero a editar</li>
+
+<li>
+Guardar la copia de seguridad en un disquete, no s&oacute;lo bastar&aacute;
+la del directorio.</li>
+
+<li>
+En caso de error, sustituir por el contenido anterior</li>
+
+<ul>
+<li>
+cp <b>AntiguoFichero.config </b>NuevoYerroneoFichero.config, con lo cual
+estaremos copiando el Fichero antiguo de configuraci&oacute;n encima del
+Nuevo fichero de configuraci&oacute;n que hemos editado nosotros y est&aacute;
+mal.</li>
+</ul>
+</ol>
+los ficheros b&aacute;sicos de configuraci&oacute;n de todo sistema Linux
+son:
+<p><b>/etc/rc.d/</b><a href="rc.sysinit.sample.txt">rc.sysinit</a>
+<ul>
+<li>
+Fichero de INICIALIZACI&Oacute;N de la m&aacute;quina, donde se guarda
+el PATH...</li>
+</ul>
+<b>/etc/rc.d/</b><a href="rc.sample.txt">rc</a><b> y</b>
+<br><b>/etc/rc.d/</b><a href="rc.local.sample.txt">rc.local</a>
+<ul>
+<li>
+Ficheros, que tras cargados el inicializador se cargar&aacute;n los &uacute;ltimos,
+sirviendo de auxiliares.</li>
+</ul>
+<b>/etc/</b><a href="crontab.sample.txt">crontab</a>
+<ul>
+<li>
+Ejecuci&oacute;n de tareas programadas</li>
+</ul>
+<b>/etc/ethers</b>
+<ul>
+<li>
+Mapeado entre direcciones RARP entre Ethernet e IP</li>
+</ul>
+<b>/etc/</b><a href="exports.sample.txt">exports</a>
+<ul>
+<li>
+Lista de directorios exportados en unidades NFS</li>
+</ul>
+<b>/etc/</b><a href="fstab.sample.txt">fstab</a>
+<ul>
+<li>
+Lista de sistemas de ficheros a montar</li>
+</ul>
+<b>/etc/</b><a href="group.sample.txt">group</a>
+<ul>
+<li>
+Listado de grupos y miembros de cada uno</li>
+</ul>
+<b>/etc/</b><a href="hosts">hosts</a>
+<ul>
+<li>
+Direcciones IP y nombres de m&aacute;quinas</li>
+</ul>
+<b>/etc/<a href="hosts.allow">hosts.allow</a></b></ul>
+
+<ul>
+<ul>
+<li>
+Maquinas que pueden conectarse con la nuestra</li>
+</ul>
+<b>/etc/<a href="hosts.deny">hosts.deny</a></b>
+<ul>
+<li>
+Maquinas que tienen denegado permisos para conectarse a la nuestra</li>
+</ul>
+<b>/etc/<a href="inetd.conf">inetd.conf</a></b>
+<ul>
+<li>
+Fichero de configuraci&oacute;n del demonio inetd</li>
+</ul>
+<b>/etc/inittab</b>
+<ul>
+<li>
+Informaci&oacute;n de arranque del sistema</li>
+</ul>
+<b>/etc/</b><a href="lilo.conf.sample.txt">lilo.conf</a>
+<ul>
+<li>
+Configuraci&oacute;n del LInux LOader</li>
+</ul>
+<b>/etc/motd</b>
+<ul>
+<li>
+Mensaje del d&iacute;a</li>
+</ul>
+<b>/etc/nsswitch.conf</b>
+<ul>
+<li>
+Orden de lectura de datos del sistema (cuentas, servicios...)</li>
+</ul>
+<b>/etc/<a href="bashrc">bashrc</a></b>
+<ul>
+<li>
+Lo que se cargar&aacute; por defecto para todos los usuarios.</li>
+
+<li>
+La mala gesti&oacute;n del fichero /etc/bashrc, podr&aacute; alterar el
+funcionamiento del sistema, ya que este fichero junto los profile siempre
+se carga cuando se ejecuta alguna opci&oacute;n o comando para recargar
+la memoria y hacer as&iacute; una mejor gesti&oacute;n de ella, por eso,
+habr&aacute; comandos que no se podr&aacute; contener en &eacute; como
+son: (echo, setleds, o similares) ya que tras la ejecuci&oacute;n de un
+comando se repetir&aacute;n en pantalla.</li>
+</ul>
+</ul>
+
+<ul>&nbsp;
+<ul>
+<li>
+<b>LOS FICHEROS QUE HAS VISTO SON EJEMPLOS A&Ntilde;ADIDOS Y POR LO TANTO
+NO LOS DE TU SISTEMA</b></li>
+</ul>
+
+<br>&nbsp;
+<ul>Evidentemente, no vamos a poner todos los ficheros que hay en el directorio
+/etc./, ya que hay tantos que ocupar&iacute;a un tutorial completo como
+&eacute;ste s&oacute;lo para ese directorio.</ul>
+RECOMENDACI&Oacute;N:
+<br>&nbsp;
+<ul>Para enterarse de cualquier fichero puedes pedir ayuda con: <a href="glosary.html#man">man</a>
+fstab, tendr&aacute;s informaci&oacute;n m&aacute;s detallada de para qu&eacute;
+sirve el fichero fstab y c&oacute;mo se puede utilizar.</ul>
+</ul>
+<a href="linux6.html#AquiArriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<h2>
+<a NAME="ConfigImpresora"></a>Configuraci&oacute;n de la impresora.</h2>
+
+<p><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Para poder usar tu impresora bajo Linux, lo primero que necesitas es tener
+compilado el n&uacute;cleo con la opci&oacute;n como en "Parallel Printer
+Support", dentro de "Character Devices".
+<p><img SRC="parallel-printer.gif" height=210 width=350>
+<p>El n&uacute;cleo ya viene para soportar la impresora (esto es en caso
+de que no trajera soporte), y ahora deber&aacute;s configurar el fichero
+de impresora
+<br><a href="printcap">/etc/printcab</a>
+<p>------------------------------------------------------------
+<br># Please don't edit this file directly unless you know what you are
+doing!
+<br># Be warned that the control-panel printtool requires a very strict
+format!
+<br># Look at the printcap(5) man page for more info.
+<br>#
+<br># This file can be edited with the printtool in the control-panel.
+<p># HP660C Printer Default. NAxNA a4/
+<br>HP660C|lp|lp0:\
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :sd=/var/spool/lpd/lp0:\
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :mx#0:\
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :lp=/dev/lp0:\
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :if=/var/spool/lpd/lp0/filter:\
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :sh:
+<br># IBMprint Printer. NAxNA a4
+<br>IBMprint|lp1:\
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :sd=/var/spool/lpd/lp1:\
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :mx#0:\
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :sh:\
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :lp=/dev/lp1:\
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :if=/var/spool/lpd/lp1/filter:
+<br>-----------------------------------------------------------
+<br>Existe ABUNDANTE documentaci&oacute;n sobre la Impresi&oacute;n, para
+ello te remitimos:
+<p><a href="/usr/doc/HOWTO/translations/es/Configuracion-Impresion-Como">/usr/doc/HOWTO/translations/es/Configuraci&oacute;n-Impresi&oacute;n-Como</a>
+<br><a href="/usr/doc/HOWTO/translations/es/Uso-Impresion-Como">/usr/doc/HOWTO/translations/es/Uso-Impresi&oacute;n-Como</a>
+<p>Si lo que desea es usar LINUX como SERVIDOR y compartir las impresoras,
+o montar SERVIDORES de impresi&oacute;n:
+<p><a href="/usr/doc/HOWTO/translations/es/Samba-Como">/usr/doc/HOWTO/translations/es/Samba-Como</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="HacerRestaurarCopias"></a>
+<h2>
+Hacer/Restaurar copias de seguridad del sistema.</h2>
+&nbsp;
+<ul>Te recomendamos, si usas un gran sistema, que peri&oacute;dicamente
+hagas copias de seguridad de TODO el sistema, m&aacute;s todav&iacute;a
+si existen varios usuarios que usen tu m&aacute;quina. Para realizar esto
+con &eacute;xito has de hacer:
+<p>Si obtienes discos necesarios (sea cual sea su formato)
+<br>&nbsp;
+<br>&nbsp;
+<ul>
+<li>
+(Si tienes discos de 1.44 MBytes)</li>
+
+<li>
+<b>fdinit /dev/fd0H1440</b></li>
+
+<li>
+(Si tienes discos de 720 KBytes)</li>
+
+<li>
+<b>fdinit /dev/fd0H720</b></li>
+
+<li>
+</li>
+</ul>
+Utilizar <b>fdinit, </b>prepara el disquete para un formato necesario para
+hacer copias de seguridad, una vez inicializado el disquete podr&aacute;s
+realizarla.
+<p>Te recomendamos que tengas al menos la siguiente cantidad de disquetes
+preparados:
+<br><b>(formula no probada)</b>
+<br>NumDisquetes = ( ( (CapacidadParticionLinux-DiscoLibre)/CapacidadDisquetes
+) /1.7 )
+<br>Esto te puede dar una idea aproximada, pero siempre por si acaso tr&aacute;ete
+unos disquetes de m&aacute;s, ya que algunos ficheros no tienen la misma
+capacidad de compresi&oacute;n que otros.
+<p>(*En megas)
+<br>NumDisquete=(((1000-200/1.44)/1.7)
+<br>(*Siempre y cuando se utilice el segundo m&eacute;todo)
+<p>Total, 327 Disquetes para hacer una copia de seguridad de 800 Megas
+<p>Una vez obtienes los discos necesarios empezamos nuestra copia de seguridad
+<b>(backup)
+</b>estando
+en la ra&iacute;z escribes:
+<p>$ tar <b>cvfM</b> /dev/fd0 *
+<ul>
+<li>
+Opci&oacute;n no recomendada.</li>
+</ul>
+O bien para hacer copia de seguridad de algunos fichero o directorio(s)
+<p>$ tar <b>cvfM</b> /dev/fd0 fichero1 fichero1
+<br>&nbsp;
+<br>&nbsp;
+<ul>Nos quedaremos ahora con el ejemplo II:
+<ul>$ tar <b>cvfM</b> /dev/fd0 fichero1 fichero2</ul>
+</ul>
+No se puede emplear la opci&oacute;n 'z' de compresi&oacute;n en la copia
+de seguridad, sin embargo para ahorrar disquetes y tiempo, que es lo m&aacute;s
+importante podemos hacer:</ul>
+
+<ul>&nbsp;
+<ol>
+<li>
+$ tar cvfz <b>los2archivos.tgz</b>&nbsp; fichero1 fichero2</li>
+
+<li>
+$ tar cvfM /dev/fd0 <b>los2archivos.tgz</b></li>
+</ol>
+</ul>
+
+<hr WIDTH="100%">
+<h4>
+Recuperar la informaci&oacute;n:</h4>
+
+<ul>
+<ol>
+<li>
+cd /dir-destino</li>
+
+<li>
+tar <b>xvfM</b> /dev/fd0</li>
+</ol>
+
+<hr WIDTH="100%"></ul>
+
+<ul>
+<li>
+O bien empleando el segundo m&eacute;todo.:</li>
+
+<br>
+<hr WIDTH="100%">
+<ol>
+<li>
+cd /dir-destino</li>
+
+<li>
+tar xvfM /dev/fd0</li>
+
+<li>
+tar xvfz archivo.tgz</li>
+</ol>
+
+<hr WIDTH="100%">
+<br>Para lo cual es m&aacute;s que recomendable que se tenga un script
+para la creaci&oacute;n/recuperaci&oacute;n de backups
+<br>
+<hr WIDTH="100%">
+<br>
+<hr WIDTH="100%">
+<br>Si intentamos ver el directorio de los discos de backup, podemos ver
+que no tienen formato de sistema (msdos, minix, ext2, vfat...). De todas
+formas, es posible consultar el contenido escribiendo:
+<p>$ tar <b>tvfM</b> /dev/fd0
+<br>
+<hr WIDTH="100%"></ul>
+<a href="linux6.html#AquiArriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="FormatFloppy"></a>
+<h2>
+Formatear disquetes:</h2>
+&nbsp;
+<ul>Si nos encontramos discos sin formato alguno, sin sectores ni pistas
+definidas (generalmente ya todos llevan formato de ms-dos) deberemos hacer:
+<br>&nbsp;
+<ul>
+<li>
+fdformat /dev/fd0H1440</li>
+
+<li>
+fdformat /dev/fd0H720</li>
+</ul>
+
+<ul>
+<ul>
+<li>
+Ya que al no tener sectores ni pistas el sistema no podr&aacute; distinguir
+si el disco es de 1.44 Mb y 720 Kb, por lo que deber&aacute;s inicializarlo
+de esta manera. Este es un proceso lento y costoso y s&oacute;lo har&aacute;
+falta una &Uacute;NICA VEZ EN LA VIDA DEL DISQUETE.</li>
+</ul>
+</ul>
+</ul>
+
+<ul>Ahora si queremos ponerle formato de MS-DOS escribimos:
+<ul>
+<li>
+<b>mkfs -t msdos /dev/fd0</b></li>
+</ul>
+Si queremos darle formato con el sistema nativo de Linux: (recomendado,
+pues permite
+<br>los nombres largos)
+<ul>
+<li>
+<b>mkfs -t ext2 /dev/fd0</b></li>
+</ul>
+
+<hr WIDTH="100%">
+<br><a NAME="CheckSistemaFicheros"></a>Para chequear un disquete (o cualquier
+otro sistema de disco de Linux) escribiremos
+<p><b>CON EL <a href="linux9.htm#ContraseñaRoot">SISTEMA DE FICHEROS A
+CHEQUEAR DESMONTADO.</a></b>
+<br>&nbsp;
+<ol>
+<li>
+Tendr&aacute;s que saber qu&eacute; tipo de formato es: (msdos, ext2, vfat)
+"suponemos ext2"</li>
+
+<li>
+Asegurarse de que est&aacute; desmontado el sistema de ficheros, bien escribiendo
+<b>df</b>,
+o escribiendo <b>mount</b>, que te dir&aacute; qu&eacute; sistema de ficheros
+est&aacute;n montados (<b>y en caso de no haber sido desmontado</b>) escribir:</li>
+
+<ul>
+<li>
+<b>umount /dev/fd0</b></li>
+</ul>
+</ol>
+fsck -t ext2 /dev/fd0
+<br>&nbsp;
+<br>&nbsp;
+<ul>
+<li>
+Evidentemente podremos chequear manualmente nuestros sistemas de ficheros
+siempre y cuando est&eacute;n desmontados. (no se recomienda chequear sistemas
+de ficheros de otros sistemas operativos, raz&oacute;n por la cual cada
+S.O. introduce sus propias herramientas de chequeo de su sistema de ficheros)</li>
+</ul>
+
+<ul>
+<li>
+Ejemplo:</li>
+</ul>
+
+<ul>
+<li>
+fsck -t ext2 /dev/hda3</li>
+</ul>
+
+<br>&nbsp;
+<ul>Linux hace un chequeo interno cada vez que se inicia, a trav&eacute;s
+de un contador, y realiza un escaneado del sistema de ficheros de forma
+autom&aacute;tica, as&iacute; tambi&eacute;n como cuando detecta algo inconsistente.</ul>
+</ul>
+&nbsp;<a href="linux6.html#AquiArriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<ul>
+<h3>
+<a NAME="ComunicacionInterna"></a></h3>
+</ul>
+
+<h3>
+Gesti&oacute;n de comunicaci&oacute;n interna:</h3>
+
+<ul>Lo m&aacute;s normal para utilizar la comunicaci&oacute;n en Linux
+es mandar un e-mail a otro usuario.
+<br>Los programas m&aacute;s usados en modo texto para esta operaci&oacute;n
+son el <b>pine, </b>o el <b>mail</b>
+<p>Como el pine es un front-end (acabado c&oacute;modo), y es m&aacute;s
+bonito e intuitivo dejaremos que sea usted mismo quien tenga curiosidad
+por manejarlo e instalarlo. Ahora explicaremos el uso de <b>MAIL</b>
+<br>&nbsp;
+<li>
+FORMA:</li>
+
+<br>&nbsp;
+<p>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p>&nbsp; En este ejemplo el usuario Carlos mandar&aacute; un email a Javier:
+<br>
+<hr WIDTH="100%"><b>mail javier</b>
+<br>Subject: <b>&iexcl;Reuni&oacute;n suspendida!</b>
+<br><b>Javier: He le&iacute;do en la lista de correo de GLHis, que nuestra
+reuni&oacute;n ha sido suspendida</b>
+<br><b>hasta el 14 del mes pr&oacute;ximo.</b>
+<br><b>El Coordinador nos ha dado un tel&eacute;fono de contacto que es
+el:</b>
+<br><b>555-55-55-55Un saludo Carlos.</b>
+<br>[Ctrl]+[D]
+<br>
+<hr WIDTH="100%">
+<ul>
+<li>
+Cuando Carlos escriba las l&iacute;neas de arriba para terminar el mensaje
+deber&aacute; pulsar la combinaci&oacute;n de teclas [Ctrl]+[D]</li>
+
+<li>
+En ese momento el mensaje ser&aacute; mandado.</li>
+
+<br>&nbsp;
+<p>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p>A Javier, si est&aacute; en su sesi&oacute;n de Linux, o bien cuando
+se conecte, le saldr&aacute; un mensaje similar a este:
+<p><b>You have (new) mail.</b>
+<p>En ese momento para saber el correo que tiene, javier deber&aacute;
+escribir:
+<p><b>mail</b>
+<p>Entonces le saldr&aacute; una lista de correos recibidos. Si el correo
+recibido de Carlos fuera por ejemplo el 3&ordm;, para verlo carlos escribir&aacute;:
+<p>#<b>3</b>
+<br>y ya estar&aacute; viendo el mensaje. Si quiere pedir ayuda, escribir&aacute;:
+<p>#<b>?</b> &oacute; <b>help</b> Si quiere borrar los mensajes del 1 al
+8 escribir&aacute;:
+<p>#<b>d 1-8</b> Si quiere salir sin guardarlos escribir&aacute;:
+<p>#<b>x</b> Si desea guardar los correos le&iacute;dos escribir&aacute;:
+<p>#<b>q</b>
+<br>Si desea ver otra vez los ficheros que hay escribir&aacute;:
+<p>#<b>t</b>
+<p>Tambi&eacute;n se puede consultar el correo antiguo con la opci&oacute;n
+-f (<b>mail </b>-<b>f</b>)</ul>
+</ul>
+
+<blockquote><b>POSIBLES ERRORES:</b>
+<br>&nbsp;
+<p>Generalmente, cuando cambia el&nbsp; nombre de la m&aacute;quina, tambi&eacute;n
+hay que cambiar el "host" de la misma, esta opci&oacute;n tan aparentemente
+complicada se muy sencilla de hacer con aplicaciones como "<b>netcfg</b>"
+o "<b>netconf</b>" que viene con la aplicaci&oacute;n: "l<b><u>inuxconf</u></b>".
+y que la primera funciona bajo X-Window, a continuaci&oacute;n se muestran
+dos im&aacute;genes para hacer esto.
+<p><img SRC="network-cfg.gif" height=387 width=515>
+<br>&nbsp;
+<p>Otras opciones a cambiar...:
+<p><img SRC="network-cfg-2.gif" height=388 width=516></blockquote>
+
+<ul>
+<hr WIDTH="100%">
+<ul>OTRAS FORMAS DE COMUNICACI&Oacute;N:
+<br>&nbsp; Otra forma de comunicaci&oacute;n es v&iacute;a <b>talk</b>,
+con un usuario que est&eacute; conectado en tu red local, o en tu mismo
+ordenador en otro terminal.
+<br>&nbsp;
+<ul>
+<li>
+<b>talk ana</b></li>
+</ul>
+
+<li>
+Si no queremos recibir peticiones de comunicaci&oacute;n de esta forma,
+puedes usar&nbsp;&nbsp;&nbsp; <b>mesg n</b>. La orden: <b>mesg </b>(de
+<i>message</i>,
+mensaje en ingl&eacute;s) nos dir&aacute; si estamos <b>y
+</b>&oacute;
+<b>n.</b>
+S&oacute;lo nosotros y el superusuario puede cambiarnos de un estado a
+otro.</li>
+</ul>
+</ul>
+
+<ul>Ejemplo: Yo pondr&eacute; <b>mesg y,</b> que es el modo por defecto
+para los usuarios, (en la l&iacute;nea de comandos, se entiende) si quiero
+que lo dem&aacute;s hablen conmigo v&iacute;a <b>talk</b>, por ej. De la
+misma manera, pondr&eacute; <b>mesg n, </b>si por defecto quiero rechazar
+peticiones para hablar conmigo. Cuando no sepa en qu&eacute; modo me encuentro,
+el comando <b>mesg </b>me lo dice.
+<p>Para otras formas de comunicaci&oacute;n de recomendamos hagas <b>man
+talk</b></ul>
+<a href="linux6.html#AquiArriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<h2>
+&nbsp;<a NAME="ArchivosRegistro"></a>Archivos de registro.</h2>
+
+<ul>Linux, como buen sistema operativo que se precie, realiza una serie
+de archivos de registro para que el administrador del sistema sepa en todo
+momento qui&eacute;n entra, a qu&eacute; hora, cu&aacute;nto correo hay,
+etc.
+<p>Toda esta informaci&oacute;n se guarda celosamente en /var/log, en el
+que podemos observar varios archivos.
+<br>&nbsp;</ul>
+<a href="linux6.html#AquiArriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="CasoCatastrofe"></a>
+<h2>
+En caso de cat&aacute;strofe.</h2>
+
+<ul>&nbsp;
+<br>Antes que nada, tranquil&iacute;zate, averigua cual es error:
+<br>&nbsp;
+<ul>
+<li>
+<a href="linux9.htm#CambioContraseña">Se me olvid&oacute; la clave de acceso</a></li>
+
+<li>
+<a href="linux9.htm#ContraseñaRoot">Se me olvid&oacute; la clave de acceso
+como root</a></li>
+
+<li>
+He movido el &aacute;rbol de directorio a otro sitio</li>
+</ul>
+
+<ul>
+<ul>
+<li>
+En este caso, haz un disquete de arranque, entra en el sistema montando:</li>
+
+<br>&nbsp;
+<ol>
+<li>
+mount -t ext2 /dev/hda3 /mnt</li>
+</ol>
+
+<ol>
+<li>
+cd /mnt</li>
+
+<ol>En este momento habr&aacute;s montado y estar&aacute;s en tu partici&oacute;n
+del disco duro 'a', partici&oacute;n '3', (suponiendo que es hay donde
+est&aacute; tu Sistema Linux, ya que hemos supuesto que en hda1, hay otro
+<a href="glosary.html#S.O.:">S.O.</a>,
+hda2 est&aacute; la partici&oacute;n para <a href="glosary.html#swap">swap</a>
+y en hda3 est&aacute; ext2 para tu soporte Linux.)</ol>
+</ol>
+</ul>
+</ul>
+</ul>
+<a href="linux6.html#AquiArriba">[ ^ ]</a>
+<p>
+<hr WIDTH="100%">
+<h2>
+<a NAME="Comunica"></a></h2>
+
+<h2>
+Comunicaci&oacute;n a todos los usuarios:</h2>
+
+<blockquote>&nbsp;
+<br>En cualquier momento, puede ser que se necesite comentar a todos los
+usuarios cualquier cosa que surga en el sistema (funcionamiento, capacidad,
+nuevos servicios, servicios extinguidos...) esto, bien podr&iacute;a hacerse
+por correo electr&oacute;nico a todos los usuarios del sistema, pero a
+no ser que se tuviera configurado un "alias para el correo", o un "majordomo",
+podr&iacute;a ser algo tedioso sin coexisten muchos usuarios en el mismo
+sistema.
+<p>Para solucionar esto existe en fichero: <b>/etc/motd</b>, el cual podr&aacute;
+editar <a href="glosary.html#root">root</a> y exponer un comunicado que
+ser&aacute; presentado a todos los usuarios que se conecten a la m&aacute;quina
+tras identificar su <a href="glosary.html#login">login</a> y su <a href="glosary.html#password">clave
+de acceso.</a>
+<br>&nbsp;</blockquote>
+<a href="linux6.html#AquiArriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

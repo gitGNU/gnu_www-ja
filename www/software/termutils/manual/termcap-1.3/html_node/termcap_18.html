@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Format</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_17.html">previous</A>, <A HREF="termcap_19.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC18" HREF="termcap_toc.html#TOC18">Terminal Description Format</A></H2>
+<P>
+<A NAME="IDX18"></A>
+
+</P>
+<P>
+Aside from comments (lines starting with <SAMP>`#'</SAMP>, which are ignored), each
+nonblank line in the termcap data base is a terminal description.
+A terminal description is nominally a single line, but it can be split
+into multiple lines by inserting the two characters <SAMP>`\ newline'</SAMP>.
+This sequence is ignored wherever it appears in a description.
+
+</P>
+<P>
+The preferred way to split the description is between capabilities: insert
+the four characters <SAMP>`: \ newline tab'</SAMP> immediately before any colon.
+This allows each sub-line to start with some indentation.  This works
+because, after the <SAMP>`\ newline'</SAMP> are ignored, the result is <SAMP>`: tab
+:'</SAMP>; the first colon ends the preceding capability and the second colon
+starts the next capability.  If you split with <SAMP>`\ newline'</SAMP> alone, you
+may not add any indentation after them.
+
+</P>
+<P>
+Here is a real example of a terminal description:
+
+</P>
+
+<PRE>
+dw|vt52|DEC vt52:\
+        :cr=^M:do=^J:nl=^J:bl=^G:\
+        :le=^H:bs:cd=\EJ:ce=\EK:cl=\EH\EJ:\
+        :cm=\EY%+ %+ :co#80:li#24:\
+        :nd=\EC:ta=^I:pt:sr=\EI:up=\EA:\
+        :ku=\EA:kd=\EB:kr=\EC:kl=\ED:kb=^H:
+</PRE>
+
+<P>
+Each terminal description begins with several names for the terminal type.
+The names are separated by <SAMP>`|'</SAMP> characters, and a colon ends the last
+name.  The first name should be two characters long; it exists only for the
+sake of very old Unix systems and is never used in modern systems.  The
+last name should be a fully verbose name such as "DEC vt52" or "Ann
+Arbor Ambassador with 48 lines".  The other names should include whatever
+the user ought to be able to specify to get this terminal type, such as
+<SAMP>`vt52'</SAMP> or <SAMP>`aaa-48'</SAMP>.  See section <A HREF="termcap_20.html#SEC20">Terminal Type Name Conventions</A>, for information on how to
+choose terminal type names.
+
+</P>
+<P>
+After the terminal type names come the terminal capabilities, separated by
+colons and with a colon after the last one.  Each capability has a
+two-letter name, such as <SAMP>`cm'</SAMP> for "cursor motion string" or <SAMP>`li'</SAMP>
+for "number of display lines".
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_17.html">previous</A>, <A HREF="termcap_19.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

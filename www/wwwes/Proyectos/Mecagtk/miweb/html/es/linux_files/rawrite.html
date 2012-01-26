@@ -1,0 +1,272 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; Linux 2.2.12-20 i586) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFCC99" link="#0000EF" vlink="#51188E" alink="#FF0000">
+<a NAME="Arriba"></a>
+<br><a href="../tutorial.html">[ &lt; ]</a><a href="contenidos.html">[
+|| ]</a>[ > ]
+<h2>
+
+<hr WIDTH="100%"></h2>
+
+<h2>
+CREAR DISQUETES DE ARRANQUE PARA EL MANTENIMIENTO DEL SISTEMA:</h2>
+
+<h2>
+
+<hr WIDTH="100%"></h2>
+
+<h3>
+Creaci&oacute;n de disquetes:</h3>
+&nbsp;
+<ol>
+<li>
+<a href="#mkbootdisk">Con mkbootdisk desde LINUX.</a></li>
+
+<li>
+<a href="#rawrite">Con "RAWRITE.EXE", desde MS-DOS/WINDOWS.</a></li>
+
+<li>
+<a href="#Install">Con los procesos: "Instalaci&oacute;n/Actualizaci&oacute;n".
+(Del CD-ROM)</a></li>
+
+<li>
+<a href="#bzdisk">Con: make bzdisk, compilando en n&uacute;cleo.</a></li>
+
+<li>
+<a href="#Recomiend">&iquest;Qu&eacute; se recomienda?</a></li>
+</ol>
+
+<p><br>Es fundamental poder disponer de disquetes para casos "NO QUERIDOS"
+<br>&nbsp;
+<p><a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="mkbootdisk"></a>
+<br>&nbsp;
+<h1>
+Crear disquetes con: "mkbootdisk"</h1>
+
+<p><br>Debe de existir el fichero /boot/vmlinuz-version.nucleo-revision
+<p>Si s&oacute;lo existiera /boot/vmlinuz, esribimos: uname -a y saldr&aacute;:
+<p>Linux localhost.localdomain <b>version.nucleo-revision</b> # Date_today,
+time_today machine unknown
+<p>Copiamos: cp /boot/vmlinuz /boot/vmlinuz-version.nucleo-revision
+<br>&nbsp;
+<p>Ahora escribimos:
+<ol>
+<li>
+mkbootdisk --verbose --device /dev/fd0 version.nucleo-revision</li>
+</ol>
+
+<ul>
+<li>
+&iexcl;Ya est&aacute;!, ya tenemos un disquete de arranque en aproxim&aacute;damente
+25 segundos.</li>
+</ul>
+
+<p><br>Ejemplo gr&aacute;fico:
+<br><img SRC="mkbootdisk.jpg" height=386 width=670>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="rawrite"></a>
+<br>&nbsp;
+<h1>
+Con RAWRITE, desde MSDOS/WINDOWS</h1>
+
+<p><br>Lo primero que deberemos de hacer es:
+<ul>
+<li>
+Ir a MS-DOS/Windows o Ejecutar un emulador de MS-DOS</li>
+</ul>
+UNA VEZ EN EL DOS:
+<p><img SRC="rawrite.gif" height=359 width=572>
+<br>&nbsp;
+<p>Es un grave error no crear disquetes del sistema para la reparaci&oacute;n
+del mismo, su creaci&oacute;n es muy simple:
+<ul>
+<li>
+Cambiamos de unidad escribiendo: <b>[Letra_del_cd-rom]:&nbsp;</b>&nbsp;
+(Por ejemplo: D:, E: o F: etc.)</li>
+
+<li>
+Copiamos el fichero: <b>[letra_del_cd-rom]:\dosutils\rawrite.exe</b> C:\WINDOWS</li>
+
+<li>
+Cambiamos al directorio: CD \IMAGES</li>
+
+<li>
+Escribimos: RAWRITE</li>
+
+<li>
+De las 3 im&aacute;genes que habr&aacute;: (BOOT.IMG, RESCUE.IMG y SUPP.IMG)
+tendremos que elegir por lo menos 2, un disquete para cada imagen preparamos
+y seleccionamos: boot.img, para el primer disquete (de arranque) y rescue.img
+(de rescate) en el segundo disquete.</li>
+</ul>
+
+<p><br>En este momento, el trabajo ha concluido, mete el disquete con la
+imagen (BOOT.IMG) y reinicia... A partir de ah&iacute; tendr&aacute;s que
+seguir las instrucciones que te den:
+<p><a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="Install"></a>
+<h2>
+Procesos Instalaci&oacute;n/Actualizaci&oacute;n: (Del CD-ROM)</h2>
+
+<blockquote>&nbsp;
+<br>Con los procesos de instalaci&oacute;n/actualizaci&oacute;n, de los
+CD-ROM, se pueden crear disquetes de arranque, que m&aacute;s que otra
+cosa sirven exclusivamente para hacer ejecutar el sistema cuando el n&uacute;cleo
+falla, o tiene un error determinado en el proceso de arranque, o simplemente
+se ha olvidado la clave de acceso como root.
+<p>Ventajas:
+<ul>
+<li>
+Se crea r&aacute;pidamente</li>
+</ul>
+Inconvenientes:
+<ul>
+<li>
+Gran nivel de limitaci&oacute;n (con respecto al creado con RAWRITE)</li>
+
+<li>
+No puede ser transferido a otras personas si tienen colocadas las particiones
+en distintos puntos (HDA1 por HDA3, etc., etc...)</li>
+</ul>
+</blockquote>
+
+<p><br><a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="bzdisk"></a>
+<h2>
+Con: Make bzdisk</h2>
+
+<ol>&nbsp;
+<br>El proceso que se sigue para crear un disco de esta manera, es de la
+misma forma que se <a href="kernelYsonido.html#CompilKernel">Compila el
+N&uacute;cleo. </a>Excepto que alteramos un comando.
+<br>&nbsp;
+<h3>
+FORMA:</h3>
+
+<ul>
+<li>
+<b>make</b> menuconfig&nbsp; ( xconfig si se va a configurar desde X-Window)</li>
+
+<li>
+make dep</li>
+
+<li>
+make clean</li>
+
+<li>
+make <b>bzdisk</b>&nbsp; ( bzImage, si se quisiera compilar el n&uacute;cleo,
+recuerda. ;-)&nbsp; )</li>
+</ul>
+
+<hr WIDTH="100%">
+<ul>
+<li>
+Uso: El disquete creado de esta forma, generalmente se utiliza para (sin
+llegar a instalarlo, luego NO editando el fichero lilo.conf, y colocar
+el fichero n&uacute;cleo en el directorio /boot/ ), saber si funciona.</li>
+
+<li>
+Para uso de rescate en caso de que se "da&ntilde;ara" el n&uacute;cleo
+(o n&uacute;cleos) que tuvieramos en /boot/</li>
+</ul>
+
+<hr WIDTH="100%"></ol>
+<b>VENTAJAS:</b>
+<br>&nbsp;
+<li>
+Se crea r&aacute;pidamente ( habiendo ya usado el proceso de la compilaci&oacute;n
+del n&uacute;cleo), osea, compilas el n&uacute;cleo y despu&eacute;s creas
+el disco. haciendolo de esta forma, puede ser prestado a varias personas,
+ya que no depende exclusivamente donde tengas colocada tu partici&oacute;n,
+usa cualquier Sistema de Ficheros (vfat, dos, ext2...)</li>
+
+<ul>
+<li>
+Metodo a seguir: (Estando ya en el directorio /usr/src/linux), 1 de ellos
+puede ser usando el Script "CompilaNucleo" del tutorial y luego usar make
+bzdisk:</li>
+</ul>
+
+<ol>
+<li>
+make menuconfig</li>
+
+<li>
+CompilaNucleo</li>
+
+<li>
+make bzdisk (y ahora, con todo ya compiladito, creas el disco)</li>
+</ol>
+
+<hr WIDTH="100%">
+<ul>
+<li>
+O tambi&eacute;n:</li>
+</ul>
+
+<hr WIDTH="100%">
+<ol>
+<li>
+make menuconfig</li>
+
+<li>
+make dep</li>
+
+<li>
+make clean</li>
+
+<li>
+make bzImage (creas el n&uacute;cleo)</li>
+
+<li>
+make bzdisk (y ahora, con todo ya compiladito, creas el disco)</li>
+</ol>
+<b>INCONVENIENTES:</b>
+<br>&nbsp;
+<ul>
+<li>
+No sirve para disco de rescate en muchas ocasiones, si por ejemplo se han
+movido datos, o se han corrompido los ficheros de inicio/carga de m&oacute;dulos
+y similar. (En este caso, es similar al disco de arranque que se crea en
+el proceso de instalaci&oacute;n)</li>
+</ul>
+
+<p><br><a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="Recomiend"></a>
+<h2>
+Recomendaci&oacute;n:</h2>
+
+<ul>
+<li>
+Crear disquetes con <b>mkbootdisk</b></li>
+</ul>
+(Si no pudiera con mkbootdisk)
+<ul>
+<li>
+Crear disquetes con RAWRITE</li>
+</ul>
+(Si no pudiera con RAWRITE)
+<ul>
+<li>
+Crear al menos un disquete con bzdisk.</li>
+</ul>
+
+<p><br><a href="#Arriba">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

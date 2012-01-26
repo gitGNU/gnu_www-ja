@@ -1,0 +1,919 @@
+<!-- X-URL: http://www.gnu.org/brave-gnu-world/issue-44.cn.html -->
+<!-- <BASE href="http://www.gnu.org/brave-gnu-world/issue-44.cn.html"> -->
+
+<!--- Don't forget to update:
+      * issue number
+      * links to other languages
+      * navigation links below info table --->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+          PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          " http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd ">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <title>喬格的《勇敢 GNU 世界》 - GNU 工程 - 自由軟件基金會（FSF）</title>
+  <meta http-equiv="content-type" content="text/html; charset=gb2312">
+<link rev="made" href="mailto:greve@brave-gnu-world.org">
+<link rel="stylesheet" href="/brave-gnu-world/brave-gnu-world.css" type="text/css" />
+</head>
+<body>
+<a href="/brave-gnu-world/rungnu/brave-gnu-world-logo.jpg">
+<img src="/brave-gnu-world/rungnu/brave-gnu-world-logo-sm.jpg"
+alt=" [image of a Brave GNU World] " border="0" /></a>
+<div id="sfh">
+《勇敢 GNU 世界》-〈第 44 期〉
+</div>
+<div id="sf">
+Copyright &copy; 2002
+<a href="/people/greve/greve.html">Georg C. F. Greve</a>
+&lt;<a href="mailto:greve@gnu.org" />greve@gnu.org</a>&gt;<br />
+[中文] 翻譯：劉 昭宏
+&lt;<A HREF="mailto:chliu@gnu.org">chliu@gnu.org</A>&gt;<br />
+</div>
+<div id="sf">
+許可聲明 <a href="#Permission">如下</a>。
+</div><br />
+<p>
+[<span class="red">CN</span> |
+ <a href="/brave-gnu-world/issue-44.de.html">DE</a> |
+ <a href="/brave-gnu-world/issue-44.en.html">EN</a> |
+ <a href="/brave-gnu-world/issue-44.fr.html">FR</a> |
+ <a href="/brave-gnu-world/issue-44.it.html">IT</a> |
+ <a href="/brave-gnu-world/issue-44.ja.html">JA</a> |
+ <a href="/brave-gnu-world/issue-44.es.html">ES</a> |
+ <a href="/brave-gnu-world/issue-44.ko.html">KO</a> |
+ <a href="/brave-gnu-world/issue-44.pt.html">PT</a> |
+ <a href="/brave-gnu-world/issue-44.zh.html">ZH</a>]<br />
+<br />
+<!--- begin of issue --->
+
+<p>Welcome back to the Brave GNU World. Firstly I'd like to apologize
+to all of you who were disappointed to not find the Brave GNU World in
+its usual place when going through the magazine(s) or web. Directly
+before the column needed to be written I broke my clavicle. This put
+typing way beyond my capabilities.</p>
+
+<p>歡迎回到《勇敢 GNU 世界》。
+首先我想要向你們各位，
+失望地沒有在雜誌或網絡上通常的地方找到《勇敢 GNU 世界》的人說聲抱歉。
+就在這個專欄要被寫成之前，
+我摔斷了我的鎖骨。
+這使得打字超出了我的能力。
+【譯註：為求優譯，中英文並陳將持續到譯文被發表之後四週左右；
+在此期間，請不吝於提供對於本文翻譯的意見。】</p>
+
+<p>After this extremely unvoluntary pause things should continue as
+usual with a good mix of different subjects.</p>
+
+<p>〔即使〕在這個極端的非自願中斷〔發生〕之後，
+事情還是得一如往常，
+以「好的不同主題的混合」繼續〔進行〕。</p>
+
+<h3>Gnuzza （密碼學聊天：CryptChat）</h3>
+
+<p>Still in beta-testing, but already being used is Gnuzza
+(ChryptChat) by Timo Schulz. The project began when a friend of his
+was asking him for a secure chat program that would work on GNU/Linux
+and Windows. So Timo began writing one and July 2001 version 0.0.3 of
+Gnuzza was published under the terms of the GNU General Public License
+(GPL) as Free Software.</p>
+
+<p>仍然在 beta 測試中，
+但是已經在使用的是由 Timo Schulz 所完成的 Gnuzza （密碼學聊天）。
+[<a href="http://www.winpt.org/cryptchat/">5</a>]
+這工程開始於他的一位朋友問他是否有一個，
+可以在 GNU/Linux 和 Windows 上工作的安全聊天程序。
+所以 Timo 就開始撰寫一個，
+並且在二○○一年七月，
+Gnuzza 的 0.0.3 版就在 GNU General Public License (GPL)
+的條款下發行為自由軟件了。</p>
+
+<p>Gnuzza is a &quot;peer to peer&quot; (p2p) chat progam with strong
+cryptography, so it allows two people to chat via keyboard while
+preserving their privacy. Also they can mail each other files through
+the encrypted channel.</p>
+
+<p>Gnuzza 是一個「一對一（peer to peer；簡寫為p2p）」，
+且具有強密碼學的聊天程序，
+因此它允許兩個人經由鍵盤聊天的同時，
+也保存他們的隱私權。
+他們也可以經由這個加密的渠道互相寄送檔案。</p>
+
+<p>Based on the GNU cryptography library libgcrypt, [6] Gnuzza
+supports Diffie Hellman key exchange (1024 up to 4096 bit) as well as
+the symmetrical algorithmy 3DES, BlowFish, Twofish, CAST5 and
+Rijndael. Gnuzza default is to use asymmetrical encryption, though,
+since this makes commonly known passwords
+unnecessary. Authentification of users is easily done through OpenPGP
+compliant keys in this case.</p>
+
+<p>以 GNU 密碼學程序庫（library） libgcrypt
+[<a href="http://www.gnupg.org/">6</a>] 作為基礎，
+Gnuzza 支援 Diffie Hellman 鍵交換（key exchange）
+（從 1024 到最多 4096 個位元）以及對稱算法
+3DES 、 BlowFish 、 Twofish 、 CAST5 和 Rijndael。
+雖然如此，
+Gnuzza 的預設（default）是使用非對稱加密法，
+因為這會讓通常已知的通行碼（passwords）變得沒有必要。
+使用者的認證（Authentification）在這樣的狀況下，
+可以經由 OpenPGP 所認可的鍵而簡單地完成。</p>
+
+<p>Gnuzza has been written in ANSI C with a ncurses user interface,
+which makes it fast and resource friendly. It runs on GNU/Linux, on
+which the required libraries are installation standard for most
+distribution, and Windows, for which dependency on DLLs has been
+minimized.</p>
+
+<p>Gnuzza 是以 ANSI C 所寫成，
+同時具有一個 ncurses 使用者介面，
+這使得它很快並且資源友善。
+它在 GNU/Linux （所需要的程序庫對大部份的散佈件都是安裝的標準）
+以及 Windows （對於 DLLs 的依賴已經降到最低）上執行。</p>
+
+<p>Owing to ncurses the program has a text-based user interface, but
+some users would probably prefer a truly graphical user interface. For
+these Timo is considering a GTK+/GNOME/KDE GUI - but he does not have
+any experience with GTK+ and is therefore looking for volunteers to
+take care of this part of the project.</p>
+
+<p>由於〔採用〕 ncurses ，
+這程序有一個以文字作為基礎（text-based）的使用者介面，
+但是一些使用者也許會更喜歡一個真正的圖形使用者介面。
+由於這些〔原因〕，
+Timo 正在考慮一個 GTK+/GNOME/KDE 的 GUI -
+但他並沒有任何 GTK+ 的經驗，
+因此正在尋找志願者來處理工程的這個部份。</p>
+
+<p>Besides the aforementioned, tracing down and eliminating bugs is in
+the focus of his interest. Should you be wondering now whether you
+should give it a try, it should be pointed out that thanks to
+thoroughly considered default settings, knowledge about cryptography
+is only required for the advanced functionality. So if you are not
+afraid of beta software, you should not find it difficult to use
+Gnuzza.</p>
+
+<p>除了前面所提及的之外，
+追查並且排除臭蟲〔也〕是他所關注的焦點。
+如果你現在疑惑著是否應該試試它一下，
+〔在這裡〕應該指出的是，
+感謝這些認真考慮過的預設設定（default settings），
+有關密碼學的知識只有在進階的功能時才有必要。
+所以如果你並不害怕 beta 〔測試中版本〕的軟件，
+你應該不會發現使用 Gnuzza 很困難〔才是〕。</p>
+
+<p>A word of warning for those intending to use it on Windows,
+however: Don't put too much trust into the security of the
+application, because every chain is only as strong as its weakest
+link. So it could happen that data is transmitted into the Gnuzza
+client on Windows securely only to be passed on by the operating
+system itself to a third party.</p>
+
+<p>然而，
+奉勸一句給那些打算在 Windows 上使用它的人：
+不要太過於信任這個應用〔程序〕的安全〔機制〕，
+因為每一個鏈條（chain）的強度就和它最弱的鏈接（link）相同。
+所以可能會發生：
+傳送到 Gnuzza 在 Windows 上的代理程序（client）的資料，
+就被作業系統本身傳遞到第三者（third party）了。</p>
+
+<p>Or to put it plainly: Building steel doors into cardboard houses is
+only of limited use.</p>
+
+<p>或者更清楚地說：
+在硬紙板房屋上建造鋼板門只有有限的用途而已。</p>
+
+<h3>GNU Aspell （GNU 拼字檢查器）</h3>
+
+<p>Among the applications that are generally useful for most users are
+certainly automatic spell checkers. GNU Aspell [7] is such a program
+and since August 2002 it is part of the GNU Project.</p>
+
+<p>在所有的應用〔程序〕中，
+對大部份的使用者都能一般地有用的，
+無疑是自動拼字檢查器（automatic spell checkers）。
+GNU Aspell [<a href="http://aspell.net">7</a>] 就是這樣的一個程序，
+它並且從二○○二年八月開始成為 GNU 工程的一部份。</p>
+
+<p>Until the Aspell project was started, there was only one spell
+checking program that was Free Software: International Ispell. [8]
+Naturally, Ispell turned out to be rather widespread on most Unix
+machines and was also the standard spell checker for the GNU
+System. Unfortunately, the intelligence of suggestions made by Ispell
+was noticeably below those made by proprietary spell checkers.</p>
+
+<p>直到 Aspell 工程開始之前，
+只有一個拼字檢查程序是自由軟件： International Ispell 。
+[<a href="http://fmg-www.cs.ucla.edu/fmg-members/geoff/ispell.html">8</a>]
+自然地， Ispell 結果在大部份的 Unix 機器上變得更加廣布，
+而且也成為 GNU 系統的標準拼字檢查器。
+不幸的是，
+由 Ispell 所作出的知識〔產權〕建議，
+明顯地比那些由私權拼字檢查器所作出的還要糟糕。</p>
+
+<p>For this reason and based on the &quot;Lawrence Philips' Metaphone
+Algorithm,&quot; which allows approximating the English pronounciation
+of a written word, Kevin Atkinson began working on Aspell in 1998. It
+was first released in September 1998 under the name Kspell, but since
+the KDE spell checking project was also called Kspell, he changed the
+name to Aspell.</p>
+
+<p>為了這個原因，
+並且根據允許一個接近書寫字英語發音的
+「Lawrence Philip 的 Metaphone 算法」，
+Kevin Atkinson 在一九九八年開始致力於 Aspell 。
+它在一九九八年以 Kspell 這個名稱第一次被發行，
+但是因為 KDE 的拼字檢查工程也稱作為 Kspell ，
+他就將名稱改為 Aspell 。</p>
+
+<p>During the next years, Kevin dedicated a lot of his time to the
+rather intensive development of Aspell. Concepts were tried,
+overhauled and sometimes discarded. He for instance sought to create
+one generic interface for all spell checkers present on the system
+called Pspell. Unfortunately it complicated rather than simplified
+life of everyone involved. Therefore Pspell hs vanished into Aspell
+since version 0.5.</p>
+
+<pre>
+- Therefore Pspell hs vanished
++ Therefore Pspell has vanished
+</pre>
+
+<p>在下一年，
+Kevin 付出了許多他的時間給 Aspell 更加密集的開發〔過程〕。
+〔許多〕觀念都被測試、整理以及有時候被捨棄。
+例如他尋求創造一個稱為 Pspell 的原生介面（generic interface），
+給目前存在系統內的所有拼字檢查器〔使用〕。
+不幸的是，
+它把所有牽扯進來的每一個人的生活弄得更加複雜而不是簡單。
+因此 Pspell 從 Aspell 0.5 版之後就消失了。</p>
+
+<p>Something else he put a lot of effort in were generating better
+word lists based on the ones provided with Ispell. Very carefully he
+separated the English lists into British, American and Canadian
+spelling. The results of that work are also published
+separately. [9]</p>
+
+<p>他付出了很大努力的其他事情還有，
+根據 Ispell 所提供的那個，
+製作出更好的字彙列表（word list）。
+他很仔細地將英文列表分為英國、美國和加拿大的拼法（spelling）。
+那項工作的結果也被個別地加以公開。
+[<a href="http://wordlist.sourceforge.net">9</a>] </p>
+
+<p>After the August 2002 release of GNU Aspell 0.5, Aspell is now
+seeking to replace Ispell especially on GNU/Linux distributions. Given
+its pretty impressive track record, it seems like this will merely be
+a matter of time.</p>
+
+<p>在二○○二年八月發行 GNU Aspell 0.5 之後，
+Aspell 現在正尋求特別是在 GNU/Linux 散佈件上替換掉 Ispell 。
+由於它相當令人印象深刻的追蹤記錄（track record），
+看起來這將只是時間問題而已。</p>
+
+<p>GNU Aspell cannot only be used directly as a spell checking program
+with nice ncurses user interface, it also allows being linked by other
+programs as a library. And the suggestions made by GNU Aspell are
+significantly better than those of Ispell or those by Netscape
+4.0 or Microsoft Word 97. To quantify this, Kevin developed a test
+environment that is available along with the results it created on the
+GNU Aspell web page. [7]</p>
+
+<p>GNU Aspell 不只可以極佳的 ncurses 使用者介面，
+而作為拼字檢查程序被使用，
+它也允許被其他程序作為程序庫而被連結。
+同時 GNU Aspell 所作出的建議也比那些由
+Ispell 或 Netscape 4.0 或 Microsoft Word 97 所作出的更好。
+Kevin 為了將這〔更好的情形〕定量地表示而開發了一個測試環境，
+〔這環境〕與它所作出的結果都可以在 GNU Aspell 網頁
+[<a href="http://aspell.net">7</a>] 上取得。</p>
+
+<p>It appears that those tests were only made for the English
+language, however, even if word lists for other languages exist. For
+these languages it would probably be useful to find native speakers
+who would be willing to come up with similar tests. But even if you
+are just a normal user you can improve the results, because GNU Aspell
+learns from the mistakes users make.</p>
+
+<p>然而，
+那些測試好像只有為英語文而作〔的部份〕，
+即使字彙列表也存在有其他的語文。
+對於這些語文，
+找一些想要提供類似測試的以它們作為母語的使用者可能比較有用。
+但即使你只是個一般的使用者，
+你〔也〕可以改進這些〔作出的建議〕結果，
+因為 GNU Aspell 會從使用者〔修正〕的錯誤中學習。</p>
+
+<p>Whether used as a program or linked to as a library, GNU Aspell is
+multi-process aware. Personal dictionaries of a user are available to
+all Aspell process of that user and changes are automatically being
+propagated between the GNU Aspell processes. Any user can have several
+personal dictionaries, though.</p>
+
+<p>不管是作為一個程序使用或作為程序庫連接，
+GNU Aspell 都可察覺多進程〔的使用〕（multi-process aware）。
+一個使用者的個人字典可以為那個使用者的所有 Aspell 進程所取得，
+而且〔任何〕改變都會自動地在〔所有〕的 GNU Aspell
+進程間互相增殖（propagated）。
+儘管如此，任何一個使用者都可以擁有數個個人字典。</p>
+
+<p>In order to keep the memory usage acceptable with all these
+extended capabilities, all GNU Aspell running on one system share the
+general/common dictionaries. The price GNU Aspell still had to pay for
+its extended features are a higher memory profile than Ispell.</p>
+
+<p>為了保持這個記憶的使用（memory usage）
+對於所有的擴充功能（extended capabilities）都是可以接受的，
+所有在一個系統內執行的 GNU Aspell 〔都〕分享一般／通常的字典。
+GNU Aspell 為了它的擴充功能仍舊必須要付出的代價是，
+比起 Ispell 而言較高的記憶體〔使用量〕側寫（memory profile）。</p>
+
+<p>This might also be caused by the circumstance that Ispell supports
+the so-called &quot;Affix Compression&quot; and GNU Aspell currently
+does not. Affix compression works because many words consist of one
+base word combined with different affixes. So the final word is built
+by one base word with an infix, prefix or postfix.</p>
+
+<p>這也可能是由於 Ispell 支援所謂的「字綴壓縮（Affix Compression）」，
+而 GNU Aspell 目前並沒有〔支援〕的情況所造成。
+字綴壓縮之所以有用，
+是因為許多字是由一個字根（base word）
+與不同的詞綴（affixes）組合而成。
+所以最後〔組合而成〕的字是由一個字根和一個字中（infix）、
+字首（prefix）或字尾（postfix）所建構出。
+【譯註：字根的概念相當於中文的部首（radical）；
+詞綴則是如偏旁之類的中文字構成元素。】</p>
+
+<p>Word lists with affix compression contain the base word with
+possible affixes. The English words &quot;alarm alarms alarmed
+alarming&quot; might for instance be compressed to
+&quot;alarm/SDG&quot;. Especially for languages with massive
+affixation (like German, for example) this might make quite some
+difference.</p>
+
+<p>具有字綴壓縮的字彙列表包含有字根及其可能的字綴。
+以英文字「alarm alarms alarmed alarming」為例，
+可能會被壓縮成「alarm/SDG」。
+這特別是對具有大量詞綴的語文（舉例來說，像是德文），
+可能會造成相當大的〔記憶體側寫〕差異。</p>
+
+<p>Although GNU Aspell is geared towards multi-process enviroments,
+developers should note that it should not be considered &quot;Thread
+Safe&quot; yet. Achieving this is currently quite high on the priority
+list.</p>
+
+<p>雖然 GNU Aspell 已經搭上了多進程環境（multi-process enviroments），
+但開發者應該注意：
+還不應該認為它已經是「線程安全（Thread Safe）」的了。
+實現這個〔目標〕目前在列表中具有很高的優先。</p>
+
+<p>Other items are work on the manual, adaptation to the GNU coding
+standards, completion of UTF-8 support, support for dynamically
+loadable filters and writing a C++ interface. Also customizing the
+ispell.el EMACS module is yet to be done.</p>
+
+<p>其他的項目有：
+在使用手冊上的工作、
+調整到《GNU 源碼撰寫標準》、
+完成 UTF-8 的支援、
+支援動態載入過濾器以及撰寫一個 C++ 介面。
+還有客戶化 ispell.el EMACS 模組〔的工作〕也還沒完成。</p>
+
+<p>And finally Kevin Atkinson plans to import the affix compression
+code written by Kevin Hendricks for the OpenOffice lingucomponent into
+GNU Aspell.</p>
+
+<p>最後 Kevin Atkinson 計劃著要引入由 Kevin Hendricks
+為了 OpenOffice 語文元件（lingucomponent）
+所撰寫的詞綴壓縮碼（affix compression code）到 GNU Aspell 中。</p>
+
+<p>But even if there is still quite some work going on with GNU
+Aspell, this should not discourage anyone from using it already,
+because since version 0.50.2, GNU Aspell certainly is up to par with
+other spell checkers currently being used. Although Kevin did not feel
+he should name it version 1.0 yet, which is rather typical for Free
+Software developers.</p>
+
+<p>但是就算 GNU Aspell 還有相當多的工作需要進行，
+這〔消息〕應該不會讓任何人洩氣，
+因而不現在就使用它，
+因為從 0.50.2 版開始，
+GNU Aspell 無疑地〔已經〕與目前使用中的其他拼字檢查器具有相同等級。
+雖然 Kevin 還不覺得他應該將它命名為 1.0 版 --
+但那是其他自由軟件開發者很典型地〔在這種品質下〕會做的。</p>
+
+<p>It should be noted that Kevin Atkinson essentially did all the work
+on GNU Aspell himself. But he would certainly appreciate help and if
+you are looking for an interesting project that will be around and
+used by many users for a long time to make your name immortal, this is
+certainly a good possibility.</p>
+
+<p>值得一提的是，
+Kevin Atkinson 在本質上由他自己做了在 GNU Aspell 上的所有工作。
+但他肯定會感謝幫忙，
+而且如果你正在尋找一個可以在很長的時間被許多人圍繞和使用的有趣工程，
+並使得你的名字永垂不朽，
+這無疑是一個很好的可能。</p>
+
+<p>Experienced readers of the Brave GNU World will have noticed that
+so far no word about the license status of GNU Aspell has been said,
+although it should be clear that GNU Aspell is Free Software, since it
+is part of the GNU Project.</p>
+
+<p>經驗老到的《勇敢 GNU 世界》讀者應該已經注意到到目前為止，
+都還沒有談到有關 GNU Aspell 的許可證狀態，
+雖然因為 GNU Aspell 是 GNU 工程的一部份，
+所以很清楚地〔知道它〕是自由軟件。</p>
+
+<p>GNU Aspell has originally been released by Kevin Atkinson himself
+under the GNU Lesser General Public License (LGPL). In order to secure
+the legal maintainability and therefore the long-term survival of his
+project, Kevin assigned his rights to the Free Software Foundation
+North America, making it the fiduciary for his interests.</p>
+
+<p>GNU Aspell 一開始是由 Kevin Atkinson 他自己在
+GNU Lesser General Public License (LGPL) 下發行。
+為了保證法律維護的安全，
+並且使他的工程可以因此獲得長期的生存。
+Kevin 將他的權利轉讓給北美自由軟件基金會，
+使它（指基金會）成為他的利益的受託者。</p>
+
+<p>Despite the fact that the FSF North America would consider it more
+useful to release GNU Aspell under the GNU General Public License
+(GPL), it continues to release GNU Aspell under the GNU Lesser General
+Public License because Kevin considered this very important to
+him.</p>
+
+<p>儘管北美自由軟件基金會認為將 GNU Aspell 在
+GNU General Public License (GPL) 下發行會更有用處，
+GNU Aspell 仍將會在 GNU Lesser General Public License 下發行，
+因為 Kevin 認為這對他來說非常重要。</p>
+
+<p>There quite a bit of reasoning behind these different positions
+that is not only interesting but also important, so I would like to
+try and shed some light on them.</p>
+
+<p>有些相當量的論理在這些不同立場（positions）後面，
+〔這些論理〕不只有趣而且也很重要，
+所以我想要試著闡明它們。</p>
+
+<h3>要用 GPL 還是 LGPL ？</h3>
+
+<p>Kevin Atkinson wants to see GNU Aspell become <b>the</b> de-facto
+spell checker for GNU/Linux and other Free operating
+systems. Especially in projects such as OpenOffice and Mozilla he
+would like to see adaption of GNU Aspell.</p>
+
+<p>Kevin Atkinson 想要看到 GNU Aspell 成為給 GNU/Linux
+和其他的自由作業系統的 <b>那</b> 事實上的拼字檢查器。
+特別是在像是 OpenOffice 和 Mozilla 這樣的工程中，
+他想要看到 GNU Aspell 為〔它們〕所適用。</p>
+
+<p>Since there are also proprietary spin-offs of OpenOffice and
+Mozilla, he is afraid that the projects won't use GNU Aspell at all if
+it was licensed under the GNU GPL.</p>
+
+<p>因為 OpenOffice 和 Mozilla 還有私權的副產品存在，
+他害怕如果 GNU Aspell 是以 GNU GPL 作為許可，
+這些工程將根本不會使用它。</p>
+
+<p>Of course the proprietary spin-offs could use GNU Aspell through an
+external program execution. This might be less effective, but it is a
+possible alternative.</p>
+
+<p>私權的副產品當然可以經由一個外部程序的執行而使用 GNU Aspell 。
+這可能會〔導致〕較沒有效能，
+但它是一個可行的替代方式。</p>
+
+<p>So Kevins position is largely based on his wish to see GNU Aspell
+spread as much as possible and the fear that including GNU Aspell
+under the GNU General Public License would create too many problems
+for projects with proprietary spin-offs.</p>
+
+<p>所以 Kevin 的立場很大一部份是根據他想要看到 GNU Aspell
+在可能的範圍內散播地愈多愈好的意願，
+以及害怕將 GNU Aspell 包括在 GNU General Public License 下，
+將會產生給具有私權副產品的工程〔使用時〕的過多問題。</p>
+
+<p>Undoubtedly it would be very good if GNU Aspell was widely adopted
+by many people since it would bring all these users freedom in their
+spell checking. But there is also another side to the issue.</p>
+
+<p>毫無疑問地，
+如果 GNU Aspell 可以被許多人由於
+「它會給所有這些使用者在他們的拼字檢查上帶來自由」
+的緣故而廣泛地採用是很好的。
+但這個議題還有另外一面。</p>
+
+<p>One of the fundamental understandings on which the GNU General
+Public License is built is that there will always be people who are
+willing to profit even at someone elses expense. And you can not rely
+on the goodness at heart of companies and managers alone.</p>
+
+<p>GNU General Public License 所以被建立的其中一個基本的認識是，
+總是會有人們即使是在以某個其他人作為代價的狀況下，
+仍將樂意地〔不顧他人死活地〕獲利。
+因此你不能單獨地依賴公司和管理者內心的善良。
+【譯註：俗話說「殺頭的生意有人做，賠本的生意沒人幹。」】</p>
+
+<p>Or shortly: Those who do not defend their freedom are bound to lose
+it!</p>
+
+<p>簡而言之：
+那些不捍衛著他們的自由的人必然會失去它！</p>
+
+<p>The GNU Lesser General Public License (LGPL) is a modification of
+the GPL, purposefully limiting the protection of freedom in one
+significant aspect: It allows to link the code with proprietary
+applications.</p>
+
+<p>GNU Lesser General Public License (LGPL) 是一種 GPL 的修訂，
+目的是以限制「自由的保護」以達成一種有意義的形勢（aspect）：
+它允許將〔在它之下發行的程序〕碼與私權應用〔程序〕進行連接。</p>
+
+<p>In the past this has often been useful or even necessary and
+central components such as the GNU C library have been published under
+the LGPL.</p>
+
+<p>在過去，
+這通常是有用甚至是必要的，
+而且像是 GNU C 程序庫之類的中心元件〔都〕是以 LGPL 公開的。</p>
+
+<p>Free Software offers a new paradigm for software with many
+advantages. Fast and &quot;predatory&quot; profits sought by some
+companies are not one of its properties; the rewards and advantages of
+Free Software are more in the mid- to long-term.</p>
+
+<p>自由軟件提供了一個具有許多優點的新的軟件典型（paradigm）。
+一些公司所追求的迅速以及「弱肉強食（predatory）」並不是它的特性；
+自由軟件的回報和優點比起中長期〔所能給予〕的還要更多。</p>
+
+<p>By burning large amounts of money, proprietary software can
+sometimes create problems for Free Software in the short term to push
+Free Software out of or ban it from an area in order to protect or
+gain a monopoly. This may then be very hard to undo later.</p>
+
+<p>經由投入大筆的資金，
+私權軟件有時候可以在短期內對自由軟件造成問題，
+經由將自由軟件推開或是禁止它〔涉足）到某個領域，
+以保護或獲得壟斷〔地位〕。
+這也許接下來在稍後要扳回一程（to undo）會非常困難。</p>
+
+<p>When people choose their software based on short-term, technical
+features because they have not understood that software always has a
+macro-economical, cultural, social and ethical component, that danger
+increases. Because someone not understanding the bigger gestalt will
+switch back to proprietary software as quickly as he or she tried Free
+Software.</p>
+
+<p>當人們還沒有瞭解到軟件總是有一個總體經濟的（macro-economical）、
+文化的、社會的和道德的組成，
+並因而基於短期的技術功能來選擇他們的軟件時，
+那危險就增大。
+因為一個不瞭解這較大形態〔的「整體」概念〕的人，
+將會如同他或她嚐試自由軟件般地快速，
+切回（switch back）〔使用〕私權軟件。</p>
+
+<p>Within the Free Software scene, we're seeing that some people are
+more involved with the Free Software mentality and others heading more
+towards Open Source. This shows that even within the classic scene of
+Free Software this understanding is not yet fully developed. Outside
+of this group things look even worse.</p>
+
+<p>在自由軟件的活動領域內，
+我們正看到一些人與自由軟件的精神更加契合（more involved），
+而其他人則朝著開放源碼〔的方向前進〕。
+這表示即使在傳統的自由軟件活動領域內，
+這個理解也還沒有完全地發展。
+在這群組（group）之外事情看起來甚至更糟。</p>
+
+<p>As long as the understanding of these questions is not common
+knowledge, Free Software is facing a problem: Proprietary software can
+exploit unprotected or too weakly protected Free Software almost
+totally, whereas the opposite is clearly not true.</p>
+
+<p>只要〔對於〕這些問題的理解還不是一般知識，
+自由軟件就面臨到一個問題：
+私權軟件可以幾乎完全地，
+不正當地利用未受保護的或過弱保護的自由軟件，
+同時反過來說則很清楚地並不成立。</p>
+
+<p>Unsatisfactory protection of Free Software creates an imbalance
+favoring proprietary software. This at least makes it harder for Free
+Software to gain also a short-term, technical advantage over
+proprietary software.</p>
+
+<p>自由軟件的不符合要求的保護（Unsatisfactory protection）
+創造了一個贊同私權軟件的不均衡狀態。
+這樣至少會使得自由軟件更難取得短期的，
+超越私權軟件的技術優勢。</p>
+
+<p>As already mentioned, Free Software is a new paradigm, it creates a
+new market with new rules and mechanisms. Every market has its rules
+and it is important for all participants to uphold and protect these
+rules in order to protect the individual and the market as a
+whole.</p>
+
+<p>如同〔先前〕已經提到過的，
+自由軟件是一個新的典型，
+它創造了一個具有新的規則和機制（mechanisms）的新市場。
+每一個市場〔都〕有著它（自己〕規則，
+而且所有的參與者高舉並保護這些規則，
+以保護作為一個整體的〔參與〕個體和市場是重要的。</p>
+
+<p>The market of Free Software is still being built and in a somewhat
+early phase. The majority of participants has not yet fully understood
+the rules and mechanisms, although most of them abide them.</p>
+
+<p>自由軟件市場仍然在建構中，
+並且是處於某種程度的早期階段。
+參與者的大多數還沒有完全瞭解這些規則和機制，
+雖然他們大多忍受它們。</p>
+
+<p>Considering what has been said before, it is not surprising that
+the GNU General Public License with its strong protection of freedom
+has become the predominating license, under which more than 50% of all
+Free Software is published.</p>
+
+<p>考慮到先前已經說過的，
+具有對自由強保護（strong protection）的 GNU General Public License
+成為佔主導地位的許可證並不讓人驚訝，
+在它之下有超過全部自由軟件的百分之五十被公開。</p>
+
+<p>To me this seems like it is the natural consequence of the
+mechanisms at work and it is also strong evidence that the GPL hasn't
+taken over the market, it rather created it. This means that the
+market of Free Software has shaped itself largely because of and
+around the GNU General Public License.</p>
+
+<p>對我來說這看起來像是，
+它是作用中的機制的自然結果，
+並且它也是 GPL 並沒有接管這個有一點是它所創造的市場的有力證據。
+這表示自由軟件市場由於以及圍繞著 GNU General Public License
+而很大〔程度〕地形塑了它本身。</p>
+
+<p>To prevent misunderstandings I'd like to emphasize that this does
+not mean the GPL is the only acceptable license. Other licenses like
+the LGPL or licenses with even fever protection like the BSD style
+licenses are also a part of Free Software and can at times even be the
+most useful choice.</p>
+
+<p>為了避免誤解，
+我想要強調這並不表示 GPL 是唯一可以接受的許可證。
+其他的許可證像是 LGPL ，
+或是甚至更加保護的許可證像是 BSD 風格的許可證，
+也都是自由軟件的一部份，
+甚至〔它們〕在有時候可以成為最有用的選擇。</p>
+
+<p>The question whether weak protection is the best choice for GNU
+Aspell is what started this article. From the perspective of the FSF,
+things look different than they do for the author.</p>
+
+<p>正是哪一種弱保護（weak protection）是 GNU Aspell
+的最佳選擇的問題開始了這篇文章。
+從 FSF 的觀點來看，
+事情看起來和作者所見的並不相同。</p>
+
+<p>Thanks to Ispell, Free Software already has a widely established
+spell checker that may have its weaknesses, but it was able to fill
+the gap for many years with a non-protective license.</p>
+
+<p>感謝 Ispell 〔所留下的好的和壞的影響〕，
+自由軟件已經有了一個可能具有它的弱點的廣泛建立的拼字檢查器，
+但是如果以一個非保護性的許可證〔發行的話〕，
+它可以將這個缺口填滿。</p>
+
+<p>Building upon this, GNU Aspell could now give every Free Software
+package dealing with text a significant technical advantage over
+similar proprietary products in order to balance the short-term power
+relationship in favor of Free Software.</p>
+
+<p>依此作為基礎而建構出，
+GNU Aspell 現在可以給予每一個自由軟件包處理文字〔的能力〕，
+其方式並且比類似的私權產品具有重大的技術優勢。
+這是為了平衡短期內有利於自由軟件的有力關係。</p>
+
+<p>Also it would increase the incentive to release projects based upon
+GNU Aspell as Free Software.</p>
+
+<p>它也會增加將工程以 GNU Aspell 為基礎而發行為自由軟件的動機。</p>
+
+<p>In reference to the projects OpenOffice and Mozilla, the possible
+problems of which were a major reason for Kevin to prefer the LGPL, it
+should be noted that there seems to be no striking reason to release
+the commercial versions as proprietary software.</p>
+
+<p>就有關 OpenOffice 和 Mozilla 工程〔而言〕，
+其可能〔造成〕的問題是 Kevin 選擇 LGPL 的一個主要原因，
+值得注意的是，
+似乎並沒有顯著的理由〔讓我們相信〕，
+發行商業軟件非得一定是要作為私權軟件〔才可行〕。</p>
+
+<p>Especially with OpenOffice the major reasons for people to buy the
+proprietary StarOffice seems to be the apparently very good handbook,
+the support and the liability. None of these depends on StarOffice
+being proprietary, they wouldn't change if it was released as Free
+Software.</p>
+
+<p>特別是對 OpenOffice 來說，
+人們購買私權的 StarOffice 的主要原因似乎是顯然〔做得〕
+相當好的手冊、
+〔良好的〕支援（售後服務）和容易〔上手使用〕。
+這些〔原因〕中沒有一個是由於 StarOffice 是私權的〔軟件的原因〕，
+即使它是以自由軟件來發行，它們也不會改變。</p>
+
+<p>If somebody thinks they really have to create a proprietary version
+of one of these projects, of course they could. But we as the Free
+Software community should as ourselves why we would want to give them
+GNU Aspell to produce better proprietary software.</p>
+
+<p>如果有人認為他們真的必須創造出一個這些工程中，
+其中一個的私權版本，
+當然他們是可以〔這麼做〕的。
+但是我們作為自由軟件社團就應該依照我們自身〔的想法和目標〕，
+為什麼我們會想要給他們 GNU Aspell 去做出一個更好的私權軟件呢。</p>
+
+<p>Enough of this topic, I hope I've at least managed to shed some
+light from different angles on this sometimes pretty complex
+topic.</p>
+
+<p>對這個題目應該是足夠了，
+我希望我已經至少從不同的角度設法闡明了這個有時候相當複雜的題目。</p>
+
+<p>If you are interested in reading more about these questions or
+would like to see it covered from a different angle, reading the
+article by Richard Stallman on the GNU web page is
+recommended. [10]</p>
+
+<p>如果你有興趣閱讀更多有關這些問題，
+或是想從不同的角度來掌握它時，
+〔那麼〕建議〔你〕閱讀在 GNU 網頁上，
+由理查德‧斯多爾曼所撰寫的文章。
+[<a href="http://www.gnu.org/licenses/why-not-lgpl.cn.html">10</a>]</p>
+
+<h3>Gnutemberg！ 自由文檔資料庫（GFDD）</h3>
+
+<p>Simo Sorc, the Italian translator of the Brave GNU World,
+recommended the &quot;Gnutemberg! Free Documentation Database&quot;
+(GFDD) project [11] from Italy.</p>
+
+<p>Simo Sorc ，《勇敢 GNU 世界》的意大利語文翻譯，
+從意大利建議了「Gnutemberg！ 自由文檔資料庫（GFDD）」工程。
+[<a href="http://www.gfdd.org">11</a>]</p>
+
+<p>Being part of the &quot;Gnutemberg!&quot; project, [12] GFDD aims
+to create and maintain a database of Free Documentation. In order to
+ensure its freedom, only documents published under a FSF approved Free
+Documentation License [13] are being added to the database.</p>
+
+<p>身為「Gnutemberg！」工程的一部份，
+[<a href="http://www.gnutemberg.org">12</a>]
+GFDD 將目標放在創造並且維護一個『自由文檔』的資料庫。
+為了確保它的自由，
+只有在 FSF 所認可的 Free Documentation License
+[<a href="http://www.gnu.org/philosophy/license-list.html#FreeDocumentationLicenses">13</a>]
+下所出版的文檔才會被加入到這個資料庫。</p>
+
+<p>The technical implementation is done in PHP and PostgreSQL, based
+upon the &quot;Dublin Core Metadata Element Set&quot; abd tge
+&quot;Open Source Metadata Framework.&quot; [14] Naturally, all code
+is being published as Free Software under the GNU General Public
+License.</p>
+
+<p>技術上的實作是以 PHP 和 PostgreSQL 所完成，
+奠基於「都柏林核心詮釋資料元素集（Dublin Core Metadata Element Set）」
+和「開源詮釋資料架構（Open Source Metadata Framework）」。
+[<a href="http://www.dublincore.org">14</a>]
+自然地，
+所有的代碼都在 GNU General Public License
+下被公開為自由軟件。</p>
+
+<p>A user can publish documentation or translate it and with a search
+engine it is possible to search for fields like author, publication
+date, title, language, translations, ISBN No., pages, price or other
+notes.</p>
+
+<p>使用者可以公開文檔或是翻譯它，
+同時〔因為〕具有一個搜尋引擎，
+〔所以〕可以搜尋像是作者、出版日期、標題、語文、翻譯、 ISBN 號碼、
+頁數、價錢或其他可供記錄的欄位。</p>
+
+<p>The project is being maintained by Gaetano Paolone, Marco Presi,
+Simone Merli, Marco Milanesi, Alceste Scalas and Donato Molino, but
+they are still looking for help on both the technical and the content
+side.</p>
+
+<p>這工程現在是由 Gaetano Paolone 、 Marco Presi 、 Simone Merli 、
+Marco Milanesi 、 Alceste Scalas 和 Donato Molino 所維護，
+但是他們還在尋找技術和內容兩方面的幫忙。</p>
+
+<p>Sice documentation is an incredibly important and much too often
+neglected area, I hope that they will find many volunteers.</p>
+
+<pre>
+Sice documentation is an
+Since documentation is an
+</pre>
+
+<p>由於文檔是個極為重要且太過經常地被忽視的領域，
+我希望他們將可以找到許多志願者。</p>
+
+<h3>下回見</h3>
+
+<p>That should be enough for this month; unless other catastrophes
+happen, the next column will arrive next month.</p>
+
+<p>這個月應該足夠了；
+除非還有其他的災難發生，
+〔不然〕下個專欄將會在下個月份出現。</p>
+
+<p>Of course I cannot close the column without having asked for lots
+of feedback, information, ideas, questions or hints about potentially
+interesting projects by mail. [1]</p>
+
+<p>當然，
+我不能在沒有經由郵件詢問許多有關的具有潛力的有趣工程的
+反饋、信息、想法、問題或提示的情形下，
+結束這個專欄。 [<a href="mailto:column@brave-gnu-world.org">1</a>]
+【譯註：請以英文或德文撰寫郵件，其他的語言無法被瞭解；
+或以中文送到本文翻譯。】</p>
+
+<!--- end of issue --->
+<p>
+<table border=1 cellspacing=0 cellpadding=10 width="92%">
+<tr align="center" bgcolor="#dfefff">
+<td align="center">
+<div id="sfh">信息</div>
+</td>
+</tr>
+<tr align=LEFT Valign=TOP><td>
+<a name="1">[1]</a> 請將想法、意見和問題送到 <a href="mailto:column@brave-gnu-world.org">《勇敢 GNU 世界》 &lt;column@brave-gnu-world.org&gt;</a>
+<br />
+<a name="2">[2]</a> GNU 工程的首頁
+<a href="http://www.gnu.org/home.cn.html">http://www.gnu.org/home.cn.html</a>
+<br />
+<a name="3">[3]</a> 喬格的《勇敢 GNU 世界》首頁
+<a href="http://brave-gnu-world.org">http://brave-gnu-world.org</a>
+<br />
+[4] 「我們經營 GNU」原創 <a href="http://www.gnu.org/brave-gnu-world/rungnu/rungnu.cn.html">http://www.gnu.org/brave-gnu-world/rungnu/rungnu.cn.html</a>
+<br />
+[5] Gnuzza (CryptChat) 首頁 <a href="http://www.winpt.org/cryptchat/">http://www.winpt.org/cryptchat/</a>
+<br />
+[6] Libgcrypt 首頁 <a href="http://www.gnupg.org/">http://www.gnupg.org/</a>
+<br />
+[7] GNU Aspell 首頁 <a href="http://aspell.net">http://aspell.net</a>
+<br />
+[8] International Ispell 首頁 <a href="http://fmg-www.cs.ucla.edu/fmg-members/geoff/ispell.html">http://fmg-www.cs.ucla.edu/fmg-members/geoff/ispell.html</a>
+<br />
+[9] GNU Aspell 字彙列表 <a href="http://wordlist.sourceforge.net">http://wordlist.sourceforge.net</a>
+<br />
+[10] 理查德‧斯多爾曼 - 《為什麼你不應該在你的下一個程序庫使用 Library GPL 》 <a href="http://www.gnu.org/licenses/why-not-lgpl.cn.html">http://www.gnu.org/licenses/why-not-lgpl.cn.html</a>
+<br />
+[11] GFDD - 自由文檔資料庫 <a href="http://www.gfdd.org">http://www.gfdd.org</a>
+<br />
+[12] Gnutemberg！ 首頁（意大利文） <a href="http://www.gnutemberg.org">http://www.gnutemberg.org</a>
+<br />
+[13] 自由文檔許可證（Free Documentation Licenses） <a href="http://www.gnu.org/philosophy/license-list.html#FreeDocumentationLicenses">http://www.gnu.org/philosophy/license-list.html#FreeDocumentationLicenses</a>
+<br />
+[14] 都柏林核心詮釋資料原創（Dublin Core Metadata initiative） <a href="http://www.dublincore.org">http://www.dublincore.org</a>
+<br />
+</td>
+</tr>
+</table>
+
+<br />
+<div id="sf" ALIGN="CENTER">
+[ <a href="/brave-gnu-world/issue-43.cn.html">上一期</a> |
+  <a href="/brave-gnu-world/brave-gnu-world-2002.cn.html">《勇敢 GNU 世界》首頁</a> |
+  <a href="/brave-gnu-world/issue-45.cn.html">下一期</a>
+]
+</div>
+
+<hr noshade size="1">
+<div id="sf">
+返回 <a href="/home.cn.html">GNU 首頁</a>。<p>
+請將有關 自由軟件基金會 與 GNU 的 查詢 與 問題 送到
+<a href="mailto:gnu@gnu.org"><em>gnu@gnu.org</em></a>。<br />
+您也可以使用 <a href="/home.html#ContactInfo">其他方法聯繫</a>
+自由軟件基金會。
+<p>請將有關喬格的《勇敢 GNU 世界》專欄的意見（以英文或德文）送到
+<a href="mailto:column@gnu.org"><em>column@gnu.org</em></a>，<br />
+有關這些網頁的意見送到
+<a href="mailto:webmasters@www.gnu.org"><em>webmasters@www.gnu.org</em></a>，<br />
+其他問題則送到
+<a href="mailto:gnu@gnu.org"><em>gnu@gnu.org</em></a>。<p>
+Copyright (C) 2002 Georg C. F. Greve
+<br />[中文] 翻譯：劉 昭宏
+<p><a name="Permission">Permission</a>
+is granted to make and distribute  verbatim copies of this transcript
+as long as the copyright and this permission notice appear.
+<p>【允許在不變更文件內容的前提下刊登本文副本在任何形式的媒體中，
+但需保留版權宣告和此聲明。】<p>
+<!-- hhmts start -->
+Last modified: Sat Oct 12 20:03:10 CEST 2002
+<!-- hhmts end -->
+</div>
+</body>
+</html>
+

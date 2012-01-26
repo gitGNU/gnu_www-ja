@@ -1,0 +1,393 @@
+<html lang="en">
+<head>
+<title>Plot Options - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="graph-Invocation.html#graph-Invocation" title="graph Invocation">
+<link rel="prev" href="graph-Invocation.html#graph-Invocation" title="graph Invocation">
+<link rel="next" href="Dataset-Options.html#Dataset-Options" title="Dataset Options">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Plot-Options"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Dataset-Options.html#Dataset-Options">Dataset Options</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="graph-Invocation.html#graph-Invocation">graph Invocation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="graph-Invocation.html#graph-Invocation">graph Invocation</a>
+<hr>
+</div>
+
+<h4 class="subsection">2.6.1 Plot options</h4>
+
+<p>The following options affect an entire plot.  They should normally occur
+at most once, and should appear on the command line before the first
+file name.  If&nbsp;a<!-- /@w --> multiplot is being drawn, they may (with the
+exception of the &lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option) occur more than once.  If&nbsp;so<!-- /@w -->, the
+second and later occurrences should be placed on the command line
+immediately after each &lsquo;<samp><span class="samp">--reposition </span><var>x</var> <var>y</var></samp>&rsquo; option, which
+separates the plots in a multiplot.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-T </span><var>type</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--output-format </span><var>type</var></samp>&rsquo;<dd>(String, default "meta".)  Select an output format of type <var>type</var>,
+which may be one of the strings "X", "png", "pnm", "gif", "svg", "ai",
+"ps", "cgm", "fig", "pcl", "hpgl", "regis", "tek", and "meta".  These
+refer respectively to the X&nbsp;Window&nbsp;System<!-- /@w -->, PNG format, portable
+anymap (PBM/PGM/PPM) format, pseudo-GIF format, the XML-based Scalable
+Vector Graphics format, the format used by Adobe Illustrator,
+<code>idraw</code>-editable Postscript, the WebCGM format for Web-based
+vector graphics, the format used by the <code>xfig</code> drawing editor,
+the Hewlett&ndash;Packard PCL&nbsp;5<!-- /@w --> printer language, the Hewlett&ndash;Packard
+Graphics Language (by&nbsp;default<!-- /@w -->, HP-GL/2), the ReGIS (remote
+graphics instruction set) format developed by&nbsp;DEC<!-- /@w -->, Tektronix
+format, and device-independent GNU graphics metafile format.  The
+option &lsquo;<samp><span class="samp">--display-type</span></samp>&rsquo; is an obsolete alternative to
+&lsquo;<samp><span class="samp">--output-format</span></samp>&rsquo;.
+
+     <br><dt>&lsquo;<samp><span class="samp">-E </span><var>x|y</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--toggle-axis-end </span><var>x|y</var></samp>&rsquo;<dd>Set the position of the indicated axis to be on the other end of the
+plotting box from what is currently the case.  E.g., &lsquo;<samp><span class="samp">-E y</span></samp>&rsquo; will
+cause the y axis to appear on the right of the plot rather than
+the left, which is the default.  Similarly, &lsquo;<samp><span class="samp">-E x</span></samp>&rsquo; will cause the
+x&nbsp;axis<!-- /@w --> to appear at the top of the plot rather than the
+bottom.  Note that if the x&nbsp;axis<!-- /@w --> appears at the top, no&nbsp;plot<!-- /@w --> title will be drawn, since there will be no room.
+
+     <br><dt>&lsquo;<samp><span class="samp">-f </span><var>size</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--font-size </span><var>size</var></samp>&rsquo;<dd>(Float, default 0.0525.)  Set the size of the font used for the axis and
+tick labels to be <var>size</var>.  The size is specified as a fraction of
+the minimum dimension (width or height) of the plotting box.
+
+     <br><dt>&lsquo;<samp><span class="samp">-F </span><var>font_name</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--font-name </span><var>font_name</var></samp>&rsquo;<dd>(String, default "Helvetica" except for <code>graph -T pcl</code>, for which
+"Univers" is the default, and <code>graph -T png</code>, <code>graph -T pnm</code>,
+<code>graph -T gif</code>, <code>graph -T hpgl</code>, <code>graph -T regis</code>,
+<code>graph -T tek</code>, and raw <code>graph</code>, for all of which
+"HersheySerif" is the default.)  Set the font used for the axis and tick
+labels, and for the plot title (if&nbsp;any)<!-- /@w -->, to be <var>font_name</var>.  The
+choice of font for the plot title may be overridden with the
+&lsquo;<samp><span class="samp">--title-font-name</span></samp>&rsquo; option (see below).  Font names are
+case-insensitive.  If&nbsp;the<!-- /@w --> specified font is not available, the
+default font will be used.  Which fonts are available depends on which
+&lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option is used.  For a list of all fonts, see <a href="Text-Fonts.html#Text-Fonts">Text Fonts</a>.  The <code>plotfont</code> utility will produce a character map of any
+available font.  See <a href="plotfont.html#plotfont">plotfont</a>.
+
+     <br><dt>&lsquo;<samp><span class="samp">-g </span><var>grid_style</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--grid-style </span><var>grid_style</var></samp>&rsquo;<dd>(Integer in the range 0<small class="dots">...</small>4, default 2.)  Set the grid style for the
+plot to be <var>grid_style</var>.  Grid styles 0 through&nbsp;3<!-- /@w --> are
+progressively more fancy, but style&nbsp;4<!-- /@w --> is a somewhat different style.
+
+          <ol type=1 start=0>
+<li>no axes, tick marks or labels. 
+<li>a pair of axes, with tick marks and labels. 
+<li>box around plot, with tick marks and labels. 
+<li>box around plot, with tick marks and labels; also grid lines. 
+<li>axes intersect at the origin, with tick marks and labels.
+          </ol>
+
+     <br><dt>&lsquo;<samp><span class="samp">-h </span><var>height</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--height-of-plot </span><var>height</var></samp>&rsquo;<dd>(Float, default 0.6.)  Set the fractional height of the plot with
+respect to the height of the display (or virtual display, in the case of
+a multiplot) to be <var>height</var>.  A&nbsp;value<!-- /@w --> of 1.0 will produce a
+plotting box that fills the entire available area.  Since labels and
+tick marks may be placed outside the plotting box, values considerably
+less than 1.0 are normally chosen.
+
+     <br><dt>&lsquo;<samp><span class="samp">-H</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--toggle-frame-on-top</span></samp>&rsquo;<dd>Toggle whether or not a copy of the plot frame should be drawn on top of
+the plot, as&nbsp;well<!-- /@w --> as beneath&nbsp;it<!-- /@w -->.  This option is useful when the
+plotted dataset(s) project slightly beyond the frame, which can happen
+if a large line thickness or symbol size is specified.
+
+     <br><dt>&lsquo;<samp><span class="samp">-k </span><var>length</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--tick-size </span><var>length</var></samp>&rsquo;<dd>(Float, default .02.)  Set the length of the tick marks on each axis to
+be <var>length</var>.  A&nbsp;value<!-- /@w --> of 1.0 produces tick marks whose length is
+equal to the minimum dimension (width or height) of the plotting box. 
+A&nbsp;negative<!-- /@w --> <var>length</var> yields tick marks that extend outside the
+box, rather than inside.
+
+     <br><dt>&lsquo;<samp><span class="samp">-K </span><var>clip_mode</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--clip-mode </span><var>clip_mode</var></samp>&rsquo;<dd>(Integer, default 1.)  Set the clip mode for the plot to
+<var>clip_mode</var>.  The clip mode is relevant only if data points are
+being joined by a line, and the line is not being filled to create a
+filled region (since filled regions are clipped in a fixed way).
+
+     <p>There are three clip modes: 0, 1, and&nbsp;2<!-- /@w -->.  They have the same meaning
+as in the <code>gnuplot</code> plotting program.  Clip mode&nbsp;0<!-- /@w --> means that a
+line segment joining two data points will be plotted only if neither
+point is outside the plotting box.  Clip mode&nbsp;1<!-- /@w --> means that it will
+be plotted if no more than one of the two points is outside, and clip
+mode&nbsp;2<!-- /@w --> means that it will be plotted even if both are outside. 
+In&nbsp;all<!-- /@w --> three clip modes the line segment will be clipped to the
+plotting box.
+
+     <br><dt>&lsquo;<samp><span class="samp">-l </span><var>x|y</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--toggle-log-axis </span><var>x|y</var></samp>&rsquo;<dd>Set the specified axis to be a log axis rather than a linear axis, or
+vice versa.  By default, both axes are linear axes.
+
+     <br><dt>&lsquo;<samp><span class="samp">-L </span><var>top_label</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--top-label </span><var>top_label</var></samp>&rsquo;<dd>(String, default empty.)  Place the text string <var>top_label</var> above
+the plot, as its `top label', i.e., title.  The string may include
+escape sequences (see <a href="Text-String-Format.html#Text-String-Format">Text String Format</a>).  The
+&lsquo;<samp><span class="samp">--title-font-size</span></samp>&rsquo; option may be used to specify the size of the
+font.  The font is normally the same as the font used for labeling axes
+and ticks, as selected by the &lsquo;<samp><span class="samp">-F</span></samp>&rsquo; option.  But this can be
+overridden with the &lsquo;<samp><span class="samp">--title-font-name</span></samp>&rsquo; option.
+
+     <br><dt>&lsquo;<samp><span class="samp">-N </span><var>x|y</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--toggle-no-ticks </span><var>x|y</var></samp>&rsquo;<dd>Toggle the presence of ticks and tick labels on the specified axis. 
+This applies to the grid styles that normally include ticks and tick
+labels, i.e., grid styles 1, 2, 3, and&nbsp;4<!-- /@w -->.
+
+     <br><dt>&lsquo;<samp><span class="samp">-Q</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--toggle-rotate-y-label</span></samp>&rsquo;<dd>Position the label on the y axis (which is set with the
+&lsquo;<samp><span class="samp">-Y</span></samp>&rsquo; option) horizontally instead of vertically, or vice versa. 
+By default, the label is rotated, so that it is parallel to the
+y&nbsp;axis<!-- /@w -->.  But some output devices (e.g., old X&nbsp;Window<!-- /@w -->
+System displays, and buggy new ones) cannot handle rotated fonts.  So
+if you specify &lsquo;<samp><span class="samp">-T X</span></samp>&rsquo;, you may also need&nbsp;&lsquo;<samp><span class="samp">-Q</span></samp>&rsquo;<!-- /@w -->.
+
+     <br><dt>&lsquo;<samp><span class="samp">-r </span><var>right</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--right-shift </span><var>right</var></samp>&rsquo;<dd>(Float, default 0.2.)  Move the plot to the right by a fractional amount
+<var>right</var> with respect to the width of the display (or virtual
+display, in the case of a multiplot).  This produces a margin on the
+left side of the plotting box.  A&nbsp;value<!-- /@w --> of 0.5 will produce a margin
+half the width of the available area.  Note that the tick marks and
+labels are drawn in the margin.
+
+     <br><dt>&lsquo;<samp><span class="samp">-R </span><var>x|y</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--toggle-round-to-next-tick </span><var>x|y</var></samp>&rsquo;<dd>Toggle whether or not the upper and lower limits of the specified axis
+should be expanded, so that they both become integer multiples of the
+spacing between labeled tick marks.
+
+     <p>This option is meaningful whenever the user specifies either or both of
+the limits, by using the &lsquo;<samp><span class="samp">-x</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-y</span></samp>&rsquo; option.  If&nbsp;the<!-- /@w --> user
+leaves both limits unspecified, they will always be chosen to satisfy
+the `integer multiple' constraint.
+
+     <br><dt>&lsquo;<samp><span class="samp">-s</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--save-screen</span></samp>&rsquo;<dd>Save the screen.  This option requests that <code>graph</code> not erase the
+output device before it begins to plot.
+
+     <p>This option is relevant only to <code>graph -T tek</code> and raw
+<code>graph</code>.  Tektronix displays and emulators are persistent, in the
+sense that previously drawn graphics remain visible.  So by repeatedly
+using <code>graph -T tek -s</code>, you can build&nbsp;up<!-- /@w --> a multiplot.
+
+     <br><dt>&lsquo;<samp><span class="samp">-t</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--toggle-transpose-axes</span></samp>&rsquo;<dd>Transpose the abscissa and ordinate.  This causes the axes to be
+interchanged, and the options that apply to each axis to be applied to
+the opposite axis.  That is, data points are read in as (y, x)
+pairs, and such options as &lsquo;<samp><span class="samp">-x</span></samp>&rsquo; and &lsquo;<samp><span class="samp">-X</span></samp>&rsquo; apply to the
+y&nbsp;axis<!-- /@w --> rather than the x&nbsp;axis<!-- /@w -->.  If&nbsp;the<!-- /@w -->
+&lsquo;<samp><span class="samp">-I e</span></samp>&rsquo; option is in force, so that the data points are read with
+error bars, the orientation of the error bars will be switched between
+vertical and horizontal.
+
+     <br><dt>&lsquo;<samp><span class="samp">-u </span><var>up</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--upward-shift </span><var>up</var></samp>&rsquo;<dd>(Float, default 0.2.)  Move the plot up by a fractional amount <var>up</var>
+with respect to the height of the display (or virtual display, in the
+case of a multiplot).  This produces a margin below the plotting box. 
+A&nbsp;value<!-- /@w --> of 0.5 will produce a margin half the height of the
+available area.  Note that the tick marks and labels are drawn in the
+margin.
+
+     <br><dt>&lsquo;<samp><span class="samp">-w </span><var>width</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--width-of-plot </span><var>width</var></samp>&rsquo;<dd>(Float, default 0.6.)  Set the fractional width of the plot with respect
+to the width of the display (or virtual display, in the case of a
+multiplot) to be <var>width</var>.  A&nbsp;value<!-- /@w --> of 1.0 will produce a
+plotting box that fills the entire available area.  Since labels and
+tick marks may be placed outside the plotting box, values considerably
+less than 1.0 are normally chosen.
+
+     <br><dt>&lsquo;<samp><span class="samp">-x [</span><var>lower_limit</var><span class="samp"> [</span><var>upper_limit</var><span class="samp"> [</span><var>spacing</var><span class="samp">]]]</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--x-limits [</span><var>lower_limit</var><span class="samp"> [</span><var>upper_limit</var><span class="samp"> [</span><var>spacing</var><span class="samp">]]]</span></samp>&rsquo;<dd>(Floats.) The arguments <var>lower_limit</var> and <var>upper_limit</var> specify
+the limits of the x&nbsp;axis<!-- /@w -->, and the optional argument
+<var>spacing</var> specifies the spacing of labeled ticks along the axis. 
+If&nbsp;any<!-- /@w --> of the three arguments is missing or is supplied as&nbsp;&lsquo;<samp><span class="samp">-</span></samp>&rsquo;<!-- /@w --> (i.e., as a single hyphen), it&nbsp;is<!-- /@w --> computed from the data. 
+Both arguments <var>lower_limit</var> and <var>upper_limit</var> must be present
+if <code>graph</code> is to act as a real-time filter.
+
+     <p>By default, the supplied limit(s) are strictly respected.  However, the
+&lsquo;<samp><span class="samp">-R x</span></samp>&rsquo; option may be used to request that they be rounded to the
+nearest integer multiple of the spacing between labeled ticks.  The
+lower limit will be rounded downward, and the upper limit upward.
+
+     <br><dt>&lsquo;<samp><span class="samp">-X </span><var>x_label</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--x-label </span><var>x_label</var></samp>&rsquo;<dd>(String, default empty.)  Set the label for the x axis to be the text
+string <var>x_label</var>.  The string may include escape sequences
+(see <a href="Text-String-Format.html#Text-String-Format">Text String Format</a>).  The &lsquo;<samp><span class="samp">-F</span></samp>&rsquo; and &lsquo;<samp><span class="samp">-f</span></samp>&rsquo; options may
+be used to specify the name of the font and the size of the font.
+
+     <br><dt>&lsquo;<samp><span class="samp">-y [</span><var>lower_limit</var><span class="samp"> [</span><var>upper_limit</var><span class="samp"> [</span><var>spacing</var><span class="samp">]]]</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--y-limits [</span><var>lower_limit</var><span class="samp"> [</span><var>upper_limit</var><span class="samp"> [</span><var>spacing</var><span class="samp">]]]</span></samp>&rsquo;<dd>(Floats.)  The arguments specify the limits of the y axis, and
+the spacing of labeled ticks along it, as for the x&nbsp;axis<!-- /@w --> (see
+above).  Both arguments <var>lower_limit</var> and <var>upper_limit</var> must be
+present if <code>graph</code> is to act as a real-time filter.
+
+     <p>By default, the supplied limit(s) are strictly respected.  However, the
+&lsquo;<samp><span class="samp">-R y</span></samp>&rsquo; option may be used to request that they be rounded to the
+nearest multiple of the tick spacing.  The lower limit will be rounded
+downward, and the upper limit upward.
+
+     <br><dt>&lsquo;<samp><span class="samp">-Y </span><var>y_label</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--y-label </span><var>y_label</var></samp>&rsquo;<dd>(String, default empty.)  Set the label for the y axis to be
+the text string <var>y_label</var>.  The string may include escape
+sequences (see <a href="Text-String-Format.html#Text-String-Format">Text String Format</a>).  The label will be rotated by
+90 degrees so that it is parallel to the axis, unless the &lsquo;<samp><span class="samp">-Q</span></samp>&rsquo;
+option is used.  (Some X&nbsp;Window<!-- /@w --> System displays, both old and new,
+do not properly support rotated labels, so that if you specify
+&lsquo;<samp><span class="samp">-T X</span></samp>&rsquo;, you may also need &lsquo;<samp><span class="samp">-Q</span></samp>&rsquo;.)  The &lsquo;<samp><span class="samp">-F</span></samp>&rsquo; and
+&lsquo;<samp><span class="samp">-f</span></samp>&rsquo; options can be used to specify the name of the font and the
+size of the font.
+
+     <br><dt>&lsquo;<samp><span class="samp">--bg-color </span><var>name</var></samp>&rsquo;<dd>(String, default "white".)  Set the color used for the plot background
+to be <var>name</var>.  This is relevant only to <code>graph -T&nbsp;X<!-- /@w --></code>,
+<code>graph -T png</code>, <code>graph -T pnm</code>, <code>graph -T gif</code>,
+<code>graph -T cgm</code>, <code>graph -T regis</code>, and <code>graph -T meta</code>. 
+An&nbsp;unrecognized<!-- /@w --> name sets the color to the default.  For information
+on what names are recognized, see <a href="Color-Names.html#Color-Names">Color Names</a>.  The environment
+variable <code>BG_COLOR</code> can equally well be used to specify the
+background color.
+
+     <p>If the &lsquo;<samp><span class="samp">-T png</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-T gif</span></samp>&rsquo; option is used, a transparent PNG
+file or a transparent pseudo-GIF, respectively, may be produced by
+setting the <code>TRANSPARENT_COLOR</code> environment variable to the name of
+the background color.  See <a href="graph-Environment.html#graph-Environment">graph Environment</a>.  If&nbsp;the<!-- /@w --> &lsquo;<samp><span class="samp">-T
+svg</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-T cgm</span></samp>&rsquo; option is used, an output file without a
+background may be produced by setting the background color to "none".
+
+     <br><dt>&lsquo;<samp><span class="samp">--bitmap-size </span><var>bitmap_size</var></samp>&rsquo;<dd>(String, default "570x570".)  Set the size of the graphics display in
+which the plot will be drawn, in terms of pixels, to be
+<var>bitmap_size</var>.  This is relevant only to <code>graph -T&nbsp;X<!-- /@w --></code>,
+<code>graph -T png</code>, <code>graph -T pnm</code>, and <code>graph -T gif</code>, for
+all of which the size can be expressed in terms of pixels.  The
+environment variable <code>BITMAPSIZE</code> may equally well be used to
+specify the size.
+
+     <p>The graphics display used by <code>graph -T X</code> is a popped-up X&nbsp;window<!-- /@w -->.  Command-line positioning of this window on an X&nbsp;Window<!-- /@w -->
+System display is supported.  For example, if <var>bitmap_size</var> is
+"570x570+0+0" then the window will be popped&nbsp;up<!-- /@w --> in the upper left
+corner.
+
+     <p>If you choose a rectangular (non-square) window size, the fonts in the
+plot will be scaled anisotropically, i.e., by different factors in the
+horizontal and vertical direction.  Any font that cannot easily be
+anisotropically scaled will be replaced by a default scalable font,
+such as the Hershey vector font "HersheySerif".
+
+     <p>For backward compatibility, <code>graph -T X</code> allows the user to set the
+window size and position by setting the X&nbsp;resource<!-- /@w -->
+<code>Xplot.geometry</code>, instead of &lsquo;<samp><span class="samp">--bitmap-size</span></samp>&rsquo; or
+<code>BITMAPSIZE</code>.
+
+     <br><dt>&lsquo;<samp><span class="samp">--emulate-color </span><var>option</var></samp>&rsquo;<dd>(String, default "no".)  If <var>option</var> is "yes", replace each color in
+the output by an appropriate shade of gray.  This is seldom useful,
+except when using &lsquo;<samp><span class="samp">graph -T pcl</span></samp>&rsquo; to prepare output for a PCL&nbsp;5<!-- /@w -->
+device.  (Many monochrome PCL&nbsp;5<!-- /@w --> devices, such as monochrome
+LaserJets, do a poor job of emulating color on their own.  They usually
+map HP-GL/2's seven standard pen colors, including even yellow, to
+black.)  You may equally well request color emulation by setting the
+environment variable <code>EMULATE_COLOR</code> to "yes".
+
+     <br><dt>&lsquo;<samp><span class="samp">--frame-color </span><var>name</var></samp>&rsquo;<dd>(String, default "black".)  Set the color used for drawing the plot
+frame, and for drawing monochrome datasets (if&nbsp;any)<!-- /@w --> to be
+<var>name</var>.  An&nbsp;unrecognized<!-- /@w --> name sets the color to the default. 
+For information on what names are recognized, see <a href="Color-Names.html#Color-Names">Color Names</a>.
+
+     <br><dt>&lsquo;<samp><span class="samp">--frame-line-width </span><var>frame_line_width</var></samp>&rsquo;<dd>(Float, default &minus;1.0.)  Set the thickness of lines in the plot
+frame, as a fraction of the size (i.e., minimum dimension) of the
+graphics display, to <var>frame_line_width</var>.  A&nbsp;negative<!-- /@w --> value means
+that the default value for the line thickness provided by the GNU
+<code>libplot</code> graphics library should be used.  This is usually 1/850
+times the size of the display, although if &lsquo;<samp><span class="samp">-T X</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T png</span></samp>&rsquo;,
+&lsquo;<samp><span class="samp">-T pnm</span></samp>&rsquo;, or &lsquo;<samp><span class="samp">-T gif</span></samp>&rsquo; is specified, it is zero.  By
+convention, a zero-thickness line is the thinnest line that can be
+drawn.  This is the case in all output formats.  Note, however, that the
+drawing editors <code>idraw</code> and <code>xfig</code> treat zero-thickness lines
+as invisible.
+
+     <p><code>graph -T tek</code> and <code>graph -T regis</code> do not support drawing
+lines with other than a default thickness, and <code>graph -T hpgl</code> does
+not support doing&nbsp;so<!-- /@w --> if the environment variable <code>HPGL_VERSION</code>
+is set to a value less than&nbsp;"2"<!-- /@w --> (the default).
+
+     <br><dt>&lsquo;<samp><span class="samp">--max-line-length </span><var>max_line_length</var></samp>&rsquo;<dd>(Integer, default 500.)  Set the maximum number of points that a
+polygonal line drawn through any dataset may contain, before it is
+flushed to the output device, to equal <var>max_line_length</var>.  If&nbsp;this<!-- /@w --> flushing occurs, the polygonal line will be split into two or more
+sub-lines, though the splitting should not be noticeable.  Splitting
+will not take place if the &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; option, which requests filling, is
+used.
+
+     <p>The reason for splitting long polygonal lines is that some display
+devices (e.g., old Postscript printers and HP-GL pen plotters) have
+limited buffer sizes.  The environment variable <code>MAX_LINE_LENGTH</code>
+can also be used to specify the maximum line length.  This option has no
+effect on <code>graph -T tek</code> or raw <code>graph</code>, since they draw
+polylines in real time and have no buffer limitations.
+
+     <br><dt>&lsquo;<samp><span class="samp">--page-size </span><var>pagesize</var></samp>&rsquo;<dd>(String, default "letter".)  Set the size of the page on which the plot
+will be positioned.  This is relevant only to <code>graph -T svg</code>,
+<code>graph -T ai</code>, <code>graph -T ps</code>, <code>graph -T cgm</code>, <code>graph
+-T fig</code>, <code>graph -T pcl</code>, and <code>graph -T hpgl</code>.  "letter" means
+an 8.5<span class="dmn">in</span> by 11<span class="dmn">in</span> page.  Any ISO page size in the range
+"a0"<small class="dots">...</small>"a4" or ANSI page size in the range "a"<small class="dots">...</small>"e" may be
+specified ("letter" is an alias for&nbsp;"a"<!-- /@w --> and "tabloid" is an alias
+for&nbsp;"b"<!-- /@w -->).  "legal", "ledger", and&nbsp;"b5"<!-- /@w --> are recognized page sizes
+also.  The environment variable <code>PAGESIZE</code> can equally well be used
+to specify the page size.
+
+     <p>For <code>graph -T ai</code>, <code>graph -T ps</code>, <code>graph -T pcl</code>, and
+<code>graph -T fig</code>, the graphics display (or `viewport') within which
+the plot is drawn will be, by default, a square region centered on the
+specified page.  For <code>graph -T hpgl</code>, it will be a square region of
+the same size, but may be positioned differently.  Either or both of the
+dimensions of the graphics display can be specified explicitly.  For
+example, <var>pagesize</var> could be specified as "letter,xsize=4in", or
+"a4,xsize=10cm,ysize=15cm".  The dimensions are allowed to be negative
+(a&nbsp;negative<!-- /@w --> dimension results in a reflection).
+
+     <p>The position of the graphics display, relative to its default
+position, may optionally be adjusted by specifying an offset vector. 
+For example, <var>pagesize</var> could be specified as
+"letter,yoffset=1.2in", or "a4,xoffset=&minus;5mm,yoffset=2.0cm". 
+It&nbsp;is<!-- /@w --> also possible to position the graphics display precisely, by
+specifying the location of its lower left corner relative to the lower
+left corner of the page.  For example, <var>pagesize</var> could be
+specified as "letter,xorigin=2in,yorigin=3in", or
+"a4,xorigin=0.5cm,yorigin=0.5cm".  The preceding options may be
+intermingled.
+
+     <p><code>graph -T svg</code> and <code>graph -T cgm</code> ignore the "xoffset",
+"yoffset", "xorigin", and "yorigin" options, since SVG format and
+WebCGM format have no notion of the Web page on which the graphics
+display will ultimately be positioned.  However, they do respect the
+"xsize" and "ysize" options.  For more on page sizes, see <a href="Page-and-Viewport-Sizes.html#Page-and-Viewport-Sizes">Page and Viewport Sizes</a>.
+
+     <br><dt>&lsquo;<samp><span class="samp">--pen-colors </span><var>colors</var></samp>&rsquo;<dd>(String, default "1=red:2=green:3=blue:4=magenta:5=cyan".)  Set the
+colors of the pens used for drawing plots, as numbered, to be
+<var>colors</var>.  The format should be self-explanatory.  An&nbsp;unrecognized<!-- /@w --> name sets the corresponding color to the default.  For
+information on what names are recognized, see <a href="Color-Names.html#Color-Names">Color Names</a>.
+
+     <br><dt>&lsquo;<samp><span class="samp">--rotation </span><var>angle</var></samp>&rsquo;<dd>(Integer, default 0.)  Set the rotation angle of the graphics display
+to be <var>angle</var> degrees.  The rotation is counterclockwise.  The
+environment variable <code>ROTATION</code> can equally well be used to
+specify the rotation angle.
+
+     <p>This option is used for switching between portrait and landscape
+orientations, which have rotation angles 0&nbsp;and<!-- /@w --> 90 degrees
+respectively.  Postmodernists may also find it useful.
+
+     <br><dt>&lsquo;<samp><span class="samp">--title-font-name </span><var>font_name</var></samp>&rsquo;<dd>(String, default "Helvetica" except for <code>graph -T pcl</code>, for which
+"Univers" is the default, and <code>graph -T png</code>, <code>graph -T pnm</code>,
+<code>graph -T gif</code>, <code>graph -T hpgl</code>, <code>graph -T regis</code>, and
+<code>graph -T tek</code>, for all of which "HersheySerif" is the default.) 
+Set the font used for the plot title to be <var>font_name</var>.  Normally
+the font used for the plot title is the same as that used for labeling
+the axes and the ticks along the axes, as specified by the &lsquo;<samp><span class="samp">-F</span></samp>&rsquo;
+option.  But the &lsquo;<samp><span class="samp">--title-font-name</span></samp>&rsquo; option can be used to override
+this.  Font names are case-insensitive.  If&nbsp;the<!-- /@w --> specified font is
+not available, the default font will be used.  Which fonts are available
+depends on which &lsquo;<samp><span class="samp">-T</span></samp>&rsquo; option is used.  For a list of all fonts, see
+<a href="Text-Fonts.html#Text-Fonts">Text Fonts</a>.  The <code>plotfont</code> utility will produce a character
+map of any available font.  See <a href="plotfont.html#plotfont">plotfont</a>.
+
+     <br><dt>&lsquo;<samp><span class="samp">--title-font-size </span><var>size</var></samp>&rsquo;<dd>(Float, default 0.07.)  Set the size of the font used for the top label
+(`title'), as specified by the &lsquo;<samp><span class="samp">-L</span></samp>&rsquo; option, to be <var>size</var>.  The
+size is specified as a fraction of the minimum dimension (width or
+height) of the plotting box. 
+</dl>
+
+   </body></html>
+

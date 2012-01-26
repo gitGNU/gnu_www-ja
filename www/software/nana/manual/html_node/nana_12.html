@@ -1,0 +1,118 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/nana.texi on 6 November 1998 -->
+
+<TITLE>GNU Nana: improved support for assertions and logging in C and C++ - Known Problems</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_11.html">previous</A>, <A HREF="nana_13.html">next</A>, <A HREF="nana_42.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC12" HREF="nana_toc.html#TOC12">Known Problems</A></H2>
+<P>
+Nana has the following known features (or perhaps problems):
+
+</P>
+
+<OL>
+<LI>Nana macros which use the debugger
+
+such as <CODE>DI</CODE> or <CODE>DL</CODE> should be on lines by themselves. If you
+mix code and nana macros on the same line you will get errors, e.g:
+
+
+<PRE>
+main(){
+   int x;
+   x = 5; x--; DI(x == 4); 
+}
+</PRE>
+
+This doesn't work since breakpoints are set at line boundaries rather
+than statement ones. Of course anyone who writes code like this deserves
+whatever happens to them.
+
+<LI>Optimisation can remove variables so that debugger based
+
+assertions (<SAMP>`DI.h'</SAMP>) do not work correctly. As usual the
+interaction between the debugger and the compiler is rather
+complicated. This may not be a problem if the appropriate compile-time
+flags are selected, e.g. <SAMP>`-O0 and -O1'</SAMP> work on most platforms.
+
+<LI>The <SAMP>`Q.h'</SAMP> macros depend on the statement value extension to
+
+GNU CC so if you wish to use them you must use GCC. This can be fixed
+for C++ in a possibly useful manner, I can't see any solution for C.
+
+<LI>The logging macros depend on the Var Args extension provided by the
+
+GNU C Preprocessor.<A NAME="DOCF3" HREF="nana_foot.html#FOOT3">(3)</A> We could (probably will) implement a fix for this 
+based on the tricks in the C FAQ. Unfortunately these tricks are not pretty.
+For now interested users could simply replace their CPP with the GNU CPP
+if they wished to stay with non-standard compilers. 
+
+<LI>The <SAMP>`Q.h'</SAMP> macros do not work in the debugger since <SAMP>`gdb'</SAMP>
+
+does support the statement expression extension.
+
+<LI>Multiline expressions do not work as expected in the debugger since
+
+you need to use a blackslash as an escape at the end of the line. 
+For example:
+
+
+<PRE>
+	 DI(x +
+            10 &#62; 30);
+</PRE>
+
+A few backslashes may solve this particular problem.
+
+<LI>Problems with the <SAMP>`configure'</SAMP> script.
+
+The <SAMP>`configure'</SAMP> script automatically detects the target operating
+system and architecture and then generates <SAMP>`nana-config.h'</SAMP>. If the
+options selected in <SAMP>`nana-config.h'</SAMP> are incorrect they can be
+edited by hand and installed in the usual include directory. The easiest
+method is simply to delete all macros in <SAMP>`nana-config.h'</SAMP> since the
+system defaults to more portable (and less efficient)
+implementations. If you wish to do this from the configure script you 
+can try giving a unsupported machine type, e.g.
+
+
+<PRE>
+% ./configure pdp11-dec-ultrix
+</PRE>
+
+<LI>Some users have reported problems with the <CODE>configure</CODE>
+
+script detecting <CODE>vsnprintf</CODE>. If <CODE>configure</CODE> doesn't find it
+and it does exist then simply define it in <SAMP>`nana-config.h'</SAMP> as per
+the previous question. 
+
+If <CODE>vsnprintf</CODE> really doesn't exist then get a new C library,
+possibly the GNU libc.
+
+<LI>The use of <CODE>vsprintf</CODE> opens a security hole since no
+
+bounds checking is done by it. Nana attempts to use <CODE>vsnprintf</CODE>
+which is safe when it exists but it will resort to <CODE>vsprintf</CODE>
+if it can't find <CODE>vsnprintf</CODE>. All careful people should make
+sure that they have a library with <CODE>vsnprintf</CODE>.
+
+<LI><CODE>STL</CODE> header file errors due to nana.
+
+The C++ <CODE>STL</CODE> header files for version 3.0 at least must
+be included before the <CODE>Q.h</CODE> file. The problem is caused by the STL
+files using <CODE>S</CODE> as a template argument. Of course <CODE>Q.h</CODE> uses
+<CODE>S</CODE> for summing a series. Namespace pollution strikes again.
+
+(Thanks to Han Holl for this particular problem).
+</OL>
+
+<P><HR><P>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_11.html">previous</A>, <A HREF="nana_13.html">next</A>, <A HREF="nana_42.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+</BODY>
+</HTML>

@@ -1,0 +1,125 @@
+<html lang="en">
+<head>
+<title>History and Acknowledgements - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Appendices.html#Appendices" title="Appendices">
+<link rel="prev" href="Auxiliary-Software.html#Auxiliary-Software" title="Auxiliary Software">
+<link rel="next" href="Reporting-Bugs.html#Reporting-Bugs" title="Reporting Bugs">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="History-and-Acknowledgements"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Reporting-Bugs.html#Reporting-Bugs">Reporting Bugs</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Auxiliary-Software.html#Auxiliary-Software">Auxiliary Software</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Appendices.html#Appendices">Appendices</a>
+<hr>
+</div>
+
+<h2 class="appendix">Appendix F History and Acknowledgements</h2>
+
+<p>Several of the GNU plotting utilities were inspired by Unix plotting
+utilities.  A <code>graph</code> utility and various plot filters were present
+in the first releases of Unix from Bell Laboratories, going at&nbsp;least<!-- /@w -->
+as far back as the Version&nbsp;4<!-- /@w --> distribution (1973).  The first
+supported display device was a Tektronix 611 storage scope.  Most of the
+work on tying the plot filters together and breaking out
+device-dependent versions of <code>libplot</code> was performed by
+<a href="mailto:llc@research.att.com">Lorinda Cherry</a>. 
+By&nbsp;the<!-- /@w --> time of Version&nbsp;7<!-- /@w --> Unix (1979) and the subsequent Berkeley
+releases, the package consisting of <code>graph</code>, <code>plot</code>,
+<code>spline</code>, and several device-dependent versions of <code>libplot</code>
+was a standard Unix feature.  Supported devices by the early 1980's
+included Tektronix storage scopes, early graphics terminals,
+200<span class="dmn">dpi</span> electrostatic printer/plotters from Versatec and Varian,
+and pen plotters from Hewlett&ndash;Packard.
+
+   <p>In 1989, <a href="mailto:rich@freebsd.org">Rich Murphey</a> wrote the first GNU
+versions of <code>graph</code>, <code>plot</code>, and <code>spline</code>, and the
+earliest documentation.  Richard Stallman further directed development
+of the programs and provided editorial support for the documentation. 
+<a href="mailto:interran@uluru.stanford.edu">John Interrante</a>, then of the
+InterViews team at Stanford, generously provided the <code>idraw</code>
+Postscript prologue now included in <code>libplot</code>, and helpful
+comments.  The package as it stood in 1991 was distributed under the
+name `GNU graphics'.
+
+   <p>In 1995 <a href="mailto:rsm@math.arizona.edu">Robert S. Maier</a> took over
+development of the package, and designed and wrote the current,
+maximally device-independent, standalone version of <code>libplot</code>. 
+He also rewrote <code>graph</code> from scratch, turning it into a real-time
+filter that would use the new library.  He fleshed out <code>spline</code>
+too, by adding support for splines in tension, periodicity, and cubic
+Bessel interpolation.
+
+   <p><code>libplot</code> now incorporates the X&nbsp;Window<!-- /@w --> System code for
+filling polygons and drawing wide polygonal lines and arcs.  The code
+is used when producing output in bitmap formats (e.g., PNG, PNM, and
+pseudo-GIF).  It&nbsp;was<!-- /@w --> written by Brian Kelleher, Joel McCormack,
+Todd Newman, Keith Packard, Robert Scheifler and Ken Whaley, who
+worked for Digital Equipment Corp., MIT, and/or the X&nbsp;Consortium<!-- /@w -->,
+and is copyright &copy; 1985&ndash;89 by the X&nbsp;Consortium<!-- /@w -->. 
+Affinely transformed text strings are now generated and displayed by a
+technique similar to that used by Alan Richardson in his
+<code>xvertext</code> package, for displaying rotated strings.
+
+   <p>The pseudo-GIF support now in <code>libplot</code> uses the `miGIF'
+run-length encoding routines developed by
+<a href="mailto:mouse@rodents.montreal.qc.ca">der Maus</a> and ivo which are
+copyright &copy; 1998 by Hutchison Avenue Software Corporation. 
+The copyright notice and permission notice for the miGIF routines are
+distributed with the source code distribution of the plotting
+utilities.
+
+   <p>Most development work on <code>ode</code> was performed by
+<a href="mailto:nbt@reed.edu">Nick Tufillaro</a> in 1978&ndash;1994, on a sequence of
+platforms that extended back to a PDP-11 running Version&nbsp;4<!-- /@w --> Unix.  In
+1997 Robert Maier modified his 1994 version to agree with GNU
+conventions on coding and command-line parsing, extended it to support
+the full set of special functions supported by <code>gnuplot</code>, and
+extended the exception handling.
+
+   <p>Many other people aided the development of the plotting utilities
+package along the way.  The Hershey vector fonts now in <code>libplot</code>
+are of&nbsp;course<!-- /@w --> based on the characters digitized in the mid to late
+1960's by Allen&nbsp;V.<!-- /@w --> Hershey, who deserves a vote of thanks. 
+Additional characters and/or marker symbols were taken from the SLAC
+Unified Graphics System developed by Robert&nbsp;C.<!-- /@w --> Beach in the
+mid-1970's, and from the fonts designed by
+<a href="mailto:wolff@inf.fu-berlin.de">Thomas Wolff</a> for Ghostscript.  The
+interpolation algorithms used in <code>spline</code> are based on the
+algorithms of <a href="mailto:cline@cs.utexas.edu">Alan&nbsp;K.<!-- /@w --> Cline</a>, as
+described in his papers in the Apr. 1974 issue of
+<cite>Communications of the ACM</cite>.  The table-driven parser used in
+<code>tek2plot</code> was written at Berkeley in the mid-1980's by
+<a href="mailto:moy@parc.xerox.com">Edward Moy</a>.  The `sagitta' algorithm used
+in an extended form in <code>libplot</code> for drawing circular and
+elliptic arcs was developed by Peter Karow of URW and
+<a href="mailto:turk@computer.org">Ken Turkowski</a> of Apple. 
+<a href="mailto:raymond.toy@ericsson.com">Raymond Toy</a> helped with the tick mark
+spacing code in <code>graph</code> and was the first to incorporate GNU
+<code>getopt</code>.  Arthur Smith, formerly of LASSP at Cornell, provided
+code for his <code>xplot</code> utility.  <a href="mailto:beebe@math.utah.edu">Nelson Beebe</a> exhaustively tested the package installation process.
+
+   <p>Robert Maier wrote the documentation, which now incorporates Nick
+Tufillaro's <code>ode</code> manual.  Julie Sussmann checked over the
+documentation for style and clarity.
+
+   </body></html>
+

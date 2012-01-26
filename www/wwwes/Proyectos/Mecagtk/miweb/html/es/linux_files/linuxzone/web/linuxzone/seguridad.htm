@@ -1,0 +1,316 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.07 [en] (X11; I; Linux 2.2.5 i586) [Netscape]">
+   <TITLE>Zona de Seguridad</TITLE>
+</HEAD>
+<BODY BGCOLOR="#000000" BACKGROUND="marble2.jpg">
+
+<CENTER><IMG SRC="seguridad.gif" ALT="Zona de Seguridad" HEIGHT=74 WIDTH=462>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Manteniendo
+los intrusos a raya</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[ <A HREF="#1">El
+password</A> ] [ <A HREF="#2">Limitando el acceso de roto</A> ] [ <A HREF="#3">inetd.conf</A>
+] [ <A HREF="#4">Tcp_wrappers</A> ] [ <A HREF="#5">services</A> ] [ <A HREF="#6">Nuevos
+puertos/servicios</A> ] [ <A HREF="#7">El firewall</A> ] [ <A HREF="#8">Actualizate!</A>
+]</FONT></FONT></FONT>
+<P><IMG SRC="barra.gif" HEIGHT=10 WIDTH=100%></CENTER>
+
+<BR>&nbsp;
+<P><BR>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Os presento
+aqu&iacute; una serie de "herramientas" software que podemos usar para
+hacer nuestro sistema mas seguro. Est&aacute;n ordenadas de mas b&aacute;sicas
+a mas complejas.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>1.&nbsp;<A NAME="1"></A>El
+password:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>En concreto
+/etc/passwd. Este es el archivo mas ansiado (junto con el de los passwords
+para internet) por los hackers, as&iacute; que lo mejor ser&aacute; protegerlo.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Aseg&uacute;rate
+que sus permisos son:</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>-rw-r--r--
+1 roto roto 239 Oct 31 1997 passwd</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Instala el
+paquete shadow-utils, este paquete protege los passwords encript&aacute;ndolos
+en otro archivo al que s&oacute;lo tiene acceso roto, por lo que hacerse
+con el /etc/passwd no sirve de nada. Ademas para los pies a la mayor&iacute;a
+de crakeadores de passwords. Aunque parezca una tonter&iacute;a, usar shadow
+passwords es una de las protecciones mas eficaces contra logins indeseados.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Truco: Elige
+passwords dif&iacute;ciles de averiguar, que contengan letras, n&uacute;meros
+y caracteres, y si puede ser que la palabra no tenga sentido en ning&uacute;n
+idioma. Por ejemplo mAKew3t$ es un buen password.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Truco: Usa
+el programa <A HREF="http://www.false.com/security/john/index.html">John
+The Ripper</A> para testear la seguridad de tus passwords, si es capaz
+de crakearlos en pocas horas es que tu password no es seguro.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>2.&nbsp;<A NAME="2"></A>Limitando
+el acceso de roto:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>El usuario
+roto es siempre un peligro potencial. El sistema considera que roto sabe
+perfectamente lo que hace por lo que ni siquiera pedir&aacute; confirmaci&oacute;n
+si por error formateamos el disco, imaginaos el desastre ...</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Reduciendo
+las v&iacute;as de acceso de roto al sistema minimizamos riesgos a la vez
+que nos forzamos a nosotros mismos a dejar de trabajar con roto.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Edita el
+archivo /etc/securetty y deja solo las consolas en las que quieres que
+roto pueda entrar. Este archivo contiene una lista de terminales (tty)
+en las que puede entrar roto, una por linea. Eliminando las lineas que
+no deseemos evitamos el acceso de roto a ese terminal.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Conozco sistemas
+en los que roto no puede hacer ning&uacute;n login y la &uacute;nica manera
+que tiene de entrar al sistema es mediante el comando "su" que ademas solo
+puede ser ejecutado por un grupo muy reducido de usuarios. Sin llegar a
+este extremo, algo recomendable es dejar por ejemplo las tres primeras
+consolas para el acceso de roto.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Lo mejor
+seria que nunca se hiciese login como roto, en lugar de esto podemos usar
+el comando <I>su</I> para tener privilegios de roto moment&aacute;neamente,
+cambiar lo que haga falta y teclear <I>exit</I> para volver a ser usuario
+normal sin peligro de estropear nada.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Truco: Nunca,
+nunca, nunca, dejes acceso por telnet a roto, elimina todas las entradas
+con ttyp?</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Truco: Estas
+restricciones no protegen contra el uso del comando su!</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>3.&nbsp;<A NAME="3"></A>inetd.conf:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Edita el
+archivo /etc/inetd.conf y pon un '#' delante de todos los servicios que
+no ofrezcas.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Recuerda
+que esto se refiere los servicios que quieres DAR no a los que quieres
+ACCEDER, o sea que para entrar en un ftp no necesitas tener abierto el
+puerto ftp.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Truco: Lo
+que no sepas que hace ci&eacute;rralo!</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Truco: Puedes
+cerrar absolutamente todo. (Para entrar en algunas redes de IRC es necesario
+abrir el puerto auth)</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Truco: Algunos
+ataques automatizados, tipo nukes y otros, buscan siempre el mismo puerto,
+por ejemplo el 139 (net-bios). Si te ves obligado a dar este tipo de servicios
+no seria una mala idea cambiar el puerto por defecto, esto se consigue
+modificando en el /etc/services la linea correspondiente al servicio, en
+nuestro caso podr&iacute;amos substituir:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>netbios-ssn
+139/tcp nbssn</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>por:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>netbios-ssn
+140/tcp nbssn</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Con esto
+pasamos a dar el servicio de net-bios por el puerto 140 y el 139 se cierra.
+Cuidado! Es muy probable que tengas que modificar los programas que usan
+net-bios para que sigan funcionando.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>4.&nbsp;<A NAME="4"></A>Tcp_wrappers:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Informaci&oacute;n
+detallada en <A HREF="tcp_wrappers.htm">tcp_wrappers.htm</A></FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Para esto
+necesitas tener instalado el paquete tcp_wrappers, lo puedes encontrar
+en Cualquier ftp de linux y seguramente en el CD de tu distribuci&oacute;n
+ya compilado y pre-configurado.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Este software
+permite filtrar todas las peticiones de acceso a tu m&aacute;quina y permitirlas
+o no en funci&oacute;n de unas reglas que tu mismo pones.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Es importante
+saber que el puerto permanece abierto, lo que se cierra son las conexiones
+no autorizadas, por lo que tcp_wrappers no nos proteger&aacute; contra
+ataques como nukes ni esconder&aacute; el puerto ante un escaneado.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Uso de tcp_wrappers:
+para filtrar un puerto a trav&eacute;s de tcp_wrappers debes definir ese
+puerto en el /etc/inetd.conf con una linea parecida a esta:</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ftp stream
+tcp nowait roto /usr/sbin/tcpd ftpd</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Las reglas
+que permiten o no el acceso se definen en /etc/hosts.allow (para las conexiones
+aceptadas) y /etc/hosts.deny (para las rechazadas).</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>La sintaxis
+es muy simple: <I>puerto: host: comando</I></FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Ejemplo:</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ftpd:
+ALL: spawn ( /bin/echo -e "\nIntruso %a %n en %d" ; wave -l10 -d1 -f2000
+) &amp;</FONT></FONT></FONT></I>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Esta linea,
+en el /etc/hosts.allow filtra los accesos al puerto ftp (ftpd) de todo
+el mundo (ALL) y despu&eacute;s de permitirle el acceso realiza los siguientes
+comandos (spawn):</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/bin/echo
+-e "\nIntruso %a %n en %d": Saca por pantalla un mensaje indicando los
+datos del intruso y el puerto atacado.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>wave -l10
+-d1 -f2000: Emite un sonido por si no estas atento al mensaje.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Otro ejemplo
+(un sistema cerrado a lo bestia):</FONT></FONT></FONT>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>ALL:
+ALL: twist ( /usr/local/bin/teardrop %a ) &amp;</FONT></FONT></FONT></I>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Explicaci&oacute;n:
+a los accesos a Cualquier puerto (ALL) por parte de Cualquier persona (ALL)
+deniega el acceso (twist) y lanza un teardop al curiosillo de turno.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Much&iacute;sima
+mas informaci&oacute;n en man inetd.conf, man tcpd, man hosts.allow</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>El orden
+en que se definen las reglas es importante, ya que tcp_wrappers las va
+examinado una a una desde la primera a la ultima hasta encontrar una regla
+que se cumple, momento en el que ejecuta el comando indicado. Por eso es
+necesario que las reglas est&eacute;n ordenadas de mas permisivas a mas
+restrictivas, por ejemplo si en hosts.allow ponemos en la primera linea
+ALL: ALL: todas las conexiones ser&aacute;n aceptadas independientemente
+de que en lineas posteriores filtremos ciertos o no, capt&aacute;is? si
+no e-mail me :)</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Truco: Define
+en /etc/hosts.allow los puertos a los servicios que quieras ofrecer y pon
+en /etc/hosts.deny ALL: ALL</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Truco: Los
+par&aacute;metros permiten hacer cosas al intruso usando spawn ( programa
+%a ) ... deja volar tu imaginaci&oacute;n.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Truco: La
+linea ALL: PARANOID detecta los intentos de spoof y similares.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>5.&nbsp;<A NAME="5"></A>services:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Este archivo,
+localizado en /etc/services es una base de datos que contiene informaci&oacute;n
+sobre los puertos.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Es importante
+remarcar que no indica si un puerto esta abierto o cerrado, es solo una
+gu&iacute;a para que los programas sepan localizar los servicios y como
+responder a las peticiones. Por lo tanto en principio no debemos tocar
+nada de este archivo. El archivo donde se abren o cierran puertos es inetd.conf.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>De forma
+"extraoficial" podemos comentar lineas para cerrar los puertos que definen.
+Atenci&oacute;n! Este no es un m&eacute;todo correcto y solo lo recomiendo
+en el caso de que el puerto implicado no sea definido en el inetd.conf
+y no podamos usar un firewall para protegerlo.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Podemos ver
+mas informaci&oacute;n en <I>man services</I>.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>6.&nbsp;<A NAME="6"></A>Nuevos
+puertos/servicios:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Juntando
+todo lo aprendido hasta aqu&iacute; sobre servicios y puertos ya estamos
+en disposici&oacute;n de crear nuestros propios puertos con sus respectivos
+servicios.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Como sencillo
+ejemplo voy a crear un nuevo servicio en el puerto 22 que ser&aacute; atendido
+por un demonio telnet. Para distinguirlo del telnet normal (puerto 23)
+le llamaremos telnet2. Tenemos que modificar los siguientes archivos:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/etc/services:
+aqu&iacute; a&ntilde;adimos el servicio, definiendo el puerto que usa y
+su nombre:</FONT></FONT></FONT>
+<PRE><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>telnet2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 22/tcp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; telnet2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Telnet 2</FONT></FONT></FONT></PRE>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/etc/inetd.conf:
+aqu&iacute; definimos las opciones y el demonio que atiende al nuevo servicio:</FONT></FONT></FONT>
+<PRE><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>telnet2 stream&nbsp; tcp&nbsp;&nbsp;&nbsp;&nbsp; nowait&nbsp; roto&nbsp;&nbsp;&nbsp; /usr/sbin/tcpd&nbsp; in.telnetd2</FONT></FONT></FONT></PRE>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Usar in.telnetd2
+en lugar de in.telnetd es un truquillo para poder distinguir f&aacute;cilmente
+los dos servicios y poderlos configurar por separado, no olvides hacer
+un link de in.telnetd a in.telnetd2 (si no sabes como se hacen links no
+deber&iacute;as estar leyendo esto, te remito al <A HREF="basico.htm">Manual
+b&aacute;sico</A>, para los impacientes el comando es:
+<I>ln -s origen
+destino</I>, <I>man ln</I>).</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/etc/hosts.allow:
+por supuesto, el nuevo servicio puede ser filtrado por tcp_wrappers para
+delimitar su accesibilidad:</FONT></FONT></FONT>
+<PRE><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>in.telnetd2: ALL: twist ( echo -e "Acceso de %a en %d" > /dev/tty11 ) &amp;</FONT></FONT></FONT></PRE>
+<FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>7.&nbsp;<A NAME="7"></A>El
+firewall:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>El firewall
+es uno de los sistemas de protecci&oacute;n mas potente junto al uso de
+tcp_wrappers. Para usarlo necesitaremos soporte firewall en el kernel,
+esto se consigue f&aacute;cilmente activando la casilla de</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[*] Network
+firewalls</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[*] IP firewalling</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>durante
+la configuraci&oacute;n del kernel. B&aacute;sicamente es solo esto Aunque
+dependiendo de cada uno pueden hacer falta activar otras opciones (soporte
+ethernet ...)</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Compaginar
+un firewall con la herramienta ipchains a&ntilde;ade otro nivel de seguridad
+a nuestro sistema. Recordad que los puertos protegidos por firewall no
+se ven con un escaneado de puertos ni son sensibles a nukes ni exploits
+(algunos scanners como nmap son capaces de reconocer puertos protegidos
+por firewall) puesto que toda la informaci&oacute;n que se les env&iacute;a
+es sencillamente eliminada.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Para usar
+ipchains pon estas lineas en tu /etc/rc.d/rc.local:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/sbin/ipchains
+-F</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/sbin/ipchains
+-I input -p tcp -s 127.0.0.1</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/sbin/ipchains
+-A input -p tcp -d 0.0.0.0/0 515 -j DENY</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Esto nos
+permite acceso total a nuestra propia maquina y limita los accesos al puerto
+515 (el de la impresora) cosa que no pod&iacute;amos hacer con tcp_wrappers.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Gracias
+a Javi Polo por esto.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>A partir
+de aqu&iacute; las posibilidades de configuraci&oacute;n son casi infinitas:
+detectar spoof, seleccionar los protocolos de entrada, salida, definir
+rangos de IPs "amigas" ... sean cuales sean tus necesidades hay una forma
+de cubrirlas con ipchains. Lee el ipchains-howto y el <I>man ipchains</I>
+para mas informaci&oacute;n.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>En el caso
+de usar antiguos kernels de la serie 2.0.x se utiliza la herramienta ipfwadm,
+si este es tu caso pon estas lineas en tu /etc/rc.d/rc.local:</FONT></FONT></FONT>
+<P><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/sbin/ipfwadm
+-I -f</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/sbin/ipfwadm
+-I -a a -S 127.0.0.1</FONT></FONT></FONT></I>
+<BR><I><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>/sbin/ipfwadm
+-I -a d -P tcp -D 0.0.0.0/0 515</FONT></FONT></FONT></I>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Truco: Un
+firewall permite tener control sobre puertos no definidos en el inetd.conf
+y por lo tanto fuera del alcance de tcp_wrappers.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>8.&nbsp;<A NAME="8"></A>Actualizate!:</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Mantener
+un sistema actualizado previene contra el ataque de exploits provocados
+por bugs en el software.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Actualiza
+el kernel siempre que aparezca una nueva versi&oacute;n estable, por ejemplo
+el kernel 2.0.34 no es sensible a ninguno de los nukes conocidos a la hora
+de realizar este documento. Si tu kernel es anterior estudia seriamente
+la posibilidad de actualizarlo.</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Actualiza
+los demonios de todos los servicios que ofrezca tu m&aacute;quina para
+evitar sorpresas. La web de <A HREF="http://www.rootshell.com/">RootShell</A>
+es un buen sitio donde mantenerse informado.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Truco: Por
+alg&uacute;n motivo el IMAP y el sendmail son especialmente sensibles a
+exploits. Si usas alguno de los dos aseg&uacute;rate de tener siempre la
+ultima versi&oacute;n disponible.</FONT></FONT></FONT>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>Truco: Si
+te ves obligado a recibir conexiones por telnet estudia la posibilidad
+de substituir este servicio por el SSH (Sechure SHell) mucho mas seguro
+y con muchas posibilidades que el telnet tradicional.</FONT></FONT></FONT>
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<CENTER>
+<P><IMG SRC="barra.gif" HEIGHT=10 WIDTH=100%>
+<P><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>&nbsp;[ <A HREF="hack.htm">Linux
+Hack Zone</A> ]</FONT></FONT></FONT>
+<BR><FONT FACE="HELVETICA"><FONT COLOR="#FFFFFF"><FONT SIZE=+1>[ <A HREF="seguridad.htm">Zona
+de Seguridad</A> ] [ <A HREF="guerra.htm">Zona de guerra</A> ] [ <A HREF="espionaje.htm">Zona
+de Espionaje</A> ] [ <A HREF="logistica.htm">Log&iacute;stica</A> ]</FONT></FONT></FONT></CENTER>
+
+<BR>&nbsp;
+<P><BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</BODY>
+</HTML>

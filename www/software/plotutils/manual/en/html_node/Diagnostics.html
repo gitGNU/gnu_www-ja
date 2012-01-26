@@ -1,0 +1,136 @@
+<html lang="en">
+<head>
+<title>Diagnostics - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="ode.html#ode" title="ode">
+<link rel="prev" href="ode-Invocation.html#ode-Invocation" title="ode Invocation">
+<link rel="next" href="Numerical-Error.html#Numerical-Error" title="Numerical Error">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Diagnostics"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Numerical-Error.html#Numerical-Error">Numerical Error</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="ode-Invocation.html#ode-Invocation">ode Invocation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="ode.html#ode">ode</a>
+<hr>
+</div>
+
+<h3 class="section">8.5 Diagnostic messages</h3>
+
+<p><code>ode</code> is always in one of two states:
+
+     <ul>
+<li>Reading input.  The input includes a specification of a system of
+ordinary differential equations, together with instructions for
+solving&nbsp;it<!-- /@w --> numerically: a&nbsp;&lsquo;<samp><span class="samp">print</span></samp>&rsquo;<!-- /@w --> line and a &lsquo;<samp><span class="samp">step</span></samp>&rsquo;
+line.
+
+     <li>Numerically solving a system, and printing the resulting output. 
+</ul>
+
+<p class="noindent"><code>ode</code> moves from the first to the second state after it sees and
+processes a &lsquo;<samp><span class="samp">step</span></samp>&rsquo; line.  It&nbsp;returns<!-- /@w --> to the first state after
+the generated output has been printed.  Errors may occur in the
+`reading' state or the `solving' state, and may terminate computations
+or even cause <code>ode</code> to exit.  We now explain the possible sorts of
+error.
+
+   <p>While reading input, <code>ode</code> may encounter a syntax error: an
+ungrammatical line that it is unable to parse.  (For a summary of its
+input grammar, see <a href="Input-Language.html#Input-Language">Input Language</a>.)  If&nbsp;so<!-- /@w -->, it emits the error
+message
+
+<pre class="example">     ode::nnn: syntax error
+</pre>
+   <p class="noindent">where &lsquo;<samp><span class="samp">nnn</span></samp>&rsquo; is the number of the line containing the error.  When
+the &lsquo;<samp><span class="samp">-f filename</span></samp>&rsquo; option is used to specify an input file,
+the error message will read
+
+<pre class="example">     ode:filename:nnn: syntax error
+</pre>
+   <p class="noindent">for errors encountered inside the input file.  Subsequently, when
+<code>ode</code> begins reading the standard input, line numbers will start
+over again from&nbsp;1<!-- /@w -->.
+
+   <p>No effort is made to recover from syntax errors in the input.  However,
+there is a meager effort to resynchronize, so that more than one syntax
+error in a file may be found at the same time.
+
+   <p>It is also possible that a fatal arithmetic exception (such as a
+division by zero, or a floating point overflow) may occur while
+<code>ode</code> is reading input.  If such an exception occurs, <code>ode</code>
+will print an &ldquo;Floating point exception&rdquo; error message and exit. 
+Arithmetic exceptions are machine-dependent.  On&nbsp;some<!-- /@w --> machines, the
+line
+
+<pre class="example">     y = 1/0
+</pre>
+   <p class="noindent">would induce an arithmetic exception.  Also on some machines (not
+necessarily the same ones), the lines
+
+<pre class="example">     y = 1e100
+     z = y^4
+</pre>
+   <p class="noindent">would induce an arithmetic exception.  That is because on most
+machines, the double precision quantities that <code>ode</code> uses
+internally are limited to a maximum size of approximately 1.8x10^308.
+
+   <p>When <code>ode</code> is in the `solving' state, i.e., computing a numerical
+solution, similar arithmetic exceptions may occur.  If so, the solution
+will be interrupted and a message resembling
+
+<pre class="example">     ode: arithmetic exception while calculating y'
+</pre>
+   <p class="noindent">will be printed.  However, <code>ode</code> will not exit; the exception will
+be `caught'.  <code>ode</code> itself recognizes the following exceptional
+conditions: square root of a negative number, logarithm of a
+non-positive number, and negative number raised to a non-integer power. 
+<code>ode</code> will catch any of these operations before it is performed,
+and print an error message specifying which illegal operation it has
+encountered.
+
+<pre class="example">     ode: square root of a negative number while calculating y'
+</pre>
+   <p class="noindent">would be a typical error message.
+
+   <p>If the machine on which <code>ode</code> is running supports the
+&lsquo;<samp><span class="samp">matherr</span></samp>&rsquo; facility for reporting errors in the computation of
+standard mathematical functions, it will be used.  This facility reports
+domain errors and range errors (overflows, underflows, and losses of
+significance) that could occur when evaluating such functions as
+&lsquo;<samp><span class="samp">log</span></samp>&rsquo;, &lsquo;<samp><span class="samp">gamma</span></samp>&rsquo;, etc.; again, before they are performed.  If
+the <code>matherr</code> facility is present, the error message will be fairly
+informative.  For&nbsp;example<!-- /@w -->, the error message
+
+<pre class="example">     ode: range error (overflow) in lgamma while calculating y'
+</pre>
+   <p class="noindent">could be generated if the logarithmic gamma function &lsquo;<samp><span class="samp">lgamma</span></samp>&rsquo; is
+evaluated at a value of its argument that is too large.  The generation
+of any such message, except a message warning of an underflow, will
+cause the numerical solution to be interrupted.
+
+   <p>There is another sort of error that may occur during numerical solution:
+the condition that an error ceiling, which the user may set with the
+&lsquo;<samp><span class="samp">-r</span></samp>&rsquo; option or the &lsquo;<samp><span class="samp">-e</span></samp>&rsquo; option, is exceeded.  This too will
+cause the numerical solution to be abandoned, and <code>ode</code> to switch
+back to reading input.
+
+   </body></html>
+

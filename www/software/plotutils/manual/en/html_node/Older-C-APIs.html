@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+<title>Older C APIs - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="C-Programming.html#C-Programming" title="C Programming">
+<link rel="prev" href="The-C-API.html#The-C-API" title="The C API">
+<link rel="next" href="C-Compiling-and-Linking.html#C-Compiling-and-Linking" title="C Compiling and Linking">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Older-C-APIs"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="C-Compiling-and-Linking.html#C-Compiling-and-Linking">C Compiling and Linking</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="The-C-API.html#The-C-API">The C API</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="C-Programming.html#C-Programming">C Programming</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.2.2 Older C application programming interfaces</h4>
+
+<p>The current C API (application programming interface), which is
+thread-safe, is a revision of an older API that is not thread-safe. 
+That is why most functions in the current API have names that end in&nbsp;"_r"<!-- /@w -->, which stands for `revised' or `reentrant'.
+
+   <p>In the old C API, the Plotter on which an operation was performed is not
+specified as an argument of the function that was called to perform the
+operation.  Instead, a Plotter is first `selected'.  Then the API
+function is called.  <code>pl_openpl</code> was one such function; it&nbsp;opens<!-- /@w --> the currently selected Plotter, i.e., begins a page of graphics.
+
+   <p>The old API is deprecated, but is still supported.  The four functions
+in the old API that perform Plotter manipulation have the following
+semantics.
+
+     <dl>
+<dt>int <tt>pl_newpl</tt> (const char *<var>type</var>, FILE *<var>infile</var>, FILE *<var>outfile</var>, FILE *<var>errfile</var>);<dd>Create a Plotter of type <var>type</var>, where <var>type</var> may be "X",
+"Xdrawable", "png", "pnm", "gif", "svg", "ai", "ps", "fig", "pcl",
+"hpgl", "regis", "tek", or "meta".  The Plotter will have input stream
+<var>infile</var>, output stream <var>outfile</var>, and error stream
+<var>errfile</var>.  The return value is a `handle': a&nbsp;nonnegative<!-- /@w -->
+integer by which the newly created Plotter is referred&nbsp;to<!-- /@w -->.  A&nbsp;negative<!-- /@w --> return value indicates the Plotter could not be created.
+
+     <br><dt>int <tt>pl_selectpl</tt> (int <var>handle</var>);<dd>Select a Plotter, referred to by its handle, for use.  Only one Plotter
+may be selected at a time.  A&nbsp;negative<!-- /@w --> return value indicates the
+specified Plotter could not be selected.  Otherwise, the return value is
+the handle of the previously selected Plotter.
+
+     <p>At startup, a single Metafile Plotter that writes to standard output
+(with handle&nbsp;`0'<!-- /@w -->) is automatically created and selected.
+
+     <br><dt>int <tt>pl_deletepl</tt> (int <var>handle</var>);<dd>Delete a Plotter, specified by its handle.  The Plotter must not be
+selected at the time it is deleted.  A&nbsp;negative<!-- /@w --> return value
+indicates the Plotter could not be deleted.
+
+     <br><dt>int <tt>pl_parampl</tt> (const char *<var>parameter</var>, void *<var>value</var>);<dd>Set the global value of the Plotter parameter <var>parameter</var> to
+<var>value</var>.  The parameter values in&nbsp;effect<!-- /@w --> at the time any Plotter
+is created will be copied into&nbsp;it<!-- /@w -->. 
+</dl>
+
+<p class="noindent">In the old API, selecting a Plotter with <code>pl_selectpl</code> and setting
+a value for a Plotter parameter with <code>pl_parampl</code> are global
+operations.  That is why the old API is not thread-safe.
+
+   <p>An even older C&nbsp;API<!-- /@w --> omitted the prefix "pl_" from the names of
+<code>libplot</code> functions.  The prefix "pl_" was added in&nbsp;part<!-- /@w --> to
+distinguish GNU <code>libplot</code> from pre-GNU versions of <code>libplot</code>. 
+If&nbsp;you<!-- /@w --> need to compile code written for very early versions of GNU
+<code>libplot</code> or for pre-GNU <code>libplot</code>, you should include the
+header file <code>plotcompat.h</code>.  <code>plotcompat.h</code> redefines
+<code>openpl</code> as <code>pl_openpl</code>, and so&nbsp;forth<!-- /@w -->.  See <a href="C-Compiling-and-Linking.html#C-Compiling-and-Linking">C Compiling and Linking</a>.
+
+   </body></html>
+

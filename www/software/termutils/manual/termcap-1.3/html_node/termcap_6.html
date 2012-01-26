@@ -1,0 +1,67 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Initialize</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_5.html">previous</A>, <A HREF="termcap_7.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC6" HREF="termcap_toc.html#TOC6">Initialization for Use of Termcap</A></H2>
+<P>
+<A NAME="IDX6"></A>
+
+</P>
+<P>
+Before starting to output commands to a terminal using termcap,
+an application program should do two things:
+
+</P>
+
+<UL>
+<LI>
+
+Initialize various global variables which termcap library output
+functions refer to.  These include <CODE>PC</CODE> and <CODE>ospeed</CODE> for
+padding (see section <A HREF="termcap_11.html#SEC11">Performing Padding with <CODE>tputs</CODE></A>) and <CODE>UP</CODE> and <CODE>BC</CODE> for
+cursor motion (see section <A HREF="termcap_16.html#SEC16"><CODE>tgoto</CODE></A>).
+<LI>
+
+Tell the kernel to turn off alteration and padding of horizontal-tab
+characters sent to the terminal.
+</UL>
+
+<P>
+To turn off output processing in Berkeley Unix you would use <CODE>ioctl</CODE>
+with code <CODE>TIOCLSET</CODE> to set the bit named <CODE>LLITOUT</CODE>, and clear
+the bits <CODE>ANYDELAY</CODE> using <CODE>TIOCSETN</CODE>.  In POSIX or System V, you
+must clear the bit named <CODE>OPOST</CODE>.  Refer to the system documentation
+for details.
+</P>
+<P>
+If you do not set the terminal flags properly, some older terminals will
+not work.  This is because their commands may contain the characters that
+normally signify newline, carriage return and horizontal tab--characters
+which the kernel thinks it ought to modify before output.
+
+</P>
+<P>
+When you change the kernel's terminal flags, you must arrange to restore
+them to their normal state when your program exits.  This implies that the
+program must catch fatal signals such as <CODE>SIGQUIT</CODE> and <CODE>SIGINT</CODE>
+and restore the old terminal flags before actually terminating.
+
+</P>
+<P>
+Modern terminals' commands do not use these special characters, so if you
+do not care about problems with old terminals, you can leave the kernel's
+terminal flags unaltered.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_5.html">previous</A>, <A HREF="termcap_7.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

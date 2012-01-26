@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Parameters</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_11.html">previous</A>, <A HREF="termcap_13.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC12" HREF="termcap_toc.html#TOC12">Filling In Parameters</A></H2>
+<P>
+<A NAME="IDX12"></A>
+
+</P>
+<P>
+Some terminal control strings require numeric <EM>parameters</EM>.  For
+example, when you move the cursor, you need to say what horizontal and
+vertical positions to move it to.  The value of the terminal's <SAMP>`cm'</SAMP>
+capability, which says how to move the cursor, cannot simply be a string of
+characters; it must say how to express the cursor position numbers and
+where to put them within the command.
+
+</P>
+<P>
+The specifications of termcap include conventions as to which string-valued
+capabilities require parameters, how many parameters, and what the
+parameters mean; for example, it defines the <SAMP>`cm'</SAMP> string to take
+two parameters, the vertical and horizontal positions, with 0,0 being the
+upper left corner.  These conventions are described where the individual
+commands are documented.
+
+</P>
+<P>
+Termcap also defines a language used within the capability definition for
+specifying how and where to encode the parameters for output.  This language
+uses character sequences starting with <SAMP>`%'</SAMP>.  (This is the same idea as
+<CODE>printf</CODE>, but the details are different.)  The language for parameter
+encoding is described in this section.
+
+</P>
+<P>
+A program that is doing display output calls the functions <CODE>tparam</CODE> or
+<CODE>tgoto</CODE> to encode parameters according to the specifications.  These
+functions produce a string containing the actual commands to be output (as
+well a padding spec which must be processed with <CODE>tputs</CODE>;
+see section <A HREF="termcap_7.html#SEC7">Padding</A>).
+
+</P>
+
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_11.html">previous</A>, <A HREF="termcap_13.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

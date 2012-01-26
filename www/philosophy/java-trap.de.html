@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+
+<head>
+<title>Frei, aber gefesselt - Die Java-Falle</title>
+<meta http-equiv="content-type" content='text/html; charset=utf-8' />
+<link rel="stylesheet" type="text/css" href="/gnu.css" />
+<link rev="made" href="mailto:webmasters@gnu.org" />
+</head>
+
+<!-- This document is in XML, and xhtml 1.0 -->
+<!-- Please make sure to properly nest your tags -->
+<!-- and ensure that your final document validates -->
+<!-- consistent with W3C xhtml 1.0 and CSS standards -->
+<!-- See validator.w3.org -->
+
+<body>
+
+<p><a href="#translations">&Uuml;bersetzungen</a> dieser Seite</p>
+
+<h3>Frei, aber gefesselt - Die Java-Falle</h3>
+
+<a href="/graphics/philosophicalgnu.html"><img src="/graphics/philosophical-gnu-sm.jpg" alt=" [image of a Philosophical Gnu] "  /></a>
+
+<p>von <a href="http://www.stallman.org/">Richard Stallman</a><br />
+12. April, 2004</p>
+
+<hr />
+
+<p>
+  Wenn Ihr Programm Freie Software ist, ist das grunds&auml;tzlich ethisch in 
+  Ordnung -- aber es gibt eine Falle, auf die Sie aufpassen m&uuml;ssen. Ihr 
+  Programm, obwohl es selber frei ist, kann durch unfreie Software, von 
+  der es abh&auml;ngt, eingeschr&auml;nkt sein. Da dieses Problem heutzutage vor 
+  allem bei Java-Programmen bekannt ist, nennen wir es die Java-Falle.
+</p>
+
+<p>
+  Ein Programm ist Freie Software, wenn seine Benutzer bestimmte 
+  entscheidende Freiheiten haben. Diese sind grob gesagt: Die Freiheit 
+  das Programm laufen zu lassen, die Freiheit die Quellen zu studieren 
+  und &Auml;nderungen vorzunehmen, die Freiheit, Quell- und Bin&auml;r-Dateien 
+  zu vertreiben, und die Freiheit, verbesserte Versionen zu ver&ouml;ffentlichen.
+  (siehe 
+  <a href="http://www.gnu.org/philosophy/free-sw.de.html">
+    http://www.gnu.org/philosophy/free-sw.de.html</a>.)
+  Ob ein bestimmtes Programm Freie Software ist, h&auml;ngt ausschlie&szlig;lich von der 
+  Bedeutung seiner Lizenz ab.
+</p>
+
+<p>
+  Ob das Programm aber in der Freien Welt verwendet werden kann, ob es 
+  von Leuten verwendet werden kann, die bewusst in Freiheit leben, ist 
+  schon eine komplexere Frage. Das h&auml;ngt nicht von der Lizenz des 
+  Programmes selber ab, denn kein Programm l&auml;uft in Isolation. Jedes 
+  Programm h&auml;ngt von anderen Programmen ab. Zum Beispiel muss ein 
+  Programm kompiliert oder interpretiert werden, somit ist es abh&auml;ngig 
+  von einem Compiler oder Interpreter. Wenn es in Byte-Code kompiliert 
+  wird, h&auml;ngt es von einem Byte-Code-Interpreter ab. Au&szlig;erdem
+  ben&ouml;tigt es Bibliotheken, damit es laufen kann, und es k&ouml;nnte
+  andere Programme aufrufen, die in anderen, separaten Prozessen ablaufen. All
+  diese Programme sind Abh&auml;ngigkeiten. Abh&auml;ngigkeiten, die notwendig
+  sein k&ouml;nnten, damit das Programm &uuml;berhaupt l&auml;uft, oder sie
+  k&ouml;nnten nur f&uuml;r bestimmte Eigenschaften notwendig sein. So oder so,
+  das ganze oder ein Teil des Programmes funktioniert nicht ohne diese
+  Abh&auml;ngigkeiten.
+</p>
+
+<p>
+  Wenn einige der Abh&auml;ngigkeiten des Programmes unfrei sind, bedeutet 
+  das, dass das ganze oder ein Teil des Programmes nicht auf einem 
+  vollkommen freien System laufen kann -- es ist in der Freien Welt 
+  unbrauchbar. Nat&uuml;rlich, wir k&ouml;nnten das Programm zwar vertreiben und 
+  Kopien auf unseren Maschinen haben, aber das n&uuml;tzt wenig, wenn es da 
+  nicht l&auml;uft. Dieses Programm ist zwar Freie Software, aber es ist 
+  praktisch in Fesseln gelegt durch seine unfreien Abh&auml;ngigkeiten.
+</p>
+
+<p>
+  Dieses Problem kann in jeder Art von Software auftauchen, in jeder 
+  [Programmier-]Sprache. Zum Beispiel ein freies Programm, das nur unter 
+  Microsoft Windows l&auml;uft, ist eindeutig unbrauchbar in der Freien Welt. 
+  Aber Software, die unter GNU/Linux l&auml;uft, kann ebenfalls unbrauchbar 
+  sein, wenn sie von anderer unfreier Software abh&auml;ngt. In der 
+  Vergangenheit waren Motif (bevor wir LessTif hatten) und Qt (bevor 
+  seine Entwickler es zu Freier Software gemacht hatten) die gro&szlig;en Ausl&ouml;ser 
+  dieses Problemes. Die meisten 3D-Video-Karten funktionieren nur 
+  vollst&auml;ndig mit unfreien Treibern, was dieses Problem ebenfalls hervorruft. 
+  Aber die Hauptquelle dieses Problemes ist heutzutage Java, denn Leute, 
+  die Freie Software schreiben, finden Java oft sexy. Verblendet von der 
+  Anziehungskraft, die diese Sprache auf sie aus&uuml;bt, &uuml;bersehen sie das 
+  Problem der Abh&auml;ngigkeiten und sie fallen in die Java-Falle.
+</p>
+
+<p>
+  Suns Implementation von Java ist unfrei. Blackdown ist ebenfalls 
+  unfrei; es ist eine Adaption von Suns propriet&auml;rem Code. Die 
+  Standard-Java-Bibliotheken sind gleichfalls unfrei. Wir haben zwar 
+  freie Implementationen von Java, wie zum Beispiel der GNU Compiler f&uuml;r 
+  Java (GCJ) und GNU Classpath, aber die unterst&uuml;tzen noch nicht alle 
+  Eigenschaften. Wir sind noch bei der Aufholjagd.
+</p>
+
+<p>
+  Wenn Sie ein Java-Programm unter Suns Java-Plattform entwickeln, sind 
+  Sie selber daf&uuml;r verantwortlich, wenn Sie Sun-eigene Eigenschaften 
+  verwenden, ohne dass es Ihnen &uuml;behaupt auff&auml;llt. Zu der Zeit, wenn
+  Sie dieses herausfinden, k&ouml;nnten Sie diese schon monatelang verwendet
+  haben, und das Ganze umzuschreiben k&ouml;nnte wiederum Monate dauern. Sie
+  k&ouml;nnten dann sagen: &raquo;Es w&auml;re zu viel Arbeit, nochmal neu
+  anzufangen.&laquo; Dann wird Ihr Programm in die Java-Falle gefallen sein; es wird
+  in der Freien Welt unbrauchbar sein.
+</p>
+
+<p>
+  Der zuverl&auml;ssige Weg, die Java-Falle zu vermeiden, ist, nur eine freie 
+  Implementation von Java auf dem System zu haben. Wenn Sie dann eine 
+  Java-Eigenschaft oder -Bibliothek verwenden, die Freie Software noch 
+  nicht unterst&uuml;tzt, werden Sie das unmittelbar herausfinden, und Sie 
+  k&ouml;nnen den Code sofort umschreiben.
+</p>
+
+<p>
+  Sun f&auml;hrt damit fort, zus&auml;tzliche
+  &raquo;Standard&laquo;-Java-Bibliotheken zu entwickeln, und die sind fast
+  alle unfrei; in vielen F&auml;llen sind sogar die Spezifikationen der
+  Bibliothek ein Gesch&auml;ftsgeheimnis [trade secret], und Suns j&uuml;ngste
+  Lizenz f&uuml;r solche Spezifikationen verbietet die Ver&ouml;ffentlichung
+  von allem, das weniger als eine vollst&auml;ndige Implemetation der
+  Spezifikation darstellt. (siehe 
+  <a href="http://jcp.org/aboutJava/communityprocess/JSPA2.pdf">
+    http://jcp.org/aboutJava/communityprocess/JSPA2.pdf</a> und 
+  <a
+  href="http://jcp.org/aboutJava/communityprocess/final/jsr129/j2me_pb-1_0-fr-spec-license.html"> http://jcp.org/aboutJava/communityprocess/final/jsr129/j2me_pb-1_0-fr-spec-license.html</a> als Beispiele). 
+</p>
+
+<p>
+  Zum Gl&uuml;ck erlaubt diese Spezifikations-Lizenz die Ver&ouml;ffentlichung
+  als Freie Software; andere, die diese Bibliothek erhalten, k&ouml;nnen 
+  bevollm&auml;chtigt werden, sie zu ver&auml;ndern und sind nicht verpflichtet,
+  an der Spezifikation zu kleben. Aber diese Bedingung hat den 
+  Effekt, dass sie die Verwendung eines gemeinschaftlichen 
+  Entwicklungs-Modells zur Erstellung einer freien Implementierung 
+  verbietet. Die Verwendung dieses Modelles w&uuml;rde die Ver&ouml;ffentlichung 
+  von unvollst&auml;ndigen Versionen mit sich bringen, was denen, die die 
+  Spezifikationen gelesen haben, nicht erlaubt wird.
+</p>
+
+<p>
+  In der Fr&uuml;hzeit der Freie-Software-Bewegung war es unm&ouml;glich zu 
+  vermeiden, dass man von unfreien Programmen abh&auml;ngig war. Bevor wir den 
+  GNU C-Compiler hatten, hing jedes C-Programm (frei oder nicht) von einem 
+  unfreien C-Compiler ab. Bevor wir die GNU C-Bibliothek hatten, hing 
+  jedes Programm von einer unfreien C-Bibliothek ab. Bevor wir Linux 
+  hatten, den ersten freien Kernel, hing jedes Programm von einem 
+  unfreien Kernel ab. Bevor wir Bash hatten, musste jedes Shell-Skript 
+  von einer unfreien Shell interpretiert werden. Es war unvermeidbar, 
+  dass unsere ersten Programme zun&auml;chst durch diese Abh&auml;ngigkeiten 
+  behindert w&uuml;rden. Aber wir akzeptierten das, weil unser Plan auch 
+  beinhaltete, diese nach und nach zu befreien. Unser Gesamt-Ziel, ein 
+  selbstverwaltetes GNU-Betriessystem, beinhaltete freien Ersatz f&uuml;r all 
+  diese Abh&auml;ngigkeiten; sobald wir das Ziel erreicht h&auml;tten,
+  w&auml;ren all unsere Programme befreit gewesen. Und so geschah es denn auch:
+  mit dem GNU/Linux-System k&ouml;nnen wir nun diese Programme auf freien
+  Plattformen laufen lassen.
+</p>
+
+<p>
+  Heute ist die Situation eine andere. Wir haben nun leistungsf&auml;hige 
+  freie Betriebssysteme und viele freie Programmier-Werkzeuge. Welche 
+  Arbeit Sie auch immer erledigen wollen, Sie k&ouml;nnen es auf einer freien 
+  Plattform tun; es gibt keinen Grund mehr, eine unfreie Abh&auml;ngigkeit 
+  auch nur zeitweilig zu akzeptieren. Der Hauptgrund, warum heutzutage 
+  Leute in die Falle tappen, ist, weil sie nicht dar&uuml;ber nachdenken.
+  Die einfachste L&ouml;sung f&uuml;r das Problem der Java-Falle ist es, den 
+  Leuten beizubringen, wie sie da nicht hinein fallen.
+</p>
+
+<p>
+  Um Ihren Java-Code vor der Java-Falle abzusichern, installieren Sie 
+  eine freie Java-Entwicklungsumgebung und benutzen Sie diese. Allgemeiner 
+  formuliert, was Sie auch immer f&uuml;r eine Sprache benutzen, halten Sie 
+  die Auge offen, und pr&uuml;fen Sie den freien Status der Programme, von 
+  denen Ihr Code abh&auml;ngt. Die einfachste Art, um zu &uuml;berpr&uuml;fen,
+  ob das Programm frei ist, ist die, danach im Freie-Software-Verzeichnis zu 
+  suchen (<a href="http://www.fsf.org/directory">
+    http://www.fsf.org/directory</a>). Wenn ein Programm nicht in dem
+  Verzeichnis ist, k&ouml;nnen Sie seine Lizenz(en) mit der Liste der Freien 
+  Software-Lizenzen vergleichen
+  (<a href="http://www.gnu.org/licenses/license-list.html">
+    http://www.gnu.org/licenses/license-list.html</a>). 
+</p>
+
+<p>
+  Wir versuchen, die Java-Programme aus der Falle zu befreien. Also, wenn 
+  Sie die Sprache Java m&ouml;gen, laden wir Sie ein, bei der Entwicklung von 
+  GNU Classpath zu helfen. Wenn Sie Ihre Programme mit dem GCJ Compiler 
+  und GNU Classpath ausprobieren, und &uuml;ber alle Probleme berichten, auf
+  die Sie mit den Klassen, die bereits implementiert wurden, sto&szlig;en, ist
+  das ebenfalls hilfreich. Wie auch immer, GNU Classpath zu vollenden, wird 
+  Zeit beanspruchen; wenn weiterhin mehr unfreie Bibliotheken hinzugef&uuml;gt 
+  werden, werden wir m&ouml;glicherweise niemals alle von den Neusten haben. 
+  Also bitte, legen Sie Ihrer Freien Software keine Fesseln an. Wenn Sie 
+  heute eine Applikation schreiben, schreiben Sie sie von Anfang an so, 
+  dass sie in freien Umgebungen l&auml;uft.
+</p>
+
+<hr />
+
+<h4>
+<ul>
+  <li>
+    <a href="/philosophy/sun-in-night-time.html">The Curious Incident of Sun in the Night-Time</a>
+    <br  />
+  </li>
+  <li>
+    <a href="/philosophy/philosophy.html">Weitere Texte zum Lesen</a>
+  </li>
+</ul>
+</h4>
+
+<!-- All pages on the GNU web server should have the section about    -->
+<!-- verbatim copying.  Please do NOT remove this without talking     -->
+<!-- with the webmasters first. --> 
+<!-- Please make sure the copyright date is consistent with the document -->
+<!-- and that it is like this "2001, 2002" not this "2001-2002." -->
+
+<hr />
+
+<div class="translations">
+<p><a id="translations"></a>
+<b>&Uuml;bersetzungen dieser Seite</b>:<br />
+
+<!-- Please keep this list alphabetical, and in the original -->
+<!-- language if possible, otherwise default to English -->
+<!-- If you do not have it English, please comment what the -->
+<!-- English is.  If you add a new language here, please -->
+<!-- advise web-trans@gnu.org and add it to -->
+<!--    - in /home/www/bin/nightly-vars either TAGSLANG or WEBLANG -->
+<!--    - in /home/www/html/server/standards/README.translations.html -->
+<!--      one of the lists under the section "Translations Underway" -->
+<!--    - if there is a translation team, you also have to add an alias -->
+<!--      to mail.gnu.org:/com/mailer/aliases -->
+<!-- Please also check you have the 2 letter language code right versus -->
+<!--     http://www.w3.org/WAI/ER/IG/ert/iso639.htm -->
+
+[
+  <a href="/philosophy/java-trap.en.html">English</a>
+| <a href="/philosophy/java-trap.de.html">Deutsch</a> <!-- German -- >
+| <a href="/philosophy/java-trap.fr.html">Fran&#x00e7;ais</a>	<!-- French -->
+| <a href="/philosophy/java-trap.es.html">Espa&#x00f1;ol</a>	<!-- Spanish -->
+| <a href="/philosophy/java-trap.pl.html">polski</a>	<!-- Polish -->
+]
+</p>
+</div>
+
+<div class="copyright">
+<p>
+Zur&uuml;ck zur <a href="/home.html">Homepage des GNU-Projekts</a>.
+</p>
+
+<p>
+Senden Sie Anfragen an die FSF &amp; GNU an 
+<a href="mailto:gnu@gnu.org"><em>gnu@gnu.org</em></a>.
+Es gibt auch <a href="/home.html#ContactInfo">andere Wege, die FSF zu
+kontaktieren</a>.
+<br />
+Sende tote Links und andere Korrekturen (oder Vorschl&auml;ge) an
+<a href="mailto:webmasters@gnu.org"><em>webmasters@gnu.org</em></a>.
+</p>
+
+<p>
+Lies auch das
+<a href="/server/standards/README.translations.html">&Uuml;bersetzungs-README
+</a> f&uuml;r Informationen &uuml;ber das Koordinieren und Einreichen von
+&Uuml;bersetzungen dieses Artikels.
+</p>
+
+<p>
+Copyright (C) 2004 Richard Stallman
+<br />
+Die unver&auml;nderte Wiedergabe und Verbreitung dieses gesamten Artikels in
+beliebiger Form ist gestattet, sofern dieser Hinweis beibehalten wird.
+</p>
+
+<p>
+&Uuml;bersetzt von Andreas K. Foerster
+
+<p>
+Updated:
+<!-- timestamp start -->
+
+<!-- timestamp end -->
+</p>
+</div>
+
+</body>
+</html>

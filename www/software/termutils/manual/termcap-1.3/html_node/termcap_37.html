@@ -1,0 +1,199 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Keypad</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_36.html">previous</A>, <A HREF="termcap_38.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC37" HREF="termcap_toc.html#TOC37">Keypad and Function Keys</A></H2>
+
+<P>
+Many terminals have arrow and function keys that transmit specific
+character sequences to the computer.  Since the precise sequences used
+depend on the terminal, termcap defines capabilities used to say what the
+sequences are.  Unlike most termcap string-valued capabilities, these are
+not strings of commands to be sent to the terminal, rather strings that
+are received from the terminal.
+
+</P>
+<P>
+Programs that expect to use keypad keys should check, initially, for a
+<SAMP>`ks'</SAMP> capability and send it, to make the keypad actually transmit.
+Such programs should also send the <SAMP>`ke'</SAMP> string when exiting.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`ks'</SAMP>
+<DD>
+<A NAME="IDX147"></A>
+String of commands to make the keypad keys transmit.  If this
+capability is not provided, but the others in this section are,
+programs may assume that the keypad keys always transmit.
+
+<DT><SAMP>`ke'</SAMP>
+<DD>
+String of commands to make the keypad keys work locally.  This
+capability is provided only if <SAMP>`ks'</SAMP> is.
+
+<DT><SAMP>`kl'</SAMP>
+<DD>
+String of input characters sent by typing the left-arrow key.  If this
+capability is missing, you cannot expect the terminal to have a
+left-arrow key that transmits anything to the computer.
+
+<DT><SAMP>`kr'</SAMP>
+<DD>
+String of input characters sent by typing the right-arrow key.
+
+<DT><SAMP>`ku'</SAMP>
+<DD>
+String of input characters sent by typing the up-arrow key.
+
+<DT><SAMP>`kd'</SAMP>
+<DD>
+String of input characters sent by typing the down-arrow key.
+
+<DT><SAMP>`kh'</SAMP>
+<DD>
+String of input characters sent by typing the "home-position" key.
+
+<DT><SAMP>`K1'</SAMP> ... <SAMP>`K5'</SAMP>
+<DD>
+<A NAME="IDX148"></A>
+Strings of input characters sent by the five other keys in a 3-by-3
+array that includes the arrow keys, if the keyboard has such a 3-by-3
+array.  Note that one of these keys may be the "home-position" key,
+in which case one of these capabilities will have the same value as
+the <SAMP>`kh'</SAMP> key.
+
+<DT><SAMP>`k0'</SAMP>
+<DD>
+String of input characters sent by function key 10 (or 0, if the terminal
+has one labeled 0).
+
+<DT><SAMP>`k1'</SAMP> ... <SAMP>`k9'</SAMP>
+<DD>
+<A NAME="IDX149"></A>
+Strings of input characters sent by function keys 1 through 9,
+provided for those function keys that exist.
+
+<DT><SAMP>`kn'</SAMP>
+<DD>
+Number: the number of numbered function keys, if there are more than
+10.
+
+<DT><SAMP>`l0'</SAMP> ... <SAMP>`l9'</SAMP>
+<DD>
+<A NAME="IDX150"></A>
+Strings which are the labels appearing on the keyboard on the keys
+described by the capabilities <SAMP>`k0'</SAMP> ... <SAMP>`l9'</SAMP>.  These
+capabilities should be left undefined if the labels are <SAMP>`f0'</SAMP> or
+<SAMP>`f10'</SAMP> and <SAMP>`f1'</SAMP> ... <SAMP>`f9'</SAMP>.
+<DT><SAMP>`kH'</SAMP>
+<DD>
+<A NAME="IDX151"></A>
+String of input characters sent by the "home down" key, if there is
+one.
+
+<DT><SAMP>`kb'</SAMP>
+<DD>
+String of input characters sent by the "backspace" key, if there is
+one.
+
+<DT><SAMP>`ka'</SAMP>
+<DD>
+String of input characters sent by the "clear all tabs" key, if there
+is one.
+
+<DT><SAMP>`kt'</SAMP>
+<DD>
+String of input characters sent by the "clear tab stop this column"
+key, if there is one.
+
+<DT><SAMP>`kC'</SAMP>
+<DD>
+String of input characters sent by the "clear screen" key, if there is
+one.
+
+<DT><SAMP>`kD'</SAMP>
+<DD>
+String of input characters sent by the "delete character" key, if
+there is one.
+
+<DT><SAMP>`kL'</SAMP>
+<DD>
+String of input characters sent by the "delete line" key, if there is
+one.
+
+<DT><SAMP>`kM'</SAMP>
+<DD>
+String of input characters sent by the "exit insert mode" key, if
+there is one.
+
+<DT><SAMP>`kE'</SAMP>
+<DD>
+String of input characters sent by the "clear to end of line" key, if
+there is one.
+
+<DT><SAMP>`kS'</SAMP>
+<DD>
+String of input characters sent by the "clear to end of screen" key,
+if there is one.
+
+<DT><SAMP>`kI'</SAMP>
+<DD>
+String of input characters sent by the "insert character" or "enter
+insert mode" key, if there is one.
+
+<DT><SAMP>`kA'</SAMP>
+<DD>
+String of input characters sent by the "insert line" key, if there is
+one.
+
+<DT><SAMP>`kN'</SAMP>
+<DD>
+String of input characters sent by the "next page" key, if there is
+one.
+
+<DT><SAMP>`kP'</SAMP>
+<DD>
+String of input characters sent by the "previous page" key, if there is
+one.
+
+<DT><SAMP>`kF'</SAMP>
+<DD>
+String of input characters sent by the "scroll forward" key, if there
+is one.
+
+<DT><SAMP>`kR'</SAMP>
+<DD>
+String of input characters sent by the "scroll reverse" key, if there
+is one.
+
+<DT><SAMP>`kT'</SAMP>
+<DD>
+String of input characters sent by the "set tab stop in this column"
+key, if there is one.
+
+<DT><SAMP>`ko'</SAMP>
+<DD>
+String listing the other function keys the terminal has.  This is a
+very obsolete way of describing the same information found in the
+<SAMP>`kH'</SAMP> ... <SAMP>`kT'</SAMP> keys.  The string contains a list of
+two-character termcap capability names, separated by commas.  The
+meaning is that for each capability name listed, the terminal has a
+key which sends the string which is the value of that capability.  For
+example, the value <SAMP>`:ko=cl,ll,sf,sr:'</SAMP> says that the terminal has
+four function keys which mean "clear screen", "home down",
+"scroll forward" and "scroll reverse".</DL>
+
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_36.html">previous</A>, <A HREF="termcap_38.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

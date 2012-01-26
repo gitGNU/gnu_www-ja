@@ -1,0 +1,140 @@
+#!/usr/bin/env python
+
+
+import string, sys, os, time, re
+
+AUTHOR = "Odile Bénassy"
+EMAIL = "obenassy@free.fr"
+DATE = time.strftime("%x", time.localtime(time.time()))
+
+
+xhtml = {}
+xhtml["page"] = "<?xml version=\"1.0\" encoding=\"iso-8859-1\" ?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html lang=\"fr\">\n<head>\n<title>%s</title>\n</head>\n<body>\n<div> <!-- The header will be inserted here -->\n<table><tr><td width=\"25\"></td><td>%s</td></tr></table>\n</div> <!-- The footer will be inserted here -->\nUpdated:\n<!-- timestamp start -->\n$\Date: %s $ $\Author: %s $\n<!-- timestamp end -->\n</body>\n</html>\n<!-- Local Variables: ***\nmode: xml ***\nEnd: ***\n-->"
+# xhtml["page"] = "<html><head>\n<title>%s</title>\n<meta name='Author' content='%s'><meta name=\"date\" content=\"%s\"></head><body bgcolor=\"ivory\">%s</body></html>"
+xhtml["title"] = "<center><h1><font color=\"#2F986F\">%s</font></h1><br/><br/></center>"
+xhtml["section"] = "<br/><br/><h2><font color=\"#2F986F\">%s</font></h2>"
+xhtml["par"] = "</p>\n<p>"
+xhtml["tab"] = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%s<br/>\n"
+xhtml["item"] = "<li>%s</li>"
+xhtml["list"] = "<ul>%s</ul>"
+xhtml["comm"] = "<i>%s</i>"
+xhtml["bottom"] = ""
+ 
+
+    
+def desaccentue(chaine):
+    dict = string.maketrans("éèêëàâîïôöùûüç", "eeeeaaiioouuuc")
+    chaine = string.translate(chaine,dict)
+    return chaine
+
+def texaccentue(chaine):
+    trans = {"à":r"\\'a", "â":r"\\^a", "é":r"\\'e", "è":r"\\`e", "ê":r"\\^e", "ë":r"\\\"e", "î":r"\\^i", "ï":r"\\\"i", "ô":r"\\^o", "ö":r"\\\"o", "ù":r"\\`u", "û":r"\\^u", "ü":r"\\\"u", "ç":r"\c{c}", "oe":"\oe", "ae": "\ae"}
+    for c in trans.keys():
+        chaine = string.replace(chaine, c, trans[c])
+    return chaine
+
+def htmlaccentue(chaine):
+    trans = {"à":"&agrave;", "â":"&acirc;", "é":"&eacute;", "è":"&egrave;", "ê":"&ecirc;", "ë":"&euml;", "î":"&icirc;", "ï":"&iuml;", "ô":"&ocirc;", "ö":"ouml;", "ù":"&ugrave;", "û":"&ucirc;", "ü":"&uuml;", "ç":"&ccedil;"}
+    for c in trans.keys():
+        chaine = string.replace(chaine, c, trans[c])
+    return chaine
+
+def transforme(inputfile, style=xhtml):
+    sections = []
+    t = 3
+    ul = 0
+    section = []
+    count_p = 0
+    lines = open(inputfile).readlines()
+    for n in range(len(lines))  :
+        line = lines[n]
+        if style==xhtml:
+            line = string.rstrip(line)
+        #    line = htmlaccentue(string.rstrip(line))
+        else:
+            line = desaccentue(string.rstrip(line))
+        #    line = desaccentue(string.rstrip(line))
+        if string.find(line, "---")!=-1:
+            if t==3:      # début
+                t=2
+            elif t==2:    # titre général
+                t=0
+            elif t==1 :   # fin du titre  
+                t=0
+            else :
+                t=1       # début du titre
+                sections.append(string.join(section, "\n"))
+                section = []   
+        elif t==2:
+            title = line
+            if style==xhtml:
+                sections.append(style["title"] % title)
+        elif t==1:
+            section.append(style["section"] % line)
+        elif line=="":
+            # seulement pour le premier saut de ligne, et pour le style xhtml 
+            if count_p == 0:
+                section.append("<p>")
+            else:
+                section.append(style["par"])
+            count_p = count_p + 1
+        elif line[0]=="\t":
+            section.append(style["tab"] % line)
+        elif line[0]=="(":
+            section.append(style["comm"] % line)
+        elif line[0]=="-" or string.lstrip(line)[0]=="-":
+            l = line[1:]
+            if len(lines)==n+1:
+                ll = ""
+            else:
+                ll = string.lstrip(lines[n+1])
+                if len(lines)==n+2:
+                    lll = ""
+                else:
+                    lll = string.lstrip(lines[n+2])
+            if ul==0:
+                ul = 1
+                items = []
+            if (ll=="" or ll[0]!="-"):
+                ul = 0
+                items.append(style["item"] % l)
+                section.append(style["list"] % string.join(items, "\n"))
+                continue
+            items.append(style["item"] % l)
+        else:
+            section.append(line)
+    # dernier <p> , style xhtml
+    if section[-1][-3:]=='<p>':
+        section[-1] = section[-1][:-4]
+    sections.append(string.join(section, "\n"))
+    if style==xhtml:
+        sections.append(style["bottom"])
+    sections = string.join(sections, "\n\n")
+
+    page = style["page"] % (title, sections, DATE, AUTHOR)
+
+    return page
+
+FALSE=0
+TRUE=1
+
+if __name__=='__main__':
+    local=FALSE
+    for p in sys.argv[1:255]:
+        if p=='--local' or p=='-l':
+            local=TRUE
+    r=re.compile("(.*)\.txt$")
+    for file in sys.argv[1:255]:
+        if os.path.exists(file):
+            m=r.match(file)
+            if m: file1=m.group(1)
+            else : file1=file
+            xhtmlfile, htmlfile = file1 + ".xhtml", file1 + ".html"
+            open(xhtmlfile, 'w').write(transforme(file, xhtml))
+            if local:
+                open(htmlfile, 'w').write(htmlaccentue(os.popen("sabcmd edu-fr.local.xsl %s.xhtml %s.html filebase='%s'" % (file1, file1, file1)).read()))
+            else:
+                open(htmlfile, 'w').write(htmlaccentue(os.popen("sabcmd edu-fr.xsl %s.xhtml %s.html filebase='%s'" % (file1, file1, file1)).read()))
+
+
+

@@ -1,0 +1,164 @@
+<html lang="en">
+<head>
+<title>Drawing on a Page - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="C-Programming.html#C-Programming" title="C Programming">
+<link rel="prev" href="Paths-and-Subpaths.html#Paths-and-Subpaths" title="Paths and Subpaths">
+<link rel="next" href="Animated-GIFs.html#Animated-GIFs" title="Animated GIFs">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Drawing-on-a-Page"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Animated-GIFs.html#Animated-GIFs">Animated GIFs</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Paths-and-Subpaths.html#Paths-and-Subpaths">Paths and Subpaths</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="C-Programming.html#C-Programming">C Programming</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.2.6 Drawing on a physical page</h4>
+
+<p>GNU <code>libplot</code> can draw graphics over an entire page of paper, not
+merely within the graphics display or `viewport' that it normally uses.
+
+   <p>The default viewport used by an Illustrator, Postscript, Fig, or PCL
+Plotter is a square region centered on the page.  The size of the
+default viewport depends on the <code>PAGESIZE</code> parameter, which may be
+"letter", "a4", etc.  See <a href="Page-and-Viewport-Sizes.html#Page-and-Viewport-Sizes">Page and Viewport Sizes</a>.  For example,
+the default viewport on a letter-sized page, which has width 8.5in
+and height 11in, is a square of side 8in.
+
+   <p>However, you may specify different dimensions for the viewport, and a
+different position as&nbsp;well<!-- /@w -->.  In particular, you may specify a
+viewport that covers the entire page.  This would be accomplished by
+setting <code>PAGESIZE</code> to, for example,
+"letter,xsize=8.5in,ysize=11in,xorigin=0in,yorigin=0in".  "xorigin" and
+"yorigin" specify the location of the lower left corner of the viewport,
+relative to the lower left corner of the page.
+
+   <p>With this choice for the viewport, the entire page is in&nbsp;principle<!-- /@w -->
+imageable.  For full-page drawing, it is convenient to define a user
+coordinate system in terms of which the lower left corner of the page is
+(0,0), and in which the units are physical inches or centimeters.  To&nbsp;do<!-- /@w --> so, you would use appropriate arguments when invoking the
+<code>space</code> operation on the Plotter.  The following program shows how
+the <code>space</code> operation would be invoked.
+
+<pre class="example">     #include &lt;stdio.h&gt;
+     #include &lt;plot.h&gt;
+     
+     int main()
+     {
+       plPlotter *plotter;
+       plPlotterParams *plotter_params;
+     
+       /* set page size parameter, including viewport size and location */
+       plotter_params = pl_newplparams ();
+       pl_setplparam (plotter_params, "PAGESIZE",
+                      "letter,xsize=8.5in,ysize=11in,xorigin=0in,yorigin=0in");
+     
+       /* create a Postscript Plotter with the specified parameter */
+       plotter = pl_newpl_r ("ps", stdin, stdout, stderr, plotter_params);
+     
+       pl_openpl_r (plotter);                /* begin page of graphics */
+       pl_fspace_r (plotter,
+                    0.0, 0.0, 8.5, 11.0);   /* set user coor system */
+     
+       pl_fontname_r (plotter, "Times-Bold");
+       pl_ffontsize_r (plotter, 0.5);        /* font size = 0.5in = 36pt */
+     
+       pl_fmove_r (plotter, 1.0, 10.0);
+       pl_alabel_r (plotter, 'l', 'x', "One inch below the top");
+       pl_fline_r (plotter, 1.0, 10.0, 7.5, 10.0);
+     
+       pl_fmove_r (plotter, 7.5, 1.0);
+       pl_alabel_r (plotter, 'r', 'x', "One inch above the bottom");
+       pl_fline_r (plotter, 1.0, 1.0, 7.5, 1.0);
+     
+       pl_closepl_r (plotter);               /* end page of graphics */
+       pl_deletepl_r (plotter);              /* delete Plotter */
+       return 0;
+     }
+</pre>
+   <p class="noindent">The program will print two strings and draw the baseline for each.  The
+first string will be left-justified at position (1.0,11.0), which is one
+inch below the top of the page.  The second string will be
+right-justified at position (7.5,1.0), which is one inch above the
+bottom of the page.  For both strings, the <tt>'x'</tt> argument of
+<code>pl_alabel_r</code> specifies the vertical positioning: it&nbsp;requests<!-- /@w -->
+that the baseline of the string, rather than (say) its top or bottom, be
+positioned at the current vertical position.
+
+   <p>The preceding discussion and sample program dealt with the portrait
+orientation of the printed page, which is the default.  Drawing in
+landscape orientation is only slightly more complicated.  For this,
+the viewport would be rotated on the page by setting the Plotter
+parameter <code>ROTATION</code>.  Its default value is&nbsp;"0"<!-- /@w --> (or&nbsp;"no"<!-- /@w -->), but any other rotation angle may be specified.  To obtain
+landscape orientation, one would specify "90" (for historical reasons,
+"yes" is equivalent to&nbsp;"90"<!-- /@w -->).  The following program is a modified
+version of the preceding, showing how a landscape orientation would be
+produced.
+
+<pre class="example">     #include &lt;stdio.h&gt;
+     #include &lt;plot.h&gt;
+     
+     int main()
+     {
+       plPlotter *plotter;
+       plPlotterParams *plotter_params;
+     
+       /* set Plotter parameters */
+       plotter_params = pl_newplparams ();
+       pl_setplparam (plotter_params, "PAGESIZE",
+                      "letter,xsize=8.5in,ysize=11in,xorigin=0in,yorigin=0in");
+       pl_setplparam (plotter_params, "ROTATION", "90");
+     
+       /* create a Postscript Plotter with the specified parameters */
+       plotter = pl_newpl_r ("ps", stdin, stdout, stderr, plotter_params);
+     
+       pl_openpl_r (plotter);                /* begin page of graphics */
+       pl_fspace_r (plotter,
+                    0.0, 0.0, 11.0, 8.5);   /* set user coor system */
+     
+       pl_fontname_r (plotter, "Times-Bold");
+       pl_ffontsize_r (plotter, 0.5);        /* font size = 0.5in = 36pt */
+     
+       pl_fmove_r (plotter, 1.0, 7.5);
+       pl_alabel_r (plotter, 'l', 'x', "One inch below the top");
+       pl_fline_r (plotter, 1.0, 7.5, 10.0, 7.5);
+     
+       pl_fmove_r (plotter, 10.0, 1.0);
+       pl_alabel_r (plotter, 'r', 'x', "One inch above the bottom");
+       pl_fline_r (plotter, 1.0, 1.0, 10.0, 1.0);
+     
+       pl_closepl_r (plotter);               /* end page of graphics */
+       pl_deletepl_r (plotter);              /* delete Plotter */
+       return 0;
+     }
+</pre>
+   <p>In this example the viewport is the same centered 8in by
+8in square, but it is rotated by 90 degrees counterclockwise; or
+equivalently, the graphics within it are rotated.  As in the preceding
+example, the call to <code>pl_fspace_r</code> sets&nbsp;up<!-- /@w --> the user
+coordinate system so that the units are physical inches.  The origin
+of coordinates is now the lower right corner of the page.  The
+x and&nbsp;y<!-- /@w --> coordinates increase upward and to the left,
+respectively.
+
+   </body></html>
+

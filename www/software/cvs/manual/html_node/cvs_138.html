@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - loginfo example</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_137.html">previous</A>, <A HREF="cvs_139.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC145" HREF="cvs_toc.html#TOC145">Loginfo example</A></H3>
+
+<P>
+The following <TT>`loginfo'</TT> file, together with the
+tiny shell-script below, appends all log messages 
+to the file <TT>`$CVSROOT/CVSROOT/commitlog'</TT>,
+and any commits to the administrative files (inside
+the <TT>`CVSROOT'</TT> directory) are also logged in
+<TT>`/usr/adm/cvsroot-log'</TT>.
+
+</P>
+
+<PRE>
+ALL             /usr/local/bin/cvs-log $CVSROOT/CVSROOT/commitlog
+^CVSROOT        /usr/local/bin/cvs-log /usr/adm/cvsroot-log
+</PRE>
+
+<P>
+The shell-script <TT>`/usr/local/bin/cvs-log'</TT> looks
+like this:
+
+</P>
+
+<PRE>
+#!/bin/sh
+(echo "-----------------------------------------------------------------";
+ echo -n $USER"  ";
+ date;
+ echo;
+ sed '1s+'${CVSROOT}'++') &#62;&#62; $1
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_137.html">previous</A>, <A HREF="cvs_139.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

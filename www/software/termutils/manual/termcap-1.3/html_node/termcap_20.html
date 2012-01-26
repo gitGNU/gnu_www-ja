@@ -1,0 +1,141 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Naming</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_19.html">previous</A>, <A HREF="termcap_21.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC20" HREF="termcap_toc.html#TOC20">Terminal Type Name Conventions</A></H2>
+<P>
+<A NAME="IDX19"></A>
+
+</P>
+<P>
+There are conventions for choosing names of terminal types.  For one thing,
+all letters should be in lower case.  The terminal type for a terminal in
+its most usual or most fundamental mode of operation should not have a
+hyphen in it.
+
+</P>
+<P>
+If the same terminal has other modes of operation which require
+different terminal descriptions, these variant descriptions are given
+names made by adding suffixes with hyphens.  Such alternate descriptions
+are used for two reasons:
+
+</P>
+
+<UL>
+<LI>
+
+When the terminal has a switch that changes its behavior.  Since the
+computer cannot tell how the switch is set, the user must tell the
+computer by choosing the appropriate terminal type name.
+
+<A NAME="IDX20"></A>
+For example, the VT-100 has a setup flag that controls whether the
+cursor wraps at the right margin.  If this flag is set to "wrap",
+you must use the terminal type <SAMP>`vt100-am'</SAMP>.  Otherwise you must
+use <SAMP>`vt100-nam'</SAMP>.  Plain <SAMP>`vt100'</SAMP> is defined as a synonym for
+either <SAMP>`vt100-am'</SAMP> or <SAMP>`vt100-nam'</SAMP> depending on the
+preferences of the local site.
+The standard suffix <SAMP>`-am'</SAMP> stands for "automatic margins".
+
+<LI>
+
+To give the user a choice in how to use the terminal.  This is done
+when the terminal has a switch that the computer normally controls.
+
+<A NAME="IDX21"></A>
+For example, the Ann Arbor Ambassador can be configured with many
+screen sizes ranging from 20 to 60 lines.  Fewer lines make bigger
+characters but more lines let you see more of what you are editing.
+As a result, users have different preferences.  Therefore, termcap
+provides terminal types for many screen sizes.  If you choose type
+<SAMP>`aaa-30'</SAMP>, the terminal will be configured to use 30 lines; if you
+choose <SAMP>`aaa-48'</SAMP>, 48 lines will be used, and so on.
+</UL>
+
+<P>
+Here is a list of standard suffixes and their conventional meanings:
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`-w'</SAMP>
+<DD>
+Short for "wide".  This is a mode that gives the terminal more
+columns than usual.  This is normally a user option.
+
+<DT><SAMP>`-am'</SAMP>
+<DD>
+"Automatic margins".  This is an alternate description for use when
+the terminal's margin-wrap switch is on; it contains the <SAMP>`am'</SAMP>
+flag.  The implication is that normally the switch is off and the
+usual description for the terminal says that the switch is off.
+
+<DT><SAMP>`-nam'</SAMP>
+<DD>
+"No automatic margins".  The opposite of <SAMP>`-am'</SAMP>, this names an
+alternative description which lacks the <SAMP>`am'</SAMP> flag.  This implies
+that the terminal is normally operated with the margin-wrap switch
+turned on, and the normal description of the terminal says so.
+
+<DT><SAMP>`-na'</SAMP>
+<DD>
+"No arrows".  This terminal description initializes the terminal to
+keep its arrow keys in local mode.  This is a user option.
+
+<DT><SAMP>`-rv'</SAMP>
+<DD>
+"Reverse video".  This terminal description causes text output for
+normal video to appear as reverse, and text output for reverse video
+to come out as normal.  Often this description differs from the usual
+one by interchanging the two strings which turn reverse video on and
+off.
+This is a user option; you can choose either the "reverse video"
+variant terminal type or the normal terminal type, and termcap will
+obey.
+
+<DT><SAMP>`-s'</SAMP>
+<DD>
+"Status".  Says to enable use of a status line which ordinary output
+does not touch (see section <A HREF="termcap_41.html#SEC41">Status Line</A>).
+
+Some terminals have a special line that is used only as a status line.
+For these terminals, there is no need for an <SAMP>`-s'</SAMP> variant; the
+status line commands should be defined by default.  On other
+terminals, enabling a status line means removing one screen line from
+ordinary use and reducing the effective screen height.  For these
+terminals, the user can choose the <SAMP>`-s'</SAMP> variant type to request
+use of a status line.
+
+<DT><SAMP>`-<VAR>nlines</VAR>'</SAMP>
+<DD>
+Says to operate with <VAR>nlines</VAR> lines on the screen, for terminals
+such as the Ambassador which provide this as an option.  Normally this
+is a user option; by choosing the terminal type, you control how many
+lines termcap will use.
+
+<DT><SAMP>`-<VAR>npages</VAR>p'</SAMP>
+<DD>
+Says that the terminal has <VAR>npages</VAR> pages worth of screen memory,
+for terminals where this is a hardware option.
+
+<DT><SAMP>`-unk'</SAMP>
+<DD>
+Says that description is not for direct use, but only for reference in
+<SAMP>`tc'</SAMP> capabilities.  Such a description is a kind of subroutine,
+because it describes the common characteristics of several variant
+descriptions that would use other suffixes in place of <SAMP>`-unk'</SAMP>.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_19.html">previous</A>, <A HREF="termcap_21.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

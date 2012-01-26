@@ -1,0 +1,261 @@
+<!--#include virtual="/server/header.html" -->
+
+<title>Using and Running Mirrors - GNU Project - Free Software
+Foundation (FSF)</title>
+
+<!--#include virtual="/server/banner.html" -->
+<!--#include virtual="/server/po/mirror.translist" -->
+
+<h2>Using and running mirrors</h2>
+
+<h3>Downloading from mirrors</h3>
+
+<p>First, for users/downloaders: the address <a
+href="http://ftpmirror.gnu.org/">http://ftpmirror.gnu.org/</a>
+multiplexes between the mirrors, trying to choose one that is nearby and
+up to date.  E.g., <a
+href="http://ftpmirror.gnu.org/emacs/">http://ftpmirror.gnu.org/emacs/</a>
+goes to a mirror's directory of <a href="/software/emacs/">GNU
+Emacs</a>.  We recommend using this generic ftpmirror.gnu.org address
+wherever possible in links, documentation, etc., to reduce load on the
+main GNU server.</p>
+
+
+<h3>Mirroring the GNU FTP server</h3>
+
+<p>Mirroring the GNU FTP server requires approximately 30GB disk space
+(as of October&nbsp;2011).  You can rsync directly from ftp.gnu.org:</p>
+
+<pre>
+rsync -rltpHS --delete-excluded rsync://ftp.gnu.org/gnu/ /your/dir/
+</pre>
+
+<p>However, please consider mirroring from another site, again to reduce
+load on the GNU server.  These sites provide access to all the material
+on ftp.gnu.org.  They update from us nightly (at least) and you may
+access them with (via rsync):</p>
+
+<ul>
+<li><tt>rsync://mirrors.ispros.com.bd/gnu/</tt> (Bangladesh)</li>
+<li><tt>rsync://gnu.c3sl.ufpr.br/gnu/ftp/</tt> (Brazil)</li>
+<li><tt>rsync://ftp.funet.fi/ftp/pub/gnu/prep/</tt> (Finland)</li>
+<li><tt>rsync://mirror.its.uidaho.edu/gnu/</tt> (Idaho, USA)</li>
+<li><tt>rsync://mirror.team-cymru.org/gnu/</tt> (Illinois, USA)</li>
+<li><tt>rsync://mirrors.ibiblio.org/gnuftp/</tt> (North Carolina, USA)</li>
+</ul>
+
+<p>rsync is so much more efficient than other protocols that we
+always recommend rsync for mirror transfers, with 
+the options above, to ensure an exact copy.</p>
+
+<p>You can keep your mirror private, but we appreciate the support if
+you can make your mirror public.  To add your mirror to the <a
+href="/order/ftp.html">public mirror list</a>, we require (and
+recommend) a daily update frequency.  <em>After</em> establishing your
+mirror, please contact <a
+href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a> so we
+can review it.  Please provide the following:</p>
+
+<ul>
+<li>URL of the mirror (ftp/http/rsync as appropriate),</li>
+<li>country where the mirror is located,</li>
+<li>update frequency (once daily is recommended),</li>
+<li>preferred contact information for any mirror-related issues
+    (we will keep all contact information confidential), and</li>
+<li>whether your site can also be a source for other mirrors.</li>
+</ul>
+
+<p>In general, mirrors run by both individuals and organizations that want to
+support free software are welcome and appreciated. Mirrors that are run for
+the purpose of gaining advertising links or other recognition from our site,
+or that are engaged in unethical activity, are not accepted on our list.</p>
+
+
+<h3>Web setup for mirrors</h3>
+
+<p>It is very useful to make your mirror available to users via http, so
+please support this if you can.  Please set up your web server
+configuration to avoid sending <tt>.gz.sig</tt> files (signatures of
+compressed files, of which there are many on our servers) as
+gzip-encoded.  For Apache, this means:</p>
+
+<pre>
+AddType application/pgp-signature .sig
+# make sure .sig files are _not_ sent with "Content-Encoding: gzip".
+&lt;Files *.gz.sig&gt;
+  RemoveEncoding .gz
+&lt;/Files&gt;
+&lt;Files *.tgz.sig&gt;
+  RemoveEncoding .tgz
+&lt;/Files&gt;
+</pre>
+
+<p>Variation: if your AddEncoding lines do not have a leading dot for
+the extension, for instance like this:</p>
+<pre>
+AddEncoding x-gzip gz tgz
+</pre>
+<p>then the RemoveEncoding lines should also not have a leading dot.</p>
+
+<p>Finally, we highly recommend the following setting, so that users can
+see full filenames in generated listings instead of having them be
+truncated:</p>
+
+<pre>
+IndexOptions NameWidth=*
+</pre>
+
+
+<h3 id="Ibiblio">Ibiblio mailing lists</h3>
+
+<p>For those mirroring from ibiblio, <a
+href="http://lists.ibiblio.org/mailman/listinfo/ibiblio-mirrors">ibiblio-mirrors</a>
+and <a
+href="http://lists.ibiblio.org/mailman/listinfo/ibiblio-announce">ibiblio-announce</a>
+are low-traffic mailing lists for admins of sites mirroring from ibiblio
+servers.  Also, specific questions and problem reports can be <a
+href="http://www.ibiblio.org/help/">submitted to ibiblio</a>.</p>
+
+
+<h3>Mirroring the GNU Alpha release server</h3>
+
+<p>ftp.gnu.org and other sites also offer alpha.gnu.org (around 10GB) for
+your mirroring pleasure:</p>
+
+<ul>
+<li><tt>rsync://ftp.gnu.org/alpha/</tt></li>
+<li><tt>rsync://mirrors.ibiblio.org/gnualpha/</tt></li>
+<li><tt>rsync://ftp.funet.fi/ftp/pub/mirrors/alpha.gnu.org/gnu/</tt></li>
+<li><tt>rsync://gnu.c3sl.ufpr.br/gnu/alpha/</tt></li>
+</ul>
+
+<p>Nightly updates are sufficient for GNU FTP and Alpha material.</p>
+
+
+<h3 id="nongnu">Mirroring nongnu releases from Savannah</h3>
+
+<p>We also greatly appreciate additional mirrors of the
+<em>nongnu</em> projects hosted at <a
+href="http://savannah.nongnu.org/">savannah.nongnu.org</a>.  The total is
+currently around 22GB.  To do this, we recommend you retrieve and
+update the files using rsync, with the same options as above for
+ftp.gnu.org, namely:</p>
+
+<pre>
+rsync -rltpHS --delete-excluded rsync://dl.sv.gnu.org/releases/ /your/dir
+</pre>
+
+<p>These options ensure that it is an exact mirror.  (There will
+probably be some permission errors; just ignore them.  They are due to
+choices or mistakes by individual project maintainers.)</p>
+
+<p>It is fine to update savannah/nongnu once a day as well; twice a day
+if you like.  More than that is not worth the bandwidth, the contents
+are not that dynamic.</p>
+
+<p>If you can help with this, please <a
+href="mailto:webmasters@gnu.org">email us</a> with the url to your
+mirror so we can add you to the <a
+href="http://dl.sv.gnu.org/releases/00_MIRRORS.html">list</a>.
+Thanks!</p>
+
+
+<h3>(Not) Mirroring the GNU web server</h3>
+
+<p>We no longer recommend creating web mirrors, because it has turned
+out that (a)&nbsp;few people can make use of them, and (b)&nbsp;many
+mirrors either became out of date or went offline relatively frequently.
+We don't want outdated information about the GNU project to be
+disseminated.</p>
+
+<p>Nonetheless, if you wish to mirror www.gnu.org for your own
+purposes, that is ok with us.  We recommend using <tt>mod_proxy</tt>.
+Here is an
+<i>unsupported</i> recipe of Apache directives for your
+<tt>&lt;VirtualHost&gt;</tt>:</p>
+<pre>
+ServerName gnumirror.example.org
+CacheRoot "/var/cache/mod_proxy"
+CacheDefaultExpire 86400 # for Apache 2.0+, value is in seconds
+ProxyPass / http://www.gnu.org/
+CacheEnable disk /
+</pre>
+
+<p>(Thanks to Juri Hoerner for providing this Apache information.)</p>
+
+<!-- If needed, change the copyright block at the bottom. In general, -->
+<!-- all pages on the GNU web server should have the section about    -->
+<!-- verbatim copying.  Please do NOT remove this without talking     -->
+<!-- with the webmasters first. -->
+<!-- Please make sure the copyright date is consistent with the document -->
+<!-- and that it is like this "2001, 2002" not this "2001-2002." -->
+</div>
+
+<!--#include virtual="/server/footer.html" -->
+
+<div id="footer">
+
+<p>Please send FSF &amp; GNU inquiries
+to <a href="mailto:gnu@gnu.org">&lt;gnu@gnu.org&gt;</a>.  There are
+also <a href="/contact/">other ways to contact</a> the FSF.
+<br />
+Please send broken links and other corrections or suggestions to
+<a href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a>.</p>
+
+<p>Please see
+the <a href="/server/standards/README.translations.html">Translations
+README</a> for information on coordinating and submitting translations
+of this article.</p>
+
+<p>Copyright &copy; 2011 Free Software Foundation, Inc.</p>
+
+<p>This page is licensed under a <a rel="license"
+href="http://creativecommons.org/licenses/by-nd/3.0/us/">Creative
+Commons Attribution-NoDerivs 3.0 United States License</a>.
+</p>
+
+<p>Updated:
+<!-- timestamp start -->
+$Date: 2011/10/13 18:33:26 $
+<!-- timestamp end -->
+</p>
+</div>
+
+<!-- <div id="translations"> -->
+<!-- <h4>Translations of this page</h4> -->
+<!--  -->
+<!-- Please keep this list alphabetical by language code. -->
+<!--      Comment what the language is for each type, i.e. de is German. -->
+<!--      Write the language name in its own language (Deutsch) in the text. -->
+<!--      If you add a new language here, please -->
+<!--      advise web-translators@gnu.org and add it to -->
+<!--       - /home/www/html/server/standards/README.translations.html -->
+<!--       - one of the lists under the section "Translations Underway" -->
+<!--       - if there is a translation team, you also have to add an alias -->
+<!--       to mail.gnu.org:/com/mailer/aliases -->
+<!--      Please also check you have the language code right; see: -->
+<!--      http://www.loc.gov/standards/iso639-2/php/code_list.php -->
+<!--      If the 2-letter ISO 639-1 code is not available, -->
+<!--      use the 3-letter ISO 639-2. -->
+<!--      Please use W3C normative character entities. -->
+<!--  -->
+<!--      See also '(web-trans)Capitalization': -->
+<!--      http://gnu.org/software/trans-coord/manual/web-trans/html_node/Capitalization.html -->
+<!--      -->
+<!--  -->
+<!-- <ul class="translations-list"> -->
+<!-- German -->
+<!-- <li><a href= "/server/mirror.de.html">Deutsch</a>&nbsp;[de]</li> -->
+<!-- English -->
+<!-- <li><a href= "/server/mirror.html">English</a>&nbsp;[en]</li> -->
+<!-- Spanish -->
+<!-- <li><a href="/server/mirror.es.html">espa&#x00f1;ol</a>&nbsp;[es]</li> -->
+<!-- Korean -->
+<!-- <li><a href="/server/mirror.ko.html">&#xd55c;&#xad6d;&#xc5b4;</a>&nbsp;[ko]</li> -->
+<!-- Polish -->
+<!-- <li><a href="/server/mirror.pl.html">polski</a>&nbsp;[pl]</li> -->
+<!-- </ul> -->
+<!-- </div> -->
+</div>
+</body>
+</html>

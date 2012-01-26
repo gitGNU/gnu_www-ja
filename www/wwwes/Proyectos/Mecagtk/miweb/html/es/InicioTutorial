@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# Si existe el fichero lynx, en el directorio se ejecutará
+# Si no, mostrará el mensaje de error:
+#
+#
+/sbin/pidof X > /tmp/LTdisplay.tmp
+Xrulan=$(cat /tmp/LTdisplay.tmp)
+rm -f /tmp/LTdisplay.tmp
+if expr "$Xrulan" != ""
+ then
+   echo
+   echo "Se está intentando ejecutar Netscape, ya que se ha detectado"
+   echo "el funcionamiento de X-Window..."
+   netscape tutorial.html
+ exit 1
+else
+ echo NO
+fi
+rm -f /tmp/LTdisplay.tmp
+#
+clear
+Version=`pwd`
+if [ -f /usr/bin/lynx ]; then
+   lynx tutorial.html
+else
+  echo
+  echo
+  echo NO TIENES lynx INSTALADO, ES RECOMENDABLE HACERLO
+  echo PARA VERLO EN MODO TEXTO.
+  echo
+  echo "También puede que no sepas donde pudiera estar instalado, para lo"
+  echo "cual deberás seguir estos pasos:"
+  echo
+  echo "cd /"
+  echo "find -iname lynx"
+  echo
+  echo "Una vez encontrado accede al directorio y escribe su nombre"
+  echo "Si no lo tuvieras, deberás ejecutar cualquier navegador HTML"
+  echo "que tengas en X-Window, de todas formas ¡¡INSTALA LYNX!! " 
+  echo
+  echo "O de tenerlo, copialo en el directorio: 	/usr/bin"
+  echo
+fi

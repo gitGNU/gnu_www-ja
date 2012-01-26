@@ -1,0 +1,28 @@
+# .bash_profile
+# Al entrar en tu sesión, el primer fich. que se carga es: '.bash_profile'
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc			# Luego se carga éste.
+fi
+
+# Y tras la carga  de .bashrc y /etc/bashrc, se termina de cargar lo
+# siguiente:
+
+setleds +num		# Enciende el bloq. numérico al entrar en la sesión.
+set meta-flag on        # conservar bit 8 en entrada de teclado
+set output-meta on      # conservar bit 8 en salida por terminal
+set convert-meta off    # no convertir secuencias de escape
+
+PATH=$PATH:$HOME/bin
+BASH_ENV=$HOME/.bashrc
+USERNAME="Eggun"
+
+echo ----------------------------------------------------
+free			# Memoria libre
+echo ----------------------------------------------------
+df -h			# Cantidad disco libre
+echo ----------------------------------------------------
+
+export USERNAME BASH_ENV PATH
+export LC_CTYPE=ISO_8859_1

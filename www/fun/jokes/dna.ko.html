@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<TITLE>C 언어로 해독 해 본 인간 DNA 정보 - GNU 프로젝트 - 자유 소프트웨어 재단 (FSF)</TITLE>
+<LINK REV="translated" HREF="mailto:chsong@gnu.org">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#1F00FF" ALINK="#FF0000" VLINK="#9900DD">
+
+<H3>C 언어로 해독 해 본 인간 DNA 정보</H3>
+
+<A HREF="/graphics/gleesons.ko.html"><IMG SRC="/graphics/gleeson_head.jpg"
+   ALT=" [GNU 헤드 컬러 이미지]"
+   WIDTH="153" HEIGHT="128"></A>
+       
+[
+  <A HREF="/fun/jokes/dna.en.html">English</A>
+| <A HREF="/fun/jokes/dna.ko.html">Korean</A>
+]
+
+<P><BR>
+<BLOCKQUOTE>
+<PRE>
+<!-- When using this boilerplate, remember to replace the
+     "JokeTITLE" in both places above.
+     And if it's a song, not a joke, change that word in the Disclaimer.
+-->
+뉴스그룹: rec.humor.funny
+제목: 작은 C 프로그래밍...
+키워드: computer, smirk
+일시: 1991년 8월 4일 23시 30분 05초 GMT
+
+수많은 세월 동안, 분자 생물학자들은 생물체의 DNA 중 극히 일부분만이
+유용한 기능을 담당하고 있다는 사실을 무척 의아하게 생각하고 있었습니다. 
+
+그러던 어느날, 저는 마침내 그 미스테리를 풀게 되었습니다. 
+
+인간 DNA의 30%에 해당하는 부분만이 유용한 기능을 담당하던 이유는, 
+다름아닌 나머지 부분들이 실제 코드가 아닌 주석이기 때문입니다. 
+ 
+일단 우리가 전형적인 인간 게놈을 해석해 보면, 그 내용이 다음과 같은
+주석 일색으로 구성됨을 알 수 있습니다. 
+
+
+
+/* HUMAN_DNA.H
+ *
+ * 인간 게놈 버전 2.1
+ *
+ * Copyright (C) 하느님
+ */
+ 
+
+/* 개정 이력:
+ *
+ * 0000-00-01 00:00  1.0  아담.
+ * 0000-00-02 10:00  1.1  이브.
+ * 0000-00-03 02:11  1.2  남성 버전에 꼬추 코드를 추가함. 조금 조잡했음 --;
+ *                        나중에 보다 깔끔하게 다듬는 것이 필요함. 
+ * 0017-03-12 03:14  1.3  elephant-dna.c로부터 여분의 섹스 기능 코드를 male.h에 추가함.                      
+ * 0145-10-03 16:33  1.4  꼬리를 제거함.
+ * 1115-00-31 17:20  1.5  앞 다리를 조금 줄이고, 머리통을 확장함.
+ * 2091-08-20 13:56  1.6  hand() 루틴에 손을 감싸 쥘 수 있게 엄지 손가락을 추가함.
+ * 2501-04-09 14:04  1.7  미용상의 조그만 향상을 줌 -- 내 개인적인 취향에 맞게 피부색을 조금 어둡게 함.  
+ * 2909-07-12 02:21  1.8  치아 상태가 좋지 않음; 사랑니를 여분으로 추가함.
+ *                        추가한 치아를 감안해서 입을 보다 크게 만들어야 한다는 것을 잊지 말 것!
+ * 4501-12-31 14:18  1.9  평균 신장을 높임.
+ * 5533-02-12 17:09  2.0  높은 인구 밀도로 인해서 인구 과잉을 줄이기 위해 게이/레즈비언 옵션을 추가함.
+ * 6004-11-04 16:11  2.1  CD 구멍에 끼울 수 있도록 검지 손가락을 가늘게 고침.
+ */
+
+ 
+/* 표준 정의 부분
+ */
+ 
+#define SEX 남성
+#define HEIGHT 1.74
+#define MASS 63
+#define RACE 황색인종 
+ 
+/* 부모의 DNA 파일을 인쿠르드(include) 시킴.
+ * 이 파일들은 적당한 유전형질을 상속시키기 위해서 멘델(Mendel) 프로그램으로
+ * 사전 처리되어야 함. 
+ */
+ 
+#include "mother.h"
+#include "father.h"
+ 
+#infndef FATHER
+#warn("아버지를 알 수 없음 -- 추정 중\n")
+#include "bastard.h"   /* 아버지를 모를 경우에는 잡종(bastard) 파일로 대체시킴. */
+#endif
+ 
+/* 섹스와 관련된 함수와 변수 설정 */
+#include &lt;sex.h&gt;
+ 
+/* 코드가 조악함. 디자인을 새롭게 하고 보다 효과적인 라이브러리 루틴으로 다시 작성할 예정임. */
+struct genitals
+   {
+#ifdef MALE
+   Penis *jt;
+#endif
+   /* G_spot *g;   디버깅 목적으로 제거함 */
+#ifdef FEMALE
+   Vagina *p;
+#endif
+   }
+ 
+
+/* 부트스트랩 루틴 초기화 -- DNA 복제 이전에 호출됨.
+ * 버퍼를 할당하고 단백질 파일에 대한 포인터를 설정함.
+ */
+DNA *zygote_initialize(Sperm *, Ovum *);
+
+ 
+/* 초기화 루틴 메인 코드
+ *
+ * 출생시에 나타날 생물체의 표현형이 사전 처리된 부분으로 리턴함.  
+ *
+ * 출력 형태를 보다 세련되게 만들기 위해서 코드 향상이 필요함.
+ */
+Characteristic *lookup_phenotype(Identifier *i);
+ 
+... 기타 등등, 기타 등등...
+ 
+ 
+[주의: 하느님은 3개의 스페이스로 구성된 탭을 사용함]
+
+
+</PRE>
+</BLOCKQUOTE>
+
+<P>
+이글의 원저자는 <a href="mailto:meta@pobox.com">&lt;매튜 머피 Mathew Murphy&gt;</A>입니다. 
+그는 이 재담을 GPL로 만들어 주었습니다. 땡큐~ 매튜!
+(역자의 말: GPL에 따라 백인에 맞게 구성된 코드와 일부 변수의 값을 황색인종에 맞게
+개작하였습니다. :) 
+
+<P><HR>
+<P>
+GNU 유머 컬렉션에서 <A HREF="/fun/humor.ko.html">보다 다양한 유머들</A>을
+즐길 수 있습니다. 
+
+<H4>저작권에 대해서</H4>
+이 글은 FSF의 <A HREF="http://mail.gnu.org/">메일 아카이브</A>에서
+발췌한 것입니다. 자유 소프트웨어 재단은 이 글에 대한 저작권을 갖고 있지 않습니다. 
+
+<P>
+<HR>
+GNU 홈페이지의 <A HREF="/home.ko.html">메인 화면</A>으로 돌아갑니다.
+
+<P>
+자유 소프트웨어 재단과 GNU 프로젝트에 대한 질문은 <A HREF="mailto:gnu@gnu.org">gnu@gnu.org</A>로 
+보내주시기 바랍니다.
+
+<P>
+GNU에 대한 질문 이외에 홈페이지 자체에 대한 질문은 
+<A HREF="mailto:webmasters@www.gnu.org">webmasters@gnu.org</A>로 보내주시고, 
+그밖의 연락 방법에 대해서는 <A HREF="/home.html#ContactInfo">연락처 안내</A> 부분을 참고하시기 바랍니다. 
+
+<P>
+Copyright (C) 1999, 2000, 2001 Free Software Foundation, Inc.,
+51 Franklin St, Fifth Floor, Boston, MA  02110,  USA
+
+<P>
+저작권에 대한 본 사항이 명시되는 한, 어떠한 정보 매체에 의한 본문의 전재나 발췌도 무상으로 허용됩니다. 
+
+<P>
+번역 문의 및 오역에 대한 지적은
+<A HREF="mailto:korean-www@korea.gnu.org">&lt;korean-www@korea.gnu.org&gt;</A>
+앞으로 메일을 주시기 바랍니다. 
+
+<P>
+최근 수정일:
+<!-- hhmts start -->
+26 Aug 2001 chsong
+<!-- hhmts end -->
+<HR>
+</BODY>
+</HTML>

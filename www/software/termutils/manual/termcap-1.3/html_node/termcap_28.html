@@ -1,0 +1,192 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Scrolling</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_27.html">previous</A>, <A HREF="termcap_29.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC28" HREF="termcap_toc.html#TOC28">Scrolling</A></H2>
+<P>
+<A NAME="IDX73"></A>
+
+</P>
+<P>
+<EM>Scrolling</EM> means moving the contents of the screen up or down one or
+more lines.  Moving the contents up is <EM>forward scrolling</EM>; moving them
+down is <EM>reverse scrolling</EM>.
+
+</P>
+<P>
+Scrolling happens after each line of output during ordinary output on most
+display terminals.  But in an application program that uses termcap for
+random-access output, scrolling happens only when explicitly requested with
+the commands in this section.
+
+</P>
+<P>
+Some terminals have a <EM>scroll region</EM> feature.  This lets you limit
+the effect of scrolling to a specified range of lines.  Lines outside the
+range are unaffected when scrolling happens.  The scroll region feature
+is available if either <SAMP>`cs'</SAMP> or <SAMP>`cS'</SAMP> is present.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`sf'</SAMP>
+<DD>
+<A NAME="IDX74"></A>
+String of commands to scroll the screen one line up, assuming it is
+output with the cursor at the beginning of the bottom line.
+
+<DT><SAMP>`sr'</SAMP>
+<DD>
+<A NAME="IDX75"></A>
+String of commands to scroll the screen one line down, assuming it is
+output with the cursor at the beginning of the top line.
+
+<DT><SAMP>`do'</SAMP>
+<DD>
+A few programs will try to use <SAMP>`do'</SAMP> to do the work of <SAMP>`sf'</SAMP>.
+This is not really correct--it is an attempt to compensate for the
+absence of a <SAMP>`sf'</SAMP> command in some old terminal descriptions.
+
+Since these terminal descriptions do define <SAMP>`sr'</SAMP>, perhaps at one
+time the definition of <SAMP>`do'</SAMP> was different and it could be used
+for scrolling as well.  But it isn't desirable to combine these two
+functions in one capability, since scrolling often requires more
+padding than simply moving the cursor down.  Defining <SAMP>`sf'</SAMP> and
+<SAMP>`do'</SAMP> separately allows you to specify the padding properly.
+Also, all sources agree that <SAMP>`do'</SAMP> should not be relied on to do
+scrolling.
+
+So the best approach is to add <SAMP>`sf'</SAMP> capabilities to the
+descriptions of these terminals, copying the definition of <SAMP>`do'</SAMP>
+if that does scroll.
+
+<DT><SAMP>`SF'</SAMP>
+<DD>
+<A NAME="IDX76"></A>
+String of commands to scroll the screen <VAR>n</VAR> lines up, assuming it
+is output with the cursor at the beginning of the bottom line.
+
+<DT><SAMP>`SR'</SAMP>
+<DD>
+<A NAME="IDX77"></A>
+String of commands to scroll the screen <VAR>n</VAR> lines down, assuming it
+is output with the cursor at the beginning of the top line.
+
+<DT><SAMP>`cs'</SAMP>
+<DD>
+<A NAME="IDX78"></A>
+String of commands to set the scroll region.  This command takes two
+parameters, <VAR>start</VAR> and <VAR>end</VAR>, which are the line numbers
+(origin-zero) of the first line to include in the scroll region and of
+the last line to include in it.  When a scroll region is set,
+scrolling is limited to the specified range of lines; lines outside
+the range are not affected by scroll commands.
+
+Do not try to move the cursor outside the scroll region.  The region
+remains set until explicitly removed.  To remove the scroll region,
+use another <SAMP>`cs'</SAMP> command specifying the full height of the
+screen.
+
+The cursor position is undefined after the <SAMP>`cs'</SAMP> command is set,
+so position the cursor with <SAMP>`cm'</SAMP> immediately afterward.
+
+<DT><SAMP>`cS'</SAMP>
+<DD>
+<A NAME="IDX79"></A>
+String of commands to set the scroll region using parameters in
+different form.  The effect is the same as if <SAMP>`cs'</SAMP> were used.
+Four parameters are required:
+
+
+<OL>
+<LI>
+
+Total number of lines on the screen.
+<LI>
+
+Number of lines above desired scroll region.
+<LI>
+
+Number of lines below (outside of) desired scroll region.
+<LI>
+
+Total number of lines on the screen, the same as the first parameter.
+</OL>
+
+This capability is a GNU extension that was invented to allow the Ann
+Arbor Ambassador's scroll-region command to be described; it could
+also be done by putting non-Unix <SAMP>`%'</SAMP>-sequences into a <SAMP>`cs'</SAMP>
+string, but that would have confused Unix programs that used the
+<SAMP>`cs'</SAMP> capability with the Unix termcap.  Currently only GNU Emacs
+uses the <SAMP>`cS'</SAMP> capability.
+
+<DT><SAMP>`ns'</SAMP>
+<DD>
+<A NAME="IDX80"></A>
+Flag which means that the terminal does not normally scroll for
+ordinary sequential output.  For modern terminals, this means that
+outputting a newline in ordinary sequential output with the cursor on
+the bottom line wraps to the top line.  For some obsolete terminals,
+other things may happen.
+
+The terminal may be able to scroll even if it does not normally do so.
+If the <SAMP>`sf'</SAMP> capability is provided, it can be used for scrolling
+regardless of <SAMP>`ns'</SAMP>.
+
+<DT><SAMP>`da'</SAMP>
+<DD>
+<A NAME="IDX81"></A>
+Flag whose presence means that lines scrolled up off the top of the
+screen may come back if scrolling down is done subsequently.
+
+The <SAMP>`da'</SAMP> and <SAMP>`db'</SAMP> flags do not, strictly speaking, affect
+how to scroll.  But programs that scroll usually need to clear the
+lines scrolled onto the screen, if these flags are present.
+
+<DT><SAMP>`db'</SAMP>
+<DD>
+<A NAME="IDX82"></A>
+Flag whose presence means that lines scrolled down off the bottom of
+the screen may come back if scrolling up is done subsequently.
+
+<DT><SAMP>`lm'</SAMP>
+<DD>
+<A NAME="IDX83"></A>
+Numeric value, the number of lines of display memory that the terminal
+has.  A value of zero means that the terminal has more display memory
+than can fit on the screen, but no fixed number of lines.  (The number
+of lines may depend on the amount of text in each line.)
+</DL>
+
+<P>
+Any terminal description that defines <SAMP>`SF'</SAMP> should also define <SAMP>`sf'</SAMP>;
+likewise for <SAMP>`SR'</SAMP> and <SAMP>`sr'</SAMP>.  However, many terminals can only
+scroll by one line at a time, so it is common to find <SAMP>`sf'</SAMP> and not
+<SAMP>`SF'</SAMP>, or <SAMP>`sr'</SAMP> without <SAMP>`SR'</SAMP>.
+</P>
+<P>
+Therefore, all programs that use the scrolling facilities should be
+prepared to work with <SAMP>`sf'</SAMP> in the case that <SAMP>`SF'</SAMP> is absent, and
+likewise with <SAMP>`sr'</SAMP>.  On the other hand, an application program that
+uses only <SAMP>`sf'</SAMP> and not <SAMP>`SF'</SAMP> is acceptable, though slow on some
+terminals.
+</P>
+<P>
+When outputting a scroll command with <CODE>tputs</CODE>, the <VAR>nlines</VAR>
+argument should be the total number of lines in the portion of the screen
+being scrolled.  Very often these commands require padding proportional to
+this number of lines.  See section <A HREF="termcap_7.html#SEC7">Padding</A>.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_27.html">previous</A>, <A HREF="termcap_29.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

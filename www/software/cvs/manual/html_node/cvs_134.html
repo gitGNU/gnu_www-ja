@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - commitinfo</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_133.html">previous</A>, <A HREF="cvs_135.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC141" HREF="cvs_toc.html#TOC141">Commitinfo</A></H2>
+<P>
+<A NAME="IDX378"></A>
+<A NAME="IDX379"></A>
+<A NAME="IDX380"></A>
+
+</P>
+<P>
+The <TT>`commitinfo'</TT> file defines programs to execute
+whenever <SAMP>`cvs commit'</SAMP> is about to execute.  These
+programs are used for pre-commit checking to verify
+that the modified, added and removed files are really
+ready to be committed.  This could be used, for
+instance, to verify that the changed files conform to
+to your site's standards for coding practice.
+
+</P>
+<P>
+As mentioned earlier, each line in the
+<TT>`commitinfo'</TT> file consists of a regular expression
+and a command-line template.  The template can include
+a program name and any number of arguments you wish to
+supply to it.  The full path to the current source
+repository is appended to the template, followed by the
+file names of any files involved in the commit (added,
+removed, and modified files).
+
+</P>
+<P>
+The first line with a regular expression matching the
+relative path to the module will be used.  If the
+command returns a non-zero exit status the commit will
+be aborted.
+
+</P>
+<P>
+<A NAME="IDX381"></A>
+If the repository name does not match any of the
+regular expressions in this file, the <SAMP>`DEFAULT'</SAMP>
+line is used, if it is specified.
+
+</P>
+<P>
+<A NAME="IDX382"></A>
+All occurances of the name <SAMP>`ALL'</SAMP> appearing as a
+regular expression are used in addition to the first
+matching regular expression or the name <SAMP>`DEFAULT'</SAMP>.
+
+</P>
+<P>
+Note: when CVS is accessing a remote repository,
+<TT>`commitinfo'</TT> will be run on the <EM>remote</EM>
+(i.e., server) side, not the client side (see section <A HREF="cvs_22.html#SEC24">Remote repositories</A>).
+
+</P>
+
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_133.html">previous</A>, <A HREF="cvs_135.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

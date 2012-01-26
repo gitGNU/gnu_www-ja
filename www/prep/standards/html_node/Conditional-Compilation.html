@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated January 8, 2012.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+2011, 2012 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 0.01, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: Conditional Compilation</title>
+
+<meta name="description" content="GNU Coding Standards: Conditional Compilation">
+<meta name="keywords" content="GNU Coding Standards: Conditional Compilation">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Design-Advice.html#Design-Advice" rel="up" title="Design Advice">
+<link href="Program-Behavior.html#Program-Behavior" rel="next" title="Program Behavior">
+<link href="Standard-C.html#Standard-C" rel="previous" title="Standard C">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Conditional-Compilation"></a>
+<div class="header">
+<p>
+Previous: <a href="Standard-C.html#Standard-C" accesskey="p" rel="previous">Standard C</a>, Up: <a href="Design-Advice.html#Design-Advice" accesskey="u" rel="up">Design Advice</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Conditional-Compilation-1"></a>
+<h3 class="section">3.5 Conditional Compilation</h3>
+
+<p>When supporting configuration options already known when building your
+program we prefer using <code>if (... )</code> over conditional compilation,
+as in the former case the compiler is able to perform more extensive
+checking of all possible code paths.
+</p>
+<p>For example, please write
+</p>
+<div class="smallexample">
+<pre class="smallexample">  if (HAS_FOO)
+    ...
+  else
+    ...
+</pre></div>
+
+<p>instead of:
+</p>
+<div class="smallexample">
+<pre class="smallexample">  #ifdef HAS_FOO
+    ...
+  #else
+    ...
+  #endif
+</pre></div>
+
+<p>A modern compiler such as GCC will generate exactly the same code in
+both cases, and we have been using similar techniques with good success
+in several projects.  Of course, the former method assumes that
+<code>HAS_FOO</code> is defined as either 0 or 1.
+</p>
+<p>While this is not a silver bullet solving all portability problems,
+and is not always appropriate, following this policy would have saved
+GCC developers many hours, or even days, per year.
+</p>
+<p>In the case of function-like macros like <code>REVERSIBLE_CC_MODE</code> in
+GCC which cannot be simply used in <code>if (...)</code> statements, there is
+an easy workaround.  Simply introduce another macro
+<code>HAS_REVERSIBLE_CC_MODE</code> as in the following example:
+</p>
+<div class="smallexample">
+<pre class="smallexample">  #ifdef REVERSIBLE_CC_MODE
+  #define HAS_REVERSIBLE_CC_MODE 1
+  #else
+  #define HAS_REVERSIBLE_CC_MODE 0
+  #endif
+</pre></div>
+
+<p>
+
+
+</p>
+</body>
+</html>

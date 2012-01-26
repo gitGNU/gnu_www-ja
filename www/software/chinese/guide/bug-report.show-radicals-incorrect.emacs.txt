@@ -1,0 +1,75 @@
+|| > And here is a BUG-report and suggesion related to mule input:
+|| ...
+||
+|| I can't reproduce it.   What I tried is:
+|| C-x 2  ;; split window vertically
+|| C-x b temp RET ;; switch to a new buffer "temp"
+|| C-u C-\ chinese-array30 RET ;; activate "array30"
+|| C-x o  ;; goto the lower window
+|| C-u C-\ chinese-zozy RET ;; activate "zozy"
+|| C-x o  ;; goto the upper window
+|| aaax  ;; type some letters
+||
+|| Please show me exactly what you did like the way above.
+
+open a new Emacs session:
+
+C-u C-\ chinese-zozy RET  ;; activate "zozy"
+o  ;; enter `o', you will see a customized radical very similar to Japanese character `he'
+C-x 2  ;; split window vertically
+C-x C-f tmp.txt  ;; find a blank tmp.txt file on the above window
+C-u C-\ chinese-array30 RET  ;; activate "array30" on above window, leave the below "zozy"
+;;now the above and the below windows with different files and input methods
+o  ;; enter `o' again, you will see "9^" radical on minibuffer (so far so good)
+C-x o  ;; change active window to the below one
+o  ;; enter `o' once again
+
+while expecing a radical similar to Japanese "he" since the below one
+is using "zozy", you see a "9^" radical on minibuffer, just like the
+above one (using "array30".)  And the bug is caught. (If you are
+editing the same file in two windows, there will be no bug observed,
+since Emacs would automatically use the same input method for one
+file.)
+
+Determining which input method's radicals to be shown on minibuffer
+seems OCCURS on ``changing input method from one to another(denoted as
+THIS)'' and set as THIS method's radicals to be shown.
+
+Therefore if ``determining which input method's radicals to be shown''
+occurs on ``changing the active window'' and set as ``the active
+window's input method's radicals to be shown'', this bug might be
+thrown into trash bin...
+
+|| > 2. Leaving a blank after a word is being inputted is a waste
+|| ...
+||
+|| I'm not sure I understand what you mean correctly, but...
+||
+|| It's a very complicated feature.  First of all, currently
+|| Emacs has to lookup the whole key sequences of an input
+|| method to know how to type a specific character in that
+|| input method.   In addition, it seems very annoying to see
+|| such information every time one types characters.
+||
+|| Even if we make such a command, I think it should be bound
+|| to some key (e.g. C-u C-u C-x =) instread be automatically
+|| called while using an input method.
+
+I got your points (through observing how mule input method is
+working.)  But I believe that there must be an elegant means to
+respond this need for Chinese user.  Anyway, I will keep thinking
+about this, wishing we will finally find an esay way to follow...
+
+|| > I guess this feature is also useful in other languages...
+||
+|| I think it's very specific to Chinese.  No other languages
+|| use such an ragical-based input methods.
+
+Once again, I feel that Chinese is really a writing language, although
+there is no much difference with other languages such as English to
+me.  It seems that Chinese is unique to all other languages.  Does not
+Japanese or Korean have input method(s) of ``spelling shapes of
+words''?
+
+If the answer is NO, preparing ARRAY30 for Japanese would absolutely
+be very interesting. :)

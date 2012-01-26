@@ -1,0 +1,38 @@
+<HTML>
+<HEAD>
+<TITLE>hora.c.html</TITLE>
+</HEAD>
+<BODY BGcolor=#FFFFFF TEXT=#000000>
+<PRE>
+ <FONT color=#0000ff>/*</FONT>
+<FONT color=#0000ff>   *</FONT>
+<FONT color=#0000ff>   *  AUTOR: Luis</FONT>
+<FONT color=#0000ff>   *  VERSIÓN: 0.0</FONT>
+<FONT color=#0000ff>   *</FONT>
+<FONT color=#0000ff>   *  DESCRIPCIÓN: Archivo hora.c. Implementa el TAD hora</FONT>
+<FONT color=#0000ff>   *</FONT>
+<FONT color=#0000ff>   */</FONT>       
+<FONT color=#a620f7>#include </FONT><FONT color=#ff00ff>&lt;stdio.h&gt;</FONT>
+<FONT color=#a620f7>#include </FONT><FONT color=#ff00ff>&lt;assert.h&gt;</FONT>
+<FONT color=#a620f7>#include </FONT><FONT color=#ff00ff>&quot;hora.h&quot;</FONT>
+
+<B><FONT color=#288a51>void</FONT></B> HoraInicializa(Hora *pH, <B><FONT color=#288a51>int</FONT></B> hh, <B><FONT color=#288a51>int</FONT></B> mm, <B><FONT color=#288a51>int</FONT></B> ss)
+{
+    assert ( pH != <FONT color=#ff00ff>NULL</FONT> );
+    assert ( <FONT color=#ff00ff>0</FONT> &lt;= hh &amp;&amp; hh &lt; <FONT color=#ff00ff>24</FONT> );
+    assert ( <FONT color=#ff00ff>0</FONT> &lt;= mm &amp;&amp; mm &lt; <FONT color=#ff00ff>60</FONT> );
+    assert ( <FONT color=#ff00ff>0</FONT> &lt;= ss &amp;&amp; ss &lt; <FONT color=#ff00ff>60</FONT> );
+    pH-&gt;hh = hh;
+    pH-&gt;mm = mm;
+    pH-&gt;ss = ss;
+}
+
+<B><FONT color=#288a51>char</FONT></B> *HoraACadena( Hora *pH)
+{
+    <B><FONT color=#288a51>static</FONT></B> <B><FONT color=#288a51>char</FONT></B> buffer[<FONT color=#ff00ff>9</FONT>];
+    sprintf(buffer,<FONT color=#ff00ff>&quot;</FONT><FONT color=#6959cf>%02d</FONT><FONT color=#ff00ff>:</FONT><FONT color=#6959cf>%02d</FONT><FONT color=#ff00ff>:</FONT><FONT color=#6959cf>%02d</FONT><FONT color=#ff00ff>&quot;</FONT>,pH-&gt;hh,pH-&gt;mm,pH-&gt;ss);
+    <B><FONT color=#a62828>return</FONT></B> buffer;
+}
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,129 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Adding files to a directory</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_10.html">previous</A>, <A HREF="cvs_12.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC61" HREF="cvs_toc.html#TOC61">Adding files to a directory</A></H1>
+<P>
+<A NAME="IDX243"></A>
+
+</P>
+<P>
+To add a new file to a directory, follow these steps.
+
+</P>
+
+<UL>
+<LI>
+
+You must have a working copy of the directory.
+See section <A HREF="cvs_4.html#SEC11">Getting the source</A>.
+
+<LI>
+
+Create the new file inside your working copy of the directory.
+
+<LI>
+
+Use <SAMP>`cvs add <VAR>filename</VAR>'</SAMP> to tell CVS that you
+want to version control the file.  If the file contains
+binary data, specify <SAMP>`-kb'</SAMP> (see section <A HREF="cvs_18.html#SEC83">Handling binary files</A>).
+
+<LI>
+
+Use <SAMP>`cvs commit <VAR>filename</VAR>'</SAMP> to actually check
+in the file into the repository.  Other developers
+cannot see the file until you perform this step.
+</UL>
+
+<P>
+You can also use the <CODE>add</CODE> command to add a new
+directory.
+
+</P>
+<P>
+Unlike most other commands, the <CODE>add</CODE> command is
+not recursive.  You cannot even type <SAMP>`cvs add
+foo/bar'</SAMP>!  Instead, you have to
+
+</P>
+
+<PRE>
+$ cd foo
+$ cvs add bar
+</PRE>
+
+<P>
+<A NAME="IDX244"></A>
+<DL>
+<DT><U>Command:</U> <B>cvs add</B> <I>[<CODE>-k</CODE> kflag] [<CODE>-m</CODE> message] files ...</I>
+<DD><A NAME="IDX245"></A>
+
+</P>
+<P>
+Schedule <VAR>files</VAR> to be added to the repository.
+The files or directories specified with <CODE>add</CODE> must
+already exist in the current directory.  To add a whole
+new directory hierarchy to the source repository (for
+example, files received from a third-party vendor), use
+the <CODE>import</CODE> command instead.  See section <A HREF="cvs_20.html#SEC112">import--Import sources into CVS, using vendor branches</A>.
+
+</P>
+<P>
+The added files are not placed in the source repository
+until you use <CODE>commit</CODE> to make the change
+permanent.  Doing an <CODE>add</CODE> on a file that was
+removed with the <CODE>remove</CODE> command will undo the
+effect of the <CODE>remove</CODE>, unless a <CODE>commit</CODE>
+command intervened.  See section <A HREF="cvs_12.html#SEC62">Removing files from a module</A>, for an
+example.
+
+</P>
+<P>
+The <SAMP>`-k'</SAMP> option specifies the default way that
+this file will be checked out; for more information see
+section <A HREF="cvs_17.html#SEC81">Substitution modes</A>.
+
+</P>
+<P>
+The <SAMP>`-m'</SAMP> option specifies a description for the
+file.  This description appears in the history log (if
+it is enabled, see section <A HREF="cvs_21.html#SEC149">The history file</A>).  It will also be
+saved in the version history inside the repository when
+the file is committed.  The <CODE>log</CODE> command displays
+this description.  The description can be changed using
+<SAMP>`admin -t'</SAMP>.  See section <A HREF="cvs_20.html#SEC91">admin--Administration front end for rcs</A>.  If you omit the
+<SAMP>`-m <VAR>description</VAR>'</SAMP> flag, an empty string will
+be used.  You will not be prompted for a description.
+</DL>
+
+</P>
+<P>
+For example, the following commands add the file
+<TT>`backend.c'</TT> to the repository:
+
+</P>
+
+<PRE>
+$ cvs add backend.c
+$ cvs commit -m "Early version. Not yet compilable." backend.c
+</PRE>
+
+<P>
+When you add a file it is added only on the branch
+which you are working on (see section <A HREF="cvs_8.html#SEC50">Branches</A>).  You can
+later merge the additions to another branch if you want
+(see section <A HREF="cvs_9.html#SEC59">Merging can add or remove files</A>).
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_10.html">previous</A>, <A HREF="cvs_12.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

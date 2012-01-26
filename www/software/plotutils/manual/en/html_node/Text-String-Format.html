@@ -1,0 +1,540 @@
+<html lang="en">
+<head>
+<title>Text String Format - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Fonts-and-Markers.html#Fonts-and-Markers" title="Fonts and Markers">
+<link rel="prev" href="Text-Fonts-in-X.html#Text-Fonts-in-X" title="Text Fonts in X">
+<link rel="next" href="Marker-Symbols.html#Marker-Symbols" title="Marker Symbols">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Text-String-Format"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Marker-Symbols.html#Marker-Symbols">Marker Symbols</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Text-Fonts-in-X.html#Text-Fonts-in-X">Text Fonts in X</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Fonts-and-Markers.html#Fonts-and-Markers">Fonts and Markers</a>
+<hr>
+</div>
+
+<h3 class="appendixsec">A.4 Text string format and escape sequences</h3>
+
+<p>Text strings that are drawn by the GNU <code>libplot</code> library and by
+applications built on&nbsp;it<!-- /@w -->, such as <code>graph</code>, <code>plot</code>,
+<code>pic2plot</code>, <code>tek2plot</code>, and <code>plotfont</code>, must consist of
+printable characters.  No&nbsp;embedded<!-- /@w --> control characters, such as
+newlines or carriage returns, are allowed.  Technically, a character is
+`printable' if it comes from either of the two byte ranges
+<tt>0x20</tt><small class="dots">...</small><tt>0x7e</tt> and <tt>0xa0</tt><small class="dots">...</small><tt>0xff</tt>.  The former is the
+printable ASCII range and the latter is the printable `8-bit' range.
+
+   <p>Text strings may, however, include embedded `escape sequences' that
+shift the font, append subscripts or superscripts, or include non-ASCII
+characters and mathematical symbols.  As a consequence, the axis labels
+on a plot prepared with <code>graph</code> may include such features.  So may
+the text strings that <code>pic2plot</code> uses to label objects.
+
+   <p>The format of the escape sequences should look familiar to anyone who is
+familiar with the TeX, <code>troff</code>, or <code>groff</code> document
+formatters.  Each escape sequence consists of three characters: a&nbsp;backslash<!-- /@w --> and two additional characters.  The most frequently used
+escape sequences are as follows.
+
+     <dl>
+<dt>"\sp"<dd>start superscript mode
+<br><dt>"\ep"<dd>end superscript mode
+<br><dt>"\sb"<dd>start subscript mode
+<br><dt>"\eb"<dd>end subscript mode
+<br><dt>"\mk"<dd>mark position
+<br><dt>"\rt"<dd>return to marked position
+</dl>
+
+<p class="noindent">For example, the string "x\sp2\ep" would be interpreted as `x squared'. 
+Subscripts on subscripts, etc., are allowed.  Subscripts and
+superscripts may be vertically aligned by judicious use of the "\mk" and
+"\rt" escape sequences.  For example, "a\mk\sbi\eb\rt\sp2\ep" produces
+"a sub i squared", with the exponent `2' placed immediately above the
+subscript.
+
+   <p>There are also escape sequences that switch from font to font within a
+typeface.  For an enumeration of the fonts within each typeface, see
+<a href="Text-Fonts.html#Text-Fonts">Text Fonts</a>.  Suppose for&nbsp;example<!-- /@w --> that the current font is
+Times-Roman, which is font #1 in the `Times' typeface.  The string "A
+\f2very\f1 well labeled axis" would be a string in which the word `very'
+appears in Times-Italic rather than Times-Roman.  That is because
+Times-Italic is the #2 font in the typeface.  Font-switching escape
+sequences are of the form "\f<var>n</var>", where <var>n</var> is the number of
+the font to be switched&nbsp;to<!-- /@w -->.  For compatibility with <code>troff</code> and
+<code>groff</code>, "\fR", "\fI", "\fB" are equivalent to "\f1", "\f2", "\f3",
+respectively.  "\fP" will switch the font to the previously used font
+(only one font is remembered).  There is currently no support for
+switching between fonts in different typefaces.
+
+   <p>There are also a few escape sequences for horizontal shifts, which are
+useful for improving horizontal alignment, such as when shifting between
+italic and non-italic fonts.  "\r1", "\r2", "\r4", "\r6", "\r8", and
+"\r^" are escape sequences that shift right by 1 em, 1/2 em, 1/4 em, 1/6
+em, 1/8 em, and 1/12 em, respectively.  "\l1", "\l2", "\l4", "\l6",
+"\l8", and "\l^" are similar, but shift left instead of right. 
+"A \fIvery\r^\fP well labeled axis" would look slightly better than
+"A \fIvery\fP well labeled axis".
+
+   <p>Square roots are handled with the aid of a special pair of escape
+sequences, together with the "\mk" and "\rt" sequences discussed above. 
+A square root symbol is begun with "\sr", and continued arbitrarily far
+to the right with the overbar (`run') escape sequence, "\rn".  For
+example, the string "\sr\mk\rn\rn\rtab" would be plotted as `the square
+root of ab'.  To&nbsp;adjust<!-- /@w --> the length of the overbar, you may need to
+experiment with the number of times "\rn" appears.
+
+   <p>To underline a string, you would use "\ul", the underline escape
+sequence, one or more times.  The "\mk"<small class="dots">...</small>"\rt" trick would be
+employed in the same way.  So, for example, "\mk\ul\ul\ul\rtabc" would
+yield an underlined "abc".  To adjust the length of the underline, you
+may need to experiment with the number of times "\ul" appears.  You may
+also need to use one or more of the abovementioned horizontal shifts. 
+For&nbsp;example<!-- /@w -->, if the "HersheySerif" font were used,
+"\mk\ul\ul\l8\ul\rtabc" would yield a better underline than
+"\mk\ul\ul\ul\rtabc".
+
+   <p>Besides the preceding escape sequences, there are also escape sequences
+for the printable non-ASCII characters in each of the built-in
+ISO-Latin-1 fonts (which means in every built-in font, except for the
+symbol fonts, the HersheyCyrillic fonts, HersheyEUC, and ZapfDingbats). 
+The useful non-ASCII characters include accented characters among
+others.  Such `8-bit' characters, in the <tt>0xa0</tt><small class="dots">...</small><tt>0xff</tt> byte
+range, may be included directly in a text string.  But if your terminal
+does not permit this, you may use the escape sequences for them instead.
+
+   <p>There are escape sequences for the mathematical symbols and Greek
+characters in the symbol fonts, as&nbsp;well<!-- /@w -->.  This is how the symbol
+fonts are usually accessed.  Which symbol font the mathematical symbols
+and Greek characters are taken from depends on whether your current font
+is a Hershey font or a non-Hershey font.  They are taken from the
+HersheySerifSymbol font or the HersheySansSymbol font in the former
+case, and from the Symbol font in the latter.
+
+   <p>The following are the escape sequences that provide access to the
+non-ASCII characters of the current font, provided that it is an
+ISO-Latin-1 font.  Each escape sequence is followed by the position of
+the corresponding character in the ISO-Latin-1 encoding (in decimal),
+and the official Postscript name of the character.  Most names should be
+self-explanatory.  For&nbsp;example<!-- /@w -->, `eacute' is a lower-case `e',
+equipped with an acute accent.
+
+     <dl>
+<dt>"\r!"<dd>[161] exclamdown
+<br><dt>"\ct"<dd>[162] cent
+<br><dt>"\Po"<dd>[163] sterling
+<br><dt>"\Cs"<dd>[164] currency
+<br><dt>"\Ye"<dd>[165] yen
+<br><dt>"\bb"<dd>[166] brokenbar
+<br><dt>"\sc"<dd>[167] section
+<br><dt>"\ad"<dd>[168] dieresis
+<br><dt>"\co"<dd>[169] copyright
+<br><dt>"\Of"<dd>[170] ordfeminine
+<br><dt>"\Fo"<dd>[171] guillemotleft
+<br><dt>"\no"<dd>[172] logicalnot
+<br><dt>"\hy"<dd>[173] hyphen
+<br><dt>"\rg"<dd>[174] registered
+<br><dt>"\a-"<dd>[175] macron
+<br><dt>"\de"<dd>[176] degree
+<br><dt>"\+-"<dd>[177] plusminus
+<br><dt>"\S2"<dd>[178] twosuperior
+<br><dt>"\S3"<dd>[179] threesuperior
+<br><dt>"\aa"<dd>[180] acute
+<br><dt>"\*m"<dd>[181] mu
+<br><dt>"\ps"<dd>[182] paragraph
+<br><dt>"\md"<dd>[183] periodcentered
+<br><dt>"\ac"<dd>[184] cedilla
+<br><dt>"\S1"<dd>[185] onesuperior
+<br><dt>"\Om"<dd>[186] ordmasculine
+<br><dt>"\Fc"<dd>[187] guillemotright
+<br><dt>"\14"<dd>[188] onequarter
+<br><dt>"\12"<dd>[189] onehalf
+<br><dt>"\34"<dd>[190] threequarters
+<br><dt>"\r?"<dd>[191] questiondown
+<br><dt>"\`A"<dd>[192] Agrave
+<br><dt>"\'A"<dd>[193] Aacute
+<br><dt>"\^A"<dd>[194] Acircumflex
+<br><dt>"\~A"<dd>[195] Atilde
+<br><dt>"\:A"<dd>[196] Adieresis
+<br><dt>"\oA"<dd>[197] Aring
+<br><dt>"\AE"<dd>[198] AE
+<br><dt>"\,C"<dd>[199] Ccedilla
+<br><dt>"\`E"<dd>[200] Egrave
+<br><dt>"\'E"<dd>[201] Eacute
+<br><dt>"\^E"<dd>[202] Ecircumflex
+<br><dt>"\:E"<dd>[203] Edieresis
+<br><dt>"\`I"<dd>[204] Igrave
+<br><dt>"\'I"<dd>[205] Iacute
+<br><dt>"\^I"<dd>[206] Icircumflex
+<br><dt>"\:I"<dd>[207] Idieresis
+<br><dt>"\-D"<dd>[208] Eth
+<br><dt>"\~N"<dd>[209] Ntilde
+<br><dt>"\'O"<dd>[210] Ograve
+<br><dt>"\'O"<dd>[211] Oacute
+<br><dt>"\^O"<dd>[212] Ocircumflex
+<br><dt>"\~O"<dd>[213] Otilde
+<br><dt>"\:O"<dd>[214] Odieresis
+<br><dt>"\mu"<dd>[215] multiply
+<br><dt>"\/O"<dd>[216] Oslash
+<br><dt>"\`U"<dd>[217] Ugrave
+<br><dt>"\'U"<dd>[218] Uacute
+<br><dt>"\^U"<dd>[219] Ucircumflex
+<br><dt>"\:U"<dd>[220] Udieresis
+<br><dt>"\'Y"<dd>[221] Yacute
+<br><dt>"\TP"<dd>[222] Thorn
+<br><dt>"\ss"<dd>[223] germandbls
+<br><dt>"\`a"<dd>[224] agrave
+<br><dt>"\'a"<dd>[225] aacute
+<br><dt>"\^a"<dd>[226] acircumflex
+<br><dt>"\~a"<dd>[227] atilde
+<br><dt>"\:a"<dd>[228] adieresis
+<br><dt>"\oa"<dd>[229] aring
+<br><dt>"\ae"<dd>[230] ae
+<br><dt>"\,c"<dd>[231] ccedilla
+<br><dt>"\`e"<dd>[232] egrave
+<br><dt>"\'e"<dd>[233] eacute
+<br><dt>"\^e"<dd>[234] ecircumflex
+<br><dt>"\:e"<dd>[235] edieresis
+<br><dt>"\`i"<dd>[236] igrave
+<br><dt>"\'i"<dd>[237] iacute
+<br><dt>"\^i"<dd>[238] icircumflex
+<br><dt>"\:i"<dd>[239] idieresis
+<br><dt>"\Sd"<dd>[240] eth
+<br><dt>"\~n"<dd>[241] ntilde
+<br><dt>"\`o"<dd>[242] ograve
+<br><dt>"\'o"<dd>[243] oacute
+<br><dt>"\^o"<dd>[244] ocircumflex
+<br><dt>"\~o"<dd>[245] otilde
+<br><dt>"\:o"<dd>[246] odieresis
+<br><dt>"\di"<dd>[247] divide
+<br><dt>"\/o"<dd>[248] oslash
+<br><dt>"\`u"<dd>[249] ugrave
+<br><dt>"\'u"<dd>[250] uacute
+<br><dt>"\^u"<dd>[251] ucircumflex
+<br><dt>"\:u"<dd>[252] udieresis
+<br><dt>"\'y"<dd>[253] yacute
+<br><dt>"\Tp"<dd>[254] thorn
+<br><dt>"\:y"<dd>[255] ydieresis
+</dl>
+
+   <p>The following are the escape sequences that provide access to
+mathematical symbols and Greek characters in the current symbol font,
+whether HersheySerifSymbol or HersheySansSymbol (for Hershey fonts) or
+Symbol (for Postscript fonts).  Each escape sequence is followed by the
+position (in octal) of the corresponding character in the symbol
+encoding, and the official Postscript name of the character.  Many
+escape sequences and names should be self-explanatory.  "\*a" represents
+a lower-case Greek alpha, for&nbsp;example<!-- /@w -->.  For a table displaying each
+of the characters below, see the <cite>Postscript Language Reference
+Manual</cite>.
+
+     <dl>
+<dt>"\fa"<dd>[0042] universal
+<br><dt>"\te"<dd>[0044] existential
+<br><dt>"\st"<dd>[0047] suchthat
+<br><dt>"\**"<dd>[0052] asteriskmath
+<br><dt>"\=~"<dd>[0100] congruent
+<br><dt>"\*A"<dd>[0101] Alpha
+<br><dt>"\*B"<dd>[0102] Beta
+<br><dt>"\*X"<dd>[0103] Chi
+<br><dt>"\*D"<dd>[0104] Delta
+<br><dt>"\*E"<dd>[0105] Epsilon
+<br><dt>"\*F"<dd>[0106] Phi
+<br><dt>"\*G"<dd>[0107] Gamma
+<br><dt>"\*Y"<dd>[0110] Eta
+<br><dt>"\*I"<dd>[0111] Iota
+<br><dt>"\+h"<dd>[0112] theta1
+<br><dt>"\*K"<dd>[0113] Kappa
+<br><dt>"\*L"<dd>[0114] Lambda
+<br><dt>"\*M"<dd>[0115] Mu
+<br><dt>"\*N"<dd>[0116] Nu
+<br><dt>"\*O"<dd>[0117] Omicron
+<br><dt>"\*P"<dd>[0120] Pi
+<br><dt>"\*H"<dd>[0121] Theta
+<br><dt>"\*R"<dd>[0122] Rho
+<br><dt>"\*S"<dd>[0123] Sigma
+<br><dt>"\*T"<dd>[0124] Tau
+<br><dt>"\*U"<dd>[0125] Upsilon
+<br><dt>"\ts"<dd>[0126] sigma1
+<br><dt>"\*W"<dd>[0127] Omega
+<br><dt>"\*C"<dd>[0130] Xi
+<br><dt>"\*Q"<dd>[0131] Psi
+<br><dt>"\*Z"<dd>[0132] Zeta
+<br><dt>"\tf"<dd>[0134] therefore
+<br><dt>"\pp"<dd>[0136] perpendicular
+<br><dt>"\ul"<dd>[0137] underline
+<br><dt>"\rx"<dd>[0140] radicalex
+<br><dt>"\*a"<dd>[0141] alpha
+<br><dt>"\*b"<dd>[0142] beta
+<br><dt>"\*x"<dd>[0143] chi
+<br><dt>"\*d"<dd>[0144] delta
+<br><dt>"\*e"<dd>[0145] epsilon
+<br><dt>"\*f"<dd>[0146] phi
+<br><dt>"\*g"<dd>[0147] gamma
+<br><dt>"\*y"<dd>[0150] eta
+<br><dt>"\*i"<dd>[0151] iota
+<br><dt>"\+f"<dd>[0152] phi1
+<br><dt>"\*k"<dd>[0153] kappa
+<br><dt>"\*l"<dd>[0154] lambda
+<br><dt>"\*m"<dd>[0155] mu
+<br><dt>"\*n"<dd>[0156] nu
+<br><dt>"\*o"<dd>[0157] omicron
+<br><dt>"\*p"<dd>[0160] pi
+<br><dt>"\*h"<dd>[0161] theta
+<br><dt>"\*r"<dd>[0162] rho
+<br><dt>"\*s"<dd>[0163] sigma
+<br><dt>"\*t"<dd>[0164] tau
+<br><dt>"\*u"<dd>[0165] upsilon
+<br><dt>"\+p"<dd>[0166] omega1
+<br><dt>"\*w"<dd>[0167] omega
+<br><dt>"\*c"<dd>[0170] xi
+<br><dt>"\*q"<dd>[0171] psi
+<br><dt>"\*z"<dd>[0172] zeta
+<br><dt>"\ap"<dd>[0176] similar
+<br><dt>"\+U"<dd>[0241] Upsilon1
+<br><dt>"\fm"<dd>[0242] minute
+<br><dt>"\&lt;="<dd>[0243] lessequal
+<br><dt>"\f/"<dd>[0244] fraction
+<br><dt>"\if"<dd>[0245] infinity
+<br><dt>"\Fn"<dd>[0246] florin
+<br><dt>"\CL"<dd>[0247] club
+<br><dt>"\DI"<dd>[0250] diamond
+<br><dt>"\HE"<dd>[0251] heart
+<br><dt>"\SP"<dd>[0252] spade
+<br><dt>"\&lt;&gt;"<dd>[0253] arrowboth
+<br><dt>"\&lt;-"<dd>[0254] arrowleft
+<br><dt>"\ua"<dd>[0255] arrowup
+<br><dt>"\-&gt;"<dd>[0256] arrowright
+<br><dt>"\da"<dd>[0257] arrowdown
+<br><dt>"\de"<dd>[0260] degree
+<br><dt>"\+-"<dd>[0261] plusminus
+<br><dt>"\sd"<dd>[0262] second
+<br><dt>"\&gt;="<dd>[0263] greaterequal
+<br><dt>"\mu"<dd>[0264] multiply
+<br><dt>"\pt"<dd>[0265] proportional
+<br><dt>"\pd"<dd>[0266] partialdiff
+<br><dt>"\bu"<dd>[0267] bullet
+<br><dt>"\di"<dd>[0270] divide
+<br><dt>"\!="<dd>[0271] notequal
+<br><dt>"\=="<dd>[0272] equivalence
+<br><dt>"\~~"<dd>[0273] approxequal
+<br><dt>"\.."<dd>[0274] ellipsis
+<br><dt>NONE<dd>[0275] arrowvertex
+<br><dt>"\an"<dd>[0276] arrowhorizex
+<br><dt>"\CR"<dd>[0277] carriagereturn
+<br><dt>"\Ah"<dd>[0300] aleph
+<br><dt>"\Im"<dd>[0301] Ifraktur
+<br><dt>"\Re"<dd>[0302] Rfraktur
+<br><dt>"\wp"<dd>[0303] weierstrass
+<br><dt>"\c*"<dd>[0304] circlemultiply
+<br><dt>"\c+"<dd>[0305] circleplus
+<br><dt>"\es"<dd>[0306] emptyset
+<br><dt>"\ca"<dd>[0307] cap
+<br><dt>"\cu"<dd>[0310] cup
+<br><dt>"\SS"<dd>[0311] superset
+<br><dt>"\ip"<dd>[0312] reflexsuperset
+<br><dt>"\n&lt;"<dd>[0313] notsubset
+<br><dt>"\SB"<dd>[0314] subset
+<br><dt>"\ib"<dd>[0315] reflexsubset
+<br><dt>"\mo"<dd>[0316] element
+<br><dt>"\nm"<dd>[0317] notelement
+<br><dt>"\/_"<dd>[0320] angle
+<br><dt>"\gr"<dd>[0321] nabla
+<br><dt>"\rg"<dd>[0322] registerserif
+<br><dt>"\co"<dd>[0323] copyrightserif
+<br><dt>"\tm"<dd>[0324] trademarkserif
+<br><dt>"\PR"<dd>[0325] product
+<br><dt>"\sr"<dd>[0326] radical
+<br><dt>"\md"<dd>[0327] dotmath
+<br><dt>"\no"<dd>[0330] logicalnot
+<br><dt>"\AN"<dd>[0331] logicaland
+<br><dt>"\OR"<dd>[0332] logicalor
+<br><dt>"\hA"<dd>[0333] arrowdblboth
+<br><dt>"\lA"<dd>[0334] arrowdblleft
+<br><dt>"\uA"<dd>[0335] arrowdblup
+<br><dt>"\rA"<dd>[0336] arrowdblright
+<br><dt>"\dA"<dd>[0337] arrowdbldown
+<br><dt>"\lz"<dd>[0340] lozenge
+<br><dt>"\la"<dd>[0341] angleleft
+<br><dt>"\RG"<dd>[0342] registersans
+<br><dt>"\CO"<dd>[0343] copyrightsans
+<br><dt>"\TM"<dd>[0344] trademarksans
+<br><dt>"\SU"<dd>[0345] summation
+<br><dt>NONE<dd>[0346] parenlefttp
+<br><dt>NONE<dd>[0347] parenleftex
+<br><dt>NONE<dd>[0350] parenleftbt
+<br><dt>"\lc"<dd>[0351] bracketlefttp
+<br><dt>NONE<dd>[0352] bracketleftex
+<br><dt>"\lf"<dd>[0353] bracketleftbt
+<br><dt>"\lt"<dd>[0354] bracelefttp
+<br><dt>"\lk"<dd>[0355] braceleftmid
+<br><dt>"\lb"<dd>[0356] braceleftbt
+<br><dt>"\bv"<dd>[0357] braceex
+<br><dt>"\eu"<dd>[0360] euro
+<br><dt>"\ra"<dd>[0361] angleright
+<br><dt>"\is"<dd>[0362] integral
+<br><dt>NONE<dd>[0363] integraltp
+<br><dt>NONE<dd>[0364] integralex
+<br><dt>NONE<dd>[0365] integralbt
+<br><dt>NONE<dd>[0366] parenrighttp
+<br><dt>NONE<dd>[0367] parenrightex
+<br><dt>NONE<dd>[0370] parenrightbt
+<br><dt>"\rc"<dd>[0371] bracketrighttp
+<br><dt>NONE<dd>[0372] bracketrightex
+<br><dt>"\rf"<dd>[0373] bracketrightbt
+<br><dt>"\RT"<dd>[0374] bracerighttp
+<br><dt>"\rk"<dd>[0375] bracerightmid
+<br><dt>"\rb"<dd>[0376] bracerightbt
+</dl>
+
+   <p>Finally, there are escape sequences that apply only if the current font
+is a Hershey font.  Most of these escape sequences provide access to
+special symbols that belong to no font, and are accessible by no other
+means.  These symbols are of two sorts: miscellaneous, and astronomical
+or zodiacal.  The escape sequences for the miscellaneous symbols are as
+follows.
+
+     <dl>
+<dt>"\dd"<dd>daggerdbl
+<br><dt>"\dg"<dd>dagger
+<br><dt>"\hb"<dd>hbar
+<br><dt>"\li"<dd>lineintegral
+<br><dt>"\IB"<dd>interbang
+<br><dt>"\Lb"<dd>lambdabar
+<br><dt>"\~-"<dd>modifiedcongruent
+<br><dt>"\-+"<dd>minusplus
+<br><dt>"\||"<dd>parallel
+<br><dt>"\s-"<dd>[variant form of s]
+</dl>
+
+<p class="noindent">The final escape sequence in the table above, "\s-", yields a letter
+rather than a symbol.  It&nbsp;is<!-- /@w --> provided because in some Hershey fonts,
+the shape of the lower-case letter&nbsp;`s'<!-- /@w --> differs if it is the last
+letter in a word.  This is the case for HersheyGothicGerman.  The German
+word "besonders", for example, should be written as "besonder\s-" if it
+is to be rendered correctly in this font.  The same is true for the two
+Hershey symbol fonts, with their Greek alphabets (in Greek text,
+lower-case final&nbsp;`s'<!-- /@w --> is different from lower-case non-final&nbsp;`s'<!-- /@w -->).  In&nbsp;Hershey<!-- /@w --> fonts where there is no distinction between final
+and non-final&nbsp;`s'<!-- /@w -->, "s"&nbsp;and&nbsp;"\s-"<!-- /@w --> are equivalent.
+
+   <p>The escape sequences for the astronomical symbols, including the signs
+for the twelve constellations of the zodiac, are listed in the following
+table.  We stress that that like the preceding miscellaneous escape
+sequences, they apply only if the current font is a Hershey font.
+
+     <dl>
+<dt>"\SO"<dd>sun
+<br><dt>"\ME"<dd>mercury
+<br><dt>"\VE"<dd>venus
+<br><dt>"\EA"<dd>earth
+<br><dt>"\MA"<dd>mars
+<br><dt>"\JU"<dd>jupiter
+<br><dt>"\SA"<dd>saturn
+<br><dt>"\UR"<dd>uranus
+<br><dt>"\NE"<dd>neptune
+<br><dt>"\PL"<dd>pluto
+<br><dt>"\LU"<dd>moon
+<br><dt>"\CT"<dd>comet
+<br><dt>"\ST"<dd>star
+<br><dt>"\AS"<dd>ascendingnode
+<br><dt>"\DE"<dd>descendingnode
+<br><dt>"\AR"<dd>aries
+<br><dt>"\TA"<dd>taurus
+<br><dt>"\GE"<dd>gemini
+<br><dt>"\CA"<dd>cancer
+<br><dt>"\LE"<dd>leo
+<br><dt>"\VI"<dd>virgo
+<br><dt>"\LI"<dd>libra
+<br><dt>"\SC"<dd>scorpio
+<br><dt>"\SG"<dd>sagittarius
+<br><dt>"\CP"<dd>capricornus
+<br><dt>"\AQ"<dd>aquarius
+<br><dt>"\PI"<dd>pisces
+</dl>
+
+   <p>The preceding miscellaneous and astronomical symbols are not the only
+special non-font symbols that can be used if the current font is a
+Hershey font.  The entire library of glyphs digitized by Allen Hershey
+is built into GNU <code>libplot</code>.  So&nbsp;text<!-- /@w --> strings may include any
+Hershey glyph.  Each of the available Hershey glyphs is identified by a
+four-digit number.  Standard Hershey glyph&nbsp;#1<!-- /@w --> would be specified as
+"\#H0001".  The standard Hershey glyphs range from "\#H0001" to
+"\#H3999", with a number of gaps.  Some additional glyphs designed by
+others appear in the "\#H4000"<small class="dots">...</small>"\#H4194" range.  Syllabic Japanese
+characters (Kana) are located in the "\#H4195"<small class="dots">...</small>"\#H4399" range.
+
+   <p>You may order a table of nearly all the Hershey glyphs in the
+"\#H0001"<small class="dots">...</small>"\#H3999" range from the U.S. National Technical
+Information Service, at +1&nbsp;703<!-- /@w --> 487 4650.  Ask for item number
+PB251845; the current price is about US$40.  By way of example, the
+string
+
+<pre class="example">     "\#H0744\#H0745\#H0001\#H0002\#H0003\#H0869\#H0907\#H2330\#H2331"
+</pre>
+   <p class="noindent">when drawn will display a shamrock, a fleur-de-lys, cartographic (small)
+letters A,&nbsp;B,&nbsp;C<!-- /@w -->, a&nbsp;bell,<!-- /@w --> a&nbsp;large<!-- /@w --> circle, a&nbsp;treble<!-- /@w -->
+clef, and a&nbsp;bass<!-- /@w --> clef.  Again, this assumes that the current font is
+a Hershey font.
+
+   <p>You may also use Japanese syllabic characters (Hiragana and Katakana)
+and ideographic characters (Kanji) when drawing strings in any Hershey
+font.  In&nbsp;all<!-- /@w -->, 603 Kanji are available; these are the same Kanji
+that are available in the HersheyEUC font.  The Japanese characters are
+indexed according to the JIS X0208 standard for Japanese typography,
+which represents each character by a two-byte sequence.  The file
+<samp><span class="file">kanji.doc</span></samp>, which is distributed along with the GNU plotting
+utilities, lists the available Kanji.  On&nbsp;most<!-- /@w --> systems it is
+installed in <samp><span class="file">/usr/share/libplot</span></samp> or
+<samp><span class="file">/usr/local/share/libplot</span></samp>.
+
+   <p>Each JIS X0208 character would be specified by an escape sequence
+which expresses this two-byte sequence as four hexadecimal digits,
+such as "\#J357e".  Both bytes must be in the
+<code>0x21</code><small class="dots">...</small><code>0x7e</code> range in order to define a JIS X0208
+character.  Kanji are located at "\#J3021" and above.  Characters
+appearing elsewhere in the JIS X0208 encoding may be accessed
+similarly.  For example, Hiragana and Katakana are located in the
+"\#J2421"<small class="dots">...</small>"\#J257e" range, and Roman characters in the
+"\#J2321"<small class="dots">...</small>"\#J237e" range.  The file <samp><span class="file">kana.doc</span></samp>, which is
+installed in the same directory as <samp><span class="file">kanji.doc</span></samp>, lists the
+encodings of the Hiragana and Katakana.  For more on the JIS X0208
+standard, see Ken Lunde's <cite>Understanding Japanese Information
+Processing</cite> (O'Reilly, 1993), and
+<a href="http://www.praxagora.com/lunde/cjk_inf.html">his on-line supplement</a>.
+
+   <p>The Kanji numbering used in A.&nbsp;N.<!-- /@w --> Nelson's <cite>Modern Reader's
+Japanese-English Character Dictionary</cite>, a&nbsp;longtime<!-- /@w --> standard, is also
+supported.  (This dictionary is published by C.&nbsp;E.<!-- /@w --> Tuttle and Co.,
+with ISBN 0-8048-0408-7.  A&nbsp;revised<!-- /@w --> edition [ISBN 0-8048-2036-8]
+appeared in 1997, but uses a different numbering.)  `Nelson' escape
+sequences for Kanji are similar to JIS X0208 escape sequences, but use
+four decimal instead of four hexadecimal digits.  The file
+<samp><span class="file">kanji.doc</span></samp> gives the correspondence between the JIS numbering
+scheme and the Nelson numbering scheme.  For&nbsp;example<!-- /@w -->, "\#N0001" is
+equivalent to "\#J306c".  It&nbsp;also<!-- /@w --> gives the positions of the
+available Kanji in the Unicode encoding.
+
+   <p>All available Kanji have the same width, which is the same as that of
+the syllabic Japanese characters (Hiragana and Katakana).  Each Kanji
+that is not available will print as an `undefined character' glyph (a&nbsp;bundle<!-- /@w --> of horizontal lines).  The same is true for non-Kanji JIS X0208
+characters that are not available.
+
+   </body></html>
+

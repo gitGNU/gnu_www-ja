@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Information for maintainers of GNU software, last updated January 12, 2012.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
+2010, 2011, 2012 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 0.01, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Information for Maintainers of GNU Software: Distribution Patches</title>
+
+<meta name="description" content="Information for Maintainers of GNU Software: Distribution Patches">
+<meta name="keywords" content="Information for Maintainers of GNU Software: Distribution Patches">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Distributions.html#Distributions" rel="up" title="Distributions">
+<link href="Distribution-on-ftp_002egnu_002eorg.html#Distribution-on-ftp_002egnu_002eorg" rel="next" title="Distribution on ftp.gnu.org">
+<link href="Distribution-tar-Files.html#Distribution-tar-Files" rel="previous" title="Distribution tar Files">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Distribution-Patches"></a>
+<div class="header">
+<p>
+Next: <a href="Distribution-on-ftp_002egnu_002eorg.html#Distribution-on-ftp_002egnu_002eorg" accesskey="n" rel="next">Distribution on ftp.gnu.org</a>, Previous: <a href="Distribution-tar-Files.html#Distribution-tar-Files" accesskey="p" rel="previous">Distribution tar Files</a>, Up: <a href="Distributions.html#Distributions" accesskey="u" rel="up">Distributions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Distribution-Patches-1"></a>
+<h3 class="section">11.2 Distribution Patches</h3>
+<a name="index-patches_002c-against-previous-releases"></a>
+
+<p>If the program is large, it is useful to make a set of diffs for each
+release, against the previous important release.
+</p>
+<p>At the front of the set of diffs, put a short explanation of which
+version this is for and which previous version it is relative to.
+Also explain what else people need to do to update the sources
+properly (for example, delete or rename certain files before
+installing the diffs).
+</p>
+<p>The purpose of having diffs is that they are small.  To keep them
+small, exclude files that the user can easily update.  For example,
+exclude info files, DVI files, tags tables, output files of Bison or
+Flex.  In Emacs diffs, we exclude compiled Lisp files, leaving it up
+to the installer to recompile the patched sources.
+</p>
+<p>When you make the diffs, each version should be in a directory suitably
+named&mdash;for example, &lsquo;<tt>gcc-2.3.2</tt>&rsquo; and &lsquo;<tt>gcc-2.3.3</tt>&rsquo;.  This way,
+it will be very clear from the diffs themselves which version is which.
+</p>
+<a name="index-diff"></a>
+<a name="index-patch"></a>
+<a name="index-time-stamp-in-diffs"></a>
+<p>If you use GNU <code>diff</code> to make the patch, use the options
+&lsquo;<samp>-rc2P</samp>&rsquo;.  That will put any new files into the output as &ldquo;entirely
+different&rdquo;.  Also, the patch&rsquo;s context diff headers should have dates
+and times in Universal Time using traditional Unix format, so that patch
+recipients can use GNU <code>patch</code>&rsquo;s &lsquo;<samp>-Z</samp>&rsquo; option.  For example,
+you could use the following Bourne shell command to create the patch:
+</p>
+<div class="example">
+<pre class="example">LC_ALL=C TZ=UTC0 diff -rc2P gcc-2.3.2 gcc-2.3.3 | \
+gzip -9 &gt;gcc-2.3.2-2.3.3.patch.gz
+</pre></div>
+
+<p>If the distribution has subdirectories in it, then the diffs probably
+include some files in the subdirectories.  To help users install such
+patches reliably, give them precise directions for how to run patch.
+For example, say this:
+</p>
+<div class="display">
+<pre class="display">To apply these patches, cd to the main directory of the program
+and then use &lsquo;patch -p1&rsquo;.   &lsquo;-p1&rsquo; avoids guesswork in choosing
+which subdirectory to find each file in.
+</pre></div>
+
+<p>It&rsquo;s wise to test your patch by applying it to a copy of the old
+version, and checking that the result exactly matches the new version.
+</p>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Distribution-on-ftp_002egnu_002eorg.html#Distribution-on-ftp_002egnu_002eorg" accesskey="n" rel="next">Distribution on ftp.gnu.org</a>, Previous: <a href="Distribution-tar-Files.html#Distribution-tar-Files" accesskey="p" rel="previous">Distribution tar Files</a>, Up: <a href="Distributions.html#Distributions" accesskey="u" rel="up">Distributions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<p>
+
+
+</p>
+</body>
+</html>

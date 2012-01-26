@@ -1,0 +1,61 @@
+****************************************************************************
+****** KDM Micro-HOWTO ****************************** Por Daniel Molina ****
+****************************************************************************
+
+Este documento ha sido creado usando mensajes aparecidos en el area
+de news es.comp.os.linux y por mi propia experiencia.
+
+Solo lo he probado con la Beta 4 de KDE en Red Hat 5.0, por lo ke
+la localizacion de los archivos puede cambiar en otras distribuciones.
+
+KDM es un substituto mejorado par el xdm. Puedes leer la ayuda ke
+el propio programa trae en formato HTML (ingles)
+
+1. Archivo /etc/inittab
+	En este archivo se define el runlevel del arranke.
+	En la primera linea fijamos el runlevel a 5 que es el
+	ke arranca en modo grafico:	
+		
+		id:5:initdefault
+
+	En la linea donde se define el xdm (generalmente la ultima)
+	pondremos:
+
+		x:5:respawn:/opt/kde/bin/kdm -nodaemon
+
+2. Archivo /etc/X11/xdm/Xsession_0
+	Eliminar todas las referencias a programas para ejecutar
+	(estan en condicionales if esle) y poner en su lugar, al 
+	final del archivo:
+
+		exec startkde
+
+3. Archivo /etc/X11/xdm/Xsetup_0
+	Solo debe aparecer esto:
+
+		/opt/kde/bin/kdmdesktop
+
+4. Archivo /etc/pam.d/xdm
+	Poner al final:
+
+		auth	required	/lib/security/pam_unix_auth.so
+		auth	required	/lib/security/pam_unix_acct.so
+
+5. Test
+	Cerrar el entorno grafico y ejecuta kdm como root:
+
+		kdm -nodaemon
+
+	Si da algun mensaje de error repasa ke todas las rutas sean
+	correctas y leete la ayuda del programa.
+
+	Si no te aprecen todos los usuarios puedes editar el archivo
+	/opt/kde/share/config/kdmrc asegurate ke aparecen estas lineas
+	sin comentar:
+
+		UserView=1
+		Users=root;usuario1;usuario2 ... 
+
+6. Reiniciar
+	Al reiniciar (reset) la makina deberia entrar en el modo
+	grafico y pedir login y password.	

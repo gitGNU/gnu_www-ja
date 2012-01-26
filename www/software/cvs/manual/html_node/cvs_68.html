@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Rename by copying</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_67.html">previous</A>, <A HREF="cvs_69.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC70" HREF="cvs_toc.html#TOC70">Copying the history file</A></H2>
+
+<P>
+This way also involves direct modifications to the
+repository.  It is safe, but not without drawbacks.
+
+</P>
+
+<PRE>
+# Copy the RCS file inside the repository
+$ cd $CVSROOT/<VAR>module</VAR>
+$ cp <VAR>old</VAR>,v <VAR>new</VAR>,v
+# Remove the old file
+$ cd ~/<VAR>module</VAR>
+$ rm <VAR>old</VAR>
+$ cvs remove <VAR>old</VAR>
+$ cvs commit <VAR>old</VAR>
+# Remove all tags from <VAR>new</VAR>
+$ cvs update <VAR>new</VAR>
+$ cvs log <VAR>new</VAR>             # Remember the non-branch tag names
+$ cvs tag -d <VAR>tag1</VAR> <VAR>new</VAR>
+$ cvs tag -d <VAR>tag2</VAR> <VAR>new</VAR>
+...
+</PRE>
+
+<P>
+By removing the tags you will be able to check out old
+revisions of the module.
+
+</P>
+<P>
+Advantages:
+
+</P>
+
+<UL>
+<LI>
+
+Checking out old revisions works correctly, as long as
+you use <SAMP>`-r<VAR>tag</VAR>'</SAMP> and not <SAMP>`-D<VAR>date</VAR>'</SAMP>
+to retrieve the revisions.
+
+<LI>
+
+The log of changes is maintained intact.
+
+<LI>
+
+The revision numbers are not affected.
+</UL>
+
+<P>
+Disadvantages:
+
+</P>
+
+<UL>
+<LI>
+
+You cannot easily see the history of the file across the rename.
+
+<LI>
+
+Unless you use the <SAMP>`-r rev'</SAMP> (see section <A HREF="cvs_96.html#SEC100">commit options</A>) flag when <VAR>new</VAR> is committed its revision
+numbers will start at 1.0 again.
+</UL>
+
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_67.html">previous</A>, <A HREF="cvs_69.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

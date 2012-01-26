@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated January 8, 2012.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+2011, 2012 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 0.01, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: Style of Change Logs</title>
+
+<meta name="description" content="GNU Coding Standards: Style of Change Logs">
+<meta name="keywords" content="GNU Coding Standards: Style of Change Logs">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Change-Logs.html#Change-Logs" rel="up" title="Change Logs">
+<link href="Simple-Changes.html#Simple-Changes" rel="next" title="Simple Changes">
+<link href="Change-Log-Concepts.html#Change-Log-Concepts" rel="previous" title="Change Log Concepts">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Style-of-Change-Logs"></a>
+<div class="header">
+<p>
+Next: <a href="Simple-Changes.html#Simple-Changes" accesskey="n" rel="next">Simple Changes</a>, Previous: <a href="Change-Log-Concepts.html#Change-Log-Concepts" accesskey="p" rel="previous">Change Log Concepts</a>, Up: <a href="Change-Logs.html#Change-Logs" accesskey="u" rel="up">Change Logs</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Style-of-Change-Logs-1"></a>
+<h4 class="subsection">6.8.2 Style of Change Logs</h4>
+<a name="index-change-logs_002c-style"></a>
+
+<p>Here are some simple examples of change log entries, starting with the
+header line that says who made the change and when it was installed,
+followed by descriptions of specific changes.  (These examples are
+drawn from Emacs and GCC.)
+</p>
+<div class="example">
+<pre class="example">1998-08-17  Richard Stallman  &lt;rms@gnu.org&gt;
+
+* register.el (insert-register): Return nil.
+(jump-to-register): Likewise.
+
+* sort.el (sort-subr): Return nil.
+
+* tex-mode.el (tex-bibtex-file, tex-file, tex-region):
+Restart the tex shell if process is gone or stopped.
+(tex-shell-running): New function.
+
+* expr.c (store_one_arg): Round size up for move_block_to_reg.
+(expand_call): Round up when emitting USE insns.
+* stmt.c (assign_parms): Round size up for move_block_from_reg.
+</pre></div>
+
+<p>It&rsquo;s important to name the changed function or variable in full.  Don&rsquo;t
+abbreviate function or variable names, and don&rsquo;t combine them.
+Subsequent maintainers will often search for a function name to find all
+the change log entries that pertain to it; if you abbreviate the name,
+they won&rsquo;t find it when they search.
+</p>
+<p>For example, some people are tempted to abbreviate groups of function
+names by writing &lsquo;<samp>* register.el ({insert,jump-to}-register)</samp>&rsquo;;
+this is not a good idea, since searching for <code>jump-to-register</code> or
+<code>insert-register</code> would not find that entry.
+</p>
+<p>Separate unrelated change log entries with blank lines.  When two
+entries represent parts of the same change, so that they work together,
+then don&rsquo;t put blank lines between them.  Then you can omit the file
+name and the asterisk when successive entries are in the same file.
+</p>
+<p>Break long lists of function names by closing continued lines with
+&lsquo;<samp>)</samp>&rsquo;, rather than &lsquo;<samp>,</samp>&rsquo;, and opening the continuation with
+&lsquo;<samp>(</samp>&rsquo; as in this example:
+</p>
+<div class="example">
+<pre class="example">* keyboard.c (menu_bar_items, tool_bar_items)
+(Fexecute_extended_command): Deal with 'keymap' property.
+</pre></div>
+
+<p>When you install someone else&rsquo;s changes, put the contributor&rsquo;s name in
+the change log entry rather than in the text of the entry.  In other
+words, write this:
+</p>
+<div class="example">
+<pre class="example">2002-07-14  John Doe  &lt;jdoe@gnu.org&gt;
+
+        * sewing.c: Make it sew.
+</pre></div>
+
+<p>rather than this:
+</p>
+<div class="example">
+<pre class="example">2002-07-14  Usual Maintainer  &lt;usual@gnu.org&gt;
+
+        * sewing.c: Make it sew.  Patch by jdoe@gnu.org.
+</pre></div>
+
+<p>As for the date, that should be the date you applied the change.
+</p>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Simple-Changes.html#Simple-Changes" accesskey="n" rel="next">Simple Changes</a>, Previous: <a href="Change-Log-Concepts.html#Change-Log-Concepts" accesskey="p" rel="previous">Change Log Concepts</a>, Up: <a href="Change-Logs.html#Change-Logs" accesskey="u" rel="up">Change Logs</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<p>
+
+
+</p>
+</body>
+</html>

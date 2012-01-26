@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Not Enough</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_8.html">previous</A>, <A HREF="termcap_10.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC9" HREF="termcap_toc.html#TOC9">When There Is Not Enough Padding</A></H3>
+
+<P>
+There are several common manifestations of insufficient padding.
+
+</P>
+
+<UL>
+<LI>
+
+Emacs displays <SAMP>`I-search: ^Q-'</SAMP> at the bottom of the screen.
+
+This means that the terminal thought its buffer was getting full of
+display commands, so it tried to tell the computer to stop sending
+any.
+
+<LI>
+
+The screen is garbled intermittently, or the details of garbling vary
+when you repeat the action.  (A garbled screen could be due to a
+command which is simply incorrect, or to user option in the terminal
+which doesn't match the assumptions of the terminal description, but
+this usually leads to reproducible failure.)
+
+This means that the buffer did get full, and some commands were lost.
+Many changeable factors can change which ones are lost.
+
+<LI>
+
+Screen is garbled at high output speeds but not at low speeds.
+Padding problems nearly always go away at low speeds, usually even at
+1200 baud.
+
+This means that a high enough speed permits commands to arrive faster
+than they can be executed.
+</UL>
+
+<P>
+Although any obscure command on an obscure terminal might lack padding,
+in practice problems arise most often from the clearing commands
+<SAMP>`cl'</SAMP> and <SAMP>`cd'</SAMP> (see section <A HREF="termcap_30.html#SEC30">Clearing Parts of the Screen</A>), the scrolling commands
+<SAMP>`sf'</SAMP> and <SAMP>`sr'</SAMP> (see section <A HREF="termcap_28.html#SEC28">Scrolling</A>), and the line insert/delete
+commands <SAMP>`al'</SAMP> and <SAMP>`dl'</SAMP> (see section <A HREF="termcap_31.html#SEC31">Insert/Delete Line</A>).
+
+</P>
+<P>
+Occasionally the terminal description fails to define <SAMP>`sf'</SAMP> and some
+programs will use <SAMP>`do'</SAMP> instead, so you may get a problem with
+<SAMP>`do'</SAMP>.  If so, first define <SAMP>`sf'</SAMP> just like <SAMP>`do'</SAMP>, then
+add some padding to <SAMP>`sf'</SAMP>.
+
+</P>
+<P>
+The best strategy is to add a lot of padding at first, perhaps 200 msec.
+This is much more than enough; in fact, it should cause a visible slowdown.
+(If you don't see a slowdown, the change has not taken effect;
+see section <A HREF="termcap_22.html#SEC22">When Changes in the Data Base Take Effect</A>.)  If this makes the problem go away, you have found the
+right place to add padding; now reduce the amount until the problem comes
+back, then increase it again.  If the problem remains, either it is in some
+other capability or it is not a matter of padding at all.
+
+</P>
+<P>
+Keep in mind that on many terminals the correct padding for insert/delete
+line or for scrolling is cursor-position dependent.  If you get problems
+from scrolling a large region of the screen but not from scrolling a small
+part (just a few lines moving), it may mean that fixed padding should be
+replaced with position-dependent padding.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_8.html">previous</A>, <A HREF="termcap_10.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<HTML>
+<HEAD>
+<TITLE>Goose - GNU Project - Free Software Foundation (FSF)</TITLE>
+<LINK REV="made" HREF="mailto:webmasters@gnu.org">
+<META NAME="keywords" CONTENT="goose">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#1F00FF" ALINK="#FF0000" VLINK="#9900DD">
+<H3>Goose: The GNU Object-Oriented Statistics Environment</H3>
+
+<p>GNU Goose has been decommissioned.  Please see the 
+<a href="/software/gsl/">GNU Scientific Library</a>.  The remainder of
+this page is kept just for historical purposes.
+
+<!-- when you replace this graphics, make sure you change the link
+to also point to the correct html page -->
+<A HREF="/graphics"><IMG SRC="/graphics/goose.jpg"
+   ALT=" [Image of a Chicago-Area Goose] "
+   WIDTH="209" HEIGHT="156"></A>
+
+<UL>
+<LI> <A HREF="#whatis" NAME="TOCwhatis">What is Goose?</A>
+<LI> <A HREF="#get" NAME="TOCget">Getting Goose</A>
+<LI> <A HREF="#features" NAME="TOCfeatues">Goose's Features</A>
+<LI> <A HREF="#mail" NAME="TOCmail">Goose Mailing List Information</A>
+<LI> <A HREF="#devel" NAME="TOCdevel">Developers</A>
+<LI> <A HREF="#alt" NAME="TOCalt">Goose Alternatives</A>
+</UL>
+
+
+
+
+
+
+
+
+
+<H3><A NAME="whatis" HREF="#TOCwhatis">What is Goose?</A></H3>
+
+<P>
+Goose is a LGPLed C++ library dedicated to statistical computation.  The two
+design goals of this project are:
+<UL>
+<LI> To create a useful and complete system that takes advantage of
+     C++'s features to improve the clarity of statistical code and
+     that is easier to use for programmers.
+<LI> To produce a complete set of <a href="/software/guile">Guile</a>
+      bindings, exporting all of the C++ library's functionality to that
+      environment.
+</UL>
+A third, ancillary goal is to provide statistical functionality for <A
+HREF="http://www.gnome.org/guppi">Guppi</A>, the
+<A HREF="http://www.gnome.org">Gnome</A> plotting and data-visualization
+program.  The desire for non-trivial statistics in Guppi was actually the 
+motivation for creating Goose.
+</P>
+
+<P>
+Goose is being primarily developed under GNU/Linux, but an effort is
+being made to insure that it is portable to both other Un*x systems
+and to Win32.
+</P>
+
+
+<P>
+You should be aware that <STRONG>Goose is still in the early stages of
+development</STRONG>, and parts of it are prone to breakage,
+bugginess, and sudden, sweeping, API changes.  This is Alpha software.
+Anyone who at this time wants to use Goose in a non-trivial way should
+stay in touch with the developers via the <A HREF="#mail">mailing
+list</A>.
+</P>
+
+<P>
+With that said, you should also know that the core parts of Goose are
+relatively stable and debugged.  Goose does have a reasonable number
+of useful features, with more functionality being added all of the
+time.
+</P>
+
+
+
+
+
+
+<H3><A NAME="get" HREF="#TOCget">Getting Goose</A></H3>
+
+<P>
+The current version of Goose is <B>0.0.11</B>,
+which was released on 18 Oct 1999.  It can be
+downloaded from
+<A HREF="http://ftp.gnu.org/pub/gnu/goose">http://ftp.gnu.org/pub/gnu/goose</A>.
+(You might also want to use one of the 
+<A HREF="http://www.gnu.org/order/ftp.html">FSF mirror sites</a>.)
+A copy of the latest version can usually also be found at
+<A HREF="ftp://ftp.gnome.org/pub/guppi">ftp://ftp.gnome.org/pub/guppi</A>.
+</P>
+
+<P>
+RPMs are available from
+<A HREF="http://ftp.gnu.org/pub/gnu/goose/RPMS">http://ftp.gnu.org/pub/gnu/goose/RPMS</A>.
+</P>
+
+<P>
+Development versions of Goose currently live in the
+<A HREF="http://www.gnome.org">Gnome</A> Project's
+<A HREF="http://www.gnome.org/devel/whatiscvs.shtml">CVS server</A>.
+Using the anonymous CVS server, just check out <TT>goose</TT>.
+That server also has a nice mechanism for
+<A HREF="http://cvs.gnome.org/lxr/source/goose">browsing the cross-referenced
+source code</A>. 
+</P>
+
+
+
+
+
+
+
+
+
+
+<H3><A NAME="features" HREF="#TOCfeatures">Goose's Features</A></H3>
+
+<P>
+The following is a list of features in Goose that should (more or less)
+work.  Additional features may be available in the development version.
+</P>
+
+<UL>
+
+<LI> Numerical functions that are useful for statistical computation, including
+
+<UL>
+
+<LI> Combinatorial functions:
+factorial, log factorial, binomial coefficient, log of binomial coefficient.
+
+<LI> CDF and inverse CDF functions for many common distributions,
+including normal (Gaussian), binomial, negative binomial, beta,
+chi-square, F, gamma, Poisson, hypergeometric, and Student's t.
+
+<LI> Other useful special functions: gamma function, log of gamma, incomplete
+gamma function, log of incomplete gamma.
+
+</UL>
+
+<LI> A fast, high-quality Mersenne Twister-based random number generator.
+
+<LI> The RealSet class, an optimized container class for statistical data that offers:
+<UL>
+
+<LI> Copy-on-write semantics that allow large containers to be efficiently
+copied and passed by value.
+
+<LI> Cached mean, standard deviation, minimum and maximum.
+
+<LI> Caching of a sorted version of the data, and automatic detection
+of sorted data.  All unnecessary sort operations are eliminated, and
+the user never needs to worry about if their data is sorted or not.
+
+<LI> Optimized data transformations: linear, exp, log, logit.
+Sorting.  Replacement of values by their ranks.  Rearrangement by
+arbitrary permutations.  Random re-ordering.
+
+<LI> Efficient calculation of descriptive statistics (many in constant
+time): minimum, maximum, range, sum, mean, variance, standard
+deviation, sample standard deviation, percentile, median, quartiles,
+interquartile range, deciles, trimmed mean, winsorized mean, arbitrary
+moments, geometric mean, harmonic mean, RMS, mean deviation, median
+deviation, kurtosis, skewness, Durbin-Watson, autocorrelation.
+
+<LI> Descriptive statistics involving two variables or data sets:
+covariance, correlation, Spearman's rho, Kendall's tau,
+pooled mean, pooled variance, weighted mean.
+
+<LI> Calculations on empirical distribution functions:
+Kolmogorov-Smirnov D, D+, D-, Kuiper's V.
+</UL>
+
+<LI> Statistical tests: t-test, F-test, Kruskall-Wallis, Spearman, McNemar,
+Cochran's Q.
+
+<LI> An implementation of simple linear regression includes
+<UL>
+<LI> Calculation of confidence intervals for the slope and intercept.
+<LI> t- and p-values for the model.
+<LI> Pointwise diagnostics: leverage, DFBETAS, DFFITS, and Cook's D.
+</UL>
+
+<LI> Optimized, optionally multi-threaded resampling routines for
+bootstrapping the mean, median, standard deviation, skewness,
+kurtosis, or the slope and intercept of a simple linear regression.
+
+<LI> Kernel density estimation using Epanechnikov, Biweight,
+Triweight, Gaussian and Uniform kernels.
+
+<LI> An "automagical" ASCII import system that can analyze and make
+intelligent guesses about the format/layout of text files containing
+numeric data.
+
+</UL>
+
+Goose's Guile bindings currently give access to
+<UL>
+<LI> Most of the numerical functions.
+<LI> The random number generator.
+<LI> Pretty much all of the RealSet's functionality.
+<LI> The basics of simple linear regression.
+</UL>
+
+
+
+
+
+
+<H3><A NAME="mail" HREF="#TOCmail">Goose Mailing List Information</A></H3>
+
+<P>
+The current "official" forum for discussing Goose is the
+<A HREF="http://www.gnome.org/mailing-lists/archives/guppi-list">guppi-list</A>
+mailing list.  (We still share a pretty low-traffic mailing list with Guppi.)
+Subscription requests should be sent to
+<A HREF="mailto:guppi-list-request@gnome.org">guppi-list-request@gnome.org</A>.
+</P>
+
+<P>
+Questions and comments can also be sent to
+<A HREF="http://www.emccta.com/~trow">Jon Trowbridge</A>
+<A HREF="mailto:trow@gnu.org">&lt;trow@gnu.org&gt;</A>.
+</P>
+
+
+
+<H3><A NAME="devel" HREF="#TOCdevel">Developers</A></H3>
+
+<P>
+Goose is mainly being coded by
+<A HREF="http://www.emccta.com/~trow">Jon Trowbridge</A>
+<A HREF="mailto:trow@gnu.org">&lt;trow@gnu.org&gt;</A>,
+but not without a significant amount
+of help from other dutiful programmers (in alphabetical order):
+<UL>
+<LI> Bradford Hovinen (Guile Extensions, Hypothesis Testing)
+<LI> Asger Alstrup Nielsen (Infrastructure, ASCII import)
+<LI> Havoc Pennington (General Hacking, Autoconf magic, Aura of Coolness)
+<LI> Mikkel Munck Rasmussen (Statistical tests)
+</UL>
+</P>
+
+
+
+<H3><A NAME="alt" HREF="#TOCalt">Goose Alternatives</A></H3>
+
+<P>
+Goose is just one of the GNU projects that involves statistical computation,
+and may not be the right tool for your job.
+Other useful GNU tools include:
+<UL>
+<LI> <a href="http://www.r-project.org/">R</a>, an S clone, is a
+      system for statistical computation and graphics.
+<LI> <a href="http://www.gnu.org/software/pspp/pspp.html">PSPP</a>
+     (previously known as Fiasco) is an SPSS clone.
+     It interprets commands in the
+     SPSS language and produces tabular output in
+     ASCII, HTML, or PostScript format.
+<LI> <a href="http://sourceware.cygnus.com/gsl">GSL -
+     The GNU Scientific Library</a>
+     is a collection of routines for numerical computing. The
+     routines are written from scratch by the GSL team in ANSI C, and are
+     meant to present a modern Applications Programming Interface (API) for
+     C programmers, while allowing wrappers to be written for very high
+     level languages.  It contains some support for statistical functions.
+<LI> <a href="http://www.gnu.org/software/octave">GNU Octave</a>
+     is a high-level language, primarily intended
+     for numerical computations, that provides a convenient command line
+     interface for solving linear and nonlinear problems numerically.
+     It also offers some limited statistical functionality.
+</UL>
+</P>
+
+<P>
+If you are aware of any other good free statistics tools that I've
+omitted, please 
+<A href="mailto:trow@gnu.org">e-mail me</A> so that I can
+add them to the list. 
+</P>
+
+
+
+
+
+
+
+<HR>
+
+Return to <A HREF="/home.html">GNU's home page</A>.
+<P>
+
+Please send FSF &amp; GNU inquiries &amp; questions to 
+
+<A HREF="mailto:gnu@gnu.org"><EM>gnu@gnu.org</EM></A>.
+There are also <A HREF="/home.html#ContactInfo">other ways to
+contact</A> the FSF.
+<P>
+
+Please send comments on these web pages to
+
+<A HREF="mailto:webmasters@gnu.org"><EM>webmasters@gnu.org</EM></A>,
+send other questions to
+<A HREF="mailto:gnu@gnu.org"><EM>gnu@gnu.org</EM></A>.
+<P>
+Copyright (C) 1999 Free Software Foundation, Inc.,
+59 Temple Place - Suite 330, Boston, MA  02111,  USA
+<P>
+Verbatim copying and distribution of this entire article is
+permitted in any medium, provided this notice is preserved.<P>
+Updated:
+<!-- hhmts start -->
+19 Oct 1999 trow
+<!-- hhmts end -->
+<HR>
+</BODY>
+</HTML>

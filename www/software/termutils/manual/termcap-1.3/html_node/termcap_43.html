@@ -1,0 +1,70 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Printer</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_42.html">previous</A>, <A HREF="termcap_44.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC43" HREF="termcap_toc.html#TOC43">Controlling Printers Attached to Terminals</A></H2>
+<P>
+<A NAME="IDX187"></A>
+
+</P>
+<P>
+Some terminals have attached hardcopy printer ports.  They may be able to
+copy the screen contents to the printer; they may also be able to redirect
+output to the printer.  Termcap does not have anything to tell the program
+whether the redirected output appears also on the screen; it does on some
+terminals but not all.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`ps'</SAMP>
+<DD>
+<A NAME="IDX188"></A>
+String of commands to cause the contents of the screen to be printed.
+If it is absent, the screen contents cannot be printed.
+
+<DT><SAMP>`po'</SAMP>
+<DD>
+<A NAME="IDX189"></A>
+String of commands to redirect further output to the printer.
+
+<DT><SAMP>`pf'</SAMP>
+<DD>
+<A NAME="IDX190"></A>
+String of commands to terminate redirection of output to the printer.
+This capability must be present in the description if <SAMP>`po'</SAMP> is.
+
+<DT><SAMP>`pO'</SAMP>
+<DD>
+<A NAME="IDX191"></A>
+String of commands to redirect output to the printer for next <VAR>n</VAR>
+characters of output, regardless of what they are.  Redirection will
+end automatically after <VAR>n</VAR> characters of further output.  Until
+then, nothing that is output can end redirection, not even the
+<SAMP>`pf'</SAMP> string if there is one.  The number <VAR>n</VAR> should not be
+more than 255.
+
+One use of this capability is to send non-text byte sequences (such as
+bit-maps) to the printer.
+</DL>
+
+<P>
+Most terminals with printers do not support all of <SAMP>`ps'</SAMP>, <SAMP>`po'</SAMP> and
+<SAMP>`pO'</SAMP>; any one or two of them may be supported.  To make a program that
+can send output to all kinds of printers, it is necessary to check for all
+three of these capabilities, choose the most convenient of the ones that
+are provided, and use it in its own appropriate fashion.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_42.html">previous</A>, <A HREF="termcap_44.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

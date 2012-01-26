@@ -1,0 +1,118 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Find</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_3.html">previous</A>, <A HREF="termcap_5.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC4" HREF="termcap_toc.html#TOC4">Finding a Terminal Description: <CODE>tgetent</CODE></A></H2>
+
+<P>
+<A NAME="IDX2"></A>
+An application program that is going to use termcap must first look up the
+description of the terminal type in use.  This is done by calling
+<CODE>tgetent</CODE>, whose declaration in ANSI Standard C looks like:
+
+</P>
+
+<PRE>
+int tgetent (char *<VAR>buffer</VAR>, char *<VAR>termtype</VAR>);
+</PRE>
+
+<P>
+This function finds the description and remembers it internally so that
+you can interrogate it about specific terminal capabilities
+(see section <A HREF="termcap_5.html#SEC5">Interrogating the Terminal Description</A>).
+
+</P>
+<P>
+The argument <VAR>termtype</VAR> is a string which is the name for the type of
+terminal to look up.  Usually you would obtain this from the environment
+variable <CODE>TERM</CODE> using <CODE>getenv ("TERM")</CODE>.
+
+</P>
+<P>
+If you are using the GNU version of termcap, you can alternatively ask
+<CODE>tgetent</CODE> to allocate enough space.  Pass a null pointer for
+<VAR>buffer</VAR>, and <CODE>tgetent</CODE> itself allocates the storage using
+<CODE>malloc</CODE>.  There is no way to get the address that was allocated,
+and you shouldn't try to free the storage.
+</P>
+<P>
+With the Unix version of termcap, you must allocate space for the
+description yourself and pass the address of the space as the argument
+<VAR>buffer</VAR>.  There is no way you can tell how much space is needed, so
+the convention is to allocate a buffer 2048 characters long and assume that
+is enough.  (Formerly the convention was to allocate 1024 characters and
+assume that was enough.  But one day, for one kind of terminal, that was
+not enough.)
+
+</P>
+<P>
+No matter how the space to store the description has been obtained,
+termcap records its address internally for use when you later interrogate
+the description with <CODE>tgetnum</CODE>, <CODE>tgetstr</CODE> or <CODE>tgetflag</CODE>.  If
+the buffer was allocated by termcap, it will be freed by termcap too if you
+call <CODE>tgetent</CODE> again.  If the buffer was provided by you, you must
+make sure that its contents remain unchanged for as long as you still plan
+to interrogate the description.
+</P>
+<P>
+The return value of <CODE>tgetent</CODE> is -1 if there is some difficulty
+accessing the data base of terminal types, 0 if the data base is accessible
+but the specified type is not defined in it, and some other value
+otherwise.
+
+</P>
+<P>
+Here is how you might use the function <CODE>tgetent</CODE>:
+
+</P>
+
+<PRE>
+#ifdef unix
+static char term_buffer[2048];
+#else
+#define term_buffer 0
+#endif
+
+init_terminal_data ()
+{
+  char *termtype = getenv ("TERM");
+  int success;
+
+  if (termtype == 0)
+    fatal ("Specify a terminal type with `setenv TERM &#60;yourtype&#62;'.\n");
+
+  success = tgetent (term_buffer, termtype);
+  if (success &#60; 0)
+    fatal ("Could not access the termcap data base.\n");
+  if (success == 0)
+    fatal ("Terminal type `%s' is not defined.\n", termtype);
+}
+</PRE>
+
+<P>
+Here we assume the function <CODE>fatal</CODE> prints an error message and exits.
+
+</P>
+<P>
+If the environment variable <CODE>TERMCAP</CODE> is defined, its value is used to
+override the terminal type data base.  The function <CODE>tgetent</CODE> checks
+the value of <CODE>TERMCAP</CODE> automatically.  If the value starts with
+<SAMP>`/'</SAMP> then it is taken as a file name to use as the data base file,
+instead of <TT>`/etc/termcap'</TT> which is the standard data base.  If the
+value does not start with <SAMP>`/'</SAMP> then it is itself used as the terminal
+description, provided that the terminal type <VAR>termtype</VAR> is among the
+types it claims to apply to.  See section <A HREF="termcap_17.html#SEC17">The Format of the Data Base</A>, for information on the
+format of a terminal description.
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_3.html">previous</A>, <A HREF="termcap_5.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

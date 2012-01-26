@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="Profiling">Profiling</a>,
+Next:<a rel=next accesskey=n href="Autoconf.html#Autoconf">Autoconf</a>,
+Previous:<a rel=previous accesskey=p href="Debugging.html#Debugging">Debugging</a>,
+Up:<a rel=up accesskey=u href="GMP-Basics.html#GMP%20Basics">GMP Basics</a>
+<hr><br>
+
+<h3>Profiling</h3>
+
+<p>Running a program under a profiler is a good way to find where it's spending
+most time and where improvements can be best sought.
+
+<p>Depending on the system, it may be possible to get a flat profile, meaning
+simple timer sampling of the program counter, with no special GMP build
+options, just a <code>-p</code> when compiling the mainline.  This is a good way to
+ensure minimum interference with normal operation.  The necessary symbol type
+and size information exists in most of the GMP assembler code.
+
+<p>The <code>--enable-profiling</code> build option can be used to add suitable
+compiler flags, either for <code>prof</code> (<code>-p</code>) or <code>gprof</code>
+(<code>-pg</code>), see <a href="Build-Options.html#Build%20Options">Build Options</a>.  Which of the two is available and what
+they do will depend on the system, and possibly on support available in
+<code>libc</code>.  For some systems appropriate corresponding <code>mcount</code> calls
+are added to the assembler code too.
+
+<p>On x86 systems <code>prof</code> gives call counting, so that average time spent
+in a function can be determined.  <code>gprof</code>, where supported, adds call
+graph construction, so for instance calls to <code>mpn_add_n</code> from
+<code>mpz_add</code> and from <code>mpz_mul</code> can be differentiated.
+
+<p>On x86 and 68k systems <code>-pg</code> and <code>-fomit-frame-pointer</code> are
+incompatible, so the latter is not used when <code>gprof</code> profiling is
+selected, which may result in poorer code generation.  If <code>prof</code>
+profiling is selected instead it should still be possible to use
+<code>gprof</code>, but only the <code>gprof -p</code> flat profile and call counts can
+be expected to be valid, not the <code>gprof -q</code> call graph.
+
+</body></html>
+

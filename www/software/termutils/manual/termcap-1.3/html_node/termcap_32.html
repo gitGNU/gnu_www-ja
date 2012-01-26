@@ -1,0 +1,360 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Insdel Char</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_31.html">previous</A>, <A HREF="termcap_33.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC32" HREF="termcap_toc.html#TOC32">Insert/Delete Character</A></H2>
+<P>
+<A NAME="IDX98"></A>
+<A NAME="IDX99"></A>
+
+</P>
+<P>
+<EM>Inserting a character</EM> means creating a blank space in the middle of a
+line, and pushing the rest of the line rightward.  The character in the
+rightmost column is lost.
+
+</P>
+<P>
+<EM>Deleting a character</EM> means causing the character to disappear from
+the screen, closing up the gap by moving the rest of the line leftward.  A
+blank space appears in the rightmost column.
+
+</P>
+<P>
+Insertion and deletion of characters is useful in programs that maintain an
+updating display some parts of which may get longer or shorter.  It is also
+useful in editors for redisplaying the results of editing within a line.
+
+</P>
+<P>
+Many terminals provide commands to insert or delete a single character at
+the cursor position.  Some provide the ability to insert or delete several
+characters with one command, using the number of characters to insert or
+delete as a parameter.
+
+</P>
+<P>
+<A NAME="IDX100"></A>
+Many terminals provide an insert mode in which outputting a graphic
+character has the added effect of inserting a position for that character.
+A special command string is used to enter insert mode and another is used
+to exit it.  The reason for designing a terminal with an insert mode rather
+than an insert command is that inserting character positions is usually
+followed by writing characters into them.  With insert mode, this is as
+fast as simply writing the characters, except for the fixed overhead of
+entering and leaving insert mode.  However, when the line speed is great
+enough, padding may be required for the graphic characters output in insert
+mode.
+
+</P>
+<P>
+Some terminals require you to enter insert mode and then output a special
+command for each position to be inserted.  Or they may require special
+commands to be output before or after each graphic character to be
+inserted.
+
+</P>
+<P>
+<A NAME="IDX101"></A>
+Deletion of characters is usually accomplished by a straightforward command
+to delete one or several positions; but on some terminals, it is necessary
+to enter a special delete mode before using the delete command, and leave
+delete mode afterward.  Sometimes delete mode and insert mode are the same
+mode.
+
+</P>
+<P>
+Some terminals make a distinction between character positions in which a
+space character has been output and positions which have been cleared.  On
+these terminals, the effect of insert or delete character runs to the first
+cleared position rather than to the end of the line.  In fact, the effect
+may run to more than one line if there is no cleared position to stop the
+shift on the first line.  These terminals are identified by the <SAMP>`in'</SAMP>
+flag capability.
+
+</P>
+<P>
+On terminals with the <SAMP>`in'</SAMP> flag, the technique of skipping over
+characters that you know were cleared, and then outputting text later on in
+the same line, causes later insert and delete character operations on that
+line to do nonstandard things.  A program that has any chance of doing this
+must check for the <SAMP>`in'</SAMP> flag and must be careful to write explicit
+space characters into the intermediate columns when <SAMP>`in'</SAMP> is present.
+
+</P>
+<P>
+A plethora of terminal capabilities are needed to describe all of this
+complexity.  Here is a list of them all.  Following the list, we present
+an algorithm for programs to use to take proper account of all of these
+capabilities.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`im'</SAMP>
+<DD>
+<A NAME="IDX102"></A>
+String of commands to enter insert mode.
+
+If the terminal has no special insert mode, but it can insert
+characters with a special command, <SAMP>`im'</SAMP> should be defined with a
+null value, because the <SAMP>`vi'</SAMP> editor assumes that insertion of a
+character is impossible if <SAMP>`im'</SAMP> is not provided.
+
+New programs should not act like <SAMP>`vi'</SAMP>.  They should pay attention
+to <SAMP>`im'</SAMP> only if it is defined.
+
+<DT><SAMP>`ei'</SAMP>
+<DD>
+<A NAME="IDX103"></A>
+String of commands to leave insert mode.  This capability must be
+present if <SAMP>`im'</SAMP> is.
+
+On a few old terminals the same string is used to enter and exit
+insert mode.  This string turns insert mode on if it was off, and off
+it it was on.  You can tell these terminals because the <SAMP>`ei'</SAMP>
+string equals the <SAMP>`im'</SAMP> string.  If you want to support these
+terminals, you must always remember accurately whether insert mode is
+in effect.  However, these terminals are obsolete, and it is
+reasonable to refuse to support them.  On all modern terminals, you
+can safely output <SAMP>`ei'</SAMP> at any time to ensure that insert mode is
+turned off.
+
+<DT><SAMP>`ic'</SAMP>
+<DD>
+<A NAME="IDX104"></A>
+String of commands to insert one character position at the cursor.
+The cursor does not move.
+
+If outputting a graphic character while in insert mode is sufficient
+to insert the character, then the <SAMP>`ic'</SAMP> capability should be
+defined with a null value.
+
+If your terminal offers a choice of ways to insert--either use insert
+mode or use a special command--then define <SAMP>`im'</SAMP> and do not define
+<SAMP>`ic'</SAMP>, since this gives the most efficient operation when several
+characters are to be inserted.  <EM>Do not</EM> define both strings, for
+that means that <EM>both</EM> must be used each time insertion is done.
+
+<DT><SAMP>`ip'</SAMP>
+<DD>
+<A NAME="IDX105"></A>
+String of commands to output following an inserted graphic character
+in insert mode.  Often it is used just for a padding spec, when padding
+is needed after an inserted character (see section <A HREF="termcap_7.html#SEC7">Padding</A>).
+
+<DT><SAMP>`IC'</SAMP>
+<DD>
+<A NAME="IDX106"></A>
+String of commands to insert <VAR>n</VAR> character positions at and after
+the cursor.  It has the same effect as repeating the <SAMP>`ic'</SAMP> string
+and a space, <VAR>n</VAR> times.
+
+If <SAMP>`IC'</SAMP> is provided, application programs may use it without first
+entering insert mode.
+
+<DT><SAMP>`mi'</SAMP>
+<DD>
+<A NAME="IDX107"></A>
+Flag whose presence means it is safe to move the cursor while in insert
+mode and assume the terminal remains in insert mode.
+
+<DT><SAMP>`in'</SAMP>
+<DD>
+<A NAME="IDX108"></A>
+Flag whose presence means that the terminal distinguishes between
+character positions in which space characters have been output and
+positions which have been cleared.
+</DL>
+
+<P>
+An application program can assume that the terminal can do character
+insertion if <EM>any one of</EM> the capabilities <SAMP>`IC'</SAMP>, <SAMP>`im'</SAMP>,
+<SAMP>`ic'</SAMP> or <SAMP>`ip'</SAMP> is provided.
+
+</P>
+<P>
+To insert <VAR>n</VAR> blank character positions, move the cursor to the place
+to insert them and follow this algorithm:
+
+</P>
+
+<OL>
+<LI>
+
+If an <SAMP>`IC'</SAMP> string is provided, output it with parameter <VAR>n</VAR>
+and you are finished.  Otherwise (or if you don't want to bother to
+look for an <SAMP>`IC'</SAMP> string) follow the remaining steps.
+
+<LI>
+
+Output the <SAMP>`im'</SAMP> string, if there is one, unless the terminal is
+already in insert mode.
+
+<LI>
+
+Repeat steps 4 through 6, <VAR>n</VAR> times.
+
+<LI>
+
+Output the <SAMP>`ic'</SAMP> string if any.
+
+<LI>
+
+Output a space.
+
+<LI>
+
+Output the <SAMP>`ip'</SAMP> string if any.
+
+<LI>
+
+Output the <SAMP>`ei'</SAMP> string, eventually, to exit insert mode.  There
+is no need to do this right away.  If the <SAMP>`mi'</SAMP> flag is present,
+you can move the cursor and the cursor will remain in insert mode;
+then you can do more insertion elsewhere without reentering insert
+mode.
+</OL>
+
+<P>
+To insert <VAR>n</VAR> graphic characters, position the cursor and follow this
+algorithm:
+
+</P>
+
+<OL>
+<LI>
+
+If an <SAMP>`IC'</SAMP> string is provided, output it with parameter <VAR>n</VAR>,
+then output the graphic characters, and you are finished.  Otherwise
+(or if you don't want to bother to look for an <SAMP>`IC'</SAMP> string)
+follow the remaining steps.
+
+<LI>
+
+Output the <SAMP>`im'</SAMP> string, if there is one, unless the terminal is
+already in insert mode.
+
+<LI>
+
+For each character to be output, repeat steps 4 through 6.
+
+<LI>
+
+Output the <SAMP>`ic'</SAMP> string if any.
+
+<LI>
+
+Output the next graphic character.
+
+<LI>
+
+Output the <SAMP>`ip'</SAMP> string if any.
+
+<LI>
+
+Output the <SAMP>`ei'</SAMP> string, eventually, to exit insert mode.  There
+is no need to do this right away.  If the <SAMP>`mi'</SAMP> flag is present,
+you can move the cursor and the cursor will remain in insert mode;
+then you can do more insertion elsewhere without reentering insert
+mode.
+</OL>
+
+<P>
+Note that this is not the same as the original Unix termcap specifications
+in one respect: it assumes that the <SAMP>`IC'</SAMP> string can be used without
+entering insert mode.  This is true as far as I know, and it allows you be
+able to avoid entering and leaving insert mode, and also to be able to
+avoid the inserted-character padding after the characters that go into the
+inserted positions.
+
+</P>
+<P>
+Deletion of characters is less complicated; deleting one column is done by
+outputting the <SAMP>`dc'</SAMP> string.  However, there may be a delete mode that
+must be entered with <SAMP>`dm'</SAMP> in order to make <SAMP>`dc'</SAMP> work.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`dc'</SAMP>
+<DD>
+<A NAME="IDX109"></A>
+String of commands to delete one character position at the cursor.  If
+<SAMP>`dc'</SAMP> is not present, the terminal cannot delete characters.
+
+<DT><SAMP>`DC'</SAMP>
+<DD>
+<A NAME="IDX110"></A>
+String of commands to delete <VAR>n</VAR> characters starting at the cursor.
+It has the same effect as repeating the <SAMP>`dc'</SAMP> string <VAR>n</VAR> times.
+Any terminal description that has <SAMP>`DC'</SAMP> also has <SAMP>`dc'</SAMP>.
+
+<DT><SAMP>`dm'</SAMP>
+<DD>
+<A NAME="IDX111"></A>
+String of commands to enter delete mode.  If not present, there is no
+delete mode, and <SAMP>`dc'</SAMP> can be used at any time (assuming there is
+a <SAMP>`dc'</SAMP>).
+
+<DT><SAMP>`ed'</SAMP>
+<DD>
+<A NAME="IDX112"></A>
+String of commands to exit delete mode.  This must be present if
+<SAMP>`dm'</SAMP> is.
+</DL>
+
+<P>
+To delete <VAR>n</VAR> character positions, position the cursor and follow these
+steps:
+
+</P>
+
+<OL>
+<LI>
+
+If the <SAMP>`DC'</SAMP> string is present, output it with parameter <VAR>n</VAR>
+and you are finished.  Otherwise, follow the remaining steps.
+
+<LI>
+
+Output the <SAMP>`dm'</SAMP> string, unless you know the terminal is already
+in delete mode.
+
+<LI>
+
+Output the <SAMP>`dc'</SAMP> string <VAR>n</VAR> times.
+
+<LI>
+
+Output the <SAMP>`ed'</SAMP> string eventually.  If the flag capability
+<SAMP>`mi'</SAMP> is present, you can move the cursor and do more deletion
+without leaving and reentering delete mode.
+</OL>
+
+<P>
+As with the <SAMP>`IC'</SAMP> string, we have departed from the original termcap
+specifications by assuming that <SAMP>`DC'</SAMP> works without entering delete
+mode even though <SAMP>`dc'</SAMP> would not.
+
+</P>
+<P>
+If the <SAMP>`dm'</SAMP> and <SAMP>`im'</SAMP> capabilities are both present and have the
+same value, it means that the terminal has one mode for both insertion and
+deletion.  It is useful for a program to know this, because then it can do
+insertions after deletions, or vice versa, without leaving insert/delete
+mode and reentering it.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_31.html">previous</A>, <A HREF="termcap_33.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

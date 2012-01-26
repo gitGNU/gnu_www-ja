@@ -1,0 +1,259 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/nana.texi on 6 November 1998 -->
+
+<TITLE>GNU Nana: improved support for assertions and logging in C and C++ - I.h</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_18.html">previous</A>, <A HREF="nana_20.html">next</A>, <A HREF="nana_42.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC19" HREF="nana_toc.html#TOC19">I.h: C based invariant checking</A></H2>
+<P>
+This implements the C based invariant checking code and is a
+replacement for <SAMP>`assert.h'</SAMP>. The first two macros are the normal
+user interface; the remainder are used for configuring the behaviour on
+failure, etc. 
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>I</B> <I>(bool <VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX27"></A>
+The <VAR>exprn</VAR> should always be true if the program is correct.  If the
+<VAR>exprn</VAR> is false a message will be printed, followed by core
+dump.<A NAME="DOCF4" HREF="nana_foot.html#FOOT4">(4)</A>
+
+</P>
+<P>
+Checking can be enabled and disabled by using the <VAR>I_LEVEL</VAR>
+and <VAR>I_DEFAULT_GUARD</VAR> macros. See the definitions below for these
+macros for further details.
+
+</P>
+<P>
+Note that <VAR>exprn</VAR> should have no side-effects<A NAME="DOCF5" HREF="nana_foot.html#FOOT5">(5)</A>
+since disabling checking shouldn't change your programs behaviour.
+
+</P>
+
+<PRE>
+  I(z != 0); 
+  x = y / z;
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>N</B> <I>(bool <VAR>exprn</VAR>)</I>
+<DD><A NAME="IDX28"></A>
+The opposite of <SAMP>`I'</SAMP>, i.e. the expression must never ever be true if
+the program is working properly. It is equivelant to <CODE>I(!(e))</CODE> and
+exists as a piece of syntactic sugar which may be helpful for complicated
+boolean expressions.
+
+</P>
+
+<PRE>
+char* strdup(char *s) {
+  N(s == NULL);
+  ...;
+}
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> int <B>I_LEVEL</B>
+<DD><A NAME="IDX29"></A>
+The <SAMP>`I_LEVEL'</SAMP> macro is used to globally enable and disable
+checking by the macros in this file. It can take on one of three values:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>0</CODE>
+<DD>
+<A NAME="IDX30"></A>
+Disable all checking. Regardless of anything else no code will be
+generated for <CODE>I</CODE>, <CODE>N</CODE>, etc.
+<DT><CODE>1</CODE>
+<DD>
+<A NAME="IDX31"></A>
+Enable checking only if the corresponding guard condition is true. The
+guard condition can be used to enable and disable checking at compile
+and run time.
+<DT><CODE>2</CODE>
+<DD>
+<A NAME="IDX32"></A>
+Enable all checking regardless of guard conditions.
+</DL>
+
+<P>
+<CODE>I_LEVEL</CODE> defaults to <CODE>1</CODE>. 
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> bool <B>I_DEFAULT_GUARD</B>
+<DD><A NAME="IDX33"></A>
+The <CODE>I_DEFAULT_GUARD</CODE> is used to selectively enable or disable
+checking at compile or run time. 
+
+</P>
+<P>
+<CODE>I_DEFAULT_GUARD</CODE> defaults to <CODE>TRUE</CODE>, i.e. always enabled.
+
+</P>
+<P>
+A user would typically define <CODE>I_DEFAULT_GUARD</CODE> to be global or local
+variable which is used to turn checking on or off at run--time. For
+example:
+
+</P>
+
+<PRE>
+#define I_DEFAULT_GUARD i_guard &#62; 0
+
+extern int i_guard;
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Macro:</U> text <B>I_DEFAULT_PARAMS</B>
+<DD><A NAME="IDX34"></A>
+This is passed off to the <CODE>I_DEFAULT_HANDLER</CODE> and defaults to
+nothing, it is just some text and is intended to pass failure codes
+(e.g. <CODE>IEH303</CODE>) or requests (e.g. <CODE>HW_DEAD</CODE>) information off
+to the handler.
+
+</P>
+<P>
+<CODE>I_DEFAULT_PARAMS</CODE> defaults to nothing.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>I_DEFAULT_HANDLER</B> <I>(char *<VAR>exprn</VAR>, char *<VAR>file</VAR>, int <VAR>line</VAR>, <VAR>param</VAR>)</I>
+<DD><A NAME="IDX35"></A>
+
+</P>
+<P>
+When an error is detected the <CODE>I_DEFAULT_HANDLER</CODE> will be called to
+handle the error. The arguments are:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>exprn</CODE>
+<DD>
+<A NAME="IDX36"></A>
+A string representation of the expression that has failed, e.g. <CODE>"I(i&#62;=0)"</CODE>.
+<DT><CODE>file</CODE>
+<DD>
+<A NAME="IDX37"></A>
+The file that this error occurred in, i.e. <CODE>__FILE__</CODE>.
+<DT><CODE>line</CODE>
+<DD>
+<A NAME="IDX38"></A>
+The line number for the error, i.e. <CODE>__LINE__</CODE>.
+<DT><CODE>param</CODE>
+<DD>
+<A NAME="IDX39"></A>
+An optional parameter which can be passed across which defaults to
+<CODE>I_DEFAULT_PARAMS</CODE>. This can be used to pass failure codes or other
+information from the checking code to the handler.
+</DL>
+</DL>
+
+<P>
+All of the remaining macros are used to individually override the
+default values defined above. Normally these macros would be used in a
+system wide header file to define macros appropriate for the
+application. For example you might use <SAMP>`IH'</SAMP> to define 
+different checking macros for hardware and software faults.
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>I</B> <I>(bool <VAR>e</VAR>)</I>
+<DD><A NAME="IDX40"></A>
+<DT><U>Macro:</U> void <B>IG</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>)</I>
+<DD><A NAME="IDX41"></A>
+<DT><U>Macro:</U> void <B>IH</B> <I>(bool <VAR>e</VAR>, Macro <VAR>h</VAR>)</I>
+<DD><A NAME="IDX42"></A>
+<DT><U>Macro:</U> void <B>IP</B> <I>(bool <VAR>e</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX43"></A>
+<DT><U>Macro:</U> void <B>IGH</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Macro <VAR>h</VAR>)</I>
+<DD><A NAME="IDX44"></A>
+<DT><U>Macro:</U> void <B>IGP</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX45"></A>
+<DT><U>Macro:</U> void <B>IHP</B> <I>(bool <VAR>e</VAR>, Macro <VAR>h</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX46"></A>
+<DT><U>Macro:</U> void <B>IGHP</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Macro <VAR>h</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX47"></A>
+<DT><U>Macro:</U> void <B>N</B> <I>(bool <VAR>e</VAR>)</I>
+<DD><A NAME="IDX48"></A>
+<DT><U>Macro:</U> void <B>NG</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>)</I>
+<DD><A NAME="IDX49"></A>
+<DT><U>Macro:</U> void <B>NH</B> <I>(bool <VAR>e</VAR>, Macro <VAR>h</VAR>)</I>
+<DD><A NAME="IDX50"></A>
+<DT><U>Macro:</U> void <B>NP</B> <I>(bool <VAR>e</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX51"></A>
+<DT><U>Macro:</U> void <B>NGH</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Macro <VAR>h</VAR>)</I>
+<DD><A NAME="IDX52"></A>
+<DT><U>Macro:</U> void <B>NGP</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX53"></A>
+<DT><U>Macro:</U> void <B>NHP</B> <I>(bool <VAR>e</VAR>, Macro <VAR>h</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX54"></A>
+<DT><U>Macro:</U> void <B>NGHP</B> <I>(bool <VAR>e</VAR>, bool <VAR>g</VAR>, Macro <VAR>h</VAR>, Text <VAR>p</VAR>)</I>
+<DD><A NAME="IDX55"></A>
+</DL>
+
+</P>
+<P>
+We also provide support for referring to previous values of variables in 
+postconditions. The <CODE>ID</CODE> macro is used to create variables to 
+save the old state in. The <CODE>IS</CODE> and <CODE>ISG</CODE> macros are to 
+set these values. 
+
+</P>
+<P>
+<DL>
+<DT><U>Macro:</U> void <B>ID</B> <I>(Text <VAR>decln</VAR>)</I>
+<DD><A NAME="IDX56"></A>
+<DT><U>Macro:</U> void <B>IS</B> <I>(Text <VAR>assignment</VAR>)</I>
+<DD><A NAME="IDX57"></A>
+<DT><U>Macro:</U> void <B>ISG</B> <I>(Text <VAR>decln</VAR>, bool <VAR>g</VAR>)</I>
+<DD><A NAME="IDX58"></A>
+</DL>
+
+</P>
+<P>
+For example:
+
+<PRE>
+void ex(int &#38;r) {
+  ID(int oldr = r); /* save parameter */
+  g(r);
+  I(oldr == r); /* check r is unchanged */
+  while(more()) {
+    IS(oldr = r); /* assign r to oldr */
+    h(r);
+    I(oldr == r * r);
+  }
+}
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_18.html">previous</A>, <A HREF="nana_20.html">next</A>, <A HREF="nana_42.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+</BODY>
+</HTML>

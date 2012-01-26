@@ -1,0 +1,78 @@
+================================================================================
+=-                                 Simple Bot                                 -=
+================================================================================
+=-                             Programmer's Notes                             -=
+=-                                   ------                                   -=
+=-                                  SYNOPSIS                                  -=
+================================================================================
+
+DESCRIPTION
+
+    This program is a very simple text interactive robot. 
+    
+    For more general information, read the README file. 
+
+
+SYNOPSIS
+
+    bot_rep *    bot;
+    int          user         = 123;
+    char *       message      = "Hello.";
+    char         message_type = 'X';
+    char *       answer;
+    char         answer_type;
+    
+    bot = new bot_rep();
+    
+    bot->bot_reponse(message, user, message_type, answer, answer_type);
+    
+    delete bot;
+
+
+FUNCTIONS
+
+    bot_rep::bot_rep()
+        
+        This is the bot constructor. It must absolutly be called once before
+        any call to any other function. It returns the current error number
+        (0 si no error occurred). 
+        
+        This function reads the declarations files, allocates the needed 
+        memory, puts the data in the structures, and returns errno value. 
+        
+        Please note that this function needs an external object G of class 
+        G_Path to properly work. 
+    
+    
+    bot_rep::~bot_rep()
+        
+        This is the bot destructor. Don't call the bot_reponse() function 
+        after a call to this destructor. It returns the current error 
+        number (0 si no error occurred). 
+        
+        This function frees the memory used by the data of the bot, and 
+        returns errno value.
+    
+    
+    bot_rep::bot_reponse(char * message, int user, char message_type, 
+        char ** answer, char * answer_type)
+    
+        This function is the function which creates the answer of the bot, 
+        depending on the given message. 
+        
+        Meaning og the parameters:
+         - message is the message from the user
+         - user is the user number
+         - message_type is the type of the message the user sent
+         - answer will contain the answer of the bot
+         - answer_type will contain the type of the answer of the bot
+        
+        This function returns a string which summurizes the exchange. 
+        
+        Please note that all strings are allocated inside the function. 
+
+
+LAST MODIFICATION
+
+    Monday, March 2, 1998 by Sebastien Aperghis-Tramoni <saper@esil.univ-mrs.fr>
+

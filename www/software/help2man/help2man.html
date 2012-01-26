@@ -1,0 +1,508 @@
+<!-- Parent-Version: 1.57 -->
+
+<!--#include virtual="/server/header.html" -->
+<title>help2man - GNU Project - Free Software Foundation</title>
+<!--#include virtual="/server/banner.html" -->
+
+<h2 class="settitle">`help2man' Reference Manual</h2>
+<a name="Top"></a>
+
+<h3 class="unnumbered"><samp><span class="command">help2man</span></samp></h3>
+
+<p><samp><span class="command">help2man</span></samp> produces simple manual pages from the &lsquo;<samp><span class="samp">--help</span></samp>&rsquo;
+and &lsquo;<samp><span class="samp">--version</span></samp>&rsquo; output of other commands.
+
+<p><a name="Overview"></a>
+
+<h3 class="chapter">Overview of <samp><span class="command">help2man</span></samp></h3>
+
+<p><samp><span class="command">help2man</span></samp> is a tool for automatically generating simple
+manual pages from program output.
+
+   <p>Although manual pages are optional for GNU programs other projects,
+such as Debian require them (see <a href="http://www.gnu.org/prep/standards/standards.html#Man-Pages">Man Pages</a>)
+
+   <p>This program is intended to provide an easy way for software authors
+to include a manual page in their distribution without having to
+maintain that document.
+
+   <p>Given a program which produces reasonably standard &lsquo;<samp><span class="samp">--help</span></samp>&rsquo; and
+&lsquo;<samp><span class="samp">--version</span></samp>&rsquo; outputs, <samp><span class="command">help2man</span></samp> can re-arrange that
+output into something which resembles a manual page.
+
+<p><a name="Invoking-help2man"></a>
+
+<h3 class="chapter">How to Run <samp><span class="command">help2man</span></samp></h3>
+
+<p>The format for running the <samp><span class="command">help2man</span></samp> program is:
+
+<pre class="example">     <samp><span class="command">help2man</span></samp> [<var>option</var>]... <var>executable</var>
+</pre>
+   <p><samp><span class="command">help2man</span></samp> supports the following options:
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-n </span><var>string</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--name=</span><var>string</var></samp>&rsquo;<dd>Use <var>string</var> as the description for the &lsquo;<samp><span class="samp">NAME</span></samp>&rsquo; paragraph of
+the manual page.
+
+     <p>By default (for want of anything better) this paragraph contains
+&lsquo;<samp><span class="samp">manual page for </span><var>program</var> <var>version</var></samp>&rsquo;.
+
+     <p>This option overrides an include file &lsquo;<samp><span class="samp">[name]</span></samp>&rsquo; section
+(see <a href="#Including-text">Including text</a>).
+
+     <br><dt>&lsquo;<samp><span class="samp">-s </span><var>section</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--section </span><var>section</var></samp>&rsquo;<dd>Use <var>section</var> as the section for the man page.  The default
+section is 1.
+
+     <br><dt>&lsquo;<samp><span class="samp">-m </span><var>manual</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--manual=</span><var>manual</var></samp>&rsquo;<dd>Set the name of the manual section to <var>section</var>, used as a centred
+heading for the manual page.  By default &lsquo;<samp><span class="samp">User Commands</span></samp>&rsquo; is used
+for pages in section 1, &lsquo;<samp><span class="samp">Games</span></samp>&rsquo; for section 6 and &lsquo;<samp><span class="samp">System
+Administration Utilities</span></samp>&rsquo; for sections 8 and 1M.
+
+     <br><dt>&lsquo;<samp><span class="samp">-S </span><var>source</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--source=</span><var>source</var></samp>&rsquo;<dd>The program source is used as a page footer, and often contains the name
+of the organisation or a suite of which the program is part.  By default
+the value is the package name and version.
+
+     <br><dt>&lsquo;<samp><span class="samp">-L </span><var>locale</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--locale=</span><var>locale</var></samp>&rsquo;<dd>Select output locale (default &lsquo;<samp><span class="samp">C</span></samp>&rsquo;).  Both the program and
+<samp><span class="command">help2man</span></samp> must support the given <var>locale</var>
+(see <a href="#Localised-man-pages">Localised man pages</a>).
+
+     <br><dt>&lsquo;<samp><span class="samp">-i </span><var>file</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--include=</span><var>file</var></samp>&rsquo;<dd>Include material from <var>file</var> (see <a href="#Including-text">Including text</a>).
+
+     <br><dt>&lsquo;<samp><span class="samp">-I </span><var>file</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--opt-include=</span><var>file</var></samp>&rsquo;<dd>A variant of &lsquo;<samp><span class="samp">--include</span></samp>&rsquo; for use in Makefile pattern rules which
+does not require <var>file</var> to exist.
+
+     <br><dt>&lsquo;<samp><span class="samp">-o </span><var>file</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--output=</span><var>file</var></samp>&rsquo;<dd>Send output to <var>file</var> rather than <code>stdout</code>.
+
+     <br><dt>&lsquo;<samp><span class="samp">-p </span><var>text</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--info-page=</span><var>text</var></samp>&rsquo;<dd>Name of Texinfo manual.
+
+     <br><dt>&lsquo;<samp><span class="samp">-N</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--no-info</span></samp>&rsquo;<dd>Suppress inclusion of a &lsquo;<samp><span class="samp">SEE ALSO</span></samp>&rsquo; paragraph directing the reader
+to the Texinfo documentation.
+
+     <br><dt>&lsquo;<samp><span class="samp">-l</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--libtool</span></samp>&rsquo;<dd>Drop <samp><span class="file">lt-</span></samp> prefix from instances of the program name in the
+synopsis (<samp><span class="command">libtool</span></samp> creates wrapper scripts in the build
+directory which invoke <samp><span class="command">foo</span></samp> as <samp><span class="command">.libs/lt-foo</span></samp>).
+
+     <br><dt>&lsquo;<samp><span class="samp">--help</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--version</span></samp>&rsquo;<dd>Show help or version information. 
+</dl>
+
+   <p>By default <samp><span class="command">help2man</span></samp> passes the standard &lsquo;<samp><span class="samp">--help</span></samp>&rsquo; and
+&lsquo;<samp><span class="samp">--version</span></samp>&rsquo; options to the executable although alternatives may
+be specified using:
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-h </span><var>option</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--help-option=</span><var>option</var></samp>&rsquo;<dd>Help option string.
+
+     <br><dt>&lsquo;<samp><span class="samp">-v </span><var>option</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--version-option=</span><var>option</var></samp>&rsquo;<dd>Version option string.
+
+     <br><dt>&lsquo;<samp><span class="samp">--version-string=</span><var>string</var></samp>&rsquo;<dd>Version string.
+
+     <br><dt>&lsquo;<samp><span class="samp">--no-discard-stderr</span></samp>&rsquo;<dd>Include stderr when parsing option output. 
+</dl>
+
+<p><a name="--help-recommendations"></a>
+<a name="g_t_002d_002dhelp-recommendations"></a>
+
+<h3 class="chapter"><samp><span class="option">--help</span></samp> Recommendations</h3>
+
+<p>Here are some recommendations for what to include in your
+<samp><span class="option">--help</span></samp> output.  Including these gives <samp><span class="command">help2man</span></samp> the
+best chance at generating a respectable man page, as well as
+benefitting users directly.
+
+   <p>See <a href="http://www.gnu.org/prep/standards/standards.html#Command_002dLine-Interfaces">Command-Line Interfaces</a>,
+and <a href="http://www.gnu.org/prep/standards/standards.html#Man-Pages">Man Pages</a>, for the
+official GNU standards relating to <samp><span class="option">--help</span></samp> and man pages.
+
+     <ul>
+<li>A synopsis of how to invoke the program.  If different usages of the
+program have different invocations, then list them all.  For example
+(edited for brevity):
+
+     <pre class="smallexample">          Usage: cp [OPTION]... SOURCE DEST
+            or:  cp [OPTION]... SOURCE... DIRECTORY
+          ...
+</pre>
+     <p>Use <code>argv[0]</code> for the program name in these synopses, just as it
+is, with no directory stripping.  This is in contrast to the canonical
+(constant) name of the program which is used in <samp><span class="option">--version</span></samp>.
+
+     <li>A very brief explanation of what the program does, including default
+and/or typical behaviour.  For example, here is <samp><span class="command">cp</span></samp>'s:
+
+     <pre class="example">          Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.
+</pre>
+     <li>A list of options, indented to column 2.  If the program supports
+one-character options, put those first, then the equivalent long option
+(if any).  If the option takes an argument, include that too, giving it
+a meaningful name.  Align the descriptions in a convenient column, if
+desired.  Note that to be correctly recognised by <samp><span class="command">help2man</span></samp>
+the description must be separated from the options by at least two
+spaces and descriptions continued on subsequent lines must start at
+the same column.
+
+     <p>Here again is an (edited) excerpt from <samp><span class="command">cp</span></samp>, showing a short
+option with an equivalent long option, a long option only, and a short
+option only:
+
+     <pre class="smallexample">            -a, --archive                same as -dpR
+                --backup[=CONTROL]       make a backup of each ...
+            -b                           like --backup but ...
+</pre>
+     <p>For programs that take many options, it may be desirable to split the
+option list into sections such as `Global', `Output control', or
+whatever makes sense in the particular case.  It is usually best to
+alphabetise (by short option name first, then long) within each section,
+or the entire list if there are no sections.
+
+     <li>Any useful additional information about program behaviour, such as
+influential environment variables, further explanation of options, etc. 
+For example, <samp><span class="command">cp</span></samp> discusses <samp><span class="env">VERSION_CONTROL</span></samp> and sparse
+files.
+
+     <li>A few examples of typical usage, at your discretion.  One good example
+is usually worth a thousand words of description, so this is
+highly recommended.
+
+     <li><a name="index-address-for-bug-reports-1"></a><a name="index-bug-reports-2"></a>In closing, a line stating how to email bug reports.  Typically,
+<var>mailing-address</var> will be &lsquo;<samp><span class="samp">bug-</span><var>program</var><span class="samp">@gnu.org</span></samp>&rsquo;; please
+use this form for GNU programs whenever possible.  It's also good to
+mention the home page of the program, other mailing lists, etc.
+
+   </ul>
+
+   <p>The <code>argp</code> and <code>popt</code> programming interfaces let you specify
+option descriptions for <samp><span class="option">--help</span></samp> in the same structure as the
+rest of the option definition; you may wish to consider using these
+routines for option parsing instead of <code>getopt</code>.
+
+<p><a name="Including-text"></a>
+
+<h3 class="chapter">Including Additional Text in the Output</h3>
+
+<p>Additional static text may be included in the generated manual page by
+using the &lsquo;<samp><span class="samp">--include</span></samp>&rsquo; and &lsquo;<samp><span class="samp">--opt-include</span></samp>&rsquo; options
+(see <a href="#Invoking-help2man">Invoking help2man</a>).  While these files can be named anything,
+for consistency we suggest to use the extension <code>.h2m</code> for
+help2man include files.
+
+   <p>The format for files included with these option is simple:
+
+<pre class="example">     [section]
+     text
+     
+     /pattern/
+     text
+</pre>
+   <p>Blocks of verbatim *roff text are inserted into the output either at
+the start of the given &lsquo;<samp><span class="samp">[section]</span></samp>&rsquo; (case insensitive), or after a
+paragraph matching &lsquo;<samp><span class="samp">/pattern/</span></samp>&rsquo;.
+
+   <p>Patterns use the Perl regular expression syntax and may be followed by
+the &lsquo;<samp><span class="samp">i</span></samp>&rsquo;, &lsquo;<samp><span class="samp">s</span></samp>&rsquo; or &lsquo;<samp><span class="samp">m</span></samp>&rsquo; modifiers (see <a href="http://perldoc.perl.org/perlre.html"#perlre">perlre(1)</a>)
+
+   <p>Lines before the first section or pattern which begin with &lsquo;<samp><span class="samp">-</span></samp>&rsquo;
+are processed as options.  Anything else is silently ignored and may
+be used for comments, RCS keywords and the like.
+
+   <p>The section output order (for those included) is:
+
+<pre class="example">     NAME
+     SYNOPSIS
+     DESCRIPTION
+     OPTIONS
+     ENVIRONMENT
+     FILES
+     EXAMPLES
+     <em>other</em>
+     AUTHOR
+     REPORTING BUGS
+     COPYRIGHT
+     SEE ALSO
+</pre>
+   <p>Any &lsquo;<samp><span class="samp">[name]</span></samp>&rsquo; or &lsquo;<samp><span class="samp">[synopsis]</span></samp>&rsquo; sections appearing in the
+include file will replace what would have automatically been produced
+(although you can still override the former with &lsquo;<samp><span class="samp">--name</span></samp>&rsquo; if
+required).
+
+   <p>Other sections are prepended to the automatically produced output for
+the standard sections given above, or included at <em>other</em> (above)
+in the order they were encountered in the include file.
+
+<p><a name="Makefile-usage"></a>
+
+<h3 class="chapter">Using <samp><span class="command">help2man</span></samp> With <samp><span class="command">make</span></samp></h3>
+
+<p>A suggested use of <samp><span class="command">help2man</span></samp> in Makefiles is to have the
+manual page depend not on the binary, but on the source file(s) in
+which the &lsquo;<samp><span class="samp">--help</span></samp>&rsquo; and &lsquo;<samp><span class="samp">--version</span></samp>&rsquo; output are defined.
+
+   <p>This usage allows a manual page to be generated by the maintainer and
+included in the distribution without requiring the end-user to have
+<samp><span class="command">help2man</span></samp> installed.
+
+   <p>An example rule for the program <code>prog</code> could be:
+
+<pre class="example">     prog.1: $(srcdir)/main.c
+             -$(HELP2MAN) --output=$@ --name='an example program' ./prog
+</pre>
+   <p>The value of <code>HELP2MAN</code> may be set in <code>configure.in</code> using
+either of:
+
+<pre class="example">     AM_MISSING_PROG(HELP2MAN, help2man, $missing_dir)
+</pre>
+   <p>for <samp><span class="command">automake</span></samp>, or something like:
+
+<pre class="example">     AC_PATH_PROG(HELP2MAN, help2man, false // No help2man //)
+</pre>
+   <p>for <samp><span class="command">autoconf</span></samp> alone.
+
+<p><a name="Localised-man-pages"></a>
+
+<h3 class="chapter">Producing Native Language Manual Pages</h3>
+
+<p>Manual pages may be produced for any locale supported by both the
+program and <samp><span class="command">help2man</span></samp> with the &lsquo;<samp><span class="samp">--locale</span></samp>&rsquo; (&lsquo;<samp><span class="samp">-L</span></samp>&rsquo;)
+option.
+
+<pre class="example">     help2man -L fr_FR@euro -o cp.fr.1 cp
+</pre>
+   <p>See <a href="http://translationproject.org/domain/help2man.html">http://translationproject.org/domain/help2man.html</a> for the
+languages currently supported by <samp><span class="command">help2man</span></samp>, and
+see <a href="#Reports">Reports</a> for how to submit other translations.
+
+<h4 class="section">Changing the Location of Message Catalogs</h4>
+
+<p>When creating localised manual pages from a program's build directory it
+is probable that the translations installed in the standard location
+will not be (if installed at all) correct for the version of the
+program being built.
+
+   <p>A preloadable library is provided with <samp><span class="command">help2man</span></samp> which will
+intercept <code>bindtextdomain</code> calls configuring the location of message
+catalogs for the domain given by <samp><span class="env">$TEXTDOMAIN</span></samp> and override the
+location to the path given by <samp><span class="env">$LOCALEDIR</span></samp>.
+
+   <p>So for example:
+
+<pre class="example">     mkdir -p tmp/fr/LC_MESSAGES
+     cp po/fr.gmo tmp/fr/LC_MESSAGES/<var>prog</var>.mo
+     LD_PRELOAD="/usr/lib/help2man/bindtextdomain.so" \
+       LOCALEDIR=tmp \
+       TEXTDOMAIN=<var>prog</var> \
+       help2man -L fr_FR@euro -i <var>prog</var>.fr.h2m -o <var>prog</var>.fr.1 <var>prog</var>
+     rm -rf tmp
+</pre>
+   <p>will cause <var>prog</var> to load the message catalog from &lsquo;<samp><span class="samp">tmp</span></samp>&rsquo;
+rather than &lsquo;<samp><span class="samp">/usr/share/locale</span></samp>&rsquo;.
+
+   <p>Notes:
+     <ul>
+<li>The generalisation of &lsquo;<samp><span class="samp">fr_FR@euro</span></samp>&rsquo; to &lsquo;<samp><span class="samp">fr</span></samp>&rsquo; in the example
+above is done by <code>gettext</code>, if a more specific match were available
+it would also have been re-mapped.
+
+     <li>This preload has only been tested against <samp><span class="command">eglibc</span></samp> 2.11.2 and
+<samp><span class="command">gettext</span></samp> 0.18.1.1 on a GNU/Linux system; let me know if it
+does (or doesn't) work for you (see <a href="#Reports">Reports</a>). 
+</ul>
+
+<p><a name="Example"></a>
+
+<h3 class="chapter">Example <samp><span class="command">help2man</span></samp> Output</h3>
+
+<p>Given a hypothetical program <samp><span class="command">foo</span></samp> which produces the following output:
+
+<!-- Default values strong/em to be used in Examples, these are -->
+<!-- overridden for info, which doesn't have real bold/italic. -->
+<!-- No-op version for info: -->
+<pre class="example">     <strong>$ foo --version</strong>
+     GNU foo 1.1
+     
+     Copyright (C) 2011 Free Software Foundation, Inc.
+     This is free software; see the source for copying conditions.  There is NO
+     warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+     
+     Written by A. Programmer.
+     <strong>$ foo --help</strong>
+     GNU `foo' does nothing interesting except serve as an example for
+     `help2man'.
+     
+     Usage: foo [OPTION]...
+     
+     Options:
+       -a, --option      an option
+       -b, --another-option[=VALUE]
+                         another option
+     
+           --help        display this help and exit
+           --version     output version information and exit
+     
+     Examples:
+       foo               do nothing
+       foo --option      the same thing, giving `--option'
+     
+     Report bugs to &lt;bug-gnu-utils@gnu.org&gt;.
+</pre>
+   <p><samp><span class="command">help2man</span></samp> will produce <samp><span class="command">nroff</span></samp> input for a manual
+page which will be formatted something like this:
+
+<pre class="example">     FOO(1)                         User Commands                        FOO(1)
+     
+     
+     <strong>NAME</strong>
+            foo - manual page for foo 1.1
+     
+     <strong>SYNOPSIS</strong>
+            foo [OPTION]...
+     
+     <strong>DESCRIPTION</strong>
+            GNU  `foo'  does nothing interesting except serve as an example for
+            `help2man'.
+     
+     <strong>OPTIONS</strong>
+            <strong>-a</strong>, <strong>--option</strong>
+                   an option
+     
+            <strong>-b</strong>, <strong>--another-option</strong>[=<em>VALUE</em>]
+                   another option
+     
+            <strong>--help</strong> display this help and exit
+     
+            <strong>--version</strong>
+                   output version information and exit
+     
+     <strong>EXAMPLES</strong>
+            foo    do nothing
+     
+            foo <strong>--option</strong>
+                   the same thing, giving `--option'
+     
+     <strong>AUTHOR</strong>
+            Written by A. Programmer.
+     
+     <strong>REPORTING BUGS</strong>
+            Report bugs to &lt;bug-gnu-utils@gnu.org&gt;.
+     
+     <strong>COPYRIGHT</strong>
+            Copyright &copy; 2011 Free Software Foundation, Inc.
+            This is free software;  see  the  source  for  copying  conditions.
+            There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+            PARTICULAR PURPOSE.
+     
+     <strong>SEE ALSO</strong>
+            The full documentation for <strong>foo</strong> is maintained as a  Texinfo  manual.
+            If  the  <strong>info</strong> and <strong>foo</strong> programs are properly installed at your site,
+            the command
+     
+                   <strong>info foo</strong>
+     
+            should give you access to the complete manual.
+     
+     
+     foo 1.1                          May 2011                           FOO(1)
+</pre>
+   <p><a name="Reports"></a>
+
+<h3 class="chapter">Reporting Bugs or Suggestions</h3>
+
+<p>If you find problems or have suggestions about this program or
+manual, please report them to <a href="mailto:bug-help2man@gnu.org">bug-help2man@gnu.org</a>.
+
+   <p>Note to translators: Translations are handled though the
+<a href="http://translationproject.org/">Translation Project</a> see
+<a href="http://translationproject.org/html/translators.html">http://translationproject.org/html/translators.html</a> for details.
+
+<p><a name="Availability"></a>
+
+<h3 class="chapter">Obtaining <samp><span class="command">help2man</span></samp></h3>
+
+<p>The latest version of this distribution is available online from GNU
+mirrors:
+
+<pre class="example">     <a href="http://ftpmirror.gnu.org/help2man/">http://ftpmirror.gnu.org/help2man/</a>
+</pre>
+   <p>If automatic redirection fails, the list of mirrors is at:
+
+<pre class="example">     <a href="http://www.gnu.org/order/ftp.html">http://www.gnu.org/order/ftp.html</a>
+</pre>
+   <p>Or if need be you can use the main GNU ftp server:
+<pre class="example">     <a href="http://ftp.gnu.org/gnu/help2man/">http://ftp.gnu.org/gnu/help2man/</a>
+</pre>
+      <div class="contents">
+<h3>Table of Contents</h3>
+<ul>
+<li><a name="toc_Top" href="#Top"><samp><span class="command">help2man</span></samp></a>
+<li><a name="toc_Overview" href="#Overview">Overview of <samp><span class="command">help2man</span></samp></a>
+<li><a name="toc_Invoking-help2man" href="#Invoking-help2man">How to Run <samp><span class="command">help2man</span></samp></a>
+<li><a name="toc__002d_002dhelp-recommendations" href="#_002d_002dhelp-recommendations"><samp><span class="option">--help</span></samp> Recommendations</a>
+<li><a name="toc_Including-text" href="#Including-text">Including Additional Text in the Output</a>
+<li><a name="toc_Makefile-usage" href="#Makefile-usage">Using <samp><span class="command">help2man</span></samp> With <samp><span class="command">make</span></samp></a>
+<li><a name="toc_Localised-man-pages" href="#Localised-man-pages">Producing Native Language Manual Pages</a>
+<ul>
+<li><a href="#Localised-man-pages">Changing the Location of Message Catalogs</a>
+</li></ul>
+<li><a name="toc_Example" href="#Example">Example <samp><span class="command">help2man</span></samp> Output</a>
+<li><a name="toc_Reports" href="#Reports">Reporting Bugs or Suggestions</a>
+<li><a name="toc_Availability" href="#Availability">Obtaining <samp><span class="command">help2man</span></samp></a>
+</li></ul>
+</div>
+
+</div><!-- for id="content", starts in the include above -->
+<!--#include virtual="/server/footer.html" -->
+<div id="footer">
+
+<p>Please send general FSF &amp; GNU inquiries to
+<a href="mailto:gnu@gnu.org">&lt;gnu@gnu.org&gt;</a>.
+There are also <a href="/contact/">other ways to contact</a>
+the FSF.<br />
+Please send broken links and other corrections or suggestions to
+<a href="mailto:bug-baz@gnu.org">&lt;bug-baz@gnu.org&gt;</a>.</p>
+
+<p>Please see the <a
+href="/server/standards/README.translations.html">Translations
+README</a> for information on coordinating and submitting translations
+of this article.</p>
+
+<p>Copyright &copy; 2011 Free Software Foundation, Inc.</p>
+
+<p>This page is licensed under a <a rel="license"
+href="http://creativecommons.org/licenses/by-nd/3.0/us/">Creative
+Commons Attribution-NoDerivs 3.0 United States License</a>.</p>
+
+<p>Updated:
+<!-- timestamp start -->
+$Date: 2011/07/23 22:51:33 $
+<!-- timestamp end -->
+</p>
+</div>
+
+<div id="translations">
+<h4>Translations of this page</h4>
+
+<!-- Please keep this list alphabetical by language code.
+     Comment what the language is for each type, i.e. de is German.
+     Write the language name in its own language (Deutsch) in the text.
+     If you add a new language here, please
+     advise web-translators@gnu.org and add it to
+      - /home/www/html/server/standards/README.translations.html
+      - one of the lists under the section "Translations Underway"
+      - if there is a translation team, you also have to add an alias
+      to mail.gnu.org:/com/mailer/aliases
+     Please also check you have the language code right; see:
+     http://www.loc.gov/standards/iso639-2/php/code_list.php
+     If the 2-letter ISO 639-1 code is not available,
+     use the 3-letter ISO 639-2.
+     Please use W3C normative character entities.
+
+     See also '(web-trans)Capitalization':
+     http://gnu.org/software/trans-coord/manual/web-trans/html_node/Capitalization.html
+     -->
+
+<ul class="translations-list">
+<!-- English -->
+<li><a href="/server/standards/boilerplate.html">English</a>&nbsp;[en]</li>
+</ul>
+</div>
+</div>
+</body>
+</html>

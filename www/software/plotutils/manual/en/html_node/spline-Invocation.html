@@ -1,0 +1,214 @@
+<html lang="en">
+<head>
+<title>spline Invocation - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="spline.html#spline" title="spline">
+<link rel="prev" href="Advanced-Use-of-spline.html#Advanced-Use-of-spline" title="Advanced Use of spline">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="spline-Invocation"></a>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Advanced-Use-of-spline.html#Advanced-Use-of-spline">Advanced Use of spline</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="spline.html#spline">spline</a>
+<hr>
+</div>
+
+<h3 class="section">7.3 <code>spline</code> command-line options</h3>
+
+<p>The <code>spline</code> program will interpolate vector-valued functions of a
+scalar variable&nbsp;t<!-- /@w -->, and curves in d-dimensional space. 
+The algorithms used by <code>spline</code> are similar to those discussed in
+D.&nbsp;Kincaid<!-- /@w --> and [E.]&nbsp;W.<!-- /@w --> Cheney, <cite>Numerical Analysis</cite> (2nd
+ed., Brooks/Cole, 1996), section 6.4, and C.&nbsp;de&nbsp;Boor<!-- /@w -->, <cite>A
+Practical Guide to Splines</cite> (Springer-Verlag, 1978), Chapter&nbsp;4<!-- /@w -->.
+
+   <p>Input file names may be specified anywhere on the command line.  That
+is, the relative order of font names and command-line options does not
+matter.  If no file names are specified, or the file name&nbsp;&lsquo;<samp><span class="samp">-</span></samp>&rsquo;<!-- /@w -->
+is specified, the standard input is read.
+
+   <p>An input file may contain more than a single dataset.  Unless the
+&lsquo;<samp><span class="samp">-a</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-A</span></samp>&rsquo; options are used (see below), each dataset is
+expected to consist of a sequence of data points, given as alternating
+t and&nbsp;y<!-- /@w --> values.  t&nbsp;is<!-- /@w --> the scalar
+independent variable, and y&nbsp;is<!-- /@w --> the vector-valued dependent
+variable.  The dimensionality of&nbsp;y<!-- /@w --> is specified with the
+&lsquo;<samp><span class="samp">-d</span></samp>&rsquo; option (the default is&nbsp;1<!-- /@w -->).
+
+   <p>If the input file is in ASCII format (the default), its datasets are
+separated by blank lines.  An input file may also contain any number of
+comment lines, which must begin with the comment character&nbsp;`#'<!-- /@w -->. 
+Comment lines are ignored.  They are not treated as blank, i.e., they do
+not interrupt a dataset in progress.
+
+   <p>The options to <code>spline</code> are listed below.  There are three sorts of
+option:
+
+     <ol type=1 start=1>
+<li>Options specifying the type of interpolation to be performed on each dataset. 
+<li>Options specifying the input or output format. 
+<li>Options requesting information (e.g., &lsquo;<samp><span class="samp">--help</span></samp>&rsquo;).
+        </ol>
+
+<p class="noindent">Options that take an argument are followed, in parentheses, by the type
+and default value of the argument.
+
+   <p>The following options specify the type of interpolation to be performed
+on each dataset.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-f</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--filter</span></samp>&rsquo;<dd>Use a local interpolation algorithm (the cubic Bessel algorithm), so
+that <code>spline</code> can be used as a real-time filter.  The slope of the
+interpolating curve at each point in a dataset will be chosen by fitting
+a quadratic function through that point and the two adjacent points in
+the dataset.  If &lsquo;<samp><span class="samp">-f</span></samp>&rsquo; is specified then the &lsquo;<samp><span class="samp">-t</span></samp>&rsquo; option,
+otherwise optional, must be used as&nbsp;well<!-- /@w -->.  Also, if &lsquo;<samp><span class="samp">-f</span></samp>&rsquo; is
+specified then the &lsquo;<samp><span class="samp">-k</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-p</span></samp>&rsquo;, and &lsquo;<samp><span class="samp">-T</span></samp>&rsquo; options may not
+be used.
+
+     <p>If &lsquo;<samp><span class="samp">-f</span></samp>&rsquo; is <em>not</em> specified, then a different (global)
+interpolation algorithm will be used.
+
+     <br><dt>&lsquo;<samp><span class="samp">-k </span><var>k</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--boundary-condition </span><var>k</var></samp>&rsquo;<dd>(Float, default 1.0.)  Set the boundary condition parameter for each
+constructed spline to be&nbsp;<var>k</var><!-- /@w -->.  In each of its components, the
+spline will satisfy the two boundary conditions y&rdquo;[0]=ky&rdquo;[1]
+and y&rdquo;[n]=ky&rdquo;[n-1].  Here y[0] and y[1] signify
+the values of a specified component of the vector-valued dependent
+variable y at the first two points of a dataset, and
+y[n-1] and y[n] the values at the last two points. 
+Setting <var>k</var> to zero will yield a `natural' spline, i.e., one that
+has zero curvature at the two ends of the dataset.  The &lsquo;<samp><span class="samp">-k</span></samp>&rsquo; option
+may not be used if &lsquo;<samp><span class="samp">-f</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-p</span></samp>&rsquo; is specified.
+
+     <br><dt>&lsquo;<samp><span class="samp">-n </span><var>n</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--number-of-intervals </span><var>n</var></samp>&rsquo;<dd>(Positive integer, default 100.)  Subdivide the interval over which
+interpolation occurs into <var>n</var> subintervals.  The number of data
+points computed, and written to the output, will be n+1.
+
+     <br><dt>&lsquo;<samp><span class="samp">-p</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--periodic</span></samp>&rsquo;<dd>Construct a periodic spline.  If this option is specified, the y
+values for the first and last points in each dataset must be equal.  The
+&lsquo;<samp><span class="samp">-f</span></samp>&rsquo; and &lsquo;<samp><span class="samp">-k</span></samp>&rsquo; options may not be used if &lsquo;<samp><span class="samp">-p</span></samp>&rsquo; is
+specified.
+
+     <br><dt>&lsquo;<samp><span class="samp">-T </span><var>tension</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--tension </span><var>tension</var></samp>&rsquo;<dd>(Float, default 0.0.)  Set the tension in each interpolating spline to
+be <var>tension</var>.  Between each pair of successive points in a dataset,
+the constructed spline will satisfy the differential equation
+y&rdquo;&rdquo;=sgn(tension)*(tension^2)y&rdquo;
+in each of its components.  If <var>tension</var> equals zero, the spline
+will be piecewise cubic.  As <var>tension</var> increases to positive
+infinity, the spline will converge to a polygonal line.  The &lsquo;<samp><span class="samp">-T</span></samp>&rsquo;
+option may not be used if &lsquo;<samp><span class="samp">-f</span></samp>&rsquo; is specified.
+
+     <br><dt>&lsquo;<samp><span class="samp">-t </span><var>tmin</var> <var>tmax</var><span class="samp"> [</span><var>tspacing</var><span class="samp">]</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--t-limits </span><var>tmin</var> <var>tmax</var><span class="samp"> [</span><var>tspacing</var><span class="samp">]</span></samp>&rsquo;<dd>For each dataset, set the interval over which interpolation occurs to be
+the interval between <var>tmin</var> and&nbsp;<var>tmax</var><!-- /@w -->.  If <var>tspacing</var>
+is not specified, the interval will be divided into the number of
+subintervals specified by the &lsquo;<samp><span class="samp">-n</span></samp>&rsquo; option.  If&nbsp;the<!-- /@w --> &lsquo;<samp><span class="samp">-t</span></samp>&rsquo;
+option is not used, the interval over which interpolation occurs will be
+the entire range of the independent variable in the dataset.  The
+&lsquo;<samp><span class="samp">-t</span></samp>&rsquo; option must always be used if the &lsquo;<samp><span class="samp">-f</span></samp>&rsquo; option is used to
+request filter-like behavior (see above). 
+</dl>
+
+<p class="noindent">The following options specify the format of the input file(s) and the
+output file.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">-d </span><var>dimension</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--y-dimension </span><var>dimension</var></samp>&rsquo;<dd>(Integer, default 1.)  Set the dimensionality of the dependent variable
+y in the input and output files to be <var>dimension</var>.
+
+     <br><dt>&lsquo;<samp><span class="samp">-I </span><var>data-format</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--input-format </span><var>data-format</var></samp>&rsquo;<dd>(Character, default &lsquo;<samp><span class="samp">a</span></samp>&rsquo;.)  Set the data format for the input file(s)
+to be <var>data-format</var>.  The possible data formats are as follows.
+
+          <dl>
+<dt>&lsquo;<samp><span class="samp">a</span></samp>&rsquo;<dd>ASCII format.  Each file is a sequence of floating point numbers,
+interpreted as the t and&nbsp;y<!-- /@w --> coordinates of the
+successive data points in a dataset.  If y is
+d-dimensional, there will be d+1 numbers for each point. 
+The t and&nbsp;y<!-- /@w --> coordinates of a point need not appear on
+the same line, and points need not appear on different lines.  But if a
+blank line occurs (i.e., two newlines in succession are seen), it&nbsp;is<!-- /@w -->
+interpreted as the end of a dataset, and the beginning of the next.
+
+          <br><dt>&lsquo;<samp><span class="samp">f</span></samp>&rsquo;<dd>Single precision binary format.  Each file is a sequence of floating
+point numbers, interpreted as the t and&nbsp;y<!-- /@w --> coordinates
+of the successive data points in a dataset.  If y is
+d-dimensional, there will be d+1 numbers for each point. 
+Successive datasets are separated by a single occurrence of the quantity
+<code>FLT_MAX</code>, which is the largest possible single precision floating
+point number.  On&nbsp;most<!-- /@w --> machines this is approximately 3.4x10^38.
+
+          <br><dt>&lsquo;<samp><span class="samp">d</span></samp>&rsquo;<dd>Double precision binary format.  Each file is a sequence of double
+precision floating point numbers, interpreted as the t and&nbsp;y<!-- /@w --> coordinates of the successive data points in a dataset.  If
+y is d-dimensional, there will be d+1 numbers for
+each point.  Successive datasets are separated by a single occurrence of
+the quantity <code>DBL_MAX</code>, which is the largest possible double
+precision floating point number.  On&nbsp;most<!-- /@w --> machines this is
+approximately 1.8x10^308.
+
+          <br><dt>&lsquo;<samp><span class="samp">i</span></samp>&rsquo;<dd>Integer binary format.  Each file is a sequence of integers, interpreted
+as the t and&nbsp;y<!-- /@w --> coordinates of the successive data
+points in a dataset.  If y is d-dimensional, there will be
+d+1 numbers for each point.  Successive datasets are separated by
+a single occurrence of the quantity <code>INT_MAX</code>, which is the largest
+possible integer.  On&nbsp;most<!-- /@w --> machines this is 2^31-1. 
+</dl>
+
+     <br><dt>&lsquo;<samp><span class="samp">-a [</span><var>step_size</var><span class="samp"> [</span><var>lower_limit</var><span class="samp">]]</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--auto-abscissa [</span><var>step_size</var><span class="samp"> [</span><var>lower_limit</var><span class="samp">]]</span></samp>&rsquo;<dd>(Floats, defaults 1.0 and 0.0.)  Automatically generate values for the
+independent variable&nbsp;(t)<!-- /@w -->.  Irrespective of data format
+(&lsquo;<samp><span class="samp">a</span></samp>&rsquo;, &lsquo;<samp><span class="samp">f</span></samp>&rsquo;, &lsquo;<samp><span class="samp">d</span></samp>&rsquo;, or&nbsp;&lsquo;<samp><span class="samp">i</span></samp>&rsquo;<!-- /@w -->), this option specifies
+that the values of the independent variable (t) are missing from
+the input file: the dataset(s) to be read contain only values of the
+dependent variable&nbsp;(y)<!-- /@w -->, so&nbsp;that<!-- /@w --> if y is
+d-dimensional, there will be only d&nbsp;numbers<!-- /@w --> for each
+point.  The increment from each t&nbsp;value<!-- /@w --> to the next will be
+<var>step_size</var>, and the first t&nbsp;value<!-- /@w --> will be
+<var>lower_limit</var>.
+
+     <br><dt>&lsquo;<samp><span class="samp">-A</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--auto-dist-abscissa</span></samp>&rsquo;<dd>Automatically generate values for the independent variable&nbsp;(t)<!-- /@w -->.  This is a variant form of the &lsquo;<samp><span class="samp">-a</span></samp>&rsquo; option.  The
+increment from each t&nbsp;value<!-- /@w --> to the next will be the distance
+between the corresponding y<!-- /@w --> values, and the first t&nbsp;value<!-- /@w --> will be 0.0.  This option is useful when interpolating curves
+rather than functions (see <a href="Advanced-Use-of-spline.html#Advanced-Use-of-spline">Advanced Use of spline</a>).
+
+     <br><dt>&lsquo;<samp><span class="samp">-O </span><var>data-format</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--output-format </span><var>data-format</var></samp>&rsquo;<dd>(Character, default &lsquo;<samp><span class="samp">a</span></samp>&rsquo;.)  Set the data format for the output file
+to be <var>data-format</var>.  The interpretation of the <var>data-format</var>
+argument is the same as for the &lsquo;<samp><span class="samp">-I</span></samp>&rsquo; option.
+
+     <br><dt>&lsquo;<samp><span class="samp">-P </span><var>significant-digits</var></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--precision </span><var>significant-digits</var></samp>&rsquo;<dd>(Positive integer, default 6.)  Set the numerical precision for the
+t and y values in the output file to be
+<var>significant-digits</var>.  This takes effect only if the output file is
+written in &lsquo;<samp><span class="samp">a</span></samp>&rsquo; format, i.e., in ASCII.
+
+     <br><dt>&lsquo;<samp><span class="samp">-s</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">--suppress-abscissa</span></samp>&rsquo;<dd>Omit the independent variable t from the output file; for each
+point, supply only the dependent variable&nbsp;y<!-- /@w -->.  If y is
+d-dimensional, there will be only d&nbsp;numbers<!-- /@w --> for each
+point, not&nbsp;d+1<!-- /@w -->.  This option is useful when interpolating
+curves rather than functions (see <a href="Advanced-Use-of-spline.html#Advanced-Use-of-spline">Advanced Use of spline</a>). 
+</dl>
+
+<p class="noindent">The following options request information.
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">--help</span></samp>&rsquo;<dd>Print a list of command-line options, and then exit.
+
+     <br><dt>&lsquo;<samp><span class="samp">--version</span></samp>&rsquo;<dd>Print the version number of <code>spline</code> and the plotting utilities
+package, and exit. 
+</dl>
+
+   </body></html>
+

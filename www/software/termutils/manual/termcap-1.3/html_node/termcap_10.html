@@ -1,0 +1,58 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Describe Padding</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_9.html">previous</A>, <A HREF="termcap_11.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC10" HREF="termcap_toc.html#TOC10">Specifying Padding in a Terminal Description</A></H3>
+
+<P>
+In the terminal description, the amount of padding required by each display
+command is recorded as a sequence of digits at the front of the command.
+These digits specify the padding time in milliseconds (msec).  They can be
+followed optionally by a decimal point and one more digit, which is a
+number of tenths of msec.
+
+</P>
+<P>
+Sometimes the padding needed by a command depends on the cursor position.
+For example, the time taken by an "insert line" command is usually
+proportional to the number of lines that need to be moved down or cleared.
+An asterisk (<SAMP>`*'</SAMP>) following the padding time says that the time
+should be multiplied by the number of screen lines affected by the command.
+
+</P>
+
+<PRE>
+:al=1.3*\E[L:
+</PRE>
+
+<P>
+is used to describe the "insert line" command for a certain terminal.
+The padding required is 1.3 msec per line affected.  The command itself is
+<SAMP>`<KBD>ESC</KBD> [ L'</SAMP>.
+
+</P>
+<P>
+The padding time specified in this way tells <CODE>tputs</CODE> how many pad
+characters to output.  See section <A HREF="termcap_11.html#SEC11">Performing Padding with <CODE>tputs</CODE></A>.
+
+</P>
+<P>
+Two special capability values affect padding for all commands.  These are
+the <SAMP>`pc'</SAMP> and <SAMP>`pb'</SAMP>.  The variable <SAMP>`pc'</SAMP> specifies the
+character to pad with, and <SAMP>`pb'</SAMP> the speed below which no padding is
+needed.  The defaults for these variables, a null character and 0,
+are correct for most terminals.  See section <A HREF="termcap_40.html#SEC40">Padding Capabilities</A>.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_9.html">previous</A>, <A HREF="termcap_11.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

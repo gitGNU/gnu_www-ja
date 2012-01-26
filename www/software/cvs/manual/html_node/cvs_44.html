@@ -1,0 +1,107 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Editing files</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_43.html">previous</A>, <A HREF="cvs_45.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC46" HREF="cvs_toc.html#TOC46">How to edit a file which is being watched</A></H3>
+
+<P>
+<A NAME="IDX181"></A>
+Since a file which is being watched is checked out
+read-only, you cannot simply edit it.  To make it
+read-write, and inform others that you are planning to
+edit it, use the <CODE>cvs edit</CODE> command.  Some systems
+call this a <EM>checkout</EM>, but CVS uses that term
+for obtaining a copy of the sources (see section <A HREF="cvs_10.html#SEC11">Getting the source</A>), an operation which those systems call a
+<EM>get</EM> or a <EM>fetch</EM>.
+
+</P>
+<P>
+<A NAME="IDX182"></A>
+<DL>
+<DT><U>Command:</U> <B>cvs edit</B> <I>[options] files ...</I>
+<DD><A NAME="IDX183"></A>
+
+</P>
+<P>
+Prepare to edit the working files <VAR>files</VAR>.  CVS makes the
+<VAR>files</VAR> read-write, and notifies users who have requested
+<CODE>edit</CODE> notification for any of <VAR>files</VAR>.
+
+</P>
+<P>
+The <CODE>cvs edit</CODE> command accepts the same <VAR>options</VAR> as the
+<CODE>cvs watch add</CODE> command, and establishes a temporary watch for the
+user on <VAR>files</VAR>; CVS will remove the watch when <VAR>files</VAR> are
+<CODE>unedit</CODE>ed or <CODE>commit</CODE>ted.  If the user does not wish to
+receive notifications, she should specify <CODE>-a none</CODE>.
+
+</P>
+<P>
+The <VAR>files</VAR> and <CODE>-l</CODE> option are processed as for the <CODE>cvs
+watch</CODE> commands.
+
+</P>
+</DL>
+
+<P>
+Normally when you are done with a set of changes, you
+use the <CODE>cvs commit</CODE> command, which checks in your
+changes and returns the watched files to their usual
+read-only state.  But if you instead decide to abandon
+your changes, or not to make any changes, you can use
+the <CODE>cvs unedit</CODE> command.
+
+</P>
+<P>
+<A NAME="IDX184"></A>
+<A NAME="IDX185"></A>
+<A NAME="IDX186"></A>
+<DL>
+<DT><U>Command:</U> <B>cvs unedit</B> <I>[<CODE>-l</CODE>] files ...</I>
+<DD><A NAME="IDX187"></A>
+
+</P>
+<P>
+Abandon work on the working files <VAR>files</VAR>, and revert them to the
+repository versions on which they are based.  CVS makes those
+<VAR>files</VAR> read-only for which users have requested notification using
+<CODE>cvs watch on</CODE>.  CVS notifies users who have requested <CODE>unedit</CODE>
+notification for any of <VAR>files</VAR>.
+
+</P>
+<P>
+The <VAR>files</VAR> and <CODE>-l</CODE> option are processed as for the
+<CODE>cvs watch</CODE> commands.
+
+</P>
+<P>
+If watches are not in use, the <CODE>unedit</CODE> command
+probably does not work, and the way to revert to the
+repository version is to remove the file and then use
+<CODE>cvs update</CODE> to get a new copy.  The meaning is
+not precisely the same; removing and updating may also
+bring in some changes which have been made in the
+repository since the last time you updated.
+</DL>
+
+</P>
+<P>
+When using client/server CVS, you can use the
+<CODE>cvs edit</CODE> and <CODE>cvs unedit</CODE> commands even if
+CVS is unable to succesfully communicate with the
+server; the notifications will be sent upon the next
+successful CVS command.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_43.html">previous</A>, <A HREF="cvs_45.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

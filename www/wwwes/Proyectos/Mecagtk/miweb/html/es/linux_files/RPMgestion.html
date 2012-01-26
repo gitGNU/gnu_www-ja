@@ -1,0 +1,319 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.07 [en] (X11; I; Linux 2.2.3 i586) [Netscape]">
+   <TITLE>Gesti&oacute;n de paquetes .RPM</TITLE>
+</HEAD>
+<BODY>
+
+<H1>
+<A NAME="Arriba"></A></H1>
+<A HREF="contenidos.html">[ &lt; ]</A> [ > ] <A HREF="../tutorial.html">[
+|| ]</A>
+<H1>
+Gesti&oacute;n de .RPMs</H1>
+
+<BLOCKQUOTE>Como ya sabe, el tipo de paquete m&aacute;s utilizado en Linux
+y actualmente en Unix son los .RPM, por su f&aacute;cil administraci&oacute;n,
+ya que son f&aacute;cilmente de: instalar/desinstalar/consultar, como los
+otros procesos instalar y desinstalar ya est&aacute;n vistos, ahora nos
+toca simplemente los de gestionarlo.
+<BR>&nbsp;
+<UL>
+<LI>
+REPASO DE <A HREF="onlyfile.html#InstalarRPM">INSTALACI&Oacute;N</A>/<A HREF="onlyfile.html#DesinstRPM">DESINSTALACI&Oacute;N</A></LI>
+
+<LI>
+<A HREF="#QueRPMS">Consulta de todos los paquetes instalados</A></LI>
+
+<LI>
+<A HREF="#UnPaquete">Consulta de un paquete instalado</A></LI>
+
+<LI>
+<A HREF="#ForzarInst">Forzar una instalaci&oacute;n y actualizar</A></LI>
+
+<LI>
+<A HREF="#DesinstXQSI">Desinstalar a toda costa</A></LI>
+
+<LI>
+<A HREF="#EjemploKDE">Ejemplo de instalaci&oacute;n (INSTALANDO LAS KDE)</A></LI>
+
+<LI>
+<A HREF="/usr/doc/HOWTO/translations/es/html/RPM-Como.html">M&aacute;s
+informaci&oacute;n sobres .RPM (Requiere documentaci&oacute;n)</A></LI>
+</UL>
+</BLOCKQUOTE>
+
+<HR WIDTH="100%">
+<BR><A NAME="QueRPMS"></A>
+<H3>
+Consulta de RPMs INSTALADOS</H3>
+&nbsp;
+<BLOCKQUOTE>Para saber que paquetes .RPM est&aacute;n instalados, ser&aacute;
+tan f&aacute;cil como escribir:
+<P>rpm -qa
+<P>Pero, claro, esta informaci&oacute;n aparecer&aacute; un tanto desordenada,
+porque que podemos forzar su informaci&oacute;n y una f&aacute;cil consulta
+escribiendo:
+<P>rpm -qa|sort|less
+<P>Te recordamos, que esto te dir&aacute; todos los programas que est&aacute;n
+instalados v&iacute;a .RPM, osea, que los que hubieran sido instalados
+como .tgz, (o .tar.gz, que es lo mismo), o .deb, o cualquier otro tipo
+de paquete que no fuera compatible con el .rpm, no mostrar&aacute; esta
+informaci&oacute;n.
+<BR>&nbsp;</BLOCKQUOTE>
+<A HREF="#Arriba">[ ^ ]</A>
+<BR>
+<HR WIDTH="100%">
+<P><A NAME="UnPaquete"></A>
+<H3>
+Consulta de un paquete INSTALADO</H3>
+
+<BLOCKQUOTE>&nbsp;
+<UL>
+<LI>
+Para saber cierta informaci&oacute;n sobre un paquete, bastara poner:</LI>
+</UL>
+
+<P><BR>rpm -qi nombre
+<BR>&nbsp;
+<UL>
+<LI>
+Para consultar donde est&aacute; instalado...</LI>
+</UL>
+
+<P><BR>rpm -qil nombre
+<BR>&nbsp;
+<UL>
+<LI>
+Para consultar un paquete QUE NO EST&Aacute; INSTALADO, y ahora mismo lo
+tienes delante:</LI>
+</UL>
+
+<P><BR>rpm -qpi nombre.xxx.xx.rpm
+<BR>&nbsp;
+<UL>
+<LI>
+Si quieres saber donde se instalar&aacute;</LI>
+</UL>
+
+<P><BR>rpm -qpil nombre.xxx.xx.rpm
+<BR>&nbsp;</BLOCKQUOTE>
+<A HREF="#Arriba">[ ^ ]</A>
+<BR>
+<HR WIDTH="100%">
+<BR><A NAME="ForzarInst"></A>
+<H3>
+Forzar una instalaci&oacute;n:</H3>
+&nbsp;
+<BLOCKQUOTE>
+<UL>
+<LI>
+Para forzar una instalaci&oacute;n que deseamos a toda costa, bastar&aacute;
+con poner:</LI>
+</UL>
+
+<P><BR>rpm -U programa.xxx.xx.rpm
+<BR>&nbsp;
+<UL>
+<LI>
+para forzarlo use: --force</LI>
+</UL>
+
+<P><BR>rpm -U --force programa.xxx.xx.rpm</BLOCKQUOTE>
+
+<P><BR><A HREF="#Arriba">[ ^ ]</A>
+<BR>
+<HR WIDTH="100%">
+<BR><A NAME="DesinstXQSI"></A>
+<H3>
+Desinstalar a toda costa:</H3>
+
+<BLOCKQUOTE>&nbsp;
+<BR>Para desinstalar a toda costa, usa --nodeps, para que no dependa de
+las dependencias instaladas
+<BR>(esta opci&oacute;n no es muy aconsejable)</BLOCKQUOTE>
+<A HREF="#Arriba">[ ^ ]</A>
+<BR>
+<HR WIDTH="100%">
+<BR><A NAME="EjemploKDE"></A>
+<H2>
+EJEMPLO DE INSTALACI&Oacute;N, INSTALANDO LAS KDE:</H2>
+
+<UL>&nbsp;
+<BR><A HREF="#kde-1.1">(Nota para versiones KDE 1.1 y posteriores)</A>
+<BR>&nbsp;
+<P>Cuando uno se mete en esto de Linux, y preguntas por el entorno gr&aacute;fico,
+te hablan de las X-Window, del FVWM95, del Enlightment (muy bonito) y te
+hablan de las KDE, y dices &iquest;C&oacute;mo las instalo?
+<P>Lo primero, cuando te traes todos los paquetes de internet, dices &iexcl;joer!,
+porque no habr&aacute; un script de instalaci&oacute;n, la verdad, no hay
+script porque es algo muy sencillo, y como es tan sencillo pues ni se molestan
+en hacer el script
+<P>Lo primero que har&iacute;as ser&iacute;a:
+<BR>&nbsp;
+<UL>
+<LI>
+rpm -i kdebase.xxx.xx.rpm</LI>
+</UL>
+
+<P><BR>Y claro, te dir&aacute; que necesita, tal o cual fichero instalado
+para instalar esto, pues s&oacute;lo habr&aacute; que leer, &iquest;qu&eacute;
+es lo que necesita?, e instalarlo
+<P>qt*.rpm
+<BR>kdelibs*.rpm
+<BR>kde*.rpm
+<P>Pues procedemos haciendo:
+<BR>&nbsp;
+<OL>
+<LI>
+rpm -i qt*.rpm</LI>
+
+<LI>
+rpm -i kde*.rpm</LI>
+</OL>
+
+<P><BR>&iexcl;Ya est&aacute;!
+<P>tenemos KDE instalado
+<BR><A NAME="KDE_fichs"></A>
+<BR>Ahora, s&oacute;lo habr&aacute; que modificar ciertos ficheros, cosa
+que vendr&aacute; en el .TXT, que acompa&ntilde;a siempre la instalaci&oacute;n,
+y que de todas formas nosotros daremos los pasos necesarios: (Estos fichero
+suelen instalarse en <B>/usr/doc/</B>)
+<P>------------------------------
+<BR>Los ficheros a modificar son:
+<BR>&nbsp;
+<UL>
+<LI>
+<B>$HOME/.xinitrc</B></LI>
+
+<LI>
+<B>/etc/bashrc</B></LI>
+</UL>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<UL>
+<LI>
+($HOME&nbsp;&nbsp;&nbsp; y&nbsp;&nbsp;&nbsp; ~/&nbsp;&nbsp;&nbsp;&nbsp;
+hacen siempre referencia a la casa del usuario)</LI>
+</UL>
+------------------------------
+<BR>El car&aacute;cter `~', se llama vidigudina.
+<P>Editar el fichero ".xinitrc", que hay en el directorio /home/usuario,
+y tambi&eacute;n en el de /root
+<BR>Si no existiera el fichero ".xinitrc", deber&iacute;as crearlo, y si
+existe, guarda una copia con otro nombre, borra todo el contenido y sigue
+estos pasos
+<BR>&nbsp;
+<OL>
+<LI>
+joe .xinitrc</LI>
+
+<LI>
+y escribes dentro: startkde</LI>
+
+<LI>
+Guardar y salir</LI>
+
+<LI>
+editas el fichero /etc/bashrc</LI>
+
+<LI>
+pones: export PATH=$PATH:/opt/kde/bin</LI>
+
+<LI>
+Guardar y salir</LI>
+</OL>
+
+<P><BR>Ahora, escribes:
+<BR>&nbsp;
+<OL>
+<LI>
+exit</LI>
+
+<LI>
+Entras otra vez (como root, o como el usuario que se ha modificado)</LI>
+
+<LI>
+Escribes: startx</LI>
+
+<LI>
+El comando "startx", intentar&aacute; leer el fichero .xinitrc que hay
+en tu directorio, si existe cargar&aacute; ese, si no, cargar&aacute; uno
+por defecto que es el gestor de ventanas que hasta entonces estabas viendo,
+generalmente el FVWM95</LI>
+
+<LI>
+A LOS POCO SEGUNDOS, ESTAR&Aacute;S VIENDO EL ENTORNO KDE.</LI>
+</OL>
+
+<P><BR>Si ya lo ten&iacute;as instalado, deber&aacute;s hacer una actualizaci&oacute;n,
+en vez de escribir -i, deber&iacute;as escribir -U
+<BR><A NAME="KDE_truco"></A>
+<BR>&iexcl;TRUCO! - Tambi&eacute;n puedes:
+<BR>&nbsp;
+<OL>
+<LI>
+Editar el fichero /etc/bashrc</LI>
+
+<LI>
+escribir: alias kde="xinit /opt/bin/startkde"</LI>
+
+<LI>
+Guardar y salir</LI>
+
+<LI>
+exit, y entrar otra vez como el usuario que sea.</LI>
+</OL>
+
+<P><BR>Ahora cuando escribas <B>kde</B>, siempre entrar&aacute;s en dicho
+entorno. (Este truco lo puedes usar para tener varios gestores diferentes,
+mientras te decides con cual quedarte) (<B>xinit</B>, es el <B>motor</B>
+/opt/bin/<B>startkde</B>, es el <B>gestor de ventanas</B>)</UL>
+
+<P><BR>Ejemplo Concluido
+<BR><A HREF="#Arriba">[ ^ ]</A>
+<BR>
+<HR WIDTH="100%">
+<BR><A NAME="kde-1.1"></A>
+<BR>Para las <B><FONT SIZE=+1>versiones del KDE 1.1</FONT> </B>y posteriores
+<B><FONT SIZE=+1>se
+ha creado un script de instalaci&oacute;n</FONT></B>:
+<BR>&nbsp;
+<OL>
+<LI>
+<B><FONT SIZE=+1>install-kde-x.y</FONT></B></LI>
+
+<BR>
+<HR WIDTH="100%">
+<BR>Siendo:
+<BR>
+<HR WIDTH="100%">
+<LI>
+X: El n&uacute;mero de la versi&oacute;n del K Desktop Enviroment a instalar</LI>
+
+<LI>
+Y: Versi&oacute;n de estabilidad del KDE, recuerde: n&uacute;mero impares
+son inestables, y los pares son estables.
+<HR WIDTH="100%"></LI>
+</OL>
+El proceso de instalaci&oacute;n es el siguiente:
+<BR>&nbsp;
+<OL>
+<LI>
+rpm -ivh kde-installer*.rpm</LI>
+
+<LI>
+install-kde-x.y</LI>
+
+<LI>
+(Proceso de instalaci&oacute;n concluido) ahora escribir startx</LI>
+</OL>
+
+<P><BR>Ahora, bien, si no funcionara, lea la secci&oacute;n: <A HREF="#KDE_fichs">(C&oacute;mo
+instalar las KDE)</A>
+<BR>O preferiblemente <A HREF="#KDE_truco">eliga el truco.</A>
+<P><A HREF="#Arriba">[ ^ ]</A>
+<BR>&nbsp;
+</BODY>
+</HTML>

@@ -1,0 +1,252 @@
+================================================================================
+=-                                 Simple Bot                                 -=
+================================================================================
+=-                            GENERAL INFORMATIONS                            -=
+================================================================================
+
+[Note: This document is still mainly in French. It will soon be translated.]
+
+DESCRIPTION
+
+    This program is a very simple text interactive robot. 
+    
+    Its aim is to (more or less) simulate a conversation with a human 
+    being. Actually, this interaction is restricted to answering to the 
+    human user's messages; and even that is not really clever. 
+    
+    The main principle is to search in the user's message (a string of 
+    characters) words that could allow us to choose one answer in the set 
+    of predefined answers. To perform this, the program reads data from 
+    several files:
+    
+      -  file "french.dic"; contains typical French words
+         
+      -  file "spanish.dic"; contains typical Spanish words
+         
+      -  file "german.dic"; contains typical German words
+         
+      -  file "dutch.dic"; contains typical Dutch words
+         
+      -  file "italian.dic"; contains typical Italian words
+         
+      -  file "corpus.dic"; contains the relations between words that can 
+         be found in the message and predefined answers.
+         
+    This files are in text format, so that they can be edited with any 
+    simple text editor.
+    
+    The format of these files is quite simple. It is made with:
+    
+      -  one condition, which is a set of words, linked with booleans 
+         operators AND and OR. Each group of words (which must be between 
+         parenthesises) indicates that the condition will be verified if 
+         the word (or group of word) appears in the user message. The 
+         operators are the commercial and (the ampersand) '&' for the AND 
+         and the pipe '|' for the OR. Inside a condition (I mean, between 
+         the parenthesises), the opening parenthesis '(' is allowed, but 
+         the closing parenthesis ')' must be protected with a backslash '\)'.
+         
+         Examples: 
+          *  The condition
+                 (maddingue)
+             will be verified if the word "maddingue" is in the message. 
+             
+          *  The condition 
+                 (vdb) & (master)
+             will be verified if the words "vdb" AND "master" are in the 
+             message. 
+             
+          *  The condition
+                 (vdb) | (maddingue)
+             will be verified if the "vdb" OR the word "maddingue" OR both 
+             are in the message. 
+             
+         Please note that the the conditions are evaluated from left to 
+         right, and that the evualtion is stopped as soon as there is a 
+         valid result (like in C).
+         
+         To facilitate the presentation, newlines, spaces runs, 
+         tabulations, and other control characters are allowed. Note that 
+         you must always use lower case words because the user message is 
+         converted in lower case in order to avoid the CAPS-LOCK users.
+    
+      -  le nombre de phrases que le bot a a sa disposition. Ne faites pas 
+         d'erreur en tapant ce nombre car il pourrait en resulter un 
+         plantage du bot... (En fait, si vous mettez un nombre inferieur 
+         au nombre reel de phrases, seul le nombre de phrases indique sera 
+         lu, et l'analyseur s'arretera completement apres. Sans planter. 
+         Si vous mettez un nombre superieur au nombre de phrases reel, 
+         il devrait s'arreter de la meme maniere.)
+    
+      -  les phrases predeclarees. Elles doivent etre mises entre 
+         guillemets (double quotes) <">. Il n'y a aucune restriction 
+         particuliere, sauf celle de proteger d'eventuels guillemets qui
+         apparaitraient dans la phrase par un antislash '\'. 
+         
+         Examples :
+             
+             "hello the world"
+             
+             "He said : she said \"You said 'foo'\"."
+             
+             "If you want to program in C, program in C.  It's a nice language. 
+             I use it occasionally...   :-)
+               --Larry Wall in <7577@jpl-devvax.JPL.NASA.GOV> "
+         
+         The number of sentences you enter must correspond to the number 
+         you previously entered. When there's more than one phrase 
+         available, the returned one is randomly chosen. 
+    
+      -  le kick (optionel). Un kick est realise si l'utilisateur a envoye 
+         plus d'un certain nombre de messages dans la meme theme. La 
+         declaration se fait comme suit :
+         
+             k n : 
+         
+         ou n est la limite a partir de laquelle le bot s'enerve. La 
+         lettre 'k' et le double point ':' sont obligatoires. 
+         
+         Si cette declaration est presente, elle doit alors etre 
+         imperativement suivie de la declaration des phrases envoyees a 
+         l'utilisateur lors de son kick. La declaration est semblable a 
+         celle des phrases normales : il doit d'abord y avoir le nombre de 
+         phrases, et ensuite les phrases, chacune entourees de doubles 
+         quotes; les regles donnees plus haut s'appliquent ici de la meme 
+         maniere. 
+    
+    Notez que entre les parentheses dans les conditions et dans les 
+    phrases, TOUT LES CARACTERES QUE VOUS TAPEZ SERONT INTEGRALEMENT LUS 
+    ET STOCKES TELS QUELS. A part les guillemets proteges <\">, il n'y a 
+    aucun traitement, pour le meilleur et pour le pire.. :-)
+    
+    Par ailleurs, vous pouvez entrez des commentaires dans le fichier 
+    source pour mieux vous y retrouver. Un commentaire est defini de la 
+    meme maniere qu'en shell (mais un peu plus restricrif) : tout ce qui 
+    suit un diese '#' jusqu'a la fin de la ligne est considere comme 
+    commentaire. Les dieses utilises a l'interieurs des phrases ou dans 
+    les definitions de conditions ne sont pas concernes. Notez qu'il ne 
+    vaut mieux pas mettre un diese sur la meme ligne qu'une autre 
+    declaration, l'analyseur actuel semble ne pas apprecier quand il y a 
+    plus d'une chose a la fois par ligne.. :-)
+    
+    To end the file, a single dot '.' on a line is enought.
+    
+    To illustrate this, here is a simple example:
+    
+        # 
+        # if there's "foo" in the message, we return "bar"
+        # 
+        (foo)
+        1
+        "bar"
+    
+    Here is a little more complex one:
+    
+        # 
+        # we return one of the following sentences if the message 
+        # contains "vdb" AND "god" OU "master"
+        # 
+        (vdb) & (god) | (master)
+        2
+        "I know, I know.."
+        "Be simple.. Call me \"Master\".."
+        # 
+        # the message "Vdb, you my master" will verify the condition
+        # the message "Oh, God!! Vdb!!" will verify too the condition
+        # the message "Vdb, you're a sucker :=pp" won't verify the condition
+        # 
+    
+    Here is an other, quite funny:
+    
+        # 
+        # If you say that Vdb is a sucker...
+        # 
+        (vdb) & (sucker)
+        1
+        "grr."
+        k 1 :
+        1
+        ":=pp"
+        # 
+        # ... he quickly kicks you because he's quite susceptible. :-)
+        # 
+    
+    For more informations, take a look at the data files or contact the 
+    author. 
+
+
+COMMANDS
+
+    To have informations about a running version of the bot, many commands 
+    are available. 
+    
+    List of available commands
+    
+        __ACTIVATE_TYPE_DELAY__
+            This command activate the keystroke simulation. 
+            This command need a confirmation. 
+        
+        __DATA__
+            This command prints informations about the data currently in 
+            memory. 
+        
+        __DATE__
+            This command prints the compilation date of the bot. 
+        
+        __DESACTIVATE_TYPE_DELAY__
+            This command disactivate the keystroke simulation. 
+        
+        __HELP__
+            This command prints a small help screen. 
+        
+        __RELOAD__
+            This command reloads the dictionaries and the corpus in the 
+            memory. This allow the bot to take care of new data without 
+            needing to relaunch it.
+            This command needs a confirmation. 
+        
+        __SIZE__
+            This command prints an estimation of the memory used by the 
+            data of the bot. 
+        
+        __TEST_LOWER_CASE__
+            This command allow you to test the lower_case() function.
+        
+        __TEST_RANDOM__
+            This command allow you to test the irand() function: it is 
+            called 10 times in order to verify the quality of the 
+            pseudo-random numbers generator. 
+        
+        __TIME__
+            This command prints the elapsed time since the boot of the 
+            system. 
+        
+        __TYPE_DELAY__
+            This command prints the state of the keystroke simulation 
+            state (On ou Off).
+        
+        __VERSION__
+            This command prints the version number of the bot. 
+        
+    The command which need a confirmation must be followed with the pseudo 
+    command __YES__. This is to avoid non allowed people to play with this 
+    functions which can overload the server. 
+
+
+AUTHOR
+
+    Sebastien Aperghis-Tramoni <madingue@tango.resus.univ-mrs.fr>
+
+
+LAST MODIFICATION
+
+    Monday 02/03/1998 by Sebastien Aperghis-Tramoni
+
+
+COPYRIGHT
+
+    The code of this program and all the files included with this program 
+    are all copyright (C) 1997-1998 The Free Software Foundation. 
+    Read the file 'COPYING' for more information about the GNU General 
+    Public License. 
+

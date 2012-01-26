@@ -1,0 +1,108 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Initialization</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_38.html">previous</A>, <A HREF="termcap_40.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC39" HREF="termcap_toc.html#TOC39">Initialization</A></H2>
+<P>
+<A NAME="IDX156"></A>
+<A NAME="IDX157"></A>
+<A NAME="IDX158"></A>
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`ti'</SAMP>
+<DD>
+<A NAME="IDX159"></A>
+String of commands to put the terminal into whatever special modes are
+needed or appropriate for programs that move the cursor
+nonsequentially around the screen.  Programs that use termcap to do
+full-screen display should output this string when they start up.
+
+<DT><SAMP>`te'</SAMP>
+<DD>
+<A NAME="IDX160"></A>
+String of commands to undo what is done by the <SAMP>`ti'</SAMP> string.
+Programs that output the <SAMP>`ti'</SAMP> string on entry should output this
+string when they exit.
+
+<DT><SAMP>`is'</SAMP>
+<DD>
+<A NAME="IDX161"></A>
+String of commands to initialize the terminal for each login session.
+
+<DT><SAMP>`if'</SAMP>
+<DD>
+<A NAME="IDX162"></A>
+String which is the name of a file containing the string of commands
+to initialize the terminal for each session of use.  Normally <SAMP>`is'</SAMP>
+and <SAMP>`if'</SAMP> are not both used.
+
+<DT><SAMP>`i1'</SAMP>
+<DD>
+<DT><SAMP>`i3'</SAMP>
+<DD>
+<A NAME="IDX163"></A>
+<A NAME="IDX164"></A>
+Two more strings of commands to initialize the terminal for each login
+session.  The <SAMP>`i1'</SAMP> string (if defined) is output before <SAMP>`is'</SAMP>
+or <SAMP>`if'</SAMP>, and the <SAMP>`i3'</SAMP> string (if defined) is output after.
+
+The reason for having three separate initialization strings is to make
+it easier to define a group of related terminal types with slightly
+different initializations.  Define two or three of the strings in the
+basic type; then the other types can override one or two of the
+strings.
+
+<DT><SAMP>`rs'</SAMP>
+<DD>
+<A NAME="IDX165"></A>
+String of commands to reset the terminal from any strange mode it may
+be in.  Normally this includes the <SAMP>`is'</SAMP> string (or other commands
+with the same effects) and more.  What would go in the <SAMP>`rs'</SAMP>
+string but not in the <SAMP>`is'</SAMP> string are annoying or slow commands
+to bring the terminal back from strange modes that nobody would
+normally use.
+
+<DT><SAMP>`it'</SAMP>
+<DD>
+<A NAME="IDX166"></A>
+Numeric value, the initial spacing between hardware tab stop columns
+when the terminal is powered up.  Programs to initialize the terminal
+can use this to decide whether there is a need to set the tab stops.
+If the initial width is 8, well and good; if it is not 8, then the
+tab stops should be set; if they cannot be set, the kernel is told
+to convert tabs to spaces, and other programs will observe this and do
+likewise.
+
+<DT><SAMP>`ct'</SAMP>
+<DD>
+<A NAME="IDX167"></A>
+String of commands to clear all tab stops.
+
+<DT><SAMP>`st'</SAMP>
+<DD>
+<A NAME="IDX168"></A>
+String of commands to set tab stop at current cursor column on all
+lines.
+
+<DT><SAMP>`NF'</SAMP>
+<DD>
+<A NAME="IDX169"></A>
+Flag whose presence means that the terminal does not support XON/XOFF
+flow control.  Programs should not send XON (<KBD>C-q</KBD>) or XOFF
+(<KBD>C-s</KBD>) characters to the terminal.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_38.html">previous</A>, <A HREF="termcap_40.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

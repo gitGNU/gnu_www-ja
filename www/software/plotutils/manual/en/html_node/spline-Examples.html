@@ -1,0 +1,177 @@
+<html lang="en">
+<head>
+<title>spline Examples - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="spline.html#spline" title="spline">
+<link rel="prev" href="spline.html#spline" title="spline">
+<link rel="next" href="Advanced-Use-of-spline.html#Advanced-Use-of-spline" title="Advanced Use of spline">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="spline-Examples"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Advanced-Use-of-spline.html#Advanced-Use-of-spline">Advanced Use of spline</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="spline.html#spline">spline</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="spline.html#spline">spline</a>
+<hr>
+</div>
+
+<h3 class="section">7.1 How to use <code>spline</code></h3>
+
+<p>GNU <code>spline</code> is a program for interpolating between the data points
+in one or more datasets.  Each dataset would consist of values for an
+independent variable and a dependent variable, which may be a vector of
+specified fixed length.  When discussing interpolation, we call these
+variables `t' and `y', respectively.  To&nbsp;emphasize:<!-- /@w -->
+t&nbsp;is&nbsp;a&nbsp;scalar<!-- /@w -->, but in&nbsp;general<!-- /@w --> the dependent variable
+y&nbsp;may<!-- /@w --> be a vector.
+
+   <p>The simplest case is when there is a single input file, which is in
+ASCII format, and the vector&nbsp;y<!-- /@w --> is one-dimensional.  This is
+the default.  For example, the input file could contain the dataset
+
+<pre class="example">     0.0  0.0
+     1.0  1.0
+     2.0  0.0
+</pre>
+   <p class="noindent">which are the coordinates (t,y) of the data points (0,0), (1,1),
+and (2,0).  Data points do not need to be on different lines, nor do the
+t and&nbsp;y<!-- /@w --> coordinates of a data point need to be on the
+same line.  However, there should be no blank lines in the input if it
+is to be viewed as forming a single dataset.  Also, by&nbsp;default<!-- /@w --> the
+t coordinate should be monotonically increasing, so that
+y&nbsp;may<!-- /@w --> be viewed as a function of&nbsp;t<!-- /@w -->.
+
+   <p>You would construct a spline (the graph of an `interpolating function')
+passing through the points in this dataset by doing
+
+<pre class="example">     spline input_file &gt; output_file
+</pre>
+   <p class="noindent">To produce a Postscript plot of the spline with the <code>graph</code>
+utility, you would do
+
+<pre class="example">     spline input_file | graph -T ps &gt; output.ps
+</pre>
+   <p class="noindent">To display a spline on an X&nbsp;Window<!-- /@w --> System display, you could do
+
+<pre class="example">     echo 0 0 1 1 2 0 | spline | graph -T X
+</pre>
+   <p class="noindent">Notice that the last example avoids the use of the input file
+altogether.  <code>spline</code> will read from standard input if no files are
+specified on the command line, or if the special file name&nbsp;&lsquo;<samp><span class="samp">-</span></samp>&rsquo;<!-- /@w -->
+is specified.
+
+   <p>What exactly does <code>spline</code> do?  First, it fits a curve (the graph
+of an interpolating function) through the points in the dataset.  Then
+it splits the interval over which the independent variable&nbsp;t<!-- /@w -->
+ranges into 100 sub-intervals, and computes the y&nbsp;values<!-- /@w --> at
+each of the 101 subdivision points.  It&nbsp;then<!-- /@w --> outputs each of the
+pairs (t, y).  These are the coordinates of 101 points that lie
+along a curve that interpolates between the points in the dataset.  If
+there is more than one dataset in the input (separated by blank lines),
+each dataset is interpolated separately.
+
+   <p>You may use the &lsquo;<samp><span class="samp">-n</span></samp>&rsquo; option to replace `100' by any other positive
+integer.  You may also use the &lsquo;<samp><span class="samp">-t</span></samp>&rsquo; option to specify an
+interpolation interval that differs from the default (the interval over
+which the independent variable ranges).  For example, the command
+
+<pre class="example">     echo 0 0 1 1 2 0 | spline -n 20 -t 1.0 1.5 &gt; output_file
+</pre>
+   <p class="noindent">will produce a dataset consisting of 21 (rather than 101) data points,
+with t&nbsp;values<!-- /@w --> spaced regularly between 1.0 and 1.5 (rather
+than between 0.0 and 2.0).  The data points will lie along a curve
+passing through (0,0), (1,1), and (2,0).  This curve will be a parabola.
+
+   <p>In general, the interpolating function will be a piecewise cubic spline. 
+That is, between each pair of adjacent `knots' (points in the input
+dataset), y&nbsp;will<!-- /@w --> be a cubic function of&nbsp;t<!-- /@w -->.  This
+function will differ, depending on which pair of knots y&nbsp;lies<!-- /@w -->
+between.  At each knot, both the slope and curvature of the cubic pieces
+to either side will match.  In mathematical terms, the interpolating
+curve will be twice continuously differentiable.
+
+   <p><code>spline</code> supports `adding tension' to the interpolating curve. 
+A&nbsp;nonzero<!-- /@w --> value for the tension can be specified with the &lsquo;<samp><span class="samp">-T</span></samp>&rsquo;
+option.  For example, a spline under considerable tension can be
+computed and displayed by doing
+
+<pre class="example">     echo 0 0 1 0 2 0 | spline -T 10 | graph -T X
+</pre>
+   <p class="noindent">As the tension parameter is increased to positive infinity, the spline
+will converge to a polygonal line.  You are meant to think of the spline
+as being drawn taut.  Actually, tension may be negative as&nbsp;well<!-- /@w --> as
+positive.  A&nbsp;spline<!-- /@w --> with negative tension will tend to bow outward,
+in&nbsp;fact<!-- /@w --> to oscillate sinusoidally.  But as the tension decreases to
+negative infinity, the spline, though oscillatory, will again converge
+to a polygonal line.
+
+   <p>If the tension is positive, its reciprocal will be the maximum range of
+the independent variable&nbsp;t<!-- /@w --> over which the spline will `like
+to curve'.  Increasing the tension far above zero will accordingly force
+the spline to consist of short curved sections, centered on the data
+points, and sections that are almost straight.  It follows that tension
+is a `dimensionful' quantity.  If&nbsp;the<!-- /@w --> tension is nonzero, then when
+the values of the independent variable are multiplied by some common
+positive factor, the tension should be divided by the same factor to
+obtain a scaled version of the original spline.  If&nbsp;the<!-- /@w --> tension is
+zero (the default, or cubic spline case), then the computation of the
+spline will be unaffected by linear scaling of the data.
+
+   <p>In mathematical terms, a spline under tension will satisfy the
+differential equation
+y&rdquo;&rdquo;=sgn(tension)*(tension^2)y&rdquo;
+between each successive pair of knots.  If the tension equals zero,
+which is the default, the fourth derivative of y with respect
+to&nbsp;t<!-- /@w --> will equal zero at every point.  In this case, y
+as a function of&nbsp;t<!-- /@w --> will reduce to a cubic polynomial between
+each successive pair of knots.  But if the tension is nonzero, y
+will not be a polynomial function of&nbsp;t<!-- /@w -->.  It&nbsp;may<!-- /@w --> be expressed
+in&nbsp;terms<!-- /@w --> of exponential functions, however.
+
+   <p>Irrespective of whether or not the spline is under tension, you may
+specify the &lsquo;<samp><span class="samp">-p</span></samp>&rsquo; option if you wish the spline to be a periodic
+function of&nbsp;t<!-- /@w -->.  This will only work if the y values for
+the first and last points in the dataset are equal.  Otherwise, it would
+make no sense to compute a periodic interpolation.
+
+   <p>It is sometimes useful to interpolate between data points at the same
+time as they are generated by an auxiliary program.  That&nbsp;is<!-- /@w -->, it&nbsp;is<!-- /@w --> useful for <code>spline</code> to function as a real-time filter. 
+<code>spline</code> does not normally act as a filter, since computing an
+interpolating curve that is as smooth as possible is a global task.  But
+if the &lsquo;<samp><span class="samp">-f</span></samp>&rsquo; option is specified, <code>spline</code> will indeed function
+as a filter.  A&nbsp;different<!-- /@w --> interpolation algorithm (cubic Bessel
+interpolation, which is local rather than global) will be used.  If&nbsp;&lsquo;<samp><span class="samp">-f</span></samp>&rsquo;<!-- /@w --> is specified, &lsquo;<samp><span class="samp">-p</span></samp>&rsquo; may not be specified.  Also, if
+&lsquo;<samp><span class="samp">-f</span></samp>&rsquo; is specified then an interpolation interval (a&nbsp;range<!-- /@w --> of
+t&nbsp;values<!-- /@w -->) must be requested explicitly with the &lsquo;<samp><span class="samp">-t</span></samp>&rsquo;
+option.
+
+   <p>Cubic Bessel interpolation is inherently less smooth than the
+construction of a global cubic spline.  If&nbsp;the<!-- /@w --> &lsquo;<samp><span class="samp">-f</span></samp>&rsquo; option is
+specified, the slope of the spline at each knot will be chosen by
+fitting a parabola through that knot, and the two adjacent knots.  The
+slopes of the two interpolating segments to either side of each interior
+knot will match at that knot, but typically their curvatures will not. 
+In mathematical terms, the interpolating curve will be continuously
+differentiable, but in general not twice continuously differentiable. 
+This loss of differentiability is the price that is paid for functioning
+as a real-time filter.
+
+   </body></html>
+

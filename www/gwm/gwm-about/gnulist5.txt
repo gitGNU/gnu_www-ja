@@ -1,0 +1,298 @@
+From guylhem  Mon Nov 26 17:10:38 2001
+Return-Path: <bob@rattlesnake.com>
+Received: from luna.metalab.unc.edu [152.2.210.4]
+	by localhost with POP3 (fetchmail-5.9.0)
+	for guylhem@localhost (single-drop); Mon, 26 Nov 2001 17:10:38 +0100 (CET)
+Received: from localhost (megalith.rattlesnake.com [140.186.114.245])
+	by trance.metalab.unc.edu (8.11.6/8.11.0) with ESMTP id fAPIYPB23168
+	for <guylhem@metalab.unc.edu>; Sun, 25 Nov 2001 13:34:26 -0500
+Received: by rattlesnake.com
+	via sendmail from stdin
+	id <m1683xp-000IhjC@localhost> (Debian Smail3.2.0.114)
+	for guylhem@metalab.unc.edu; Sun, 25 Nov 2001 13:25:13 -0500 (EST) 
+Message-Id: <m1683xp-000IhjC@localhost>
+Date: Sun, 25 Nov 2001 13:25:13 -0500 (EST)
+From: "Robert J. Chassell" <bob@rattlesnake.com>
+To: guylhem@metalab.unc.edu
+CC: bob@rattlesnake.com
+In-reply-to: <Pine.LNX.4.33.0111201110390.15207-100000@tribal.metalab.unc.edu>
+	(message from Guylhem Aznar on Tue, 20 Nov 2001 11:32:48 -0500 (EST))
+Subject: Re: New GNU doc project
+Reply-to: bob@rattlesnake.com
+References:  <Pine.LNX.4.33.0111201110390.15207-100000@tribal.metalab.unc.edu>
+Status: RO
+Content-Length: 6925
+Lines: 271
+
+   > Meanwhile, here is an document I prepared some time ago that describes
+   > what documentation we had and what form it was in.  This might
+   > interest you.
+
+   Definitively. If you have other documents, please send them - I will
+   have a website online soon.
+
+
+Here is the HOWTO I wrote up for extracting the documentation files
+from the GNU Source CD-ROMs.  All the file names are local to me:  I
+decided to put the files into directories below /u/doc/gnu/
+
+I used the GNU Source CD-ROMs both because I have a slow net
+connection and could not download the documents and because I am
+confident the files on the CDs are legal for us to distribute.
+
+   I am especially interested in cataloging existing free documentation,
+   wherever it may come from. Then I will publicize the project to try to
+   find help.
+
+Please also take a look at Janet's free software directory.  It should
+list documentation that is new since the last source CDs were created
+and also files that are not on the CDs.
+
+
+
+
+
+How to list doc files in GNU Source CD-ROMs
+-------------------------------------------
+
+/u/doc/gnu/Texinfo-files-remaining  contains remaining Texinfo files to format
+/u/doc/gnu/Printed-manuals          contains list of formatted files
+
+/u/doc/gnu/CD-files:                where the files go, source and formatted
+
+
+/u/doc/gnu/man-files-remaining  contains remaining Texinfo files to format
+/u/doc/gnu/man-manuals          contains list of formatted Man pages
+
+---------------------------------
+
+5 Jan 1996
+
+List following files:
+
+.texinfo
+.texi
+.txi
+.man
+.[1-9]*
+.n
+.tex
+.doc
+.txt
+.html
+.ps
+.ms
+.dvi
+
+[mount a GNU Source CD-ROM on /cdrom]
+
+cd /cdrom
+
+find . \( -name '*.texinfo'  -o  -name '*.texi'  -o  -name '*.txi'  -o -name '*.man'  -o  -name '*.[1-9]'  -o  -name '*.n'  -o  -name '*.tex' -o  -name '*.doc'  -o  -name '*.txt'  -o  -name '*.html'  -o  -name '*.ps'  -o  -name '*.ms'  -o  -name '*.dvi' \) -exec ls -ald {} \; > /u/doc/file-list
+
+for 2nd CD, use >>
+
+
+For Texinfo files only:
+
+
+find . \( -name '*.texinfo'  -o  -name '*.texi'  -o  -name '*.txi' \) -exec ls -ald {} \; > /u/doc/Texinfo-files
+
+For HTML files only
+
+find . -name '*.html' -exec ls -ald {} \; > /u/doc/HTML-files
+
+
+
+The following puts files in deep directories, not flat.
+I.e., into files like this:
+
+    /u/doc/gnu/CD-files/bash-2.0/lib/glob/doc/glob.texi
+    /u/doc/gnu/CD-files/bash-2.0/lib/readline/doc/hist.texinfo
+    /u/doc/gnu/CD-files/bash-2.0/lib/readline/doc/hstech.texinfo
+
+rather than
+
+    /u/doc/gnu/CD-files/bash-2.0/glob.texi
+    /u/doc/gnu/CD-files/bash-2.0/hist.texinfo
+    /u/doc/gnu/CD-files/bash-2.0/hstech.texinfo
+
+
+Copy Texinfo-files to Texinfo-files-for-tar
+
+Remove dates from Texinfo-files list so file names look like:
+    ./bash-2.0/lib/readline/doc/hist.texinfo
+then:
+
+cd /cdrom; tar -c -v  -f - --files-from=/u/doc/gnu/Texinfo-files-for-tar | (cd /u/doc/gnu/CD-files; tar xvf -)
+
+==============
+
+DO THIS:
+
+    mkdir <directory>    inside CD-files
+    cd !$
+
+
+Remove dates from Texinfo-files list and
+replace ./ with /cdrom/
+so file names look like:
+    /cdrom/bash-2.0/lib/readline/doc/hist.texinfo
+then:
+
+    cp <list of files> .
+
+    grep @include * to find which not to format
+
+    insert @smallbook as needed
+    then tex; texindex; tex  the files.
+
+    list in   Printed-manuals
+
+    then print.
+
+
+
+
+
+For Man pages
+-------------
+
+cd /cdrom
+
+find . \! -type d \( -name '*.man'  -o  -name '*.[1-9]'  -o  -name '*.n'  \) -exec ls -ald {} \; > /u/doc/gnu/Man-pages-list
+
+pu; umtcdrom; mtcdrom; pu
+
+for 2nd CD, use >>
+
+------------------------
+
+Remove dates from Man-pages-list list so file names look like:
+    ./automake-1.0/ansi2knr.1
+
+then:
+
+(progn
+  (flush-lines "ChangeLog\\.[1-5]$")
+  (flush-lines "ARTICLE\\.[1-9]$")
+  (flush-lines "NEWS\\.[1-9]$")
+  (flush-lines "NEWS\\.[1-9]\\.[1-9]$")
+  (flush-lines "NEWS-\\.[1-9]$")
+  (flush-lines "README-\\.[1-9]$")
+  (flush-lines "README-\\.[1-9]\\.[1-9]$")
+  (flush-lines "README-\\.[1-9]\\.[1-9]\\.[1-9]$")
+  (flush-lines "README-[1-9]\\.[1-9]$")
+  (flush-lines "README-[1-9]\\.[1-9]\\.[1-9]$")
+  (flush-lines "README.Xfree3.2$"))
+
+pu; umtcdrom; <back to cdrom # 1> ; mtcdrom; pu
+
+(query-replace "./" "/cdrom/")
+
+  $ cd /u/doc/gnu/CD-files
+
+  $ mkdir automake-1.0
+  $ cd automake-1.0
+  $ cp /cdrom/automake-1.0/ansi2knr.1 .
+  $ groff -man -T dvi ansi2knr.1 >ansi2knr.dvi
+
+  mp1() { groff -man -T dvi $1 > `basename $1 .1`.dvi ; }
+  mp2() { groff -man -T dvi $1 > `basename $1 .2`.dvi ; }
+  mp3() { groff -man -T dvi $1 > `basename $1 .3`.dvi ; }
+
+Copy page length to `Printed-manuals' file.
+
+Copy path to `Printed-manuals' and append .dvi filename.
+
+
+
+Files with paths that have `doc' in them:
+----------------------------------------
+
+find . -path '*doc*' \! -type d -exec ls -ald {} \; >/u/doc/Doc-directory-docs
+
+
+find . -path '*doc*' \! -type d -exec ls -ald {} \; >/u/doc/doc-file-list
+
+remove first few columns using `C-x r k'
+
+Files to flush
+--------------
+
+(progn
+  ;; [have following]
+
+  (flush-lines "\\.texinfo$")
+  (flush-lines "\\.texi$")
+  (flush-lines "\\.txi$")
+  (flush-lines "\\.man$")
+  (flush-lines "\\.[1-9]*$")
+  (flush-lines "\\.n$")
+  (flush-lines "\\.tex$")
+  (flush-lines "\\.doc$")
+  (flush-lines "\\.txt$")
+  (flush-lines "\\.html$")
+  (flush-lines "\\.ps$")
+  (flush-lines "\\.ms$")
+  (flush-lines "\\.dvi$")
+
+  ;; [do not want]
+
+  (flush-lines "\\.TBL$")
+  (flush-lines "\\.el$")
+  (flush-lines "\\.h$")
+  (flush-lines "\\.c$")
+  (flush-lines "\\.info-[1-9]*$")
+  (flush-lines "\\.elc$")
+  (flush-lines "\\.in$")
+  (flush-lines "\\.am$")
+  (flush-lines "\\.sed$")
+  (flush-lines "\\.cvsignore$")
+  (flush-lines "\\.delete$")
+  (flush-lines "\\.dat$")
+  (flush-lines "\\.plt$")
+  (flush-lines "\\.dif $")
+  (flush-lines "\\.com$")
+  (flush-lines "\\.jp$")
+  (flush-lines "\\.aux$")
+  (flush-lines "\\.cp$")
+  (flush-lines "\\.fn$")
+  (flush-lines "\\.info$")
+  (flush-lines "\\.ky$")
+  (flush-lines "\\.log$")
+  (flush-lines "\\.pg$")
+  (flush-lines "\\.toc$")
+  (flush-lines "\\.tp$")
+  (flush-lines "\\.vr$")
+  (flush-lines "ChangeLog$")
+  (flush-lines "ChangeLog.fsf$")
+  (flush-lines "Makefile$")
+  (flush-lines "configure$")
+  (flush-lines "BOOKFILES$")
+  (flush-lines "CHANGES$")
+  (flush-lines "CONTRIB$")
+  (flush-lines "COPYING$")
+  )
+
+
+
+
+Finding unique document names
+-----------------------------
+
+Files have names such as:
+
+autoconf-2.13/autoconf.texi
+autoconf-2.13/install.texi
+autoconf-2.13/make-stds.texi
+autoconf-2.13/standards.texi
+
+Go to list, remove beginning until directory name, then
+
+<root> /u/doc # uniq --check-chars=6 foo foobar
+
+Then use Emacs keyboard macro to remove filenames after a /
+
+################ end ################
+

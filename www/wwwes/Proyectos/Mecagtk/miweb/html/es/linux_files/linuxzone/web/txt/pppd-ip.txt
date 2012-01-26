@@ -1,0 +1,54 @@
+****************************************************************************
+****** PPPD cuelga Micro-HOWTO ********************** Por Daniel Molina ****
+****************************************************************************
+
+Este documento ha sido creado usando mensajes aparecidos en el area
+de noticias es.comp.os.linux y por mi propia experiencia.
+
+Solo lo he probado con el pppd 2.2.0 y el pppd 2.3.0-3 en Red Hat 5.0
+la localizacion de los archivos puede cambiar en otras distribuciones.
+
+Mucha gente se keja de ke el pppd no conecta hasta el tercer o cuarto
+intento con lo ke telefonica nos roba por un sevicio ke no podemos usar por
+un problema suyo.
+
+El problema esta en ke algunos modems de los ke usa telefonica para el
+servicio Infovia no devuelven un IP remota como respuesta, esta IP es
+necesaria para ke el pppd pueda establecer una conexion segura.
+
+Solucion:
+
+1. Si usamos pppd. 
+	En el archivo /etc/ppp/options pasar a pppd la opcion:
+
+		:192.168.0.2
+	
+	La IP puede ser cualkiera de las validas dentro de internet.
+	Los dos puntos (:) son necesarios!
+	Con esta opcion le estamos fijando a pppd la IP remota.
+	Aun keda poner otra opcion:
+
+		ipcp-accept-remote
+
+	Con esta opcion le decimos al pppd ke se crea la IP ke le damos
+	pase lo ke pase.		
+
+2. Si usamos kppp
+	La secuencia de botones a pulsar es:
+
+		- kppp
+		- Configuracion
+		- Editar
+		- Editar opciones del pppd
+		- Opcion: :192.168.0.2
+		- Añadir
+		- Opcion: ipcp-accept-remote
+		- Añadir
+		- Cerrar
+		- Ok
+		- Ok
+		- Conectar
+
+NOTA: Esto no soluciona todos los problemas, una conexion puede fallar por
+muchos otros motivos. Espero ke esto sirva para ke telefonica nos robe un
+poco menos.

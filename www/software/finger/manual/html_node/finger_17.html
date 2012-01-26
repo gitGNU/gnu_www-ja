@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/finger.texinfo on 7 November 1998 -->
+
+<TITLE>GNU Finger - Clients</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="finger_1.html">first</A>, <A HREF="finger_16.html">previous</A>, <A HREF="finger_18.html">next</A>, <A HREF="finger_24.html">last</A> section, <A HREF="finger_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC17" HREF="finger_toc.html#TOC17">The <TT>`clients'</TT> file</A></H3>
+
+<P>
+The <TT>`/usr/local/etc/fingerdir/clients'</TT> file contains a list of
+clients that the GNU Finger server <CODE>fingerd</CODE> is supposed to poll.
+You can edit this file and then send the finger server a <CODE>SIGHUP</CODE>
+to tell it that the configuration has changed. Each line in the file
+should be either the name of a host or a comment. The name can be
+preceded by <CODE>@<VAR>port</VAR></CODE>, to tell the finger server to poll the
+particular host by using a port other than 2003. A comment is any line
+that starts with a hash sign (#). Below is a sample <TT>`clients'</TT> file:
+
+</P>
+
+<PRE>
+# This file contains all GNU Finger clients on the gnu.ai.mit.edu
+# network. Apple-gunkies is the GNU Finger server (see ``serverhost'').
+apple-gunkies.gnu.ai.mit.edu
+
+# Albert is the mail exchanger (see ``mailhost'').
+albert.gnu.ai.mit.edu
+
+# Spiff is a Sony, so port 2003 is already used for `mbanks'.
+# Use port 2010 instead.
+@2010 spiff.gnu.ai.mit.edu
+
+churchy.gnu.ai.mit.edu
+mole.gnu.ai.mit.edu
+geech.gnu.ai.mit.edu
+wookumz.gnu.ai.mit.edu
+nutrimat.gnu.ai.mit.edu
+kropotkin.gnu.ai.mit.edu
+goldman.gnu.ai.mit.edu
+hal.gnu.ai.mit.edu
+wombat.gnu.ai.mit.edu
+</PRE>
+
+<P>
+Although this sample <TT>`clients'</TT> file contains the fully qualified
+domain names of the hosts, it's usually enough to specify only the host
+name portion. Explicit IP addresses can be used too, but this is a
+practise strongly discouraged. Notice that the server is also in the
+clients file and has a <CODE>in.cfingerd</CODE>; this is necessary in order
+for the server to correctly poll itself.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="finger_1.html">first</A>, <A HREF="finger_16.html">previous</A>, <A HREF="finger_18.html">next</A>, <A HREF="finger_24.html">last</A> section, <A HREF="finger_toc.html">table of contents</A>.
+</BODY>
+</HTML>

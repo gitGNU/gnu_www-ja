@@ -1,0 +1,101 @@
+<html lang="en">
+<head>
+<title>Basic Math - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="ode.html#ode" title="ode">
+<link rel="prev" href="ode.html#ode" title="ode">
+<link rel="next" href="Simple-ode-Examples.html#Simple-ode-Examples" title="Simple ode Examples">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Basic-Math"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Simple-ode-Examples.html#Simple-ode-Examples">Simple ode Examples</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="ode.html#ode">ode</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="ode.html#ode">ode</a>
+<hr>
+</div>
+
+<h3 class="section">8.1 Mathematical basics</h3>
+
+<p>We begin with some standard definitions.  A <em>differential equation</em>
+is an equation involving an unknown function and its derivatives.  A&nbsp;differential<!-- /@w --> equation is <em>ordinary</em> if the unknown function
+depends on only one independent variable, often denoted&nbsp;t<!-- /@w -->. 
+The <em>order</em> of the differential equation is the order of the
+highest-order derivative in the equation.  One speaks of a family, or
+<em>system</em> of equations when more than one equation is involved. 
+If&nbsp;the<!-- /@w --> equations are dependent on one another, they are said to be
+<em>coupled</em>.  A&nbsp;<em>solution</em><!-- /@w --> is any function satisfying the
+equations.  An <em>initial value problem</em> is present when there exist
+subsidiary conditions on the unknown function and its derivatives, all
+of which are given at the same value of the independent variable.  In
+principle, such an `initial condition' specifies a unique solution. 
+Questions about the existence and uniqueness of a solution, along with
+further terminology, are discussed in any introductory text.  (See
+Chapter&nbsp;1<!-- /@w --> of Birkhoff and Rota's <cite>Ordinary Differential
+Equations</cite>.  For this and other references relevant to <code>ode</code>, see
+<a href="ODE-Bibliography.html#ODE-Bibliography">ODE Bibliography</a>.)
+
+   <p>In practical problems, the solution of a differential equation is
+usually not expressible in&nbsp;terms<!-- /@w --> of elementary functions.  Hence the
+need for a numerical solution.
+
+   <p>A numerical scheme for solving an initial value problem produces an
+approximate solution, using only functional evaluations and the
+operations of arithmetic.  <code>ode</code> solves first-order initial value
+problems of the form:
+
+<pre class="example">     x' = f(t,x,y,...,z)
+     y' = g(t,x,y,...,z)
+        .
+        .
+        .
+     z' = h(t,x,y,...,z)
+</pre>
+   <p class="noindent">given the initial values for each dependent variable at the initial
+value of the independent variable&nbsp;t<!-- /@w -->, i.e.,
+
+<pre class="example">     x(a) = b
+     y(a) = c
+          .
+          .
+          .
+     z(a) = d
+     t = a
+</pre>
+   <p class="noindent">where a,b,c,...,d are constants.
+
+   <p>For <code>ode</code> to be able to solve such a problem numerically, the
+functions f,g,<small class="dots">...</small>,h must be expressed, using the usual operators
+(+,&nbsp;-<!-- /@w -->, *, /, and&nbsp;^<!-- /@w -->), in&nbsp;terms<!-- /@w --> of
+certain basic functions that <code>ode</code> recognizes.  These are the same
+functions that the plotting program <code>gnuplot</code> recognizes. 
+Moreover, each of f,g,<small class="dots">...</small>,h must be given explicitly.  <code>ode</code>
+cannot deal with a system in which one or more of the first derivatives
+is defined implicitly rather than explicitly.
+
+   <p>All schemes for numerical solution involve the calculation of an
+approximate solution at discrete values of the independent variable&nbsp;t<!-- /@w -->, where the `stepsize' (the difference between any two
+successive values of&nbsp;t<!-- /@w -->, usually denoted&nbsp;h<!-- /@w -->) may be
+constant or chosen adaptively.  In&nbsp;general<!-- /@w -->, as the stepsize
+decreases the solution becomes more accurate.  In&nbsp;<code>ode</code><!-- /@w -->, the
+stepsize can be adjusted by the user.
+
+   </body></html>
+

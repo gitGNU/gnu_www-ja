@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="Extended%20GCD">Extended GCD</a>,
+Next:<a rel=next accesskey=n href="Jacobi-Symbol.html#Jacobi%20Symbol">Jacobi Symbol</a>,
+Previous:<a rel=previous accesskey=p href="Accelerated-GCD.html#Accelerated%20GCD">Accelerated GCD</a>,
+Up:<a rel=up accesskey=u href="Greatest-Common-Divisor-Algorithms.html#Greatest%20Common%20Divisor%20Algorithms">Greatest Common Divisor Algorithms</a>
+<hr><br>
+
+<h4>Extended GCD</h4>
+
+<p>The extended GCD calculates gcd(a,b) and also cofactors x and
+y satisfying a*x+b*y=gcd(a,b).  Lehmer's
+multi-step improvement of the extended Euclidean algorithm is used.  See Knuth
+section 4.5.2 algorithm L, and <code>mpn/generic/gcdext.c</code>.  This is an
+O(N^2) algorithm.
+
+<p>The multipliers at each step are found using single limb calculations for
+sizes up to <code>GCDEXT_THRESHOLD</code>, or double limb calculations above that. 
+The single limb code is faster but doesn't produce full-limb multipliers,
+hence not making full use of the <code>mpn_addmul_1</code> calls.
+
+<p>When a CPU has a data-dependent multiplier, meaning one which is faster on
+operands with fewer bits, the extra work in the double-limb calculation might
+only save some looping overheads, leading to a large <code>GCDEXT_THRESHOLD</code>.
+
+<p>Currently the single limb calculation doesn't optimize for the small quotients
+that often occur, and this can lead to unusually low values of
+<code>GCDEXT_THRESHOLD</code>, depending on the CPU.
+
+<p>An analysis of double-limb calculations can be found in "A Double-Digit
+Lehmer-Euclid Algorithm" by Jebelean (see <a href="References.html#References">References</a>).  The code in GMP
+was developed independently.
+
+<p>It should be noted that when a double limb calculation is used, it's used for
+the whole of that GCD, it doesn't fall back to single limb part way through. 
+This is because as the algorithm proceeds, the inputs a and b
+are reduced, but the cofactors x and y grow, so the multipliers
+at each step are applied to a roughly constant total number of limbs.
+
+</body></html>
+

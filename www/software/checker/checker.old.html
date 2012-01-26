@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<HTML>
+<HEAD>
+<TITLE>Checker - GNU Project - Free Software Foundation (FSF)</TITLE>
+<LINK REV="made" HREF="mailto:webmasters@gnu.org">
+<META NAME="keywords" CONTENT="checker">
+<style type="text/css" media="screen">
+  
+  /* import core GNU styles */
+  
+  @import url('/gnu.css');
+
+  /* import new GNU styles */
+  
+  @import url('/gnu-new.css');
+   
+</style>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#1F00FF" ALINK="#FF0000" VLINK="#9900DD">
+<H3>Checker</H3>
+
+<A HREF="/graphics/agnuhead.html"><IMG SRC="/graphics/gnu-head-sm.jpg"
+   ALT=" [image of the Head of a GNU] "
+   WIDTH="129" HEIGHT="122"></A>
+
+<p>The GNU checker package has been decommissioned, as <a
+href="http://valgrind.org/">valgrind</a> does a better job and is being
+actively maintained.  Old home page preserved below for archaeologists.
+
+<hr>
+<small>
+
+<P>
+Checker is a tool which finds memory errors at runtime.  Its
+primary function is to emit a warning when the program reads an
+uninitialized variable or memory area, or when the program accesses an
+unallocated memory area.
+
+<p>
+The Malloc library of Checker is very robust, though a bit slower
+than the usual GNU Malloc.  Checker issues warnings when:
+<ul>
+<li> <code>free</code> or <code>realloc</code> is called with a
+    pointer that has not been obtained from <code>malloc</code>,
+    <code>calloc</code>, or <code>realloc</code>.
+<li> <code>free</code> or <code>realloc</code> is called with a
+    pointer that has been previously freed.
+</ul>
+    
+<p>
+Checker's Malloc will refrain from reusing a freed block
+immediately; reuse of the block is delayed for some additional number
+of calls to free.  This is to catch accesses to the block shortly
+after it has been freed.
+
+<p>
+Checker implements a garbage detector that can be called either in
+your program, by a debugger such as GDB, or on exit from the program.
+The garbage detector displays all the memory leaks along with the
+functions that called <code>malloc</code>.
+
+<h4>Example</h4>
+
+Here's a bogus file <code>example.c</code>:
+
+<pre>
+  #include &lt;stdlib.h&gt;
+
+  int
+  main ()
+  {
+    char *zone = malloc (20);
+    char *ptr = NULL;
+    int i;
+    char c;
+
+    c = zone[1];     /* error: read an uninitialized char */
+    c = zone[-2];    /* error: read before the zone */
+    zone[25] = ' ';  /* error: write after the zone */
+    *ptr = 2;	     /* error: use a NULL pointer,
+                        must produce a core */
+  }
+</pre>
+
+To compile this example with Checker, simply use
+<code>checkergcc</code> instead of <code>gcc</code>:
+
+<pre>
+% checkergcc -o example example.c
+</pre>
+
+Next, to run the example:
+
+<pre>
+  % ./example
+</pre>
+
+Execution produces these warnings:
+
+<pre>
+Checker 0.9 (sparc-sun-solaris2.5.1) Copyright (C) 1998 Tristan Gingold.
+Checker is a memory access detector.
+Checker is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+For more information, set CHECKEROPTS to `--help'
+From Checker (pid:04713): `./example' is running (Sun Jan 18 14:56:49 1998)
+
+From Checker (pid:04713): (ruh) read uninitialized byte(s) in a block.
+When Reading 1 byte(s) at address 0x000398a1, inside the heap (sbrk).
+1 bytes into a block (start: 0x398a0, length: 20, mdesc: 0x0).
+The block was allocated from:
+	pc=0x00022f1c in chkr_malloc at ../stubs/stubs-malloc.c:51
+	pc=0x0001339c in main at ../example.c:7
+	pc=0x000155f0 in startup at ../config/sparc/solaris2/startup.c:148
+	pc=0x00013298 in *unknown* at *unknown*:0
+Stack frames are:
+	pc=0x000133f4 in main at ../example.c:12
+	pc=0x000155f0 in startup at ../config/sparc/solaris2/startup.c:148
+	pc=0x00013298 in *unknown* at *unknown*:0
+From Checker (pid:04713): (bvh) block bounds violation in the heap.
+When Reading 1 byte(s) at address 0x0003989e, inside the heap (sbrk).
+2 bytes before a block (start: 0x398a0, length: 20, mdesc: 0x0).
+The block was allocated from:
+	pc=0x00022f1c in chkr_malloc at ../stubs/stubs-malloc.c:51
+	pc=0x0001339c in main at ../example.c:7
+	pc=0x000155f0 in startup at ../config/sparc/solaris2/startup.c:148
+	pc=0x00013298 in *unknown* at *unknown*:0
+Stack frames are:
+	pc=0x00013434 in main at ../example.c:13
+	pc=0x000155f0 in startup at ../config/sparc/solaris2/startup.c:148
+	pc=0x00013298 in *unknown* at *unknown*:0
+From Checker (pid:04713): (bvh) block bounds violation in the heap.
+When Writing 1 byte(s) at address 0x000398b9, inside the heap (sbrk).
+5 bytes after a block (start: 0x398a0, length: 20, mdesc: 0x0).
+The block was allocated from:
+	pc=0x00022f1c in chkr_malloc at ../stubs/stubs-malloc.c:51
+	pc=0x0001339c in main at ../example.c:7
+	pc=0x000155f0 in startup at ../config/sparc/solaris2/startup.c:148
+	pc=0x00013298 in *unknown* at *unknown*:0
+Stack frames are:
+	pc=0x0001345c in main at ../example.c:14
+	pc=0x000155f0 in startup at ../config/sparc/solaris2/startup.c:148
+	pc=0x00013298 in *unknown* at *unknown*:0
+From Checker (pid:04713): (nza) null zone addressed.
+When Writing 1 byte(s) at address 0x00000000, inside the NULL zone.
+You probably deferenced a null pointer.
+THIS SHOULD CAUSE A SEGMENTATION FAULT.
+Stack frames are:
+	pc=0x0001347c in main at ../example.c:15
+	pc=0x000155f0 in startup at ../config/sparc/solaris2/startup.c:148
+	pc=0x00013298 in *unknown* at *unknown*:0
+From Checker (pid:04713): (sig) signal.
+Receive signal 11 (SEGV): (default action: terminate core ).
+
+Segmentation fault
+</pre>
+
+<h4>Current status</h4>
+
+At this time, the current version, 0.9.4, is available on
+<A href="ftp://alpha.gnu.org/gnu/">  alpha.gnu.org/gnu/.</a>
+It has been ported to
+<ul>
+  <li>i586-pc-linux-gnu
+  <li>sparc-sun-solaris2.5
+</ul>
+You need <code>gcc-2.8.1</code> to use Checker.
+
+</small>
+<HR>
+
+Return to <A HREF="/home.html">GNU's home page</A>.
+<P>
+
+Please send FSF &amp; GNU inquiries &amp; questions to 
+
+<A HREF="mailto:gnu@gnu.org"><EM>gnu@gnu.org</EM></A>.
+There are also <A HREF="http://www.fsf.org/about/contact.html">other ways to
+contact</A> the FSF.
+<P>
+
+Please send comments on these web pages to
+
+<A HREF="mailto:webmasters@gnu.org"><EM>webmasters@gnu.org</EM></A>,
+send other questions to
+<A HREF="mailto:gnu@gnu.org"><EM>gnu@gnu.org</EM></A>.
+<P>
+Copyright &copy; 1998, 2001, 2006 Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,  USA
+<P>
+Verbatim copying and distribution of this entire article is
+permitted in any medium, provided this notice is preserved.<P>
+Updated:
+<!-- hhmts start -->
+$Date: 2011/10/24 19:35:31 $ $Author: jturner $
+<!-- hhmts end -->
+<HR>
+</BODY>
+</HTML>

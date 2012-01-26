@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Capability Format</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_18.html">previous</A>, <A HREF="termcap_20.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC19" HREF="termcap_toc.html#TOC19">Writing the Capabilities</A></H2>
+
+<P>
+There are three kinds of capabilities: flags, numbers, and strings.  Each
+kind has its own way of being written in the description.  Each defined
+capability has by convention a particular kind of value; for example,
+<SAMP>`li'</SAMP> always has a numeric value and <SAMP>`cm'</SAMP> always a string value.
+
+</P>
+<P>
+A flag capability is thought of as having a boolean value: the value is
+true if the capability is present, false if not.  When the capability is
+present, just write its name between two colons.
+
+</P>
+<P>
+A numeric capability has a value which is a nonnegative number.  Write the
+capability name, a <SAMP>`#'</SAMP>, and the number, between two colons.  For
+example, <SAMP>`...:li#48:...'</SAMP> is how you specify the <SAMP>`li'</SAMP>
+capability for 48 lines.
+</P>
+<P>
+A string-valued capability has a value which is a sequence of characters.
+Usually these are the characters used to perform some display operation.
+Write the capability name, a <SAMP>`='</SAMP>, and the characters of the value,
+between two colons.  For example, <SAMP>`...:cm=\E[%i%d;%dH:...'</SAMP> is
+how the cursor motion command for a standard ANSI terminal would be
+specified.
+</P>
+<P>
+Special characters in the string value can be expressed using
+<SAMP>`\'</SAMP>-escape sequences as in C; in addition, <SAMP>`\E'</SAMP> stands for
+<KBD>ESC</KBD>.  <SAMP>`^'</SAMP> is also a kind of escape character; <SAMP>`^'</SAMP> followed
+by <VAR>char</VAR> stands for the control-equivalent of <VAR>char</VAR>.  Thus,
+<SAMP>`^a'</SAMP> stands for the character control-a, just like <SAMP>`\001'</SAMP>.
+<SAMP>`\'</SAMP> and <SAMP>`^'</SAMP> themselves can be represented as <SAMP>`\\'</SAMP> and
+<SAMP>`\^'</SAMP>.
+</P>
+<P>
+To include a colon in the string, you must write <SAMP>`\072'</SAMP>.  You might
+ask, "Why can't <SAMP>`\:'</SAMP> be used to represent a colon?"  The reason is
+that the interrogation functions do not count slashes while looking for a
+capability.  Even if <SAMP>`:ce=ab\:cd:'</SAMP> were interpreted as giving the
+<SAMP>`ce'</SAMP> capability the value <SAMP>`ab:cd'</SAMP>, it would also appear to define
+<SAMP>`cd'</SAMP> as a flag.
+
+</P>
+<P>
+The string value will often contain digits at the front to specify padding
+(see section <A HREF="termcap_7.html#SEC7">Padding</A>) and/or <SAMP>`%'</SAMP>-sequences within to specify how to encode
+parameters (see section <A HREF="termcap_12.html#SEC12">Filling In Parameters</A>).  Although these things are not to be
+output literally to the terminal, they are considered part of the value of
+the capability.  They are special only when the string value is processed
+by <CODE>tputs</CODE>, <CODE>tparam</CODE> or <CODE>tgoto</CODE>.  By contrast, <SAMP>`\'</SAMP> and
+<SAMP>`^'</SAMP> are considered part of the syntax for specifying the characters
+in the string.
+
+</P>
+<P>
+Let's look at the VT52 example again:
+
+</P>
+
+<PRE>
+dw|vt52|DEC vt52:\
+        :cr=^M:do=^J:nl=^J:bl=^G:\
+        :le=^H:bs:cd=\EJ:ce=\EK:cl=\EH\EJ:\
+        :cm=\EY%+ %+ :co#80:li#24:\     
+        :nd=\EC:ta=^I:pt:sr=\EI:up=\EA:\
+        :ku=\EA:kd=\EB:kr=\EC:kl=\ED:kb=^H:
+</PRE>
+
+<P>
+Here we see the numeric-valued capabilities <SAMP>`co'</SAMP> and <SAMP>`li'</SAMP>, the
+flags <SAMP>`bs'</SAMP> and <SAMP>`pt'</SAMP>, and many string-valued capabilities.  Most
+of the strings start with <KBD>ESC</KBD> represented as <SAMP>`\E'</SAMP>.  The rest
+contain control characters represented using <SAMP>`^'</SAMP>.  The meanings of the
+individual capabilities are defined elsewhere (see section <A HREF="termcap_23.html#SEC23">Definitions of the Terminal Capabilities</A>).
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_18.html">previous</A>, <A HREF="termcap_20.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

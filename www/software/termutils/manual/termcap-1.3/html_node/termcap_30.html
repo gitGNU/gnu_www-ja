@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Clearing</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_29.html">previous</A>, <A HREF="termcap_31.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC30" HREF="termcap_toc.html#TOC30">Clearing Parts of the Screen</A></H2>
+<P>
+<A NAME="IDX86"></A>
+<A NAME="IDX87"></A>
+
+</P>
+<P>
+There are several terminal capabilities for clearing parts of the screen
+to blank.  All display terminals support the <SAMP>`cl'</SAMP> string, and most
+display terminals support all of these capabilities.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`cl'</SAMP>
+<DD>
+<A NAME="IDX88"></A>
+String of commands to clear the entire screen and position the cursor
+at the upper left corner.
+
+<DT><SAMP>`cd'</SAMP>
+<DD>
+<A NAME="IDX89"></A>
+String of commands to clear the line the cursor is on, and all the
+lines below it, down to the bottom of the screen.  This command string
+should be used only with the cursor in column zero; their effect is
+undefined if the cursor is elsewhere.
+
+<DT><SAMP>`ce'</SAMP>
+<DD>
+<A NAME="IDX90"></A>
+String of commands to clear from the cursor to the end of the current
+line.
+
+<DT><SAMP>`ec'</SAMP>
+<DD>
+<A NAME="IDX91"></A>
+String of commands to clear <VAR>n</VAR> characters, starting with the
+character that the cursor is on.  This command string is expected to
+leave the cursor position unchanged.  The parameter <VAR>n</VAR> should never
+be large enough to reach past the right margin; the effect of such a
+large parameter would be undefined.
+</DL>
+
+<P>
+Clear to end of line (<SAMP>`ce'</SAMP>) is extremely important in programs that
+maintain an updating display.  Nearly all display terminals support this
+operation, so it is acceptable for a an application program to refuse to
+work if <SAMP>`ce'</SAMP> is not present.  However, if you do not want this
+limitation, you can accomplish clearing to end of line by outputting spaces
+until you reach the right margin.  In order to do this, you must know the
+current horizontal position.  Also, this technique assumes that writing a
+space will erase.  But this happens to be true on all the display terminals
+that fail to support <SAMP>`ce'</SAMP>.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_29.html">previous</A>, <A HREF="termcap_31.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

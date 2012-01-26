@@ -1,0 +1,107 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="C++%20Interface%20Limitations">C++ Interface Limitations</a>,
+Previous:<a rel=previous accesskey=p href="C---Interface-Random-Numbers.html#C++%20Interface%20Random%20Numbers">C++ Interface Random Numbers</a>,
+Up:<a rel=up accesskey=u href="C---Class-Interface.html#C++%20Class%20Interface">C++ Class Interface</a>
+<hr><br>
+
+<h3>C++ Interface Limitations</h3>
+
+<dl>
+<dt><code>mpq_class</code> and Templated Reading
+<dd>A generic piece of template code probably won't know that <code>mpq_class</code>
+requires a <code>canonicalize</code> call if inputs read with <code>operator&gt;&gt;</code>
+might be non-canonical.  This can lead to incorrect results.
+
+<p><code>operator&gt;&gt;</code> behaves as it does for reasons of efficiency.  A
+canonicalize can be quite time consuming on large operands, and is best
+avoided if it's not necessary.
+
+<p>But this potential difficulty reduces the usefulness of <code>mpq_class</code>. 
+Perhaps a mechanism to tell <code>operator&gt;&gt;</code> what to do will be adopted in
+the future, maybe a preprocessor define, a global flag, or an <code>ios</code> flag
+pressed into service.  Or maybe, at the risk of inconsistency, the
+<code>mpq_class</code> <code>operator&gt;&gt;</code> could canonicalize and leave <code>mpq_t</code>
+<code>operator&gt;&gt;</code> not doing so, for use on those occasions when that's
+acceptable.  Send feedback or alternate ideas to <a href="mailto:bug-gmp@gnu.org">bug-gmp@gnu.org</a>.
+
+<br><dt>Subclassing
+<dd>Subclassing the GMP C++ classes works, but is not currently recommended.
+
+<p>Expressions involving subclasses resolve correctly (or seem to), but in normal
+C++ fashion the subclass doesn't inherit constructors and assignments. 
+There's many of those in the GMP classes, and a good way to reestablish them
+in a subclass is not yet provided.
+
+<br><dt>Templated Expressions
+<dd>
+A subtle difficulty exists when using expressions together with
+application-defined template functions.  Consider the following, with <code>T</code>
+intended to be some numeric type,
+
+<br><pre>template &lt;class T&gt;
+T fun (const T &amp;, const T &amp;);
+</pre>
+
+<p>When used with, say, plain <code>mpz_class</code> variables, it works fine: <code>T</code>
+is resolved as <code>mpz_class</code>.
+
+<br><pre>mpz_class f(1), g(2);
+fun (f, g);    // Good
+</pre>
+
+<p>But when one of the arguments is an expression, it doesn't work.
+
+<br><pre>mpz_class f(1), g(2), h(3);
+fun (f, g+h);  // Bad
+</pre>
+
+<p>This is because <code>g+h</code> ends up being a certain expression template type
+internal to <code>gmpxx.h</code>, which the C++ template resolution rules are unable
+to automatically convert to <code>mpz_class</code>.  The workaround is simply to add
+an explicit cast.
+
+<br><pre>mpz_class f(1), g(2), h(3);
+fun (f, mpz_class(g+h));  // Good
+</pre>
+
+<p>Similarly, within <code>fun</code> it may be necessary to cast an expression to type
+<code>T</code> when calling a templated <code>fun2</code>.
+
+<br><pre>template &lt;class T&gt;
+void fun (T f, T g)
+{
+  fun2 (f, f+g);     // Bad
+}
+
+template &lt;class T&gt;
+void fun (T f, T g)
+{
+  fun2 (f, T(f+g));  // Good
+}
+</pre>
+</dl>
+
+</body></html>
+

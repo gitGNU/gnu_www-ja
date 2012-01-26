@@ -1,0 +1,187 @@
+#############
+# Este fichero es /etc/dosemu.conf, incluido en /var/lib/dosemu/global.conf
+#
+# Linux DOSEMU configuración para versiones >= 3 (dosemu-0.97.0.1)
+#
+# ./doc/README.txt (capitulo 2.) contiene una descripción de la sintaxis
+# y del uso de dosemu.conf.
+#
+#
+# Los derechos de accesos están definidos en:
+#
+#      /etc/dosemu.users
+#
+##############################################################################
+
+
+
+# Apuntes para la edición de esta sección:
+#
+#   In    $_xxx = (n)    n es un valor numérico o booleano.
+#                  =     =
+#   In    $_zzz = "s"    s es una cadena
+#
+# Please edit only beteen the brakets and quotes and keep the rest intact.
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^     ^^^^^^^^^^^^^^^^^^^^
+
+$_debug = "-a"		# Algún formato como -D en la opción de la línea
+			# de comando (pero sin la -D) -NO CAMBIAR-
+$_features= ""		# Lista de temporalidad de hack, mire advertencias
+			# en el fichero ChangeLog. Significados.
+$_timint = (on)		# Emular tipo INT08 temporizador de interrupciones
+$_mathco = (off)	# Emular coprocesador matemático.
+$_cpu = "80586"		# Mostrar al DOS el tipo de CPU válida 80[345]86
+			# o "emular" para un no-nativa CPU. (386 dicho caso)
+
+$_rdtsc = (on)		# Si es posible usa el ciclo contador tipo Pentium
+$_cpuspeed = (0)	# 0 = calibrado por dosemu, más valores (e.g.166.666)
+$_pci = (off)
+
+$_xms = (64576)		# en Kbyte
+$_ems = (8086)		# en Kbyte
+$_ems_frame = (0xe000)
+$_dpmi = (off)		# en Kbyte
+$_dosmem = (640)	# en Kbyte, < 640
+$_hardware_ram = ""	# lista de segmentos valores/rangos tal como
+			# "0xc8000 rango 0xcc000,0xcffff"
+
+$_secure ="ngd"		# seguridad : n (normal users), g (guest), d (dexe)
+			# si cadena vacia: dependerá en 'restricted'
+			# "0": siempre inseguro (not recommended)
+$_odd_hosts = ""	# lista negra tal como:"lucifer.hell.com billy.the.cat"
+$_diskless_hosts=""	# lista negra tal como:"hacker1 newbee gateway1"
+
+$_emusys = ""		# cadena vacía o 3 carac., config.sys   -> config.XXX
+$_emubat = ""		# cadena vacía o 3 carac., autoexec.bat -> autoexec.XXX 
+$_emuini = ""		# cadena vacía o 3 carac., system.ini   -> system.XXX
+
+$_hogthreshold = (0)	# 0 == toda la CPU en poder de DOSEMU
+$_irqpassing = ""	# lista de IRQ número (2-15) para pasar al DOS 
+			# tal como: "3 8 10"
+$_speaker = "emulated"	# "native" o "emulated"
+
+
+$_term_char_set = "latin1"	# Código global de caracteres para la 
+			# selección de caracteres
+			# "" == automatico, más: ibm, latin, latin1, latin2
+
+$_term_color = (on)	# terminal con color soportado
+$_term_updfreq = (4)	# Tiempo entre refrescos (units: 20 == 1 second)
+$_escchar = (30)	# 30 == Ctrl-^, prefijos de secuencia especiales
+
+$_rawkeyboard = (0)	# No cambiar aquí, pude ser PELIGROSO
+$_layout = "es"		# uno de: finlandia(-latin1), de(-latin1), be, it, us
+			# uk, dk(-latin1), keyb-no, no-latin1, dvorak, po
+			# sg(-latin1), fr(-latin1), sf(-latin1), es(-latin1)
+			# sw, hu(-latin2), hu-cwi, keyb-user
+			# hr-cp852, hr-latin2
+$_keybint = (off)	# emular interrupciones del teclado: PCish
+
+
+$_X_updfreq = (5)	# Tiempo de refresco (units: 20 == 1 second)
+$_X_title = "DOS in a BOX"	# Titulo en la barra de la ventana X
+$_X_icon_name = "xdos"	# Texto para el icono, cuando esté minimizado
+$_X_keycode = (on) 	# on == Traduce el teclado via dosemu tablas de cód.
+$_X_blinkrate = (8)	# blink rate for the cursor
+$_X_font = ""		# basename from /usr/X11R6/lib/X11/fonts/misc/*
+			# (without extension) e.g. "vga"
+$_X_mitshm = (on)	# Uso compartido de las extensiones de memoria
+$_X_sharecmap = (off)	# Compartir mapa de colores con otras aplicaciones
+$_X_fixed_aspect = (on)	# Iniciar fijo el aspecto de redimension de la ventana
+$_X_aspect_43 = (on)	# Siempre usar un aspecto ratio de 4:3 por graficos
+$_X_lin_filt = (off)	# Uso linear de filtrado para interpolación >15 bpp
+$_X_bilin_filt = (off)	# Use bi-linear filtering for >15 bpp interpolation
+$_X_mode13fact = (2)	# Tamaño inicial del factor de vídeo 
+			# modo 0x13 (320x200)
+$_X_winsize = ""	# "x,y" para iniciar el tamaño vent.
+$_X_gamma = (1.0)	# gamma correción.
+$_X_vgaemu_memsize = (1024) # Tamaño (en KBytes) para el "buffer frame" para
+			# la emulación de la VGA
+$_X_lfb = (on)		# uso linear para "buffer frame" en modos VESA
+$_X_pm_interface = (on)	# use protegido modo entrelazados para modos VESA 
+$_X_mgrab_key = ""	# KeySym nombre para activar el ratón grab,
+			# vacio == off (apagado)
+$_X_vesamode = ""	# "xres,yres ... xres,yres"
+			# Lista de modos vesa a añadir. La lista ha de
+			# contener espacios separados entre los pares
+			# "xres,yres" 
+
+
+
+$_video = "vga"		# uno de: plainvga, vga, ega, mda, mga, cga
+$_console = (1)		# uso 'console' video
+$_graphics = (1)	# uso de la tarjeta BIOS para iniciar gráficos
+$_videoportaccess = (1)	# allow videoportaccess when 'graphics' enabled
+$_vbios_seg = (0xe000)	# Iniciar la dirección de su VBIOS (e.g. 0xe000)
+$_vbios_size = (0x8000)# Iniciar el tamaño  de su BIOS (e.g. 0x8000)
+$_vmemsize = (1024)	# size of regen buffer
+$_chipset = "s3"	# Uno de: plainvga, trident, et4000, diamond, avance
+			# cirrus, matrox, wdvga, paradise, ati, s3
+$_dualmon = (0)		# Si tiene una VGA _plus_ uno hgc (2 monitores)
+
+
+$_vbootfloppy = ""	# Si tu quieres iniciar desde un disco/disquete 
+			# virtual 
+			# Nombre del fichero imagen en: /var/lib/dosemu
+			# e.g. "floppyimage" disables $_hdimage
+			#      "floppyimage +hd" does _not_ disable $_hdimage
+$_floppy_a ="threeinch:/dev/fd0"	# o "fiveinch" (cinco pulgadas)
+			# "threeinch" (tres pulgadas) o "atapi" o nada, si
+			# no existe, opcionalmente el dispositivo puede ser
+			# agregado tal como: "threeinch:/dev/fd0"
+$_floppy_b = ""		# Igual para B:
+
+$_hdimage = "/dev/hda1 /dev/hdb1" # Lista de discos duros /var/lib/dosemu
+			# asignados en este orden tal como:
+			# "hdimage_c hdimage_d hdimage_e"
+			# Si el nombre comienza con '/dev/', entonces el
+			# acceso a la partición esta hecha. esta puede ser
+			# "/dev/hda1" o "/dev/hda1:ro" para (r)ead(o)nly
+			# sólo lectura.
+			# Hdimages y dispositivos pueden ser mezclados como:
+			# "hdimage_c /dev/hda1 /dev/hda3:ro"
+			# Note: 'wholedisk' is _not_ supported.
+$_hdimage_r = $_hdimage	# hdimages para 'accesos restringidos' 
+			# (si es diferente)
+
+$_aspi = ""		# Lista de dispositivos genericos SCSI que están
+			# disponibles para la creación dispositivo aspi.
+			# (El formato de entrada es:
+			# 'device:type:mappedtarget' tal como:
+			# "sg2:WORM sg3:Sequential-Access:6 sg4:CD-ROM" o
+			# "sg2:4 sg3:1:6 sg4:5" (Que es lo mismo)
+
+$_com1 = "/dev/mouse"	# e.g. "/dev/mouse" or "/dev/cua0"
+$_com2 = ""		# e.g. "/dev/modem" or "/dev/cua1"
+$_com3 = ""		# dito                 "/dev/cua2"
+$_com4 = ""		# dito                 "/dev/cua3"
+$_ttylocks = ""		# Lock directory (e.g. "/var/lock")
+			# default ("") is /usr/spool/uucp
+
+$_mouse = "microsoft"	# uno de: microsoft, mousesystems, logitech, mmseries
+			# mouseman, hitachi, busmouse, ps2
+$_mouse_dev = "com1"	# uno de: com1, com2, com3, com4 o /dev/mouse
+$_mouse_flags = ""	# list of none or one or more of:
+			# "emulate3buttons cleardtr"
+$_mouse_baud = (0)	# baudrate, 0 == don't set
+
+$_printer = "lp"	# lista de (/etc/printcap) printer names to appear as
+			# LPT1, LPT2, LPT3 (not all are needed, empty for none)
+$_printer_timeout = (20)# idle time in seconds before spooling out
+
+$_ports = ""		# list of portnumbers such as "0x1ce 0x1cf 0x238"
+			# or "0x1ce range 0x280,0x29f 310"
+			# or "range 0x1a0,(0x1a0+15)"
+
+$_ipxsupport = (off)	# Protocolos para hablar con servidores NOVELL
+$_novell_hack = (off)	# Protocolos para hablar con servidores NOVELL
+$_vnet = (off)		# 'on' for packet-multi (used by dosnet)
+
+$_sound = (on)		# sound support on/off
+$_sb_base = (0x220)
+$_sb_irq = (5)
+$_sb_dma = (1)
+$_sb_dsp = "/dev/dsp"
+$_sb_mixer = "/dev/mixer"
+$_mpu_base = "0x330"
+

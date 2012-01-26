@@ -1,0 +1,49 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Why Pad</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_7.html">previous</A>, <A HREF="termcap_9.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC8" HREF="termcap_toc.html#TOC8">Why Pad, and How</A></H3>
+
+<P>
+Most types of terminal have commands that take longer to execute than they
+do to send over a high-speed line.  For example, clearing the screen may
+take 20msec once the entire command is received.  During that time, on a
+9600 bps line, the terminal could receive about 20 additional output
+characters while still busy clearing the screen.  Every terminal has a
+certain amount of buffering capacity to remember output characters that
+cannot be processed yet, but too many slow commands in a row can cause the
+buffer to fill up.  Then any additional output that cannot be processed
+immediately will be lost.
+
+</P>
+<P>
+To avoid this problem, we normally follow each display command with enough
+useless charaters (usually null characters) to fill up the time that the
+display command needs to execute.  This does the job if the terminal throws
+away null characters without using up space in the buffer (which most
+terminals do).  If enough padding is used, no output can ever be lost.  The
+right amount of padding avoids loss of output without slowing down
+operation, since the time used to transmit padding is time that nothing
+else could be done.
+
+</P>
+<P>
+The number of padding characters needed for an operation depends on the
+line speed.  In fact, it is proportional to the line speed.  A 9600 baud
+line transmits about one character per msec, so the clear screen command in
+the example above would need about 20 characters of padding.  At 1200 baud,
+however, only about 3 characters of padding are needed to fill up 20msec.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_7.html">previous</A>, <A HREF="termcap_9.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

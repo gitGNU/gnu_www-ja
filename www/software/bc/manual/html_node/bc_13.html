@@ -1,0 +1,55 @@
+<HTML>
+<HEAD>
+<!-- Created by texi2html 1.56k from ../bc.texi on 20 March 2001 -->
+
+<TITLE>bc Command Manual - Precedence</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_12.html">previous</A>, <A HREF="bc_14.html">next</A>, <A HREF="bc_23.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC13" HREF="bc_toc.html#TOC13">Precedence</A></H2>
+
+<P>
+The expression precedence is as follows: (lowest to highest)
+
+
+
+<PRE>
+|| operator, left associative
+&#38;&#38; operator, left associative
+! operator, nonassociative
+Relational operators, left associative
+Assignment operator, right associative
++ and - operators, left associative
+*, / and % operators, left associative
+^ operator, right associative
+unary - operator, nonassociative
+++ and -- operators, nonassociative
+</PRE>
+
+<P>
+This precedence was chosen so that POSIX compliant <CODE>bc</CODE> programs
+will run correctly. This will cause the use of the relational and
+logical operators to have some unusual behavior when used with
+assignment expressions.  Consider the expression:
+
+
+
+<PRE>
+a = 3 &#60; 5
+</PRE>
+
+<P>
+Most C programmers would assume this would assign the result of "3 &#60;
+5" (the value 1) to the variable "a".  What this does in <CODE>bc</CODE> is
+assign the value 3 to the variable "a" and then compare 3 to 5.  It is
+best to use parentheses when using relational and logical operators
+with the assignment operators.
+
+
+<P><HR><P>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_12.html">previous</A>, <A HREF="bc_14.html">next</A>, <A HREF="bc_23.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+</BODY>
+</HTML>

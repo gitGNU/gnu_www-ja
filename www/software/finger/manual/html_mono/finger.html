@@ -1,0 +1,1266 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/finger.texinfo on 7 November 1998 -->
+
+<TITLE>GNU Finger</TITLE>
+</HEAD>
+<BODY>
+<H1>GNU Finger</H1>
+<H2>Edition 1.3, for GNU Finger version 1.37</H2>
+<H2>October 1992</H2>
+<ADDRESS>by Jan Brittenson and Brian Fox</ADDRESS>
+<P>
+<P><HR><P>
+<H1>Table of Contents</H1>
+<UL>
+<LI><A NAME="TOC1" HREF="finger.html#SEC1">Introduction</A>
+<UL>
+<LI><A NAME="TOC2" HREF="finger.html#SEC2">Why Another Finger?</A>
+</UL>
+<LI><A NAME="TOC3" HREF="finger.html#SEC3">Using Finger</A>
+<UL>
+<LI><A NAME="TOC4" HREF="finger.html#SEC4">Arguments to GNU Finger</A>
+<LI><A NAME="TOC5" HREF="finger.html#SEC5">Command Line Options</A>
+<LI><A NAME="TOC6" HREF="finger.html#SEC6">Special User Names</A>
+</UL>
+<LI><A NAME="TOC7" HREF="finger.html#SEC7">Advanced Use</A>
+<UL>
+<LI><A NAME="TOC8" HREF="finger.html#SEC8">How Finger Works</A>
+<LI><A NAME="TOC9" HREF="finger.html#SEC9">The <TT>`~/.fingerrc'</TT> Script</A>
+<LI><A NAME="TOC10" HREF="finger.html#SEC10">User-defined Targets</A>
+<LI><A NAME="TOC11" HREF="finger.html#SEC11">How Finger Picks a Port</A>
+</UL>
+<LI><A NAME="TOC12" HREF="finger.html#SEC12">Security Issues</A>
+<LI><A NAME="TOC13" HREF="finger.html#SEC13">Bug Reports</A>
+<LI><A NAME="TOC14" HREF="finger.html#SEC14">Installation</A>
+<UL>
+<LI><A NAME="TOC15" HREF="finger.html#SEC15">Basic Installation</A>
+<LI><A NAME="TOC16" HREF="finger.html#SEC16">Configuration Files</A>
+<UL>
+<LI><A NAME="TOC17" HREF="finger.html#SEC17">The <TT>`clients'</TT> file</A>
+<LI><A NAME="TOC18" HREF="finger.html#SEC18">The <TT>`serverhost'</TT> file</A>
+<LI><A NAME="TOC19" HREF="finger.html#SEC19">The <TT>`mailhost'</TT> file</A>
+<LI><A NAME="TOC20" HREF="finger.html#SEC20">The <TT>`forwardhost'</TT> file</A>
+<LI><A NAME="TOC21" HREF="finger.html#SEC21">The <TT>`ttylocs'</TT> file</A>
+</UL>
+<LI><A NAME="TOC22" HREF="finger.html#SEC22">Site Specific Functions</A>
+<LI><A NAME="TOC23" HREF="finger.html#SEC23">Configuration Options</A>
+</UL>
+<LI><A NAME="TOC24" HREF="finger.html#SEC24">GNU Finger Quick Reference</A>
+</UL>
+<P><HR><P>
+
+
+<H1><A NAME="SEC1" HREF="finger.html#TOC1">Introduction</A></H1>
+<P>
+GNU Finger is a utility program designed to allow users of Unix hosts on
+the Internet network to get information about each other.  It is a
+direct replacement for the Berkeley 4.3 finger code, although it
+produces different looking output and is designed to run on a wide
+variety of systems.
+
+</P>
+
+
+<H2><A NAME="SEC2" HREF="finger.html#TOC2">Why Another Finger?</A></H2>
+
+<P>
+Originally, each host on the Internet network consisted of a single,
+reasonably powerful computer, capable of handling many users at the same
+time.  Typically, a <EM>site</EM> (physical location of computer users)
+would have only one or two computers, even if they had 20 or more people
+who used them.  If a user at site A wanted to know about users logged on
+at site B, a simple program could be invoked to query the host at site B
+about the users which were logged on.
+
+</P>
+<P>
+With the onset of more-power-per-person computing, the mainframe has
+been set aside.  A modern computing facility usually consists of one
+user per host, and many hosts per site.  This makes it a trial to find
+out about logged on users at another site, since you must query each
+host to find out about the single user who is logged on.  If the site
+had 20 hosts, you would have to invoke a finger program 20 times just to
+find out who was logged on!
+
+</P>
+<P>
+<A NAME="IDX1"></A>
+GNU Finger is a simple and effective way around this problem.  For sites
+with many hosts, a single host may be designated as the finger <EM>server</EM>
+host.  This host collects information about who is logged on to other hosts
+at that site.  If a user at site A wants to know about users logged on at
+site B, only the server host need be queried, instead of each host at that
+site.  This is very convenient.
+
+</P>
+<P>
+GNU Finger is a direct replacement for existing finger programs.  Since
+the finger <EM>protocol</EM> (rules for communication) is very simple, GNU
+Finger follows that protocol in responding to simple requests.  But GNU
+Finger also implements another protocol which allows two finger programs
+to exchange information in a predetermined way, which allows faster and
+wider bandwidth communication.
+
+</P>
+<P>
+Finger delivers information about users in varying formats, depending on
+how it is invoked.  <CODE>finger</CODE> invoked without any options performs a
+<EM>site wide</EM> finger request, no matter which machine it has been
+invoked from.  Switch arguments exist for getting the "long" form of
+finger information and for getting information only about the local
+machine.
+
+</P>
+<P>
+If a user on host A wants to know about a user on host B, finger must
+make a network <EM>connection</EM> to host B.  If host B is running a
+finger program, that program is asked to relay information about the
+user in question through the connection back to host A, where finger can
+display it.
+
+</P>
+<P>
+GNU Finger also runs a server <EM>daemon</EM> process on the <EM>server</EM> host,
+whose job is to keep track of which users are logged in to local
+machines.
+
+</P>
+<P>
+An optional and currently unsupported feature is passing of graphic
+images. This is built on the new protocol.  A user at site A (e.g. MIT)
+may see the picture of a user at site B (e.g. UCSB), by typing a finger
+request.  The conversion of graphic data from one format to another is
+done through GNU Finger; no site need know where or how such images are
+stored on any other site to be able to display those images. You should
+ask your system administrator to find out whether he has chose to
+include this functionality on your network.
+
+</P>
+
+
+<H1><A NAME="SEC3" HREF="finger.html#TOC3">Using Finger</A></H1>
+
+
+
+<H2><A NAME="SEC4" HREF="finger.html#TOC4">Arguments to GNU Finger</A></H2>
+
+<P>
+The basic argument to Finger is a <VAR>user</VAR>@<VAR>host</VAR> pair.  The
+<VAR>user</VAR> portion is the name of the user about whom you would like
+information.  The <VAR>host</VAR> is a machine that the user has an
+account on.   When invoked in this manner, GNU Finger displays the list
+of hosts that this user is currently logged in on, or, if the user is
+not logged in, the last time and location that he or she was.
+<VAR>host</VAR> may be expressed as any valid Internet address (i.e.
+<EM>dot-notation</EM>, <EM>host.domain</EM>, etc).
+
+</P>
+<P>
+If <VAR>host</VAR> is non-existent, the local host is assumed.  If <VAR>user</VAR>
+is blank or unspecified, it is assumed that you want information about
+all users.
+
+</P>
+<P>
+The content and format of the output of GNU <CODE>finger</CODE> depends on
+what is being fingered:
+
+</P>
+<DL COMPACT>
+
+<DT><VAR>User</VAR>
+<DD>
+Displays login information about <VAR>user</VAR>. If <SAMP>`--info'</SAMP> or
+<SAMP>`--l'</SAMP> is also specified, <CODE>finger</CODE> will display the full name,
+home directory, shell, mail forwarding, and <TT>`.plan'</TT> and/or
+<TT>`.project'</TT> file. This is what the output will look like:
+
+
+<PRE>
+<CODE>bash$ finger --info bson@gnu.ai.mit.edu</CODE>
+<CODE>[apple-gunkies.gnu.ai.mit.edu]</CODE>
+
+<CODE>Jan Brittenson (bson)</CODE>
+<CODE>Home: /home/fsf/bson</CODE>
+<CODE>Shell: /usr/local/bin/bash</CODE>
+<CODE>Mail forwarded to bson@ai.mit.edu.</CODE>
+<CODE>No mail.</CODE>
+<CODE>  User     Real Name         What    Idle  TTY  Host      Console Location</CODE>
+<CODE>bson     Jan Brittenson     fgrep          *p0 apple-gu (nutrimat.gnu.ai.)</CODE>
+<CODE>bson     Jan Brittenson              1:57  *sb nutrimat </CODE>
+
+<CODE>Plan:</CODE>
+<CODE>	To hack GNU Finger</CODE>
+</PRE>
+
+The following is output, in the order listed, when asking for long
+information (<SAMP>`-l'</SAMP> or <SAMP>`--info'</SAMP>) about a particular user:
+
+
+<UL>
+<LI>
+
+Real and login names.
+<LI>
+
+Home directory.
+<LI>
+
+Login shell.
+<LI>
+
+Mail forwarding.
+<LI>
+
+Whether the user has any unread mail, and if so, when it was last read.
+<LI>
+
+Current login information, in the same format as produced by a short
+finger (see below for an explanation). If the user isn't currently
+logged on, then the last login time and remote host (if known) is
+reported.
+<LI>
+
+A <TT>`~/.plan'</TT> file. If the file isn't readable by everyone, then a
+message is printed to this effect.
+<LI>
+
+A <TT>`~/.projects'</TT> file. This file, like <TT>`~/.plan'</TT>, should
+be readable by everyone.
+</UL>
+
+
+<PRE>
+
+<CODE>bash$ finger bson@gnu.ai.mit.edu</CODE>
+<CODE>[apple-gunkies.gnu.ai.mit.edu]</CODE>
+<CODE>  User     Real Name         What    Idle  TTY  Host      Console Location</CODE>
+<CODE>bson     Jan Brittenson     fgrep          *p0 apple-gu (nutrimat.gnu.ai.)</CODE>
+<CODE>bson     Jan Brittenson              1:57  *sb nutrimat </CODE>
+</PRE>
+
+Here is an explanation of what each column contains in the short
+example:
+
+<DL COMPACT>
+
+<DT><CODE>User</CODE>
+<DD>
+The user login name.
+<DT><CODE>Real Name</CODE>
+<DD>
+The real name of the user.
+<DT><CODE>What</CODE>
+<DD>
+The current or last program run by the user, depending on the system in
+use. On System V Release 4, for instance, the current program is shown,
+but on BSD it will be the last terminated program.
+<DT><CODE>Idle</CODE>
+<DD>
+The time the user has been idle, as <VAR>hours</VAR>:<VAR>minutes</VAR>, or
+the first 7 characters of a string such as "14 days".
+<DT><CODE>TTY</CODE>
+<DD>
+The significant portion of the user's terminal connection. Exactly what
+portion this is is system dependent. For example, on System V Release 4,
+it might be <SAMP>`*40'</SAMP> for <SAMP>`/dev/pty/40'</SAMP>, while on BSD it might
+be <SAMP>`*p0'</SAMP> for <SAMP>`/dev/ttyp0'</SAMP>. If preceded by an asterisk
+("*"), then the user allows anyone to send messages to this particular
+terminal.
+<DT><CODE>Host</CODE>
+<DD>
+The host the user is logged onto.
+<DT><CODE>Console Location</CODE>
+<DD>
+Where the user's console is located. If logged in over the network, then
+this will be the most significant portion of the remote host name if
+known. A host name is always parenthesized.
+
+</DL>
+
+In the general short output (i.e. not for a particular host), GNU Finger
+lists the least idle login for a particular user on each host. A single
+user often has several logins, since on some systems each window opened
+creates its own login record. In addition to the least idle login, the
+console login is also always listed, regardless of how long it has been
+idle.
+
+To list <EM>all</EM> login records for a particular, host, use the special
+target <SAMP>`.local'</SAMP>. For example, while the following may be part of the
+general short finger listing for the host <SAMP>`mole.gnu.ai.mit.edu'</SAMP>:
+
+
+<PRE>
+<CODE>brendan  Brendan Kehoe               5:09  *p8 mole     (lisa.cygnus.com)</CODE>
+<CODE>info     InfoMaster                 12:12  *p4 mole     (hal)</CODE>
+<CODE>law      Jeffrey A. Law              3:52  *p7 mole     (128.110.4.17:0.0)</CODE>
+<CODE>rms      Richard Stallman   sendmai  1:34  *p1 mole     (unix:0.0)</CODE>
+<CODE>rms      Richard Stallman           6 days *co mole</CODE>
+</PRE>
+
+The last line is the console. The following might be listed by the
+command <SAMP>`finger .local@mole.gnu.ai.mit.edu'</SAMP>:
+
+
+<PRE>
+<CODE>[mole.gnu.ai.mit.edu]</CODE>
+<CODE>  User     Real Name         What    Idle  TTY  Host      Console Location</CODE>
+<CODE>brendan  Brendan Kehoe               5:18  *p8 mole     (lisa.cygnus.com)</CODE>
+<CODE>info     InfoMaster                 12:22  *p4 mole     (hal)</CODE>
+<CODE>law      Jeffrey A. Law              4:01  *p7 mole     (128.110.4.17:0.0)</CODE>
+<CODE>rms      Richard Stallman   sendmai  1:44  *p1 mole     (unix:0.0)</CODE>
+<CODE>rms      Richard Stallman           23:08  *p0 mole     (unix:0.0)</CODE>
+<CODE>rms      Richard Stallman           1 day, *p2 mole     (unix:0.0)</CODE>
+<CODE>rms      Richard Stallman           6 days *co mole</CODE>
+</PRE>
+
+<DT><VAR>Mailing List or Alias</VAR>
+<DD>
+Expands the mailing list or alias and displays the recipients. You
+always have to use <SAMP>`--info'</SAMP> or (or <SAMP>`-l'</SAMP>) when fingering a
+mailing list or mail alias, otherwise mail aliases won't be looked up
+due to the extra processing involved. This is what the output will look
+like:
+
+
+<PRE>
+% finger --info postmaster@gnu.ai.mit.edu
+postmaster is an alias for the following:
+    Roland McGrath &#60;roland&#62;,
+    &#60;tower@prep.ai.mit.edu&#62;,
+    Noah Friedman &#60;friedman&#62;,
+    Michael I Bushnell &#60;mib&#62;
+</PRE>
+
+<DT><VAR>User-defined Target</VAR>
+<DD>
+Allows the remote host to display specific information, such as price
+lists, literature, or weather forecasts. For example:
+
+
+<PRE>
+% finger .site@gnu.ai.mit.edu
+
+This is the FSF GNU Project. For more information, please contact
+"postmaster". For information about guest accounts, please contact
+"request".
+</PRE>
+
+</DL>
+
+
+
+<H2><A NAME="SEC5" HREF="finger.html#TOC5">Command Line Options</A></H2>
+
+<P>
+There are a number of command line options that you can give to GNU
+Finger:
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`--face'</SAMP>
+<DD>
+<DT><SAMP>`-f'</SAMP>
+<DD>
+Ask Finger for the face of all users information has been requested
+about. An explicit user list has to be provided.
+
+<DT><SAMP>`--info'</SAMP>
+<DD>
+<DT><SAMP>`-l'</SAMP>
+<DD>
+<DT><SAMP>`-i'</SAMP>
+<DD>
+Display the "long" form of information for the users fingered. The
+exact information returned depends on what finger software is run on the
+remote host -- GNU Finger, for instance, returns specific information.
+<SAMP>`-l'</SAMP> is supplied for backwards compatibility; <CODE>finger</CODE> as
+distributed from Berkeley has this option.
+
+<DT><SAMP>`--brief'</SAMP>
+<DD>
+<DT><SAMP>`-b'</SAMP>
+<DD>
+Display the "short" form of information for the users fingered. This
+is the opposite of <SAMP>`--info'</SAMP>. 
+
+<DT><SAMP>`--port <VAR>port</VAR>'</SAMP>
+<DD>
+<DT><SAMP>`-P <VAR>port</VAR>'</SAMP>
+<DD>
+Make a connection to <VAR>port</VAR>, which can be either a numerical port
+number or a service name from <TT>`/etc/services'</TT>.
+
+<DT><SAMP>`--help'</SAMP>
+<DD>
+<DT><SAMP>`-h'</SAMP>
+<DD>
+Print a description of all options.
+</DL>
+
+
+
+<H2><A NAME="SEC6" HREF="finger.html#TOC6">Special User Names</A></H2>
+
+<P>
+You can give GNU Finger one of several "special" user names.  These
+user names all begin with a period (<SAMP>`.'</SAMP>) and instruct the receiving
+finger daemon to do something that only a GNU Finger daemon can do.
+Currently, the "special" names are:
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`.free'</SAMP>
+<DD>
+Return a list of free machines.  `Free' machines are those that have no
+users logged in, or have been idle for a long time.  The information
+returned makes it clear which one is true.
+
+<DT><SAMP>`.all'</SAMP>
+<DD>
+Return the information about every machine that the Finger server knows
+about.  <SAMP>`.all'</SAMP> is equivalent to issuing the <CODE>finger</CODE> command
+without specifying the user name.
+
+<DT><SAMP>`.site'</SAMP>
+<DD>
+Returns information about the site, such as company and location.
+
+<DT><SAMP>`.clients'</SAMP>
+<DD>
+Returns a list of the clients that the GNU Finger server knows about.
+Also lists who is logged onto the console.
+
+<DT><SAMP>`.faces'</SAMP>
+<DD>
+Return a list of the faces that this server has available.  The last
+line output tells you how many lines were listed previously.
+
+<DT><SAMP>`.local'</SAMP>
+<DD>
+Finger only at the specific machine. This allows finger to continue to
+be useful even in the event that the server is down. It also allows you
+to examine <EM>all</EM> the login records of a user. Normally, the server
+only keeps track of the most recently active login record for each user.
+
+<DT><SAMP>`.help'</SAMP>
+<DD>
+Describe services provided by the finger server.
+</DL>
+
+
+
+<H1><A NAME="SEC7" HREF="finger.html#TOC7">Advanced Use</A></H1>
+
+
+
+<H2><A NAME="SEC8" HREF="finger.html#TOC8">How Finger Works</A></H2>
+
+<P>
+GNU Finger is the collective name for a set of programs:
+<DL COMPACT>
+
+<DT><SAMP>`finger'</SAMP>
+<DD>
+Parses the command line and connects to the finger server,
+<SAMP>`in.fingerd'</SAMP>, on the <CODE>finger</CODE> server. Returns the output from
+the server. <CODE>finger</CODE> connects to <CODE>in.fingerd</CODE> on the host
+specified in the command line. This is the only program you need to know
+anything about if you're a regular user. You should refer to this
+program as the <EM>finger client</EM> to avoid possible confusion.
+
+<DT><SAMP>`fingerd'</SAMP>
+<DD>
+Regularly connects to <CODE>in.cfingerd</CODE> on the clients specified in the
+<TT>`fingerdir/clients'</TT> file, to obtain finger data. This client data
+is saved in the file <TT>`fingerdir/userdata'</TT>. <CODE>fingerd</CODE> should
+run on the host specified in the <TT>`fingerdir/serverhost'</TT> file.
+<CODE>fingerd</CODE> should be started at boot time.
+
+<DT><SAMP>`in.fingerd'</SAMP>
+<DD>
+Responds to <CODE>finger</CODE> connections through <CODE>inetd</CODE>. Should be
+attached to the <SAMP>`finger'</SAMP> service via <TT>`/etc/inetd.conf'</TT>.
+<CODE>in.fingerd</CODE> behaves somewhat differently depending on what host it
+runs on: on the server host it reads the <TT>`fingerdir/userdata'</TT>
+database, on all other hosts it forwards all requests (unless
+<SAMP>`.local'</SAMP> is the target) to <CODE>in.fingerd</CODE> on the host specified
+in <TT>`fingerdir/serverhost'</TT>.
+
+<CODE>in.fingerd</CODE> reads the <TT>`fingerdir/userdata'</TT> database, various
+system files, and makes SMTP connections to the host specified in the
+<TT>`fingerdir/mailhost'</TT> file.
+
+<DT><SAMP>`in.cfingerd'</SAMP>
+<DD>
+This is the program that responds to call-ins from <CODE>fingerd</CODE> by
+sampling the status on the client and forwarding it to <CODE>fingerd</CODE>.
+It should be configured to respond to the <SAMP>`cfinger'</SAMP> service
+specified in the <TT>`clients'</TT> configuration file, or port 2003 if
+nothing else is specified.
+
+</DL>
+
+
+
+<H2><A NAME="SEC9" HREF="finger.html#TOC9">The <TT>`~/.fingerrc'</TT> Script</A></H2>
+
+<P>
+When the GNU Finger server receives a request for information about a
+user it looks to see if the user has a <TT>`.fingerrc'</TT> file in the home
+directory. If such a file exists, and is executable, then this file
+is executed, and the normal finger output is passed to it as input.
+Its output becomes what is returned for the request. Thus, it can be
+used to:
+
+</P>
+
+<UL>
+<LI>
+
+Disable fingering a specific user by linking
+<TT>`~<VAR>user</VAR>/.fingerrc'</TT> to <TT>`/bin/true'</TT>.
+
+<LI>
+
+Entirely replace the output of <CODE>finger</CODE> by ignoring its input. Below
+is a sample script which could be put in <SAMP>`~price-info/.fingerrc'</SAMP>.
+
+
+<PRE>
+#! /bin/sh
+#
+# This sample script replaces the output of GNU Finger
+#
+echo Hack-O-Matic Consulting Services, Inc. "   " `date`
+
+cat &#60;&#60;ETX
+
+Hi, thanks for asking us about prices on our newly introduced support
+services for Free Software. Below is a list of new services; for a list
+of our previous services, please send mail to this address and someone
+will contact you. Please don't forget to tell us how to reach you.
+
+ETX
+cat ~/info/new-stuff
+</PRE>
+
+<LI>
+
+Filter the output to make changes. If the script below is put in
+<SAMP>`~bson/.fingerrc'</SAMP> on the finger server host for the domain
+<SAMP>`gnu.ai.mit.edu'</SAMP>:
+
+
+<PRE>
+#! /bin/sh
+#
+# This sample filter replaces the "Project:" tag with
+# "Working on:"
+#
+sed -e 's/^Project:$/Working on:/g'
+</PRE>
+
+Then when <SAMP>`finger -l bson@gnu.ai.mit.edu'</SAMP> is run, the output could
+look something like:
+
+
+<PRE>
+Jan Brittenson (bson)
+Home: /home/fsf/bson
+Shell: /usr/local/bin/bash
+No mail.
+
+Jan Brittenson (bson) is not presently logged in.
+Last seen at wombat.gnu.ai.mit.edu on Tue Sep  1 15:08:12 1992
+
+No plan.
+
+Working on:
+        1. Hacking GNU Finger
+        2. Making friends
+</PRE>
+
+</UL>
+
+
+
+<H2><A NAME="SEC10" HREF="finger.html#TOC10">User-defined Targets</A></H2>
+
+<P>
+Various special targets can be added as executable files in the
+directory <TT>`fingerdir/targets'</TT>. Each file name in this directory
+starts with a letter describing when to execute it, followed by a hyphen
+and the target name. The three letters are:
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`l'</SAMP>
+<DD>
+In response to a "long" finger; usually by typing <SAMP>`finger -l'</SAMP>.
+
+<DT><SAMP>`s'</SAMP>
+<DD>
+In response to a "short" finger; usually the default if no options are
+given.
+
+<DT><SAMP>`x'</SAMP>
+<DD>
+In response to either a "long" or "short" request.
+</DL>
+
+<P>
+For instance, the special-target file <TT>`x-.help'</TT> is run for either
+<SAMP>`finger .help'</SAMP> or <SAMP>`finger -l .help'</SAMP>, whereas the special-
+target file <TT>`l-prices'</TT> is run only for <SAMP>`finger -l prices'</SAMP>.
+
+</P>
+<P>
+The special-target file is run as super-user, and is given no input. By
+convention, all GNU Finger sites should support at least:
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`.help'</SAMP>
+<DD>
+Display message describing what features and special targets exist
+on this site.
+
+<DT><SAMP>`.site'</SAMP>
+<DD>
+Display message describing the site. This may include such things as the
+company name, its address, and how to contact the system manager.
+</DL>
+
+
+
+<H2><A NAME="SEC11" HREF="finger.html#TOC11">How Finger Picks a Port</A></H2>
+
+<P>
+When invoked, the GNU Finger client looks to see if a <SAMP>`--port'</SAMP>
+option was specified on the command line. If so, then this becomes the
+port number or service used. Otherwise, the client looks to see what
+name it was started under, removes any leading directory path, and any
+trailing suffixes. A suffix is the part of a filename that follows a
+dot, including the dot itself. This is the service name used.  For
+instance, if GNU Finger is installed as
+<TT>`/usr/local/bin/finger.new'</TT>, then the service <SAMP>`finger'</SAMP> is
+used. If it's installed as <TT>`/usr/local/bin/gfinger'</TT>, then the
+service <SAMP>`gfinger'</SAMP> is used. This behavior can be changed by the
+system administrator during installation.
+
+</P>
+
+
+<H1><A NAME="SEC12" HREF="finger.html#TOC12">Security Issues</A></H1>
+
+<P>
+One question that often arises when installing networking software which
+adds new functionality is whether it can be considered sufficiently
+secure. The most significant new function in GNU Finger with regard to
+security is the ability for a user to have a <TT>`.fingerrc'</TT> in the
+home directory. The following are the precautions take by GNU Finger:
+
+</P>
+
+<UL>
+<LI>
+
+Check whether <TT>`.fingerrc'</TT> is writable to anyone except the owner.
+Notice that check is not enabled by default, since FSF users like anyone
+to be able to write any file -- enable this check during installation by
+editing <TT>`config.h'</TT>.
+
+<LI>
+
+Check whether <TT>`.fingerrc'</TT> is owned by the user in whose home
+directory it's found. This, like the previous check, is disabled by
+default. It really only makes sense on systems where ordinary users
+can't give away their files.
+
+<LI>
+
+Execute the script through the user's login shell, using the command
+"<VAR>shell</VAR> -c <VAR>script</VAR>". This means that a user who has had his
+account disabled (i.e. shell set to a program that prints a notice or
+just dies) can't run a <TT>`.fingerrc'</TT> script. This behavior can be
+changed by hard-coding the shell in <TT>`config.h'</TT>.
+</UL>
+
+
+
+<H1><A NAME="SEC13" HREF="finger.html#TOC13">Bug Reports</A></H1>
+
+<P>
+You are strongly encouraged to submit a bug report to
+bug-gnu-utils@gnu.ai.mit.edu if you have problems with this beta
+release of GNU Finger. Here are some things that are generally helpful
+to mention, when relevant:
+
+</P>
+
+<UL>
+<LI>
+
+The GNU Finger version and where you obtained the distribution.
+<LI>
+
+Your hardware.
+<LI>
+
+Operating system.
+<LI>
+
+C Compiler used.
+<LI>
+
+The arguments you gave to <TT>`./configure'</TT>.
+<LI>
+
+Changes you made to the GNU Finger configuration files.
+<LI>
+
+Any changes you have made to the source code or installation procedures.
+<LI>
+
+Your network configuration; don't forget to mention what hardware,
+operating systems, and C compilers are used on each node where the bug
+manifests itself.
+<LI>
+
+Any problems you had during installation.
+</UL>
+
+<P>
+If you're having problems compiling or installing GNU Finger, then the
+following is particularly helpful to mention:
+
+</P>
+
+<UL>
+<LI>
+
+The command line used to invoke <CODE>configure</CODE>.
+<LI>
+
+The current directory.
+<LI>
+
+The command line used to invoke <CODE>make</CODE> and <CODE>make</CODE> version
+(particularly if you're using GNU Make).
+<LI>
+
+A capture of the compiler output.
+</UL>
+
+<P>
+Please feel free to include any patches, as well.
+
+</P>
+
+
+
+<H1><A NAME="SEC14" HREF="finger.html#TOC14">Installation</A></H1>
+
+
+
+<H2><A NAME="SEC15" HREF="finger.html#TOC15">Basic Installation</A></H2>
+
+<P>
+Here are the steps that you will need to take in order to install
+GNU Finger. 
+
+</P>
+
+<OL>
+<LI>
+
+Pick a machine which will be the local finger server for your network.
+Create a <TT>`clients'</TT> file, and install it in
+<TT>`/usr/local/etc/fingerdir'</TT> (or the EtcDir as specified in
+<TT>`config.h'</TT>). Put the names of all hosts that should report to the
+finger server in this file. Don't forget to include the finger server
+itself.
+
+<LI>
+
+For each client (the designated server is also a client), do the
+following,
+
+<LI>
+
+Change your working directory to be the top of the GNU Finger sources.
+For instance, if you have placed the source in <TT>`/src/gnu/finger'</TT>
+you would type <SAMP>`cd /src/gnu/finger'</SAMP>.
+
+<LI>
+
+In the source directory, type <SAMP>`make clean'</SAMP> and <SAMP>`./configure'</SAMP>
+if this host is different from the previous one.  If you're using
+<CODE>csh</CODE> on an old version of System V, you might need to type
+<SAMP>`sh ./configure'</SAMP> instead to prevent <CODE>csh</CODE> from trying to
+execute <CODE>configure</CODE> itself.
+
+The <CODE>configure</CODE> shell script attempts to guess correct values for
+various system-dependent variables used during compilation, and
+creates the Makefile(s) (one in each subdirectory of the source
+directory).  In some packages it creates a C header file containing
+system-dependent definitions.  It also creates a file <TT>`config.status'</TT>
+that you can run in the future to recreate the current configuration.
+
+Running <CODE>configure</CODE> takes a minute or two.  While it is running, it
+prints some messages that tell what it is doing.  If you don't want to
+see the messages, run <CODE>configure</CODE> with its standard output redirected
+to <TT>`/dev/null'</TT>; for example, <SAMP>`./configure &#62;/dev/null'</SAMP>.
+
+To compile the package in a different directory from the one containing
+the source code, you must use a version of make that supports the VPATH
+variable, such as GNU make.  <SAMP>`cd'</SAMP> to the directory where you want
+the object files and executables to go and run <CODE>configure</CODE>.
+<CODE>configure</CODE> automatically checks for the source code in the
+directory that <CODE>configure</CODE> is in and in <TT>`..'</TT>.  If for some
+reason <CODE>configure</CODE> is not in the source code directory that you are
+configuring, then it will report that it can't find the source code.  In
+that case, run <CODE>configure</CODE> with the option <SAMP>`--srcdir=DIR'</SAMP>,
+where DIR is the directory that contains the source code.
+
+You can tell <SAMP>`configure'</SAMP> to figure out the configuration for your
+system, and record it in <TT>`config.status'</TT>, without actually
+configuring the package (creating <TT>`Makefile'</TT> and perhaps a
+configuration header file).  To do this, give <CODE>configure</CODE> the
+<SAMP>`--no-create'</SAMP> option.  Later, you can run <CODE>./config.status</CODE> to
+actually configure the package for a particular host.  This option is
+useful mainly in <TT>`Makefile'</TT> rules for updating <TT>`config.status'</TT>
+and <TT>`Makefile'</TT>.  You can also give <TT>`config.status'</TT> the
+<SAMP>`--recheck'</SAMP> option, which makes it re-run <CODE>configure</CODE> with the
+same arguments you used before.  This is useful if you change
+<CODE>configure</CODE>.
+
+<SAMP>`configure'</SAMP> ignores any other arguments that you give it.
+
+If you want to install the GNU Finger configuration files somewhere
+other than <TT>`/usr/local/etc/fingerdir'</TT>, then you should edit the
+files <TT>`./config.h'</TT> and <TT>`include/fingerpaths.h'</TT> now.  You need
+to specify the alternate locations of where the configuration files will
+be kept. If you want to include the unsupported code for mugshots, then
+you should now also choose one of the face formats, as well as edit
+<TT>`lib/Makefile.in'</TT>, <TT>`lib/site/Makefile.in'</TT>, and
+<TT>`src/Makefile.in'</TT> to compile and link in the files necessary.
+
+If your system requires unusual options for compilation or linking that
+<CODE>configure</CODE> doesn't know about, you can give <CODE>configure</CODE>
+initial values for some variables by setting them in the environment.
+In Bourne-compatible shells, you can do that on the command line like
+this:
+
+
+<PRE>
+CC='gcc -traditional' DEFS=-D_POSIX_SOURCE ./configure
+</PRE>
+
+The <SAMP>`make'</SAMP> variables that you might want to override with environment
+variables when running <CODE>configure</CODE> are:
+
+(For these variables, any value given in the environment overrides the
+value that `configure' would choose:)
+
+<DL COMPACT>
+
+<DT><CODE>CC</CODE>
+<DD>
+C compiler program. Default is <SAMP>`cc'</SAMP>, or <SAMP>`gcc'</SAMP> if <SAMP>`gcc'</SAMP> is
+in your search path.
+<DT><CODE>INSTALL</CODE>
+<DD>
+Program to use to install files. Default is <SAMP>`install'</SAMP> if you have
+it, <SAMP>`cp'</SAMP> otherwise.
+</DL>
+
+(For these variables, any value given in the environment is added to
+the value that `configure' chooses:)
+
+<DL COMPACT>
+
+<DT><CODE>DEFS</CODE>
+<DD>
+Configuration options, in the form <SAMP>`-Dfoo -Dbar ...'</SAMP>
+<DT><CODE>LIBS</CODE>
+<DD>
+Libraries to link with, in the form <SAMP>`-lfoo -lbar ...'</SAMP>
+</DL>
+
+<LI>
+
+To build and/or install the GNU Finger executables and standard targets,
+issue one of the following commands:
+
+<DL COMPACT>
+
+<DT><SAMP>`make server'</SAMP>
+<DD>
+To build and install all executables, plus install the finger-specific
+server configuration files. Use this if the host is the designated
+finger server.
+
+<DT><SAMP>`make client'</SAMP>
+<DD>
+To build all executables, but install only those used by the non-server
+clients. Use this unless the host is the designated finger server.
+
+<DT><SAMP>`make all'</SAMP>
+<DD>
+To build all executables, but perform no installation.
+</DL>
+
+The above commands build <TT>`lib/libfinger.a'</TT> and the main programs in
+<TT>`src'</TT>: <CODE>finger</CODE>, <CODE>in.fingerd</CODE>, and <CODE>in.cfingerd</CODE>, as
+well as <CODE>fingerd</CODE> on the server.  If you want to, you can override
+the <SAMP>`make'</SAMP> variables <CODE>CFLAGS</CODE> and <CODE>LDFLAGS</CODE> like this:
+
+
+<PRE>
+make CFLAGS=-O2 LDFLAGS=-s
+</PRE>
+
+<LI>
+
+Modify the system configuration so that the client has (refer to the
+system documentation for details on how to do this on a particular
+system):
+
+
+<UL>
+<LI>
+
+Entries in the system <TT>`services'</TT> file, or equivalent, which
+mentions the correct TCP port for <CODE>in.cfingerd</CODE> (port 2003) and
+<CODE>in.fingerd</CODE> (port 79). If port 2003 is already used by something
+else, then read the section on Configuration Files for details on how to
+specify a port other than 2003 in the
+<TT>`/usr/local/etc/fingerdir/clients'</TT> file. A good name for the
+service is <SAMP>`cfinger'</SAMP>.
+<LI>
+
+Entries in the system <TT>`inetd.conf'</TT> file, or equivalent, which
+contains references to <CODE>in.cfingerd</CODE> and <CODE>in.fingerd</CODE>.
+<CODE>in.fingerd</CODE> needs to be run with UID <CODE>root</CODE>.  Consult your
+system documentation for details on how to do this. <CODE>in.cfingerd</CODE>
+should be run with UID <CODE>root</CODE> on System V derivatives.
+<LI>
+
+a <TT>`/usr/local/etc/fingerdir/serverhost'</TT> file which contains the
+name of the GNU Finger server host,
+<LI>
+
+a <TT>`/usr/local/etc/fingerdir/mailhost'</TT> file which contains the name
+of the mail server to ask for user mail forwarding information and
+mailing list expansion, and
+<LI>
+
+the inetd daemon restarted, so that server and user requests can be
+answered.
+</UL>
+
+<LI>
+
+When you have performed the above steps for each client, log onto the
+designated GNU Finger server.
+
+<LI>
+
+Start the server daemon, <CODE>fingerd</CODE>. You should arrange to have
+<CODE>fingerd</CODE> started every time the server host is rebooted. For exact
+details on how to do this, please refer to the server host's system
+documentation.
+
+<LI>
+
+If you chose to include the mugshots option, now might be a good time to
+install the mugshots.  But first, try getting a face from another site
+running GNU Finger!  For example, you might try
+
+<PRE>
+<CODE>finger --face bfox@aurel.cns.caltech.edu</CODE>
+</PRE>
+
+<LI>
+
+Modify the files <TT>`x-.help'</TT> and <TT>`x-.site'</TT> in
+<TT>`/usr/local/etc/fingerdir/targets'</TT> for your site.
+
+</OL>
+
+<P>
+Now you're all set! You might like to read through the section on
+Configuration Files.
+
+</P>
+
+
+
+<H2><A NAME="SEC16" HREF="finger.html#TOC16">Configuration Files</A></H2>
+
+<P>
+This section describes the format of the GNU Finger configuration files.
+
+</P>
+
+
+
+<H3><A NAME="SEC17" HREF="finger.html#TOC17">The <TT>`clients'</TT> file</A></H3>
+
+<P>
+The <TT>`/usr/local/etc/fingerdir/clients'</TT> file contains a list of
+clients that the GNU Finger server <CODE>fingerd</CODE> is supposed to poll.
+You can edit this file and then send the finger server a <CODE>SIGHUP</CODE>
+to tell it that the configuration has changed. Each line in the file
+should be either the name of a host or a comment. The name can be
+preceded by <CODE>@<VAR>port</VAR></CODE>, to tell the finger server to poll the
+particular host by using a port other than 2003. A comment is any line
+that starts with a hash sign (#). Below is a sample <TT>`clients'</TT> file:
+
+</P>
+
+<PRE>
+# This file contains all GNU Finger clients on the gnu.ai.mit.edu
+# network. Apple-gunkies is the GNU Finger server (see ``serverhost'').
+apple-gunkies.gnu.ai.mit.edu
+
+# Albert is the mail exchanger (see ``mailhost'').
+albert.gnu.ai.mit.edu
+
+# Spiff is a Sony, so port 2003 is already used for `mbanks'.
+# Use port 2010 instead.
+@2010 spiff.gnu.ai.mit.edu
+
+churchy.gnu.ai.mit.edu
+mole.gnu.ai.mit.edu
+geech.gnu.ai.mit.edu
+wookumz.gnu.ai.mit.edu
+nutrimat.gnu.ai.mit.edu
+kropotkin.gnu.ai.mit.edu
+goldman.gnu.ai.mit.edu
+hal.gnu.ai.mit.edu
+wombat.gnu.ai.mit.edu
+</PRE>
+
+<P>
+Although this sample <TT>`clients'</TT> file contains the fully qualified
+domain names of the hosts, it's usually enough to specify only the host
+name portion. Explicit IP addresses can be used too, but this is a
+practise strongly discouraged. Notice that the server is also in the
+clients file and has a <CODE>in.cfingerd</CODE>; this is necessary in order
+for the server to correctly poll itself.
+
+</P>
+
+
+<H3><A NAME="SEC18" HREF="finger.html#TOC18">The <TT>`serverhost'</TT> file</A></H3>
+
+<P>
+The <TT>`/usr/local/etc/fingerdir/serverhost'</TT> file holds the name of
+the GNU Finger server host; this is as the name implies, the host that
+the GNU Finger server <CODE>fingerd</CODE> runs on. Lines starting with a hash
+sign (#) are treated as comments. Below is a sample <TT>`serverhost'</TT>
+file:
+
+</P>
+
+<PRE>
+# A-g does all the finger stuff
+apple-gunkies.gnu.ai.mit.edu
+</PRE>
+
+
+
+<H3><A NAME="SEC19" HREF="finger.html#TOC19">The <TT>`mailhost'</TT> file</A></H3>
+
+<P>
+The <TT>`/usr/local/etc/fingerdir/mailhost'</TT> file holds the name of the
+mail exchanger host for the network. This host should know how to talk
+SMTP; this file should never hold the name of a host that can't. It's
+contacted to obtain mail forwarding information and to expand mailing
+lists if a <TT>`.forward'</TT> file can't be found in the user's home
+directory. GNU Finger always looks and reports on user <TT>`.forward'</TT>
+files regardless of whether <TT>`mailhost'</TT> exists or not. Any lines in
+this file that start with a hash sign (#) are treated as comments.
+
+</P>
+
+
+<H3><A NAME="SEC20" HREF="finger.html#TOC20">The <TT>`forwardhost'</TT> file</A></H3>
+
+<P>
+The <TT>`/usr/local/etc/fingerdir/forwardhost'</TT> file holds the name of
+the host to forward finger requests to when the current finger server
+can't find a matching user name or mail alias. No forwarding takes place
+if this file doesn't exist. Any lines that start with a hash sign (#)
+are treated as comments. This is a sample output of what it can look
+like when a request is forwarded:
+
+</P>
+
+<PRE>
+% finger -l nosuchuser@gnu.ai.mit.edu
+[No user nosuchuser@apple-gunkies.gnu.ai.mit.edu, forwarding
+ request to life.ai.mit.edu]
+Login name: nosuchuser			In real life: ???
+</PRE>
+
+
+
+<H3><A NAME="SEC21" HREF="finger.html#TOC21">The <TT>`ttylocs'</TT> file</A></H3>
+
+<P>
+The <TT>`/usr/local/etc/fingerdir/ttylocs'</TT> file holds explanations for
+the hosts or terminal lines that users have logged in from or through.
+Each client host has its own copy of this file. Each line consists of a
+host name followed by a description. The name and description are
+separated by one or more blanks or TABs.
+
+</P>
+
+<PRE>
+spiff.gnu.ai.mit.edu            NE43 Hall
+susie.gnu.ai.mit.edu            NE43 Sony 427 x8568
+spike.gnu.ai.mit.edu            NE43 Sony 427 x8568
+apple-gunkies.gnu.ai.mit.edu    NE43 427        
+sugar-bombs.gnu.ai.mit.edu      Elsewhere
+pogo.gnu.ai.mit.edu             NE43 447
+albert.gnu.ai.mit.edu           Noisy Machine Room
+128.52.46.42                    The salt mines
+churchy.gnu.ai.mit.edu          NE43 426
+mole.gnu.ai.mit.edu             NE43 430
+geech.gnu.ai.mit.edu            NE43 426
+wookumz.gnu.ai.mit.edu          NE43 427
+calvin.gnu.ai.mit.edu           NE43
+gnu.gnu.ai.mit.edu              NE43
+kropotkin.gnu.ai.mit.edu        Total anarchy
+</PRE>
+
+
+
+<H2><A NAME="SEC22" HREF="finger.html#TOC22">Site Specific Functions</A></H2>
+
+<P>
+If you are interested in customizing GNU Finger's output, then the
+<TT>`lib/site'</TT> directory is the right place to start.  If you would
+like to add new code for displaying faces, or have a particularly
+interesting "long" information output format, I would be glad to
+include it as unsupported code in the next release of GNU Finger.  (I
+will direct correspondence regarding your code to you.) You can find
+other contributed code in <TT>`lib/site'</TT>, most notably different user
+info formats and code to handle different bit map file formats. The only
+file supported in <TT>`lib/site'</TT> is <TT>`userinfo.c'</TT>.
+
+</P>
+
+
+<H2><A NAME="SEC23" HREF="finger.html#TOC23">Configuration Options</A></H2>
+
+<P>
+The following definitions in <TT>`config.h'</TT> control the behavior
+of GNU Finger:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>SUPPORT_FINGERRC</CODE>
+<DD>
+Undefine to prevent users from writing <TT>`.fingerrc'</TT> scripts. Defined
+by default.
+
+<DT><CODE>CHECK_OWNER_FINGERRC</CODE>
+<DD>
+Define to make sure <TT>`.fingerrc'</TT> is owned by the user in whose
+directory it's found.
+
+<DT><CODE>CHECK_RDONLY_FINGERRC</CODE>
+<DD>
+Define to make sure <TT>`.fingerrc'</TT> isn't writable by anyone other than
+its owner.
+
+<DT><CODE>FINGERRC_SHELL</CODE>
+<DD>
+The shell to use to execute <TT>`.fingerrc'</TT>. Undefine to use user's
+login shell.
+
+<DT><CODE>DEFAULT_POLL_INTERVAL</CODE>
+<DD>
+Define to be the delay between polls, in seconds, unless an interval is
+explicitly given to <CODE>fingerd</CODE> with the <SAMP>`--interval'</SAMP> option.
+
+<DT><CODE>BASENAME_IS_SERVICE</CODE>
+<DD>
+Undefine if you always want the finger client to use the <SAMP>`finger'</SAMP>
+service. Otherwise the service is deduced from the basename of the
+client. Defined by default.
+
+<DT><CODE>INFO_IS_DEFAULT</CODE>
+<DD>
+Define if you prefer <SAMP>`finger --info'</SAMP> to be the default, undefine if
+you prefer <SAMP>`finger --brief'</SAMP> to be the default.
+</DL>
+
+
+
+<H1><A NAME="SEC24" HREF="finger.html#TOC24">GNU Finger Quick Reference</A></H1>
+
+
+<PRE>
+finger <VAR>options</VAR> <VAR>user@host</VAR>
+</PRE>
+
+<P>
+Finger obtains information about <VAR>user</VAR> on the remote system
+<VAR>host</VAR>. It can also be used to obtain information about mailing
+lists and special site-specific services.
+
+</P>
+<P>
+<VAR>Options</VAR> can be one or more of:
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`--info'</SAMP>
+<DD>
+<DT><SAMP>`-i'</SAMP>
+<DD>
+<DT><SAMP>`-l'</SAMP>
+<DD>
+Return as much information as possible about <VAR>user</VAR>.
+
+<DT><SAMP>`--brief'</SAMP>
+<DD>
+<DT><SAMP>`-b'</SAMP>
+<DD>
+<DT><SAMP>`-s'</SAMP>
+<DD>
+Only display current login info.
+
+<DT><SAMP>`--face'</SAMP>
+<DD>
+<DT><SAMP>`-f'</SAMP>
+<DD>
+Display a mugshot of <VAR>user</VAR>. Not supported.
+
+<DT><SAMP>`--port <VAR>port#</VAR>'</SAMP>
+<DD>
+<DT><SAMP>`-P <VAR>port#</VAR>'</SAMP>
+<DD>
+Connect to the finger server using port or service <VAR>port#</VAR>.
+</DL>
+
+<P><HR><P>
+This document was generated on 7 November 1998 using the
+<A HREF="http://wwwinfo.cern.ch/dis/texi2html/">texi2html</A>
+translator version 1.52.</P>
+</BODY>
+</HTML>

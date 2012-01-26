@@ -1,0 +1,186 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="Initializing%20Integers">Initializing Integers</a>,
+Next:<a rel=next accesskey=n href="Assigning-Integers.html#Assigning%20Integers">Assigning Integers</a>,
+Previous:<a rel=previous accesskey=p href="Integer-Functions.html#Integer%20Functions">Integer Functions</a>,
+Up:<a rel=up accesskey=u href="Integer-Functions.html#Integer%20Functions">Integer Functions</a>
+<hr><br>
+
+<h3>Initialization Functions</h3>
+
+<p>The functions for integer arithmetic assume that all integer objects are
+initialized.  You do that by calling the function <code>mpz_init</code>.  For
+example,
+
+<br><pre>{
+  mpz_t integ;
+  mpz_init (integ);
+  <small>...</small>
+  mpz_add (integ, <small>...</small>);
+  <small>...</small>
+  mpz_sub (integ, <small>...</small>);
+
+  /* Unless the program is about to exit, do ... */
+  mpz_clear (integ);
+}
+</pre>
+
+<p>As you can see, you can store new values any number of times, once an
+object is initialized.
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpz_init</b><i> (mpz_t <var>integer</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Initialize <var>integer</var>, and set its value to 0. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpz_init2</b><i> (mpz_t <var>integer</var>, unsigned long <var>n</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Initialize <var>integer</var>, with space for <var>n</var> bits, and set its value to 0.
+
+<p><var>n</var> is only the initial space, <var>integer</var> will grow automatically in
+the normal way, if necessary, for subsequent values stored.  <code>mpz_init2</code>
+makes it possible to avoid such reallocations if a maximum size is known in
+advance. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpz_clear</b><i> (mpz_t <var>integer</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Free the space occupied by <var>integer</var>.  Call this function for all
+<code>mpz_t</code> variables when you are done with them. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpz_realloc2</b><i> (mpz_t <var>integer</var>, unsigned long <var>n</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Change the space allocated for <var>integer</var> to <var>n</var> bits.  The value in
+<var>integer</var> is preserved if it fits, or is set to 0 if not.
+
+<p>This function can be used to increase the space for a variable in order to
+avoid repeated automatic reallocations, or to decrease it to give memory back
+to the heap. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpz_array_init</b><i> (mpz_t <var>integer_array</var>[], size_t <var>array_size</var>, mp_size_t&nbsp;<var>fixed_num_bits</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+This is a special type of initialization.  <strong>Fixed</strong> space of
+<var>fixed_num_bits</var> bits is allocated to each of the <var>array_size</var>
+integers in <var>integer_array</var>.
+
+<p>The space will not be automatically increased, unlike the normal
+<code>mpz_init</code>, but instead an application must ensure it's sufficient for
+any value stored.  The following space requirements apply to various
+functions,
+
+<ul>
+<li><code>mpz_abs</code>, <code>mpz_neg</code>, <code>mpz_set</code>, <code>mpz_set_si</code> and
+<code>mpz_set_ui</code> need room for the value they store.
+
+<li><code>mpz_add</code>, <code>mpz_add_ui</code>, <code>mpz_sub</code> and <code>mpz_sub_ui</code> need
+room for the larger of the two operands, plus an extra
+<code>mp_bits_per_limb</code>.
+
+<li><code>mpz_mul</code>, <code>mpz_mul_ui</code> and <code>mpz_mul_ui</code> need room for the sum
+of the number of bits in their operands, but each rounded up to a multiple of
+<code>mp_bits_per_limb</code>.
+
+<li><code>mpz_swap</code> can be used between two array variables, but not between an
+array and a normal variable. 
+</ul>
+
+<p>For other functions, or if in doubt, the suggestion is to calculate in a
+regular <code>mpz_init</code> variable and copy the result to an array variable with
+<code>mpz_set</code>.
+
+<p><code>mpz_array_init</code> can reduce memory usage in algorithms that need large
+arrays of integers, since it avoids allocating and reallocating lots of small
+memory blocks.  There is no way to free the storage allocated by this
+function.  Don't call <code>mpz_clear</code>! 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void * <b>_mpz_realloc</b><i> (mpz_t <var>integer</var>, mp_size_t <var>new_alloc</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Change the space for <var>integer</var> to <var>new_alloc</var> limbs.  The value in
+<var>integer</var> is preserved if it fits, or is set to 0 if not.  The return
+value is not useful to applications and should be ignored.
+
+<p><code>mpz_realloc2</code> is the preferred way to accomplish allocation changes like
+this.  <code>mpz_realloc2</code> and <code>_mpz_realloc</code> are the same except that
+<code>_mpz_realloc</code> takes the new size in limbs. 
+</td></tr>
+</table>
+
+</body></html>
+

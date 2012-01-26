@@ -1,0 +1,71 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Kerberos authenticated</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_27.html">previous</A>, <A HREF="cvs_29.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC30" HREF="cvs_toc.html#TOC30">Direct connection with kerberos</A></H3>
+
+<P>
+<A NAME="IDX113"></A>
+<A NAME="IDX114"></A>
+The main disadvantage of using rsh is that all the data
+needs to pass through additional programs, so it may be
+slower.  So if you have kerberos installed you can
+connect via a direct TCP connection,
+authenticating with kerberos.
+
+</P>
+<P>
+To do this, CVS needs to be compiled with kerberos
+support; when configuring CVS it tries to detect
+whether kerberos is present or you can use the
+<TT>`--with-krb4'</TT> flag to configure.
+
+</P>
+<P>
+The data transmitted is <EM>not</EM> encrypted by
+default.  Encryption support must be compiled into both
+the client and server; use the
+<TT>`--enable-encryption'</TT> configure option to turn it
+on.  You must then use the <CODE>-x</CODE> global option to
+request encryption.
+
+</P>
+<P>
+<A NAME="IDX115"></A>
+You need to edit <CODE>inetd.conf</CODE> on the server
+machine to run <CODE>cvs kserver</CODE>.  The client uses
+port 1999 by default; if you want to use another port
+specify it in the <CODE>CVS_CLIENT_PORT</CODE> environment
+variable on the client.
+
+</P>
+<P>
+<A NAME="IDX116"></A>
+When you want to use CVS, get a ticket in the
+usual way (generally <CODE>kinit</CODE>); it must be a ticket
+which allows you to log into the server machine.  Then
+you are ready to go:
+
+</P>
+
+<PRE>
+cvs -d :kserver:chainsaw.brickyard.com:/user/local/cvsroot checkout foo
+</PRE>
+
+<P>
+Previous versions of CVS would fall back to a
+connection via rsh; this version will not do so.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_27.html">previous</A>, <A HREF="cvs_29.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

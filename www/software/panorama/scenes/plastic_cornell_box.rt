@@ -1,0 +1,113 @@
+/*
+*  Cornell Box test
+*/
+
+#include "materials.inc"
+
+define camera c
+{
+  translate	<0, 0, 600>
+  look_at	<0, 0, 0>
+}
+
+define light l
+{
+  translate	<0, 100, 100>
+  color		CWhite
+}
+
+define material WallMaterial : extends MPlastic
+{
+}
+
+// Floor
+plane
+{
+  normal	<0, 1, 0>
+  translate	<0, -150, 0>
+  material : extends WallMaterial
+  {
+    color	CWhite
+  }
+}
+
+// Ceiling
+plane
+{
+  normal	<0, -1, 0>
+  translate	<0, 150, 0>
+  material : extends WallMaterial
+  {
+    color	CWhite
+  }
+}
+
+// Left wall
+plane
+{
+  normal	<1, 0, 0>
+  translate	<-200, 0, 0>
+  material : extends WallMaterial
+  {
+    color	CRed
+  }
+}
+
+// Right wall
+plane
+{
+  normal	<-1, 0, 0>
+  translate	<200, 0, 0>
+  material : extends WallMaterial
+  {
+    color	CBlue
+  }
+}
+
+// Front wall
+plane
+{
+  normal	<0, 0, 1>
+  translate	<0, 0, -200>
+  material : extends WallMaterial
+  {
+    color	CWhite
+  }
+}
+
+sphere
+{
+  translate	<-50, -80, 100>
+  radius	60
+  material : extends MCrystal
+  {
+    color	CWhite
+  }
+}
+
+sphere
+{
+  translate	<80, -90, 0>
+  radius	60
+  material : extends MPlastic
+  {
+    color	CWhite
+  }
+}
+
+scene
+{
+  camera	c
+  light		l
+  width		400
+  height	400
+  background    CBlack
+  output
+  {
+    name	"plastic_cornell_box.tga"
+  }
+  renderer : class Raytracer
+  {
+    sampling    "adaptive"
+  }
+}

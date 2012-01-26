@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - tparam</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_14.html">previous</A>, <A HREF="termcap_16.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H4><A NAME="SEC15" HREF="termcap_toc.html#TOC15"><CODE>tparam</CODE></A></H4>
+
+<P>
+<A NAME="IDX14"></A>
+The function <CODE>tparam</CODE> can encode display commands with any number of
+parameters and allows you to specify the buffer space.  It is the preferred
+function for encoding parameters for all but the <SAMP>`cm'</SAMP> capability.  Its
+ANSI C declaration is as follows:
+
+</P>
+
+<PRE>
+char *tparam (char *<VAR>ctlstring</VAR>, char *<VAR>buffer</VAR>, int <VAR>size</VAR>, int <VAR>parm1</VAR>,...)
+</PRE>
+
+<P>
+The arguments are a control string <VAR>ctlstring</VAR> (the value of a terminal
+capability, presumably), an output buffer <VAR>buffer</VAR> and <VAR>size</VAR>, and
+any number of integer parameters to be encoded.  The effect of
+<CODE>tparam</CODE> is to copy the control string into the buffer, encoding
+parameters according to the <SAMP>`%'</SAMP> sequences in the control string.
+
+</P>
+<P>
+You describe the output buffer by its address, <VAR>buffer</VAR>, and its size
+in bytes, <VAR>size</VAR>.  If the buffer is not big enough for the data to be
+stored in it, <CODE>tparam</CODE> calls <CODE>malloc</CODE> to get a larger buffer.  In
+either case, <CODE>tparam</CODE> returns the address of the buffer it ultimately
+uses.  If the value equals <VAR>buffer</VAR>, your original buffer was used.
+Otherwise, a new buffer was allocated, and you must free it after you are
+done with printing the results.  If you pass zero for <VAR>size</VAR> and
+<VAR>buffer</VAR>, <CODE>tparam</CODE> always allocates the space with <CODE>malloc</CODE>.
+
+</P>
+<P>
+All capabilities that require parameters also have the ability to specify
+padding, so you should use <CODE>tputs</CODE> to output the string produced by
+<CODE>tparam</CODE>.  See section <A HREF="termcap_7.html#SEC7">Padding</A>.  Here is an example.
+
+</P>
+
+<PRE>
+{
+char *buf;
+char buffer[40];
+
+buf = tparam (command, buffer, 40, parm);
+tputs (buf, 1, fputchar);
+if (buf != buffer)
+free (buf);
+}
+</PRE>
+
+<P>
+If a parameter whose value is zero is encoded with <SAMP>`%.'</SAMP>-style
+encoding, the result is a null character, which will confuse <CODE>tputs</CODE>.
+This would be a serious problem, but luckily <SAMP>`%.'</SAMP> encoding is used
+only by a few old models of terminal, and only for the <SAMP>`cm'</SAMP>
+capability.  To solve the problem, use <CODE>tgoto</CODE> rather than
+<CODE>tparam</CODE> to encode the <SAMP>`cm'</SAMP> capability.
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_14.html">previous</A>, <A HREF="termcap_16.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

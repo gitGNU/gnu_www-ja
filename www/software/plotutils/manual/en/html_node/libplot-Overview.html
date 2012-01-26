@@ -1,0 +1,297 @@
+<html lang="en">
+<head>
+<title>libplot Overview - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="libplot.html#libplot" title="libplot">
+<link rel="prev" href="libplot.html#libplot" title="libplot">
+<link rel="next" href="C-Programming.html#C-Programming" title="C Programming">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="libplot-Overview"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="C-Programming.html#C-Programming">C Programming</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="libplot.html#libplot">libplot</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="libplot.html#libplot">libplot</a>
+<hr>
+</div>
+
+<h3 class="section">9.1 Programming with <code>libplot</code>: An overview</h3>
+
+<p>GNU <code>libplot</code> 4.4 is a free function library for drawing
+two-dimensional vector graphics.  It can produce smooth,
+double-buffered animations for the X&nbsp;Window<!-- /@w --> System, and can export
+graphics files in many file formats.  It&nbsp;is<!-- /@w --> `device-independent'
+in the sense that its API (application programming interface) is to a
+large extent independent of the output format.  The API is
+thread-safe, so it may be used in multithreaded programs.
+
+   <p>There are bindings for C, C++, and other languages.  The C&nbsp;binding<!-- /@w -->,
+which is the most frequently used, is also called <code>libplot</code>, and
+the C++ binding, when it needs to be distinguished, is called
+<code>libplotter</code>.  In&nbsp;this<!-- /@w --> section we use <code>libplot</code> to refer
+to the library itself, irrespective of binding.
+
+   <p>The graphical objects that <code>libplot</code> can draw include paths,
+`adjusted labels' (i.e., justified text strings), marker symbols, and
+points (i.e., pixels).  Paths may be simple or compound.  A&nbsp;simple<!-- /@w -->
+path is a contiguous sequence of line segments, circular arcs, elliptic
+arcs, quadratic Bezier curves, and/or cubic Bezier curves.  A&nbsp;simple<!-- /@w -->
+path may also be a circle, an ellipse, or a rectangle.  A&nbsp;compound<!-- /@w -->
+path consists of one or more nested simple paths.  User-specified
+filling of paths, both simple and compound, is supported (fill color and
+fill rule, as&nbsp;well<!-- /@w --> as pen color, may be specified).
+
+   <p>There is support for maintaining a Postscript-style stack of graphics
+contexts, i.e., a&nbsp;stack<!-- /@w --> of drawing attribute sets.  Path-related
+attributes include pen color, line thickness, line type, cap type, join
+type, miter limit, fill color, fill rule, and transformation matrix, and
+text-related attributes include font name, font size, text angle, and
+transformation matrix.
+
+   <p>The fundamental abstraction provided by <code>libplot</code> is that of a
+<em>Plotter</em>.  A Plotter is an object with an interface for the
+drawing of vector graphics which is similar to the interface provided by
+a traditional pen plotter.  There are many types of Plotter, which
+differ in the output format they produce.  Any number of Plotters, of
+the same or different types, may exist simultaneously in an application.
+
+   <p>The drawing operations supported by Plotters of different types are
+identical, in agreement with the principle of device independence. 
+So&nbsp;a<!-- /@w --> graphics application that is linked with <code>libplot</code> may
+easily be written so as to produce output in any or all of the
+supported output formats.
+
+   <p>The following are the currently supported types of Plotter.
+
+     <ul>
+<li>X Plotters.  An X Plotter, when opened, pops up a window on an X&nbsp;Window<!-- /@w --> System display and draws graphics in&nbsp;it<!-- /@w -->.  The window will be
+`spun&nbsp;off<!-- /@w -->' when the Plotter is closed; if it is subsequently
+reopened, a new window will be popped&nbsp;up<!-- /@w -->.  A spun-off window will
+remain on the screen but will vanish if you type &lsquo;<samp><span class="samp">q</span></samp>&rsquo; or click your
+mouse in&nbsp;it<!-- /@w -->.  Future releases may permit X&nbsp;Plotters<!-- /@w -->, when
+reopened, to reuse an existing window.
+
+     <li>X Drawable Plotters.  An X Drawable Plotter draws graphics in one or two
+specified drawables associated with an X&nbsp;Window&nbsp;System<!-- /@w --> display. 
+A&nbsp;`drawable'<!-- /@w --> is either a window or a pixmap.  The drawables must be
+passed to the Plotter as parameters.  (See <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.)
+
+     <li>PNG Plotters.  A PNG Plotter produces a single page of output in PNG
+(Portable Network Graphics) format, and directs it to a file or other
+specified output stream.  The file may be viewed or edited with many
+applications, such as <code>display</code>, which is part of the free
+<code>ImageMagick</code> package.
+
+     <li>PNM Plotters.  A PNM Plotter produces a single page of output in
+&ldquo;portable anymap&rdquo; format, and directs it to a file or other specified
+output stream.  There are three types of portable anymap: PBM (portable
+bitmap, for monochrome graphics), PGM (portable graymap), and PPM
+(portable pixmap, for colored graphics).  The output file will be in
+whichever of these three formats is most appropriate.  The file may be
+viewed or edited with many applications, such as <code>display</code>.
+
+     <li>GIF Plotters.  A GIF Plotter produces a single page of output in a
+pseudo-GIF format.  Unlike true GIF format, the pseudo-GIF format does
+not use LZW compression: it&nbsp;uses<!-- /@w --> run-length encoding instead. 
+So&nbsp;it<!-- /@w --> does not transgress the Unisys patent that restricts the use
+of LZW compression.  However, the output file may be viewed or edited
+with any application that understands GIF format, such as
+<code>display</code>.  The creation of animated pseudo-GIFs is supported.
+
+     <li>SVG Plotters.  An SVG Plotter produces a single page of output in
+Scalable Vector Graphics format and directs it to a file or other
+specified output stream.  SVG is an XML-based format for vector
+graphics on the Web, which is being developed by the
+<a href="http://www.w3.org/Graphics">Graphics Activity</a> of the
+<a href="http://www.w3.org">W3&nbsp;Consortium<!-- /@w --></a>.  The output conforms to
+the 3&nbsp;March<!-- /@w --> 2000 version of the SVG specification.
+
+     <li>Illustrator Plotters.  An Illustrator Plotter produces a single page of
+output in the format used by Adobe Illustrator, and directs it to a file
+or other specified output stream.  The file may be edited with Adobe
+Illustrator (version&nbsp;5<!-- /@w -->, and more recent versions), or other
+applications.
+
+     <li>Postscript Plotters.  A Postscript Plotter produces Postscript output
+and directs it to a file or other specified output stream.  If only a
+single page of graphics is drawn on the Plotter then its output is in
+EPS (encapsulated Postscript) format, so it may be included in another
+document.  It&nbsp;may<!-- /@w --> also be edited with the free <code>idraw</code> drawing
+editor.  See <a href="idraw.html#idraw">idraw</a>.
+
+     <li>CGM Plotters.  A CGM Plotter produces output in Computer Graphics
+Metafile format and directs it to a file or other specified output
+stream.  By default, binary-encoded version&nbsp;3<!-- /@w --> CGM format is used. 
+The output complies with the WebCGM profile for Web-based vector
+graphics, so it may be displayed in any Web browser with WebCGM support. 
+The <a href="http://www.cgmopen.org">CGM Open Consortium</a> has more
+information on WebCGM.
+
+     <li>Fig Plotters.  A Fig Plotter produces a single page of output in Fig
+format and directs it to a file or other specified output stream.  The
+output may be edited with the free <code>xfig</code> drawing editor.  The
+<code>xfig</code> editor can export drawings in various other formats for
+inclusion in documents.  See <a href="xfig.html#xfig">xfig</a>.
+
+     <li>PCL Plotters.  A PCL Plotter produces output in PCL&nbsp;5<!-- /@w --> format and
+directs it to a file or other specified output stream.  PCL&nbsp;5<!-- /@w --> is a
+powerful version of Hewlett&ndash;Packard's Printer Control Language, which
+supports vector graphics.  The output may be sent to a PCL&nbsp;5<!-- /@w --> device
+such as a LaserJet printer or high-end inkjet.
+
+     <li>HP-GL Plotters.  An HP-GL Plotter produces output in the
+Hewlett&ndash;Packard Graphics Language (by&nbsp;default<!-- /@w -->, in HP-GL/2), and
+directs it to a file or other specified output stream.  The output may
+be imported into another application, or sent to a plotter.
+
+     <li>ReGIS Plotters.  A ReGIS Plotter produces output in ReGIS (remote
+graphics instruction set) format and directs it to a file or other
+specified output stream.  The output may be displayed on any terminal or
+emulator that understands ReGIS format.  This includes several terminals
+from DEC (in particular, the VT340, VT330, VT241, and VT240 terminals),
+and <code>dxterm</code>, the DECwindows terminal emulation program.
+
+     <li>Tektronix Plotters.  A Tektronix Plotter produces output in Tektronix
+4014 format and directs it to a file or other specified output stream. 
+The output may be displayed on any Tektronix 4014 emulator.  Such an
+emulator is built into <code>xterm</code>, the X&nbsp;Window<!-- /@w --> System terminal
+emulation program.  The MS-DOS version of <code>kermit</code> also includes
+such an emulator.
+
+     <li>Metafile Plotters.  A Metafile Plotter produces output in GNU graphics
+metafile format and directs it to a file or other specified output
+stream.  This format is an extended version of the `plot(5)' format
+found on some other operating systems.  (See <a href="Metafiles.html#Metafiles">Metafiles</a>.)  It&nbsp;may<!-- /@w -->
+be translated to other formats by an invocation of GNU <code>plot</code>. 
+(See <a href="plot.html#plot">plot</a>.) 
+</ul>
+
+   <p>A distinction among these types of Plotter is that all except X and X&nbsp;Drawable<!-- /@w --> Plotters write graphics to a file or other output stream.  An
+X&nbsp;Plotter<!-- /@w --> pops&nbsp;up<!-- /@w --> its own windows, and an X&nbsp;Drawable<!-- /@w --> Plotter
+draws graphics in one or two X&nbsp;drawables<!-- /@w -->.
+
+   <p>Another distinction is that the first five types of Plotter (X, X&nbsp;Drawable<!-- /@w -->, PNG, PNM, and GIF) produce bitmap output, while the remaining
+types produce output in a vector graphics format.  In bitmap output the
+structure of the graphical objects is lost, but in a vector format it is
+retained.
+
+   <p>An additional distinction is that X, X Drawable, ReGIS, Tektronix and
+Metafile Plotters are real-time.  This means that they draw graphics or
+write to an output stream as the drawing operations are invoked on them. 
+The remaining types of Plotter are not real-time, since their output
+streams can only be emitted after all functions have been called.  For
+PNM and GIF Plotters, this is because the bitmap must be constructed
+before it is written out.  For Illustrator and Postscript Plotters,
+it&nbsp;is<!-- /@w --> because a `bounding box' line must be placed at the head of
+the output file.  For a Fig Plotter, it&nbsp;is<!-- /@w --> because color definitions
+must be placed at the head of the output file.
+
+   <p>The most important operations supported by any Plotter are <code>openpl</code>
+and <code>closepl</code>, which open and close&nbsp;it<!-- /@w -->.  Graphics may be drawn,
+and drawing attributes set, only within an
+<code>openpl</code><small class="dots">...</small><code>closepl</code> pair.  The graphics produced within
+each <code>openpl</code><small class="dots">...</small><code>closepl</code> pair constitute a `page'.  In
+principle, any Plotter may be opened and closed arbitrarily many times. 
+An X&nbsp;Plotter<!-- /@w --> displays each page in a separate X&nbsp;window<!-- /@w -->, and
+Postscript, PCL, and HP-GL Plotters render each page as a separate
+physical page.  X&nbsp;Drawable<!-- /@w -->, ReGIS and Tektronix Plotters manipulate
+a single drawable or display, on which pages are displayed in
+succession.  Plotters that do not draw in real time (PNG, PNM, GIF,
+Illustrator, Postscript, CGM, Fig, PCL, and HP-GL Plotters) may wait
+until their existence comes to an end (i.e., until they are deleted)
+before outputting their pages of graphics.
+
+   <p>In the current release of <code>libplot</code>, Postscript and CGM Plotters
+delay outputting graphics in this way, but PCL and HP-GL Plotters output
+each page of graphics individually, i.e., when <code>closepl</code> is
+invoked.  PNG, PNM, GIF, SVG, Illustrator and Fig Plotters are similar,
+but output only the first page.  That is because PNG, PNM, GIF, SVG,
+Illustrator and Fig formats support only a single page of graphics.
+
+   <p>The graphics display, or `viewport', that is drawn&nbsp;in<!-- /@w --> by a Plotter
+is normally a square or rectangular region on its output device.  But
+when using any Plotter to draw graphics, a&nbsp;user<!-- /@w --> will specify the
+coordinates of graphical objects in device-independent `user'
+coordinates, not in device coordinates.  A&nbsp;Plotter<!-- /@w --> transforms user
+coordinates to device coordinates by performing an affine
+transformation.
+
+   <p>After invoking <code>openpl</code> to open a Plotter, an application would
+usually invoke <code>space</code>.  <code>space</code> specifies a rectangular
+`window' in the user coordinate system that will be mapped affinely to
+the viewport on the output device.  (The default window is a square,
+with opposite corners (0,0) and&nbsp;(1,1)<!-- /@w -->.)  The transformation from
+user coordinates to device coordinates may be updated at any later time
+by reinvoking <code>space</code>, or by invoking <code>fconcat</code>.  The
+<code>fconcat</code> operation will concatenate (i.e., compose) the current
+affine transformation with any specified affine transformation.  This
+sort of concatenation is a capability familiar from, e.g., Postscript.
+
+   <p>Each Plotter maintains a Postscript-style stack of graphics contexts. 
+This makes possible the rapid, efficient drawing of complicated pages of
+graphics.  A&nbsp;graphics<!-- /@w --> context includes the current affine
+transformation from user coordinates to device coordinates.  It&nbsp;also<!-- /@w -->
+includes such modal drawing attributes as graphics cursor position, pen
+color, line type, line thickness, fill color, and the font used for
+drawing text.  The state of any uncompleted path (if&nbsp;any)<!-- /@w --> is
+included as&nbsp;well<!-- /@w -->, since paths may be drawn incrementally, one
+portion (line segment, arc, or Bezier curve) at a time.
+
+   <p><strong>Warning</strong>: Much as in Postscript, the current graphics context
+may be pushed onto the stack by calling <code>savestate</code>, and popped&nbsp;off<!-- /@w --> by calling <code>restorestate</code>.  However, <code>libplot</code>'s and
+Postscript's drawing models are significantly different.  In
+<code>libplot</code>, the new graphics context created by <code>savestate</code>
+contains no path.  So a new path may be constructed in&nbsp;it<!-- /@w --> from
+scratch, and drawn.  Afterwards, the path in the former graphics context
+will be returned&nbsp;to<!-- /@w --> when <code>restorestate</code> is called, at which
+time it may be extended further.  Another difference from Postscript is
+that in <code>libplot</code>, there is no need to start a new path by calling
+a `<code>newpath</code>' function.  Instead, you just start drawing.  At&nbsp;least<!-- /@w --> in theory, you do need to end a path explicitly, by calling
+<code>endpath</code> to request that it be drawn on the graphics display.  But
+the call to <code>endpath</code> can usually be omitted.  For example, calling
+<code>restorestate</code> automatically invokes <code>endpath</code> to end the path
+(if&nbsp;any<!-- /@w -->) contained in the current graphics context.
+
+   <p>To permit vector graphics animation, any page of graphics may be split
+into `frames'.  A&nbsp;frame<!-- /@w --> is ended, and a new frame is begun, by
+invoking the <code>erase</code> operation.  This first terminates the path
+under construction, if&nbsp;any<!-- /@w -->.  What then happens depends on whether
+the Plotter does real-time plotting.  If&nbsp;it<!-- /@w --> does (i.e., if the
+Plotter is an&nbsp;X<!-- /@w -->, X&nbsp;Drawable<!-- /@w -->, ReGIS, Tektronix, or Metafile
+Plotter), <code>erase</code> removes all plotted objects from the graphics
+display, allowing a new frame to be drawn.  Displaying a sequence of
+frames in succession creates the illusion of smooth animation.
+
+   <p>On&nbsp;most<!-- /@w --> Plotters that do not do real-time plotting (i.e., PNG, PNM,
+SVG, Illustrator, Postscript, CGM, Fig, PCL, or HP-GL Plotters),
+invoking <code>erase</code> deletes all plotted objects from an internal
+buffer.  For this reason, most Plotters that do not do real-time
+plotting will display only the final frame of any multiframe page.
+
+   <p>GIF Plotters are in a class by themselves.  Even though they do not do
+real time plotting, a&nbsp;GIF<!-- /@w --> Plotter can produce multi-image output,
+i.e., an animated pseudo-GIF file, from a multiframe page.  As&nbsp;noted<!-- /@w -->
+above, the pseudo-GIF file produced by a GIF Plotter will contain only
+the first page of graphics.  But if this page consists of multiple
+frames, then each invocation of <code>erase</code> after the first will be
+treated, by&nbsp;default<!-- /@w -->, as a separator between successive images.
+
+   </body></html>
+

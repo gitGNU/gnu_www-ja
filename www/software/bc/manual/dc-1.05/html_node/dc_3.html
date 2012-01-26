@@ -1,0 +1,54 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/dc.texi on 7 November 1998 -->
+
+<TITLE>dc, an arbitrary precision calculator - Printing Commands</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="dc_1.html">first</A>, <A HREF="dc_2.html">previous</A>, <A HREF="dc_4.html">next</A>, <A HREF="dc_11.html">last</A> section, <A HREF="dc_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC3" HREF="dc_toc.html#TOC3">Printing Commands</A></H1>
+
+<DL COMPACT>
+
+<DT><SAMP>`p'</SAMP>
+<DD>
+Prints the value on the top of the stack,
+without altering the stack.
+A newline is printed after the value.
+
+<DT><SAMP>`n'</SAMP>
+<DD>
+Prints the value on the top of the stack, popping it off,
+and does not print a newline after.
+(This command is a GNU extension.)
+
+<DT><SAMP>`P'</SAMP>
+<DD>
+Pops off the value on top of the stack.
+If it it a string, it is simply printed without a trailing newline.
+Otherwise it is a number, and the integer portion of its absolute
+value is printed out as a "base (UCHAR_MAX+1)" byte stream.
+Assuming that (UCHAR_MAX+1) is 256
+(as it is on most machines with 8-bit bytes),
+the sequence
+<CODE>KSK 0k1/ [_1*]sx d0&#62;x [256~aPd0&#60;x]dsxx sxLKk</CODE>
+could also accomplish this function,
+except for the side-effect of clobbering the x register.
+(Details of the behavior with a number are a GNU extension.)
+
+<DT><SAMP>`f'</SAMP>
+<DD>
+Prints the entire contents of the stack
+without altering anything.
+This is a good command to use if you are lost or want
+to figure out what the effect of some command has been.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="dc_1.html">first</A>, <A HREF="dc_2.html">previous</A>, <A HREF="dc_4.html">next</A>, <A HREF="dc_11.html">last</A> section, <A HREF="dc_toc.html">table of contents</A>.
+</BODY>
+</HTML>

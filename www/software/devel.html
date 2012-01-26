@@ -1,0 +1,249 @@
+<!--#include virtual="/server/header.html" -->
+<title>GNU Development Resources - GNU Project - Free Software
+Foundation (FSF)</title>
+<!--#include virtual="/server/banner.html" -->
+<!--#include virtual="/software/po/devel.translist" -->
+<h2>GNU Development Resources</h2>
+
+<p>This page describes the development services available for GNU
+developers on GNU Project machines.  For full details of the privileges
+and responsibilities of GNU maintainers, please see the <a
+href="/prep/maintain/">Information for GNU Maintainers</a> document, and
+also follow the <a href="/prep/standards/">GNU Coding Standards</a>.
+Also interesting to review may be the <a
+href="/help/evaluation.html#whatmeans">overview of what it means to be a
+GNU package</a>.</p>
+
+<p>With the abundance of inexpensive computers that can run <a
+href="/gnu/linux-and-gnu.html">GNU/Linux</a>, as well as the greater
+availability of Internet access, many GNU volunteers today have all the
+computer facilities they need. However, there are still advantages to
+having central computers where GNU volunteers can work together without
+having to make their own machines accessible to others.</p>
+
+<p>For that reason, the Free Software Foundation strongly encourages GNU
+software projects to use the machines at <code>gnu.org</code> as a home
+base.  Using these machines also benefits the GNU Project indirectly, by
+increasing public awareness of GNU, and spreading the idea of working
+together for the benefit of everyone.</p>
+
+
+<h3 id="CVS">Savannah and version control</h3>
+
+<p>If you are developing an official GNU package, we strongly recommend
+using a public source control repository on <a
+href="http://savannah.gnu.org/">Savannah</a>, the GNU hosting server.
+To do this, first <a
+href="https://savannah.gnu.org/account/register.php">create yourself an
+account</a> and then <a
+href="http://savannah.gnu.org/register/">register your GNU package</a>.
+After it is created, you will be able to choose a version control
+system, create web pages for your package, manage permissions for
+contributors to the pages, and many other features.</p>
+
+
+<h3 id="MailLists">Mailing lists</h3>
+
+<p>We operate mailing lists for GNU software packages as needed,
+including both hand-managed lists and automatically managed lists.</p>
+
+<p>When a GNU package is registered on <a
+href="http://savannah.gnu.org/">Savannah</a>, a web interface allows
+developers to create and manage mailing lists dedicated to their
+package.</p>
+
+<p>Each GNU package <em>name</em> ought to have at least a bug-reporting
+list with the canonical name <code>bug-<em>name</em>@gnu.org</code>,
+plus any aliases that may be useful. Using Savannah, you can create
+lists for your package with names like this.  Some packages share the
+list bug-gnu-utils@gnu.org but we now encourage packages to set up their
+own individual lists.</p>
+
+<p>Packages can have other lists for announcements, asking for help,
+posting source code, for discussion among users, or whatever the package
+maintainer finds to be useful.</p>
+
+<p>Mailing list archives for automatically-managed lists are available
+at <a href="http://lists.gnu.org/">http://lists.gnu.org</a>, as well as
+through the list manager. Archives for hand-maintained lists are
+generally kept in <code>/com/archive</code> on the GNU machines.</p>
+
+<p>When a mailing list becomes large enough to justify it, we can set up
+a <code>gnu.*</code> newsgroup with a two-way link to the mailing
+list.</p>
+
+
+<h3 id="WebServer">Web pages</h3>
+
+<p>The master GNU web server is <a
+href="http://www.gnu.org/">http://www.gnu.org/</a>.  We very strongly
+recommend that GNU packages use
+<tt>http://www.gnu.org/software/</tt><i>package</i> as their primary
+home page.</p>
+
+<p>Using Savannah, developers can create and maintain their own pages at
+that url via a CVS &ldquo;web repository&rdquo;, separate from the
+package's main source repository (which can use any supported version
+control system).  <a href="/prep/maintain/maintain.html#Web-Pages">More
+information on maintaining GNU web pages</a>.</p>
+
+
+<h3 id="FTP">FTP</h3>
+
+<p>The primary ftp site for GNU software on <a
+href="http://ftp.gnu.org/gnu"><code>http://ftp.gnu.org/</code></a>,
+which is <a href="/prep/ftp.html">mirrored worldwide</a>.  We very
+strongly recommend that all GNU packages upload their releases here (in
+addition to any other location you find convenient).</p>
+
+<p>We use a different server for test releases, so that people won't
+install them thinking they are ready for prime time. This server is <a
+href="ftp://alpha.gnu.org/"><code>ftp://alpha.gnu.org/</code></a>.</p>
+
+<p>The <a
+href="/prep/maintain/maintain.html#Automated-FTP-Uploads">Information
+for GNU Maintainers</a> document has complete details on the ftp upload
+process, which is the same for both servers.</p>
+
+
+<h3 id="LoginAccounts">Login accounts</h3>
+
+<p>We provide shell login access to GNU machines to people who need them
+for work on GNU software.  Having a login account is both a privilege and
+a responsibility, and they should be used only for your work on GNU.
+<a href="README.accounts.html">Instructions for obtaining an account
+machines</a> are written separately.</p>
+
+<p>On the general login machine, the <a href="/software/gsrc/">gsrc</a>
+package developers maintain a hierarchy of the current GNU package
+releases (<tt>/gd/gnu/gnusys/live</tt>), compiled from the original
+sources.  To use it, source <tt>/gd/gnu/gnusys/live/setup</tt>.</p>
+
+<p>You can also <a
+href="http://www.fsf.org/about/systems/sending-mail-via-fencepost">use a
+GNU account for email</a>.</p>
+
+
+<h3 id="Hydra">Hydra: Continuous builds and portability testing</h3>
+
+<p>Continuous build tools (often referred to as continuous integration
+tools) allow programming errors to be spotted soon after they are
+introduced in a software project, which is particularly useful for
+cooperatively developed software.</p>
+
+<p><a href="http://nixos.org/hydra/">Hydra</a> is a free continuous
+build tool based on the <a href="http://nixos.org/nix/">Nix</a> package
+manager.  Administrators of the <a href="http://hydra.nixos.org/">Hydra
+instance at the Delft University of Technology</a> have generously
+offered <a href="http://hydra.nixos.org/project/gnu">slots for the GNU
+Project</a>.  Projects on Hydra get re-built <em>at each commit</em>
+or change in their dependencies, whichever comes first (dependencies
+<em>include</em> the standard build environment being used, which
+itself contains recent released versions of GCC, GNU&nbsp;make,
+etc.)</p>
+
+<p>Currently it can build software on GNU/Linux (<tt>i686</tt> and
+<tt>x86_64</tt>) as well as FreeBSD, Darwin, Solaris, and Cygwin, and
+can cross-build for GNU/Hurd, GNU/Linux on other architectures, and
+MinGW.  It can provide code coverage reports produced using LCOV.  In
+addition to source tarballs and Nix packages, it can build packages for
+<code>deb</code>- and <code>RPM</code>-based distributions.  Packages
+can be built against the latest versions of their dependencies; for
+instance, GnuTLS is built using GNU&nbsp;libtasn1 and GNU&nbsp;libgcrypt
+builds corresponding to their latest revision.</p>
+
+<p>In addition to the <a href="http://hydra.nixos.org/project/gnu">web
+interface</a>, Hydra can send notifications by email when the build
+status of a project changes&mdash;e.g., from <code>SUCCEEDED</code> to
+<code>FAILED</code>.  When a build fails, its log and build tree are
+accessible from the web interface; the latter allows generated files
+(for example, <code>config.log</code> or <code>testsuite.log</code>) to
+be inspected, which provides debugging hints.</p>
+
+<p>Any GNU software package can request a slot on Hydra.  Each package
+must provide its own &ldquo;build recipe&rdquo; written in the Nix
+language (a <em>Nix expression</em>, in Nix parlance).  <a
+href="http://git.savannah.gnu.org/cgit/hydra-recipes.git">Nix
+expressions for GNU projects</a> are available via Git.  For simple
+projects using standard GNU build tools such as Automake and Autoconf,
+the recipe is usually fairly simple.  For example, see the <a
+href="http://git.savannah.gnu.org/cgit/hydra-recipes.git/tree/patch/release.nix">recipe
+for GNU&nbsp;Patch</a>.  You are welcome to ask for guidance on <a
+href="mailto:hydra-users@gnu.org">hydra-users@gnu.org</a>.</p>
+
+<p>After constructing your build recipe, email <a
+href="http://lists.gnu.org/mailman/listinfo/hydra-users">hydra-users@gnu.org</a>
+and ask to be included in Hydra.  Also make sure to become a member of
+the <a
+href="https://savannah.gnu.org/projects/hydra-recipes/"><code>hydra-recipes</code>
+project at Savannah</a>.  This will allow you to customize your
+project's build job directly.</p>
+
+<p> For technical information about Hydra, please consult the <a
+href="http://hydra.nixos.org/job/hydra/trunk/tarball/latest/download-by-type/doc/manual">
+manual of Hydra</a> (<a
+href="http://hydra.nixos.org/job/hydra/trunk/tarball/latest/download-by-type/doc-pdf/manual">PDF</a>).
+For more details, please refer to the <a
+href="http://hydra.nixos.org/job/nix/trunk/tarball/latest/download/1/nix/manual.html">Nix
+manual</a> and <a
+href="http://hydra.nixos.org/job/nixpkgs/trunk/tarball/latest/download/2/manual.html">the
+Nixpkgs manual</a>.</p>
+
+
+<h3 id="platform-testers">platform-testers: Manual portability testing</h3>
+
+<p>Another useful option for pre-release testing is the <a
+href="http://lists.gnu.org/mailman/listinfo/platform-testers">platform-testers
+mailing list</a>.  Time permitting, the people on this list build
+pre-releases on a wide variety of platforms upon request.  (Additional
+volunteers for making the test builds are most welcome!)</p>
+
+<p>In contrast to the Hydra tool described above, the platform-testers
+list works essentially by hand, so each method has its advantages and
+disadvantages.  Also, the platform-testers crew has access to a wider
+variety of platforms and compilers than the Hydra setup.</p>
+
+<p>So, if you have a pre-release, you can write to the mailing list,
+providing (1)&nbsp;the url to the tarball, (2)&nbsp;the planned date of
+the release, and (3)&nbsp;the email address to which build reports
+should be sent.  The builds and reports are made by hand by the
+volunteers on the list.</p>
+
+
+<!-- If needed, change the copyright block at the bottom. In general,
+     all pages on the GNU web server should have the section about
+     verbatim copying.  Please do NOT remove this without talking
+     with the webmasters first.
+     Please make sure the copyright date is consistent with the document
+     and that it is like this: "2001, 2002", not this: "2001-2002". -->
+</div><!-- for id="content", starts in the include above -->
+<!--#include virtual="/server/footer.html" -->
+<div id="footer">
+
+<p>Please send general FSF &amp; GNU inquiries to
+<a href="mailto:gnu@gnu.org">&lt;gnu@gnu.org&gt;</a>.
+There are also <a href="/contact/">other ways to contact</a>
+the FSF.<br />
+Please send broken links and other corrections or suggestions to
+<a href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a>.</p>
+
+<p>Please see the <a
+href="/server/standards/README.translations.html">Translations
+README</a> for information on coordinating and submitting translations
+of this article.</p>
+
+<p>Copyright &copy; 2012 Free Software Foundation, Inc.</p>
+
+<p>This page is licensed under a <a rel="license"
+href="http://creativecommons.org/licenses/by-nd/3.0/us/">Creative
+Commons Attribution-NoDerivs 3.0 United States License</a>.</p>
+
+<p>Updated:
+<!-- timestamp start -->
+$Date: 2012/01/12 01:10:45 $
+<!-- timestamp end -->
+</p>
+</div>
+</div>
+</body>
+</html>

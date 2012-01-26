@@ -1,0 +1,146 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Insdel Line</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_30.html">previous</A>, <A HREF="termcap_32.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC31" HREF="termcap_toc.html#TOC31">Insert/Delete Line</A></H2>
+
+<P>
+<A NAME="IDX92"></A>
+<A NAME="IDX93"></A>
+<EM>Inserting a line</EM> means creating a blank line in the middle
+of the screen, and pushing the existing lines of text apart.  In fact,
+the lines above the insertion point do not change, while the lines below
+move down, and one is normally lost at the bottom of the screen.
+
+</P>
+<P>
+<EM>Deleting a line</EM> means causing the line to disappear from the screen,
+closing up the gap by moving the lines below it upward.  A new line
+appears at the bottom of the screen.  Usually this line is blank, but
+on terminals with the <SAMP>`db'</SAMP> flag it may be a line previously moved
+off the screen bottom by scrolling or line insertion.
+
+</P>
+<P>
+Insertion and deletion of lines is useful in programs that maintain an
+updating display some parts of which may get longer or shorter.  They are
+also useful in editors for scrolling parts of the screen, and for
+redisplaying after lines of text are killed or inserted.
+
+</P>
+<P>
+Many terminals provide commands to insert or delete a single line at the
+cursor position.  Some provide the ability to insert or delete several
+lines with one command, using the number of lines to insert or delete as a
+parameter.  Always move the cursor to column zero before using any of
+these commands.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`al'</SAMP>
+<DD>
+<A NAME="IDX94"></A>
+String of commands to insert a blank line before the line the cursor
+is on.  The existing line, and all lines below it, are moved down.
+The last line in the screen (or in the scroll region, if one is set)
+disappears and in most circumstances is discarded.  It may not be
+discarded if the <SAMP>`db'</SAMP> is present (see section <A HREF="termcap_28.html#SEC28">Scrolling</A>).
+
+The cursor must be at the left margin before this command is used.
+This command does not move the cursor.
+
+<DT><SAMP>`dl'</SAMP>
+<DD>
+<A NAME="IDX95"></A>
+String of commands to delete the line the cursor is on.  The following
+lines move up, and a blank line appears at the bottom of the screen
+(or bottom of the scroll region).  If the terminal has the <SAMP>`db'</SAMP>
+flag, a nonblank line previously pushed off the screen bottom may
+reappear at the bottom.
+
+The cursor must be at the left margin before this command is used.
+This command does not move the cursor.
+
+<DT><SAMP>`AL'</SAMP>
+<DD>
+<A NAME="IDX96"></A>
+String of commands to insert <VAR>n</VAR> blank lines before the line that
+the cursor is on.  It is like <SAMP>`al'</SAMP> repeated <VAR>n</VAR> times, except
+that it is as fast as one <SAMP>`al'</SAMP>.
+
+<DT><SAMP>`DL'</SAMP>
+<DD>
+<A NAME="IDX97"></A>
+String of commands to delete <VAR>n</VAR> lines starting with the line that
+the cursor is on.  It is like <SAMP>`dl'</SAMP> repeated <VAR>n</VAR> times, except
+that it is as fast as one <SAMP>`dl'</SAMP>.
+</DL>
+
+<P>
+Any terminal description that defines <SAMP>`AL'</SAMP> should also define
+<SAMP>`al'</SAMP>; likewise for <SAMP>`DL'</SAMP> and <SAMP>`dl'</SAMP>.  However, many terminals
+can only insert or delete one line at a time, so it is common to find
+<SAMP>`al'</SAMP> and not <SAMP>`AL'</SAMP>, or <SAMP>`dl'</SAMP> without <SAMP>`DL'</SAMP>.
+</P>
+<P>
+Therefore, all programs that use the insert and delete facilities should be
+prepared to work with <SAMP>`al'</SAMP> in the case that <SAMP>`AL'</SAMP> is absent, and
+likewise with <SAMP>`dl'</SAMP>.  On the other hand, it is acceptable to write
+an application that uses only <SAMP>`al'</SAMP> and <SAMP>`dl'</SAMP> and does not look
+for <SAMP>`AL'</SAMP> or <SAMP>`DL'</SAMP> at all.
+</P>
+<P>
+If a terminal does not support line insertion and deletion directly,
+but does support a scroll region, the effect of insertion and deletion
+can be obtained with scrolling.  However, it is up to the individual
+user program to check for this possibility and use the scrolling
+commands to get the desired result.  It is fairly important to implement
+this alternate strategy, since it is the only way to get the effect of
+line insertion and deletion on the popular VT100 terminal.
+
+</P>
+<P>
+Insertion and deletion of lines is affected by the scroll region on
+terminals that have a settable scroll region.  This is useful when it is
+desirable to move any few consecutive lines up or down by a few lines.
+See section <A HREF="termcap_28.html#SEC28">Scrolling</A>.
+
+</P>
+<P>
+The line pushed off the bottom of the screen is not lost if the terminal
+has the <SAMP>`db'</SAMP> flag capability; instead, it is pushed into display
+memory that does not appear on the screen.  This is the same thing that
+happens when scrolling pushes a line off the bottom of the screen.
+Either reverse scrolling or deletion of a line can bring the apparently
+lost line back onto the bottom of the screen.  If the terminal has the
+scroll region feature as well as <SAMP>`db'</SAMP>, the pushed-out line really
+is lost if a scroll region is in effect.
+
+</P>
+<P>
+When outputting an insert or delete command with <CODE>tputs</CODE>, the
+<VAR>nlines</VAR> argument should be the total number of lines from the cursor
+to the bottom of the screen (or scroll region).  Very often these commands
+require padding proportional to this number of lines.  See section <A HREF="termcap_7.html#SEC7">Padding</A>.
+
+</P>
+<P>
+For <SAMP>`AL'</SAMP> and <SAMP>`DL'</SAMP> the <VAR>nlines</VAR> argument should <EM>not</EM>
+depend on the number of lines inserted or deleted; only the total number of
+lines affected.  This is because it is just as fast to insert two or
+<VAR>n</VAR> lines with <SAMP>`AL'</SAMP> as to insert one line with <SAMP>`al'</SAMP>.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_30.html">previous</A>, <A HREF="termcap_32.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

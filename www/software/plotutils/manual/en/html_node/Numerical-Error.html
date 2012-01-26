@@ -1,0 +1,297 @@
+<html lang="en">
+<head>
+<title>Numerical Error - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="ode.html#ode" title="ode">
+<link rel="prev" href="Diagnostics.html#Diagnostics" title="Diagnostics">
+<link rel="next" href="Running-Time.html#Running-Time" title="Running Time">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Numerical-Error"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Running-Time.html#Running-Time">Running Time</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Diagnostics.html#Diagnostics">Diagnostics</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="ode.html#ode">ode</a>
+<hr>
+</div>
+
+<h3 class="section">8.6 Numerical error and how to avoid it</h3>
+
+<p>This discussion is necessarily incomplete.  Entire books exist on any
+subject mentioned below (e.g., floating point error).  Our goals are
+modest: first, to introduce the basic notions of error analysis as they
+apply to <code>ode</code>; second, to&nbsp;steer<!-- /@w --> you around the more obvious
+pitfalls.  You should look through a numerical analysis text (e.g.,
+Atkinson's <cite>Introduction to Numerical Analysis</cite>) before beginning
+this discussion.
+
+   <p>We begin with some key definitions.  The error of greatest concern is
+the difference between the actual solution and the numerical
+approximation to the solution; this is termed the <em>accumulated
+error</em>, since the error is built&nbsp;up<!-- /@w --> during each numerical step. 
+Unfortunately, an estimate of this error is usually not available
+without knowledge of the actual solution.  There are, however, several
+more usable notions of error.  The <em>single-step error</em>, in
+particular, is the difference between the actual solution and the
+numerical approximation to the solution after any single step, assuming
+the value at the beginning of the step is correct.
+
+   <p>The <em>relative single-step error</em> is the single-step error, divided
+by the current value of the numerical approximation to the solution. 
+Why not divided by the current value of the solution itself?  The reason
+is that the solution is not exactly known.  When free to choose a
+stepsize, <code>ode</code> will do so on the basis of the relative single-step
+error.  By&nbsp;default<!-- /@w -->, it will choose the stepsize so as to maintain an
+accuracy of eight significant digits in each step.  That is, it will
+choose the stepsize so as not to violate an upper bound of
+10^(-9) on the relative single-step error.  This ceiling may be
+adjusted with the &lsquo;<samp><span class="samp">-r</span></samp>&rsquo; option.
+
+   <p>Where does numerical error come from?  There are two sources.  The first
+is the finite precision of machine computation.  All computers work with
+floating point numbers, which are not real numbers, but only an
+approximation to real numbers.  However, all computations performed by
+<code>ode</code> are done to double precision, so floating point error tends
+to be relatively small.  You may nonetheless detect the difference
+between real numbers and floating point numbers by experimenting with
+the &lsquo;<samp><span class="samp">-p 17</span></samp>&rsquo; option, which will print seventeen significant digits. 
+On&nbsp;most<!-- /@w --> machines, that is the precision of a double precision
+floating point number.
+
+   <p>The second source of numerical error is often called the
+<em>theoretical truncation error</em>.  It&nbsp;is<!-- /@w --> the difference between
+the actual solution and the approximate solution due solely to the
+numerical scheme.  At the root of many numerical schemes is an infinite
+series; for ordinary differential equations, it&nbsp;is<!-- /@w --> a Taylor
+expansion.  Since the computer cannot compute all the terms in an
+infinite series, a&nbsp;numerical<!-- /@w --> scheme necessarily uses a truncated
+series; hence the term.  The single-step error is the sum of the
+theoretical truncation error and the floating point error, though in
+practice the floating point error is seldom included.  The single-step
+error estimated by <code>ode</code> consists only of the theoretical
+truncation error.
+
+   <p>We say that a numerical scheme is <em>stable</em>, when applied to a
+particular initial value problem, if the error accumulated during the
+solution of the problem over a fixed interval decreases as the stepsize
+decreases; at&nbsp;least<!-- /@w -->, over a wide range of step sizes.  With this
+definition both the Runge&ndash;Kutta&ndash;Fehlberg (&lsquo;<samp><span class="samp">-R</span></samp>&rsquo;) scheme and the
+Adams&ndash;Moulton (&lsquo;<samp><span class="samp">-A</span></samp>&rsquo;) scheme are stable (a&nbsp;statement<!-- /@w --> based more
+on experience than on theoretical results) for a wide class of problems.
+
+   <p>After these introductory remarks, we list some common sources of
+accumulated error and instability in any numerical scheme.  Usually,
+problems with large accumulated error and instability are due to the
+single-step error in the vicinity of a `bad' point being large.
+
+     <ol type=1 start=1>
+<li>Singularities.
+
+     <p><code>ode</code> should not be used to generate a numerical solution on any
+interval containing a singularity.  That is, <code>ode</code> should not be
+asked to step over points at which the system of differential equations
+is singular or undefined.
+
+     <p>You will find the definitions of singular point, regular singular point,
+and irregular singular point in any good differential equations text. 
+If you have no favorite, try Birkhoff and Rota's <cite>Ordinary
+Differential Equations</cite>, Chapter&nbsp;9<!-- /@w -->.  Always locate and classify the
+singularities of a system, if&nbsp;any<!-- /@w -->, before applying <code>ode</code>.
+
+     <li>Ill-posed problems.
+
+     <p>For <code>ode</code> to yield an accurate numerical solution on an interval,
+the true solution must be defined and well-behaved on that interval. 
+The solution must also be real.  Whenever any of these conditions is
+violated, the problem is said to be <em>ill-posed</em>.  Ill-posedness may
+occur even if the system of differential equations is well-behaved on
+the interval.  Strange results, e.g., the stepsize suddenly shrinking to
+the machine limit or the solution suddenly blowing&nbsp;up<!-- /@w -->, may indicate
+ill-posedness.
+
+     <p>As an example of ill-posedness (in fact, an undefined solution) consider
+the innocent-looking problem:
+
+     <pre class="example">          y' = y^2
+          y(1) = -1
+</pre>
+     <p class="noindent">The solution on the domain t &gt; 0 is
+
+     <pre class="example">          y(t) = -1/t.
+</pre>
+     <p class="noindent">With this problem you must not compute a numerical solution on any
+interval that includes t=0.  To convince yourself of this, try to
+use the &lsquo;<samp><span class="samp">step</span></samp>&rsquo; statement
+
+     <pre class="example">          step 1, -1
+</pre>
+     <p class="noindent">on this system.  How does <code>ode</code> react?
+
+     <p>As another example of ill-posedness, consider the system
+
+     <pre class="example">          y'=1/y
+</pre>
+     <p>which is undefined at y=0.  The general solution is
+
+     <pre class="example">          y = +/- (2(t-C))^(1/2),
+</pre>
+     <p>so that if the condition y(2)=2 is imposed, the solution will be
+(2t)^(1/2).  Clearly, if the domain specified in a &lsquo;<samp><span class="samp">step</span></samp>&rsquo;
+statement includes negative values of&nbsp;t<!-- /@w -->, the generated
+solution will be bogus.
+
+     <p>In general, when using a constant stepsize you should be careful not to
+`step&nbsp;over'<!-- /@w --> bad points or bad regions.  When allowed to choose a
+stepsize adaptively, <code>ode</code> will often spot bad points, but not
+always.
+
+     <li>Critical points.
+
+     <p>An <em>autonomous</em> system is one that does not include the independent
+variable explicitly on the right-hand side of any differential equation. 
+A <em>critical point</em> for such a system is a point at which all
+right-hand sides equal zero.  For example, the system
+
+     <pre class="example">          y' = 2x
+          x' = 2y
+</pre>
+     <p>has only one critical point, at (x,y) = (0,0).
+
+     <p>A critical point is sometimes referred to as a <em>stagnation point</em>. 
+That is because a system at a critical point will remain there forever,
+though a system near a critical point may undergo more violent motion. 
+Under some circumstances, passing near a critical point may give rise to
+a large accumulated error.
+
+     <p>As an exercise, solve the system above using <code>ode</code>, with the
+initial condition x(0) = y(0) = 0.  The solution should be
+constant in time.  Now do the same with points near the critical point. 
+What happens?
+
+     <p>You should always locate the critical points of a system before
+attempting a solution with <code>ode</code>.  Critical points may be
+classified (as equilibrium, vortex, unstable, stable, etc.) and this
+classification may be of&nbsp;use<!-- /@w -->.  To find out more about this, consult
+any book dealing with the qualitative theory of differential equations
+(e.g., Birkhoff and Rota's <cite>Ordinary Differential Equations</cite>,
+Chapter&nbsp;6<!-- /@w -->).
+
+     <li>Unsuitable numerical schemes
+
+     <p>If the results produced by <code>ode</code> are bad in the sense that
+instability appears to be present, or an unusually small stepsize needs
+to be chosen needed in order to reduce the single-step error to
+manageable levels, it may simply be that the numerical scheme being used
+is not suited to the problem.  For&nbsp;example<!-- /@w -->, <code>ode</code> currently has
+no numerical scheme which handles so-called `stiff' problems very well.
+
+     <p>As an example, you may wish to examine the stiff problem:
+
+     <pre class="example">          y' = -100 + 100t + 1
+          y(0) = 1
+</pre>
+     <p class="noindent">on the domain [0,1].  The exact solution is
+
+     <pre class="example">          y(t) = e^(-100t) + t.
+</pre>
+     <p class="noindent">It is a useful exercise to solve this problem with <code>ode</code> using
+various numerical schemes, stepsizes, and relative single-step error
+bounds, and compare the generated solution curves with the actual
+solution.
+        </ol>
+
+   <p>There are several rough and ready heuristic checks you may perform on
+the accuracy of any numerical solution produced by <code>ode</code>.  We
+discuss them in&nbsp;turn<!-- /@w -->.
+
+     <ol type=1 start=1>
+<li>Examine the stability of  solution curves: do they converge?
+
+     <p>That is, check how changing the stepsize affects a solution curve.  As
+the stepsize decreases, the curve should converge.  If it does not, then
+the stepsize is not small enough or the numerical scheme is not suited
+to the problem.  In practice, you would proceed as follows.
+
+          <ul>
+<li>If using an adaptive stepsize, superimpose the solution curves for
+successively smaller bounds on the relative single-step error (obtained
+with, e.g., &lsquo;<samp><span class="samp">-r 1e-9</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-r 1e-11</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-r 1e-13</span></samp>&rsquo;, <small class="dots">...</small>). 
+If the curves converge then the solution is to all appearances stable,
+and your accuracy is sufficient.
+
+          <li>If employing a constant stepsize, perform a similar analysis by
+successively halving the stepsize. 
+</ul>
+
+     <p>The following example is one that you may wish to experiment with.  Make
+a file named <samp><span class="file">qcd</span></samp> containing:
+
+     <pre class="example">          # an equation arising in QCD (quantum chromodynamics)
+          f'   = fp
+          fp'  = -f*g^2
+          g'   = gp
+          gp'  = g*f^2
+          f = 0; fp = -1; g = 1; gp = -1
+          
+          print t, f
+          step 0, 5
+</pre>
+     <p class="noindent">Next make a file named <samp><span class="file">stability</span></samp>, containing the lines:
+
+     <pre class="example">          : sserr is the bound on the relative single-step error
+          for sserr
+          do
+          ode -r $sserr &lt; qcd
+          done | spline -n 500 | graph -T X -C
+</pre>
+     <p>This is a `shell script', which when run will superimpose numerical
+solutions with specified bounds on the relative single-step error.  To
+run it, type:
+
+     <pre class="example">          sh stability 1 .1 .01 .001
+</pre>
+     <p>and a plot of the solutions with the specified error bounds will be
+drawn.  The convergence, showing stability, should be quite
+illuminating.
+
+     <li>Check invariants of the system: are they constant?
+
+     <p>Many systems have invariant quantities.  For example, if the system is a
+mathematical model of a `conservative' physical system then the `energy'
+(a&nbsp;particular<!-- /@w --> function of the dependent variables of the system)
+should be constant in time.  In general, knowledge about the qualitative
+behavior of any dependent variable may be used to check the quality of
+the solution.
+
+     <li>Check a family of solution curves: do they diverge?
+
+     <p>A rough idea of how error is propagated is obtained by viewing a family
+of solution curves about the numerical solution in question, obtained by
+varying the initial conditions.  If&nbsp;they<!-- /@w --> diverge sharply&mdash;that&nbsp;is<!-- /@w -->, if two solutions which start out very close nonetheless end&nbsp;up<!-- /@w -->
+far apart&mdash;then the quality of the numerical solution is dubious. 
+On&nbsp;the<!-- /@w --> other hand, if the curves do not diverge sharply then any
+error that is present will in all likelihood not increase by more than
+an order of magnitude or&nbsp;so<!-- /@w --> over the interval.  Problems exhibiting
+no sharp divergence of neighboring solution curves are sometimes called
+<em>well-conditioned</em>.
+        </ol>
+
+   </body></html>
+

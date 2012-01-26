@@ -1,0 +1,87 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - admin examples</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_90.html">previous</A>, <A HREF="cvs_92.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H3><A NAME="SEC93" HREF="cvs_toc.html#TOC93">admin examples</A></H3>
+
+
+
+<H4><A NAME="SEC94" HREF="cvs_toc.html#TOC94">Outdating is dangerous</A></H4>
+
+<P>
+First, an example of how <EM>not</EM> to use the
+<CODE>admin</CODE> command.  It is included to stress the
+fact that this command can be quite dangerous unless
+you know <EM>exactly</EM> what you are doing.
+
+</P>
+<P>
+The <SAMP>`-o'</SAMP> option can be used to <EM>outdate</EM> old revisions
+from the history file.  If you are short on disc this option
+might help you.  But think twice before using it--there is no
+way short of restoring the latest backup to undo this command!
+
+</P>
+<P>
+The next line is an example of a command that you would
+<EM>not</EM> like to execute.
+
+</P>
+
+<PRE>
+$ cvs admin -o:R_1_02 .
+</PRE>
+
+<P>
+The above command will delete all revisions up to, and
+including, the revision that corresponds to the tag
+R_1_02.  But beware!  If there are files that have not
+changed between R_1_02 and R_1_03 the file will have
+<EM>the same</EM> numerical revision number assigned to
+the tags R_1_02 and R_1_03.  So not only will it be
+impossible to retrieve R_1_02; R_1_03 will also have to
+be restored from the tapes!
+
+</P>
+
+
+<H4><A NAME="SEC95" HREF="cvs_toc.html#TOC95">Comment leaders</A></H4>
+<P>
+<A NAME="IDX337"></A>
+<A NAME="IDX338"></A>
+<A NAME="IDX339"></A>
+
+</P>
+<P>
+If you use the <CODE>$</CODE>Log$ keyword and you do
+not agree with the guess for comment leader that
+CVS has done, you can enforce your will with
+<CODE>cvs admin -c</CODE>.  This might be suitable for
+<CODE>nroff</CODE> source:
+
+</P>
+
+<PRE>
+$ cvs admin -c'.\" ' *.man
+$ rm *.man
+$ cvs update
+</PRE>
+
+<P>
+The two last steps are to make sure that you get the
+versions with correct comment leaders in your working
+files.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_90.html">previous</A>, <A HREF="cvs_92.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

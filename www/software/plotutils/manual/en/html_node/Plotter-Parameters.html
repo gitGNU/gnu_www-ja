@@ -1,0 +1,409 @@
+<html lang="en">
+<head>
+<title>Plotter Parameters - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="libplot.html#libplot" title="libplot">
+<link rel="prev" href="Functions.html#Functions" title="Functions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Plotter-Parameters"></a>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Functions.html#Functions">Functions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="libplot.html#libplot">libplot</a>
+<hr>
+</div>
+
+<h3 class="section">9.5 Plotter parameters</h3>
+
+<p>In designing the <code>libplot</code> library, every effort was made to make
+the Plotter interface independent of the type of Plotter.  To&nbsp;the<!-- /@w -->
+extent that Plotters display individual (i.e., instance-specific)
+behavior, that behavior is captured by a manageable number of
+<em>Plotter parameters</em>.  Each parameter has a value that is allowed
+to be a generic pointer (a&nbsp;<code>void&nbsp;*</code><!-- /@w -->).  For most parameters, the
+value is a string (a&nbsp;<code>char&nbsp;*</code><!-- /@w -->).
+
+   <p>The parameter values of any Plotter are constant over the lifetime of
+the Plotter, and are specified when the Plotter is created.  In the C&nbsp;binding<!-- /@w -->, a&nbsp;value<!-- /@w --> for any parameter is specified by calling the
+<code>pl_setplparam</code> function.  The <code>pl_setplparam</code> function acts
+on a <code>plPlotterParams</code> object, which encapsulates Plotter
+parameters.  When a Plotter is created by calling <code>pl_newpl_r</code>,
+a&nbsp;pointer<!-- /@w --> to a <code>plPlotterParams</code> object is passed as the final
+argument.
+
+   <p>If at Plotter creation time a parameter is <em>not</em> specified, its
+default value will be used, unless the parameter is string-valued and
+there is an environment variable of the same name, in which case the
+value of that environment variable will be used.  This rule increases
+run-time flexibility: an&nbsp;application<!-- /@w --> programmer may allow
+non-critical Plotter parameters to be specified by the user via
+environment variables.
+
+   <p>In the C++ binding, the <code>PlotterParams</code> class and
+<code>PlotterParams::setplparam</code>, a&nbsp;member<!-- /@w --> function, are the
+analogues of the <code>plPlotterParams</code> datatype and the function
+<code>pl_setplparam</code>.
+
+   <p>The following are the currently recognized parameters (unrecognized ones
+are ignored).  The most important ones are <code>DISPLAY</code>, which affects
+X&nbsp;Plotters<!-- /@w -->, <code>BITMAPSIZE</code>, which affects X&nbsp;Plotters<!-- /@w -->, PNG
+Plotters, PNM Plotters, and GIF Plotters, <code>PAGESIZE</code>, which affects
+Illustrator, Postscript, CGM, Fig, and HP-GL Plotters, and
+<code>ROTATION</code>, which affects all Plotters except Metafile Plotters. 
+These four parameters are listed first and the others alphabetically. 
+Most of the remaining parameters, such as the several whose names begin
+with "HPGL", affect only a single type of Plotter.
+
+     <dl>
+<dt><tt>DISPLAY</tt><dd>(Default NULL.)  The X&nbsp;Window<!-- /@w --> System display on which the graphics
+display will be popped&nbsp;up<!-- /@w -->, as an X&nbsp;window<!-- /@w -->.  This is relevant
+only to X&nbsp;Plotters<!-- /@w -->.
+
+     <br><dt><code>BITMAPSIZE</code><dd>(Default "570x570".)  The size of the graphics display (i.e., the
+viewport) in terms of pixels.  This is relevant only to X&nbsp;Plotters<!-- /@w -->,
+PNG Plotters, PNM Plotters, and GIF Plotters.  For X&nbsp;Plotters<!-- /@w -->, the
+value of this parameter will automatically, if it is not set, be taken
+from the X&nbsp;resource<!-- /@w --> <code>Xplot.geometry</code>.  That is for backward
+compatibility.
+
+     <p>X Plotters support precise positioning of the graphics display.  For
+example, if <code>BITMAPSIZE</code> is "570x570+0+0" then it will be
+positioned in the upper left corner of the X&nbsp;Window<!-- /@w --> System display.
+
+     <br><dt><code>PAGESIZE</code><dd>(Default "letter".)  The page type, which determines the size of the
+graphics display (i.e., the viewport) used by the Plotter.  This is
+relevant only to SVG, Illustrator, Postscript, CGM, Fig, PCL, and HP-GL
+Plotters.  "letter" means an 8.5<span class="dmn">in</span> by 11<span class="dmn">in</span> page.  Any ISO
+page size in the range "a0"<small class="dots">...</small>"a4" or ANSI page size in the range
+"a"<small class="dots">...</small>"e" may be specified ("letter" is an alias for&nbsp;"a"<!-- /@w --> and
+"tabloid" is an alias for&nbsp;"b"<!-- /@w -->).  "legal", "ledger", and&nbsp;"b5"<!-- /@w --> are
+recognized page sizes also.
+
+     <p>For Illustrator, Postscript, PCL and Fig Plotters, the graphics
+display will be, by default, a square region centered on the specified
+page.  (For example, it will be a centered 8<span class="dmn">in</span> square if
+<code>PAGESIZE</code> is "letter".)  For HP-GL Plotters, it will be a square
+region of the same size, but will not by&nbsp;default<!-- /@w --> be centered.  SVG
+format and WebCGM format have no notion of the Web page on which the
+graphics display will ultimately be positioned.  They do have a notion
+of default display size, though this will normally be overridden when
+the SVG or WebCGM file is placed on a Web page.  For this default
+display size, SVG and CGM Plotters will use the same graphics display
+size that is used by other Plotters.
+
+     <p>For the default size (and location) of the graphics display for each
+page type, see <a href="Page-and-Viewport-Sizes.html#Page-and-Viewport-Sizes">Page and Viewport Sizes</a>.  You do not need to use
+the default size, since either or both of its dimensions can be
+specified explicitly.  For example, <code>PAGESIZE</code> could be specified
+as "letter,xsize=4in", or "a4,xsize=10cm,ysize=15cm".  The dimensions
+are allowed to be negative (a&nbsp;negative<!-- /@w --> dimension results in a
+reflection).
+
+     <p>For Plotters other than SVG and CGM Plotters, the position of the
+graphics display on the page, relative to its default position, can be
+adjusted by specifying an offset vector.  For example, <code>PAGESIZE</code>
+could be specified as "letter,yoffset=1.2in", or
+"a4,xoffset=&minus;5mm,yoffset=2.0cm".  Inches, centimeters, and
+millimeters are the supported units.  The "xoffset" and "yoffset"
+options may be used in conjunction with "xsize" and "ysize".
+
+     <p>It&nbsp;is<!-- /@w --> also possible to position the graphics display precisely, by
+specifying the location of its lower left corner relative to the lower
+left corner of the page.  For example, <code>PAGESIZE</code> could be
+specified as "letter,xorigin=2in,yorigin=3in", or
+"a4,xorigin=0.5cm,yorigin=0.5cm".  The "xorigin" and "yorigin" options
+may be used in conjunction with "xsize" and "ysize".  SVG and WebCGM
+Plotters ignore the "xoffset", "yoffset", "xorigin", and "yorigin"
+options, since SVG format and WebCGM format have no notion of the Web
+page on which the graphics display will ultimately be positioned.
+
+     <br><dt><code>ROTATION</code><dd>(Default "0.0".)  Relevant to all Plotters other than Metafile
+Plotters, which have no output device.  The angle, in degrees, by
+which the graphics display (i.e., the viewport) should be rotated,
+relative to its default orientation.  The rotation is
+counterclockwise.
+
+     <p>A rotated viewport does not change the position of its four corners. 
+Rather, the graphics are rotated within&nbsp;it<!-- /@w -->.  If&nbsp;the<!-- /@w --> viewport is
+rectangular rather than square, this `rotation' necessarily includes a
+rescaling.
+
+     <p>This parameter is useful for switching between portrait and landscape
+orientations.  Internally, it determines the affine transformation from
+NDC (normalized device coordinate) space to device space.
+
+     <br><dt><code>BG_COLOR</code><dd>(Default "white".)  The initial background color of the graphics
+display, when drawing each page of graphics.  This is relevant to X&nbsp;Plotters<!-- /@w -->, PNG Plotters, PNM Plotters, GIF Plotters, CGM Plotters, ReGIS
+Plotters, and Metafile Plotters; also to X&nbsp;Drawable&nbsp;Plotters<!-- /@w --> (for
+the last, the background color shows&nbsp;up<!-- /@w --> only if <code>erase</code> is
+invoked).  For information on what color names are recognized, see
+<a href="Color-Names.html#Color-Names">Color Names</a>.  The background color may be changed at any later
+time by invoking the <tt>bgcolor</tt> (or <tt>bgcolorname</tt>) and <tt>erase</tt>
+operations.
+
+     <p>SVG Plotters and CGM Plotters support "none" as a value for the
+background color.  It will turn&nbsp;off<!-- /@w --> the background: the drawn
+objects will not be backed by anything.  This is useful when the
+generated SVG or WebCGM file is to be placed on a Web page.
+
+     <br><dt><code>CGM_ENCODING</code><dd>(Default "binary".)  Relevant only to CGM Plotters.  "binary" means that
+the CGM output should use the binary encoding.  "clear_text" means that
+the CGM output should use a human-readable encoding.  The WebCGM profile
+requires that the binary encoding be used, but many CGM viewers and
+interpreters can also parse the clear text encoding.  The third standard
+CGM encoding, "character", is not currently supported.
+
+     <br><dt><code>CGM_MAX_VERSION</code><dd>(Default "4".)  Relevant only to CGM Plotters.  An upper bound on the
+version number of CGM format that is produced.  Many older CGM
+interpreters and viewers, such as the ones built into Microsoft Office
+and other commercial software, only support version&nbsp;1<!-- /@w --> CGM files. 
+For fully adequate handling of fonts and line styles, version&nbsp;3<!-- /@w --> is
+necessary.  By default, the present release of <code>libplot</code> produces
+version&nbsp;3<!-- /@w --> CGM files, i.e., it does not use version&nbsp;4<!-- /@w --> features.
+
+     <br><dt><code>EMULATE_COLOR</code><dd>(Default "no".)  Relevant to all Plotters.  "yes" means that each color
+in the output should be replaced by an appropriate shade of gray.  The
+well known formula for CIE luminance, namely 0.212671R + 0.715160G
++ 0.072169B, is used.
+
+     <p>This parameter is seldom useful, except when using a PCL Plotter to
+prepare output for a monochrome PCL&nbsp;5<!-- /@w --> device.  Many monochrome
+PCL&nbsp;5<!-- /@w --> devices, such as monochrome LaserJets, do a poor job of
+emulating color on their own.  They usually map HP-GL/2's seven standard
+pen colors, including even yellow, to black.
+
+     <br><dt><code>GIF_ANIMATION</code><dd>(Default "yes".)  Relevant only to GIF Plotters.  "yes" means that the
+<code>erase</code> operation will have special semantics: with the exception
+of its first invocation, it will act as a separator between successive
+images in the written-out pseudo-GIF file.  "no"&nbsp;means<!-- /@w --> that
+<code>erase</code> should act as it does on other Plotters that do not write
+graphics in real time, i.e., it&nbsp;should<!-- /@w --> erase the image under
+construction by filling it with the background color.  If&nbsp;"no"<!-- /@w --> is
+specified, the pseudo-GIF file will contain only a single image.
+
+     <br><dt><code>GIF_DELAY</code><dd>(Default "0".)  Relevant only to GIF Plotters.  The delay, in hundredths
+of a second, after each image in a written-out animated pseudo-GIF file. 
+The value should be an integer in the range "0"<small class="dots">...</small>"65535".
+
+     <br><dt><code>GIF_ITERATIONS</code><dd>(Default "0".)  Relevant only to GIF Plotters.  The number of times that
+an animated pseudo-GIF file should be `looped'.  The value should be an
+integer in the range "0"<small class="dots">...</small>"65535".
+
+     <br><dt><code>HPGL_ASSIGN_COLORS</code><dd>(Default "no".)  Relevant only to HP-GL Plotters, and only if the value
+of <code>HPGL_VERSION</code> is&nbsp;"2"<!-- /@w -->.  "no"&nbsp;means<!-- /@w --> to draw with a fixed
+set of pens, specified by setting the <code>HPGL_PENS</code> parameter.  "yes"
+means that pen colors will not restricted to the palette specified in
+<code>HPGL_PENS</code>: colors will be assigned to &ldquo;logical pens&rdquo; in the
+range #1<small class="dots">...</small>#31, as&nbsp;needed<!-- /@w -->.  Other than color LaserJet printers
+and DesignJet plotters, not many HP-GL/2 devices allow the assignment of
+colors to logical pens.  In particular, HP-GL/2 pen plotters do not. 
+So&nbsp;this<!-- /@w --> parameter should be used with caution.
+
+     <br><dt><code>HPGL_OPAQUE_MODE</code><dd>(Default "yes".)  Relevant only to HP-GL Plotters, and only if the value
+of <code>HPGL_VERSION</code> is&nbsp;"2"<!-- /@w -->.  "yes" means that the HP-GL/2 output
+device should be switched into opaque mode, rather than transparent
+mode.  This allows objects to be filled with opaque white and other
+opaque colors.  It&nbsp;also<!-- /@w --> allows the drawing of visible white lines,
+which by convention are drawn with pen&nbsp;#0<!-- /@w -->.  Not all HP-GL/2 devices
+support opaque mode or the use of pen&nbsp;#0<!-- /@w --> to draw visible white
+lines.  In particular, HP-GL/2 pen plotters do&nbsp;not<!-- /@w -->.  Some older
+HP-GL/2 devices reportedly malfunction if asked to switch into opaque
+mode.  If&nbsp;the<!-- /@w --> output of an HP-GL Plotter is to be sent to such a
+device, a&nbsp;"no"<!-- /@w --> value is recommended.
+
+     <br><dt><code>HPGL_PENS</code><dd>(Default "1=black:2=red:3=green:4=yellow:5=blue:6=magenta:7=cyan" if the
+value of <code>HPGL_VERSION</code> is "1.5" or&nbsp;"2"<!-- /@w --> and "1=black" if the
+value of <code>HPGL_VERSION</code> is&nbsp;"1"<!-- /@w -->.  Relevant only to HP-GL
+Plotters.  The set of available pens; the format should be
+self-explanatory.  The color for any pen in the range #1<small class="dots">...</small>#31 may
+be specified.  For information on what color names are recognized, see
+<a href="Color-Names.html#Color-Names">Color Names</a>.  Pen&nbsp;#1<!-- /@w --> must always be present, though it need
+not be black.  Any pen in the range #2<small class="dots">...</small>#31 may be omitted.
+
+     <br><dt><code>HPGL_ROTATE</code><dd>(Default "0".)  Relevant only to HP-GL Plotters.  The angle, in degrees,
+by which the graphics display (i.e., the viewport) should be rotated on
+the page relative to the default orientation.  Recognized values are
+"0", "90", "180", and "270"; "no"&nbsp;and<!-- /@w --> "yes" are equivalent to "0"&nbsp;and&nbsp;"90"<!-- /@w --> respectively.  "180" and "270" are supported only if
+<code>HPGL_VERSION</code> is&nbsp;"2"<!-- /@w -->.
+
+     <p>The rotation requested by <code>HPGL_ROTATE</code> is different from the sort
+requested by the <code>ROTATION</code> parameter.  <code>ROTATION</code> rotates the
+graphics display in&nbsp;place<!-- /@w -->, but <code>HPGL_ROTATE</code> both rotates the
+graphics display and moves its lower left corner toward another corner
+of the page.  Altering the plotting area in such a way is supported by
+the HP-GL language.
+
+     <p>The <code>HPGL_ROTATE</code> parameter facilitates switching between portrait
+and landscape orientations.  For HP-GL devices that is frequently a
+concern, since some HP-GL devices (&ldquo;plotters&rdquo;) draw with a default
+landscape orientation, while others (&ldquo;printers&rdquo;) draw with a default
+portrait orientation.  There is no programmatic way of determining which
+is which.
+
+     <br><dt><code>HPGL_VERSION</code><dd>(Default "2".)  Relevant only to HP-GL Plotters.  "1"&nbsp;means<!-- /@w --> that the
+output should be generic HP-GL, "1.5"&nbsp;means<!-- /@w --> that the output should
+be suitable for the HP7550A graphics plotter and the HP758x, HP7595A and
+HP7596A drafting plotters (HP-GL with some HP-GL/2 extensions), and
+"2"&nbsp;means<!-- /@w --> that the output should be modern HP-GL/2.  If&nbsp;the<!-- /@w -->
+version is less than "2" then the only available fonts will be vector
+fonts, and all paths will be drawn with a default thickness, so that
+invoking <tt>linewidth</tt>, <tt>capmod</tt>, <tt>joinmod</tt>, and <tt>fmiterlimit</tt>
+will have no effect.  Also, the `nonzero winding number rule' will not
+be supported when filling paths, so invoking <tt>fillmod</tt> will have no
+effect.  Additionally, if the version is&nbsp;"1"<!-- /@w --> then the filling of
+arbitrary paths will not be supported (circles and rectangles aligned
+with the coordinate axes may be filled, however).
+
+     <br><dt><code>INTERLACE</code><dd>(Default "no".)  Relevant only to PNG and GIF Plotters.  If the value is
+"yes", the output file will be interlaced.  That means it will be
+displayed in an interlaced (nonlinear) way by many applications.
+
+     <br><dt><code>MAX_LINE_LENGTH</code><dd>(Default "500".)  The maximum number of defining points that a path may
+have, before it is flushed to the output device.  If this flushing
+occurs, the path will be split into two or more sub-paths, though the
+splitting should not be noticeable.  Splitting will not be performed if
+the path is to be filled.
+
+     <p>This parameter is relevant to all Plotters except Tektronix and Metafile
+Plotters.  The reason for splitting long paths is that some display
+devices (e.g., old Postscript printers and HP-GL pen plotters) have
+limited buffer sizes.  It&nbsp;is<!-- /@w --> not relevant to Tektronix or Metafile
+Plotters, since they draw paths in real time and have no buffer
+limitations.
+
+     <br><dt><code>META_PORTABLE</code><dd>(Default "no".)  Relevant only to Metafile Plotters.  "yes" means that
+the output metafile should use a portable (human-readable) encoding of
+graphics, rather than the default (binary) encoding.  See <a href="Metafiles.html#Metafiles">Metafiles</a>.
+
+     <br><dt><code>PCL_ASSIGN_COLORS</code><dd>(Default "no".)  Relevant only to PCL Plotters.  "no"&nbsp;means<!-- /@w --> to draw
+with a fixed set of pens.  "yes" means that pen colors will not
+restricted to this palette: colors will be assigned to &ldquo;logical pens&rdquo;,
+as&nbsp;needed<!-- /@w -->.  Other than color LaserJet printers, not many PCL&nbsp;5<!-- /@w -->
+devices allow the assignment of colors to logical pens.  So&nbsp;this<!-- /@w -->
+parameter should be used with caution.
+
+     <br><dt><code>PCL_BEZIERS</code><dd>(Default "yes".)  Relevant only to PCL Plotters.  "yes"&nbsp;means<!-- /@w --> that
+when drawing Bezier curves, the special `Bezier instructions' will be
+used.  "no"&nbsp;means<!-- /@w --> that these instructions will not be used. 
+Instead, each Bezier curve will be approximated and drawn as a polygonal
+line.  Other than the LaserJet III, which was Hewlett&ndash;Packard's first
+PCL&nbsp;5<!-- /@w --> printer, all Hewlett&ndash;Packard's PCL&nbsp;5<!-- /@w --> printers support the
+Bezier instructions.
+
+     <br><dt><code>PNM_PORTABLE</code><dd>(Default "no".)  Relevant only to PNM Plotters.  "yes" means that the
+output should be in a portable (human-readable) version of PBM/PGM/PPM
+format, rather than the default (binary) version.  `Portable' is
+something of a misnomer, since binary PBM/PGM/PPM files are also
+portable, in the sense that they are machine-independent.
+
+     <br><dt><code>TERM</code><dd>(Default NULL.)  Relevant only to Tektronix Plotters.  If the value is
+a string beginning with "xterm", "nxterm", or "kterm", it&nbsp;is<!-- /@w --> taken
+as a sign that the current application is running in an X&nbsp;Window<!-- /@w -->
+System VT100 terminal emulator: an&nbsp;<code>xterm</code><!-- /@w -->, <code>nxterm</code>, or
+<code>kterm</code>.  Before drawing graphics, a Tektronix Plotter will emit an
+escape sequence that causes the terminal emulator's auxiliary Tektronix
+window, which is normally hidden, to pop&nbsp;up<!-- /@w -->.  After the graphics are
+drawn, an escape sequence that returns control to the original VT100
+window will be emitted.  The Tektronix window will remain on the screen.
+
+     <p>If the value is a string beginning with "kermit", "ansi.sys", or
+"nansi.sys", it&nbsp;is<!-- /@w --> taken as a sign that the current application is
+running in the VT100 terminal emulator provided by the MS-DOS version of
+<code>kermit</code>.  Before drawing graphics, a Tektronix Plotter will emit
+an escape sequence that switches the terminal emulator to Tektronix
+mode.  Also, some of the Tektronix control codes emitted by the Plotter
+will be <code>kermit</code>-specific.  There will be a limited amount of color
+support, which is not normally the case (the 16 <code>ansi.sys</code> colors
+will be supported).  The "dotdotdashed" line style will be supported,
+which is also not normally the case.  After drawing graphics, the
+Plotter will emit an escape sequence that returns the emulator to VT100
+mode.  The key sequence `ALT&nbsp;minus<!-- /@w -->' may be employed manually within
+<code>kermit</code> to switch between the two modes.
+
+     <br><dt><code>TRANSPARENT_COLOR</code><dd>(Default "none".)  Relevant only to PNG and GIF Plotters.  If the value
+is a recognized color name, that color, if it appears in the output
+file, will be treated as transparent by most applications.  For
+information on what names are recognized, see <a href="Color-Names.html#Color-Names">Color Names</a>.
+
+     <p>If <code>TRANSPARENT_COLOR</code> is set and an animated pseudo-GIF file is
+produced, the `restore to background' disposal method will be used for
+each image in the file.  Otherwise, the `unspecified' disposal method
+will be used.
+
+     <br><dt><code>USE_DOUBLE_BUFFERING</code><dd>(Default "no".)  Relevant only to X Plotters and X Drawable Plotters. 
+If&nbsp;the<!-- /@w --> value is "yes", a double buffering scheme will be used when
+drawing graphics.  Each frame of graphics, within a
+<tt>openpl</tt><small class="dots">...</small><tt>closepl</tt> pair, will be written to an off-screen
+buffer rather than to the Plotter's display.  When <tt>erase</tt> is invoked
+to end a frame, or when <tt>closepl</tt> is invoked, the contents of the
+off-screen buffer will be copied to the Plotter's display, pixel by
+pixel.  If successive frames differ only slightly, this will create the
+illusion of smooth animation.
+
+     <p>Some X displays provide special hardware support for double buffering. 
+If&nbsp;this<!-- /@w --> support is available, the X&nbsp;Plotter<!-- /@w --> will detect its
+presence, and will draw graphics using the appropriate extension to the
+X11 protocol (either DBE or MBX).  In this case the animation will be
+significantly faster; on high-end graphics hardware, at&nbsp;least<!-- /@w -->.
+
+     <br><dt><code>VANISH_ON_DELETE</code><dd>(Default "no".)  Relevant only to X Plotters.  If the value is "yes",
+when a Plotter is deleted, the window or windows that it has popped&nbsp;up<!-- /@w --> will vanish.  Otherwise, each such window will remain on the screen
+until it is removed by the user (by typing &lsquo;<samp><span class="samp">q</span></samp>&rsquo; in&nbsp;it<!-- /@w -->, or by
+clicking with a mouse).
+
+     <br><dt><code>XDRAWABLE_COLORMAP</code><dd>(Default NULL.)  Relevant only to X&nbsp;Drawable&nbsp;Plotters<!-- /@w -->.  If the
+value is non-NULL, it should be a <code>Colormap *</code>, a&nbsp;pointer<!-- /@w --> to a
+colormap from which colors should be allocated.  NULL indicates that the
+colormap to be used should be the default colormap of the default screen
+of the X&nbsp;display<!-- /@w -->.
+
+     <br><dt><code>XDRAWABLE_DISPLAY</code><dd>(Default NULL.)  Relevant only to X Drawable Plotters.  The value
+should be a <code>Display *</code>, a&nbsp;pointer<!-- /@w --> to the X&nbsp;display<!-- /@w --> with
+which the drawable(s) to be drawn&nbsp;in<!-- /@w --> are associated.
+
+     <br><dt><code>XDRAWABLE_DRAWABLE1</code><dt><code>XDRAWABLE_DRAWABLE2</code><dd>(Default NULL.)  Relevant only to X Drawable Plotters.  If set, the
+value of each of these parameters should be a <code>Drawable *</code>, a
+pointer to a drawable to be drawn&nbsp;in<!-- /@w -->.  A&nbsp;`drawable'<!-- /@w --> is either a
+window or a pixmap.  At the time an X&nbsp;Drawable<!-- /@w --> Plotter is created,
+at&nbsp;least<!-- /@w --> one of the two parameters must be set.
+
+     <p>X&nbsp;Drawable<!-- /@w --> Plotters support simultaneous drawing in two drawables
+because it is often useful to be able to draw graphics simultaneously in
+both an X&nbsp;window<!-- /@w --> and its background pixmap.  If two drawables are
+specified, they must have the same dimensions and depth, and be
+associated with the same screen of the X&nbsp;display<!-- /@w -->.
+
+     <br><dt><code>XDRAWABLE_VISUAL</code><dd>(Default NULL.)  Relevant only to X&nbsp;Drawable&nbsp;Plotters<!-- /@w -->.  If set, the
+value should be a <code>Visual *</code>, a&nbsp;pointer<!-- /@w --> to the `visual' with
+which the colormap (see above) is associated.  Setting this parameter is
+not required, but it is recommended that it be set if
+<code>XDRAWABLE_COLORMAP</code> is set.  Under some circumstances, that will
+speed&nbsp;up<!-- /@w --> color cell allocation.
+
+     <br><dt><code>X_AUTO_FLUSH</code><dd>(Default "yes".)  Relevant only to X Plotters.  If the value is "yes",
+an <code>XFlush</code> operation is performed after each drawing operation. 
+That ensures that graphics are flushed to the X&nbsp;Window<!-- /@w --> System
+display, and are visible to the user, immediately after they are drawn. 
+However, it slows down rendering considerably.  If&nbsp;the<!-- /@w --> value is
+"no", drawing is faster, since it does not take place in real time. 
+</dl>
+
+   </body></html>
+

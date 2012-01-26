@@ -1,0 +1,202 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/nana.texi on 6 November 1998 -->
+
+<TITLE>GNU Nana: improved support for assertions and logging in C and C++ - L_buffer.h</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_21.html">previous</A>, <A HREF="nana_23.html">next</A>, <A HREF="nana_42.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC22" HREF="nana_toc.html#TOC22">L_buffer.h: a circular buffer for logging.</A></H2>
+<P>
+A traditional embedded systems trick is to log messages to a circular
+buffer in core. This has the following benefits:
+
+</P>
+
+<OL>
+<LI>Speed -- writing to a in core buffer is much faster than spitting
+
+out messages to a file on disk. It is often fast enough to leave at least
+most of the messages in the final product.
+<LI>Field debugging -- what the ... was the user doing before the
+
+system crashed. Oh lets ask them, I'm sure they'll give us a good
+problem report. 
+</OL>
+
+<P>
+<DL>
+<DT><U>Type:</U> struct <B>L_BUFFER</B>
+<DD><A NAME="IDX115"></A>
+Used to define buffer variables, it is similar to <SAMP>`FILE*'</SAMP> type in 
+<SAMP>`stdio.h'</SAMP>. To create an instance use <SAMP>`L_buffer_create'</SAMP>.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> L_BUFFER* <B>L_buffer_create</B> <I>(size_t <VAR>size</VAR>)</I>
+<DD><A NAME="IDX116"></A>
+<DT><U>Function:</U> L_BUFFER* <B>L_buffer_delete</B> <I>(L_BUFFER <VAR>*b</VAR>)</I>
+<DD><A NAME="IDX117"></A>
+These are used to create or delete a buffer which can contain <VAR>size</VAR>
+characters. 
+
+</P>
+
+<PRE>
+  L_BUFFER *lbuffer;
+
+  lbuffer = L_buffer_create(32*1024); /* create a 32K buffer */
+  ...;
+  L_buffer_delete(lbuffer); /* and delete it after use */
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Function:</U> void <B>L_buffer_wraparound</B> <I>(L_BUFFER <VAR>*b</VAR>, int <VAR>w</VAR>)</I>
+<DD><A NAME="IDX118"></A>
+A buffer created by <SAMP>`L_buffer_create'</SAMP> is set up so that the new
+messages will overwrite the older messages in the buffer. If you wish 
+to disable this overwriting, e.g. to keep the first 32K bytes
+of your system startup messages you should use <SAMP>`L_buffer_wraparound'</SAMP>.
+For example:
+
+</P>
+
+<PRE>
+  L_BUFFER *lb = L_buffer_create(32*1024);
+  L_buffer_wraparound(lb, 0); /* disable wraparound */
+</PRE>
+
+</DL>
+
+<P>
+<DL>
+<DT><U>Function:</U> void <B>L_buffer_printf</B> <I>(L_BUFFER <VAR>*b</VAR>, const char <VAR>*fmt</VAR>, ...)</I>
+<DD><A NAME="IDX119"></A>
+<DT><U>Function:</U> void <B>L_buffer_puts</B> <I>(L_BUFFER <VAR>*b</VAR>, const char <VAR>*str</VAR>)</I>
+<DD><A NAME="IDX120"></A>
+<DT><U>Function:</U> void <B>L_buffer_putchar</B> <I>(L_BUFFER <VAR>*b</VAR>, char <VAR>ch</VAR>)</I>
+<DD><A NAME="IDX121"></A>
+These are the routines which do that actual printing to the buffer.
+
+</P>
+
+<PRE>
+  L_buffer_printf(lbuffer, "U: user input %c\n", c);
+  L_buffer_puts(lbuffer, "warning: its too hot");
+  L_buffer_putchar(lbuffer, '*');
+</PRE>
+
+<P>
+Note: a null pointer passed to the <SAMP>`L_buffer_puts'</SAMP> function prints
+as <SAMP>`(null)'</SAMP>. <A NAME="DOCF7" HREF="nana_foot.html#FOOT7">(7)</A>
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> void <B>L_buffer_clear</B> <I>(L_BUFFER <VAR>*b</VAR>)</I>
+<DD><A NAME="IDX122"></A>
+Clear the log, i.e. remove all messages and start again.
+</DL>
+
+</P>
+<P>
+<DL>
+<DT><U>Function:</U> void <B>L_buffer_dump</B> <I>(L_BUFFER <VAR>*b</VAR>, FILE *<VAR>fp</VAR>)</I>
+<DD><A NAME="IDX123"></A>
+Dump the contents of the log <VAR>*b</VAR> to the file descriptor <VAR>*fp</VAR>. 
+Typically <VAR>*fp</VAR> would be <SAMP>`stderr'</SAMP>. 
+
+</P>
+<P>
+Note that this does not change the contents of the buffer.  This is
+important since we may have a hardware or software problem part of the
+way through the dump operation and you don't want to loose anything.
+
+</P>
+<P>
+To reset the buffer after a successful dump use <SAMP>`L_buffer_clear'</SAMP>.
+
+</P>
+<P>
+The output of <SAMP>`L_buffer_dump'</SAMP> consists of a starting message
+followed by the contents of the log. If a character in the log is not
+printable we print it out in hex on a line by itself.
+
+</P>
+
+<PRE>
+* L_buffer_dump =
+log message
+and another
+* non-printable character 0x1
+more log messages
+* end of dump
+</PRE>
+
+</DL>
+
+<P>
+You also need to be able to integrate these functions into your
+design. See <SAMP>`examples/ott.c'</SAMP> for a complicated example. Here we
+will provide a simplified version which implements a new logging macro
+called <SAMP>`LFAST'</SAMP> which does a <SAMP>`printf'</SAMP> to the <SAMP>`log_buffer'</SAMP>.
+If you want to have all messages going to a <SAMP>`L_BUFFER'</SAMP> then you can
+redefine <SAMP>`L_DEFAULT_HANDLER'</SAMP>.
+
+</P>
+
+<PRE>
+/* project.h - the project wide include file */
+
+#include &#60;nana.h&#62;
+#include &#60;L_buffer.h&#62;
+
+/* LFAST(char *, ...) - log a message to the log_buffer */
+/*     ##f translates as the rest of the arguments to LFAST */
+
+#define LFAST(f...) LHP(L_buffer_printf,log_buffer,##f)
+
+extern L_BUFFER *log_buffer; /* the log buffer */
+</PRE>
+
+<P>
+The main program merely creates the <VAR>log_buffer</VAR> and eventually
+calls <SAMP>`L_buffer_dump'</SAMP> to print out the buffer when the system dies.
+
+<PRE>
+/* main.c - initialise the system and start things */
+
+#include &#60;project.h&#62;
+
+L_BUFFER *log_buffer;
+
+main() {
+  log_buffer = L_buffer_create(16000); 
+  if(log_buffer == NULL) { /* not enough store */
+    ...
+  }
+  LFAST("system starting at %f\n", now());
+  ...;
+}
+
+void fatal_error() { /* called on fatal errors */
+  FILE *f = fopen("project.errors","w");
+  L_buffer_dump(b, stderr); /* print log to stderr */
+  L_buffer_dump(b, f); /* print log to file */
+}
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_21.html">previous</A>, <A HREF="nana_23.html">next</A>, <A HREF="nana_42.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+</BODY>
+</HTML>

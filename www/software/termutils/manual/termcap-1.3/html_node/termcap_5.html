@@ -1,0 +1,178 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Interrogate</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_4.html">previous</A>, <A HREF="termcap_6.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC5" HREF="termcap_toc.html#TOC5">Interrogating the Terminal Description</A></H2>
+
+<P>
+Each piece of information recorded in a terminal description is called a
+<EM>capability</EM>.  Each defined terminal capability has a two-letter code
+name and a specific meaning.  For example, the number of columns is named
+<SAMP>`co'</SAMP>.  See section <A HREF="termcap_23.html#SEC23">Definitions of the Terminal Capabilities</A>, for definitions of all the standard
+capability names.
+
+</P>
+<P>
+Once you have found the proper terminal description with <CODE>tgetent</CODE>
+(see section <A HREF="termcap_4.html#SEC4">Finding a Terminal Description: <CODE>tgetent</CODE></A>), your application program must <EM>interrogate</EM> it for
+various terminal capabilities.  You must specify the two-letter code of
+the capability whose value you seek.
+
+</P>
+<P>
+Capability values can be numeric, boolean (capability is either present or
+absent) or strings.  Any particular capability always has the same value
+type; for example, <SAMP>`co'</SAMP> always has a numeric value, while <SAMP>`am'</SAMP>
+(automatic wrap at margin) is always a flag, and <SAMP>`cm'</SAMP> (cursor motion
+command) always has a string value.  The documentation of each capability
+says which type of value it has.
+</P>
+<P>
+There are three functions to use to get the value of a capability,
+depending on the type of value the capability has.  Here are their
+declarations in ANSI C:
+
+</P>
+<P>
+<A NAME="IDX3"></A>
+<A NAME="IDX4"></A>
+<A NAME="IDX5"></A>
+
+<PRE>
+int tgetnum (char *<VAR>name</VAR>);
+int tgetflag (char *<VAR>name</VAR>);
+char *tgetstr (char *<VAR>name</VAR>, char **<VAR>area</VAR>);
+</PRE>
+
+<DL COMPACT>
+
+<DT><CODE>tgetnum</CODE>
+<DD>
+Use <CODE>tgetnum</CODE> to get a capability value that is numeric.  The
+argument <VAR>name</VAR> is the two-letter code name of the capability.  If
+the capability is present, <CODE>tgetnum</CODE> returns the numeric value
+(which is nonnegative).  If the capability is not mentioned in the
+terminal description, <CODE>tgetnum</CODE> returns -1.
+
+<DT><CODE>tgetflag</CODE>
+<DD>
+Use <CODE>tgetflag</CODE> to get a boolean value.  If the capability
+<VAR>name</VAR> is present in the terminal description, <CODE>tgetflag</CODE>
+returns 1; otherwise, it returns 0.
+
+<DT><CODE>tgetstr</CODE>
+<DD>
+Use <CODE>tgetstr</CODE> to get a string value.  It returns a pointer to a
+string which is the capability value, or a null pointer if the
+capability is not present in the terminal description.
+
+There are two ways <CODE>tgetstr</CODE> can find space to store the string value:
+
+
+<UL>
+<LI>
+
+You can ask <CODE>tgetstr</CODE> to allocate the space.  Pass a null
+pointer for the argument <VAR>area</VAR>, and <CODE>tgetstr</CODE> will use
+<CODE>malloc</CODE> to allocate storage big enough for the value.
+Termcap will never free this storage or refer to it again; you
+should free it when you are finished with it.
+
+This method is more robust, since there is no need to guess how
+much space is needed.  But it is supported only by the GNU
+termcap library.
+
+<LI>
+
+You can provide the space.  Provide for the argument <VAR>area</VAR> the
+address of a pointer variable of type <CODE>char *</CODE>.  Before calling
+<CODE>tgetstr</CODE>, initialize the variable to point at available space.
+Then <CODE>tgetstr</CODE> will store the string value in that space and will
+increment the pointer variable to point after the space that has been
+used.  You can use the same pointer variable for many calls to
+<CODE>tgetstr</CODE>.
+
+There is no way to determine how much space is needed for a single
+string, and no way for you to prevent or handle overflow of the area
+you have provided.  However, you can be sure that the total size of
+all the string values you will obtain from the terminal description is
+no greater than the size of the description (unless you get the same
+capability twice).  You can determine that size with <CODE>strlen</CODE> on
+the buffer you provided to <CODE>tgetent</CODE>.  See below for an example.
+
+Providing the space yourself is the only method supported by the Unix
+version of termcap.
+</UL>
+
+</DL>
+
+<P>
+Note that you do not have to specify a terminal type or terminal
+description for the interrogation functions.  They automatically use the
+description found by the most recent call to <CODE>tgetent</CODE>.
+
+</P>
+<P>
+Here is an example of interrogating a terminal description for various
+capabilities, with conditionals to select between the Unix and GNU methods
+of providing buffer space.
+
+</P>
+
+<PRE>
+char *tgetstr ();
+
+char *cl_string, *cm_string;
+int height;
+int width;
+int auto_wrap;
+
+char PC;   /* For tputs.  */
+char *BC;  /* For tgoto.  */
+char *UP;
+
+interrogate_terminal ()
+{
+#ifdef Unix
+  /* Here we assume that an explicit term_buffer
+     was provided to tgetent.  */
+  char *buffer
+    = (char *) malloc (strlen (term_buffer));
+#define BUFFADDR &#38;buffer
+#else
+#define BUFFADDR 0
+#endif
+
+  char *temp;
+
+  /* Extract information we will use.  */
+  cl_string = tgetstr ("cl", BUFFADDR);
+  cm_string = tgetstr ("cm", BUFFADDR);
+  auto_wrap = tgetflag ("am");
+  height = tgetnum ("li");
+  width = tgetnum ("co");
+
+  /* Extract information that termcap functions use.  */
+  temp = tgetstr ("pc", BUFFADDR);
+  PC = temp ? *temp : 0;
+  BC = tgetstr ("le", BUFFADDR);
+  UP = tgetstr ("up", BUFFADDR);
+}
+</PRE>
+
+<P>
+See section <A HREF="termcap_7.html#SEC7">Padding</A>, for information on the variable <CODE>PC</CODE>.  See section <A HREF="termcap_14.html#SEC14">Sending Display Commands with Parameters</A>, for information on <CODE>UP</CODE> and <CODE>BC</CODE>.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_4.html">previous</A>, <A HREF="termcap_6.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

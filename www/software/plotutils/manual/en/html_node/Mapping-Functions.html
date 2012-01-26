@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+<title>Mapping Functions - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Functions.html#Functions" title="Functions">
+<link rel="prev" href="Attribute-Functions.html#Attribute-Functions" title="Attribute Functions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Mapping-Functions"></a>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Attribute-Functions.html#Attribute-Functions">Attribute Functions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Functions.html#Functions">Functions</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.4.4 Mapping functions</h4>
+
+<p>The following are the &ldquo;mapping functions&rdquo; in <code>libplot</code>.  When
+invoked on a Plotter, they affect the affine transformation it employs
+to map the user coordinate system to the device coordinate system. 
+That&nbsp;is<!-- /@w -->, they affect the transformation matrix attribute of objects
+subsequently drawn on the graphics display.
+
+   <p>The names of these functions resemble those of the corresponding
+functions in the Postscript language.  For information on how to use
+them to draw graphics efficiently, consult any good book on Postscript
+programming, or the <cite>Postscript Language Reference Manual</cite>.
+
+   <p>Each of these functions, if called, terminates and draws the path under
+construction (if&nbsp;any<!-- /@w -->), as if <tt>endpath</tt> had been called.
+
+   <p>In the current C&nbsp;binding<!-- /@w -->, each of these functions takes a pointer to
+a <code>plPlotter</code> as its first argument.  Also in the current C&nbsp;binding<!-- /@w -->, the name of each function begins with "pl_" and ends with&nbsp;"_r"<!-- /@w -->.  ("_r"&nbsp;stands<!-- /@w --> for `revised' or `reentrant'.)  For information
+on older C&nbsp;bindings<!-- /@w -->, see <a href="Older-C-APIs.html#Older-C-APIs">Older C APIs</a>.  In&nbsp;the<!-- /@w --> C++
+binding, these are member functions of the <code>Plotter</code> class and its
+subclasses, and the prefix and suffix are not used.
+
+     <dl>
+<dt>int <tt>fsetmatrix</tt> (double <var>m0</var>, double <var>m1</var>, double <var>m2</var>, double <var>m3</var>, double <var>tx</var>, double <var>ty</var>);<dd>Use the Postscript-style transformation matrix [<var>m0</var> <var>m1</var>
+<var>m2</var> <var>m3</var> <var>tx</var> <var>ty</var>] as the transformation matrix from
+user space to NDC (normalized device coordinate) space.  This matrix
+determines the transformation matrix from user space to unnormalized
+device space, i.e., sets the transformation matrix attribute that will
+be used when subsequently drawing objects on the graphics display.
+
+     <p>In NDC space, the graphics display (i.e., viewport) has corners
+<code>(0,0)</code>, <code>(1,0)</code>, <code>(1,1)</code>, and <code>(0,1)</code>.  For
+information on the size of the graphics display in physical units, see
+<a href="Page-and-Viewport-Sizes.html#Page-and-Viewport-Sizes">Page and Viewport Sizes</a>.
+
+     <p>The default transformation matrix from user space to NDC space is
+[1&nbsp;0&nbsp;0&nbsp;1&nbsp;0&nbsp;0]<!-- /@w -->, which means that by default, user coordinates are the
+same as NDC coordinates.  This transformation matrix is also altered by
+<tt>space</tt>, <tt>fspace</tt>, <tt>space2</tt>, and <tt>fspace2</tt>, and by the following
+functions.
+
+     <br><dt>int <tt>fconcat</tt> (double <var>m0</var>, double <var>m1</var>, double <var>m2</var>, double <var>m3</var>, double <var>tx</var>, double <var>ty</var>);<dd>Modify the transformation matrix from user space to NDC space by
+pre-multiplying it by the matrix [<var>m0</var> <var>m1</var> <var>m2</var> <var>m3</var>
+<var>tx</var> <var>ty</var>].  Equivalently, apply the linear transformation
+defined by the two-by-two matrix [<var>m0</var> <var>m1</var> <var>m2</var> <var>m3</var>]
+to the user coordinate system, and then translate by <var>tx</var> units in
+the x&nbsp;direction<!-- /@w --> and <var>ty</var>&nbsp;units<!-- /@w --> in the y&nbsp;direction<!-- /@w -->.
+
+     <p><tt>fconcat</tt> is a wrapper around the more fundamental <tt>fsetmatrix</tt>
+function.  The following three functions (<tt>frotate</tt>, <tt>fscale</tt>,
+<tt>ftranslate</tt>) are convenience functions that are special cases of
+<tt>fconcat</tt>.
+
+     <br><dt>int <tt>frotate</tt> (double <var>theta</var>);<dd>Modify the transformation matrix from user space to NDC space by
+pre-multiplying it by the matrix [cos(<var>theta</var>) sin(<var>theta</var>)
+&minus;sin(<var>theta</var>) cos(<var>theta</var>) 0 0].  Equivalently, rotate
+the user coordinate system axes about their origin by <var>theta</var>
+degrees counterclockwise, with respect to their former orientation.  The
+position of the user coordinate origin and the size of the x
+and&nbsp;y<!-- /@w --> units remain unchanged.
+
+     <br><dt>int <tt>fscale</tt> (double <var>sx</var>, double <var>sy</var>);<dd>Modify the transformation matrix from user space to NDC space by
+pre-multiplying it by the matrix [<var>sx</var> 0 0 <var>sy</var> 0 0]. 
+Equivalently, make the x and y units in the user
+coordinate system be the size of <var>sx</var> and <var>sy</var> units in the
+former user coordinate system.  The position of the user coordinate
+origin and the orientation of the coordinate axes are unchanged.
+
+     <br><dt>int <tt>ftranslate</tt> (double <var>tx</var>, double <var>ty</var>);<dd>Modify the transformation matrix from user space to NDC space by
+pre-multiplying it by the matrix [0 0 0 0 <var>tx</var> <var>ty</var>]. 
+Equivalently, move the origin of the user coordinate system by <var>tx</var>
+units in the x&nbsp;direction<!-- /@w --> and <var>ty</var>&nbsp;units<!-- /@w --> in the
+y&nbsp;direction<!-- /@w -->, relative to the former user coordinate system. 
+The size of the x and y&nbsp;units<!-- /@w --> and the orientation of
+the coordinate axes are unchanged. 
+</dl>
+
+   </body></html>
+

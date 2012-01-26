@@ -1,0 +1,183 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/nana.texi on 6 November 1998 -->
+
+<TITLE>GNU Nana: improved support for assertions and logging in C and C++ - Invoking Nana</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_2.html">previous</A>, <A HREF="nana_4.html">next</A>, <A HREF="nana_8.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC15" HREF="nana_toc.html#TOC15">Invoking Nana</A></H1>
+<P>
+The functions defined by Nana are implemented either as pure C code or
+as a set of commands which are generated for the debugger. 
+To use the C based support for assertion checking you would use
+something like:
+
+</P>
+
+<PRE>
+#include &#60;nana.h&#62; /* this file includes the other nana .h files */
+
+int floor_sqrt(int i) { /* returns floor(sqrt(i) */ 
+  int answer;
+  I(i &#62;= 0); /* assert(i &#62;= 0) if i -ve then exit */
+  ...; /* code to calculate sqrt(i) */
+  L("floor_sqrt(%d) == %d\n", 
+        i, answer);  /* logs a printf style message */
+}
+</PRE>
+
+<P>
+To compile and link the previous code you may need to use the <SAMP>`-Ipath'</SAMP>
+or <SAMP>`-lnana'</SAMP> flags with the compiler. For example:
+
+</P>
+
+<PRE>
+% gcc toy.c -lnana
+</PRE>
+
+<P>
+If the nana headers have been installed in a strange location you may
+need to do something like:
+
+</P>
+
+<PRE>
+% gcc -I&#60;strange location&#62; toy.c -lnana
+</PRE>
+
+<P>
+The next example uses the debugger versions of <SAMP>`L'</SAMP> and <SAMP>`I'</SAMP>.
+If the code is run under the debugger these checks will occur, otherwise
+they take up a negligible amount of space and time.
+
+</P>
+
+<PRE>
+#include &#60;nana.h&#62; /* this includes the other nana .h files */
+
+int floor_sqrt(int i){
+  int answer;
+  DI(i &#62;= 0); /* assert(i &#62;= 0) if i -ve then exit */
+  ...; /* code to calculate sqrt(i) */
+  DL("floor_sqrt(%d) == %d\n", i, answer);  /* logs a printf style message */
+}
+</PRE>
+
+<P>
+To generate the debugger commands from the C source we just run the
+<SAMP>`nana'</SAMP> filter over the program and then execute the commands
+under gdb using the <SAMP>`source'</SAMP> command.  
+
+</P>
+
+<PRE>
+% nana sqrt.c &#62;sqrt.gdb
+% gdb a.out
+(gdb) source sqrt.gdb
+breakpoint insert: ...
+(gdb) run
+...
+(gdb) quit
+</PRE>
+
+<P>
+Note that any C preprocessor flags which you use must be passed off to 
+the <SAMP>`nana'</SAMP> command. The best way to do this of course is in a
+Makefile. Something like the following works for GNU Make:
+
+</P>
+
+<PRE>
+%.nana: %.c 
+        nana $(CFLAGS) $&#60; &#62;$@
+</PRE>
+
+<P>
+The <SAMP>`nana'</SAMP> filter can also be run over multiple source files in a
+single run if thats more convenient. 
+
+</P>
+<P>
+For convenience a number of other simple scripts are provided, in
+particular to: 
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>nana-run</CODE>
+<DD>
+<A NAME="IDX18"></A>
+Run a program under the debugger without prompting, etc.
+For example:
+
+
+<PRE>
+% nana-run a.out -x main.gdb
+output from program
+</PRE>
+
+<DT><CODE>nana-clg</CODE>
+<DD>
+<A NAME="IDX19"></A>
+Compiles the program, generates the debugger commands and the runs the
+program using <SAMP>`nana-run'</SAMP>. For example:
+
+
+<PRE>
+% nana-clg -O3 main.c
+output from program
+</PRE>
+
+You can change the compiler invoked by <SAMP>`nana-clg'</SAMP> by redefining 
+the <SAMP>`NANACC'</SAMP> environment variable. For example:
+
+
+<PRE>
+% NANACC=g++ nana-clg -O3 main.cc
+</PRE>
+
+The installation also <SAMP>`nana-c++lg'</SAMP> which compiles your code
+using a GNU C++ compiler.
+
+<DT><CODE>nana-trace</CODE>
+<DD>
+<A NAME="IDX20"></A>
+Generates a line by line trace of the execution of a program 
+using GDB. For example:
+
+
+<PRE>
+% nana-trace a.out
+54           printf("main()\n");
+55           x = distance(5,-5);
+distance (i=5, j=-5) at test.c:47
+47           i = -i;
+48           j = -j;
+...
+</PRE>
+
+The arguments to <SAMP>`nana-trace'</SAMP> are passed directly to GDB. If you
+wish display variables or call procedures on each line then could use
+something like:
+
+
+<PRE>
+% nana-trace -x mycommands.gdb a.out
+</PRE>
+
+Where the <SAMP>`mycommands.gdb'</SAMP> contains the GDB commands such as 
+<SAMP>`display x'</SAMP> which causes <SAMP>`x'</SAMP> to be printed every time the
+debugger gets control of the program.
+
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="nana_1.html">first</A>, <A HREF="nana_2.html">previous</A>, <A HREF="nana_4.html">next</A>, <A HREF="nana_8.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+</BODY>
+</HTML>

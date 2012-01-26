@@ -1,0 +1,80 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/tput.texi on 7 November 1998 -->
+
+<TITLE>Portable Terminal Control From Scripts - Invoking tput</TITLE>
+</HEAD>
+<BODY>
+Go to the first, previous, <A HREF="tput_2.html">next</A>, <A HREF="tput_11.html">last</A> section, <A HREF="tput_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC1" HREF="tput_toc.html#TOC1"><CODE>tput</CODE>: Portable Terminal Control</A></H1>
+
+<P>
+The <CODE>tput</CODE> command allows shell scripts to do things like clear the
+screen, underline text, and center text no matter how wide the screen
+is.  To do these things, it translates the terminal-independent name of
+a terminal capability into its actual value for the terminal type being
+used.
+
+</P>
+<P>
+<CODE>tput</CODE> takes as an argument the name of a Unix System V terminfo
+capability, which it translates into the equivalent termcap capability
+name (see section <A HREF="tput_5.html#SEC5">Capabilities</A>, for a list of the equivalencies).
+Terminfo is a database that is similar to termcap but which has
+different capability names and is stored in a different format.  The GNU
+<CODE>tput</CODE> command takes a terminfo name as an argument to make it
+compatible with the Unix System V <CODE>tput</CODE> command.
+
+</P>
+<P>
+There are three types of terminfo (and termcap) capabilities: string,
+Boolean, and numeric.  String capabilities either cause a special
+effect on the terminal when they are displayed or are the value sent by
+a special key on the terminal (the latter type are probably of no use
+in shell scripts).  Numeric and Boolean capabilities give
+information about the terminal such as how many columns wide it is or
+whether whether it has a meta key.  See section <A HREF="tput_3.html#SEC3">Output and Exit Status</A>, for more detailed
+information on the three types of capabilities.
+
+</P>
+<P>
+The format of the <CODE>tput</CODE> command is illustrated below.
+
+</P>
+
+<PRE>
+tput [<VAR>options</VAR>] <VAR>capability</VAR> [<VAR>parameter</VAR> ...]
+tput [<VAR>options</VAR>] longname
+tput [<VAR>options</VAR>] init
+tput [<VAR>options</VAR>] reset
+</PRE>
+
+<P>
+GNU <CODE>tput</CODE> takes the following options:
+
+</P>
+
+<PRE>
+[-T <VAR>terminal-type</VAR>] [--terminal=<VAR>terminal-type</VAR>]
+[-t] [--termcap]
+[-S] [--standard-input]
+[-V] [--version]
+</PRE>
+
+<P>
+Here is an example of how to clear the terminal screen using <CODE>tput</CODE>:
+
+</P>
+
+<PRE>
+tput clear
+</PRE>
+
+<P><HR><P>
+Go to the first, previous, <A HREF="tput_2.html">next</A>, <A HREF="tput_11.html">last</A> section, <A HREF="tput_toc.html">table of contents</A>.
+</BODY>
+</HTML>

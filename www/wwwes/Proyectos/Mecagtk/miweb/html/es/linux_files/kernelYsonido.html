@@ -1,0 +1,386 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Javier Orovengua Miguel">
+   <meta name="GENERATOR" content="Mozilla/4.61 [en] (X11; I; Linux 2.2.12-20 i686) [Netscape]">
+   <title>Compilaci&oacute;n del Kernel y el Sonido.</title>
+</head>
+<body text="#000000" bgcolor="#FF6666" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<a NAME="Up"></a>
+<br><a href="../tutorial.html">[
+&lt; ]</a><a href="contenidos.html">[
+|| ]</a><a href="sonido.html">[
+> ]</a>
+<h2>
+Compilar el&nbsp; N&uacute;cleo.</h2>
+
+<ul><a href="glosary.html#Compilación">Compilar</a> el n&uacute;cleo de
+Linux es, si cabe, la tarea m&aacute;s importante de todas, ya que haremos
+que el n&uacute;cleo ahorre bastante memoria, y podremos disfrutar de m&uacute;sica
+y sonido con nuestra tarjeta de sonido. Tambi&eacute;n podremos ver &iexcl;&iexcl;la
+televisi&oacute;n en Linux!!, si disponemos de la correspondiente tarjeta
+de televisi&oacute;n.
+<p>Trataremos de momento de ver cu&aacute;les son los pasos m&aacute;s
+importantes de la compilaci&oacute;n del n&uacute;cleo:
+<br>&nbsp;
+<li>
+<a href="#InstallKernel">C&oacute;mo instalar el n&uacute;cleo</a></li>
+
+<li>
+<a href="#CompilKernel">C&oacute;mo compilarlo</a></li>
+
+<li>
+<a href="#ArranKernel">C&oacute;mo arrancar con &eacute;l.</a></li>
+
+<li>
+<a href="#KernelCompilado">C&oacute;mo hacer copia de seguridad del n&uacute;cleo
+COMPILADO</a></li>
+
+<li>
+<a href="/usr/doc/HOWTO/translations/es/html/Kernel-Como.html">&iquest;Nuevo
+n&uacute;cleo? &iexcl;instala un parche! (requiere documentaci&oacute;n)</a></li>
+
+<li>
+<a href="linux_files/sonido.html">&iexcl;SONIDO
+POR FAVOR!</a></li>
+
+<br>&nbsp;</ul>
+
+<h2>
+
+<hr WIDTH="100%"></h2>
+
+<ul>
+<h2>
+<a NAME="InstallKernel"></a>C&oacute;mo instalar el n&uacute;cleo.</h2>
+
+<hr WIDTH="100%">
+<p>&iexcl;&iexcl;ATENCI&Oacute;N!!
+<br>----------
+<br><b>Tanto si eres programador, como si no</b>, has de saber que no podr&aacute;
+desaparecer los ficheros de cabecera del n&uacute;cleo (/usr/src/linux/include/),
+si en alg&uacute;n momento decides borrar el n&uacute;cleo en <a href="glosary.html#CodigoFuente">c&oacute;digo
+fuente</a>. (opci&oacute;n recomendada para liberar disco duro). Los ficheros
+de cabecera son utilizados continuamente para la compilaci&oacute;n de
+algunos ficheros fuentes.
+<br>-----------
+<p>Si existiera una versi&oacute;n en <b>/usr/src/linux, </b>con la que
+ya hubieras trabajado, y tuvieras alg&uacute;n n&uacute;cleo ya compilado,
+ser&iacute;a recomendable hacer una copia de seguridad, y por lo tanto
+deber&aacute; hacerla, teniendo cuidado de <b>NO</b> hacer copia de seguridad
+del <a href="glosary.html#Enlaces">acceso directo</a>, sino del directorio
+donde estuviera el n&uacute;cleo:
+<p>Ejemplo:
+<p>tar&nbsp;&nbsp;&nbsp;&nbsp; cvfz&nbsp;&nbsp;&nbsp;&nbsp; kernel-2_0_36.tgz
+<b>linux-2.0.36/</b>
+<p>Una vez que tengas el fichero comprimido, podr&aacute;s proceder a borrar
+el directorio <b>linux-2.0.36/:</b>
+<p>rm -rfv linux-2.0.36/
+<p>Tambi&eacute;n, deber&aacute;s borrar (si existiera) el fichero de enlace
+<b>linux/</b>
+<p>Posteriormente, haces copia del fichero <b>kernel-2_0_36.tgz,</b> en
+alg&uacute;n sitio, mientras se resuelve satisfactoriamente la compilaci&oacute;n
+de tu nuevo n&uacute;cleo.
+<p>
+<hr WIDTH="100%">
+<li>
+Si est&aacute; en .RPM</li>
+
+<br>
+<hr WIDTH="100%">
+<br>El n&uacute;cleo podemos instalarlo de varias maneras, siendo todas
+ellas de extrema facilidad. En la versi&oacute;n de reedita el n&uacute;cleo
+est&aacute; situado en el cdrom, en RedHat/RPMS con formato RPM. As&iacute;,
+podemos escribir: <b>rpm -i&nbsp; </b>/mnt/cdrom/RedHat<b>/RPMS/kernel*&nbsp;</b>
+y el sistema se encargar&aacute; de instalar lo necesario.
+<p>En caso de que queramos actualizar el n&uacute;cleo por uno m&aacute;s
+moderno deberemos escribir: <b>rpm -U kernel*.</b>
+<br>Para este caso, no deber&iacute;amos haber borrado el anterior.
+<br>
+<hr WIDTH="100%">
+<li>
+Si est&aacute; en .TGZ</li>
+
+<br>
+<hr WIDTH="100%">
+<br>Muy posiblemente, sea este el formato por defecto en el que nos lo
+encontremos, ya que nos lo podremos bajar as&iacute; de la mayor&iacute;a
+de las direcciones de internet.
+<p>Si tenemos el n&uacute;cleo en formato <b>tgz</b> &oacute; <b>tar.gz</b>,
+tenemos que copiar el mismo en <b>/usr/src</b>, y descomprirlo mediante:
+<b>tar
+xvfz kernel-x.x.xx.tgz</b>, donde las x corresponden a la versi&oacute;n
+del mismo.
+<p>Si, por ejemplo, has decido esperar a que te venga en alg&uacute;n CD-ROM,
+te recordamos que no hace falta que copies el fichero .tar.gz al directorio
+/usr/src. Haz como se ense&ntilde;o en las secci&oacute;n&nbsp; "<a href="¡onlyfile.html#InstTGZ">C&oacute;mo
+instalar un fichero .tar.gz</a>", puedes descomprimir escribiendo:
+<br><b>tar xvfz &lt;fichero.tar.gz> -C /usr/src</b>
+<p>Una vez descomprimido, tendremos que pasar a configurarlo. Subimos al
+directorio <b>/usr/src/linux&nbsp; </b>(el directorio<b> linux </b>puede
+ser un <a href="glosary.html#Enlaces">enlace simb&oacute;lico</a> al n&uacute;cleo
+que arrancamos y lo haremos:
+<br><a NAME="ConfigKernel"></a>
+<br>&nbsp;
+<br>&nbsp;
+<li>
+en las X-Window con <b>make xconfig </b>(que es lo m&aacute;s c&oacute;modo)</li>
+
+<li>
+en un terminal con <b>make menuconfig</b></li>
+
+<li>
+o con <b>make config </b>(que es lo m&aacute;s pesado)</li>
+</ul>
+
+<p><br><a href="#Up">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br>&nbsp;
+<ul>
+<h2>
+<a NAME="CompilKernel"></a>C&oacute;mo compilar el n&uacute;cleo.</h2>
+<a href="#ConfigKernel">Una vez que tengamos CONFIGURADO el n&uacute;cleo,</a>
+s&oacute;lo bastar&aacute; con seguir los pasos que nos indican al salir
+de la instalaci&oacute;n y que son b&aacute;sicamente:
+<p><b><font color="#FF0000">make dep</font></b>
+<ul>
+<li>
+Genera las dependencias.</li>
+</ul>
+<b><font color="#FF0000">make clean</font></b>
+<ul>
+<li>
+Limpia ficheros basura.</li>
+</ul>
+<b><font color="#FF0000">make bzImage</font></b>
+<ul>
+<li>
+Crea el n&uacute;cleo.</li>
+</ul>
+[make bzlilo]
+<ul>
+<li>
+Hace una instalaci&oacute;n autom&aacute;tica.</li>
+
+<br>Si se hace [make bzlilo] los ficheros que se copian en la ra&iacute;z:
+/vmlinuz y /System.map, deber&aacute;n ser movidos al directorio /boot
+<br>Es recomendable editar /etc/lilo.conf y volver a ejecutar lilo</ul>
+</ul>
+
+<ul>Las 2 opciones de compilaci&oacute;n son: "make zImage" y "make bzImage",
+zImage, hace que el n&uacute;cleo quede comprimido tras su creaci&oacute;n,
+pero pude ser que el n&uacute;cleo fuera demasiado extenso, para cuya opci&oacute;n
+se recomienda encarecidamente make bzImage.
+<p><b>Recomendaci&oacute;n: "make bzImage"</b>
+<p>Con esto, tendremos lo que es el n&uacute;cleo, ahora deberemos compilar
+los m&oacute;dulos e instalarlos, gracias que la instalaci&oacute;n de
+los m&oacute;dulos es autom&aacute;tica.
+<p><b><font color="#FF0000">make modules</font></b>
+<ul>
+<li>
+Crea los m&oacute;dulos</li>
+</ul>
+<b><font color="#FF0000">make modules_install</font></b>
+<ul>
+<li>
+Instala los m&oacute;dulos</li>
+</ul>
+<b><font color="#FF0000">depmod -e</font></b>
+<ul>
+<li>
+Fuerza la comprobaci&oacute;n.</li>
+</ul>
+
+<p><br>Y dependiendo de la velocidad de nuestro procesador tardar&aacute;
+entre: 20-25 minutos en un 486/DX4 120 Mhz, y unos 3 &oacute; 5 minutos
+en un AMD K6-II MMX a 300 Mhz (o en un Intel Pentium II MMX a 300 Mhz)
+<p>Al final el archivo <b>bzImage</b>, ser&aacute; el nuevo n&uacute;cleo
+compilado
+<br>Dicho archivo, se encuentra situado en el directorio: <b>/usr/src/linux/arch/i386/boot/</b></ul>
+
+<ul>Ahora que lo tienes compilado deber&aacute;s hacer:</ul>
+
+<ul>&nbsp;
+<ul>
+<li>
+<a href="#ArranKernel">Arrancar con el nuevo n&uacute;cleo compilado, &iexcl;&iexcl;&iexcl;y
+si funciona!!!</a></li>
+
+<li>
+<a href="#KernelCompilado">Copia de seguridad del nuevo n&uacute;cleo y
+los m&oacute;dulos</a></li>
+</ul>
+</ul>
+
+<ul>Un fichero importante, que es el que nos da la ayuda, es el <b>Configure.help.
+</b>En
+nuestra p&aacute;gina encontrar&aacute;s el mismo en castellano. Para que
+sea el que se utiliza, deber&aacute;s copiarlo en /usr/src/linux, hacer
+un enlace simb&oacute;lico al mismo con su mismo nombre, o renombrarlo
+con <b>mv.</b>
+<p><i><font size=+3>Para facilitar esta tarea, tenemos un script que est&aacute;
+en el directorio linux_files/ de este tutorial y que una vez copiado al
+directorio /usr/src/linux te facilitar&aacute; la compilaci&oacute;n del
+n&uacute;cleo.</font></i>
+<p><i><font size=+3>Pincha aqu&iacute; para ver el <a href="CompilaNucleo">script</a>
+de compilaci&oacute;n del n&uacute;cleo</font></i>
+<br>&nbsp;</ul>
+<a href="#Up">[ ^ ]</a>
+<hr WIDTH="100%">
+<ul>
+<h2>
+<a NAME="ArranKernel"></a>Arrancar con el nuevo n&uacute;cleo.</h2>
+
+<p><br>B&aacute;sicamente, tienes que hacer estos pasos, aunque son muy
+fundamentales, te recomendamos que leas la documentaci&oacute;n a la que
+abajo hacemos referencia.
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<ul>
+<li>
+<b>Copiar el archivo bzImage, al directorio /boot</b></li>
+
+<li>
+<b>Acceder al directorio /etc/.</b></li>
+
+<li>
+<b>Editar lilo.conf,&nbsp; para que haga una llamada al nuevo n&uacute;cleo,
+salir del fichero lilo.conf</b></li>
+
+<li>
+<b>Escribir el comando lilo. Si se te olvida escribir este comando, tendr&aacute;s
+problemas, y deber&aacute;s de iniciar desde el disquete (o cd-rom, v&iacute;a
+upgrade) para escribir lilo (con el disquete, porque el CD-ROM, podr&aacute;
+hacertelo autom&aacute;ticamente)</b></li>
+
+<li>
+&iexcl;&iexcl;QUE NO SE TE OLVIDE!!, CADA VEZ QUE MODIFIQUES EL FICHERO
+<b>/etc/lilo.conf,</b>
+ESCRIBIR EL COMANDO <b>lilo</b></li>
+</ul>
+
+<p><br>&iexcl;Ya esta!
+<p>Basicamente los ficheros a copiar son:
+<p>[root@localhost linux]# pwd
+<br>/usr/src/linux
+<br>[root@localhost linux]# cp System.map /boot
+<br>[root@localhost linux]# cp arch/i386/boot/bzImage /boot
+<br>[root@localhost linux]# cp vmlin* /boot
+<br>[root@localhost linux]# joe /etc/lilo.conf
+<br>[root@localhost linux]# lilo
+<p>El fichero lilo.conf, ha de quedar algo as&iacute; como:
+<br>&nbsp;
+<p>[ Ctrl] + [Alt] + [Supr]
+<p>&iexcl;&iexcl;&iexcl;&iexcl; Y suerte !!!!
+<br>&nbsp;
+<p><b><font size=+2>Documentaci&oacute;n al respecto:</font></b>
+<br><font size=+2><a href="/usr/doc/HOWTO/translations/es/Kernel-Como">/usr/doc/HOWTO/translations/es/Kernel-Como</a></font>
+<br><font size=+2>/<a href="/usr/src/linux/Documentation">usr/src/linux/Documentation/</a></font>
+<p>&iexcl;TE RECORDAMOS!
+<br>El nuevo n&uacute;cleo compilado se hallar&aacute; en <b>/usr/src/linux/arch/i386/boot</b>,
+con el nombre<b> bzImage.</b> Para poder arrancar con &eacute;l se recomienda
+copiarlo en <b>/boot</b>, luego editaremos <b>/etc/lilo.conf</b>, con lo
+que pondremos el nuevo n&uacute;cleo como la imagen (<i>image</i>)de arranque
+de Linux al leer <b><a href="lilo.conf.sample.txt">lilo.conf</a></b>
+<br>Tras esto, arrancaremos <b>lilo </b>como root, y se instalar&aacute;
+el nuevo n&uacute;cleo . No hacer este paso, supondr&aacute; no arrancar
+con el nuevo n&uacute;cleo.
+<p>&Eacute;sta es la forma m&aacute;s sencilla de instalar el nuevo n&uacute;cleo.
+Existen otras, como crear una imagen para un disquete mediante <b>make
+zdisk </b>o tambi&eacute;n <b>make zlilo. </b>Para m&aacute;s informaci&oacute;n
+te remitimos a:
+<p><a href="/usr/doc/HOWTO/translations/es/Kernel-Como">/usr/doc/HOWTO/translations/es/Kernel-Como</a>
+<br>/<a href="/usr/src/linux/Documentation">usr/src/linux/Documentation/</a></ul>
+
+<p><br><a href="#Up">[ ^ ]</a>
+<br>
+<hr WIDTH="100%">
+<br><a NAME="KernelCompilado"></a>
+<h1>
+&iexcl;&iexcl;&iexcl;Hacer copia del nuevo n&uacute;cleo COMPILADO!!!</h1>
+&nbsp;
+<blockquote>Muchos Usuarios, tras la compilaci&oacute;n no hacen copia
+de seguridad del nuevo n&uacute;cleo compilado, grave error, ya que si
+en alg&uacute;n caso perdi&eacute;ramos la informaci&oacute;n de la partici&oacute;n,
+tambi&eacute;n perder&iacute;amos ese n&uacute;cleo, y las horas de trabajo
+que hubi&eacute;ramos trabajado en &eacute;l.
+<p>Para hacer copia de seguridad deber&iacute;amos hacer
+<p>[Ejemplo]
+<br>(Para este ejemplo hemos usado la versi&oacute;n 2.2.1 del kernel)
+<ul>
+<li>
+mkdir /root/miKERNEL</li>
+
+<br>(Creamos un directorio, con una peque&ntilde;a estructura de directorios
+para recordar donde colocar cada cosa)
+<li>
+mkdir /root/miKERNEL/boot</li>
+
+<li>
+mkdir /root/miKERNEL/etc</li>
+
+<li>
+mkdir /root/miKERNEL/lib</li>
+
+<li>
+mkdir /root/miKERNEL/lib/modules</li>
+
+<li>
+(Crear&iacute;amos un fichero de texto con informaci&oacute;n adicional
+para nosotros, pero lo comentar&iacute;amos como si se lo fu&eacute;ramos
+a dar a alguien que no tiene ni idea de Linux)</li>
+</ul>
+
+<ul>
+<li>
+cp -v /boot/<b><font color="#FFFFFF">bzImage</font></b> /<b>root/miKERNEL/boot</b></li>
+
+<li>
+cp -v /boot/<b><font color="#FFFFFF">System.map</font></b> /<b>root/miKERNEL/boot</b></li>
+
+<li>
+cp -v /boot/<b><font color="#FFFFFF">vmlinu*</font></b> /<b>root/miKERNEL/boot</b></li>
+
+<li>
+cp -v /boot/<b>kernel.h</b> /<b>root/miKERNEL/boot</b></li>
+
+<li>
+cp -v /<font color="#330033">etc</font>/<font color="#66FFFF">conf.modules</font>
+/<b>root/miKERNEL/etc</b></li>
+
+<li>
+cp -v /<font color="#330033">etc</font>/<font color="#CCFFFF">lilo.conf</font><b>/root/miKERNEL/etc</b></li>
+
+<li>
+cp -v /<font color="#330033">etc</font>/<font color="#CCFFFF">isapnp.conf</font><b>/root/miKERNEL/etc</b></li>
+
+<li>
+cp -Rv /lib/modules/2.2.1/* <b>/root/miKERNEL/modules/2.2.1</b></li>
+
+<li>
+cp -v /usr/src/linux/[tu fichero de configuraci&oacute;n del n&uacute;cleo]<b>
+/root/miKERNEL</b></li>
+</ul>
+
+<ul>
+<li>
+cd /root</li>
+</ul>
+
+<ul>
+<li>
+tar cvfz <b>miKernel-686-2_2_1.tgz </b>miKERNEL/</li>
+</ul>
+
+<p><br>Ahora, copia el fichero <b>miKernel-686-2_2_1.tgz,</b> copialo en
+alg&uacute;n disquete o en alguna partici&oacute;n de copias de seguridad
+o en los dos sitios, o donde quieras.!
+<p>:-)
+<p><b><font size=+1>Leer:</font></b>
+<p><b><font size=+1>man modprobe</font></b></blockquote>
+<a href="#Up">[ ^ ]</a>
+</body>
+</html>

@@ -1,0 +1,351 @@
+THE GWM OBJECTIVES
+
+The GWM was started from scatch with one goal : improving and
+reorganising the GNU documentation, using the LDP experience as a
+background.
+
+Improving does not mean competiting - against the LDP, KDP, GDP or any
+other documentation project. The GWM technical innovations will be
+shared with the other projects, under the GNU Public License (GPL).
+
+Free Software Documentation, which should be called "Libre
+Documentation", is documentation one can copy or enhance, just like free
+software, as long as those freedoms are not restricted.
+
+We say "libre" instead of "free" because libre means free as in free
+speech, and is not about financial prices but liberty and freedom.
+
+1. Basic concepts
+
+Besides increase awareness on libre documentation and promoting libre
+documentation licenses, the following is considered as a basis of the GWM tasks:
+- publishing a list of links to good and free documentation
+- providing unique number to each document
+- creating a feedback/forum system and a repository
+- creating a search engine/synchronisation/ring of documents
+- enhancing the exisiting GNU documentation
+- developping additional documentation when needed to fit the gap
+- helping authors, translators work and teamwork with an online community.
+
+2. Publishing a list of links to good and free documentation
+
+There is already a lot of documentation for Free Software available on
+the internet in various places. Most of it has been released under a
+free license by the existing documentation projects, or on individual
+websites.
+
+Before considering an effort to improve documentation, carefull checking
+of the existing documentation is required to avoid duplicating work
+whenever possible. If different documents exist for the same topic, they
+may be recommanded as alternatives documents or suggested readings.
+
+3. Providing unique number and feedback/forum system
+
+A unique ID for each document is the base of the whole system,
+especially when documents from outside the GWM are considered.
+
+Assigning an ID to each document means it would be tracable, and linked
+to additional informations on a database.
+
+This tracability will make possible to "follow" that document when new
+releases are made, when translations are submitted and when alternatives
+are found. It will as well ease indexing and retrieving, by both the
+search engine and the documentation browser on the user computer.
+
+For example, a google search on "bash documentation" gives the official
+info page, online courses, the official Bash FAQ, the LDP Advanced
+Bash-Scripting Guide
+
+Let's give an ID is given to each document, and provide more information
+of the document. Let's also link to the other IDs sharing the topic.
+
+1-1-en-texinfo title "bash info page"
+1-1-en-texinfo URL "http://www.gnu.org/manual/bash/texi/bashref.texi.tar.gz"
+1-1-en-texinfo keywords "bash, shell, command line, command prompt"
+1-1-en-texinfo userrating "250"
+1-1-en-texinfo alternatives 2,3,4
+
+2-1-en-html title "free-ed bash courses"
+2-1-en-html URL "http://www.free-ed.net/fr03/lfc/course%20030109_03/lesson10.htm"
+2-1-en-html keywords "bash, shell, tutorial, course, beginner'
+2-1-en-html userrating "210"
+2-1-en-html alternatives 1,3,4
+
+3-1-en-txt title "the official bash faq"
+3-1-en-txt URL "http://dougbarton.net/Bash/Bash-FAQ.txt"
+3-1-en-txt keywords "bash, faq, questions"
+3-1-en-txt userrating "255"
+3-1-en-txt alternatives 1,2,4
+
+4-1-en-pdf title "Advanced Bash-Scripting Guide"
+4-1-en-pdf URL "http://www.linuxdoc.org/LDP/abs/abs-guide.pdf"
+4-1-en-pdf keywords "bash, shell, guide, reference"
+4-1-en-pdf userrating "200"
+4-1-en-pdf alternatives 2,3,4
+
+4-1-en-html title "Advanced Bash-Scripting Guide"
+4-1-en-html URL "http://www.linuxdoc.org/LDP/abs/html/index.html"
+4-1-en-html keywords "bash, shell, guide, reference"
+4-1-en-html userrating "200"
+4-1-en-html alternatives 2,3,4
+
+For compatibility reasons, using the Dublin Core metadata tags and
+format should be preferred, It can be completed if needed by our own
+tags such as the known alternatives. The list of fields the GWM will
+support has to be decided : title/url/keywords/ratings/alternatives
+example may be completed by other fields such as date, copyright, author
+name, license, etc.
+
+The ID should be put inside the documentation, using a special tag to
+refer to it, which should not be a problem for GWM documents. However
+non GNU authors may be reluctant to add an indexation ID.
+
+Some fields must be included within the ID itself, such as the original
+ressource indentifiant (3 for Bash FAQ), version number (1), language
+(en) and document type (txt), to ease documentation browser work for
+documentation updating.
+
+For example, the next version of the Bash FAQ in spanish will be 3-2-sp-txt. The
+precise URL, keyword, license or date are irrelevant when it comes to
+version checking!  Any user reading the official Bash FAQ (3-1-en-txt)
+should have an easy way to check for new versions. The documentation
+reader or any kind of software must take care of that process with very
+little information (mostly what the user currently reads). It must then
+offer the possibility to download and read the new (3-2-en-txt) version.
+If the locale has been set to es_ES, (3-1-sp-txt) should be offered as
+an alternative. And when 3-2-sp-txt is available, i.e.  the latest
+version in the user preferred language, it should be put on top of the
+list.  Below on the list, documents 1-1-en-texinfo and 2-1-en-html (with
+the highest ratings after the FAQ) should be suggested as alternative
+readings.
+
+Knowing the exact date of the new release, the precise URL or the
+license (should it change between each version) is interesting, but only
+when a document suited for the user has been found. This additional
+metadata information may then be accessed quering the database or any
+other system associating the ID to the complete document information.
+
+As previously said, the ID should be included within the document using
+a special tag meaning "here is the document ID". Other methods, such as
+using the ID as the filename, or putting the metadata in a separate file
+of the same name but a different extension may be perfect for websites
+(after which Dublin Core metadata was mostly designed), but a poor
+solution for documentation which can be printed or stored on various
+repositories as well.
+
+For example, if the Bash FAQ in french is printed, 3-1-fr-txt will be
+somewhere at the beginning. With this ID, additiona information, new
+versions, different languages (etc.) can easily be found when checking
+on the GWM website.
+
+3. creating a feedback/forum system and a repository
+
+But maybe the french user who printed the FAQ has a question on bash, or
+a suggestion for the author. Sending the question to usenet and the
+suggestion to the author email are the current best pratices.
+
+However, the author can not respond to every single message, and many
+people are not looking for the answer to their question on usenet,
+assuming they are the very first one to experience that very problem.
+
+2 specifics fields containing forums URL (document specific, and topic
+specific) should threfore be included in the metadata of each document.
+The URL could be a usenet news forum, an online webforum or anything
+else.
+
+Document specific forums would be perfectly suited for suggestions to
+the author, corrections or additions, while topic specific forums would
+be used to request help. Forums could be identical for a suite of
+documents.
+
+Documents 1-1-en-texinfo 2-1-en-html 3-1-en-txt and 4-1-en-pdf could for
+example share a "bash" forum. More than one forum could also be listed,
+for ex with broad subjects like "configuring email".
+
+4. creating and maintaining a search engine/synchronisation/ring
+
+Should the unique ID be applied to every document, both the search
+engine and the documentation reader could take advantage of it to
+provide a good quality indexation of online resources.
+
+There are 2 risks : abusing (such as keyword abuse for website to get an
+higher place on the search engines and poor completion of metadata
+field) and duplication.
+
+A possible solution would be reserving ID assignation and metadata
+filling to documentation projects (such as the GWM, the LDP, etc.).
+Each documentation project would maintain its own base of ID for the
+documents maintained within the documentation project, and share his
+base with other projects time to time. This would make possible for each
+documentation project to display in its search results document coming
+from other documentation projects.
+
+Any organisation could decide to provide its own ID as well, and non
+affiliated authors could request an ID for their document at the
+documentation project of their choice.
+
+Using the ID assignation source as yet another ID direct field would
+make synchronisation and searching easy. 
+
+Let's consider the Bash FAQ, maintained by an indepandant author,
+requests an ID at the GWM and is assigned 3-1-en-txt. But the volunteer
+based ID assigning effort at the LDP gave the document ID 56-2-en-txt.
+The document would have 2 IDs : GWM-3-1-en-txt and LDP-56-2-en-txt.
+When the KDP, the GDP, the GWM and the LDP ID servers synchronise, these
+2 new entries would be mirrored on each system. Using simple robots to
+check for similarities or dupes (ala 'uniq' for URL, title, etc.) would
+remove this risk. In this case, the LDP may decide to remove its
+duplicate entry.
+
+Now imagine the SDP (Spam Documentation Project) creates a "Hot Erotic
+Bash Win Millions While Working At Home FAQ" of the document, pointing
+to some non documentation URL and abusing metadata keywords (porn, porn,
+bash, bash, bash, hot, porn, bash) to get high indexing. It self assigns
+SDP-1-1-en-txt ID. And the CDG (Closed-source  Documentatioon Group)
+creates a non free "The Best Bash FAQ Ever" to which it assings
+CDG-55-0-en-txt.
+
+Should there entries be included the KDP/GDP/GWM/LDP synchronisation
+ring, removing them would be easier. The GNU Writing Movement could
+refure to display closed source documents, which CDG makes, therefore
+barring any CDG ID from its search engine list of results. And every
+documentation project could refuse to transport SDP documents, which
+metadata is known to be falsified.
+
+5. enhancing the exisiting GNU documentation
+
+Some canadian woman may want to write brand new documentation in
+english, while a norvegian man may want to provide a nynork version of
+a manual.
+
+These are different ways of contributing. But in the end, they enhance
+GNU documentation. Currently documentation is handled within each
+project, where it is tied to a program version. In some cases, the
+documentation is outdated. And documentation volunteers don't know where
+to go - these people who like the free software ideas would like to
+contribute but since they don't know how to code will not be pointed to
+the project team and its outdated documentation.
+
+Therefore all documentation should be recensed by the GWM and put on the
+GWM "todo list", which would act as an entry point for volunteers as
+well. For example, WXYZ package reports its documentation is badly
+outdated, TUVW needs translation in turkish and ABCD is fine. The
+volunteers could receive this information by email on the GWM lists and
+therefore assign themselves depending on their knowledge, their
+avalability and the documentation needs.
+
+At each conference or meeting, people who want to help but can't code
+could be given the GWM address, where the documentation needs are going
+to be listed.
+
+Documents which are hard to understand, technically inadequate or
+outdated will be handled by a specific unit of the GWM - a "Quality
+Check" peer reviewing group. It can update documentation status on the
+GWM todo list. For example, ABCD documentation is considered non
+understandable by beginners after peer reviewing, while ABCD team though
+the documentation was fine.
+
+6. developping addition documentation when needed to fit the gap
+
+Writing documentation consumes more time than maintaining documentation.
+This task should not be assigned to 'rookie volunteers' unless they
+specifically request it, for it is a time consuming and difficult task.
+
+Yet if the IJKL package, which newly joined the GNU project, needs
+documentation it should be able to ask the GWM. If no volunteer could be
+found within the GWM, a member of IJKL team could be taught which tools
+he should use, which draft of documentation he could use as a starting
+basis, etc.
+
+A monitoring of the writing by the GWM authors and "Quality Check" team
+could mean a new document which doesn't need to be enhanced afterwards.
+
+7. ease author and translator work and teamwork with an online community.
+
+The GWM will offer authors and translators help in writing, proof
+reading and converting documentation. Sub groups will also be formed to
+translate the documentation in as many language as we can, and finally
+produce packages in different formats (including Texinfo) which could go
+in many different places, such as a website (html), a ftp server (pdf
+or ps) and the synchronisation queue of the documentation reader.
+
+Any finished documentation will be passed to the package team, which
+could also request current draft, to be included with each package.
+
+The documentation would not be tied to the software development - a
+volunteer for each package would be the link between the software
+package and us. This role would be very important in the documentation
+authoring process, giving the global orientation of the documentation,
+synchronising it with the software version or suggesting new chapters.
+
+The volunteer "link" would not be an author unless he or she wanted but,
+but would read the gwm mailing lists and help the authors in change of
+this document.
+
+The authors would take advantage of automatisation : for ex, they could
+send new version of document by cvs or by email, signed the gpg key of
+the author. The document would be checked, then the document it be put
+into the GWM database from which a cron file would generate the needed
+outputs, mail announcements of the new document, put the news in the
+mainpage of the GWM, notify the translation groups and send them a diff,
+update the metadata to increase version number, etc.
+
+Authors may be interested in having new versions of their work online by
+the next day - only new submission would require manual processing (for the
+initial metadata, and document approval)
+
+8. Example of what the future may be.
+
+Mr Joe User is teaching Bash for a living in Québec. He needs the Bash
+FAQ and the advanced scripting guide in french and in english. He best
+likes the GDP, because there is a local mirror in Montréal.
+
+His documentation reading application has GWM-4-1-en-pdf,
+GWM-4-1-fr-pdf, LDP-56-2-en-txt in the favorites. His documentation
+reading application is synchronising to the Montréal GDP mirror, which
+itselfs synchronises to the the LDP and GWM server.
+
+If a new version of the FAQ in english is released, the GDP server will
+receive GWM-4-2-en-pdf. The next time Joe documentation reader
+synchronises, it should automatically retrieve this document, and warn
+him a new version is now available. It should also tell him
+LDP-56-2-fr-txt is available as well. When the
+LDP-56-2-fr-txt/GWM-3-2-txt dupe is removed, it should automatically
+use GWM-3-2-txt
+
+Joe is quite happy with the new version of the FAQ in english, but finds
+an obvious typo.  Mailing the bug report with GNOME Documentation Reader
+is easy - it's automatically sent to the email associated with the
+document, in which case the documentation reader opens a mail client to
+mailto:bash-faq@lists.gwm.gnu.org where bash-faq maintainers will read
+the message. The list archives being available on the web, anybody going
+to the document public forum will be able to see the bug report. When
+they'll know stupid typo is in their document, they will write a new
+version, gpg sign it and submit it to the GWM where it will be available
+within hours - Joe will synchronise to this document automatically.
+
+When Joe goes to the GDP website to search for "bash courses",
+GWM-2-1-en-html is presented (the online courses). He could have
+requested "suggested readings" to his Documentation Browser to find this
+document as well.
+
+Anyway, he really likes what he sees - so much that he wants to write a
+french version. For that he simply goes to gwm.gnu.org, register online
+as a new author and sends his document, which will be assigned within 4
+days the GWM-2-1-fr-html ID by the GWM team. The ID will be propagated
+to collaborating documentation projects. When GWM-2-2-en-html is out,
+this new version will automatically be announced to Joe since he is the
+french translation maintainer, so that he can update it - he will be
+provided a diff to ease his translation work. GWM-2-2-fr-html will be
+automatically put online within hours since Joe signed the new version
+with his gpg key and send it to the GWM.
+
+When GWM-2-2-en-html was just out, another message was sent to the
+online course forum, where a member of the LDP read it. He came there to
+reply to a beginner question in the first place. Now he thinks he should
+help with the new version of the document, or with the info page which
+is not as good as the course introduction is. He knows that because he
+did set up his documentation reader to synchronise with the whole GWM
+and LDP collection of document, for offline reading.
+
+etc. etc.

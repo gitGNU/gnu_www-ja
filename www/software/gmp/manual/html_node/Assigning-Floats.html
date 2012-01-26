@@ -1,0 +1,133 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="Assigning%20Floats">Assigning Floats</a>,
+Next:<a rel=next accesskey=n href="Simultaneous-Float-Init---Assign.html#Simultaneous%20Float%20Init%20&amp;%20Assign">Simultaneous Float Init & Assign</a>,
+Previous:<a rel=previous accesskey=p href="Initializing-Floats.html#Initializing%20Floats">Initializing Floats</a>,
+Up:<a rel=up accesskey=u href="Floating-point-Functions.html#Floating-point%20Functions">Floating-point Functions</a>
+<hr><br>
+
+<h3>Assignment Functions</h3>
+
+<p>These functions assign new values to already initialized floats
+(see <a href="Initializing-Floats.html#Initializing%20Floats">Initializing Floats</a>).
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_set</b><i> (mpf_t <var>rop</var>, mpf_t <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_set_ui</b><i> (mpf_t <var>rop</var>, unsigned long int <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_set_si</b><i> (mpf_t <var>rop</var>, signed long int <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_set_d</b><i> (mpf_t <var>rop</var>, double <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_set_z</b><i> (mpf_t <var>rop</var>, mpz_t <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_set_q</b><i> (mpf_t <var>rop</var>, mpq_t <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set the value of <var>rop</var> from <var>op</var>. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">int <b>mpf_set_str</b><i> (mpf_t <var>rop</var>, char *<var>str</var>, int <var>base</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set the value of <var>rop</var> from the string in <var>str</var>.  The string is of the
+form <code>M@N</code> or, if the base is 10 or less, alternatively <code>MeN</code>. 
+<code>M</code> is the mantissa and <code>N</code> is the exponent.  The mantissa is always
+in the specified base.  The exponent is either in the specified base or, if
+<var>base</var> is negative, in decimal.  The decimal point expected is taken from
+the current locale, on systems providing <code>localeconv</code>.
+
+<p>The argument <var>base</var> may be in the ranges 2 to 36, or -36 to
+-2.  Negative values are used to specify that the exponent is in
+decimal.
+
+<p>Unlike the corresponding <code>mpz</code> function, the base will not be determined
+from the leading characters of the string if <var>base</var> is 0.  This is so that
+numbers like <code>0.23</code> are not interpreted as octal.
+
+<p>White space is allowed in the string, and is simply ignored.  [This is not
+really true; white-space is ignored in the beginning of the string and within
+the mantissa, but not in other places, such as after a minus sign or in the
+exponent.  We are considering changing the definition of this function, making
+it fail when there is any white-space in the input, since that makes a lot of
+sense.  Please tell us your opinion about this change.  Do you really want it
+to accept <code>"3 14"</code> as meaning 314 as it does now?]
+
+<p>This function returns 0 if the entire string is a valid number in base
+<var>base</var>.  Otherwise it returns -1. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>mpf_swap</b><i> (mpf_t <var>rop1</var>, mpf_t <var>rop2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Swap <var>rop1</var> and <var>rop2</var> efficiently.  Both the values and the
+precisions of the two variables are swapped. 
+</td></tr>
+</table>
+
+</body></html>
+

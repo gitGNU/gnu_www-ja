@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated January 8, 2012.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+2011, 2012 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 0.01, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: Dynamic Plug-In Interfaces</title>
+
+<meta name="description" content="GNU Coding Standards: Dynamic Plug-In Interfaces">
+<meta name="keywords" content="GNU Coding Standards: Dynamic Plug-In Interfaces">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Program-Behavior.html#Program-Behavior" rel="up" title="Program Behavior">
+<link href="Option-Table.html#Option-Table" rel="next" title="Option Table">
+<link href="_002d_002dhelp.html#g_t_002d_002dhelp" rel="previous" title="--help">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Dynamic-Plug_002dIn-Interfaces"></a>
+<div class="header">
+<p>
+Next: <a href="Option-Table.html#Option-Table" accesskey="n" rel="next">Option Table</a>, Previous: <a href="Command_002dLine-Interfaces.html#Command_002dLine-Interfaces" accesskey="p" rel="previous">Command-Line Interfaces</a>, Up: <a href="Program-Behavior.html#Program-Behavior" accesskey="u" rel="up">Program Behavior</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Standards-for-Dynamic-Plug_002din-Interfaces"></a>
+<h3 class="section">4.8 Standards for Dynamic Plug-in Interfaces</h3>
+<a name="index-plug_002dins"></a>
+<a name="index-dynamic-plug_002dins"></a>
+
+<p>Another aspect of keeping free programs free is encouraging
+development of free plug-ins, and discouraging development of
+proprietary plug-ins.  Many GNU programs will not have anything like
+plug-ins at all, but those that do should follow these
+practices.
+</p>
+<p>First, the general plug-in architecture design should closely tie the
+plug-in to the original code, such that the plug-in and the base
+program are parts of one extended program.  For GCC, for example,
+plug-ins receive and modify GCC&rsquo;s internal data structures, and so
+clearly form an extended program with the base GCC.
+</p>
+<a name="index-plugin_005fis_005fGPL_005fcompatible"></a>
+<p>Second, you should require plug-in developers to affirm that their
+plug-ins are released under an appropriate license.  This should be
+enforced with a simple programmatic check.  For GCC, again for
+example, a plug-in must define the global symbol
+<code>plugin_is_GPL_compatible</code>, thus asserting that the plug-in is
+released under a GPL-compatible license (see <a href="http://gcc.gnu.org/onlinedocs/gccint/Plugins.html#Plugins">Plugins</a> in <cite>GCC Internals</cite>).
+</p>
+<p>By adding this check to your program you are not creating a new legal
+requirement.  The GPL itself requires plug-ins to be free software,
+licensed compatibly.  As long as you have followed the first rule above
+to keep plug-ins closely tied to your original program, the GPL and AGPL
+already require those plug-ins to be released under a compatible
+license.  The symbol definition in the plug-in&mdash;or whatever equivalent
+works best in your program&mdash;makes it harder for anyone who might
+distribute proprietary plug-ins to legally defend themselves.  If a case
+about this got to court, we can point to that symbol as evidence that
+the plug-in developer understood that the license had this requirement.
+</p>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Option-Table.html#Option-Table" accesskey="n" rel="next">Option Table</a>, Previous: <a href="Command_002dLine-Interfaces.html#Command_002dLine-Interfaces" accesskey="p" rel="previous">Command-Line Interfaces</a>, Up: <a href="Program-Behavior.html#Program-Behavior" accesskey="u" rel="up">Program Behavior</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<p>
+
+
+</p>
+</body>
+</html>

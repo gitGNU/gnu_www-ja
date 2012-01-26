@@ -1,0 +1,249 @@
+<!--#include virtual="/server/header.html" -->
+
+<title>Web server utility sources
+- GNU Project - Free Software Foundation (FSF)</title>
+
+<!--#include virtual="/server/banner.html" -->
+
+<h2>Web Server Utility Sources</h2>
+
+<p><a href="/graphics/atypinggnu.html"><img src="/graphics/gnu-type-sm.jpg"
+alt=" [image of the typing GNU webmaster] " width="137" height="114" /></a></p>
+
+<p>(This page needs updating.  Please update it.)</p>
+
+
+<p>To maintain the GNU project web server, we use a lot of different free
+software. Most of them are already available on the Internet, but we also
+have some software which has been developed by GNU volunteers and has
+never been released as GNU software, because they are somewhat specific to
+our needs.  Still, we feel that those programs should also be made
+available so that others can make use of them.  This page is a list of
+such programs.</p>
+
+
+<h3><a id="cvs">CVS Tree</a></h3>
+
+<p>We recommend storing the scripts in the usual www
+CVS tree. This allows easier sharing between GNU machines that maintain
+a full or partial image of the www.gnu.org web.  See the 
+<a href="https://savannah.gnu.org/cvs/?group=www">Savannah CVS page</a>,
+the &ldquo;Webpages repository&rdquo; information.</p>
+
+
+<h3><a id="rotate-log">rotate-log</a></h3>
+
+<ul>
+  <!-- <li><a href="/server/source/rotate-log">Source code (12kbyte)</a> -->
+  <li>Author: Noah Friedman</li>
+  <li>Current version: 1.12</li>
+</ul>
+
+<p>This is a shell script with the purpose of rotating accounting logs and to
+optionally compress old log files.  A somewhat more limited script similar
+in operation to this is included in most Debian GNU/Linux distributions.</p>
+
+
+<h3><a id="diffmon">diffmon</a></h3>
+
+<ul>
+  <li><a href="http://packages.debian.org/unstable/source/diffmon">Source code (15kbyte)</a></li>
+  <li><a href="/server/source/diffmon.cf">Example configuration file</a></li>
+  <li>Author: Noah Friedman</li>
+  <li>Current version: 1.19</li>
+</ul>
+
+<p>This is another shell script with the purpose of making diff's of files
+when they change and to send an email informing about the change to  a list
+of recipients.  This script is used to keep administrators aware of
+changes to the configuration of the webserver and other servers. It is also
+used to inform editors of translations of GNU web pages into other languages
+about changes to the original English document.</p>
+
+
+<h3><a id="webref">webref</a></h3>
+
+<ul>
+  <!-- <li><a href="/server/source/webref.el">Source code</a> -->
+  <li>Author: Tim Bedding</li>
+  <li>Current version: 1.0</li>
+</ul>
+
+<p>This is a program made in Emacs LISP that is used to check references
+in HTML documents. It takes the file input.txt as input which contains
+a list of HTML documents and outputs te file output.txt. The output
+file contains information of documents which can not be reached at all
+and documents which can only be reached by following more than two links.
+We use this to make sure that all important documents can be reached
+fairly easy from the main page.</p>
+
+
+<h3><a id="new-software">new-software</a></h3>
+
+<ul>
+	<!-- put a .txt wrapper, coz some browsers may recognise
+	that is a shell script, and execute it! -neel
+	-->
+  <li><a href="/server/source/new-software.sh.txt">Source code</a></li>
+  <li>Author: Jonas Oberg</li>
+  <li>Current version: 1.0</li>
+</ul>
+
+<p>This shell script creates a <a href="/server/new-software.html">webpage</a>
+with a list of the last 25 software releases and their ChangeLog
+on the FSF's <a href="/order/ftp.html">FTP server</a>.</p>
+
+
+<h3><a id="symlinks">symlinks</a></h3>
+
+<ul>
+  <li><a href="http://savannah.gnu.org/cgi-bin/viewcvs/www/www/symlinks/">Source code</a></li>
+  <li>Author: <a href="mailto:loic@gnu.org">Loic Dachary</a></li>
+  <li>Current version: 1.1</li>
+</ul>
+
+<p>The primary goal is to cope with the inability of CVS to deal
+with symbolic files. By adding special files (".symlinks") into
+the CVS tree that are interpreted as specficiations to build
+symbolic links.  The "symlinks" script can be run immediately
+after a "cvs update" to fix the symbolic links according to the
+specifications included in the ".symlinks" files.</p>
+
+<p>More information about <tt>.symlinks</tt> files can be found in the
+<a href="/server/standards/README.webmastering.html#symlinks">Symbolic
+Links</a> section of the GNU Webmaster Guidelines.</p>
+
+<p>This script is not used on the live web site.  Instead, the
+<tt>.symlinks</tt> files are transformed into RewriteRule
+directives.</p>
+
+
+<h3><a id="savannahusers">savannahusers</a></h3>
+
+<ul>
+  <li><a href="http://savannah.gnu.org/cgi-bin/viewcvs/www/www/savannahusers/">Source code</a></li>
+  <li>Author: <a href="mailto:loic@gnu.org">Loic Dachary</a></li>
+  <li>Current version: 1.1</li>
+</ul>
+
+<p>It is convenient to use Savannah (savannah.gnu.org) to
+manage accounts on a machine that is completly unrelated
+to Savannah itself. For instance, the project
+http://savannah.gnu.org/projects/fsffr/ lists all the
+users who should have a shell account on the
+france.fsfeu-rope.org machine.</p>
+
+<p>A cron job on the target machine (france.fsfeurope.org in
+this case) can fetch the list of users from Savannah and
+update the password files accordingly. Adding a user to
+the machine can then simply be done by adding the user as
+a developer of the project.</p>
+
+<p>By default savannahusers only use a limited range of uid
+(10000 to 20000) to avoid interferences with existing
+users.</p>
+
+<p>Complete information about this script can be found in
+the <a href="savannahusers.html">manual page</a>.</p>
+
+
+<h3><a id="linc">LINC</a></h3>
+
+<ul>
+  <li><a href="http://web.cvs.savannah.gnu.org/viewvc/www/server/source/linc/?root=www">Source code</a></li>
+  <li>Author: <a href="mailto:wwj@gnu.org">Wac&#322;aw Jacek</a></li>
+</ul>
+
+<p>LINC stands for &ldquo;LINC Is Not Checklink&rdquo;.  It scans the
+website (or any other website) for broken links, generating reports.  It
+runs on Thursdays on fencepost from user wwj's cron; output goes to
+<tt>/home/w/wwj/linc/reports</tt>.</p>
+
+<h3><a id="planetrss">planetrss.pl</a></h3>
+
+<ul>
+  <li><a href="http://web.cvs.savannah.gnu.org/viewvc/www/server/source/planetrss/?root=www">Source code</a></li>
+  <li>Author: <a href="mailto:shailesh@gnu.org">Shailesh Ghadge</a></li>
+</ul>
+
+<p>This perl scripts fetches &amp; saves 'n' feeds from planet.gnu.org using RSS 
+feed link http://planet.gnu.org/rss20.xml in html format where it is then 
+included in the homepage. Each feed is truncated to 'm' characters.</p>
+
+<h3><a id="update-license">update-license.php</a></h3>
+
+<ul>
+  <li><a href="/server/source/update-license.php.txt">Source code</a></li>
+  <li>Author: <a href="mailto:jturner@gnu.org">James Turner</a></li>
+</ul>
+
+<p>This script can be ran from the webroot to traverse through english html
+files replacing the old "Verbatim coping" text with the new CC license.</p>
+
+<!-- If needed, change the copyright block at the bottom. In general,
+     all pages on the GNU web server should have the section about
+     verbatim copying.  Please do NOT remove this without talking
+     with the webmasters first.
+     Please make sure the copyright date is consistent with the document
+     and that it is like this: "2001, 2002", not this: "2001-2002". -->
+</div><!-- for id="content", starts in the include above -->
+<!--#include virtual="/server/footer.html" -->
+<div id="footer">
+
+<p>Please send general FSF &amp; GNU inquiries to
+<a href="mailto:gnu@gnu.org">&lt;gnu@gnu.org&gt;</a>.
+There are also <a href="/contact/">other ways to contact</a>
+the FSF.<br />
+Please send broken links and other corrections or suggestions to
+<a href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a>.</p>
+
+<p>Please see the <a
+href="/server/standards/README.translations.html">Translations
+README</a> for information on coordinating and submitting translations
+of this article.</p>
+
+<p>Copyright &copy; 2011 Free Software Foundation, Inc.</p>
+
+<p>This page is licensed under a <a rel="license"
+href="http://creativecommons.org/licenses/by-nd/3.0/us/">Creative
+Commons Attribution-NoDerivs 3.0 United States License</a>.
+</p>
+
+<p>Updated:
+<!-- timestamp start -->
+$Date: 2011/07/14 16:28:58 $
+<!-- timestamp end --></p>
+</div>
+
+<div id="translations">
+<h4>Translations of this page</h4>
+
+<!-- Please keep this list alphabetical by language code.
+     Comment what the language is for each type, i.e. de is German.
+     Write the language name in its own language (Deutsch) in the text.
+     If you add a new language here, please
+     advise web-translators@gnu.org and add it to
+      - /home/www/html/server/standards/README.translations.html
+      - one of the lists under the section "Translations Underway"
+      - if there is a translation team, you also have to add an alias
+      to mail.gnu.org:/com/mailer/aliases
+     Please also check you have the language code right; see:
+     http://www.loc.gov/standards/iso639-2/php/code_list.php
+     If the 2-letter ISO 639-1 code is not available,
+     use the 3-letter ISO 639-2.
+     Please use W3C normative character entities.
+
+     See also '(web-trans)Capitalization':
+     http://gnu.org/software/trans-coord/manual/web-trans/html_node/Capitalization.html
+     -->
+
+<ul class="translations-list">
+<!-- English -->
+<li><a href="/server/source/source.html">English</a>&nbsp;[en]</li>
+<!-- Spanish -->
+<li><a href="/server/source/source.es.html">espa&#x00f1;ol</a>&nbsp;[es]</li>
+</ul>
+</div>
+</div>
+</body>
+</html>

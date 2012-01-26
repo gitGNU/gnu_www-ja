@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/finger.texinfo on 7 November 1998 -->
+
+<TITLE>GNU Finger - Introduction</TITLE>
+</HEAD>
+<BODY>
+Go to the first, previous, <A HREF="finger_2.html">next</A>, <A HREF="finger_7.html">last</A> section, <A HREF="finger_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC1" HREF="finger_toc.html#TOC1">Introduction</A></H1>
+<P>
+GNU Finger is a utility program designed to allow users of Unix hosts on
+the Internet network to get information about each other.  It is a
+direct replacement for the Berkeley 4.3 finger code, although it
+produces different looking output and is designed to run on a wide
+variety of systems.
+
+</P>
+
+
+<H2><A NAME="SEC2" HREF="finger_toc.html#TOC2">Why Another Finger?</A></H2>
+
+<P>
+Originally, each host on the Internet network consisted of a single,
+reasonably powerful computer, capable of handling many users at the same
+time.  Typically, a <EM>site</EM> (physical location of computer users)
+would have only one or two computers, even if they had 20 or more people
+who used them.  If a user at site A wanted to know about users logged on
+at site B, a simple program could be invoked to query the host at site B
+about the users which were logged on.
+
+</P>
+<P>
+With the onset of more-power-per-person computing, the mainframe has
+been set aside.  A modern computing facility usually consists of one
+user per host, and many hosts per site.  This makes it a trial to find
+out about logged on users at another site, since you must query each
+host to find out about the single user who is logged on.  If the site
+had 20 hosts, you would have to invoke a finger program 20 times just to
+find out who was logged on!
+
+</P>
+<P>
+<A NAME="IDX1"></A>
+GNU Finger is a simple and effective way around this problem.  For sites
+with many hosts, a single host may be designated as the finger <EM>server</EM>
+host.  This host collects information about who is logged on to other hosts
+at that site.  If a user at site A wants to know about users logged on at
+site B, only the server host need be queried, instead of each host at that
+site.  This is very convenient.
+
+</P>
+<P>
+GNU Finger is a direct replacement for existing finger programs.  Since
+the finger <EM>protocol</EM> (rules for communication) is very simple, GNU
+Finger follows that protocol in responding to simple requests.  But GNU
+Finger also implements another protocol which allows two finger programs
+to exchange information in a predetermined way, which allows faster and
+wider bandwidth communication.
+
+</P>
+<P>
+Finger delivers information about users in varying formats, depending on
+how it is invoked.  <CODE>finger</CODE> invoked without any options performs a
+<EM>site wide</EM> finger request, no matter which machine it has been
+invoked from.  Switch arguments exist for getting the "long" form of
+finger information and for getting information only about the local
+machine.
+
+</P>
+<P>
+If a user on host A wants to know about a user on host B, finger must
+make a network <EM>connection</EM> to host B.  If host B is running a
+finger program, that program is asked to relay information about the
+user in question through the connection back to host A, where finger can
+display it.
+
+</P>
+<P>
+GNU Finger also runs a server <EM>daemon</EM> process on the <EM>server</EM> host,
+whose job is to keep track of which users are logged in to local
+machines.
+
+</P>
+<P>
+An optional and currently unsupported feature is passing of graphic
+images. This is built on the new protocol.  A user at site A (e.g. MIT)
+may see the picture of a user at site B (e.g. UCSB), by typing a finger
+request.  The conversion of graphic data from one format to another is
+done through GNU Finger; no site need know where or how such images are
+stored on any other site to be able to display those images. You should
+ask your system administrator to find out whether he has chose to
+include this functionality on your network.
+
+</P>
+<P><HR><P>
+Go to the first, previous, <A HREF="finger_2.html">next</A>, <A HREF="finger_7.html">last</A> section, <A HREF="finger_toc.html">table of contents</A>.
+</BODY>
+</HTML>

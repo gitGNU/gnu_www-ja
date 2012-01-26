@@ -1,0 +1,71 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Screen Size</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_24.html">previous</A>, <A HREF="termcap_26.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC25" HREF="termcap_toc.html#TOC25">Screen Size</A></H2>
+<P>
+<A NAME="IDX36"></A>
+
+</P>
+<P>
+A terminal description has two capabilities, <SAMP>`co'</SAMP> and <SAMP>`li'</SAMP>,
+that describe the screen size in columns and lines.  But there is more
+to the question of screen size than this.
+
+</P>
+<P>
+On some operating systems the "screen" is really a window and the
+effective width can vary.  On some of these systems, <CODE>tgetnum</CODE>
+uses the actual width of the window to decide what value to return for
+the <SAMP>`co'</SAMP> capability, overriding what is actually written in the
+terminal description.  On other systems, it is up to the application
+program to check the actual window width using a system call.  For
+example, on BSD 4.3 systems, the system call <CODE>ioctl</CODE> with code
+<CODE>TIOCGWINSZ</CODE> will tell you the current screen size.
+
+</P>
+<P>
+On all window systems, termcap is powerless to advise the application
+program if the user resizes the window.  Application programs must
+deal with this possibility in a system-dependent fashion.  On some
+systems the C shell handles part of the problem by detecting changes
+in window size and setting the <CODE>TERMCAP</CODE> environment variable
+appropriately.  This takes care of application programs that are
+started subsequently.  It does not help application programs already
+running.
+
+</P>
+<P>
+On some systems, including BSD 4.3, all programs using a terminal get
+a signal named <CODE>SIGWINCH</CODE> whenever the screen size changes.
+Programs that use termcap should handle this signal by using
+<CODE>ioctl TIOCGWINSZ</CODE> to learn the new screen size.
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`co'</SAMP>
+<DD>
+<A NAME="IDX37"></A>
+<A NAME="IDX38"></A>
+Numeric value, the width of the screen in character positions.  Even
+hardcopy terminals normally have a <SAMP>`co'</SAMP> capability.
+
+<DT><SAMP>`li'</SAMP>
+<DD>
+<A NAME="IDX39"></A>
+Numeric value, the height of the screen in lines.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_24.html">previous</A>, <A HREF="termcap_26.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="Random%20State%20Seeding">Random State Seeding</a>,
+Previous:<a rel=previous accesskey=p href="Random-State-Initialization.html#Random%20State%20Initialization">Random State Initialization</a>,
+Up:<a rel=up accesskey=u href="Random-Number-Functions.html#Random%20Number%20Functions">Random Number Functions</a>
+<hr><br>
+
+<h3>Random State Seeding</h3>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>gmp_randseed</b><i> (gmp_randstate_t <var>state</var>, mpz_t <var>seed</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>gmp_randseed_ui</b><i> (gmp_randstate_t <var>state</var>, unsigned&nbsp;long&nbsp;int&nbsp;<var>seed</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Set an initial seed value into <var>state</var>.
+
+<p>The size of a seed determines how many different sequences of random numbers
+that it's possible to generate.  The "quality" of the seed is the randomness
+of a given seed compared to the previous seed used, and this affects the
+randomness of separate number sequences.  The method for choosing a seed is
+critical if the generated numbers are to be used for important applications,
+such as generating cryptographic keys.
+
+<p>Traditionally the system time has been used to seed, but care needs to be
+taken with this.  If an application seeds often and the resolution of the
+system clock is low, then the same sequence of numbers might be repeated. 
+Also, the system time is quite easy to guess, so if unpredictability is
+required then it should definitely not be the only source for the seed value. 
+On some systems there's a special device <code>/dev/random</code> which provides
+random data better suited for use as a seed. 
+</td></tr>
+</table>
+
+</body></html>
+

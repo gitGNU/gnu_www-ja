@@ -1,0 +1,104 @@
+/*
+*  Materials test
+*/
+
+#include "materials.inc"
+
+define camera c
+{
+  translate	<0, 300, 600>
+  look_at	<0, 0, -200>
+}
+
+define light l1
+{
+  translate	<500, 500, 800>
+  color		CWhite
+}
+
+define light l2
+{
+  translate	<-600, 200, 600>
+  color		CWhite
+}
+
+plane
+{
+  translate     <0, -50, 0>
+  normal        <0, 1, 0>
+  material : extends MChecker
+  {
+    color       CWhite
+    base_color  CYellow
+    size        50
+    border      5
+  }
+}
+  
+cylinder
+{
+  scale         <45, 100, 45>
+  translate	<-200, 0, 0>
+  material : extends MLambertian
+  {
+    color       CWhite
+  }
+}
+
+cylinder
+{
+  scale         <45, 100, 45>
+  translate	<-100, 0, 0>
+  material : extends MPlastic
+  {
+    color       CWhite
+  }
+}
+
+cylinder
+{
+  scale         <45, 100, 45>
+  translate	<0, 0, 0>
+  material : extends MCrystal
+  {
+    color       CWhite
+  }
+}
+
+cylinder
+{
+  scale         <45, 100, 45>
+  translate	<100, 0, 0>
+  material : extends MMirror
+  {
+    color       CWhite
+  }
+}
+
+cylinder
+{
+  scale         <45, 100, 45>
+  translate	<200, 0, 0>
+  material : extends MNoise
+  {
+    color       CWhite
+    base_color  CBlue
+    zoom        <20, 20, 20>
+    bump        0
+  }
+}
+
+scene
+{
+  camera	c
+  light		l1
+  light         l2
+  width		600
+  height	400
+  background	CSummerSky
+  output
+  {
+    name	"materials.tga"
+  }
+  renderer : class Raytracer {}
+}

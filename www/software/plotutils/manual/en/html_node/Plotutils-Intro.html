@@ -1,0 +1,223 @@
+<html lang="en">
+<head>
+<title>Plotutils Intro - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="index.html#Top" title="Top">
+<link rel="next" href="graph.html#graph" title="graph">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Plotutils-Intro"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="graph.html#graph">graph</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="index.html#Top">Top</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">1 The GNU Plotting Utilities</h2>
+
+<p>The GNU plotting utilities consist of eight command-line programs: the
+graphics programs <code>graph</code>, <code>plot</code>, <code>pic2plot</code>,
+<code>tek2plot</code>, and <code>plotfont</code>, and the mathematical programs
+<code>spline</code>, <code>ode</code>, and <code>double</code>.  Distributed with these
+programs is GNU <code>libplot</code>, the library on which the graphics
+programs are based.  GNU <code>libplot</code> is a function library for
+device-independent two-dimensional vector graphics, including vector
+graphics animations under the X&nbsp;Window<!-- /@w --> System.  It&nbsp;has<!-- /@w --> bindings
+for both C and&nbsp;C++<!-- /@w -->.
+
+   <p>The graphics programs and GNU <code>libplot</code> can export vector graphics
+in the following formats.
+
+     <dl>
+<dt>X<dd>If this output option is selected, there is no output file.  Output is
+directed to a popped-up window on an X&nbsp;Window<!-- /@w --> System display. 
+<br><dt>PNG<dd>This is &ldquo;portable network graphics&rdquo; format, which is increasingly
+popular on the Web.  Unlike GIF format, it is unencumbered by patents. 
+Files in PNG format may be viewed or edited with many applications,
+such as <code>display</code>, which is part of the free <code>ImageMagick</code>
+package. 
+<br><dt>PNM<dd>This is &ldquo;portable anymap&rdquo; format.  There are three types of portable
+anymap: PBM (portable bitmap, for monochrome images), PGM (portable
+graymap), and PPM (portable pixmap, for colored images).  The output
+file will use whichever is most appropriate.  Portable anymaps may be
+translated to other formats with the <code>netpbm</code> package, or viewed
+with <code>display</code>. 
+<br><dt>GIF<dd>This is pseudo-GIF format rather than true GIF format.  Unlike GIF
+format it does not use LZW compression, so it does not transgress the
+Unisys LZW patent.  However, files in pseudo-GIF format may be viewed
+or edited with any application that accepts GIF format, such&nbsp;as<!-- /@w -->
+<code>display</code>. 
+<br><dt>SVG<dd>This is Scalable Vector Graphics format.  SVG is an XML-based format
+for vector graphics on the Web.  The <a href="http://www.w3.org">W3&nbsp;Consortium<!-- /@w --></a> has more information on SVG, which is being developed by
+its <a href="http://www.w3.org/Graphics">Graphics Activity</a>. 
+<br><dt>AI<dd>This is the format used by Adobe Illustrator.  Files in this format may
+be edited with Adobe Illustrator (version&nbsp;5<!-- /@w -->, and more recent
+versions), or other applications. 
+<br><dt>PS<dd>This is <code>idraw</code>-editable Postscript format.  Files in this format
+may be sent to a Postscript printer, imported into another document, or
+edited with the free <code>idraw</code> drawing editor.  See <a href="idraw.html#idraw">idraw</a>. 
+<br><dt>CGM<dd>This is Computer Graphics Metafile format, which may be imported into an
+application or displayed in any Web browser with a CGM plug-in.  By&nbsp;default<!-- /@w -->, a binary file in version&nbsp;3<!-- /@w --> CGM format that conforms to the
+WebCGM profile is produced.  The <a href="http://www.cgmopen.org">CGM Open Consortium</a> has more information on WebCGM, which is a standard for
+Web-based vector graphics. 
+<br><dt>Fig<dd>This is a vector graphics format that may be displayed or edited with
+the free <code>xfig</code> drawing editor.  See <a href="xfig.html#xfig">xfig</a>. 
+<br><dt>PCL 5<dd>This is a powerful version of Hewlett&ndash;Packard's Printer Control
+Language.  Files in this format may be sent to a LaserJet printer or
+compatible device (note that most inkjets do not support PCL&nbsp;5<!-- /@w -->). 
+<br><dt>HP-GL<dd>This is Hewlett&ndash;Packard's Graphics Language.  By default, the modern
+variant HP-GL/2 is produced.  Files in HP-GL or HP-GL/2 format may be
+imported into a document or sent to a plotter. 
+<br><dt>ReGIS<dd>This is the graphics format understood by several DEC terminals (VT340,
+VT330, VT241, VT240) and emulators, including the DECwindows terminal
+emulator, <code>dxterm</code>. 
+<br><dt>Tek<dd>This is the graphics format understood by Tektronix 4014 terminals and
+emulators, including the emulators built into the <code>xterm</code> terminal
+emulator program and the MS-DOS version of <code>kermit</code>. 
+<br><dt>Metafile<dd>This is device-independent GNU graphics metafile format.  The
+<code>plot</code> program can translate it to any of the preceding formats. 
+</dl>
+
+   <p>Of the command-line graphics programs, the best known is <code>graph</code>,
+which is an application for plotting two-dimensional scientific data. 
+It reads one or more data files containing datasets, and outputs a plot. 
+The above output formats are supported.  The corresponding commands are
+<code>graph -T&nbsp;X<!-- /@w --></code>, <code>graph -T png</code>, <code>graph -T pnm</code>,
+<code>graph -T gif</code>, <code>graph -T svg</code>, <code>graph -T ai</code>,
+<code>graph -T ps</code>, <code>graph -T cgm</code>, <code>graph -T fig</code>,
+<code>graph -T pcl</code>, <code>graph -T hpgl</code>, <code>graph -T regis</code>,
+<code>graph -T tek</code>, and <code>graph</code>.  <code>graph</code> without a &lsquo;<samp><span class="samp">-T</span></samp>&rsquo;
+option (referred to as `raw <code>graph</code>') produces output in GNU
+metafile format.
+
+   <p><code>graph</code> can read datasets in both ASCII and binary format, and
+datasets in the `table' format produced by the plotting program
+<code>gnuplot</code>.  It produces a plot with or without axes and labels. 
+You may specify labels and ranges for the axes, and the size and
+position of the plot on the display.  The labels may contain subscripts
+and subscripts, Greek letters, and other special symbols; there is also
+support for Cyrillic script (i.e., Russian) and Japanese.  You may
+specify the type of marker symbol used for each dataset, and such
+parameters as the style and thickness of the line (if&nbsp;any)<!-- /@w --> used to
+connect points in a dataset.  The plotting of filled regions is
+supported, as is the drawing of error bars.  <code>graph</code> provides full
+support for multiplotting.  With a single invocation of <code>graph</code>,
+you may produce a multiplot consisting of many plots, either side by
+side or inset.  Each plot will have its own axes and data.
+
+   <p><code>graph -T&nbsp;X<!-- /@w --></code>, <code>graph -T tek</code>, <code>graph -T regis</code>, and
+raw <code>graph</code> have a feature that most plotting programs do not have. 
+They can accept input from a pipe, and plot data points to the output in
+real time.  For this to occur, the user must specify ranges for both
+axes, so that <code>graph</code> does not need to wait until the end of the
+input before determining them.
+
+   <p>The <code>plot</code> program is a so-called plot filter.  It can translate
+GNU graphics metafiles (produced for&nbsp;example<!-- /@w --> by raw <code>graph</code>)
+into any supported output format.  The corresponding commands are
+<code>plot -T&nbsp;X<!-- /@w --></code>, <code>plot -T png</code>, <code>plot -T pnm</code>, <code>plot
+-T gif</code>, <code>plot -T svg</code>, <code>plot -T ai</code>, <code>plot -T ps</code>,
+<code>plot -T cgm</code>, <code>plot -T fig</code>, <code>plot -T pcl</code>, <code>plot
+-T hpgl</code>, <code>plot -T regis</code>, <code>plot -T tek</code>, and <code>plot</code>. 
+The <code>plot</code> program is useful if you wish to produce output in
+several different formats while invoking <code>graph</code> only once.  It&nbsp;is<!-- /@w --> also useful if you wish to translate files in the traditional
+`plot(5)' format produced by, e.g., the non-GNU versions of <code>graph</code>
+provided with some operating systems.  GNU metafile format is compatible
+with plot(5) format.
+
+   <p>The <code>pic2plot</code> program can translate from the pic language to any
+supported output format.  The pic language, which was invented at Bell
+Laboratories, is used for creating box-and-arrow diagrams of the kind
+frequently found in technical papers and textbooks.  The corresponding
+commands are <code>pic2plot -T&nbsp;X<!-- /@w --></code>, <code>pic2plot -T png</code>,
+<code>pic2plot -T pnm</code>, <code>pic2plot -T gif</code>, <code>pic2plot -T ai</code>,
+<code>pic2plot -T ps</code>, <code>pic2plot -T cgm</code>, <code>pic2plot -T fig</code>,
+<code>pic2plot -T pcl</code>, <code>pic2plot -T hpgl</code>, <code>pic2plot -T
+regis</code>, <code>pic2plot -T tek</code>, and <code>pic2plot</code>.
+
+   <p>The <code>tek2plot</code> program can translate from Tektronix format to any
+supported output format.  The corresponding commands are <code>tek2plot
+-T&nbsp;X<!-- /@w --></code>, <code>tek2plot -T png</code>, <code>tek2plot -T pnm</code>,
+<code>tek2plot -T gif</code>, <code>tek2plot -T svg</code>, <code>tek2plot -T ai</code>,
+<code>tek2plot -T ps</code>, <code>tek2plot -T cgm</code>, <code>tek2plot -T fig</code>,
+<code>tek2plot -T pcl</code>, <code>tek2plot -T hpgl</code>, <code>tek2plot -T
+regis</code>, and <code>tek2plot</code>.  <code>tek2plot</code> is useful if you have an
+older application that produces drawings in Tektronix format.
+
+   <p>The <code>plotfont</code> program is a simple utility that displays a
+character map for any font that is available to <code>graph</code>,
+<code>plot</code>, <code>pic2plot</code>, or <code>tek2plot</code>.  The 35 standard
+Postscript fonts are available if the &lsquo;<samp><span class="samp">-T X</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T ai</span></samp>&rsquo;,
+&lsquo;<samp><span class="samp">-T ps</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T cgm</span></samp>&rsquo;, or &lsquo;<samp><span class="samp">-T fig</span></samp>&rsquo; options are used.  The 45
+standard PCL&nbsp;5<!-- /@w --> fonts (i.e., &ldquo;LaserJet&rdquo; fonts) are available if the
+&lsquo;<samp><span class="samp">-T ai</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T pcl</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-T hpgl</span></samp>&rsquo; options are used.  In the
+latter two cases (&lsquo;<samp><span class="samp">-T pcl</span></samp>&rsquo; and &lsquo;<samp><span class="samp">-T hpgl</span></samp>&rsquo;), a&nbsp;number<!-- /@w --> of
+Hewlett&ndash;Packard vector fonts are available as&nbsp;well<!-- /@w -->.  A&nbsp;set<!-- /@w --> of
+22 Hershey vector fonts, including Cyrillic fonts and a Japanese font,
+is always available.  When producing output for an X&nbsp;Window&nbsp;System<!-- /@w -->
+display, any of the graphics programs can use scalable X&nbsp;fonts<!-- /@w -->.
+
+   <p>Of the command-line mathematical programs, <code>spline</code> does spline
+interpolation of scalar or vector-valued data.  It normally uses either
+cubic spline interpolation or exponential splines in tension, but like
+<code>graph</code> it&nbsp;can<!-- /@w --> function as a real-time filter under some
+circumstances.  Besides splining datasets, it&nbsp;can<!-- /@w --> construct curves,
+either open or closed, through arbitrarily chosen points in
+d-dimensional space.  <code>ode</code> provides the ability to
+integrate an ordinary differential equation or a system of ordinary
+differential equations, when provided with an explicit expression for
+each equation.  It supplements the plotting program <code>gnuplot</code>,
+which can plot functions but not integrate ordinary differential
+equations.  The final command-line mathematical program, <code>double</code>,
+is a filter for converting, scaling and cutting binary or ASCII data
+streams.  It&nbsp;is<!-- /@w --> still under development and is not yet documented.
+
+   <p>The GNU <code>libplot</code> function library, on which the command-line
+graphics programs are based, is discussed at&nbsp;length<!-- /@w --> elsewhere in
+this documentation.  It&nbsp;gives<!-- /@w --> C and&nbsp;C++<!-- /@w --> programs the ability to
+draw such objects as lines, open and closed polylines, arcs (both
+circular and elliptic), quadratic and cubic Bezier curves, circles and
+ellipses, points (i.e., pixels), marker symbols, and text strings.  The
+filling of objects other than points, marker symbols, and text strings
+is supported (fill color, as&nbsp;well<!-- /@w --> as pen color, can be set
+arbitrarily).  Text strings can be drawn in any of a large number of
+fonts.  The 35 standard Postscript fonts are supported by the X&nbsp;Window<!-- /@w --> System, SVG, Illustrator, Postscript, CGM, and <code>xfig</code>
+drivers, and the 45 standard PCL&nbsp;5<!-- /@w --> fonts are supported by the SVG,
+Illustrator, PCL&nbsp;5<!-- /@w --> and HP-GL/2 drivers.  The latter two also support
+a number of Hewlett&ndash;Packard vector fonts.  All drivers, including the
+PNG, PNM, GIF, ReGIS, Tektronix and metafile drivers, support a set of
+22 Hershey vector fonts.
+
+   <p>The support for drawing text strings is extensive.  Text strings may
+include subscripts and superscripts, and may include characters chosen
+from more than one font in a typeface.  Many non-alphanumeric characters
+may be included.  The entire collection of over 1700 `Hershey glyphs'
+digitized by Allen&nbsp;V.<!-- /@w --> Hershey at the U.S. Naval Surface Weapons
+Center, which includes many curious symbols, is built into GNU
+<code>libplot</code>.  Text strings in the so-called EUC-JP encoding (the
+Extended Unix Code for Japanese) can be also be drawn.  Such strings may
+include both syllabic Japanese characters (Hiragana and Katakana) and
+ideographic Japanese characters (Kanji).  GNU <code>libplot</code> contains a
+library of 603 Kanji, including 596 of the 2965 frequently used
+Level&nbsp;1<!-- /@w --> Kanji.
+
+   </body></html>
+

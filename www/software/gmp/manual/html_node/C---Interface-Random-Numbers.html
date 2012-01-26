@@ -1,0 +1,174 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="C++%20Interface%20Random%20Numbers">C++ Interface Random Numbers</a>,
+Next:<a rel=next accesskey=n href="C---Interface-Limitations.html#C++%20Interface%20Limitations">C++ Interface Limitations</a>,
+Previous:<a rel=previous accesskey=p href="C---Interface-MPFR.html#C++%20Interface%20MPFR">C++ Interface MPFR</a>,
+Up:<a rel=up accesskey=u href="C---Class-Interface.html#C++%20Class%20Interface">C++ Class Interface</a>
+<hr><br>
+
+<h3>C++ Interface Random Numbers</h3>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left"><b>gmp_randclass</b><i>
+</i></td>
+<td align="right">Class</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+The C++ class interface to the GMP random number functions uses
+<code>gmp_randclass</code> to hold an algorithm selection and current state, as per
+<code>gmp_randstate_t</code>. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left"> <b>gmp_randclass::gmp_randclass</b><i> (void (*<var>randinit</var>) (gmp_randstate_t, ...), ...)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Construct a <code>gmp_randclass</code>, using a call to the given <var>randinit</var>
+function (see <a href="Random-State-Initialization.html#Random%20State%20Initialization">Random State Initialization</a>).  The arguments expected are
+the same as <var>randinit</var>, but with <code>mpz_class</code> instead of <code>mpz_t</code>. 
+For example,
+
+<br><pre>gmp_randclass r1 (gmp_randinit_default);
+gmp_randclass r2 (gmp_randinit_lc_2exp_size, 32);
+gmp_randclass r3 (gmp_randinit_lc_2exp, a, c, m2exp);
+</pre>
+
+<p><code>gmp_randinit_lc_2exp_size</code> can fail if the size requested is too big,
+the behaviour of <code>gmp_randclass::gmp_randclass</code> is undefined in this case
+(perhaps this will change in the future). 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left"> <b>gmp_randclass::gmp_randclass</b><i> (gmp_randalg_t <var>alg</var>, ...)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Construct a <code>gmp_randclass</code> using the same parameters as
+<code>gmp_randinit</code> (see <a href="Random-State-Initialization.html#Random%20State%20Initialization">Random State Initialization</a>).  This function is
+obsolete and the above <var>randinit</var> style should be preferred. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">void <b>gmp_randclass::seed</b><i> (unsigned long int <var>s</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>gmp_randclass::seed</b><i> (mpz_class <var>s</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Seed a random number generator.  See see <a href="Random-Number-Functions.html#Random%20Number%20Functions">Random Number Functions</a>, for how
+to choose a good seed. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">mpz_class <b>gmp_randclass::get_z_bits</b><i> (unsigned long <var>bits</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">mpz_class <b>gmp_randclass::get_z_bits</b><i> (mpz_class <var>bits</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Generate a random integer with a specified number of bits. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">mpz_class <b>gmp_randclass::get_z_range</b><i> (mpz_class <var>n</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Generate a random integer in the range 0 to <var>n</var>-1 inclusive. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">mpf_class <b>gmp_randclass::get_f</b><i> ()
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">mpf_class <b>gmp_randclass::get_f</b><i> (unsigned long <var>prec</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Generate a random float <var>f</var> in the range 0 &lt;= <var>f</var> &lt; 1.  <var>f</var>
+will be to <var>prec</var> bits precision, or if <var>prec</var> is not given then to
+the precision of the destination.  For example,
+
+<br><pre>gmp_randclass  r;
+...
+mpf_class  f (0, 512);   // 512 bits precision
+f = r.get_f();           // random number, 512 bits
+</pre>
+</td></tr>
+</table>
+
+</body></html>
+

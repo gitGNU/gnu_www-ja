@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - Inheriting</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_20.html">previous</A>, <A HREF="termcap_22.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC21" HREF="termcap_toc.html#TOC21">Inheriting from Related Descriptions</A></H2>
+
+<P>
+<A NAME="IDX22"></A>
+When two terminal descriptions are similar, their identical parts do not
+need to be given twice.  Instead, one of the two can be defined in terms of
+the other, using the <SAMP>`tc'</SAMP> capability.  We say that one description
+<EM>refers to</EM> the other, or <EM>inherits from</EM> the other.
+
+</P>
+<P>
+The <SAMP>`tc'</SAMP> capability must be the last one in the terminal description,
+and its value is a string which is the name of another terminal type which
+is referred to.  For example,
+
+</P>
+
+<PRE>
+N9|aaa|ambassador|aaa-30|ann arbor ambassador/30 lines:\
+        :ti=\E[2J\E[30;0;0;30p:\
+        :te=\E[60;0;0;30p\E[30;1H\E[J:\
+        :li#30:tc=aaa-unk:
+</PRE>
+
+<P>
+defines the terminal type <SAMP>`aaa-30'</SAMP> (also known as plain <SAMP>`aaa'</SAMP>) in
+terms of <SAMP>`aaa-unk'</SAMP>, which defines everything about the Ambassador that
+is independent of screen height.  The types <SAMP>`aaa-36'</SAMP>, <SAMP>`aaa-48'</SAMP>
+and so on for other screen heights are likewise defined to inherit from
+<SAMP>`aaa-unk'</SAMP>.
+
+</P>
+<P>
+The capabilities overridden by <SAMP>`aaa-30'</SAMP> include <SAMP>`li'</SAMP>, which says
+how many lines there are, and <SAMP>`ti'</SAMP> and <SAMP>`te'</SAMP>, which configure the
+terminal to use that many lines.
+
+</P>
+<P>
+The effective terminal description for type <SAMP>`aaa'</SAMP> consists of the text
+shown above followed by the text of the description of <SAMP>`aaa-unk'</SAMP>.  The
+<SAMP>`tc'</SAMP> capability is handled automatically by <CODE>tgetent</CODE>, which
+finds the description thus referenced and combines the two descriptions
+(see section <A HREF="termcap_4.html#SEC4">Finding a Terminal Description: <CODE>tgetent</CODE></A>).  Therefore, only the implementor of the terminal
+descriptions needs to think about using <SAMP>`tc'</SAMP>.  Users and application
+programmers do not need to be concerned with it.
+
+</P>
+<P>
+Since the reference terminal description is used last, capabilities
+specified in the referring description override any specifications of the
+same capabilities in the reference description.
+
+</P>
+<P>
+The referring description can cancel out a capability without specifying
+any new value for it by means of a special trick.  Write the capability in
+the referring description, with the character <SAMP>`@'</SAMP> after the capability
+name, as follows:
+
+</P>
+
+<PRE>
+NZ|aaa-30-nam|ann arbor ambassador/30 lines/no automatic-margins:\
+        :am@:tc=aaa-30:
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_20.html">previous</A>, <A HREF="termcap_22.html">next</A>, <A HREF="termcap_47.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

@@ -1,0 +1,388 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/nana.texi on 6 November 1998 -->
+
+<TITLE>GNU Nana: improved support for assertions and logging in C and C++ - Introduction</TITLE>
+</HEAD>
+<BODY>
+Go to the first, previous, <A HREF="nana_2.html">next</A>, <A HREF="nana_8.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+<P><HR><P>
+
+<P>
+Copyright (C) 1996, 1997, P.J.Maker
+
+</P>
+<P>
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+</P>
+
+
+
+<H1><A NAME="SEC1" HREF="nana_toc.html#TOC1">Introduction</A></H1>
+
+<P>
+Nana is a library that provides support for assertion checking
+and logging in a space and time efficient manner. The aim is to put
+common good practise<A NAME="DOCF1" HREF="nana_foot.html#FOOT1">(1)</A> into a library that can be reused rather than
+writing this stuff every time you begin a new project.
+
+</P>
+<P>
+In addition assertion checking and logging code can be implemented using
+a debugger rather than as inline code with a large saving in code space.
+
+</P>
+<P>
+Nana aims to solve the following problems:
+
+</P>
+
+<OL>
+<LI>Avoid the two executables problem (one with asserts in and another
+
+without any).
+
+The code space and time costs of having assertion checking and detailed
+logging code in a program can be high. Normally people construct two
+versions of the program, one with checking code for testing and one
+without checking code for production use.
+
+With nana one version of the executable can be
+built for both testing and release since debugger based checking has 
+negligible space and time impact.
+
+<LI>Configurable: the nana library is designed to be reconfigured by
+
+the user according to their needs. For example we can:
+
+<UL>
+<LI>Modify the behaviour on assertion failure, e.g. to attempt
+
+a system restart rather than just shutting down.
+<LI>Selectively enable and disable assertion checking and
+
+logging both at compile and run time.
+<LI>Send the logging information off to various locations, e.g.
+
+
+<UL>
+<LI>Users terminal
+
+<LI>A file for later checking.
+
+<LI>Another process, e.g. a plotting program or a
+
+program that verifies that the system is behaving itself.
+<LI>A circular buffer in memory.
+
+This is an old embedded systems trick and is very useful
+for production systems. The time cost of logging into 
+memory is not large and when your production system in
+the field has problems you can then see what was happening 
+in the minutes before its unfortunate demise rather than
+asking some user what was happening before it died.
+</UL>
+
+</UL>
+
+<LI>Time and space efficient.
+
+For example the GNU <SAMP>`assert.h'</SAMP> implementation uses 53 bytes for 
+<SAMP>`assert(i&#62;=0)'</SAMP> on a i386. The nana version using the i386 <SAMP>`stp'</SAMP>
+instruction on assert fail uses 10 bytes. If your willing to accept the
+time penalty this can be reduced to 0 or 1 byte by using debugger based
+assertions.
+
+<LI>Support for formal methods.
+
+
+<UL>
+<LI>Before and after state (e.g. x,x' in the Z notation).
+
+Specifications are often written in terms of the state of
+variables before and after an operation. For example the
+<SAMP>`isempty'</SAMP> operation on a stack should leave the stack
+unchanged. To verify this in nana we could use:
+      
+
+<PRE>
+bool isempty(){ /* true iff stack is empty */
+  DS($s = s); /* copy s into $s in the debugger */
+  ...; /* code to do the operation */
+  DI($s == s); /* verify that s hasn't been changed */
+}
+</PRE>
+
+        
+These <SAMP>`$..'</SAMP> variables are called convenience variables 
+and are implemented by gdb. They have a global scope and are 
+dynamically typed and initialised automatically to 0.
+
+In addition a C only version of before and after state is provided.
+For example:
+
+
+<PRE>
+bool isempty() { /* true iff stack is empty */
+  ID(int olds); /* declare variable to hold old value */
+  IS(olds = s); /* copy s into $s in the debugger */
+  ...; /* code to do the operation */
+  I(olds == s); /* verify that s hasn't been changed */
+}
+</PRE>
+
+<LI>Support for Predicate Calculus.
+
+Nana provides some support for universal (forall) and
+existential  (exists one or more) quantification. For example to specify
+that the string v contains only lower case letters we could use:
+
+
+<PRE>
+  I(A(char *p = v, *p != '\0', p++, islower(*p)));
+</PRE>
+
+These macros can be nested and used as normal boolean values in
+control constructs as well as assertions. Unfortunately they
+depend on the GNU CC statement value extensions and so are not 
+portable. The following macros are defined in <SAMP>`Q.h'</SAMP>:
+
+<DL COMPACT>
+
+<DT><CODE>A</CODE>
+<DD>
+<A NAME="IDX1"></A>
+For all values the expression must be true.
+<DT><CODE>E</CODE>
+<DD>
+<A NAME="IDX2"></A>
+There exists one or more values for which the expression is
+true.
+<DT><CODE>E1</CODE>
+<DD>
+<A NAME="IDX3"></A>
+There exists a single value for which the expression is true.
+<DT><CODE>C</CODE>
+<DD>
+<A NAME="IDX4"></A>
+Returns the number of times the expression is true.
+<DT><CODE>S</CODE>
+<DD>
+<A NAME="IDX5"></A>
+Returns the sum of the expressions.
+<DT><CODE>P</CODE>
+<DD>
+<A NAME="IDX6"></A>
+Returns the product of the expressions.
+</DL>
+
+<LI>Verifying timing.
+
+As well as using nana to verify timings with assertions using a
+hardware supported timer you can also a simulator (e.g. the
+PSIM power pc simulator by Cagney) with gdb. These simulators can
+model time and provide a register called <SAMP>`$cycles'</SAMP> which
+represents the current cycle count of the program. This can be 
+used to check that timing constraints are being meet.
+
+
+<PRE>
+void process_events() {
+  for(;;){ 
+    DS($start = $cycles); 
+    switch(get_event()){
+      case TOO_HOT:
+        ...;
+        DI($start - $cycles &#60;= 120);
+        break;
+      case TOO_COLD:
+        ...;
+        DI($start - $cycles &#60;= 240);
+        break;
+    }
+  }
+}
+</PRE>
+
+</UL>
+
+</OL>
+
+<P>
+The intended audience for Nana includes:
+
+</P>
+
+<UL>
+<LI>Software Engineers.
+
+<LI>Formal methods community.
+
+<LI>Real time programmers.
+
+<LI>System testers.
+
+<LI>People teaching programming.
+
+</UL>
+
+
+
+<H2><A NAME="SEC2" HREF="nana_toc.html#TOC2">Related work</A></H2>
+<P>
+The Nana project was inspired by some other projects, in particular:
+
+</P>
+
+<UL>
+<LI>Anna - Anna stands for "Annotated Ada" where the programmer inserts
+
+various assertions into the code which can be automatically validated. 
+To quote from the WWW Virtual Library entry on Anna:
+
+
+<BLOCKQUOTE>
+<P>
+Anna is a language for formally specifying the intended behaviour of Ada
+programs. It extends Ada with various different kinds of specification
+constructs from ones as simple as assertions, to as complex as algebraic
+specifications. A tool set has been implemented at Stanford for
+Anna, including: 
+
+</P>
+
+<OL>
+<LI>standard DIANA extension packages, parsers, pretty-printers;
+
+<LI>a semantic checker;
+
+<LI>a specification analyser;
+
+<LI>an annotation transformer; and
+
+<LI>a special debugger that allows program debugging based on formal specifications
+
+</OL>
+
+<P>
+All tools have been developed in Ada and are therefore extremely
+portable. Anna has thus been ported to many platforms. For more
+information send e-mail to "anna-request@anna.stanford.edu". Before
+down loading the huge Anna release, you may wish to copy and read some
+Anna LaTeX reports.
+
+</P>
+</BLOCKQUOTE>
+
+Anna is available from: <CODE>ftp://anna.stanford.edu/pub/anna</CODE>
+
+<LI>Eiffel - the Eiffel programming language provides support in the language
+
+flexible assertion checking. To quote from the Eiffel page in WWW
+Virtual library:
+
+
+<BLOCKQUOTE>
+
+<P>
+Eiffel is a pure object-oriented language featuring multiple
+inheritance, polymorphism, static typing and dynamic binding, genericity
+(constrained and unconstrained), a disciplined exception mechanism,
+systematic use of assertions to promote programming by contract, and
+deferred classes for high-level design and analysis.
+</BLOCKQUOTE>
+
+<LI>APP - Annotation PreProcessor.
+
+The APP was written by David S. Rosenblum and provides assertion checking
+functions for C and C++. It is implemented using a preprocessor wrapper
+around the C preprocessor and supports quantifiers and before/after state.
+ 
+See "A Practical Approach to Programming with Assertions" in
+Vol 21, No. 1, January 1995 of IEEE Transactions on Software Engineering
+for an interesting paper describing APP. Unfortunately the APP tool
+doesn't seem to be freely available (I'm willing to be corrected on this). 
+Note that any similarity between my examples and David's are due
+to morphic resonance.
+</UL>
+
+<P>
+Nana is essentially a poor mans implementation of some of these ideas
+which works for C and C++. Ideally in the best of all possible worlds
+you might want to look at Eiffel or in the military world Ada and Anna.
+If you use TCL/TK you might also be interested in Jon Cook's 
+<SAMP>`AsserTCL'</SAMP> package.
+
+</P>
+
+
+<H2><A NAME="SEC3" HREF="nana_toc.html#TOC3">Assert.h considered harmful</A></H2>
+<P>
+Most C programmers become familiar with assertions from the the
+<CODE>assert.h</CODE> header. As such its a very good thing and has a nice
+simple implementation. However it is also inefficient and leads some
+people to the conclusion that assertion checking is an expensive luxury.
+
+</P>
+<P>
+The implementation of <CODE>assert.h</CODE> as distributed with <CODE>gcc</CODE>
+looks like the following (after a bit of editing):
+
+</P>
+
+<PRE>
+# ifndef NDEBUG
+# define _assert(ex)	{if (!(ex)) \
+                         {(void)fprintf(stderr, \
+                           "Assertion failed: file \"%s\", line %d\n", \
+                           __FILE__, __LINE__);exit(1);}}
+# define assert(ex)	_assert(ex)
+# else
+# define _assert(ex)
+# define assert(ex)
+# endif
+</PRE>
+
+<P>
+There are are two main problems with this:
+
+</P>
+
+<OL>
+<LI>Code space overhead: each call to <SAMP>`assert'</SAMP> generates 2 function
+
+calls with 4 and 1 arguments plus strings for error messages. 
+If <CODE>assert.h</CODE> had library code support we could make the implementation
+much more space efficient, e.g. by calling a single function on error
+detection.   
+<LI>The default behaviour simply prints a message and dies, ideally
+
+you like to be able to use a debugger to determine why the assertion
+failed. Even if you run this under the debugger you can't observe the
+failures of variables are an assert failure because the process exits
+rather than aborting back to the debugger.
+</OL>
+
+<P>
+Of course everyone merely rewrites their own <SAMP>`assert'</SAMP> macro so
+these are not significant objections. The only problem is if the author
+uses the libraries without modification.
+
+</P>
+
+
+<H2><A NAME="SEC4" HREF="nana_toc.html#TOC4">Scope of this document</A></H2>
+<P>
+This document aims to both describe the library and provide a tutorial
+in its use. Further work is required, particularly on the tutorial sections. 
+If anyone has any suggestions please send them to me.
+
+</P>
+<P><HR><P>
+Go to the first, previous, <A HREF="nana_2.html">next</A>, <A HREF="nana_8.html">last</A> section, <A HREF="nana_toc.html">table of contents</A>.
+</BODY>
+</HTML>

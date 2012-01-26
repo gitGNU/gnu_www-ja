@@ -1,0 +1,240 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="C++%20Interface%20Floats">C++ Interface Floats</a>,
+Next:<a rel=next accesskey=n href="C---Interface-MPFR.html#C++%20Interface%20MPFR">C++ Interface MPFR</a>,
+Previous:<a rel=previous accesskey=p href="C---Interface-Rationals.html#C++%20Interface%20Rationals">C++ Interface Rationals</a>,
+Up:<a rel=up accesskey=u href="C---Class-Interface.html#C++%20Class%20Interface">C++ Class Interface</a>
+<hr><br>
+
+<h3>C++ Interface Floats</h3>
+
+<p>When an expression requires the use of temporary intermediate <code>mpf_class</code>
+values, like <code>f=g*h+x*y</code>, those temporaries will have the same precision
+as the destination <code>f</code>.  Explicit constructors can be used if this
+doesn't suit.
+
+<p>
+<table width="100%">
+<tr>
+<td align="left"> <b>mpf_class::mpf_class</b><i> (type <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left"> <b>mpf_class::mpf_class</b><i> (type <var>op</var>, unsigned long <var>prec</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Construct an <code>mpf_class</code>.  Any standard C++ type can be used, except
+<code>long long</code> and <code>long double</code>, and any of the GMP C++ classes can be
+used.
+
+<p>If <var>prec</var> is given, the initial precision is that value, in bits.  If
+<var>prec</var> is not given, then the initial precision is determined by the type
+of <var>op</var> given.  An <code>mpz_class</code>, <code>mpq_class</code>, string, or C++
+builtin type will give the default <code>mpf</code> precision (see <a href="Initializing-Floats.html#Initializing%20Floats">Initializing Floats</a>).  An <code>mpf_class</code> or expression will give the precision of that
+value.  The precision of a binary expression is the higher of the two
+operands.
+
+<br><pre>mpf_class f(1.5);        // default precision
+mpf_class f(1.5, 500);   // 500 bits (at least)
+mpf_class f(x);          // precision of x
+mpf_class f(abs(x));     // precision of x
+mpf_class f(-g, 1000);   // 1000 bits (at least)
+mpf_class f(x+y);        // greater of precisions of x and y
+</pre>
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">mpf_class <b>abs</b><i> (mpf_class <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">mpf_class <b>ceil</b><i> (mpf_class <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">int <b>cmp</b><i> (mpf_class <var>op1</var>, type <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">int <b>cmp</b><i> (type <var>op1</var>, mpf_class <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+
+<tr>
+<td align="left">mpf_class <b>floor</b><i> (mpf_class <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">mpf_class <b>hypot</b><i> (mpf_class <var>op1</var>, mpf_class <var>op2</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">double <b>mpf_class::get_d</b><i> (void)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">long <b>mpf_class::get_si</b><i> (void)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">unsigned long <b>mpf_class::get_ui</b><i> (void)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+
+<tr>
+<td align="left">bool <b>mpf_class::fits_sint_p</b><i> (void)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">bool <b>mpf_class::fits_slong_p</b><i> (void)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">bool <b>mpf_class::fits_sshort_p</b><i> (void)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+
+<tr>
+<td align="left">bool <b>mpf_class::fits_uint_p</b><i> (void)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">bool <b>mpf_class::fits_ulong_p</b><i> (void)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">bool <b>mpf_class::fits_ushort_p</b><i> (void)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+
+<tr>
+<td align="left">int <b>sgn</b><i> (mpf_class <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">mpf_class <b>sqrt</b><i> (mpf_class <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">mpf_class <b>trunc</b><i> (mpf_class <var>op</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+These functions provide a C++ class interface to the corresponding GMP C
+routines.
+
+<p><code>cmp</code> can be used with any of the classes or the standard C++ types,
+except <code>long long</code> and <code>long double</code>.
+
+<p>The accuracy provided by <code>hypot</code> is not currently guaranteed. 
+</td></tr>
+</table>
+
+<p>
+<table width="100%">
+<tr>
+<td align="left">unsigned long int <b>mpf_class::get_prec</b><i> ()
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_class::set_prec</b><i> (unsigned long <var>prec</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+
+<tr>
+<td align="left">void <b>mpf_class::set_prec_raw</b><i> (unsigned long <var>prec</var>)
+</i></td>
+<td align="right">Function</td>
+</tr>
+</table>
+<table width="95%" align="center">
+<tr><td>
+Get or set the current precision of an <code>mpf_class</code>.
+
+<p>The restrictions described for <code>mpf_set_prec_raw</code> (see <a href="Initializing-Floats.html#Initializing%20Floats">Initializing Floats</a>) apply to <code>mpf_class::set_prec_raw</code>.  Note in particular that the
+<code>mpf_class</code> must be restored to it's allocated precision before being
+destroyed.  This must be done by application code, there's no automatic
+mechanism for it. 
+</td></tr>
+</table>
+
+</body></html>
+

@@ -1,0 +1,280 @@
+<html lang="en">
+<head>
+<title>Sample C Drawings - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="C-Programming.html#C-Programming" title="C Programming">
+<link rel="prev" href="C-Compiling-and-Linking.html#C-Compiling-and-Linking" title="C Compiling and Linking">
+<link rel="next" href="Paths-and-Subpaths.html#Paths-and-Subpaths" title="Paths and Subpaths">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Sample-C-Drawings"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Paths-and-Subpaths.html#Paths-and-Subpaths">Paths and Subpaths</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="C-Compiling-and-Linking.html#C-Compiling-and-Linking">C Compiling and Linking</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="C-Programming.html#C-Programming">C Programming</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.2.4 Sample drawings in C</h4>
+
+<p>The following is a sample application, written in C, that invokes GNU
+<code>libplot</code> operations to draw vector graphics.  It&nbsp;draws<!-- /@w --> an
+intricate and beautiful path (Bill Gosper's &ldquo;C&rdquo;&nbsp;curve<!-- /@w -->, discussed
+as Item #135 in <cite>HAKMEM</cite>, MIT Artificial Intelligence Laboratory
+Memo #239, 1972).  As&nbsp;the<!-- /@w --> numeric constant <code>MAXORDER</code> (here
+equal to&nbsp;12<!-- /@w -->) is increased, the path will take&nbsp;on<!-- /@w --> the shape of a
+curly letter&nbsp;&ldquo;C&rdquo;<!-- /@w -->, which is the envelope of a myriad of epicyclic
+octagons.
+
+<pre class="example">     #include &lt;stdio.h&gt;
+     #include &lt;plot.h&gt;
+     #define MAXORDER 12
+     
+     void draw_c_curve (plPlotter *plotter, double dx, double dy, int order)
+     {
+       if (order &gt;= MAXORDER)
+         /* continue path along (dx, dy) */
+         pl_fcontrel_r (plotter, dx, dy);
+       else
+         {
+           draw_c_curve (plotter,
+                         0.5 * (dx - dy), 0.5 * (dx + dy), order + 1);
+           draw_c_curve (plotter,
+                         0.5 * (dx + dy), 0.5 * (dy - dx), order + 1);
+         }
+     }
+     
+     int main ()
+     {
+       plPlotter *plotter;
+       plPlotterParams *plotter_params;
+     
+       /* set a Plotter parameter */
+       plotter_params = pl_newplparams ();
+       pl_setplparam (plotter_params, "PAGESIZE", "letter");
+     
+       /* create a Postscript Plotter that writes to standard output */
+       if ((plotter = pl_newpl_r ("ps", stdin, stdout, stderr,
+                                  plotter_params)) == NULL)
+         {
+           fprintf (stderr, "Couldn't create Plotter\n");
+           return 1;
+         }
+     
+       if (pl_openpl_r (plotter) &lt; 0)      /* open Plotter */
+         {
+           fprintf (stderr, "Couldn't open Plotter\n");
+           return 1;
+         }
+       pl_fspace_r (plotter, 0.0, 0.0, 1000.0, 1000.0); /* set coor system */
+       pl_flinewidth_r (plotter, 0.25);    /* set line thickness */
+       pl_pencolorname_r (plotter, "red"); /* use red pen */
+       pl_erase_r (plotter);               /* erase graphics display */
+       pl_fmove_r (plotter, 600.0, 300.0); /* position the graphics cursor */
+       draw_c_curve (plotter, 0.0, 400.0, 0);
+       if (pl_closepl_r (plotter) &lt; 0)     /* close Plotter */
+         {
+           fprintf (stderr, "Couldn't close Plotter\n");
+           return 1;
+         }
+     
+       if (pl_deletepl_r (plotter) &lt; 0)    /* delete Plotter */
+         {
+           fprintf (stderr, "Couldn't delete Plotter\n");
+           return 1;
+         }
+       return 0;
+     }
+</pre>
+   <p>As you can see, this application begins by creating a
+<code>plPlotterParams</code> object to hold Plotter parameters, and sets the
+<code>PAGESIZE</code> parameter.  It&nbsp;then<!-- /@w --> calls the <code>pl_newpl_r</code>
+function to create a Postscript Plotter.  The Postscript Plotter will
+produce output for a US letter-sized page, though any other standard
+page size, e.g., "a4", could be substituted.  This would be arranged by
+altering the call to <code>pl_setplparam</code>.  The <code>PAGESIZE</code>
+parameter is one of several Plotter parameters that an application
+programmer may set.  For a list, see <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.
+
+   <p>After the Plotter is created, the application opens&nbsp;it<!-- /@w --> and draws the
+&ldquo;C&rdquo;&nbsp;curve<!-- /@w --> recursively.  The drawing of the curve is accomplished
+by calling the <code>pl_fmove_r</code> function to position the Plotter's
+graphics cursor, and then calling <code>draw_c_curve</code>.  This subroutine
+repeatedly calls <code>pl_fcontrel_r</code>.  The <code>pl_fcontrel_r</code>
+function continues a path by adding a line segment to&nbsp;it<!-- /@w -->.  The
+endpoint of each line segment is specified in relative floating point
+coordinates, i.e., as a floating point offset from the previous cursor
+position.  After the &ldquo;C&rdquo;&nbsp;curve<!-- /@w --> is drawn, the Plotter is closed by
+calling <code>pl_closepl_r</code>, which automatically invokes
+<code>pl_endpath_r</code> to end the path.  A&nbsp;Postscript<!-- /@w --> file is written
+to standard output when <code>pl_deletepl_r</code> is called to delete the
+Plotter.
+
+   <p>Specifying "png", "pnm", "gif", "svg", "ai", "cgm", "fig", "pcl",
+"hpgl", "regis", "tek", or "meta" as the first argument in the call to
+<code>pl_newpl_r</code>, instead of "ps", would yield a Plotter that would
+write graphics to standard output in the specified format, instead of
+Postscript.  The <code>PAGESIZE</code> parameter is relevant to the "svg",
+"ai", "cgm", "fig", "pcl", and "hpgl" output formats, but is ignored for
+the others.  Specifying "meta" as the Plotter type may be useful if you
+wish to avoid recompilation for different output devices.  Graphics
+metafile output may be piped to the <code>plot</code> utility and converted to
+any other supported output format, or displayed in an X&nbsp;window<!-- /@w -->. 
+See <a href="plot.html#plot">plot</a>.
+
+   <p>If&nbsp;"X"<!-- /@w --> were specified as the first argument of <code>pl_newpl_r</code>,
+the curve would be drawn in a popped-up X&nbsp;window<!-- /@w -->, and the output
+stream argument would be ignored.  Which X&nbsp;Window<!-- /@w --> System display the
+window would pop&nbsp;up<!-- /@w --> on would be determined by the <code>DISPLAY</code>
+parameter, or if that parameter were not set, by the <code>DISPLAY</code>
+environment variable.  The size of the X&nbsp;window<!-- /@w --> would be determined
+by the <code>BITMAPSIZE</code> parameter, or if that parameter were not set,
+by the <code>BITMAPSIZE</code> environment variable.  The default value is
+"570x570".  For the "png", "pnm", and "gif" Plotter types, the
+interpretation of <code>BITMAPSIZE</code> is similar.
+
+   <p>You could also specify "Xdrawable" as the Plotter type.  For you to make
+this work, you would need to know a bit about X&nbsp;Window<!-- /@w --> System
+programming.  You would need to create at&nbsp;least<!-- /@w --> one X&nbsp;drawable<!-- /@w -->
+(i.e., window or a pixmap), and by invoking <code>pl_setplparam</code> before
+<code>pl_newpl_r</code> is called, set it as the value of the parameter
+<code>XDRAWABLE_DRAWABLE1</code> or <code>XDRAWABLE_DRAWABLE2</code>.  For the
+parameters that affect X&nbsp;Drawable<!-- /@w --> Plotters, see <a href="Plotter-Parameters.html#Plotter-Parameters">Plotter Parameters</a>.
+
+   <p>The following is another sample application, written in C, that invokes
+<code>libplot</code> operations to draw vector graphics.  It&nbsp;draws<!-- /@w --> a
+spiral consisting of elliptically boxed text strings, each of which
+reads "GNU libplot!".  This figure will be sent to standard output in
+Postscript format.
+
+<pre class="example">     #include &lt;stdio.h&gt;
+     #include &lt;plot.h&gt;
+     #include &lt;math.h&gt;
+     #define SIZE 100.0   /* nominal size of user coordinate frame */
+     #define EXPAND 2.2   /* expansion factor for elliptical box */
+     
+     void draw_boxed_string (plPlotter *plotter,
+                             char *s, double size, double angle)
+     {
+       double true_size, width;
+     
+       pl_ftextangle_r (plotter, angle);      /* set text angle (degrees) */
+       true_size = pl_ffontsize_r (plotter, size);  /* set font size */
+       width = pl_flabelwidth_r (plotter, s); /* compute width of string */
+       pl_fellipserel_r (plotter, 0.0, 0.0,
+                         EXPAND * 0.5 * width, EXPAND * 0.5 * true_size,
+                         angle);              /* draw surrounding ellipse */
+       pl_alabel_r (plotter, 'c', 'c', s);    /* draw centered text string */
+     }
+     
+     int main()
+     {
+       plPlotter *plotter;
+       plPlotterParams *plotter_params;
+       int i;
+     
+       /* set a Plotter parameter */
+       plotter_params = pl_newplparams ();
+       pl_setplparam (plotter_params, "PAGESIZE", "letter");
+     
+       /* create a Postscript Plotter that writes to standard output */
+       if ((plotter = pl_newpl_r ("ps", stdin, stdout, stderr,
+                                  plotter_params)) == NULL)
+         {
+           fprintf (stderr, "Couldn't create Plotter\n");
+           return 1;
+         }
+     
+       if (pl_openpl_r (plotter) &lt; 0)      /* open Plotter */
+         {
+           fprintf (stderr, "Couldn't open Plotter\n");
+           return 1;
+         }
+       /* specify user coor system */
+       pl_fspace_r (plotter, -(SIZE), -(SIZE), SIZE, SIZE);
+       pl_pencolorname_r (plotter, "blue");     /* use blue pen */
+       pl_fillcolorname_r (plotter, "white");   /* set white fill color */
+       pl_filltype_r (plotter, 1);   /* fill ellipses with fill color */
+       /* choose a Postscript font */
+       pl_fontname_r (plotter, "NewCenturySchlbk-Roman");
+     
+       for (i = 80; i &gt; 1; i--)      /* loop through angles */
+         {
+           double theta, radius;
+     
+           theta = 0.5 * (double)i;  /* theta is in radians */
+           radius = SIZE / pow (theta, 0.35);  /* this yields a spiral */
+           pl_fmove_r (plotter, radius * cos (theta), radius * sin (theta));
+           draw_boxed_string (plotter, "GNU libplot!", 0.04 * radius,
+                              (180.0 * theta / M_PI) - 90.0);
+         }
+     
+       if (pl_closepl_r (plotter) &lt; 0)        /* close Plotter */
+         {
+           fprintf (stderr, "Couldn't close Plotter\n");
+           return 1;
+         }
+       if (pl_deletepl_r (plotter) &lt; 0)       /* delete Plotter */
+         {
+           fprintf (stderr, "Couldn't delete Plotter\n");
+           return 1;
+         }
+       return 0;
+     }
+</pre>
+   <p>This example shows what is involved in plotting a text string or text
+strings.  First, the desired font must be retrieved.  A&nbsp;font<!-- /@w --> is
+fully specified by calling <code>pl_fontname_r</code>, <code>pl_fontsize_r</code>,
+and <code>pl_textangle_r</code>, or their floating point counterparts
+<code>pl_ffontname_r</code>, <code>pl_ffontsize_r</code>, and
+<code>pl_ftextangle_r</code>.  Since these three functions may be called in
+any order, each of them returns the size of the font that it selects, as
+a convenience to the programmer.  This may differ slightly from the size
+specified in the most recent call to <code>pl_fontsize_r</code> or
+<code>pl_ffontsize_r</code>, since many Plotters have only a limited repertory
+of fonts.  The above example plots each text string in the
+"NewCenturySchlbk-Roman" font, which is available on Postscript
+Plotters.  See <a href="Text-Fonts.html#Text-Fonts">Text Fonts</a>.
+
+   <p>If you replace "ps" by "X" in the call to <code>pl_newpl_r</code>, an X&nbsp;Plotter<!-- /@w --> rather than a Postscript Plotter will be used, and the spiral
+will be drawn in a popped-up X&nbsp;window<!-- /@w -->.  If your X&nbsp;display<!-- /@w --> does
+not support the "NewCenturySchlbk-Roman" font, you may substitute any
+core X&nbsp;font<!-- /@w -->, such as the widely available scalable font
+"charter-medium-r-normal", or the traditional screen font "fixed". 
+For the format of font names, see <a href="Text-Fonts-in-X.html#Text-Fonts-in-X">Text Fonts in X</a>.  If&nbsp;the<!-- /@w -->
+X&nbsp;Plotter<!-- /@w --> is unable to retrieve the font you specify, it will
+first attempt to use a default scalable font ("Helvetica", interpreted
+in the context of the X&nbsp;Window<!-- /@w --> System as
+"helvetica-medium-r-normal"), and if that fails, use a default Hershey
+vector font ("HersheySerif") instead.  Hershey fonts are constructed
+from line segments, so each built-in Hershey font is available on all
+types of Plotter.
+
+   <p>If you are using an ancient (pre-X11R6) X&nbsp;Window<!-- /@w --> System display,
+you will find that retrieving a font is a time-consuming operation. 
+The above example may run slowly on such displays, since a new font
+must be retrieved before each text string is drawn.  That is because
+each text string has a different angle of inclination.  It&nbsp;is<!-- /@w -->
+possible to retrieve individual characters from an X11R6 display,
+rather than retrieving an entire font.  If&nbsp;this<!-- /@w --> feature is
+available, the X&nbsp;Plotter<!-- /@w --> will automatically take advantage of&nbsp;it<!-- /@w --> to save time.
+
+   </body></html>
+

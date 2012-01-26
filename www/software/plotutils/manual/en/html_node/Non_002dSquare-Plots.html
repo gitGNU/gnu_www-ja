@@ -1,0 +1,126 @@
+<html lang="en">
+<head>
+<title>Non-Square Plots - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="graph.html#graph" title="graph">
+<link rel="prev" href="Simple-Examples.html#Simple-Examples" title="Simple Examples">
+<link rel="next" href="Multiple-Datasets.html#Multiple-Datasets" title="Multiple Datasets">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Non-Square-Plots"></a>
+<a name="Non_002dSquare-Plots"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Multiple-Datasets.html#Multiple-Datasets">Multiple Datasets</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Simple-Examples.html#Simple-Examples">Simple Examples</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="graph.html#graph">graph</a>
+<hr>
+</div>
+
+<h3 class="section">2.2 Non-square, displaced, and rotated plots</h3>
+
+<p>To alter the linear dimensions of the plotting box, and also to position
+it in a different part of the graphics display, you could do something
+like
+
+<pre class="example">     graph -T ps -h .3 -w .6 -r .1 -u .1 &lt; datafile &gt; plot.ps
+</pre>
+   <p class="noindent">Here the &lsquo;<samp><span class="samp">-h</span></samp>&rsquo; and &lsquo;<samp><span class="samp">-w</span></samp>&rsquo; options specify the height and width of
+the plotting box, and the &lsquo;<samp><span class="samp">-r</span></samp>&rsquo; and &lsquo;<samp><span class="samp">-u</span></samp>&rsquo; options indicate how
+far up and to the right the lower left corner of the plotting box should
+be positioned.  All dimensions are expressed as fractions of the size of
+the graphics display.  By&nbsp;default<!-- /@w -->, the height and width of the
+plotting box equal 0.6, and the `upward shift' and the `rightward shift'
+equal&nbsp;0.2<!-- /@w -->.  So&nbsp;the<!-- /@w --> above example will produce a plot that is
+half as tall as usual.  Compared to its usual position, the plot will be
+shifted slightly downward and to the left.
+
+   <p>Several command-line options specify sizes or dimensions as fractions of
+the size of the plotting box.  For example, &lsquo;<samp><span class="samp">-S 3 .01</span></samp>&rsquo; specifies
+that the marker symbols for the following dataset should be of type&nbsp;#3<!-- /@w -->, and should have a font size equal to&nbsp;0.01<!-- /@w -->, i.e., 0.01 times the
+minimum dimension (height or width) of the plotting box.  If the
+&lsquo;<samp><span class="samp">-h</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-w</span></samp>&rsquo; options are employed to expand or contract the
+plot, such sizes or dimensions will scale in tandem.  That is presumably
+the right thing to&nbsp;do<!-- /@w -->.
+
+   <p>To rotate your plot by 90 degrees counterclockwise, you would add
+&lsquo;<samp><span class="samp">--rotation 90</span></samp>&rsquo; to the <code>graph</code> command line.  You would
+specify &lsquo;<samp><span class="samp">--rotation 180</span></samp>&rsquo; to produce an upside-down plot.  Any
+other angle may be specified, but angles other than 0, 90, 180, and
+270 degrees are of interest primarily to postmodernists.  The
+&lsquo;<samp><span class="samp">--rotation</span></samp>&rsquo; option may be combined with the &lsquo;<samp><span class="samp">-h</span></samp>&rsquo;,
+&lsquo;<samp><span class="samp">-w</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-r</span></samp>&rsquo;, and &lsquo;<samp><span class="samp">-u</span></samp>&rsquo; options.  If they appear together,
+the &lsquo;<samp><span class="samp">--rotation</span></samp>&rsquo; option takes effect first.  That is because
+&lsquo;<samp><span class="samp">--rotation</span></samp>&rsquo; specifies the rotation angle of the graphics
+display, while the other options specify how the plotting box should
+be positioned within the graphics display.  The two sorts of
+positioning are logically distinct.
+
+   <p>The graphics display (sometimes called the `viewport') is an
+abstraction.  For <code>graph -T&nbsp;X<!-- /@w --></code>, it is a popped-up window on an
+X&nbsp;display<!-- /@w -->.  For <code>graph -T pnm</code> and <code>graph -T gif</code>, it is a
+square or rectangular bitmap.  In these three cases, the size of the
+graphics display can be set by using the &lsquo;<samp><span class="samp">--bitmap-size</span></samp>&rsquo; option, or
+by setting the <code>BITMAPSIZE</code> environment variable.  For <code>graph
+-T tek</code>, the graphics display is a square region occupying the central
+part of a Tektronix display.  (Tektronix displays are 4/3 times as wide
+as they are high.)  For <code>graph -T regis</code>, it is a square region
+occupying the central part of a ReGIS display.  For <code>graph -T ai</code>,
+<code>graph -T ps</code>, <code>graph -T pcl</code>, and <code>graph -T fig</code>, by&nbsp;default<!-- /@w --> it is a 8-inch square centered on an 8.5<span class="dmn">in</span> by 11<span class="dmn">in</span>
+page (US&nbsp;letter<!-- /@w --> size).  For <code>graph -T hpgl</code>, it is an 8-inch
+square, which by default is not centered.  For <code>graph -T svg</code> and
+<code>graph -T cgm</code>, the default graphics display is an 8-inch square,
+though if the output file is placed on a Web page, it may be scaled
+arbitrarily.
+
+   <p>The page size, which determines the default display size used by
+<code>graph -T svg</code>, <code>graph -T ai</code>, <code>graph -T ps</code>, <code>graph
+-T cgm</code>, <code>graph -T fig</code>, <code>graph -T pcl</code>, and <code>graph -T
+hpgl</code>, can be set by using the &lsquo;<samp><span class="samp">--page-size</span></samp>&rsquo; option, or by setting
+the environment variable <code>PAGESIZE</code>.  For&nbsp;example<!-- /@w -->, setting the
+page size to "a4" would produce output for an A4-size page (21<span class="dmn">cm</span>
+by 29.7<span class="dmn">cm</span>), and would select a appropriate graphics display size. 
+Either or both of the dimensions of the graphics display can be
+specified explicitly.  For example, the page size could be specified as
+"letter,xsize=4in", or "a4,xsize=10cm,ysize=15cm".  The dimensions of
+the graphics display are allowed to be negative (a&nbsp;negative<!-- /@w -->
+dimension results in a reflection).
+
+   <p>The position of the display on the page, relative to its default
+position, may optionally be adjusted by specifying an offset vector. 
+For example, the page size could be specified as "letter,yoffset=1.2in",
+or "a4,xoffset=&minus;5mm,yoffset=2.0cm".  It&nbsp;is<!-- /@w --> also possible to
+position the graphics display precisely, by specifying the location of
+its lower left corner relative to the lower left corner of the page. 
+For example, the page size could be specified as
+"letter,xorigin=2in,yorigin=3in", or "a4,xorigin=0.5cm,yorigin=0.5cm".
+
+   <p>The preceding options may be intermingled.  However, <code>graph -T svg</code>
+and <code>graph -T cgm</code> ignore the "xoffset", "yoffset", "xorigin", and
+"yorigin" options, since SVG format and WebCGM format have no notion of
+the Web page on which the graphics display will ultimately be
+positioned.  They interpret the "xsize" and "ysize" options as
+specifying a default size for the graphics display (it&nbsp;is<!-- /@w --> merely a
+default, since the output file may be scaled arbitrarily when it is
+placed on a Web page).
+
+   <p>For more information on page and graphics display sizes, see <a href="Page-and-Viewport-Sizes.html#Page-and-Viewport-Sizes">Page and Viewport Sizes</a>.
+
+   </body></html>
+

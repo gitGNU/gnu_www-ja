@@ -1,0 +1,246 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - A sample session</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_3.html">previous</A>, <A HREF="cvs_5.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC10" HREF="cvs_toc.html#TOC10">A sample session</A></H1>
+<P>
+<A NAME="IDX35"></A>
+<A NAME="IDX36"></A>
+<A NAME="IDX37"></A>
+<A NAME="IDX38"></A>
+<A NAME="IDX39"></A>
+<A NAME="IDX40"></A>
+
+</P>
+<P>
+This section describes a typical work-session using
+CVS.  It assumes that a repository is set up
+(see section <A HREF="cvs_5.html#SEC15">The Repository</A>).
+
+</P>
+<P>
+Suppose you are working on a simple compiler.  The source
+consists of a handful of C files and a <TT>`Makefile'</TT>.
+The compiler is called <SAMP>`tc'</SAMP> (Trivial Compiler),
+and the repository is set up so that there is a module
+called <SAMP>`tc'</SAMP>.
+
+</P>
+
+
+
+<H2><A NAME="SEC11" HREF="cvs_toc.html#TOC11">Getting the source</A></H2>
+<P>
+<A NAME="IDX41"></A>
+<A NAME="IDX42"></A>
+<A NAME="IDX43"></A>
+<A NAME="IDX44"></A>
+<A NAME="IDX45"></A>
+
+</P>
+<P>
+The first thing you must do is to get your own working copy of the
+source for <SAMP>`tc'</SAMP>.  For this, you use the <CODE>checkout</CODE> command:
+
+</P>
+
+<PRE>
+$ cvs checkout tc
+</PRE>
+
+<P>
+This will create a new directory called <TT>`tc'</TT> and populate it with
+the source files.
+
+</P>
+
+<PRE>
+$ cd tc
+$ ls
+CVS         Makefile    backend.c   driver.c    frontend.c  parser.c
+</PRE>
+
+<P>
+The <TT>`CVS'</TT> directory is used internally by
+CVS.  Normally, you should not modify or remove
+any of the files in it.
+
+</P>
+<P>
+You start your favorite editor, hack away at <TT>`backend.c'</TT>, and a couple
+of hours later you have added an optimization pass to the compiler.
+A note to RCS and SCCS users: There is no need to lock the files that
+you want to edit.  See section <A HREF="cvs_7.html#SEC37">Multiple developers</A> for an explanation.
+
+</P>
+
+
+<H2><A NAME="SEC12" HREF="cvs_toc.html#TOC12">Committing your changes</A></H2>
+<P>
+<A NAME="IDX46"></A>
+<A NAME="IDX47"></A>
+<A NAME="IDX48"></A>
+<A NAME="IDX49"></A>
+
+</P>
+<P>
+When you have checked that the compiler is still compilable you decide
+to make a new version of <TT>`backend.c'</TT>.
+
+</P>
+
+<PRE>
+$ cvs commit backend.c
+</PRE>
+
+<P>
+CVS starts an editor, to allow you to enter a log
+message.  You type in "Added an optimization pass.",
+save the temporary file, and exit the editor.
+
+</P>
+<P>
+The environment variable <CODE>$CVSEDITOR</CODE> determines
+which editor is started.  If <CODE>$CVSEDITOR</CODE> is not
+set, then if the environment variable <CODE>$EDITOR</CODE> is
+set, it will be used. If both <CODE>$CVSEDITOR</CODE> and
+<CODE>$EDITOR</CODE> are not set then the editor defaults to
+<CODE>vi</CODE>.  If you want to avoid the overhead of
+starting an editor you can specify the log message on
+the command line using the <SAMP>`-m'</SAMP> flag instead, like
+this:
+
+</P>
+
+<PRE>
+$ cvs commit -m "Added an optimization pass" backend.c
+</PRE>
+
+
+
+<H2><A NAME="SEC13" HREF="cvs_toc.html#TOC13">Cleaning up</A></H2>
+<P>
+<A NAME="IDX50"></A>
+<A NAME="IDX51"></A>
+<A NAME="IDX52"></A>
+<A NAME="IDX53"></A>
+
+</P>
+<P>
+Before you turn to other tasks you decide to remove your working copy of
+tc.  One acceptable way to do that is of course
+
+</P>
+
+<PRE>
+$ cd ..
+$ rm -r tc
+</PRE>
+
+<P>
+but a better way is to use the <CODE>release</CODE> command (see section <A HREF="cvs_20.html#SEC122">release--Indicate that a Module is no longer in use</A>):
+
+</P>
+
+<PRE>
+$ cd ..
+$ cvs release -d tc
+M driver.c
+? tc
+You have [1] altered files in this repository.
+Are you sure you want to release (and delete) module `tc': n
+** `release' aborted by user choice.
+</PRE>
+
+<P>
+The <CODE>release</CODE> command checks that all your modifications have been
+committed.  If history logging is enabled it also makes a note in the
+history file.  See section <A HREF="cvs_21.html#SEC149">The history file</A>.
+
+</P>
+<P>
+When you use the <SAMP>`-d'</SAMP> flag with <CODE>release</CODE>, it
+also removes your working copy.
+
+</P>
+<P>
+In the example above, the <CODE>release</CODE> command wrote a couple of lines
+of output.  <SAMP>`? tc'</SAMP> means that the file <TT>`tc'</TT> is unknown to CVS.
+That is nothing to worry about: <TT>`tc'</TT> is the executable compiler,
+and it should not be stored in the repository.  See section <A HREF="cvs_21.html#SEC148">Ignoring files via cvsignore</A>,
+for information about how to make that warning go away.
+See section <A HREF="cvs_20.html#SEC124">release output</A>, for a complete explanation of
+all possible output from <CODE>release</CODE>.
+
+</P>
+<P>
+<SAMP>`M driver.c'</SAMP> is more serious.  It means that the
+file <TT>`driver.c'</TT> has been modified since it was
+checked out.
+
+</P>
+<P>
+The <CODE>release</CODE> command always finishes by telling
+you how many modified files you have in your working
+copy of the sources, and then asks you for confirmation
+before deleting any files or making any note in the
+history file.
+
+</P>
+<P>
+You decide to play it safe and answer <KBD>n <KBD>RET</KBD></KBD>
+when <CODE>release</CODE> asks for confirmation.
+
+</P>
+
+
+<H2><A NAME="SEC14" HREF="cvs_toc.html#TOC14">Viewing differences</A></H2>
+<P>
+<A NAME="IDX54"></A>
+<A NAME="IDX55"></A>
+
+</P>
+<P>
+You do not remember modifying <TT>`driver.c'</TT>, so you want to see what
+has happened to that file.
+
+</P>
+
+<PRE>
+$ cd tc
+$ cvs diff driver.c
+</PRE>
+
+<P>
+This command runs <CODE>diff</CODE> to compare the version of <TT>`driver.c'</TT>
+that you checked out with your working copy.  When you see the output
+you remember that you added a command line option that enabled the
+optimization pass.  You check it in, and release the module.
+
+</P>
+
+<PRE>
+$ cvs commit -m "Added an optimization pass" driver.c
+Checking in driver.c;
+/usr/local/cvsroot/tc/driver.c,v  &#60;--  driver.c
+new revision: 1.2; previous revision: 1.1
+done
+$ cd ..
+$ cvs release -d tc
+? tc
+You have [0] altered files in this repository.
+Are you sure you want to release (and delete) module `tc': y
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_3.html">previous</A>, <A HREF="cvs_5.html">next</A>, <A HREF="cvs_25.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

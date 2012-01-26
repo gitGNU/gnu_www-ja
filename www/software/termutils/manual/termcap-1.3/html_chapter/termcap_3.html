@@ -1,0 +1,396 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/termcap.texi on 7 November 1998 -->
+
+<TITLE>The Termcap Library - The Format of the Data Base</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_2.html">previous</A>, <A HREF="termcap_4.html">next</A>, <A HREF="termcap_8.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC17" HREF="termcap_toc.html#TOC17">The Format of the Data Base</A></H1>
+
+<P>
+The termcap data base of terminal descriptions is stored in the file
+<TT>`/etc/termcap'</TT>.  It contains terminal descriptions, blank lines, and
+comments.
+
+</P>
+<P>
+A terminal description starts with one or more names for the terminal type.
+The information in the description is a series of <EM>capability names</EM>
+and values.  The capability names have standard meanings
+(see section <A HREF="termcap_4.html#SEC23">Definitions of the Terminal Capabilities</A>) and their values describe the terminal.
+
+</P>
+
+
+
+<H2><A NAME="SEC18" HREF="termcap_toc.html#TOC18">Terminal Description Format</A></H2>
+<P>
+<A NAME="IDX18"></A>
+
+</P>
+<P>
+Aside from comments (lines starting with <SAMP>`#'</SAMP>, which are ignored), each
+nonblank line in the termcap data base is a terminal description.
+A terminal description is nominally a single line, but it can be split
+into multiple lines by inserting the two characters <SAMP>`\ newline'</SAMP>.
+This sequence is ignored wherever it appears in a description.
+
+</P>
+<P>
+The preferred way to split the description is between capabilities: insert
+the four characters <SAMP>`: \ newline tab'</SAMP> immediately before any colon.
+This allows each sub-line to start with some indentation.  This works
+because, after the <SAMP>`\ newline'</SAMP> are ignored, the result is <SAMP>`: tab
+:'</SAMP>; the first colon ends the preceding capability and the second colon
+starts the next capability.  If you split with <SAMP>`\ newline'</SAMP> alone, you
+may not add any indentation after them.
+
+</P>
+<P>
+Here is a real example of a terminal description:
+
+</P>
+
+<PRE>
+dw|vt52|DEC vt52:\
+        :cr=^M:do=^J:nl=^J:bl=^G:\
+        :le=^H:bs:cd=\EJ:ce=\EK:cl=\EH\EJ:\
+        :cm=\EY%+ %+ :co#80:li#24:\
+        :nd=\EC:ta=^I:pt:sr=\EI:up=\EA:\
+        :ku=\EA:kd=\EB:kr=\EC:kl=\ED:kb=^H:
+</PRE>
+
+<P>
+Each terminal description begins with several names for the terminal type.
+The names are separated by <SAMP>`|'</SAMP> characters, and a colon ends the last
+name.  The first name should be two characters long; it exists only for the
+sake of very old Unix systems and is never used in modern systems.  The
+last name should be a fully verbose name such as "DEC vt52" or "Ann
+Arbor Ambassador with 48 lines".  The other names should include whatever
+the user ought to be able to specify to get this terminal type, such as
+<SAMP>`vt52'</SAMP> or <SAMP>`aaa-48'</SAMP>.  See section <A HREF="termcap_3.html#SEC20">Terminal Type Name Conventions</A>, for information on how to
+choose terminal type names.
+
+</P>
+<P>
+After the terminal type names come the terminal capabilities, separated by
+colons and with a colon after the last one.  Each capability has a
+two-letter name, such as <SAMP>`cm'</SAMP> for "cursor motion string" or <SAMP>`li'</SAMP>
+for "number of display lines".
+
+</P>
+
+
+<H2><A NAME="SEC19" HREF="termcap_toc.html#TOC19">Writing the Capabilities</A></H2>
+
+<P>
+There are three kinds of capabilities: flags, numbers, and strings.  Each
+kind has its own way of being written in the description.  Each defined
+capability has by convention a particular kind of value; for example,
+<SAMP>`li'</SAMP> always has a numeric value and <SAMP>`cm'</SAMP> always a string value.
+
+</P>
+<P>
+A flag capability is thought of as having a boolean value: the value is
+true if the capability is present, false if not.  When the capability is
+present, just write its name between two colons.
+
+</P>
+<P>
+A numeric capability has a value which is a nonnegative number.  Write the
+capability name, a <SAMP>`#'</SAMP>, and the number, between two colons.  For
+example, <SAMP>`...:li#48:...'</SAMP> is how you specify the <SAMP>`li'</SAMP>
+capability for 48 lines.
+</P>
+<P>
+A string-valued capability has a value which is a sequence of characters.
+Usually these are the characters used to perform some display operation.
+Write the capability name, a <SAMP>`='</SAMP>, and the characters of the value,
+between two colons.  For example, <SAMP>`...:cm=\E[%i%d;%dH:...'</SAMP> is
+how the cursor motion command for a standard ANSI terminal would be
+specified.
+</P>
+<P>
+Special characters in the string value can be expressed using
+<SAMP>`\'</SAMP>-escape sequences as in C; in addition, <SAMP>`\E'</SAMP> stands for
+<KBD>ESC</KBD>.  <SAMP>`^'</SAMP> is also a kind of escape character; <SAMP>`^'</SAMP> followed
+by <VAR>char</VAR> stands for the control-equivalent of <VAR>char</VAR>.  Thus,
+<SAMP>`^a'</SAMP> stands for the character control-a, just like <SAMP>`\001'</SAMP>.
+<SAMP>`\'</SAMP> and <SAMP>`^'</SAMP> themselves can be represented as <SAMP>`\\'</SAMP> and
+<SAMP>`\^'</SAMP>.
+</P>
+<P>
+To include a colon in the string, you must write <SAMP>`\072'</SAMP>.  You might
+ask, "Why can't <SAMP>`\:'</SAMP> be used to represent a colon?"  The reason is
+that the interrogation functions do not count slashes while looking for a
+capability.  Even if <SAMP>`:ce=ab\:cd:'</SAMP> were interpreted as giving the
+<SAMP>`ce'</SAMP> capability the value <SAMP>`ab:cd'</SAMP>, it would also appear to define
+<SAMP>`cd'</SAMP> as a flag.
+
+</P>
+<P>
+The string value will often contain digits at the front to specify padding
+(see section <A HREF="termcap_2.html#SEC7">Padding</A>) and/or <SAMP>`%'</SAMP>-sequences within to specify how to encode
+parameters (see section <A HREF="termcap_2.html#SEC12">Filling In Parameters</A>).  Although these things are not to be
+output literally to the terminal, they are considered part of the value of
+the capability.  They are special only when the string value is processed
+by <CODE>tputs</CODE>, <CODE>tparam</CODE> or <CODE>tgoto</CODE>.  By contrast, <SAMP>`\'</SAMP> and
+<SAMP>`^'</SAMP> are considered part of the syntax for specifying the characters
+in the string.
+
+</P>
+<P>
+Let's look at the VT52 example again:
+
+</P>
+
+<PRE>
+dw|vt52|DEC vt52:\
+        :cr=^M:do=^J:nl=^J:bl=^G:\
+        :le=^H:bs:cd=\EJ:ce=\EK:cl=\EH\EJ:\
+        :cm=\EY%+ %+ :co#80:li#24:\     
+        :nd=\EC:ta=^I:pt:sr=\EI:up=\EA:\
+        :ku=\EA:kd=\EB:kr=\EC:kl=\ED:kb=^H:
+</PRE>
+
+<P>
+Here we see the numeric-valued capabilities <SAMP>`co'</SAMP> and <SAMP>`li'</SAMP>, the
+flags <SAMP>`bs'</SAMP> and <SAMP>`pt'</SAMP>, and many string-valued capabilities.  Most
+of the strings start with <KBD>ESC</KBD> represented as <SAMP>`\E'</SAMP>.  The rest
+contain control characters represented using <SAMP>`^'</SAMP>.  The meanings of the
+individual capabilities are defined elsewhere (see section <A HREF="termcap_4.html#SEC23">Definitions of the Terminal Capabilities</A>).
+
+</P>
+
+
+<H2><A NAME="SEC20" HREF="termcap_toc.html#TOC20">Terminal Type Name Conventions</A></H2>
+<P>
+<A NAME="IDX19"></A>
+
+</P>
+<P>
+There are conventions for choosing names of terminal types.  For one thing,
+all letters should be in lower case.  The terminal type for a terminal in
+its most usual or most fundamental mode of operation should not have a
+hyphen in it.
+
+</P>
+<P>
+If the same terminal has other modes of operation which require
+different terminal descriptions, these variant descriptions are given
+names made by adding suffixes with hyphens.  Such alternate descriptions
+are used for two reasons:
+
+</P>
+
+<UL>
+<LI>
+
+When the terminal has a switch that changes its behavior.  Since the
+computer cannot tell how the switch is set, the user must tell the
+computer by choosing the appropriate terminal type name.
+
+<A NAME="IDX20"></A>
+For example, the VT-100 has a setup flag that controls whether the
+cursor wraps at the right margin.  If this flag is set to "wrap",
+you must use the terminal type <SAMP>`vt100-am'</SAMP>.  Otherwise you must
+use <SAMP>`vt100-nam'</SAMP>.  Plain <SAMP>`vt100'</SAMP> is defined as a synonym for
+either <SAMP>`vt100-am'</SAMP> or <SAMP>`vt100-nam'</SAMP> depending on the
+preferences of the local site.
+The standard suffix <SAMP>`-am'</SAMP> stands for "automatic margins".
+
+<LI>
+
+To give the user a choice in how to use the terminal.  This is done
+when the terminal has a switch that the computer normally controls.
+
+<A NAME="IDX21"></A>
+For example, the Ann Arbor Ambassador can be configured with many
+screen sizes ranging from 20 to 60 lines.  Fewer lines make bigger
+characters but more lines let you see more of what you are editing.
+As a result, users have different preferences.  Therefore, termcap
+provides terminal types for many screen sizes.  If you choose type
+<SAMP>`aaa-30'</SAMP>, the terminal will be configured to use 30 lines; if you
+choose <SAMP>`aaa-48'</SAMP>, 48 lines will be used, and so on.
+</UL>
+
+<P>
+Here is a list of standard suffixes and their conventional meanings:
+
+</P>
+<DL COMPACT>
+
+<DT><SAMP>`-w'</SAMP>
+<DD>
+Short for "wide".  This is a mode that gives the terminal more
+columns than usual.  This is normally a user option.
+
+<DT><SAMP>`-am'</SAMP>
+<DD>
+"Automatic margins".  This is an alternate description for use when
+the terminal's margin-wrap switch is on; it contains the <SAMP>`am'</SAMP>
+flag.  The implication is that normally the switch is off and the
+usual description for the terminal says that the switch is off.
+
+<DT><SAMP>`-nam'</SAMP>
+<DD>
+"No automatic margins".  The opposite of <SAMP>`-am'</SAMP>, this names an
+alternative description which lacks the <SAMP>`am'</SAMP> flag.  This implies
+that the terminal is normally operated with the margin-wrap switch
+turned on, and the normal description of the terminal says so.
+
+<DT><SAMP>`-na'</SAMP>
+<DD>
+"No arrows".  This terminal description initializes the terminal to
+keep its arrow keys in local mode.  This is a user option.
+
+<DT><SAMP>`-rv'</SAMP>
+<DD>
+"Reverse video".  This terminal description causes text output for
+normal video to appear as reverse, and text output for reverse video
+to come out as normal.  Often this description differs from the usual
+one by interchanging the two strings which turn reverse video on and
+off.
+This is a user option; you can choose either the "reverse video"
+variant terminal type or the normal terminal type, and termcap will
+obey.
+
+<DT><SAMP>`-s'</SAMP>
+<DD>
+"Status".  Says to enable use of a status line which ordinary output
+does not touch (see section <A HREF="termcap_4.html#SEC41">Status Line</A>).
+
+Some terminals have a special line that is used only as a status line.
+For these terminals, there is no need for an <SAMP>`-s'</SAMP> variant; the
+status line commands should be defined by default.  On other
+terminals, enabling a status line means removing one screen line from
+ordinary use and reducing the effective screen height.  For these
+terminals, the user can choose the <SAMP>`-s'</SAMP> variant type to request
+use of a status line.
+
+<DT><SAMP>`-<VAR>nlines</VAR>'</SAMP>
+<DD>
+Says to operate with <VAR>nlines</VAR> lines on the screen, for terminals
+such as the Ambassador which provide this as an option.  Normally this
+is a user option; by choosing the terminal type, you control how many
+lines termcap will use.
+
+<DT><SAMP>`-<VAR>npages</VAR>p'</SAMP>
+<DD>
+Says that the terminal has <VAR>npages</VAR> pages worth of screen memory,
+for terminals where this is a hardware option.
+
+<DT><SAMP>`-unk'</SAMP>
+<DD>
+Says that description is not for direct use, but only for reference in
+<SAMP>`tc'</SAMP> capabilities.  Such a description is a kind of subroutine,
+because it describes the common characteristics of several variant
+descriptions that would use other suffixes in place of <SAMP>`-unk'</SAMP>.
+</DL>
+
+
+
+<H2><A NAME="SEC21" HREF="termcap_toc.html#TOC21">Inheriting from Related Descriptions</A></H2>
+
+<P>
+<A NAME="IDX22"></A>
+When two terminal descriptions are similar, their identical parts do not
+need to be given twice.  Instead, one of the two can be defined in terms of
+the other, using the <SAMP>`tc'</SAMP> capability.  We say that one description
+<EM>refers to</EM> the other, or <EM>inherits from</EM> the other.
+
+</P>
+<P>
+The <SAMP>`tc'</SAMP> capability must be the last one in the terminal description,
+and its value is a string which is the name of another terminal type which
+is referred to.  For example,
+
+</P>
+
+<PRE>
+N9|aaa|ambassador|aaa-30|ann arbor ambassador/30 lines:\
+        :ti=\E[2J\E[30;0;0;30p:\
+        :te=\E[60;0;0;30p\E[30;1H\E[J:\
+        :li#30:tc=aaa-unk:
+</PRE>
+
+<P>
+defines the terminal type <SAMP>`aaa-30'</SAMP> (also known as plain <SAMP>`aaa'</SAMP>) in
+terms of <SAMP>`aaa-unk'</SAMP>, which defines everything about the Ambassador that
+is independent of screen height.  The types <SAMP>`aaa-36'</SAMP>, <SAMP>`aaa-48'</SAMP>
+and so on for other screen heights are likewise defined to inherit from
+<SAMP>`aaa-unk'</SAMP>.
+
+</P>
+<P>
+The capabilities overridden by <SAMP>`aaa-30'</SAMP> include <SAMP>`li'</SAMP>, which says
+how many lines there are, and <SAMP>`ti'</SAMP> and <SAMP>`te'</SAMP>, which configure the
+terminal to use that many lines.
+
+</P>
+<P>
+The effective terminal description for type <SAMP>`aaa'</SAMP> consists of the text
+shown above followed by the text of the description of <SAMP>`aaa-unk'</SAMP>.  The
+<SAMP>`tc'</SAMP> capability is handled automatically by <CODE>tgetent</CODE>, which
+finds the description thus referenced and combines the two descriptions
+(see section <A HREF="termcap_2.html#SEC4">Finding a Terminal Description: <CODE>tgetent</CODE></A>).  Therefore, only the implementor of the terminal
+descriptions needs to think about using <SAMP>`tc'</SAMP>.  Users and application
+programmers do not need to be concerned with it.
+
+</P>
+<P>
+Since the reference terminal description is used last, capabilities
+specified in the referring description override any specifications of the
+same capabilities in the reference description.
+
+</P>
+<P>
+The referring description can cancel out a capability without specifying
+any new value for it by means of a special trick.  Write the capability in
+the referring description, with the character <SAMP>`@'</SAMP> after the capability
+name, as follows:
+
+</P>
+
+<PRE>
+NZ|aaa-30-nam|ann arbor ambassador/30 lines/no automatic-margins:\
+        :am@:tc=aaa-30:
+</PRE>
+
+
+
+<H2><A NAME="SEC22" HREF="termcap_toc.html#TOC22">When Changes in the Data Base Take Effect</A></H2>
+
+<P>
+Each application program must read the terminal description from the
+data base, so a change in the data base is effective for all jobs started
+after the change is made.
+
+</P>
+<P>
+The change will usually have no effect on a job that have been in existence
+since before the change. The program probably read the terminal description
+once, when it was started, and is continuing to use what it read then.
+If the program does not have a feature for reexamining the data base, then
+you will need to run it again (probably killing the old job).
+
+</P>
+<P>
+If the description in use is coming from the <CODE>TERMCAP</CODE> environment
+variable, then the data base file is effectively overridden, and changes in
+it will have no effect until you change the <CODE>TERMCAP</CODE> variable as
+well.  For example, some users' <TT>`.login'</TT> files automatically copy the
+terminal description into <CODE>TERMCAP</CODE> to speed startup of applications.
+If you have done this, you will need to change the <CODE>TERMCAP</CODE> variable
+to make the changed data base take effect.
+
+</P>
+<P><HR><P>
+Go to the <A HREF="termcap_1.html">first</A>, <A HREF="termcap_2.html">previous</A>, <A HREF="termcap_4.html">next</A>, <A HREF="termcap_8.html">last</A> section, <A HREF="termcap_toc.html">table of contents</A>.
+</BODY>
+</HTML>

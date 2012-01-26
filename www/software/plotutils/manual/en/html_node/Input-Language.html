@@ -1,0 +1,241 @@
+<html lang="en">
+<head>
+<title>Input Language - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="ode.html#ode" title="ode">
+<link rel="prev" href="Running-Time.html#Running-Time" title="Running Time">
+<link rel="next" href="ODE-Bibliography.html#ODE-Bibliography" title="ODE Bibliography">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Input-Language"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="ODE-Bibliography.html#ODE-Bibliography">ODE Bibliography</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Running-Time.html#Running-Time">Running Time</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="ode.html#ode">ode</a>
+<hr>
+</div>
+
+<h3 class="section">8.8 The <code>ode</code> input language formally specified</h3>
+
+<p>The following is a formal specification of the grammar for <code>ode</code>'s
+input language, in Backus&ndash;Naur form.  Nonterminal symbols in the
+grammar are enclosed in angle brackets.  Terminal tokens are in all
+capitals.  Bare words and symbols stand for themselves.
+
+<pre class="example">     &lt;program&gt;    ::=        ... empty ...
+                    |  &lt;program&gt; &lt;statement&gt;
+     
+     
+     &lt;statement&gt;  ::=  SEP
+                    |  IDENTIFIER = &lt;const&gt; SEP
+                    |  IDENTIFIER ' = &lt;expression&gt; SEP
+                    |  print &lt;printlist&gt; &lt;optevery&gt; &lt;optfrom&gt; SEP
+                    |  step &lt;const&gt; , &lt;const&gt; , &lt;const&gt; SEP
+                    |  step &lt;const&gt; , &lt;const&gt; SEP
+                    |  examine IDENTIFIER SEP
+     
+     
+     &lt;printlist&gt;  ::=  &lt;printitem&gt;
+                    |  &lt;printlist&gt; , &lt;printitem&gt;
+     
+     
+     &lt;printitem&gt;  ::=  IDENTIFIER
+                    |  IDENTIFIER '
+                    |  IDENTIFIER ?
+                    |  IDENTIFIER !
+                    |  IDENTIFIER ~
+     
+     
+     &lt;optevery&gt;   ::=        ... empty ...
+                    |  every &lt;const&gt;
+     
+     
+     &lt;optfrom&gt;    ::=        ... empty ...
+                    |  from &lt;const&gt;
+     
+     
+     &lt;const&gt;      ::=  &lt;expression&gt;
+     
+     
+     &lt;expression&gt; ::=  ( &lt;expression&gt; )
+                    |  &lt;expression&gt; + &lt;expression&gt;
+                    |  &lt;expression&gt; - &lt;expression&gt;
+                    |  &lt;expression&gt; * &lt;expression&gt;
+                    |  &lt;expression&gt; / &lt;expression&gt;
+                    |  &lt;expression&gt; ^ &lt;expression&gt;
+                    |  FUNCTION ( &lt;expression&gt; )
+                    |  - &lt;expression&gt;
+                    |  NUMBER
+                    |  IDENTIFIER
+</pre>
+   <p class="noindent">Since this grammar is ambiguous, the following table summarizes the
+precedences and associativities of operators within expressions. 
+Precedences decrease from top to bottom.
+
+<pre class="example">     Class           Operators    Associativity
+     
+     Exponential         ^            right
+     Multiplicative      * /          left
+     Additive            + -          left
+</pre>
+   <p>As noted in the grammar, there are six types of nontrivial statement. 
+We now explain the effects (the `semantics') of each type, in&nbsp;turn<!-- /@w -->.
+
+     <ol type=1 start=1>
+<li><tt>IDENTIFIER ' = &lt;expression&gt;</tt>
+
+     <p class="noindent">This defines a first-order differential equation. 
+The derivative of <tt>IDENTIFIER</tt> is specified by <tt>&lt;expression&gt;</tt>.  If a
+dynamic variable does not appear on the left side of a statement of this
+form, its derivative is assumed to be zero.  That is, it&nbsp;is<!-- /@w --> a
+symbolic constant.
+
+     <li><tt>IDENTIFIER = &lt;expression&gt;</tt>
+
+     <p class="noindent">This sets the value of <tt>IDENTIFIER</tt> to the current value of
+<tt>&lt;expression&gt;</tt>.  Dynamic variables that have not been initialized in
+this way are set to zero.
+
+     <li><tt>step &lt;const&gt; , &lt;const&gt;</tt>
+<li><tt>step &lt;const&gt; , &lt;const&gt; , &lt;const&gt;</tt>
+
+     <p class="noindent">A &lsquo;<samp><span class="samp">step</span></samp>&rsquo; statement causes the numerical scheme to be executed.  The
+first <tt>&lt;const&gt;</tt> is the initial value of the independent variable.  The
+second is its final value.  The third is a stepsize; if given, it
+overrides any stepsize that may be specified on the command line. 
+Usually the stepsize is not specified, and it varies adaptively as the
+computation proceeds.
+
+     <li><tt>print &lt;printlist&gt; [ every &lt;const&gt; ] [ from &lt;const&gt; ]</tt>
+
+     <p class="noindent">A &lsquo;<samp><span class="samp">print</span></samp>&rsquo; statement controls the content and frequency of the
+numerical output.  <tt>&lt;printlist&gt;</tt> is a comma-separated list of
+<tt>IDENTIFIER</tt>s, where each <tt>IDENTIFIER</tt> may be followed by &lsquo;<samp><span class="samp">'</span></samp>&rsquo;,
+denoting the derivative, or &lsquo;<samp><span class="samp">?</span></samp>&rsquo;, denoting the relative single-step
+error, or &lsquo;<samp><span class="samp">!</span></samp>&rsquo;, denoting the absolute single-step error, or
+&lsquo;<samp><span class="samp">~</span></samp>&rsquo;, denoting the accumulated error (not currently implemented). 
+The specified values are printed in the order they are found.  Both the
+&lsquo;<samp><span class="samp">every</span></samp>&rsquo; clause and the &lsquo;<samp><span class="samp">from</span></samp>&rsquo; clause are optional.  If&nbsp;the<!-- /@w -->
+&lsquo;<samp><span class="samp">every</span></samp>&rsquo; clause is present, a printing occurs every <tt>&lt;const&gt;</tt>
+iterations of the numerical algorithm.  The default is to print on every
+iteration (i.e. &lsquo;<samp><span class="samp">every 1</span></samp>&rsquo;).  The first and last values are always
+printed.  If&nbsp;the<!-- /@w --> &lsquo;<samp><span class="samp">from</span></samp>&rsquo; clause is present, it means to begin
+printing when the independent variable reaches or exceeds <tt>&lt;const&gt;</tt>. 
+The default is to begin printing immediately.
+
+     <p>If no &lsquo;<samp><span class="samp">print</span></samp>&rsquo; statement has been supplied, then the independent
+variable and all dependent variables which have differential equations
+associated with them are printed.  The independent variable is printed
+first; the dependent variables follow in the order their equations were
+given.
+
+     <li><tt>examine IDENTIFIER</tt>
+
+     <p class="noindent">An &lsquo;<samp><span class="samp">examine</span></samp>&rsquo; statement, when executed, causes a table of
+interesting information about the named variable to be printed on the
+standard output.  For example, if the statement &lsquo;<samp><span class="samp">examine y</span></samp>&rsquo; were
+encountered after execution of the `ode to Euler' example discussed
+elsewhere, the output would be:
+
+     <pre class="example">          "y" is a dynamic variable
+          value:2.718282
+          prime:2.718282
+          sserr:1.121662e-09
+          aberr:3.245638e-09
+          acerr:0
+           code:  push "y"
+</pre>
+     <p>The phrase `dynamic variable' means that there is a differential
+equation describing the behavior of&nbsp;<tt>y</tt><!-- /@w -->.  The numeric items in the
+table are:
+
+          <dl>
+<dt><tt>value</tt><dd>Current value of the variable.
+
+          <br><dt><tt>prime</tt><dd>Current derivative of the variable.
+
+          <br><dt><tt>sserr</tt><dd>Relative single-step error for the last step taken.
+
+          <br><dt><tt>aberr</tt><dd>Absolute single-step error for the last step taken.
+
+          <br><dt><tt>acerr</tt><dd>Total error accumulated during the most recent &lsquo;<samp><span class="samp">step</span></samp>&rsquo; statement. 
+Not currently implemented. 
+</dl>
+
+     <p>The &lsquo;<samp><span class="samp">code</span></samp>&rsquo; section of the table lists the stack operations required
+to compute the derivative of&nbsp;<tt>y</tt><!-- /@w --> (somewhat reminiscent of a
+reverse Polish calculator).  This information may be useful in
+discovering whether the precedences in the differential equation
+statement were interpreted correctly, or in determining the time or
+space expense of a particular calculation.  &lsquo;<samp><tt>push "y"</tt></samp>&rsquo; means to
+load <tt>y</tt>'s value on the stack, which is all that is required to
+compute its derivative in this case.
+        </ol>
+
+   <p>The grammar for the <code>ode</code> input language contains four types of
+terminal token: <tt>FUNCTION</tt>, <tt>IDENTIFIER</tt>, <tt>NUMBER</tt>, and&nbsp;<tt>SEP</tt><!-- /@w -->.  They have the following meanings.
+
+     <ol type=1 start=1>
+<li><tt>FUNCTION</tt>
+
+     <p>One of the words: <tt>abs</tt>, <tt>sqrt</tt>, <tt>exp</tt>, <tt>log</tt>, <tt>ln</tt>,
+<tt>log10</tt>, <tt>sin</tt>, <tt>cos</tt>, <tt>tan</tt>, <tt>asin</tt>, <tt>acos</tt>, <tt>atan</tt>,
+<tt>sinh</tt>, <tt>cosh</tt>, <tt>tanh</tt>, <tt>asinh</tt>, <tt>acosh</tt>, <tt>atanh</tt>,
+<tt>floor</tt>, <tt>ceil</tt>, <tt>besj0</tt>, <tt>besj1</tt>, <tt>besy0</tt>, <tt>besy1</tt>,
+<tt>erf</tt>, <tt>erfc</tt>, <tt>inverf</tt>, <tt>lgamma</tt>, <tt>gamma</tt>, <tt>norm</tt>,
+<tt>invnorm</tt>, <tt>ibeta</tt>, <tt>igamma</tt>.  These are defined to have the same
+meaning as in the plotting program <code>gnuplot</code>.  All functions take a
+single argument, except for <tt>ibeta</tt>, which takes three, and
+<tt>igamma</tt>, which takes two.  For trigonometric functions, all arguments
+are expressed in radians.  The <tt>atan</tt> function is defined to give a
+value between &minus;PI/2 and PI/2 (inclusive).
+
+     <li><tt>IDENTIFIER</tt>
+
+     <p>A sequence of alphanumeric characters starting with an alphabetic
+character.  The first 32 characters are significant.  Upper and
+lower-case letters are distinct.  In identifiers, the underscore
+character is considered alphabetic.  Function names and keywords may not
+be used as identifiers, nor may &lsquo;<samp><span class="samp">PI</span></samp>&rsquo;.
+
+     <li><tt>NUMBER</tt>
+
+     <p>A non-empty sequence of digits possibly containing a decimal point and
+possibly followed by an exponent.  An exponent is &lsquo;<samp><span class="samp">e</span></samp>&rsquo; or&nbsp;&lsquo;<samp><span class="samp">E</span></samp>&rsquo;<!-- /@w -->, followed by an (optionally signed) one, two, or three-digit
+number.  All numbers and all parts of numbers are radix&nbsp;10<!-- /@w -->.  A&nbsp;number<!-- /@w --> may not contain any white space.  The special word &lsquo;<samp><span class="samp">PI</span></samp>&rsquo; is
+a number.
+
+     <li><tt>SEP</tt>
+
+     <p>A separator: a semicolon or a (non-escaped) newline.
+        </ol>
+
+   <p>In the <code>ode</code> input language, upper and lower-case letters are
+distinct.  Comments begin with the character &lsquo;<samp><span class="samp">#</span></samp>&rsquo; and continue to
+the end of the line.  Long lines may be continued onto a second line by
+ending the first line with a backslash&nbsp;(&lsquo;<samp><span class="samp">\</span></samp>&rsquo;)<!-- /@w -->.  That is because
+the combination backslash-newline is equivalent to a space.
+
+   <p>Spaces or tabs are required in the input whenever they are needed to
+separate identifiers, numbers, and keywords from one another.  Except as
+separators, they are ignored.
+
+   </body></html>
+

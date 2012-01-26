@@ -1,0 +1,347 @@
+<html lang="en">
+<head>
+<title>Simple Examples - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="graph.html#graph" title="graph">
+<link rel="prev" href="graph.html#graph" title="graph">
+<link rel="next" href="Non_002dSquare-Plots.html#Non_002dSquare-Plots" title="Non-Square Plots">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Simple-Examples"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Non_002dSquare-Plots.html#Non_002dSquare-Plots">Non-Square Plots</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="graph.html#graph">graph</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="graph.html#graph">graph</a>
+<hr>
+</div>
+
+<h3 class="section">2.1 Simple examples using <code>graph</code></h3>
+
+<p>By default, <code>graph</code> reads ASCII data from the files specified on
+the command line, or from standard input if no files are specified.  The
+data are pairs of numbers, interpreted as the x and&nbsp;y<!-- /@w -->
+coordinates of data points.  An example would be:
+
+<pre class="example">     0.0  0.0
+     1.0  0.2
+     2.0  0.0
+     3.0  0.4
+     4.0  0.2
+     5.0  0.6
+</pre>
+   <p class="noindent">Data points do not need to be on different lines, nor do the x
+and y coordinates of a data point need to be on the same line. 
+However, there should be no blank lines in the input if it is to be
+viewed as forming a single dataset.
+
+   <p>To plot such a dataset with <code>graph</code>, you could do
+
+<pre class="example">     graph -T ps datafile &gt; plot.ps
+</pre>
+   <p class="noindent">or equivalently
+
+<pre class="example">     graph -T ps &lt; datafile &gt; plot.ps
+</pre>
+   <p class="noindent">Either of these would produce an encapsulated Postscript file
+<samp><span class="file">plot.ps</span></samp>, which could be sent to a printer, displayed on a
+screen by the Postscript viewer <code>gv</code>, or edited with the free
+drawing editor <code>idraw</code>.  The &lsquo;<samp><span class="samp">--page-size</span></samp>&rsquo; option, or
+equivalently the <code>PAGESIZE</code> environment variable, specifies the
+size of the page on which the plot will be positioned.  The default is
+"letter", i.e., 8.5<span class="dmn">in</span> by 11<span class="dmn">in</span>, but "a4" or other ISO or
+ANSI page sizes could equally well be specified.  See <a href="Page-and-Viewport-Sizes.html#Page-and-Viewport-Sizes">Page and Viewport Sizes</a>.
+
+   <p>Similarly, you would do
+
+<pre class="example">     graph -T svg &lt; datafile &gt; plot.svg
+     graph -T cgm &lt; datafile &gt; plot.cgm
+</pre>
+   <p class="noindent">to produce SVG and WebCGM files that could be displayed in a Web browser
+with SVG and WebCGM support, or
+
+<pre class="example">     graph -T fig &lt; datafile &gt; plot.fig
+</pre>
+   <p class="noindent">to produce a file <samp><span class="file">plot.fig</span></samp> in Fig format that could be edited
+with the free <code>xfig</code> drawing editor, or
+
+<pre class="example">     graph -T ai &lt; datafile &gt; plot.ai
+</pre>
+   <p class="noindent">to produce a file <samp><span class="file">plot.ai</span></samp> that could be edited with Adobe
+Illustrator.  If you do
+
+<pre class="example">     graph -T hpgl &lt; datafile &gt; plot.plt
+</pre>
+   <p class="noindent">you will produce a file <samp><span class="file">plot.plt</span></samp> in the Hewlett&ndash;Packard Graphics
+Language (HP-GL/2) that may be sent to a Hewlett&ndash;Packard plotter. 
+Similarly, you would use <code>graph -T pcl</code> to produce a file in PCL&nbsp;5<!-- /@w --> format that may be printed on a LaserJet or other laser printer.
+
+   <p>You would use <code>graph -T&nbsp;X<!-- /@w --></code> to pop&nbsp;up<!-- /@w --> a window on an X&nbsp;Window<!-- /@w --> System display, and display the plot in&nbsp;it<!-- /@w -->.  For that, you
+would do
+
+<pre class="example">     graph -T X &lt; datafile
+</pre>
+   <p class="noindent">If you use <code>graph -T&nbsp;X<!-- /@w --></code>, no output file will be produced: only
+a window.  The window will vanish if you type&nbsp;&lsquo;<samp><span class="samp">q</span></samp>&rsquo;<!-- /@w --> or click your
+mouse in&nbsp;it<!-- /@w -->.
+
+   <p>You may also use <code>graph -T png</code> to produce a PNG file, <code>graph
+-T pnm</code> to produce a PNM file (a &ldquo;portable anymap&rdquo;), and <code>graph
+-T gif</code> to produce a pseudo-GIF file.  If the free image display
+application <code>display</code> is available on your system, you could use any
+of the three commands
+
+<pre class="example">     graph -T png &lt; datafile | display
+     graph -T pnm &lt; datafile | display
+     graph -T gif &lt; datafile | display
+</pre>
+   <p class="noindent">to view the output file.
+
+   <p>Another thing you can do is use <code>graph -T tek</code> to display a plot on
+a device that can emulate a Tektronix 4014 graphics terminal. 
+<code>xterm</code>, the X&nbsp;Window<!-- /@w --> System terminal emulator, can do this. 
+Within an <code>xterm</code> window, you would type
+
+<pre class="example">     graph -T tek &lt; datafile
+</pre>
+   <p class="noindent"><code>xterm</code> normally emulates a VT100 terminal, but when this command
+is issued from within&nbsp;it<!-- /@w -->, it&nbsp;will<!-- /@w --> pop&nbsp;up<!-- /@w --> a second window
+(a&nbsp;`Tektronix<!-- /@w --> window') and draw the plot in&nbsp;it<!-- /@w -->.  The Japanese
+terminal emulator <code>kterm</code> should be able to do the same, provided
+that it is correctly installed.  Another piece of software that can
+emulate a Tektronix 4014 terminal is the MS-DOS version of <code>kermit</code>.
+
+   <p>In the same way, you would use <code>graph -T regis</code> to display a plot
+on any graphics terminal or emulator that supports ReGIS graphics. 
+<code>dxterm</code>, the DECwindows terminal emulator, can do this.  Several
+DEC terminals (in particular the VT340, VT330, VT241, and VT240
+terminals) also support ReGIS graphics.
+
+   <p><code>graph</code> may behave differently depending on the environment in
+which it is invoked.  We have already mentioned the <code>PAGESIZE</code>
+environment variable, which affects the operation of <code>graph -T
+svg</code>, <code>graph -T ai</code>, <code>graph -T ps</code>, <code>graph -T cgm</code>,
+<code>graph -T fig</code>, <code>graph -T pcl</code>, and <code>graph -T hpgl</code>. 
+Similarly, the <code>BITMAPSIZE</code> environment variable affects the
+operation of <code>graph -T&nbsp;X<!-- /@w --></code>, <code>graph -T png</code>, <code>graph -T
+pnm</code>, and <code>graph -T gif</code>.  The <code>DISPLAY</code> environment variable
+affects the operation of <code>graph -T&nbsp;X<!-- /@w --></code>, and the <code>TERM</code>
+environment variable affects the operation of <code>graph -T tek</code>. 
+There are also several environment variables that affect the operation
+of <code>graph -T pcl</code> and <code>graph -T hpgl</code>.  For a complete
+discussion of the effects of the environment on <code>graph</code>, see
+<a href="graph-Environment.html#graph-Environment">graph Environment</a>.  The following remarks apply irrespective of
+which output format is specified.
+
+   <p>By default, successive points in the dataset are joined by solid line
+segments, which form a polygonal line or polyline that we call simply a
+`line'.  You may choose the style of line (the `linemode') with the
+&lsquo;<samp><span class="samp">-m</span></samp>&rsquo; option:
+
+<pre class="example">     graph -T ps -m 2 &lt; datafile &gt; plot.ps
+</pre>
+   <p class="noindent">Here &lsquo;<samp><span class="samp">-m 2</span></samp>&rsquo; indicates that linemode #2 should be used.  If&nbsp;the<!-- /@w -->
+dataset is rendered in monochrome, which is the default, the line can be
+drawn in one of five distinct styles.  Linemodes #1 through #5 signify
+solid, dotted, dotdashed, shortdashed, and longdashed; thereafter the
+sequence repeats.  If&nbsp;the<!-- /@w --> &lsquo;<samp><span class="samp">-C</span></samp>&rsquo; option is used, the dataset will
+be rendered in color.  For colored datasets, the line can be drawn in
+one of 25 distinct styles.  Linemodes #1 through #5 signify red, green,
+blue, magenta, and cyan; all are solid.  Linemodes #6 through #10
+signify the same five colors, but dotted rather than solid.  Linemodes
+#11 through #16 signify the same five colors, but dotdashed, and so
+forth.  After linemode #25, the sequence repeats.  Linemode #0,
+irrespective of whether the rendering is in monochrome or color, means
+that the line is not drawn.
+
+   <p>You may wish to <em>fill</em> the polygon bounded by the line (i.e.,
+shade&nbsp;it<!-- /@w -->, or fill it with a solid color).  For this, you would use
+the &lsquo;<samp><span class="samp">-q</span></samp>&rsquo; option.  For&nbsp;example<!-- /@w -->,
+
+<pre class="example">     echo .1 .1 .1 .9 .9 .9 .9 .1 .1 .1 |
+         graph -T ps -C -m 1 -q 0.3 &gt; plot.ps
+</pre>
+   <p class="noindent">will plot a square region with vertices (0.1,0.1), (0.1,0.9), (0.9,0.9),
+and (0.9,0.1).  The repetition of the first vertex (0.1,0.1) at the end
+of the sequence of vertices ensures that the square will be closed: all
+four segments of its boundary will be drawn.  The square will be drawn
+in red, since the colored version of linemode #1 is requested.  The
+interior of the square will be filled with red to an intensity of&nbsp;30%<!-- /@w -->, as the &lsquo;<samp><span class="samp">-q 0.3</span></samp>&rsquo; option specifies.  If&nbsp;the<!-- /@w --> intensity
+were&nbsp;1.0<!-- /@w -->, the region would be filled with solid color, and if it
+were&nbsp;0.0<!-- /@w -->, the region would be filled with white.  If&nbsp;the<!-- /@w -->
+intensity were negative, the region would be unfilled, or transparent
+(the default).
+
+   <p>You may specify the thickness (`width') of the line, whether it is
+filled or not, by using the &lsquo;<samp><span class="samp">-W</span></samp>&rsquo; option.  For&nbsp;example<!-- /@w -->, &lsquo;<samp><span class="samp">-W
+0.01</span></samp>&rsquo; specifies that the line should have a thickness equal to 0.01
+times the size of the graphics display.  Also, you may put symbols at
+each data point along the line by doing, for&nbsp;example<!-- /@w -->,
+
+<pre class="example">     graph -T ps -S 3 0.1 &lt; datafile &gt; plot.ps
+</pre>
+   <p class="noindent">where the first argument 3 indicates which symbol to plot.  The optional
+second argument 0.1 specifies the symbol size as a fraction of the size
+of the `plotting box': the square within which the plot is drawn. 
+Symbol #1 is a dot, symbol #2 is a plus sign, symbol #3 is an asterisk,
+symbol #4 is a circle, symbol #5 is a cross, and so forth. 
+(See <a href="Marker-Symbols.html#Marker-Symbols">Marker Symbols</a>.)  Symbols 1 through 31 are the same for all
+display types, and the color of a symbol will be the same as the color
+of the line it is plotted along.
+
+   <p>Actually, you would probably not want to plot symbols at each point in
+the dataset unless you turn off the line joining the points.  For this
+purpose, the `negative linemode' concept is useful.  A&nbsp;line<!-- /@w --> whose
+linemode is negative is not visible; however, any symbols plotted along
+it will have the color associated with the corresponding positive
+linemode.  So, for&nbsp;example<!-- /@w -->,
+
+<pre class="example">     graph -T ps -C -m -3 -S 4 &lt; datafile &gt; plot.ps
+</pre>
+   <p class="noindent">will plot a blue circle at each data point.  The circles will not be
+joined by line segments.  By adding the optional second argument to the
+&lsquo;<samp><span class="samp">-S</span></samp>&rsquo; option, you may adjust the size of the circles.
+
+   <p><code>graph</code> will automatically generate abscissa (i.e.,&nbsp;x<!-- /@w -->)
+values for you if you use the &lsquo;<samp><span class="samp">-a</span></samp>&rsquo; option.  If&nbsp;this<!-- /@w --> option is
+used, no abscissa values should be given in the data file.  The data
+points will be taken to be regularly spaced along the abscissa.  The two
+arguments following &lsquo;<samp><span class="samp">-a</span></samp>&rsquo; on the command line will be taken as the
+sampling interval and the abscissa value of the first data point.  If&nbsp;they<!-- /@w --> are absent, they default to 1.0 and 0.0 respectively.  For
+example, the command
+
+<pre class="example">     echo 0 1 0 | graph -T ps -a &gt; plot.ps
+</pre>
+   <p class="noindent">produces exactly the same plot  as
+
+<pre class="example">     echo 0 0 1 1 2 0 | graph -T ps &gt; plot.ps
+</pre>
+   <p>If the &lsquo;<samp><span class="samp">-I e</span></samp>&rsquo; option is specified, <code>graph</code> will plot data with
+error bars.  In this case the dataset should consist of triples
+(x,y,<i>error</i>), rather than pairs (x,y).  A&nbsp;vertical<!-- /@w --> error bar of the appropriate length will be plotted at each
+data point.  You would plot a symbol at each data point, along with the
+error bar, by using the &lsquo;<samp><span class="samp">-S</span></samp>&rsquo; option in the usual way.  The symbol
+will be the same for each point in the dataset.  You may use the
+&lsquo;<samp><span class="samp">-a</span></samp>&rsquo; option in conjunction with &lsquo;<samp><span class="samp">-I e</span></samp>&rsquo;, if you wish.  If&nbsp;you<!-- /@w --> do, the dataset should contain no abscissa (i.e.,&nbsp;x<!-- /@w -->)
+values.
+
+   <p>By default, the limits on the x and y axes, and the
+spacing between the labeled ticks on each axis, are computed
+automatically.  You may wish to set them manually.  You would accomplish
+this with the &lsquo;<samp><span class="samp">-x</span></samp>&rsquo; and &lsquo;<samp><span class="samp">-y</span></samp>&rsquo; options.
+
+<pre class="example">     echo 0 0 1 1 2 0 | graph -T ps -x -1 3 -y -1 2 &gt; plot.ps
+</pre>
+   <p class="noindent">will produce a plot in which the x axis extends from &minus;1
+to&nbsp;3<!-- /@w -->, and the y axis from &minus;1 to&nbsp;2<!-- /@w -->.  By default,
+<code>graph</code> tries to place about six numbered ticks on each axis.  By
+including an optional third argument to &lsquo;<samp><span class="samp">-x</span></samp>&rsquo; or &lsquo;<samp><span class="samp">-y</span></samp>&rsquo;, you may
+manually set the spacing of the labeled ticks.  For&nbsp;example<!-- /@w -->, using
+&lsquo;<samp><span class="samp">-y -1 2 1</span></samp>&rsquo; rather than &lsquo;<samp><span class="samp">-y -1 2</span></samp>&rsquo; will produce a y&nbsp;axis<!-- /@w --> with labeled ticks at &minus;1, 0, 1, and&nbsp;2<!-- /@w -->, rather than at
+the locations that <code>graph</code> would choose by default, which would be
+&minus;1, &minus;0.5, 0, 0.5, 1, 1.5, and&nbsp;2<!-- /@w -->.  In&nbsp;general<!-- /@w -->, if a
+third argument is present then labeled ticks will be placed at each of
+its integer multiples.
+
+   <p>To make an axis logarithmic, you would use the &lsquo;<samp><span class="samp">-l</span></samp>&rsquo; option.  For
+example,
+
+<pre class="example">     echo 1 1 2 3 3 1 | graph -T ps -l x &gt; plot.ps
+</pre>
+   <p class="noindent">will produce a plot in which the x axis is logarithmic, but the
+y axis is linear.  To make both axes logarithmic, you would use
+&lsquo;<samp><span class="samp">-l x -l y</span></samp>&rsquo;.  By default, the upper and lower limits on a
+logarithmic axis are powers of ten, and there are tick marks at each
+power of ten and at its integer multiples.  The tick marks at the powers
+of ten are labeled.  If&nbsp;the<!-- /@w --> axis spans more than five orders of
+magnitude, the tick marks at the integer multiples are omitted.
+
+   <p>If you have an unusually short logarithmic axis, you may need to
+increase the number of labeled ticks.  To do this, you should specify a
+tick spacing manually.  For&nbsp;example<!-- /@w -->, &lsquo;<samp><span class="samp">-l x -x 1 9 2</span></samp>&rsquo; would
+produce a plot in which the x&nbsp;axis<!-- /@w --> is logarithmic and extends
+from 1 to&nbsp;9<!-- /@w -->.  Labeled ticks would be located at each integer
+multiple of&nbsp;2<!-- /@w -->, i.e., at 2, 4, 6, and&nbsp;8<!-- /@w -->.
+
+   <p>You would label the x and y axes with the &lsquo;<samp><span class="samp">-X</span></samp>&rsquo; and
+&lsquo;<samp><span class="samp">-Y</span></samp>&rsquo; options, respectively.  For example,
+
+<pre class="example">     echo 1 1 2 3 3 1 | graph -T ps -l x -X "A Logarithmic Axis" &gt; plot.ps
+</pre>
+   <p class="noindent">will label the log axis in the preceding example.  By default, the
+label for the y axis (if&nbsp;any<!-- /@w -->) will be rotated 90 degrees,
+unless you use the &lsquo;<samp><span class="samp">-Q</span></samp>&rsquo; option.  (Some X&nbsp;Window<!-- /@w --> System
+displays, both old and new, do not properly support rotated labels,
+and require the &lsquo;<samp><span class="samp">-Q</span></samp>&rsquo; option.)  You may specify a `top label', or
+title for the plot, by using the &lsquo;<samp><span class="samp">-L</span></samp>&rsquo; option.  Doing, for&nbsp;example<!-- /@w -->,
+
+<pre class="example">     echo 1 1 2 3 3 1 | graph -T ps -l x -L "A Simple Example" &gt; plot.ps
+</pre>
+   <p class="noindent">will produce a plot with a title on top.
+
+   <p>The font size of the x axis and y axis labels may be
+specified with the &lsquo;<samp><span class="samp">-f</span></samp>&rsquo; option, and the font size of the title with
+the &lsquo;<samp><span class="samp">--title-font-size</span></samp>&rsquo; option.  For example,
+
+<pre class="example">     echo 1 1 2 3 3 1 | graph -T ps -X "Abscissa" -f 0.1 &gt; plot.ps
+</pre>
+   <p class="noindent">will produce a plot in which the font size of the x axis label,
+and each of the numerical tick labels, is very large (0.1 times the size
+of the plotting box, i.e., the square within which the plot is drawn).
+
+   <p>The font in which the labels specified with the &lsquo;<samp><span class="samp">-X</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-Y</span></samp>&rsquo;,
+and &lsquo;<samp><span class="samp">-L</span></samp>&rsquo; options are drawn can be specified with the &lsquo;<samp><span class="samp">-F</span></samp>&rsquo;
+option.  For example, &lsquo;<samp><span class="samp">-F Times-Roman</span></samp>&rsquo; will make the labels appear
+in Times-Roman instead of the default font (which is Helvetica, unless
+&lsquo;<samp><span class="samp">-T png</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T pnm</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T gif</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T pcl</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T
+hpgl</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-T regis</span></samp>&rsquo;, or &lsquo;<samp><span class="samp">-T tek</span></samp>&rsquo; is specified).  Font names are
+case-insensitive, so &lsquo;<samp><span class="samp">-F times-roman</span></samp>&rsquo; will work equally well.  The
+available fonts include 35 Postscript fonts (for all variants of
+<code>graph</code> other than <code>graph -T png</code>, <code>graph -T pnm</code>,
+<code>graph -T gif</code>, <code>graph -T pcl</code>, <code>graph -T hpgl</code>,
+<code>graph -T regis</code>, and <code>graph -T tek</code>), 45 PCL&nbsp;5<!-- /@w --> fonts (for
+<code>graph -T svg</code>, <code>graph -T ai</code>, <code>graph -T pcl</code> and
+<code>graph -T hpgl</code>), a number of Hewlett&ndash;Packard vector fonts (for
+<code>graph -T pcl</code> and <code>graph -T hpgl</code>), and 22 Hershey vector
+fonts.  The Hershey fonts include HersheyCyrillic, for Russian, and
+HersheyEUC, for Japanese.  For a discussion of the available fonts, see
+<a href="Text-Fonts.html#Text-Fonts">Text Fonts</a>.  The <code>plotfont</code> utility will produce a character
+map of any available font.  See <a href="plotfont.html#plotfont">plotfont</a>.
+
+   <p>The format of the labels drawn with the &lsquo;<samp><span class="samp">-X</span></samp>&rsquo;, &lsquo;<samp><span class="samp">-Y</span></samp>&rsquo;, and
+&lsquo;<samp><span class="samp">-L</span></samp>&rsquo; options may be quite intricate.  Subscripts, superscripts,
+square roots, and switching fonts within a typeface are all allowed. 
+The above examples do not illustrate this, but for details, see
+<a href="Text-String-Format.html#Text-String-Format">Text String Format</a>.
+
+   <p>Each of the preceding examples produces a plot containing the default
+sort of grid (a square plotting box, with ticks and labels drawn along
+its lower edge and its left edge).  There are actually several sorts of
+grid you may request.  The &lsquo;<samp><span class="samp">-g&nbsp;0<!-- /@w --></span></samp>&rsquo;, &lsquo;<samp><span class="samp">-g&nbsp;1<!-- /@w --></span></samp>&rsquo;, &lsquo;<samp><span class="samp">-g&nbsp;2<!-- /@w --></span></samp>&rsquo;, and &lsquo;<samp><span class="samp">-g&nbsp;3<!-- /@w --></span></samp>&rsquo; options yield successively fancier grids.  What
+they yield, respectively, is no&nbsp;grid<!-- /@w --> at&nbsp;all<!-- /@w -->, a&nbsp;pair<!-- /@w --> of axes
+with ticks and labels, a square plotting box with ticks and labels, and
+a square plotting box with ticks, labels, and grid lines.  As you can
+check, &lsquo;<samp><span class="samp">-g&nbsp;2<!-- /@w --></span></samp>&rsquo; is the default.  There is also a &lsquo;<samp><span class="samp">-g&nbsp;4<!-- /@w --></span></samp>&rsquo;
+option, which yields a slightly different sort of grid: a&nbsp;pair<!-- /@w --> of
+axes that cross at the origin.  This last sort of grid is useful when
+the x or&nbsp;y<!-- /@w --> coordinates of the data points you are
+plotting are both positive and negative.
+
+   </body></html>
+

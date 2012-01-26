@@ -1,0 +1,70 @@
+/*
+*  Bump test
+*/
+
+#include "materials.inc"
+
+define camera c
+{
+  translate	<-200, 300, 300>
+  look_at	<0, 0, 0>
+}
+
+define light l
+{
+  translate	<500, 500, -500>
+  color		CWhite
+}
+
+rectangle
+{
+  vertex        <-200, 0, -200>
+  vertex        <-200, 0, 200>
+  vertex        <200, 0, 200>
+  vertex        <200, 0, -200>
+  material : extends MChecker
+  {
+    color       CBlack
+    base_color  CWhite
+    size        50
+  }
+}
+
+rectangle
+{
+  vertex        <-200, 100, -200>
+  vertex        <-200, 100, 200>
+  vertex        <200, 100, 200>
+  vertex        <200, 100, -200>
+  material : extends MNoise
+  {
+    ambient	0
+    diffuse	0
+    specular	0.2
+    opacity	0.01
+    ior		1.52
+    caustics	20
+    
+    color       CWhite
+    base_color  CWhite
+    zoom        <20, 20, 20>
+    bump        0.3
+  }
+}
+
+scene
+{
+  camera	c
+  light		l
+  width		400
+  height	400
+  background	CSummerSky
+  output
+  {
+    name	"water.tga"
+  }
+  renderer : class Raytracer
+  {
+    sampling    "adaptive"
+  }
+}

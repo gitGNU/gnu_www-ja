@@ -1,0 +1,88 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Using keywords</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_76.html">previous</A>, <A HREF="cvs_78.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC79" HREF="cvs_toc.html#TOC79">Using keywords</A></H2>
+
+<P>
+To include a keyword string you simply include the
+relevant text string, such as <CODE>$Id: cvs_77.html,v 1.1 2003/11/07 20:55:33 sinuhe Exp $</CODE>, inside the
+file, and commit the file.  CVS will automatically
+expand the string as part of the commit operation.
+
+</P>
+<P>
+It is common to embed <CODE>$</CODE>Id$ string in the
+C source code.  This example shows the first few lines
+of a typical file, after keyword substitution has been
+performed:
+
+</P>
+
+<PRE>
+static char *rcsid="$Id: cvs_77.html,v 1.1 2003/11/07 20:55:33 sinuhe Exp $";
+/* The following lines will prevent <CODE>gcc</CODE> version 2.<VAR>x</VAR>
+   from issuing an "unused variable" warning. */
+#if __GNUC__ == 2
+#define USE(var) static void * use_##var = (&#38;use_##var, (void *) &#38;var) 
+USE (rcsid);
+#endif
+</PRE>
+
+<P>
+Even though a clever optimizing compiler could remove
+the unused variable <CODE>rcsid</CODE>, most compilers tend
+to include the string in the binary.  Some compilers
+have a <CODE>#pragma</CODE> directive to include literal text
+in the binary.
+
+</P>
+<P>
+<A NAME="IDX284"></A>
+The <CODE>ident</CODE> command (which is part of the RCS
+package) can be used to extract keywords and their
+values from a file.  This can be handy for text files,
+but it is even more useful for extracting keywords from
+binary files.
+
+</P>
+
+<PRE>
+$ ident samp.c
+samp.c:
+     $Id: cvs_77.html,v 1.1 2003/11/07 20:55:33 sinuhe Exp $
+$ gcc samp.c
+$ ident a.out
+a.out:
+     $Id: cvs_77.html,v 1.1 2003/11/07 20:55:33 sinuhe Exp $
+</PRE>
+
+<P>
+<A NAME="IDX285"></A>
+SCCS is another popular revision control system.
+It has a command, <CODE>what</CODE>, which is very similar to
+<CODE>ident</CODE> and used for the same purpose.  Many sites
+without RCS have SCCS.  Since <CODE>what</CODE>
+looks for the character sequence <CODE>@(#)</CODE> it is
+easy to include keywords that are detected by either
+command.  Simply prefix the RCS keyword with the
+magic SCCS phrase, like this:
+
+</P>
+
+<PRE>
+static char *id="@(#) $Id: cvs_77.html,v 1.1 2003/11/07 20:55:33 sinuhe Exp $";
+</PRE>
+
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_76.html">previous</A>, <A HREF="cvs_78.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

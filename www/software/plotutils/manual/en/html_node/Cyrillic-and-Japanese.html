@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+<title>Cyrillic and Japanese - The Plotutils Package</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="The Plotutils Package">
+<meta name="generator" content="makeinfo 4.11">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Fonts-and-Markers.html#Fonts-and-Markers" title="Fonts and Markers">
+<link rel="prev" href="Text-Fonts.html#Text-Fonts" title="Text Fonts">
+<link rel="next" href="Text-Fonts-in-X.html#Text-Fonts-in-X" title="Text Fonts in X">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
+</head>
+<body>
+<div class="node">
+<p>
+<a name="Cyrillic-and-Japanese"></a>
+Next:&nbsp;<a rel="next" accesskey="n" href="Text-Fonts-in-X.html#Text-Fonts-in-X">Text Fonts in X</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Text-Fonts.html#Text-Fonts">Text Fonts</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Fonts-and-Markers.html#Fonts-and-Markers">Fonts and Markers</a>
+<hr>
+</div>
+
+<h3 class="appendixsec">A.2 Cyrillic and Japanese fonts</h3>
+
+<p>The built-in fonts discussed in the previous section include Cyrillic
+and Japanese vector fonts.  This section explains how these fonts are
+encoded, i.e., how their character maps are laid&nbsp;out<!-- /@w -->.  You may use
+the <code>plotfont</code> utility to display the character map for any font,
+including the Cyrillic and Japanese vector fonts.  See <a href="plotfont.html#plotfont">plotfont</a>.
+
+   <p>The HersheyCyrillic and HersheyCyrillic-Oblique fonts use an encoding
+called KOI8-R<!-- /@w -->, a superset of ASCII that has become the de&nbsp;facto<!-- /@w --> standard for Unix and networking applications in the former
+Soviet Union.  Insofar as printable ASCII characters go, they resemble
+the HersheySerif vector font.  But their upper halves are different. 
+The byte range <tt>0xc0</tt><small class="dots">...</small><tt>0xdf</tt> contains lower-case Cyrillic
+characters and the byte range <tt>0xe0</tt><small class="dots">...</small><tt>0xff</tt> contains upper
+case Cyrillic characters.  Additional Cyrillic characters are located
+at <tt>0xa3</tt> and&nbsp;<tt>0xb3</tt><!-- /@w -->.  For more on the encoding scheme, see
+<a href="http://koi8.pp.ru/main.html">the official KOI8-R Web page</a> and
+Internet RFC 1489, which is available in many places, including
+<a href="http://www.isi.edu">Information Sciences Institute</a>.
+
+   <p>The HersheyEUC font is a vector font that is used for displaying
+Japanese text.  It uses the 8-bit EUC-JP encoding.  EUC stands for
+`extended Unix code', which is a scheme for encoding Japanese, and also
+other character sets (e.g., Greek and Cyrillic) as multibyte character
+strings.  The format of EUC strings is explained in Ken Lunde's
+<cite>Understanding Japanese Information Processing</cite> (O'Reilly, 1993),
+which contains much additional information on Japanese text processing. 
+See also <a href="http://www.praxagora.com/lunde/cjk_inf.html">his on-line supplement</a>, and his more recent book <cite>CJKV Information
+Processing</cite> (O'Reilly, 1999).
+
+   <p>In the HersheyEUC font, characters in the printable ASCII range,
+<tt>0x20</tt><small class="dots">...</small><tt>0x7e</tt>, are similar to HersheySerif (their encoding is
+`JIS Roman', an ASCII variant standardized by the Japanese Industrial
+Standards Committee).  Also, each successive pair of bytes in the
+<code>0xa1</code><small class="dots">...</small><code>0xfe</code> range defines a single character in the
+JIS X0208 standard.  The characters in the JIS X0208 standard include
+Japanese syllabic characters (Hiragana and Katakana), ideographic
+characters (Kanji), Roman, Greek, and Cyrillic alphabets, punctuation
+marks, and miscellaneous symbols.  For example, the JIS X0208 standard
+indexes the 83 Hiragana as <code>0x2421</code><small class="dots">...</small><code>0x2473</code>.  To&nbsp;obtain<!-- /@w --> the EUC code for any JIS X0208 character, you would add
+<code>0x80</code> to each byte (i.e., `set the high bit' on each byte).  So&nbsp;the<!-- /@w --> first of the 83 Hiragana (<code>0x2421</code>) would be encoded as the
+successive pair of bytes <code>0xa4</code> and&nbsp;<code>0xa1</code><!-- /@w -->.
+
+   <p>The implementation of the JIS X0208 standard in the HersheyEUC font is
+based on Dr.&nbsp;Hershey's<!-- /@w --> digitizations, and is complete enough to be
+useful.  All 83 Hiragana and 86 Katakana are available, though the
+little-used `half-width Katakana' are not supported.  Also, 603 Kanji
+are available, including 596 of the 2965 JIS Level&nbsp;1<!-- /@w --> (i.e.,
+frequently used) Kanji.  The Hiragana, the Katakana, and the available
+Kanji all have the same width.  The file <samp><span class="file">kanji.doc</span></samp>, which on most
+systems is installed in <samp><span class="file">/usr/share/libplot</span></samp> or
+<samp><span class="file">/usr/local/share/libplot</span></samp>, lists the 603 available Kanji.  Each
+JIS X0208 character that is unavailable will be drawn as an `undefined
+character' glyph (a&nbsp;bundle<!-- /@w --> of horizontal lines).
+
+   <p>The eight Hewlett&ndash;Packard vector fonts in the ArcANK and StickANK
+typefaces are also used for displaying Japanese text.  They are
+available when producing HP-GL/2 output, or HP-GL output for the HP7550A
+graphics plotter and the HP758x, HP7595A and HP7596A drafting plotters. 
+That is, they are available only if <code>HPGL_VERSION</code> is&nbsp;"2"<!-- /@w --> (the
+default) or&nbsp;"1.5"<!-- /@w -->.
+
+   <p>ANK stands for Alphabet, Numerals, and Katakana.  The ANK fonts use a
+special mixed encoding.  The lower half of each font uses the JIS Roman
+encoding, and the upper half contains half-width Katakana.  Half-width
+Katakana are simplified Katakana that may need to be equipped with
+diacritical marks.  The diacritical marks are included in the encoding
+as separate characters.
+
+   </body></html>
+

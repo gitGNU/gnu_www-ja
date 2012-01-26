@@ -1,0 +1,50 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.52
+     from ../texi/cvs.texinfo on 7 November 1998 -->
+
+<TITLE>CVS--Concurrent Versions System - Outside</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_65.html">previous</A>, <A HREF="cvs_67.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H2><A NAME="SEC68" HREF="cvs_toc.html#TOC68">The Normal way to Rename</A></H2>
+
+<P>
+The normal way to move a file is to copy <VAR>old</VAR> to
+<VAR>new</VAR>, and then issue the normal CVS commands
+to remove <VAR>old</VAR> from the repository, and add
+<VAR>new</VAR> to it.  (Both <VAR>old</VAR> and <VAR>new</VAR> could
+contain relative paths, for example <TT>`foo/bar.c'</TT>).
+
+</P>
+
+<PRE>
+$ mv <VAR>old</VAR> <VAR>new</VAR>
+$ cvs remove <VAR>old</VAR>
+$ cvs add <VAR>new</VAR> 
+$ cvs commit -m "Renamed <VAR>old</VAR> to <VAR>new</VAR>" <VAR>old</VAR> <VAR>new</VAR>
+</PRE>
+
+<P>
+This is the simplest way to move a file, it is not
+error-prone, and it preserves the history of what was
+done.  Note that to access the history of the file you
+must specify the old or the new name, depending on what
+portion of the history you are accessing.  For example,
+<CODE>cvs log <VAR>old</VAR></CODE> will give the log up until the
+time of the rename.
+
+</P>
+<P>
+When <VAR>new</VAR> is committed its revision numbers will
+start at 1.0 again, so if that bothers you, use the
+<SAMP>`-r rev'</SAMP> option to commit (see section <A HREF="cvs_96.html#SEC100">commit options</A>)
+
+</P>
+<P><HR><P>
+Go to the <A HREF="cvs_1.html">first</A>, <A HREF="cvs_65.html">previous</A>, <A HREF="cvs_67.html">next</A>, <A HREF="cvs_148.html">last</A> section, <A HREF="cvs_toc.html">table of contents</A>.
+</BODY>
+</HTML>

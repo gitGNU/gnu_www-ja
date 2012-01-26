@@ -1,0 +1,185 @@
+<HTML>
+<HEAD>
+<!-- Created by texi2html 1.56k from ../bc.texi on 20 March 2001 -->
+
+<TITLE>bc Command Manual - Statements</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_3.html">previous</A>, <A HREF="bc_5.html">next</A>, <A HREF="bc_10.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC15" HREF="bc_toc.html#TOC15">Statements</A></H1>
+
+<P>
+Statements (as in most algebraic languages) provide the sequencing of
+expression evaluation.  In <CODE>bc</CODE> statements are executed "as soon
+as possible."  Execution happens when a newline in encountered and there
+is one or more complete statements.  Due to this immediate execution,
+newlines are very important in <CODE>bc</CODE>. In fact, both a semicolon
+and a newline are used as statement separators.  An improperly placed
+newline will cause a syntax error.  Because newlines are statement
+separators, it is possible to hide a newline by using the backslash
+character.  The sequence "\&#60;nl&#62;", where &#60;nl&#62; is the newline appears to
+<CODE>bc</CODE> as whitespace instead of a newline.  A statement list is a
+series of statements separated by semicolons and newlines.  The
+following is a list of <CODE>bc</CODE> statements and what they do: (Things
+enclosed in brackets ( [ ] ) are optional parts of the statement.)
+
+
+<DL COMPACT>
+
+<DT><VAR>expression</VAR>
+<DD>
+This statement does one of two things.  If the expression starts with
+"&#60;variable&#62; &#60;assignment&#62; ...", it is considered to be an assignment
+statement.  If the expression is not an assignment statement, the
+expression is evaluated and printed to the output.  After the number is
+printed, a newline is printed.  For example, "a=1" is an assignment
+statement and "(a=1)" is an expression that has an embedded assignment.
+All numbers that are printed are printed in the base specified by the
+variable <VAR>obase</VAR>. The legal values for <VAR>obase</VAR> are 2 through
+BC_BASE_MAX (see section <A HREF="bc_10.html#SEC23">Environment Variables</A>).  For bases 2 through 16,
+the usual method of writing numbers is used.  For bases greater than 16,
+<CODE>bc</CODE> uses a multi-character digit method of printing the numbers
+where each higher base digit is printed as a base 10 number.  The
+multi-character digits are separated by spaces.  Each digit contains the
+number of characters required to represent the base ten value of
+"<VAR>obase</VAR> -1".  Since numbers are of arbitrary precision, some
+numbers may not be printable on a single output line.  These long
+numbers will be split across lines using the "\" as the last character
+on a line.  The maximum number of characters printed per line is 70.
+Due to the interactive nature of <CODE>bc</CODE>, printing a number causes
+the side effect of assigning the printed value to the special variable
+<VAR>last</VAR>. This allows the user to recover the last value printed
+without having to retype the expression that printed the number.
+Assigning to <VAR>last</VAR> is legal and will overwrite the last printed
+value with the assigned value.  The newly assigned value will remain
+until the next number is printed or another value is assigned to
+<VAR>last</VAR>.  (Some installations may allow the use of a single period
+(.) which is not part of a number as a short hand notation for for
+<VAR>last</VAR>.)
+
+<DT><VAR>string</VAR>
+<DD>
+The string is printed to the output.  Strings start with a double quote
+character and contain all characters until the next double quote character.
+All characters are taken literally, including any newline.  No newline
+character is printed after the string.
+
+<DT><VAR><CODE>print</CODE> <VAR>list</VAR></VAR>
+<DD>
+The <CODE>print</CODE> statement (an extension) provides another method of
+output.  The <VAR>list</VAR> is a list of strings and expressions separated by
+commas.  Each string or expression is printed in the order of the list.
+No terminating newline is printed.  Expressions are evaluated and their
+value is printed and assigned to the variable <CODE>last</CODE>. Strings in
+the print statement are printed to the output and may contain special
+characters.  Special characters start with the backslash character (\e).
+The special characters recognized by <CODE>bc</CODE> are "a" (alert or
+bell), "b" (backspace), "f" (form feed), "n" (newline), "r" (carriage
+return), "q" (double quote), "t" (tab), and "\e" (backslash).  Any other
+character following the backslash will be ignored.
+
+<DT><VAR>{ statement_list }</VAR>
+<DD>
+This is the compound statement.  It allows multiple statements to be
+grouped together for execution.
+
+<DT><VAR><CODE>if</CODE> ( expression ) statement1 [<CODE>else</CODE> statement2]</VAR>
+<DD>
+The if statement evaluates the expression and executes statement1 or
+statement2 depending on the value of the expression.  If the expression
+is non-zero, statement1 is executed.  If statement2 is present and
+the value of the expression is 0, then statement2 is executed.  (The
+<CODE>else</CODE> clause is an extension.)
+
+<DT><VAR><CODE>while</CODE> ( expression ) statement</VAR>
+<DD>
+The while statement will execute the statement while the expression
+is non-zero.  It evaluates the expression before each execution of
+the statement.   Termination of the loop is caused by a zero
+expression value or the execution of a <CODE>break</CODE> statement.
+
+<DT><VAR><CODE>for</CODE> ( [expression1] ; [expression2] ; [expression3] ) statement</VAR>
+<DD>
+The <CODE>for</CODE> statement controls repeated execution of the statement.
+<VAR>Expression1</VAR> is evaluated before the loop.  <VAR>Expression2</VAR> is
+evaluated before each execution of the statement.  If it is non-zero,
+the statement is evaluated.  If it is zero, the loop is terminated.
+After each execution of the statement, <VAR>expression3</VAR> is evaluated
+before the reevaluation of expression2.  If <VAR>expression1</VAR> or
+<VAR>expression3</VAR> are missing, nothing is evaluated at the point they
+would be evaluated.  If <VAR>expression2</VAR> is missing, it is the same as
+substituting the value 1 for <VAR>expression2</VAR>.  (The optional
+expressions are an extension. POSIX <CODE>bc</CODE> requires all three
+expressions.)  The following is equivalent code for the <CODE>for</CODE>
+statement:
+
+
+<PRE>
+expression1;
+while (expression2) {
+   statement;
+   expression3;
+}
+</PRE>
+
+<DT><VAR><CODE>break</CODE></VAR>
+<DD>
+This statement causes a forced exit of the most recent enclosing <CODE>while</CODE>
+statement or <CODE>for</CODE> statement.
+
+<DT><VAR><CODE>continue</CODE></VAR>
+<DD>
+The <CODE>continue</CODE> statement (an extension)  causes the most recent enclosing
+<CODE>for</CODE> statement to start the next iteration.
+
+<DT><VAR><CODE>halt</CODE></VAR>
+<DD>
+The <CODE>halt</CODE> statement (an extension) is an executed statement that
+causes the <CODE>bc</CODE> processor to quit only when it is executed.  For
+example, "if (0 == 1) halt" will not cause <CODE>bc</CODE> to terminate
+because the <CODE>halt</CODE> is not executed.
+
+<DT><VAR><CODE>return</CODE></VAR>
+<DD>
+Return the value 0 from a function.  (See section <A HREF="bc_5.html#SEC17">Functions</A>.)
+
+<DT><VAR><CODE>return</CODE> ( expression )</VAR>
+<DD>
+Return the value of the expression from a function.  (See section <A HREF="bc_5.html#SEC17">Functions</A>.)
+As an extension, the parenthesis are not required.
+</DL>
+
+
+
+<H2><A NAME="SEC16" HREF="bc_toc.html#TOC16">Pseudo Statements</A></H2>
+
+<P>
+These statements are not statements in the traditional sense.  They are
+not executed statements.  Their function is performed at "compile" time.
+
+
+<DL COMPACT>
+
+<DT><CODE>limits</CODE>
+<DD>
+Print the local limits enforced by the local version of <CODE>bc</CODE>.  This
+is an extension.
+
+<DT><CODE>quit</CODE>
+<DD>
+When the <CODE>quit</CODE> statement is read, the <CODE>bc</CODE> processor
+is terminated, regardless of where the <CODE>quit</CODE> statement is found.  For
+example, "if (0 == 1) quit" will cause <CODE>bc</CODE> to terminate.
+
+<DT><CODE>warranty</CODE>
+<DD>
+Print a longer warranty notice.  This is an extension.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="bc_1.html">first</A>, <A HREF="bc_3.html">previous</A>, <A HREF="bc_5.html">next</A>, <A HREF="bc_10.html">last</A> section, <A HREF="bc_toc.html">table of contents</A>.
+</BODY>
+</HTML>

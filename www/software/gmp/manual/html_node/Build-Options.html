@@ -1,0 +1,474 @@
+<html lang="en">
+<head>
+<title>GNU MP 4.1</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name=description content="How to install and use the GNU multiple precision arithmetic library, version 4.1.">
+<meta name=generator content="makeinfo 4.2">
+<link href="http://www.gnu.org/software/texinfo/" rel=generator-home>
+<!--
+This manual describes how to install and use the GNU multiple precision
+arithmetic library, version 4.1.
+
+<p>Copyright 1991, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002
+Free Software Foundation, Inc.
+
+<p>Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.1 or any later
+version published by the Free Software Foundation; with no Invariant Sections,
+with the Front-Cover Texts being "A GNU Manual", and with the Back-Cover
+Texts being "You have freedom to copy and modify this GNU Manual, like GNU
+software".  A copy of the license is included in <a href="GNU-Free-Documentation-License.html#GNU%20Free%20Documentation%20License">GNU Free Documentation License</a>.-->
+</head>
+<body>
+<p>
+Node:<a name="Build%20Options">Build Options</a>,
+Next:<a rel=next accesskey=n href="ABI-and-ISA.html#ABI%20and%20ISA">ABI and ISA</a>,
+Previous:<a rel=previous accesskey=p href="Installing-GMP.html#Installing%20GMP">Installing GMP</a>,
+Up:<a rel=up accesskey=u href="Installing-GMP.html#Installing%20GMP">Installing GMP</a>
+<hr><br>
+
+<h3>Build Options</h3>
+
+<p>All the usual autoconf configure options are available, run <code>./configure
+--help</code> for a summary.  The file <code>INSTALL.autoconf</code> has some generic
+installation information too.
+
+<dl>
+<dt>Non-Unix Systems
+<dd>
+<code>configure</code> requires various Unix-like tools.  On an MS-DOS system DJGPP
+can be used, and on MS Windows Cygwin or MINGW can be used,
+
+<br><pre><a href="http://www.cygnus.com/cygwin">http://www.cygnus.com/cygwin</a>
+<a href="http://www.delorie.com/djgpp">http://www.delorie.com/djgpp</a>
+<a href="http://www.mingw.org">http://www.mingw.org</a>
+</pre>
+
+<p>The <code>macos</code> directory contains an unsupported port to MacOS 9 on Power
+Macintosh, see <code>macos/README</code>.  Note that MacOS X "Darwin" should use
+the normal Unix-style <code>./configure</code>.
+
+<p>It might be possible to build without the help of <code>configure</code>, certainly
+all the code is there, but unfortunately you'll be on your own.
+
+<br><dt>Build Directory
+<dd>
+To compile in a separate build directory, <code>cd</code> to that directory, and
+prefix the configure command with the path to the GMP source directory.  For
+example
+
+<br><pre>cd /my/build/dir
+/my/sources/gmp-4.1/configure
+</pre>
+
+<p>Not all <code>make</code> programs have the necessary features (<code>VPATH</code>) to
+support this.  In particular, SunOS and Slowaris <code>make</code> have bugs that
+make them unable to build in a separate directory.  Use GNU <code>make</code>
+instead.
+
+<br><dt><code>--disable-shared</code>, <code>--disable-static</code>
+<dd>
+By default both shared and static libraries are built (where possible), but
+one or other can be disabled.  Shared libraries result in smaller executables
+and permit code sharing between separate running processes, but on some CPUs
+are slightly slower, having a small cost on each function call.
+
+<br><dt>Native Compilation, <code>--build=CPU-VENDOR-OS</code>
+<dd>
+For normal native compilation, the system can be specified with
+<code>--build</code>.  By default <code>./configure</code> uses the output from running
+<code>./config.guess</code>.  On some systems <code>./config.guess</code> can determine
+the exact CPU type, on others it will be necessary to give it explicitly.  For
+example,
+
+<br><pre>./configure --build=ultrasparc-sun-solaris2.7
+</pre>
+
+<p>In all cases the <code>OS</code> part is important, since it controls how libtool
+generates shared libraries.  Running <code>./config.guess</code> is the simplest way
+to see what it should be, if you don't know already.
+
+<br><dt>Cross Compilation, <code>--host=CPU-VENDOR-OS</code>
+<dd>
+When cross-compiling, the system used for compiling is given by <code>--build</code>
+and the system where the library will run is given by <code>--host</code>.  For
+example when using a FreeBSD Athlon system to build GNU/Linux m68k binaries,
+
+<br><pre>./configure --build=athlon-pc-freebsd3.5 --host=m68k-mac-linux-gnu
+</pre>
+
+<p>Compiler tools are sought first with the host system type as a prefix.  For
+example <code>m68k-mac-linux-gnu-ranlib</code> is tried, then plain
+<code>ranlib</code>.  This makes it possible for a set of cross-compiling tools
+to co-exist with native tools.  The prefix is the argument to <code>--host</code>,
+and this can be an alias, such as <code>m68k-linux</code>.  But note that tools
+don't have to be setup this way, it's enough to just have a <code>PATH</code> with a
+suitable cross-compiling <code>cc</code> etc.
+
+<p>Compiling for a different CPU in the same family as the build system is a form
+of cross-compilation, though very possibly this would merely be special
+options on a native compiler.  In any case <code>./configure</code> avoids depending
+on being able to run code on the build system, which is important when
+creating binaries for a newer CPU since they very possibly won't run on the
+build system.
+
+<p>In all cases the compiler must be able to produce an executable (of whatever
+format) from a standard C <code>main</code>.  Although only object files will go to
+make up <code>libgmp</code>, <code>./configure</code> uses linking tests for various
+purposes, such as determining what functions are available on the host system.
+
+<p>Currently a warning is given unless an explicit <code>--build</code> is used when
+cross-compiling, because it may not be possible to correctly guess the build
+system type if the <code>PATH</code> has only a cross-compiling <code>cc</code>.
+
+<p>Note that the <code>--target</code> option is not appropriate for GMP.  It's for use
+when building compiler tools, with <code>--host</code> being where they will run,
+and <code>--target</code> what they'll produce code for.  Ordinary programs or
+libraries like GMP are only interested in the <code>--host</code> part, being where
+they'll run.  (Some past versions of GMP used <code>--target</code> incorrectly.)
+
+<br><dt>CPU types
+<dd>
+In general, if you want a library that runs as fast as possible, you should
+configure GMP for the exact CPU type your system uses.  However, this may mean
+the binaries won't run on older members of the family, and might run slower on
+other members, older or newer.  The best idea is always to build GMP for the
+exact machine type you intend to run it on.
+
+<p>The following CPUs have specific support.  See <code>configure.in</code> for details
+of what code and compiler options they select.
+
+<ul>
+
+<li>Alpha:
+<code>alpha</code>,
+<code>alphaev5</code>,
+<code>alphaev56</code>,
+<code>alphapca56</code>,
+<code>alphapca57</code>,
+<code>alphaev6</code>,
+<code>alphaev67</code>,
+<code>alphaev68</code>
+
+<li>Cray:
+<code>c90</code>,
+<code>j90</code>,
+<code>t90</code>,
+<code>sv1</code>
+
+<li>HPPA:
+<code>hppa1.0</code>,
+<code>hppa1.1</code>,
+<code>hppa2.0</code>,
+<code>hppa2.0n</code>,
+<code>hppa2.0w</code>
+
+<li>MIPS:
+<code>mips</code>,
+<code>mips3</code>,
+<code>mips64</code>
+
+<li>Motorola:
+<code>m68k</code>,
+<code>m68000</code>,
+<code>m68010</code>,
+<code>m68020</code>,
+<code>m68030</code>,
+<code>m68040</code>,
+<code>m68060</code>,
+<code>m68302</code>,
+<code>m68360</code>,
+<code>m88k</code>,
+<code>m88110</code>
+
+<li>POWER:
+<code>power</code>,
+<code>power1</code>,
+<code>power2</code>,
+<code>power2sc</code>
+
+<li>PowerPC:
+<code>powerpc</code>,
+<code>powerpc64</code>,
+<code>powerpc401</code>,
+<code>powerpc403</code>,
+<code>powerpc405</code>,
+<code>powerpc505</code>,
+<code>powerpc601</code>,
+<code>powerpc602</code>,
+<code>powerpc603</code>,
+<code>powerpc603e</code>,
+<code>powerpc604</code>,
+<code>powerpc604e</code>,
+<code>powerpc620</code>,
+<code>powerpc630</code>,
+<code>powerpc740</code>,
+<code>powerpc7400</code>,
+<code>powerpc7450</code>,
+<code>powerpc750</code>,
+<code>powerpc801</code>,
+<code>powerpc821</code>,
+<code>powerpc823</code>,
+<code>powerpc860</code>,
+
+<li>SPARC:
+<code>sparc</code>,
+<code>sparcv8</code>,
+<code>microsparc</code>,
+<code>supersparc</code>,
+<code>sparcv9</code>,
+<code>ultrasparc</code>,
+<code>ultrasparc2</code>,
+<code>ultrasparc2i</code>,
+<code>ultrasparc3</code>,
+<code>sparc64</code>
+
+<li>80x86 family:
+<code>i386</code>,
+<code>i486</code>,
+<code>i586</code>,
+<code>pentium</code>,
+<code>pentiummmx</code>,
+<code>pentiumpro</code>,
+<code>pentium2</code>,
+<code>pentium3</code>,
+<code>pentium4</code>,
+<code>k6</code>,
+<code>k62</code>,
+<code>k63</code>,
+<code>athlon</code>
+
+<li>Other:
+<code>a29k</code>,
+<code>arm</code>,
+<code>clipper</code>,
+<code>i960</code>,
+<code>ns32k</code>,
+<code>pyramid</code>,
+<code>sh</code>,
+<code>sh2</code>,
+<code>vax</code>,
+<code>z8k</code>
+</ul>
+
+<p>CPUs not listed will use generic C code.
+
+<br><dt>Generic C Build
+<dd>
+If some of the assembly code causes problems, or if otherwise desired, the
+generic C code can be selected with CPU <code>none</code>.  For example,
+
+<br><pre>./configure --host=none-unknown-freebsd3.5
+</pre>
+
+<p>Note that this will run quite slowly, but it should be portable and should at
+least make it possible to get something running if all else fails.
+
+<br><dt><code>ABI</code>
+<dd>
+On some systems GMP supports multiple ABIs (application binary interfaces),
+meaning data type sizes and calling conventions.  By default GMP chooses the
+best ABI available, but a particular ABI can be selected.  For example
+
+<br><pre>./configure --host=mips64-sgi-irix6 ABI=n32
+</pre>
+
+<p>See <a href="ABI-and-ISA.html#ABI%20and%20ISA">ABI and ISA</a>, for the available choices on relevant CPUs, and what
+applications need to do.
+
+<br><dt><code>CC</code>, <code>CFLAGS</code>
+<dd>
+By default the C compiler used is chosen from among some likely candidates,
+with <code>gcc</code> normally preferred if it's present.  The usual
+<code>CC=whatever</code> can be passed to <code>./configure</code> to choose something
+different.
+
+<p>For some systems, default compiler flags are set based on the CPU and
+compiler.  The usual <code>CFLAGS="-whatever"</code> can be passed to
+<code>./configure</code> to use something different or to set good flags for systems
+GMP doesn't otherwise know.
+
+<p>The <code>CC</code> and <code>CFLAGS</code> used are printed during <code>./configure</code>,
+and can be found in each generated <code>Makefile</code>.  This is the easiest way
+to check the defaults when considering changing or adding something.
+
+<p>Note that when <code>CC</code> and <code>CFLAGS</code> are specified on a system
+supporting multiple ABIs it's important to give an explicit
+<code>ABI=whatever</code>, since GMP can't determine the ABI just from the flags and
+won't be able to select the correct assembler code.
+
+<p>If just <code>CC</code> is selected then normal default <code>CFLAGS</code> for that
+compiler will be used (if GMP recognises it).  For example <code>CC=gcc</code> can
+be used to force the use of GCC, with default flags (and default ABI).
+
+<br><dt><code>CPPFLAGS</code>
+<dd>
+Any flags like <code>-D</code> defines or <code>-I</code> includes required by the
+preprocessor should be set in <code>CPPFLAGS</code> rather than <code>CFLAGS</code>. 
+Compiling is done with both <code>CPPFLAGS</code> and <code>CFLAGS</code>, but
+preprocessing uses just <code>CPPFLAGS</code>.  This distinction is because most
+preprocessors won't accept all the flags the compiler does.  Preprocessing is
+done separately in some configure tests, and in the <code>ansi2knr</code> support
+for K&amp;R compilers.
+
+<br><dt>C++ Support, <code>--enable-cxx</code>
+<dd>C++ support in GMP can be enabled with <code>--enable-cxx</code>, in which case a
+C++ compiler will be required.  As a convenience <code>--enable-cxx=detect</code>
+can be used to enable C++ support only if a compiler can be found.  The C++
+support consists of a library <code>libgmpxx.la</code> and header file
+<code>gmpxx.h</code>.
+
+<p>A separate <code>libgmpxx.la</code> has been adopted rather than having C++ objects
+within <code>libgmp.la</code> in order to ensure dynamic linked C programs aren't
+bloated by a dependency on the C++ standard library, and to avoid any chance
+that the C++ compiler could be required when linking plain C programs.
+
+<p><code>libgmpxx.la</code> will use certain internals from <code>libgmp.la</code> and can
+only be expected to work with <code>libgmp.la</code> from the same GMP version. 
+Future changes to the relevant internals will be accompanied by renaming, so a
+mismatch will cause unresolved symbols rather than perhaps mysterious
+misbehaviour.
+
+<p>In general <code>libgmpxx.la</code> will be usable only with the C++ compiler that
+built it, since name mangling and runtime support are usually incompatible
+between different compilers.
+
+<br><dt><code>CXX</code>, <code>CXXFLAGS</code>
+<dd>When C++ support is enabled, the C++ compiler and its flags can be set with
+variables <code>CXX</code> and <code>CXXFLAGS</code> in the usual way.  The default for
+<code>CXX</code> is the first compiler that works from a list of likely candidates,
+with <code>g++</code> normally preferred when available.  The default for
+<code>CXXFLAGS</code> is to try <code>CFLAGS</code>, <code>CFLAGS</code> without <code>-g</code>, then
+for <code>g++</code> either <code>-g -O2</code> or <code>-O2</code>, or for other compilers
+<code>-g</code> or nothing.  Trying <code>CFLAGS</code> this way is convenient when using
+<code>gcc</code> and <code>g++</code> together, since the flags for <code>gcc</code> will
+usually suit <code>g++</code>.
+
+<p>It's important that the C and C++ compilers match, meaning their startup and
+runtime support routines are compatible and that they generate code in the
+same ABI (if there's a choice of ABIs on the system).  <code>./configure</code>
+isn't currently able to check these things very well itself, so for that
+reason <code>--disable-cxx</code> is the default, to avoid a build failure due to a
+compiler mismatch.  Perhaps this will change in the future.
+
+<p>Incidentally, it's normally not good enough to set <code>CXX</code> to the same as
+<code>CC</code>.  Although <code>gcc</code> for instance recognises <code>foo.cc</code> as
+C++ code, only <code>g++</code> will invoke the linker the right way when
+building an executable or shared library from object files.
+
+<br><dt>Temporary Memory, <code>--enable-alloca=&lt;choice&gt;</code>
+<dd>
+
+<p>GMP allocates temporary workspace using one of the following three methods,
+which can be selected with for instance
+<code>--enable-alloca=malloc-reentrant</code>.
+
+<ul>
+<li><code>alloca</code> - C library or compiler builtin. 
+<li><code>malloc-reentrant</code> - the heap, in a re-entrant fashion. 
+<li><code>malloc-notreentrant</code> - the heap, with global variables. 
+</ul>
+
+<p>For convenience, the following choices are also available. 
+<code>--disable-alloca</code> is the same as <code>--enable-alloca=no</code>.
+
+<ul>
+<li><code>yes</code> - a synonym for <code>alloca</code>. 
+<li><code>no</code> - a synonym for <code>malloc-reentrant</code>. 
+<li><code>reentrant</code> - <code>alloca</code> if available, otherwise
+<code>malloc-reentrant</code>.  This is the default. 
+<li><code>notreentrant</code> - <code>alloca</code> if available, otherwise
+<code>malloc-notreentrant</code>. 
+</ul>
+
+<p><code>alloca</code> is reentrant and fast, and is recommended, but when working with
+large numbers it can overflow the available stack space, in which case one of
+the two malloc methods will need to be used.  Alternately it might be possible
+to increase available stack with <code>limit</code>, <code>ulimit</code> or
+<code>setrlimit</code>, or under DJGPP with <code>stubedit</code> or
+<code>_stklen</code>.  Note that depending on the system the only indication of
+stack overflow might be a segmentation violation.
+
+<p><code>malloc-reentrant</code> is, as the name suggests, reentrant and thread safe,
+but <code>malloc-notreentrant</code> is faster and should be used if reentrancy is
+not required.
+
+<p>The two malloc methods in fact use the memory allocation functions selected by
+<code>mp_set_memory_functions</code>, these being <code>malloc</code> and friends by
+default.  See <a href="Custom-Allocation.html#Custom%20Allocation">Custom Allocation</a>.
+
+<p>An additional choice <code>--enable-alloca=debug</code> is available, to help when
+debugging memory related problems (see <a href="Debugging.html#Debugging">Debugging</a>).
+
+<br><dt>FFT Multiplication, <code>--disable-fft</code>
+<dd>
+By default multiplications are done using Karatsuba, 3-way Toom-Cook, and
+Fermat FFT.  The FFT is only used on large to very large operands and can be
+disabled to save code size if desired.
+
+<br><dt>Berkeley MP, <code>--enable-mpbsd</code>
+<dd>
+The Berkeley MP compatibility library (<code>libmp</code>) and header file
+(<code>mp.h</code>) are built and installed only if <code>--enable-mpbsd</code> is used. 
+See <a href="BSD-Compatible-Functions.html#BSD%20Compatible%20Functions">BSD Compatible Functions</a>.
+
+<br><dt>MPFR, <code>--enable-mpfr</code>
+<dd>
+
+<p>The optional MPFR functions are built and installed only if
+<code>--enable-mpfr</code> is used.  These are in a separate library
+<code>libmpfr.a</code> and are documented separately too (see <a href="../mpfr/Introduction-to-MPFR.html#Introduction%20to%20MPFR">Introduction to MPFR</a>).
+
+<br><dt>Assertion Checking, <code>--enable-assert</code>
+<dd>
+This option enables some consistency checking within the library.  This can be
+of use while debugging, see <a href="Debugging.html#Debugging">Debugging</a>.
+
+<br><dt>Execution Profiling, <code>--enable-profiling=prof/gprof</code>
+<dd>
+Profiling support can be enabled either for <code>prof</code> or <code>gprof</code>. 
+This adds <code>-p</code> or <code>-pg</code> respectively to <code>CFLAGS</code>, and for some
+systems adds corresponding <code>mcount</code> calls to the assembler code. 
+See <a href="Profiling.html#Profiling">Profiling</a>.
+
+<br><dt><code>MPN_PATH</code>
+<dd>
+Various assembler versions of each mpn subroutines are provided.  For a given
+CPU, a search is made though a path to choose a version of each.  For example
+<code>sparcv8</code> has
+
+<br><pre>MPN_PATH="sparc32/v8 sparc32 generic"
+</pre>
+
+<p>which means look first for v8 code, then plain sparc32 (which is v7), and
+finally fall back on generic C.  Knowledgeable users with special requirements
+can specify a different path.  Normally this is completely unnecessary.
+
+<br><dt>Demonstration Programs
+<dd>
+
+<p>The <code>demos</code> subdirectory has some sample programs using GMP.  These
+aren't built or installed, but there's a <code>Makefile</code> with rules for them. 
+For instance,
+
+<br><pre>make pexpr
+./pexpr 68^975+10
+</pre>
+
+<br><dt>Documentation
+<dd>
+The document you're now reading is <code>gmp.texi</code>.  The usual automake
+targets are available to make PostScript <code>gmp.ps</code> and/or DVI
+<code>gmp.dvi</code>.
+
+<p>HTML can be produced with <code>makeinfo --html</code>, see <a href="../texinfo/makeinfo-html.html#makeinfo%20html">Generating HTML</a>.  Or alternately
+<code>texi2html</code>, see <a href="../texi2html/index.html#Top">Texinfo to HTML</a>.
+
+<p>PDF can be produced with <code>texi2dvi --pdf</code> (see <a href="../texinfo/PDF-Output.html#PDF%20Output">PDF</a>) or with <code>pdftex</code>.
+
+<p>Some supplementary notes can be found in the <code>doc</code> subdirectory.
+
+</dl>
+
+</body></html>
+

@@ -1,0 +1,991 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<HTML>
+<HEAD>
+<TITLE>Cim - GNU Project - Free Software Foundation (FSF)</TITLE>
+<LINK REV="made" HREF="mailto:webmasters@gnu.org">
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#1F00FF" ALINK="#FF0000" VLINK="#9900DD">
+<A HREF="/graphics/agnuhead.html"><IMG SRC="/graphics/gnu-head-sm.jpg"
+ALT=" [image of the Head of a GNU] "
+WIDTH="129" HEIGHT="122"></A>
+
+<H2>Cim</H2>
+<H3>Simula Compiler based on the C Programming Language</H3>
+<P>
+<UL>
+<LI><A NAME="TOC1" HREF="cim.html#SEC1">Introduction</A>
+<LI><A NAME="TOC2" HREF="cim.html#SEC2">A simple example</A>
+<LI><A NAME="TOC3" HREF="cim.html#SEC3">Compiling</A>
+<UL>
+<LI><A NAME="TOC4" HREF="cim.html#SEC4">Options</A>
+<LI><A NAME="TOC5" HREF="cim.html#SEC5">Arguments</A>
+<LI><A NAME="TOC6" HREF="cim.html#SEC6">Files</A>
+</UL>
+<LI><A NAME="TOC7" HREF="cim.html#SEC7">Implementation Aspects</A>
+<UL>
+<LI><A NAME="TOC8" HREF="cim.html#SEC8">Language restrictions</A>
+<LI><A NAME="TOC9" HREF="cim.html#SEC9">Allowed implementation restrictions</A>
+<LI><A NAME="TOC10" HREF="cim.html#SEC10">Implementation dependent characteristics</A>
+<LI><A NAME="TOC11" HREF="cim.html#SEC11">Implementation defined characteristics</A>
+<LI><A NAME="TOC12" HREF="cim.html#SEC12">Capacity limitations</A>
+<LI><A NAME="TOC13" HREF="cim.html#SEC13">Extension to the environment</A>
+</UL>
+</UL>
+
+<HR>
+
+<H2><A NAME="SEC1" HREF="#TOC1">Introduction</A></H2>
+
+<P>
+Cim is a compiler for the programming language Simula
+(except unspecified parameters to formal or virtual procedures
+(see item %nocomment in See section <A HREF="cim.html#SEC10">Implementation dependent characteristics</A>,
+for how portable code for formal procedures can be written)). 
+It offers a class concept, separate compilation with 
+full type checking, interface to external C routines,
+an application package for process simulation
+and a coroutine concept.  
+
+</P>
+<P>
+Cim is a Simula compiler whose portability is based on
+the C programming language.  The compiler and the
+run-time system is written in C, and the compiler
+produces C code, that is passed to a C compiler for
+further processing towards machine code. 
+
+</P>
+<P>
+Cim is copyrighted by Sverre Hvammen Johansen <A
+HREF="mailto:sj@ifi.uio.no">&lt;sj@ifi.uio.no&gt;</A>, Stein Krogdahl <A
+HREF="mailto:steink@ifi.uio.no">&lt;steink@ifi.uio.no&gt;</A>, and Terje
+Mjøs, Department of Informatics, University of Oslo (plus some parts from
+Free Software Fundation).
+
+</P>
+<P>
+Cim is free software; you can redistribute it and/or modify
+it under the terms of the <A HREF="/copyleft/gpl.html">GNU General Public License (20k
+characters HTML)</A> as published by the Free Software Foundation; version 2.
+
+</P>
+<P>
+The latest released version of Cim is 3.9 which is available from <A
+HREF="ftp://ftp.ifi.uio.no:/pub/cim/cim-3.9.tar.gz">ftp://ftp.ifi.uio.no:/pub/cim/cim-3.9.tar.gz</A>
+
+</p>
+<P>
+Mail bug reports for Cim to <A HREF="mailto:cim-bug@ifi.uio.no">&lt;cim-bug@ifi.uio.no&gt;</A>.
+Please include the Cim version number and the system type,
+which you can get by running <CODE>cim --version</CODE>. 
+
+</P>
+<P>
+Cim uses, <A HREF="/software/autoconf/">GNU Autoconf</A>, <A
+HREF="/software/automake/">GNU Automake</A>, and <A
+HREF="/software/libtool/">GNU Libtool</A>,
+so that cim can be installed by following the generic
+installation instructions found in the file INSTALL.
+You also may want to read the instructions in the file README.
+
+</P>
+
+
+<H2><A NAME="SEC2" HREF="#TOC2">A simple example</A></H2>
+
+<P>
+We show in this chapter a simple example of a SIMULA program 
+and how to compile and run it. 
+
+</P>
+<P>
+Create a SIMULA program with a text editor, and give it a name with
+extension <TT>`sim'</TT>.  In this example we name it <TT>`doesit.sim'</TT>:
+
+</P>
+
+<PRE>
+begin
+    Outtext("Simula does it in C");
+    Outimage;
+end
+</PRE>
+
+<P>
+You can now compile the program with the cim command:
+
+</P>
+
+<PRE>
+%cim doesit
+Compiling: doesit.sim
+cc -w -c doesit.c 
+cc -o doesit doesit.o /usr/local/lib/libcim.a -lm
+%
+</PRE>
+
+<P>
+The compiler will produce C code that is further processed towards 
+machine code with a standard C compiler.  
+All produced files have the same name as the input file,
+but with different extensions. 
+The compiled and linked program can be invoked by entering:
+
+</P>
+
+<PRE>
+%./doesit
+Simula does it in C
+%
+</PRE>
+
+<P>
+
+<H2><A NAME="SEC3" HREF="#TOC3">Compiling</A></H2>
+
+<P>
+Cim is a Simula compiler that first compiles the source code into C. 
+The C code
+will then be compiled with cc, and linked with other modules. 
+
+</P>
+<P>
+The Cim command
+will accept one Simula program and other non-Simula modules. 
+The specified Simula program will be compiled and linked with the 
+modules.  If a main Simula program is compiled, it will automatic
+be linked with the necessary Simula modules.  If a separate Class or
+Procedure is compiled, then the linking will be suppressed. 
+
+</P>
+<P>
+The diagnostics produced by the Simula compiler are intended to
+be self-explanatory. 
+
+</P>
+
+
+
+<H3><A NAME="SEC4" HREF="#TOC4">Options</A></H3>
+
+<P>
+The following options are accepted by the cim command:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>-a</CODE>
+<DD>
+<DT><CODE>--atr</CODE>
+<DD>
+Try to produce an <TT>`atr'</TT>-file even if an error occurs. 
+Compare the produced atr-file with the atr-file produced from 
+previous compilation and if they differ return an error status code. 
+With use of this option it is possible to have external modules
+with circular dependencies.  You will then need to compile
+all the modules with this option until no error status codes are
+returned.  Then you should do a final compilation with option
+<CODE>-p</CODE> or option <CODE>-d</CODE>.  To get this to work it is important that the
+topmost external head does not contain any external declaration
+that is part of the circular dependency.  Such external declarations
+must be placed in an external head that comes after the first
+class- or procedure decraration. 
+
+<DT><CODE>-b<VAR>flags</VAR></CODE>
+<DD>
+<DT><CODE>--cflags=<VAR>flags</VAR></CODE>
+<DD>
+The <VAR>argument</VAR> will be passed to the C compiler. 
+
+<DT><CODE>-B<VAR>flags</VAR></CODE>
+<DD>
+<DT><CODE>--ldflags=<VAR>flags</VAR></CODE>
+<DD>
+The <VAR>argument</VAR> will be passed to the link-command. 
+
+<DT><CODE>-c</CODE>
+<DD>
+<DT><CODE>--suppress-linking</CODE>
+<DD>
+Suppress linking of the complete program. 
+
+<DT><CODE>-C<VAR>name</VAR></CODE>
+<DD>
+<DT><CODE>--c-compiler=<VAR>name</VAR></CODE>
+<DD>
+Set the <VAR>name</VAR> of the C compiler. 
+
+<DT><CODE>-d</CODE>
+<DD>
+<DT><CODE>--compare</CODE>
+<DD>
+Compare the produced c code with the code produced 
+from previous compilation and if they are equal 
+then touch the object-file instead 
+of compiling the c code. 
+
+<DT><CODE>-D<VAR>name</VAR></CODE>
+<DD>
+<DT><CODE>--define=<VAR>name</VAR></CODE>
+<DD>
+Define a symbol <VAR>name</VAR>. 
+
+<DT><CODE>-e</CODE>
+<DD>
+<DT><CODE>--static</CODE>
+<DD>
+On systems that support dynamic linking, this  prevents 
+linking with the shared libraries. 
+On other systems, this option has no effect.
+
+<DT><CODE>-E</CODE>
+<DD>
+<DT><CODE>--preprocess</CODE>
+<DD>
+Run only the preprocessor and output 
+the result to standard output. 
+
+<DT><CODE>-g</CODE>
+<DD>
+<DT><CODE>--debug</CODE>
+<DD>
+Make the C compiler produce debugging information. 
+This option is useful for debugging the generated code. 
+
+<DT><CODE>-G</CODE>
+<DD>
+<DT><CODE>--gcc</CODE>
+<DD>
+Invoke the Gnu Project C compiler instead of the standard C compiler.
+This option is useful if the standard C compiler don't generate correct code.
+
+<DT><CODE>-I<VAR>dir</VAR></CODE>
+<DD>
+<DT><CODE>--includedir=<VAR>dir</VAR></CODE>
+<DD>
+Use the Simula include file located in directory <VAR>dir</VAR> 
+instead of the standard directory. 
+This information may also be given by setting the 
+environment variable <CODE>CIMINCLUDEDIR</CODE>. 
+
+<DT><CODE>-h</CODE>
+<DD>
+<DT><CODE>--help</CODE>
+<DD>
+Print a summary of the options to `cim', and exit.
+
+<DT><CODE>-H</CODE>
+<DD>
+<DT><CODE>--no-lines</CODE>
+<DD>
+Omit line number information in the compiled program. 
+This  will  make the program smaller and faster. 
+
+<DT><CODE>-l<VAR>library</VAR></CODE>
+<DD>
+<DT><CODE>--library=<VAR>library</VAR></CODE>
+<DD>
+Search for <TT>`.atr'</TT>-files
+and link with object library <VAR>library</VAR>. 
+This option is passed to the link-command. 
+
+If a <TT>`.atr'</TT>-file can not be found as an ordinary file,
+then the specified libraries are searched and
+if the file is still not found then the standard cim library
+is searched.
+
+This option may also be used for searching Simula include files.
+
+<DT><CODE>-L<VAR>dir</VAR></CODE>
+<DD>
+<DT><CODE>--library-dir=<VAR>dir</VAR></CODE>
+<DD>
+Add  directory dir to the list of directories to be searched for -l.
+This option is passed to the link-command.
+
+The standard system directory is searched first and
+then the specified directories are searched.
+The standard system directory may be given 
+by setting the environment variable <CODE>CIMLIBDIR</CODE>.
+
+<DT><CODE>-m</CODE>
+<DD>
+<DT><CODE>--memory-pool-size</CODE>
+<DD>
+The memory pool size may be set at runtime 
+by an option <CODE>-m<VAR>n</VAR></CODE>. 
+
+<DT><CODE>-m<VAR>n</VAR></CODE>
+<DD>
+<DT><CODE>--memory-pool-size=<VAR>n</VAR></CODE>
+<DD>
+Set the initial memory pool size to <VAR>n</VAR> mega bytes. 
+
+<DT><CODE>-M<VAR>n</VAR></CODE>
+<DD>
+<DT><CODE>--max-memory-pool-size=<VAR>n</VAR></CODE>
+<DD>
+Set the maximal memory pool size to <VAR>n</VAR> mega bytes. 
+
+<DT><CODE>-N<VAR>file</VAR></CODE>
+<DD>
+<DT><CODE>--input=<VAR>file</VAR></CODE>
+<DD>
+Set the name of the Simula source file.  This option allows a Simula source
+file to have a name with an illegal extension or no extension at all.
+
+<DT><CODE>-o<VAR>file</VAR></CODE>
+<DD>
+<DT><CODE>--output=<VAR>file</VAR></CODE>
+<DD>
+The argument <VAR>file</VAR> is the name of the output 
+executable file. 
+
+<DT><CODE>-O</CODE>
+<DD>
+<DT><CODE>-O<VAR>n</VAR></CODE>
+<DD>
+<DT><CODE>--optimize</CODE>
+<DD>
+<DT><CODE>--optimize=<VAR>n</VAR></CODE>
+<DD>
+Optimize. This option is simply passed to the C compiler.
+
+<DT><CODE>-p</CODE>
+<DD>
+<DT><CODE>--pic</CODE>
+<DD>
+If supported for the target machines, generate position-independent
+code,  suitable for use in a shared library.
+
+<DT><CODE>-P</CODE>
+<DD>
+<DT><CODE>--only-link</CODE>
+<DD>
+Only link the specified files. 
+
+<DT><CODE>-q</CODE>
+<DD>
+<DT><CODE>--quiet</CODE>
+<DD>
+<DT><CODE>--silent</CODE>
+<DD>
+Run the compiler in quiet mode. 
+
+<DT><CODE>-R</CODE>
+<DD>
+<DT><CODE>--preserve-timestamp</CODE>
+<DD>
+Recompile the module using the same timestamp. 
+
+<DT><CODE>-s</CODE>
+<DD>
+<DT><CODE>--no-simula-compile</CODE>
+<DD>
+Only C compile and link the specified files. 
+
+<DT><CODE>-S</CODE>
+<DD>
+<DT><CODE>--only-simula-compile</CODE>
+<DD>
+Compile into C code but do not start the C compiler.
+
+<DT><CODE>-t</CODE>
+<DD>
+<DT><CODE>--dont-remove-temporaries</CODE>
+<DD>
+Do not remove temporary files.  
+If a main program is compiled with option -r,
+then the executable file will be removed 
+unless this option or option -T is specified. 
+
+<DT><CODE>-U<VAR>name</VAR></CODE>
+<DD>
+<DT><CODE>--undefine=<VAR>name</VAR></CODE>
+<DD>
+Remove any initial definition of the symbol <VAR>name</VAR>
+(Inverse of the <CODE>-D</CODE> option). 
+
+<DT><CODE>-v</CODE>
+<DD>
+<DT><CODE>--verbose</CODE>
+<DD>
+Run the compiler in verbose mode.
+
+<DT><CODE>-V</CODE>
+<DD>
+<DT><CODE>--version</CODE>
+<DD>
+Print the version number of Cim and exit.
+
+<DT><CODE>-w</CODE>
+<DD>
+<DT><CODE>--no-warn</CODE>
+<DD>
+Do not print warnings. 
+
+<DT><CODE>-X</CODE>
+<DD>
+<DT><CODE>--trace</CODE>
+<DD>
+Trace execution for this module. 
+</DL>
+
+
+
+<H3><A NAME="SEC5" HREF="#TOC5">Arguments</A></H3>
+
+<P>
+The following arguments are accepted by the Cim command:
+
+</P>
+<DL COMPACT>
+
+<DT><TT>`<VAR>file</VAR>.a'</TT>
+<DD>
+Library of object files and attribute files.  
+Include this simula library when compiling and linking.  
+The simula library is created with ar(1V) and ranlib(1).
+
+<DT><TT>`<VAR>file</VAR>.o'</TT>
+<DD>
+Object file of other non-Simula modules. 
+
+<DT><TT>`<VAR>file</VAR>'</TT>
+<DD>
+<DT><TT>`<VAR>file</VAR>.sim'</TT>
+<DD>
+Simula source file.  A file name without an extension is assumed
+to be shorthand notation for the corresponding Simula file. 
+</DL>
+
+
+
+<H3><A NAME="SEC6" HREF="#TOC6">Files</A></H3>
+
+<P>
+The following files are related to a Cim compilation:
+
+</P>
+<DL COMPACT>
+
+<DT><TT>`file'</TT>
+<DD>
+Executable file.
+
+<DT><TT>`file.a'</TT>
+<DD>
+Library of source files, attribute files and object files.  Include
+this simula library when compiling and linking.  The simula library
+is created with ar(1V) and ranlib(1).  All source and .atr files
+should be placed before .o files in the archive.
+
+<DT><TT>`file.o'</TT>
+<DD>
+Object file.
+
+<DT><TT>`file.c'</TT>
+<DD>
+Simula-compiler output file.
+
+<DT><TT>`file.h'</TT>
+<DD>
+Output file that is included in file.c.
+
+<DT><TT>`file.sim'</TT>
+<DD>
+Simula source file.
+
+<DT><TT>`file'</TT>
+<DD>
+File names without an extension are assumed to be shorthand notation 
+for the corresponding <TT>`.sim'</TT>-file.
+
+<DT><TT>`/usr/local/lib/libcim.a'</TT>
+<DD>
+Simula library that contains the environment, Run Time System and
+class Simset and Simulation. The source code to Simset and Simulation 
+is also included, so these parts can be compiled using compiler 
+directive <CODE>%include</CODE>.
+
+<DT><TT>`/usr/local/include/cim.h'</TT>
+<DD>
+Include file for the produced C code.
+</DL>
+
+
+
+<H2><A NAME="SEC7" HREF="#TOC7">Implementation Aspects</A></H2>
+
+<H3><A NAME="SEC8" HREF="#TOC8">Language restrictions</A></H3>
+
+<P>
+A formal or virtual procedure must be specified with respect to its type,
+and type, kind and transmission mode of its parameters
+(see item %nocomment in See section <A HREF="cim.html#SEC10">Implementation dependent characteristics</A>,
+for how portable code for formal procedures can be written). 
+
+</P>
+
+
+<H3><A NAME="SEC9" HREF="#TOC9">Allowed implementation restrictions</A></H3>
+
+
+<UL>
+
+<LI>
+
+The type short integer and long real 
+is implemented as integer and real. 
+
+<LI>
+
+The standard access mode SHARED for files is not implemented. 
+
+<LI>
+
+The only and default byte size of access mode BYTESIZE is 8. 
+</UL>
+
+
+
+<H3><A NAME="SEC10" HREF="#TOC10">Implementation dependent characteristics</A></H3>
+
+
+<UL>
+
+<LI>
+
+Trailing blanks of image are not transferred to the external file on
+<CODE>outfile.outimage</CODE> excepts it's a direct file. 
+
+<LI>
+
+A parameter to <CODE>printfile.spacing</CODE> with value zero gives the
+standard effect of overprint. 
+
+<LI>
+
+The procedures lock and unlock are not implemented. 
+
+<LI>
+
+All open external files are closed when a program is terminated. 
+
+<LI>
+
+If the first character of a line is <SAMP>`%'</SAMP> (or <SAMP>`#'</SAMP> as an synonym)
+the line as a whole is a directive line.
+The following directive lines are supported:
+
+<DL COMPACT>
+
+       
+<DT><CODE>%<VAR>whitespace</VAR> ...</CODE>
+<DD>
+A directive line with a whitespace 
+is treated as a comment line. 
+       
+<DT><CODE>%nocomment ...</CODE>
+<DD>
+The rest of the line is treated as ordinary source text. 
+Some other simula implementations will ignore this line,
+and give a warning message.  But this can be useful as the 
+following example shows.  In this implementation formal
+procedures must be specified, 
+but that should not be done in Standard Simula 
+(<CITE>Standard Simula, SS 636114.  The Simula Standards Group, August 1986</CITE>).
+This will work both on LSH 
+(<CITE>Simula implementation from Lund Software House AB, Sweden</CITE>)
+and Cim:
+
+
+<PRE>
+PROCEDURE P(i1,P2);INTEGER i1;
+%nocomment PROCEDURE P2 IS 
+              INTEGER PROCEDURE P2
+%nocomment      (i,j);INTEGER i,j;
+           ;
+</PRE>
+
+       
+<DT><CODE>%comment</CODE>
+<DD>
+Will cause the compiler to strip all lines until the
+corresponding %endcomment is reached.  This directive
+may be nested. 
+       
+<DT><CODE>%eof</CODE>
+<DD>
+Will cause the compiler to react as if the end of the 
+source file was reached.  Include files that are placed in
+a archive must be preceded with this directive line. 
+       
+<DT><CODE>%casesensitive <VAR>on/off</VAR></CODE>
+<DD>
+The case sensitivity of identifiers and keywords is turned
+on or off.  Default value is off. 
+       
+<DT><CODE>%define <VAR>name</VAR></CODE>
+<DD>
+Define a name.  
+Names such as 
+acorn, aix, alpha, amiga, amigados, apollo, arm, atari, aux,
+bosx, bsd, bull,
+c1, c2, convex, cray, cray2,
+dec, dg, dgux, dynix,
+encore,
+freebsd,
+hitachi, hiuxwe, hp, hppa, hppa1.0, hppa1.1, hppa2.0, hpux, 
+i386, i486, ibm, integer_64, integer_simulation, irix,
+linux, lynx, lynxos,
+m68000, m68k, m88k, mach, minix, mips, motorola, mpw, msdos, 
+ncr, netbsd, newsosnext, next, nextstep, no_real, ns32k,
+osf,
+ptx, pyr, 
+riscix, riscos, rs6000,
+sequent, sgi, sni, solaris, sony, sparc, sunos, svr4, sysv,
+tektronix,
+ultrix, unicos, univel, unix, 
+vax, vms,
+xmp 
+and
+ymp
+are predefined dependent of the system. 
+Operating system names may also be succeeded by a
+version number. 
+       
+<DT><CODE>%error ...</CODE>
+<DD>
+Will cause the compiler to believe that it has found an error
+in the source text.  The message that is preceded on the line
+is printed as an error message. 
+       
+<DT><CODE>%ifdef <VAR>name</VAR></CODE>
+<DD>
+If <VAR>name</VAR> is not defined then the compiler will strip 
+all lines until the corresponding <CODE>%else</CODE> or 
+<CODE>%endif</CODE> is reached. 
+If <VAR>name</VAR> is not defined then the compiler will strip
+all lines between the optional <CODE>%else</CODE> and <CODE>%endif</CODE>. 
+       
+<DT><CODE>%include <VAR>filename</VAR></CODE>
+<DD>
+Will cause the compiler to include the indicated file in 
+place of the include directive line.  This directive may be
+nested, but only to a level of 10. 
+       
+<DT><CODE>%line <VAR>linenumber</VAR></CODE>
+<DD>
+<DT><CODE>%line <VAR>linenumber</VAR> <VAR>filename</VAR></CODE>
+<DD>
+Will cause the compiler to believe that the line number of the next
+source line is <VAR>linenumber</VAR> and optionally the current input file
+name is <VAR>filename</VAR>.
+       
+<DT><CODE>%list<VAR>whitespace</VAR> ...</CODE>
+<DD>
+A directive line starting with <CODE>list</CODE> followed by a whitespace 
+is treated as a comment line. 
+
+<DT><CODE>%nameasvar <VAR>on/off</VAR></CODE>
+<DD>
+If it is turned on, then transmission mode for name is 
+implemented as reference.  
+This will produce more efficient code.  Default value is off. 
+       
+<DT><CODE>%page<VAR>whitespace</VAR> ...</CODE>
+<DD>
+A directive line starting with <CODE>%page</CODE> followed by a whitespace 
+is treated as a comment line. 
+
+<DT><CODE>%staticblock <VAR>on/off</VAR></CODE>
+<DD>
+If it is turned on, then data objects will be allocated
+static instead of dynamic,
+and the compiler may generate more efficient code. 
+This option should be used with care and
+should not be used for blocks which may have
+more than one active data object at a given time. 
+The option may not be used for classes that are given
+as prefix or virtual procedures or procedures that
+are parameter to other procedures. 
+It may not be used for external
+classes or procedures. 
+       
+<DT><CODE>%stripsideeffects <VAR>on/off</VAR></CODE>
+<DD>
+If it is turned on, then the compiler can generate more
+efficient code, 
+but not necessary correct code due to evaluation
+order for expressions.  Default value is off. 
+       
+<DT><CODE>%title<VAR>whitespace</VAR> ...</CODE>
+<DD>
+A directive line starting with <CODE>title</CODE> followed by a whitespace 
+is treated as a comment line. 
+
+<DT><CODE>%undefine <VAR>name</VAR></CODE>
+<DD>
+Undefine a name.  If the name is not defined the directive line
+has no effect. 
+
+</DL>
+
+<LI>
+
+C is the only language supported for non-Simula external procedures. 
+<VAR>Kind</VAR> is interpreted as <SAMP>`C'</SAMP>, 
+and the <VAR>external-item</VAR> is case sensitive. 
+External C procedures must be specified in the following way:	
+	
+<CODE>External C procedure <VAR>external-item</VAR> 
+is <VAR>type</VAR> procedure <VAR>procedure-identifier</VAR> 
+<VAR>parameter/mode/specification-part</VAR>; ;</CODE>
+
+The rules for external C procedures are:
+	
+
+<UL>
+       
+<LI>
+
+Avoid global symbols prefixed with <CODE>__</CODE>, it may lead to
+conflicts with system names in Cim. 
+       
+<LI>
+
+The procedure may have any type, except <VAR>ref</VAR>. 
+If the type is <VAR>text</VAR>, then the null terminated string
+returned from C is converted to a Simula text object. 
+       
+<LI>
+
+Parameters may not be a 
+Simula-procedure, switch or label. 
+       
+<LI>
+
+Parameters transmitted by value are always copied. 
+Texts or arrays are allocated by malloc, 
+and are not deallocated by Cim. 
+It's the C-programs responsibility to dealloc the space. 
+       
+<LI>
+
+Parameters transmitted by reference or name are transmitted
+to C as pointer to.  Texts or arrays are transmitted to C
+by the location of the first element. 
+       
+<LI>
+
+External C procedures with variable number of parameters
+can be specified by use of <CODE>...</CODE> 
+in the end of the parameter list.  Printf and scanf can
+be specified as follows:
+
+
+<PRE>
+EXTERNAL C PROCEDURE printf IS 
+   INTEGER PROCEDURE printf(t,...);TEXT t;;
+EXTERNAL C PROCEDURE scanf IS
+   INTEGER PROCEDURE scanf(t,...);NAME ...;TEXT t;;
+</PRE>
+
+</UL>
+
+</UL>
+
+
+
+<H3><A NAME="SEC11" HREF="#TOC11">Implementation defined characteristics</A></H3>
+
+
+<UL>
+
+<LI>
+
+The internal character set is the same as the standard character set. 
+
+<LI>
+
+Inlength and outlength are equal to 80. 
+
+<LI>
+
+SYSIN, SYSOUT and SYSERR are connected to standard input, 
+standard output and standard error. 
+If they are closed and reopened they are connected to 
+<TT>`/dev/tty'</TT> under Unix, AIX, LINUX and MINIX.
+
+<LI>
+
+The relative value ranges of real are as double in C and
+ranges of integer are as long. 
+
+<LI>
+
+Conversion from an integer type to a real type is exact except
+for implementations where integer have better precision than real
+(which are the case for the alpha and cray implementation). 
+
+<LI>
+
+The effect is not defined if the range of a numeric item in a de-editing
+procedure exceeds the value range of the procedure result. 
+
+<LI>
+
+The exponent from <CODE>putreal</CODE> has 5 characters except
+for the cray implementation where it may be 6 characters. 
+
+<LI>
+
+A text frame has a maximum length of about 64K characters. 
+
+<LI>
+
+The return values of <CODE>char</CODE> and <CODE>rank</CODE> are as given by the standard
+character set. 
+
+<LI>
+
+The exact definitions of the standard mathematical functions are
+system specific. 
+
+<LI>
+
+The association between a file object and an external file 
+is standard procedures based on C's FILE. 
+The object is connected to the external file when open is called. 
+
+<LI>
+
+Several file objects may represent the same external file,
+but the effect is not defined if some of them are opened for writing. 
+
+<LI>
+
+A minimum of checks are performed at <CODE>locate</CODE>. 
+
+<LI>
+
+The default value to <VAR>lines_per_page</VAR> is <VAR>maxint</VAR>. 
+
+<LI>
+
+The <SAMP>`basic random drawing'</SAMP> procedures are implemented 
+as suggested in the standard. 
+
+<LI>
+
+Two decimals are used for the field for seconds of the function
+<CODE>datetime</CODE>. 
+
+<LI>
+
+Evaluation of arithmetic expressions are based on C,
+but a Simula expression is by default divided up in several 
+expressions, to guarantee correct evaluation order. 
+</UL>
+
+
+
+<H3><A NAME="SEC12" HREF="#TOC12">Capacity limitations</A></H3>
+
+
+<UL>
+
+<LI>
+
+The logical limitations of the compiler is documented in the
+header file limit.h.
+
+<LI>
+
+Some other limitations that are based on the underlying hardware,
+the operating system or the C Compiler, 
+which are not checked by the compiler. 
+</UL>
+
+
+
+<H3><A NAME="SEC13" HREF="#TOC13">Extension to the environment</A></H3>
+
+<P>
+The following procedures are added to the Simula environment
+and may be called directly from Simula:
+
+</P>
+<DL COMPACT>
+
+<DT><CODE>PROCEDURE Gbc;...;</CODE>
+<DD>
+The garbage collector is called when the dynamic 
+storage exceeds an implementation dependent limit.  
+The garbage collector traverse and moves all the accessible objects,
+and leaves the free space as one area initialized to zero. 
+The garbage collector may be called explicitly
+through the procedure Gbc. 
+
+<DT><CODE>INTEGER PROCEDURE Argc;...;</CODE>
+<DD>
+Returns the number of command-line arguments
+that the program was invoked with. 
+
+<DT><CODE>INTEGER PROCEDURE Argv;...;</CODE>
+<DD>
+Returns a pointer to an array of character strings 
+(in C fashion) that contains the arguments. 
+
+<DT><CODE>PROCEDURE Dump(t);TEXT t;...;</CODE>
+<DD>
+Dump the state of the Simula-program to file. 
+Before a call on Dump all files except <VAR>sysin</VAR>,
+<VAR>sysout</VAR> and <VAR>syserr</VAR> should be closed. 
+
+<DT><CODE>PROCEDURE UnDump(t);TEXT t;...;</CODE>
+<DD>
+Read a previously stored state from file 
+and start the program in that state. 
+To get these procedures to work,
+they should be compiled into the same program. 
+The program may not be re-compiled 
+between a call on Dump and UnDump.  
+
+<DT><CODE>REF(PrintFile) PROCEDURE SysErr;...;</CODE>
+<DD>
+Returns the file object associated with standard error. 
+</DL>
+
+<HR>
+
+Return to <A HREF="/home.html">GNU's home page</A>.
+
+<P>
+Please send FSF &amp; GNU inquiries &amp; questions to
+
+<A HREF="mailto:gnu@gnu.org"><EM>gnu@gnu.org</EM></A>.
+There are also <A HREF="/home.html#ContactInfo">other ways to contact</A> the FSF.
+
+<P>
+Please send comments on these web pages to
+<A HREF="mailto:webmasters@gnu.org"><EM>webmasters@gnu.org</EM></A>,
+send other questions to
+<A HREF="mailto:gnu@gnu.org"><EM>gnu@gnu.org</EM></A>.
+
+<P>
+Copyright (C) 1998 Free Software Foundation, Inc.,
+59 Temple Place - Suite 330, Boston, MA  02111,  USA
+
+<P>
+Verbatim copying and distribution of this entire article is
+permitted in any medium, provided this notice is preserved.
+<P>
+Updated:
+<!-- hhmts start -->
+11 Dec 1999 jonas
+<!-- hhmts end -->
+<HR>
+</BODY>
+</HTML>
