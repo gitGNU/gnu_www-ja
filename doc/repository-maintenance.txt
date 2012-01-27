@@ -45,15 +45,22 @@ Coordinator: sync with upstream
 
 # in the www/ directory
 $ git checkout master
+# update from upstream
 $ cvs update -d -P -C
 # -d (create new directory), -P (prune empty directory), -C (overwrite local)
-#
+# review files to be added
+$ git add -n .
+# ... and add them now
+$ git add .
 # review changes
-# need to 'git add' for new files
-$ git diff cvssync
-$ git commit -am "Sync with CVS"
+$ git status
+$ git diff HEAD | diffstat
+$ git diff HEAD
+# commit changes to git
+$ git commit -m "Sync with CVS"
 $ git tag -f cvssync
 $ git push; git push --tag
+# Possibly remove old files overwritten (backuped)
 $ find . -type f -name ".#*" -print | xargs rm -f
 
 
