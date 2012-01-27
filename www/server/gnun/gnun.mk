@@ -226,21 +226,55 @@ gnu :=		about-gnu \
 		thegnuproject \
 		why-gnu-linux
 
-graphics :=	agnuhead \
+graphics :=	3dbabygnutux \
+		3dgnuhead \
+		agnubody \
+		agnuhead \
+		ahurdlogo \
+		alternative-ascii \
 		anfsflogo \
+		anlpflogo \
+		anothertypinggnu \
 		atypinggnu \
 		avatars \
 		babygnu \
+		bokma-gnu \
 		bwcartoon \
+		digital-restrictions-management \
+		fromagnulinux \
 		fsf-logo \
+		FSFS-logo \
+		gleesons \
+		gnu-alternative \
+		gnu-ascii \
 		gnu-ascii-liberty \
+		gnu-ascii2 \
+		gnu-jacket \
+		gnu-slash-linux \
+		gnubanner \
 		gnuolantern \
 		gnupascal \
+		gnusvgart \
 		graphics \
+		groff-head \
+		heckert_gnu \
+		hitflip-gnu \
+		httptunnel-logo \
+		hurd_mf \
+		kafa \
 		license-logos \
+		listen \
+		meditate \
 		package-logos \
 		philosophicalgnu \
-		whatsgnu
+		reiss-gnuhead \
+		slickgnu \
+		spiritoffreedom \
+		supergnu-ascii \
+		usegnu \
+		wallpapers \
+		whatsgnu \
+		winkler-gnu
 
 help :=		directory \
 		evaluation \
