@@ -115,19 +115,18 @@ Coordinator: 'sync', 'checkin' and 'sync' (when we have our own change)
 -----------------------------------------------------------------------
 
 $ cd www
-$ cvs update -dP
-$ git commit -am "Sync with CVS"
 
 # Check and review changes from last sync
-$ git log cvssync
+$ git log cvssync..
 # Check changes from the view point of CVS
 $ cvs diff
 
 # Commit to upstream, for example
 $ cvs commit -m "added www/distro/po/free-distros.ja.po"
 
-# When keyword like $Id$ is used, commiting changes document
-# Git distingush such changes
+# When keyword like $Id$ is used, commiting changes document.
+# Or server side generates Date string for update time.
+# Git distingush such changes, so we need to commit those changes back to git
 $ git commit -am "Sync with CVS"
 $ git tag -f cvssync
 
@@ -142,26 +141,15 @@ $ cd www/server/gnun
 $ make VALIDATE=yes
 $ make report TEAM=ja
 
+When GNUN generates files, it should be goto master.
+
 
 GNUN validater: move environment forward
 ----------------------------------------
 
 $ cd www-ja-gnun
 $ git fetch
-$ git merge origin/master -s recursive -X theirs
-# you'll see errors
-error: Your local changes to the following files would be overwritten by merge:
-[ FILES to be overwritten ]
-error: The following untracked working tree files would be overwritten by merge:
-[ FILES to be newly created ]
-$ rm $(cat /tmp/files-to-be-newly-created)
-$ git checkout $(cat /tmp/files-to-be-overwritten)
-# do it again
-$ git merge origin/master -s recursive -X theirs
-
-$ cd www/server/gnun
-$ make VALIDATE=yes
-$ make report TEAM=ja
+$ ./tool/merge-for-gnun.sh # which does git merge origin/master
 
 
 Memorandum of initial setup of the repository
