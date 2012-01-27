@@ -2,47 +2,92 @@ Using same working directory for Git and CVS
 ============================================
 
 
+Initial Clone
+=============
+
 Translator: Clone from Git repo
 -------------------------------
 
 $ git clone $USER@git.sv.gnu.org:/srv/git/www-ja.git
 
 
+GNUN validater: Clone from Git repo, and setup for GNUN
+-------------------------------------------------------
+
+# Assume that GNUN is installed already.
+
+$ git clone $USER@git.sv.gnu.org:/srv/git/www-ja.git
+
+$ mv www-ja www-ja-gnun
+$ cd www-ja-gnun
+$ git checkout -b running-gnun
+
+$ cd www
+$ cd server/gnun
+$ ln -s /usr/local/share/gnun/GNUmakefile .
+$ ln -s /usr/local/share/gnun/config.mk .
+$ make   # [ takes long time ]
+
+
 Coordinator: Clone from Git repo and get from CVS
 -------------------------------------------------
 
 # Clone from repo
-$ git clone gniibe@git.sv.gnu.org:/srv/git/www-ja.git
-# goto repo
+$ git clone $USER@git.sv.gnu.org:/srv/git/www-ja.git
+# Goto repo
 $ cd www-ja
 # remove www
 $ rm www
-# and get www from CVS
-$ cvs -z6 -d:ext:gniibe@cvs.savannah.gnu.org:/web/www co www
+# ...and get www from CVS
+$ cvs -z6 -d:ext:$USER@cvs.savannah.gnu.org:/web/www co www
+# confirm there is no change in terms of Git
 $ git status
 
 
-Working with topic branch
--------------------------
 
-$ git checkout -b gniibe-work
+Daily working
+=============
+
+
+Translator: Working with topic branch
+-------------------------------------
+
+# When you begin your work
+$ git checkout -b my-work
+
+# for example, adding a PO file
 $ edit www/distro/po/free-distros.ja.po
+
+# commit it to your local repo
 $ git commit -am "added www/distro/po/free-distros.ja.po"
+
+# and push onto server
 $ git push
+
+
+#
+$ git checkout master
+$ git pull
 
 
 Coordinator: 'merge'
 --------------------
 
 $ git checkout master
-$ git merge gniibe-work
 
-$ git push origin :gniibe-work # removing topic branch if it's not needed
+# marge topic branch
+$ git merge someone-work
+
+# push it back to server
+$ git push
+
+$ git push origin :someone-work # removing the topic branch if it's not needed
 
 
-Coordinator: sync with upstream
--------------------------------
+Coordinator: sync with upstream (when there is no our own change in Git repo)
+-----------------------------------------------------------------------------
 
+$ cd www
 # in the www/ directory
 $ git checkout master
 # update from upstream
@@ -52,20 +97,22 @@ $ cvs update -d -P -C
 $ git add -n .
 # ... and add them now
 $ git add .
-# review changes
+# review changes in upstream
 $ git status
 $ git diff HEAD | diffstat
 $ git diff HEAD
 # commit changes to git
 $ git commit -m "Sync with CVS"
+# move tag forward
 $ git tag -f cvssync
+# reflect changes onto server
 $ git push; git push --tag
-# Possibly remove old files overwritten (backuped)
+# Possibly, remove old files overwritten (back-uped)
 $ find . -type f -name ".#*" -print | xargs rm -f
 
 
-Coordinator: 'sync', 'checkin' and 'sync'
------------------------------------------
+Coordinator: 'sync', 'checkin' and 'sync' (when we have our own change)
+-----------------------------------------------------------------------
 
 $ cd www
 $ cvs update -dP
@@ -73,9 +120,10 @@ $ git commit -am "Sync with CVS"
 
 # Check and review changes from last sync
 $ git log cvssync
+# Check changes from the view point of CVS
 $ cvs diff
 
-# Commit to upstream
+# Commit to upstream, for example
 $ cvs commit -m "added www/distro/po/free-distros.ja.po"
 
 # When keyword like $Id$ is used, commiting changes document
@@ -85,6 +133,35 @@ $ git tag -f cvssync
 
 $ git push; git push --tag
 
+
+GNUN validater: running GNUN
+----------------------------
+
+$ cd www-ja-gnun
+$ cd www/server/gnun
+$ make VALIDATE=yes
+$ make report TEAM=ja
+
+
+GNUN validater: move environment forward
+----------------------------------------
+
+$ cd www-ja-gnun
+$ git fetch
+$ git merge origin/master -s recursive -X theirs
+# you'll see errors
+error: Your local changes to the following files would be overwritten by merge:
+[ FILES to be overwritten ]
+error: The following untracked working tree files would be overwritten by merge:
+[ FILES to be newly created ]
+$ rm $(cat /tmp/files-to-be-newly-created)
+$ git checkout $(cat /tmp/files-to-be-overwritten)
+# do it again
+$ git merge origin/master -s recursive -X theirs
+
+$ cd www/server/gnun
+$ make VALIDATE=yes
+$ make report TEAM=ja
 
 
 Memorandum of initial setup of the repository
