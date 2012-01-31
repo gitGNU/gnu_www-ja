@@ -211,6 +211,9 @@ fun/jokes :=	10-kinds-of-people \
 		know.your.sysadmin \
 		last.bug \
 		linus-islam \
+                long-options \
+                merry-xmas \
+                nobody-owns \
 		purchase.agreement
 
 gnu :=		about-gnu \
@@ -340,7 +343,10 @@ music :=	blues-song \
 		till_there_was_gnu \
 		writing-fs-song
 
-people :=	people
+people :=	past-webmasters \
+		people \
+		speakers \
+		webmeisters
 
 philosophy := 	15-years-of-free-software \
 		amazon \

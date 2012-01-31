@@ -180,7 +180,7 @@ the top row.</li>
 
 <li>If the message is in a language you don't understand and it's not
 spam, or you're not sure if it's spam, click &lsquo;Basics&rsquo;, then
-change the Queue field to &lsquo;web-translators&rdquo;.</li>
+change the Queue field to &lsquo;web-translators&rsquo;.</li>
 
 <li>If the message is just a thank-you to us, or something else that
 doesn't require action on our part, click &lsquo;Resolve&rsquo;.</li>
@@ -1069,17 +1069,19 @@ existing file. The file designated by this path must not be outside the
 document root. The second file name may not contain any slash; it is the
 name of the symbolic link to be created in the present directory.</p>
 
-<p>At one time, the command used to implement this feature was
-web-symlinks, a Perl script; <a
-href="http://cvs.savannah.gnu.org/viewvc/www/symlinks/?root=www">it can
-be found in www's sources CVS</a>.  It is completely different from the
-<a href="http://ibiblio.org/pub/linux/utils/file/">symlinks utility</a>
-for verifying a system's symbolic links.
+<p>As a special case, if a file name ends in &ldquo;.html&rdquo;, single
+line defines links to all possible translations that follow our <a
+href="/server/fsf-html-style-sheet.html#NamingTranslations">naming
+conventions</a>. As a side effect, this makes it impossible to use
+symlinks to redirect to and from HTML files whose names look like
+translations, that is, <code>page.<var>LL</var>.html<code> or
+<code>page.<var>LL-CC</var>.html</code>, where LL and CC are two-letter
+codes.  When you need such redirections, use the <a
+href="#htaccess">htaccess mechanism</a>.</p>
 
 <p>These days, the .symlinks handling happens on <tt>www.gnu.org</tt>
-via a cron job that runs every five minutes.  webmasters do not have
+via a cron job that runs every five minutes.  Webmasters do not have
 access to it.</p>
-
 
 <h4 id="htaccess">.htaccess and redirections</h4>
 
@@ -1133,7 +1135,7 @@ Commons Attribution-NoDerivs 3.0 United States License</a>.
 
 <p>Updated:
 <!-- timestamp start -->
-$Date: 2012/01/11 22:26:21 $
+$Date: 2012/01/29 06:22:39 $
 <!-- timestamp end -->
 </p>
 </div>
