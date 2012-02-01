@@ -1,0 +1,216 @@
+<!--#include virtual="/server/header.html" -->
+<!-- Parent-Version: 1.65 -->
+<title>Hurd Logos in Metafont - GNU Project - Free Software Foundation</title>
+<!--#include virtual="/server/banner.html" -->
+ <!--#include virtual="/graphics/po/hurd_mf.translist" -->
+<h2>Hurd Logos in Metafont</h2>
+
+<p>
+As separate files:
+<a href="/graphics/hurd_sm_mf.jpg">hurd_sm_mf.jpg (jpeg 10k)</a>,
+<a href="/graphics/hurd_mf.jpg">hurd_mf.jpg (jpeg 20k)</a>,
+<a href="/graphics/hurd.mf">hurd.mf</a>
+(Metafont source code).
+</p>
+<p>
+<a href="/graphics/hurd_mf.jpg"><img src="/graphics/hurd_sm_mf.jpg"
+   alt=" [small image of a Hurd Metafont Logo] "
+   width="333" height="80" /></a>
+</p>
+<p>
+<a href="/graphics/hurd_mf.jpg"><img src="/graphics/hurd_mf.jpg"
+   alt=" [large image of a Hurd Metafont Logo] "
+   width="666" height="160" /></a>
+</p>
+
+<p>
+<a href="http://en.wikipedia.org/wiki/Metafont">Metafont</a> source code:
+</p>
+<pre>
+% Stephen McCamant <a href="mailto:alias@mcs.com">&lt;alias@mcs.com&gt;</a> 1997
+% Freely redistributable
+mode=localfont;
+mode_setup;
+
+ dsize#:=10pt#;
+
+ em#:=sqrt(2)*dsize#; cap#:=dsize#;
+ thick#:=(1/5)*dsize#; thin#:=(1/7)*thick#; 
+ 
+ bigfuzz:=.02; smfuzz:=.01;
+
+define_pixels(em,cap);
+define_blacker_pixels(thin, thick);
+
+beginchar("H",.65em#,cap#,0); "The letter H";
+ penpos1(thick,-15); penpos2(thick,-12); penpos3(thick,-10);
+ x1=x2=x3=.5thick; y1=h; y2=(.5+bigfuzz)*h; y3=0; x2l:=1/4[x2l,x2];
+ penpos4(thick,-15); penpos5(thick,-12); penpos6(thick,-10);
+ x4=x5=x6=w-.5thick; y4=h; y5=(.5+bigfuzz)*h; y6=0; x5l:=1/4[x5l,x5]; 
+ penstroke z1e..z2e{down}..z3e; penstroke z4e..z5e{down}..z6e;
+ penpos7(thick,80); penpos8(thick,90); penpos9(thick,100);
+ x7=.5thick; x8=.5w; x9=w-.5thick;
+ y7=y9=(.5+bigfuzz)*h; y8=(.5-bigfuzz)*h;
+ penstroke z7e..z8e..z9e;
+ penlabels(1,2,3,4,5,6,7,8,9);
+endchar;
+
+% U by Don Knuth (originally; now mangled beyond recognition)
+beginchar("U",.85em#,cap#,0); "The letter U";
+ penpos1(1.1thick,-10);
+ penpos2(thick,-10);
+ penpos3(thick,40);
+ penpos4(thick,75);
+ penpos5(thick,130);
+ penpos6(thick,180);
+ penpos7(thick,170);
+ x1l=.1em; x7l=w-.1em;
+ y1=y7=h;
+ x2=x1; y2=.3h;
+ x3=.75[x4,x2]; y3=.75[y2,y4];
+ x4r=.75[x2r,x6r]; y4l=-.05h;
+ x5=.7[x4,x6]; y5=.7[y6,y4];
+ x6=x7; y6=1/3h;
+ penstroke z1e..z2e{down}..z4e{z3e}..z6e{up}..z7e;
+ penlabels(1,2,3,4,5,6,7);
+endchar;
+
+beginchar("R",.6em#,cap#,0); "The letter R";
+ penpos1(thick,-10);
+ penpos2(thick,-10);
+ penpos3(thick,-10);
+ penpos4(1.5thick,-10);
+ x1l=0;
+ x1=x2=x3=x4;
+ y1=-.2thick; y4=h;
+ y2=.1[y1,y4]; y3=.9[y1,y4];
+ penstroke z1e..z2e{up}..z3e{up}..z4e;
+ penpos5(.8thick,90);
+ penpos6(.8thick,90);
+ penpos7(thick,0);
+ penpos8(thick,-90);
+ x5r=x4; y5r=y4-.1thick; 
+ x7r=w; y7=.7[h,y8]; 
+ x6=.5[x1,x7]; y6=y5;
+ y8=.65[y1,y4]; x8=x1;
+ penstroke z5e{right}..z6e{right}..z7e{down}..z8e; 
+ penpos9(thick,45);
+ penpos10(thick,-10);
+ x9=x8; y9=.45[y1,y4]; 
+ y10=y1; x10r=x7r;
+ penstroke z9e{(.5,-.05)}..z10e{down};
+ penlabels(1,2,3,4,5,6,7,8,9,10);
+endchar;
+
+beginchar("D",.85em#,cap#,0); "The letter D";
+ penpos1(1.1thick,-10);
+ penpos2(thick,-10);
+ penpos3(1.1thick,0);
+ x1l=.1em; x1=x2=x3; y1=h; y2=.5[y1,y3]; y3=-.2thick;
+ penstroke z1e..z2e{down}..z3e;
+ penpos4(thick,90);
+ penpos5(thick,90);
+ penpos6(thick,0);
+ penpos7(thick,-90);
+ penpos8(thick,-90);
+ z4r=z1; z8r=z3;
+ x6r=w-.1em; y6=.5[y1,y3];
+ x5=x7=.3[x4,x6]; y5=y4; y7=y8;
+ penstroke z4e{right}..z5e{right}..z6e{down}..z7e{left}..z8e{left};
+ penlabels(1,2,3,4,5,6,7,8);
+endchar;
+
+beginchar("#",1.2cap#,cap#,0); "Boxes and arrows logo";
+ pickup pencircle scaled thin;
+ draw unitsquare scaled .2h shifted (.1h,.4h);
+ draw unitsquare scaled .2h shifted (.4h,.7h);
+ draw unitsquare scaled .2h shifted (.7h,.4h);
+ draw unitsquare scaled .2h shifted (.4h,.1h);
+ draw (.4h,.8h){left}..(.2h,.65h){down}--(.2h,.6h);
+ draw (.15h,.65h)--(.2h,.6h)--(.25h,.65h);
+ draw (.5h,.7h){down}..(.625h,.5h){right}--(.7h,.5h);
+ draw (.65h,.45h)--(.7h,.5h)--(.65h,.55h);
+ draw (.6h,.2h){right}..(1.0h,.5h)..(.65h,.8h){left}--(.6h,.8h);
+ draw (.65h,.75h)--(.6h,.8h)--(.65h,.85h);
+ draw (.8h,.4h){down}..(.5h,0)..(.2h,.35h){up}--(.2h,.4h);
+ draw (.15h,.35h)--(.2h,.4h)--(.25h,.35h);
+endchar;
+
+beginchar("G",.9em#,cap#,0); "The letter G";
+ penpos1(thick,15);
+ penpos2(thick,90);
+ penpos3(thick,180);
+ penpos4(thick,270);
+ penpos5(thick,0);
+ penpos6(thick,0);
+ penpos7(thick,100);
+ penpos8(thick,90);
+ x3r=.1em;
+ x6r=w-.1em;
+ x1r=.95[x3r,x6r];
+ x2=x4=.5[x1,x3];
+ y2r=h+.3thick; y4r=-.3thick; y3=.5h;
+ x5=x6; y5=.3h;
+ y1=5/7h; z6=z8r;
+ y7r=y8r; y8=.5h;
+ x7=x2;
+ penstroke z1e{up}..z2e{left}..z3e{down}..z4e{right}..z5e{up}..z6e{up};
+ penstroke z7e..z8e; 
+ penlabels(1,2,3,4,5,6,7);
+endchar;
+
+beginchar("N",.65em#,cap#,0); "The letter N";
+ penpos1(thick,-15); penpos2(thick,-12); penpos3(thick,-10);
+ x1=x2=x3=.5thick; y1=h; y2=(.5+bigfuzz)*h; y3=0; x2l:=1/4[x2l,x2];
+ penpos4(thick,-15); penpos5(thick,-12); penpos6(thick,-10);
+ x4=x5=x6=w-.5thick; y4=h; y5=(.5+bigfuzz)*h; y6=0; x5l:=1/4[x5l,x5]; 
+ penstroke z1e..z2e{down}..z3e; penstroke z4e..z5e{down}..z6e;
+ penpos7(1.5thick,80); penpos8(1.3thick,90); penpos9(1.5thick,800);
+ x8=.5w;
+ z7r=z1r; z9l=z6l; y8=(.5-bigfuzz)*h;
+ penstroke z7e..z8e..z9e;
+ penlabels(1,2,3,4,5,6,7,8,9);
+endchar;
+
+end;
+</pre>
+
+<!-- If needed, change the copyright block at the bottom. In general,
+     pages on the GNU web server should be under CC BY-ND 3.0 US.
+     Please do NOT change or remove this without talking
+     with the webmasters or licensing team first.
+     Please make sure the copyright date is consistent with the document
+     and that it is like this: "2001, 2002", not this: "2001-2002". -->
+</div><!-- for id="content", starts in the include above -->
+<!--#include virtual="/server/footer.html" -->
+<div id="footer">
+
+<p>Please send general FSF &amp; GNU inquiries to
+<a href="mailto:gnu@gnu.org">&lt;gnu@gnu.org&gt;</a>.
+There are also <a href="/contact/">other ways to contact</a>
+the FSF.<br />
+Please send broken links and other corrections or suggestions to
+<a href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a>.</p>
+
+<p>Please see the <a
+href="/server/standards/README.translations.html">Translations
+README</a> for information on coordinating and submitting translations
+of this article.</p>
+
+<p>Copyright (C) 1996, 1997, 1998 Free Software Foundation, Inc.</p>
+
+<p>This page is licensed under a <a rel="license"
+href="http://creativecommons.org/licenses/by-nd/3.0/us/">Creative
+Commons Attribution-NoDerivs 3.0 United States License</a>.
+</p>
+
+<p>
+Updated:
+<!-- timestamp start -->
+$Date: 2012/01/31 18:02:12 $
+<!-- timestamp end -->
+</p>
+</div>
+</div>
+</body>
+</html>
