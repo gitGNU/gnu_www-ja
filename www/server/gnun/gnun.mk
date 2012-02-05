@@ -303,6 +303,8 @@ licenses :=	200104_seminar \
 		gpl-violation \
 		gplv3-the-program \
 		hessla \
+		javascript-labels \
+		javascript-labels-rationale \
 		lgpl-3.0 \
 		lgpl-java \
 		license-list \
