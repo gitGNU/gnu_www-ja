@@ -88,8 +88,7 @@ accessibility :=	accessibility
 
 award :=	award \
 		award-1998 \
-		award-1999 \
-		fsfawardlist
+		award-1999
 
 award/1998 :=	finalists \
 		nominees
