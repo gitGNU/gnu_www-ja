@@ -37,7 +37,7 @@ no-grace-articles := $(addprefix $(rootdir)/, \
 			server/po/takeaction)
 
 # List of additional templates
-extra-templates := philosophy/philosophy-menu
+extra-templates := philosophy/philosophy-menu server/top-addendum
 
 # List of articles for which VALIDATE has no full effect; i.e. the
 # HTML files are never validated.
