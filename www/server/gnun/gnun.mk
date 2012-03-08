@@ -453,6 +453,7 @@ philosophy := 	15-years-of-free-software \
 		reevaluating-copyright \
 		rieti \
 		right-to-read \
+		rms-aj \
 		rms-comment-longs-article \
 		rms-hack \
 		rms-interview-edinburgh \
