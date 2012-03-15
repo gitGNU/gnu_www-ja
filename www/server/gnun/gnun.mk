@@ -17,8 +17,8 @@
 
 # TRANSLATORS: Add here your language code.  Please keep the
 # alphabetical order.
-TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he id it ja ml nb nl pl pt \
-                    pt-br ro ru sk sq sr sv ta tr uk vi zh-cn
+TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he id it ja ko ml nb nl pl \
+                    pt pt-br ro ru sk sq sr sv ta tr uk vi zh-cn
 
 # TRANSLATORS: If you have committed home.LANG.po, add here your
 # language code.
@@ -37,7 +37,9 @@ no-grace-articles := $(addprefix $(rootdir)/, \
 			server/po/takeaction)
 
 # List of additional templates
-extra-templates := philosophy/philosophy-menu server/top-addendum
+extra-templates := philosophy/philosophy-menu \
+		   server/skip-translations \
+		   server/top-addendum
 
 # List of articles for which VALIDATE has no full effect; i.e. the
 # HTML files are never validated.
@@ -269,6 +271,7 @@ graphics :=	3dbabygnutux \
 		meditate \
 		package-logos \
 		philosophicalgnu \
+		philosoputer \
 		reiss-gnuhead \
 		slickgnu \
 		spiritoffreedom \
