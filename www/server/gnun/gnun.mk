@@ -45,7 +45,8 @@ extra-templates := philosophy/philosophy-menu \
 # HTML files are never validated.
 #no-validate-articles := $(addprefix $(rootdir)/, \
 #			   fry/po/happy-birthday-to-gnu, \
-#                           education/po/education)
+#                          education/po/education \
+#                          education/po/edu-software-gimp)
 
 ALL_DIRS :=	accessibility \
 		award \
@@ -135,6 +136,7 @@ education :=    edu-cases-argentina-ecen \
 		edu-resources \
 		edu-schools \
 		edu-software-gcompris \
+                edu-software-gimp \
 		edu-software-tuxpaint \
 		edu-software \
 		edu-system-india \

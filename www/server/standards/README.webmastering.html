@@ -1004,14 +1004,56 @@ to a previous version, or see diff output of particular changes, see the
 
 
 <p><i>audio-video repository:</i> Use <tt>audio-video</tt> instead of
-<tt>www</tt> in the author, and you will get the repository
-corresponding to <a
+<tt>www</tt> and you will get the repository corresponding to <a
 href="http://audio-video.gnu.org">audio-video.gnu.org</a>.  Discuss
 any changes to audio-video with campaigns@fsf.org.</p>
 
+<p><strong>Note</strong>: all materials in the current audio-video 
+repository will eventually be migrated to <a
+href="http://audio-video-dev.gnu.org">audio-video-dev.gnu.org</a>. To
+post a file in this new website, first you need to be added as a user
+with admin permissions; talk to the Chief-Webmaster for this. Then
+follow these steps:</p>
+
+<ul>
+  <li><p>Upload the file to a dedicated directory in your home in Fencepost:
+<tt> rsync -avz --progress your-media-file &lt;username&gt;@fencepost.gnu.org:~/your-dedicated-dir/</tt> 
+  Add also a text file named <tt>your-media-file.txt</tt> with a short 
+  description, for example:</p> 
+ 
+  <pre>
+  Title: Free Software in Ethics and in Practice
+  Location: Manchester, UK 
+  Date: 2008
+  In this ninety-minutes speech Richard Stallman talks about the goals 
+  and philosophy of the Free Software movement, and the status and 
+  history of the GNU operating system.
+  </pre>
+  
+  <p>You can find descriptions of RMS' speeches in the 
+  <a href="http://www.fsf.org/events/rms-speeches.html">FSF website</a>.</p>
+  </li>
+
+  <li> <p>Login to your Fencepost account and, from there, copy the file 
+you just uploaded onto the audio-video-dev machine under 
+/var/www/audio-incoming or /var/www/video-incoming as appropriate:
+<tt>rsync -avz your-video-file &lt;username&gt;@audio-video-dev:/var/www/video-incoming/</tt></p>
+  </li>
+
+  <li><p>Login to the <a
+href="http://audio-video-dev.gnu.org">audio-video-dev.gnu.org</a> website.
+Enter the Admin interface. Whether you want to submit a video or an audio
+file, go to Videos > Submit a Video > enter URL: 
+<tt>http://audio-video-dev.gnu.org/static-video/your-video-file.ogv</tt>.
+Replace <tt>static-video</tt> with <tt>static-audio</tt> if you are 
+submitting an audio file.</p>
+  </li>
+
+  <li>Add a thumbnail, add and edit descriptions as needed.</li>
+</ul>
 
 <p><i>Other packages:</i> Many software packages have their own projects
-on savannah and hence their own web repository corresponding to their
+on Savannah and hence their own web repository corresponding to their
 www/software/fooproject directory.  If the maintainer needs your help
 with one of their web pages, you can get to it like this:</p>
 
@@ -1087,7 +1129,7 @@ codes.  When you need such redirections, use the <a
 href="#htaccess">htaccess mechanism</a>.</p>
 
 <p>These days, the .symlinks handling happens on <tt>www.gnu.org</tt>
-via a cron job that runs every five minutes.  Webmasters do not have
+via a cron job that runs twice an hour.  Webmasters do not have
 access to it.</p>
 
 <h4 id="htaccess">.htaccess and redirections</h4>
@@ -1152,7 +1194,7 @@ Commons Attribution-NoDerivs 3.0 United States License</a>.</p>
 
 <p>Updated:
 <!-- timestamp start -->
-$Date: 2012/03/03 07:50:32 $
+$Date: 2012/03/17 15:51:06 $
 <!-- timestamp end -->
 </p>
 </div>
