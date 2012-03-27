@@ -208,7 +208,7 @@ fun/jokes :=	10-kinds-of-people \
 		hackforfreedom \
 		hakawatha \
 		hap-bash \
-		happy-new-year.cfbC \
+		happy-new-year \
 		helloworld \
 		hello_world_patent \
 		know.your.sysadmin \
