@@ -247,6 +247,7 @@ graphics :=	3dbabygnutux \
 		bokma-gnu \
 		bwcartoon \
 		digital-restrictions-management \
+		emacs-ref \
 		fromagnulinux \
 		fsf-logo \
 		FSFS-logo \
