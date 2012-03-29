@@ -183,7 +183,7 @@ fun/jokes :=	10-kinds-of-people \
 		declarations \
 		dna \
 		doctor.manifesto \
-		echo.msg \
+		echo-msg \
 		ed \
 		ed.msg \
 		errno.2 \
