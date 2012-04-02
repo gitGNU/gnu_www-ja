@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # LINC - LINC Is Not Checklink
-# Copyright © 2011 Wacław Jacek
+# Copyright © 2011-2012 Wacław Jacek
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,7 +33,8 @@ SOCKET_TIMEOUT = 20 # After what time to give up with trying to retrieve a websi
 
 # regexp-related defines
 
-EXCLUDED_DIRECTORIES_REGEXP = '^(japan|wwwes|wwwin|education/fr|software/[^/]+)$' # Matching directories will not be entered to check their files or subdirectories.
+EXCLUDED_DIRECTORIES_REGEXP = '^(japan|wwwes|wwwin|education/fr|press|server/staging|software/[^/]+)$|(^|/)po$' # Matching directories will not be entered to check their files or subdirectories.
+EXCLUDED_FILENAMES_REGEXP = '^server/standards/boilerplate\.html|server/.*whatsnew\.html$'
 FILENAMES_TO_CHECK_REGEXP = '\.html$' # Only matching files will be checked.
 FTP_LINK_REGEXP = 'ftp://(?P<hostname>[^/:]+)(:(?P<port>[0-9]+))?'
 HTTP_ERROR_HEADER = '^HTTP/1\.1 (?P<http_error_code>403|404) ' # What to treat as a HTTP error header.
@@ -168,11 +169,14 @@ def search_directory_for_files( base_directory, directory ):
 				continue
 				
 			search_directory_for_files( base_directory, relative_path_to_element )
-		else:
+		else: # it's a file
 			if not re.search( FILENAMES_TO_CHECK_REGEXP, element_name ):
 				continue
 		
 			if ( SKIP_TRANSLATION_FILES == True ) and re.search( TRANSLATION_REGEXP, element_name ):
+				continue
+
+			if re.search( EXCLUDED_FILENAMES_REGEXP, relative_path_to_element ):
 				continue
 			
 			files_to_check.append( relative_path_to_element )
