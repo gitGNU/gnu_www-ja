@@ -22,7 +22,7 @@ TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he id it ja ko ml nb nl pl \
 
 # TRANSLATORS: If you have committed home.LANG.po, add here your
 # language code.
-HOME_LINGUAS := ar bg ca de el es fa fr id it ja nb nl pl pt-br ro ru sq \
+HOME_LINGUAS := ar bg ca de el es fa fr id it ja ko nb nl pl pt-br ro ru sq \
 		sr tr uk zh-cn
 
 # TRANSLATORS: Add here your language code if you want PO files with wdiffs

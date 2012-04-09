@@ -1,6 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<!-- The GNU coding standards, last updated March 8, 2012.
+<html lang="en">
+<head>
+<title>Manual Structure Details - GNU Coding Standards</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU Coding Standards">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Documentation.html#Documentation" title="Documentation">
+<link rel="prev" href="Doc-Strings-and-Manuals.html#Doc-Strings-and-Manuals" title="Doc Strings and Manuals">
+<link rel="next" href="License-for-Manuals.html#License-for-Manuals" title="License for Manuals">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+The GNU coding standards, last updated April 7, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -11,90 +21,57 @@ under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
-"GNU Free Documentation License". -->
-<!-- Created by Texinfo 4.13.90+dev, http://www.gnu.org/software/texinfo/ -->
-<head>
-<title>GNU Coding Standards: Manual Structure Details</title>
-
-<meta name="description" content="GNU Coding Standards: Manual Structure Details">
-<meta name="keywords" content="GNU Coding Standards: Manual Structure Details">
-<meta name="resource-type" content="document">
-<meta name="distribution" content="global">
-<meta name="Generator" content="texi2any">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="index.html#Top" rel="start" title="Top">
-<link href="Index.html#Index" rel="index" title="Index">
-<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
-<link href="Documentation.html#Documentation" rel="up" title="Documentation">
-<link href="License-for-Manuals.html#License-for-Manuals" rel="next" title="License for Manuals">
-<link href="Doc-Strings-and-Manuals.html#Doc-Strings-and-Manuals" rel="previous" title="Doc Strings and Manuals">
-<style type="text/css">
-<!--
-a.summary-letter {text-decoration: none}
-blockquote.smallquotation {font-size: smaller}
-div.display {margin-left: 3.2em}
-div.example {margin-left: 3.2em}
-div.lisp {margin-left: 3.2em}
-div.smalldisplay {margin-left: 3.2em}
-div.smallexample {margin-left: 3.2em}
-div.smalllisp {margin-left: 3.2em}
-pre.display {font-family: serif}
-pre.format {font-family: serif}
-pre.menu-comment {font-family: serif}
-pre.menu-preformatted {font-family: serif}
-pre.smalldisplay {font-family: serif; font-size: smaller}
-pre.smallexample {font-size: smaller}
-pre.smallformat {font-family: serif; font-size: smaller}
-pre.smalllisp {font-size: smaller}
-span.nocodebreak {white-space:pre}
-span.nolinebreak {white-space:pre}
-span.roman {font-family:serif; font-weight:normal}
-span.sansserif {font-family:sans-serif; font-weight:normal}
-ul.no-bullet {list-style: none}
--->
-</style>
-
-
+``GNU Free Documentation License''.-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
 </head>
-
-<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<body>
+<div class="node">
 <a name="Manual-Structure-Details"></a>
-<div class="header">
 <p>
-Next: <a href="License-for-Manuals.html#License-for-Manuals" accesskey="n" rel="next">License for Manuals</a>, Previous: <a href="Doc-Strings-and-Manuals.html#Doc-Strings-and-Manuals" accesskey="p" rel="previous">Doc Strings and Manuals</a>, Up: <a href="Documentation.html#Documentation" accesskey="u" rel="up">Documentation</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
-</div>
+Next:&nbsp;<a rel="next" accesskey="n" href="License-for-Manuals.html#License-for-Manuals">License for Manuals</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Doc-Strings-and-Manuals.html#Doc-Strings-and-Manuals">Doc Strings and Manuals</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Documentation.html#Documentation">Documentation</a>
 <hr>
-<a name="Manual-Structure-Details-1"></a>
-<h3 class="section">6.3 Manual Structure Details</h3>
-<a name="index-manual-structure"></a>
+</div>
 
-<p>The title page of the manual should state the version of the programs or
+<h3 class="section">6.3 Manual Structure Details</h3>
+
+<p><a name="index-manual-structure-132"></a>
+The title page of the manual should state the version of the programs or
 packages documented in the manual.  The Top node of the manual should
 also contain this information.  If the manual is changing more
 frequently than or independent of the program, also state a version
 number for the manual in both of these places.
-</p>
-<p>Each program documented in the manual should have a node named
-&lsquo;<samp><var>program</var> Invocation</samp>&rsquo; or &lsquo;<samp>Invoking <var>program</var></samp>&rsquo;.  This
-node (together with its subnodes, if any) should describe the program&rsquo;s
+
+   <p>Each program documented in the manual should have a node named
+&lsquo;<samp><var>program</var><span class="samp"> Invocation</span></samp>&rsquo; or &lsquo;<samp><span class="samp">Invoking </span><var>program</var></samp>&rsquo;.  This
+node (together with its subnodes, if any) should describe the program's
 command line arguments and how to run it (the sort of information people
-would look for in a man page).  Start with an &lsquo;<samp>@example</samp>&rsquo;
+would look for in a man page).  Start with an &lsquo;<samp><span class="samp">@example</span></samp>&rsquo;
 containing a template for all the options and arguments that the program
 uses.
-</p>
-<p>Alternatively, put a menu item in some menu whose item name fits one of
+
+   <p>Alternatively, put a menu item in some menu whose item name fits one of
 the above patterns.  This identifies the node which that item points to
-as the node for this purpose, regardless of the node&rsquo;s actual name.
-</p>
-<p>The &lsquo;<samp>--usage</samp>&rsquo; feature of the Info reader looks for such a node
+as the node for this purpose, regardless of the node's actual name.
+
+   <p>The &lsquo;<samp><span class="samp">--usage</span></samp>&rsquo; feature of the Info reader looks for such a node
 or menu item in order to find the relevant text, so it is essential
 for every Texinfo file to have one.
-</p>
-<p>If one manual describes several programs, it should have such a node for
+
+   <p>If one manual describes several programs, it should have such a node for
 each program described in the manual.
-</p>
 
+   </body></html>
 
-
-</body>
-</html>

@@ -1,6 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<!-- The GNU coding standards, last updated March 8, 2012.
+<html lang="en">
+<head>
+<title>Managing Releases - GNU Coding Standards</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU Coding Standards">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="prev" href="Documentation.html#Documentation" title="Documentation">
+<link rel="next" href="References.html#References" title="References">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+The GNU coding standards, last updated April 7, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -11,82 +20,46 @@ under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
-"GNU Free Documentation License". -->
-<!-- Created by Texinfo 4.13.90+dev, http://www.gnu.org/software/texinfo/ -->
-<head>
-<title>GNU Coding Standards: Managing Releases</title>
-
-<meta name="description" content="GNU Coding Standards: Managing Releases">
-<meta name="keywords" content="GNU Coding Standards: Managing Releases">
-<meta name="resource-type" content="document">
-<meta name="distribution" content="global">
-<meta name="Generator" content="texi2any">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="index.html#Top" rel="start" title="Top">
-<link href="Index.html#Index" rel="index" title="Index">
-<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
-<link href="index.html#Top" rel="up" title="Top">
-<link href="Configuration.html#Configuration" rel="next" title="Configuration">
-<link href="Reading-other-Manuals.html#Reading-other-Manuals" rel="previous" title="Reading other Manuals">
-<style type="text/css">
-<!--
-a.summary-letter {text-decoration: none}
-blockquote.smallquotation {font-size: smaller}
-div.display {margin-left: 3.2em}
-div.example {margin-left: 3.2em}
-div.lisp {margin-left: 3.2em}
-div.smalldisplay {margin-left: 3.2em}
-div.smallexample {margin-left: 3.2em}
-div.smalllisp {margin-left: 3.2em}
-pre.display {font-family: serif}
-pre.format {font-family: serif}
-pre.menu-comment {font-family: serif}
-pre.menu-preformatted {font-family: serif}
-pre.smalldisplay {font-family: serif; font-size: smaller}
-pre.smallexample {font-size: smaller}
-pre.smallformat {font-family: serif; font-size: smaller}
-pre.smalllisp {font-size: smaller}
-span.nocodebreak {white-space:pre}
-span.nolinebreak {white-space:pre}
-span.roman {font-family:serif; font-weight:normal}
-span.sansserif {font-family:sans-serif; font-weight:normal}
-ul.no-bullet {list-style: none}
--->
-</style>
-
-
+``GNU Free Documentation License''.-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
 </head>
-
-<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<body>
+<div class="node">
 <a name="Managing-Releases"></a>
-<div class="header">
 <p>
-Next: <a href="References.html#References" accesskey="n" rel="next">References</a>, Previous: <a href="Documentation.html#Documentation" accesskey="p" rel="previous">Documentation</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
-</div>
+Next:&nbsp;<a rel="next" accesskey="n" href="References.html#References">References</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Documentation.html#Documentation">Documentation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index.html#Top">Top</a>
 <hr>
-<a name="The-Release-Process"></a>
-<h2 class="chapter">7 The Release Process</h2>
-<a name="index-releasing"></a>
+</div>
 
-<p>Making a release is more than just bundling up your source files in a
+<h2 class="chapter">7 The Release Process</h2>
+
+<p><a name="index-releasing-141"></a>
+Making a release is more than just bundling up your source files in a
 tar file and putting it up for FTP.  You should set up your software so
 that it can be configured to run on a variety of systems.  Your Makefile
 should conform to the GNU standards described below, and your directory
 layout should also conform to the standards discussed below.  Doing so
 makes it easy to include your package into the larger framework of
 all GNU software.
-</p>
-<table class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="Configuration.html#Configuration" accesskey="1">Configuration</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">How configuration of GNU packages should work.
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="Makefile-Conventions.html#Makefile-Conventions" accesskey="2">Makefile Conventions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Makefile conventions.
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="Releases.html#Releases" accesskey="3">Releases</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Making releases
-</td></tr>
-</table>
 
+<ul class="menu">
+<li><a accesskey="1" href="Configuration.html#Configuration">Configuration</a>:                How configuration of GNU packages should work. 
+<li><a accesskey="2" href="Makefile-Conventions.html#Makefile-Conventions">Makefile Conventions</a>:         Makefile conventions. 
+<li><a accesskey="3" href="Releases.html#Releases">Releases</a>:                     Making releases
+</ul>
 
+   </body></html>
 
-
-</body>
-</html>

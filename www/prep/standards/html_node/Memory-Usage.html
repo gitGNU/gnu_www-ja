@@ -1,6 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<!-- The GNU coding standards, last updated March 8, 2012.
+<html lang="en">
+<head>
+<title>Memory Usage - GNU Coding Standards</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU Coding Standards">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Program-Behavior.html#Program-Behavior" title="Program Behavior">
+<link rel="prev" href="OID-Allocations.html#OID-Allocations" title="OID Allocations">
+<link rel="next" href="File-Usage.html#File-Usage" title="File Usage">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+The GNU coding standards, last updated April 7, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -11,89 +21,53 @@ under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
-"GNU Free Documentation License". -->
-<!-- Created by Texinfo 4.13.90+dev, http://www.gnu.org/software/texinfo/ -->
-<head>
-<title>GNU Coding Standards: Memory Usage</title>
-
-<meta name="description" content="GNU Coding Standards: Memory Usage">
-<meta name="keywords" content="GNU Coding Standards: Memory Usage">
-<meta name="resource-type" content="document">
-<meta name="distribution" content="global">
-<meta name="Generator" content="texi2any">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="index.html#Top" rel="start" title="Top">
-<link href="Index.html#Index" rel="index" title="Index">
-<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
-<link href="Program-Behavior.html#Program-Behavior" rel="up" title="Program Behavior">
-<link href="File-Usage.html#File-Usage" rel="next" title="File Usage">
-<link href="OID-Allocations.html#OID-Allocations" rel="previous" title="OID Allocations">
-<style type="text/css">
-<!--
-a.summary-letter {text-decoration: none}
-blockquote.smallquotation {font-size: smaller}
-div.display {margin-left: 3.2em}
-div.example {margin-left: 3.2em}
-div.lisp {margin-left: 3.2em}
-div.smalldisplay {margin-left: 3.2em}
-div.smallexample {margin-left: 3.2em}
-div.smalllisp {margin-left: 3.2em}
-pre.display {font-family: serif}
-pre.format {font-family: serif}
-pre.menu-comment {font-family: serif}
-pre.menu-preformatted {font-family: serif}
-pre.smalldisplay {font-family: serif; font-size: smaller}
-pre.smallexample {font-size: smaller}
-pre.smallformat {font-family: serif; font-size: smaller}
-pre.smalllisp {font-size: smaller}
-span.nocodebreak {white-space:pre}
-span.nolinebreak {white-space:pre}
-span.roman {font-family:serif; font-weight:normal}
-span.sansserif {font-family:sans-serif; font-weight:normal}
-ul.no-bullet {list-style: none}
--->
-</style>
-
-
+``GNU Free Documentation License''.-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
 </head>
-
-<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<body>
+<div class="node">
 <a name="Memory-Usage"></a>
-<div class="header">
 <p>
-Next: <a href="File-Usage.html#File-Usage" accesskey="n" rel="next">File Usage</a>, Previous: <a href="OID-Allocations.html#OID-Allocations" accesskey="p" rel="previous">OID Allocations</a>, Up: <a href="Program-Behavior.html#Program-Behavior" accesskey="u" rel="up">Program Behavior</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
-</div>
+Next:&nbsp;<a rel="next" accesskey="n" href="File-Usage.html#File-Usage">File Usage</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="OID-Allocations.html#OID-Allocations">OID Allocations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Program-Behavior.html#Program-Behavior">Program Behavior</a>
 <hr>
-<a name="Memory-Usage-1"></a>
-<h3 class="section">4.11 Memory Usage</h3>
-<a name="index-memory-usage"></a>
+</div>
 
-<p>If a program typically uses just a few meg of memory, don&rsquo;t bother making any
+<h3 class="section">4.11 Memory Usage</h3>
+
+<p><a name="index-memory-usage-72"></a>
+If a program typically uses just a few meg of memory, don't bother making any
 effort to reduce memory usage.  For example, if it is impractical for
 other reasons to operate on files more than a few meg long, it is
 reasonable to read entire input files into memory to operate on them.
-</p>
-<p>However, for programs such as <code>cat</code> or <code>tail</code>, that can
+
+   <p>However, for programs such as <code>cat</code> or <code>tail</code>, that can
 usefully operate on very large files, it is important to avoid using a
-technique that would artificially limit the size of files it can handle.
+technique that would artificially limit the size of files it can handle. 
 If a program works by lines and could be applied to arbitrary
 user-supplied input files, it should keep only a line in memory, because
 this is not very hard and users will want to be able to operate on input
 files that are bigger than will fit in memory all at once.
-</p>
-<p>If your program creates complicated data structures, just make them in
+
+   <p>If your program creates complicated data structures, just make them in
 memory and give a fatal error if <code>malloc</code> returns zero.
-</p>
-<a name="index-valgrind"></a>
-<a name="index-memory-leak"></a>
-<p>Memory analysis tools such as <code>valgrind</code> can be useful, but
-don&rsquo;t complicate a program merely to avoid their false alarms.  For
-example, if memory is used until just before a process exits, don&rsquo;t
+
+   <p><a name="index-valgrind-73"></a><a name="index-memory-leak-74"></a>Memory analysis tools such as <samp><span class="command">valgrind</span></samp> can be useful, but
+don't complicate a program merely to avoid their false alarms.  For
+example, if memory is used until just before a process exits, don't
 free it simply to silence such a tool.
-</p>
 
+   </body></html>
 
-
-
-</body>
-</html>

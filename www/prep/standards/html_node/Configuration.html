@@ -1,6 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<!-- The GNU coding standards, last updated March 8, 2012.
+<html lang="en">
+<head>
+<title>Configuration - GNU Coding Standards</title>
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="description" content="GNU Coding Standards">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index.html#Top">
+<link rel="up" href="Managing-Releases.html#Managing-Releases" title="Managing Releases">
+<link rel="next" href="Makefile-Conventions.html#Makefile-Conventions" title="Makefile Conventions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<!--
+The GNU coding standards, last updated April 7, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -11,272 +20,223 @@ under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
-"GNU Free Documentation License". -->
-<!-- Created by Texinfo 4.13.90+dev, http://www.gnu.org/software/texinfo/ -->
-<head>
-<title>GNU Coding Standards: Configuration</title>
-
-<meta name="description" content="GNU Coding Standards: Configuration">
-<meta name="keywords" content="GNU Coding Standards: Configuration">
-<meta name="resource-type" content="document">
-<meta name="distribution" content="global">
-<meta name="Generator" content="texi2any">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="index.html#Top" rel="start" title="Top">
-<link href="Index.html#Index" rel="index" title="Index">
-<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
-<link href="Managing-Releases.html#Managing-Releases" rel="up" title="Managing Releases">
-<link href="Makefile-Conventions.html#Makefile-Conventions" rel="next" title="Makefile Conventions">
-<link href="Managing-Releases.html#Managing-Releases" rel="previous" title="Managing Releases">
-<style type="text/css">
-<!--
-a.summary-letter {text-decoration: none}
-blockquote.smallquotation {font-size: smaller}
-div.display {margin-left: 3.2em}
-div.example {margin-left: 3.2em}
-div.lisp {margin-left: 3.2em}
-div.smalldisplay {margin-left: 3.2em}
-div.smallexample {margin-left: 3.2em}
-div.smalllisp {margin-left: 3.2em}
-pre.display {font-family: serif}
-pre.format {font-family: serif}
-pre.menu-comment {font-family: serif}
-pre.menu-preformatted {font-family: serif}
-pre.smalldisplay {font-family: serif; font-size: smaller}
-pre.smallexample {font-size: smaller}
-pre.smallformat {font-family: serif; font-size: smaller}
-pre.smalllisp {font-size: smaller}
-span.nocodebreak {white-space:pre}
-span.nolinebreak {white-space:pre}
-span.roman {font-family:serif; font-weight:normal}
-span.sansserif {font-family:sans-serif; font-weight:normal}
-ul.no-bullet {list-style: none}
--->
-</style>
-
-
+``GNU Free Documentation License''.-->
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+--></style>
 </head>
-
-<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<body>
+<div class="node">
 <a name="Configuration"></a>
-<div class="header">
 <p>
-Next: <a href="Makefile-Conventions.html#Makefile-Conventions" accesskey="n" rel="next">Makefile Conventions</a>, Up: <a href="Managing-Releases.html#Managing-Releases" accesskey="u" rel="up">Managing Releases</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
-</div>
+Next:&nbsp;<a rel="next" accesskey="n" href="Makefile-Conventions.html#Makefile-Conventions">Makefile Conventions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Managing-Releases.html#Managing-Releases">Managing Releases</a>
 <hr>
-<a name="How-Configuration-Should-Work"></a>
-<h3 class="section">7.1 How Configuration Should Work</h3>
-<a name="index-program-configuration"></a>
+</div>
 
-<a name="index-configure"></a>
-<p>Each GNU distribution should come with a shell script named
+<h3 class="section">7.1 How Configuration Should Work</h3>
+
+<p><a name="index-program-configuration-142"></a>
+<a name="index-configure-143"></a>Each GNU distribution should come with a shell script named
 <code>configure</code>.  This script is given arguments which describe the
-kind of machine and system you want to compile the program for.
+kind of machine and system you want to compile the program for. 
 The <code>configure</code> script must record the configuration options so
 that they affect compilation.
-</p>
-<p>The description here is the specification of the interface for the
+
+   <p>The description here is the specification of the interface for the
 <code>configure</code> script in GNU packages.  Many packages implement it
-using GNU Autoconf (see <a href="http://www.gnu.org/software/autoconf/manual/html_node/index.html#Top">Introduction</a> in <cite>Autoconf</cite>)
-and/or GNU Automake (see <a href="http://www.gnu.org/software/automake/manual/html_node/index.html#Top">Introduction</a> in <cite>Automake</cite>),
+using GNU Autoconf (see <a href="../autoconf/index.html#Top">Introduction</a>)
+and/or GNU Automake (see <a href="../automake/index.html#Top">Introduction</a>),
 but you do not have to use these tools.  You can implement it any way
 you like; for instance, by making <code>configure</code> be a wrapper around
 a completely different configuration system.
-</p>
-<p>Another way for the <code>configure</code> script to operate is to make a
-link from a standard name such as &lsquo;<tt>config.h</tt>&rsquo; to the proper
+
+   <p>Another way for the <code>configure</code> script to operate is to make a
+link from a standard name such as <samp><span class="file">config.h</span></samp> to the proper
 configuration file for the chosen system.  If you use this technique,
 the distribution should <em>not</em> contain a file named
-&lsquo;<tt>config.h</tt>&rsquo;.  This is so that people won&rsquo;t be able to build the
+<samp><span class="file">config.h</span></samp>.  This is so that people won't be able to build the
 program without configuring it first.
-</p>
-<p>Another thing that <code>configure</code> can do is to edit the Makefile.  If
+
+   <p>Another thing that <code>configure</code> can do is to edit the Makefile.  If
 you do this, the distribution should <em>not</em> contain a file named
-&lsquo;<tt>Makefile</tt>&rsquo;.  Instead, it should include a file &lsquo;<tt>Makefile.in</tt>&rsquo; which
+<samp><span class="file">Makefile</span></samp>.  Instead, it should include a file <samp><span class="file">Makefile.in</span></samp> which
 contains the input used for editing.  Once again, this is so that people
-won&rsquo;t be able to build the program without configuring it first.
-</p>
-<p>If <code>configure</code> does write the &lsquo;<tt>Makefile</tt>&rsquo;, then &lsquo;<tt>Makefile</tt>&rsquo;
-should have a target named &lsquo;<tt>Makefile</tt>&rsquo; which causes <code>configure</code>
+won't be able to build the program without configuring it first.
+
+   <p>If <code>configure</code> does write the <samp><span class="file">Makefile</span></samp>, then <samp><span class="file">Makefile</span></samp>
+should have a target named <samp><span class="file">Makefile</span></samp> which causes <code>configure</code>
 to be rerun, setting up the same configuration that was set up last
 time.  The files that <code>configure</code> reads should be listed as
-dependencies of &lsquo;<tt>Makefile</tt>&rsquo;.
-</p>
-<p>All the files which are output from the <code>configure</code> script should
+dependencies of <samp><span class="file">Makefile</span></samp>.
+
+   <p>All the files which are output from the <code>configure</code> script should
 have comments at the beginning explaining that they were generated
-automatically using <code>configure</code>.  This is so that users won&rsquo;t think
+automatically using <code>configure</code>.  This is so that users won't think
 of trying to edit them by hand.
-</p>
-<p>The <code>configure</code> script should write a file named &lsquo;<tt>config.status</tt>&rsquo;
+
+   <p>The <code>configure</code> script should write a file named <samp><span class="file">config.status</span></samp>
 which describes which configuration options were specified when the
 program was last configured.  This file should be a shell script which,
 if run, will recreate the same configuration.
-</p>
-<p>The <code>configure</code> script should accept an option of the form
-&lsquo;<samp>--srcdir=<var>dirname</var></samp>&rsquo; to specify the directory where sources are found
+
+   <p>The <code>configure</code> script should accept an option of the form
+&lsquo;<samp><span class="samp">--srcdir=</span><var>dirname</var></samp>&rsquo; to specify the directory where sources are found
 (if it is not the current directory).  This makes it possible to build
 the program in a separate directory, so that the actual source directory
 is not modified.
-</p>
-<p>If the user does not specify &lsquo;<samp>--srcdir</samp>&rsquo;, then <code>configure</code> should
-check both &lsquo;<tt>.</tt>&rsquo; and &lsquo;<tt>..</tt>&rsquo; to see if it can find the sources.  If
+
+   <p>If the user does not specify &lsquo;<samp><span class="samp">--srcdir</span></samp>&rsquo;, then <code>configure</code> should
+check both <samp><span class="file">.</span></samp> and <samp><span class="file">..</span></samp> to see if it can find the sources.  If
 it finds the sources in one of these places, it should use them from
 there.  Otherwise, it should report that it cannot find the sources, and
 should exit with nonzero status.
-</p>
-<p>Usually the easy way to support &lsquo;<samp>--srcdir</samp>&rsquo; is by editing a
+
+   <p>Usually the easy way to support &lsquo;<samp><span class="samp">--srcdir</span></samp>&rsquo; is by editing a
 definition of <code>VPATH</code> into the Makefile.  Some rules may need to
 refer explicitly to the specified source directory.  To make this
 possible, <code>configure</code> can add to the Makefile a variable named
 <code>srcdir</code> whose value is precisely the specified directory.
-</p>
-<p>In addition, the &lsquo;<samp>configure</samp>&rsquo; script should take options
+
+   <p>In addition, the &lsquo;<samp><span class="samp">configure</span></samp>&rsquo; script should take options
 corresponding to most of the standard directory variables
 (see <a href="Directory-Variables.html#Directory-Variables">Directory Variables</a>).  Here is the list:
-</p>
-<div class="example">
-<pre class="example">--prefix --exec-prefix --bindir --sbindir --libexecdir --sysconfdir
---sharedstatedir --localstatedir --libdir --includedir --oldincludedir
---datarootdir --datadir --infodir --localedir --mandir --docdir
---htmldir --dvidir --pdfdir --psdir
-</pre></div>
 
-<p>The <code>configure</code> script should also take an argument which specifies the
+<pre class="example">     --prefix --exec-prefix --bindir --sbindir --libexecdir --sysconfdir
+     --sharedstatedir --localstatedir --libdir --includedir --oldincludedir
+     --datarootdir --datadir --infodir --localedir --mandir --docdir
+     --htmldir --dvidir --pdfdir --psdir
+</pre>
+   <p>The <code>configure</code> script should also take an argument which specifies the
 type of system to build the program for.  This argument should look like
 this:
-</p>
-<div class="example">
-<pre class="example"><var>cpu</var>-<var>company</var>-<var>system</var>
-</pre></div>
 
-<p>For example, an Athlon-based GNU/Linux system might be
-&lsquo;<samp>i686-pc-linux-gnu</samp>&rsquo;.
-</p>
-<p>The <code>configure</code> script needs to be able to decode all plausible
+<pre class="example">     <var>cpu</var>-<var>company</var>-<var>system</var>
+</pre>
+   <p>For example, an Athlon-based GNU/Linux system might be
+&lsquo;<samp><span class="samp">i686-pc-linux-gnu</span></samp>&rsquo;.
+
+   <p>The <code>configure</code> script needs to be able to decode all plausible
 alternatives for how to describe a machine.  Thus,
-&lsquo;<samp>athlon-pc-gnu/linux</samp>&rsquo; would be a valid alias.  There is a shell
+&lsquo;<samp><span class="samp">athlon-pc-gnu/linux</span></samp>&rsquo; would be a valid alias.  There is a shell
 script called
-<a href="http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD">&lsquo;<tt>config.sub</tt>&rsquo;</a> that you can use as a subroutine to validate system
+<a href="http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD"><samp><span class="file">config.sub</span></samp></a> that you can use as a subroutine to validate system
 types and canonicalize aliases.
-</p>
-<p>The <code>configure</code> script should also take the option
-&lsquo;<samp>--build=<var>buildtype</var></samp>&rsquo;, which should be equivalent to a
-plain <var>buildtype</var> argument.  For example, &lsquo;<samp>configure
---build=i686-pc-linux-gnu</samp>&rsquo; is equivalent to &lsquo;<samp>configure
-i686-pc-linux-gnu</samp>&rsquo;.  When the build type is not specified by an option
+
+   <p>The <code>configure</code> script should also take the option
+<samp><span class="option">--build=</span><var>buildtype</var></samp>, which should be equivalent to a
+plain <var>buildtype</var> argument.  For example, &lsquo;<samp><span class="samp">configure
+--build=i686-pc-linux-gnu</span></samp>&rsquo; is equivalent to &lsquo;<samp><span class="samp">configure
+i686-pc-linux-gnu</span></samp>&rsquo;.  When the build type is not specified by an option
 or argument, the <code>configure</code> script should normally guess it using
 the shell script
-<a href="http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD">&lsquo;<tt>config.guess</tt>&rsquo;</a>.
-</p>
-<a name="index-optional-features_002c-configure_002dtime"></a>
-<p>Other options are permitted to specify in more detail the software
+<a href="http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD"><samp><span class="file">config.guess</span></samp></a>.
+
+   <p><a name="index-optional-features_002c-configure_002dtime-144"></a>Other options are permitted to specify in more detail the software
 or hardware present on the machine, to include or exclude optional parts
 of the package, or to adjust the name of some tools or arguments to them:
-</p>
-<dl compact="compact">
-<dt>&lsquo;<samp>--enable-<var>feature</var><span class="roman">[</span>=<var>parameter</var><span class="roman">]</span></samp>&rsquo;</dt>
-<dd><p>Configure the package to build and install an optional user-level
+
+     <dl>
+<dt>&lsquo;<samp><span class="samp">--enable-</span><var>feature</var><span class="samp">[=</span><var>parameter</var><span class="samp">]</span></samp>&rsquo;<dd>Configure the package to build and install an optional user-level
 facility called <var>feature</var>.  This allows users to choose which
 optional features to include.  Giving an optional <var>parameter</var> of
-&lsquo;<samp>no</samp>&rsquo; should omit <var>feature</var>, if it is built by default.
-</p>
-<p>No &lsquo;<samp>--enable</samp>&rsquo; option should <strong>ever</strong> cause one feature to
-replace another.  No &lsquo;<samp>--enable</samp>&rsquo; option should ever substitute one
-useful behavior for another useful behavior.  The only proper use for
-&lsquo;<samp>--enable</samp>&rsquo; is for questions of whether to build part of the program
-or exclude it.
-</p>
-</dd>
-<dt>&lsquo;<samp>--with-<var>package</var></samp>&rsquo;</dt>
-<dd><p>The package <var>package</var> will be installed, so configure this package
-to work with <var>package</var>.
-</p>
+&lsquo;<samp><span class="samp">no</span></samp>&rsquo; should omit <var>feature</var>, if it is built by default.
 
-<p>Possible values of <var>package</var> include
-&lsquo;<samp>gnu-as</samp>&rsquo; (or &lsquo;<samp>gas</samp>&rsquo;), &lsquo;<samp>gnu-ld</samp>&rsquo;, &lsquo;<samp>gnu-libc</samp>&rsquo;,
-&lsquo;<samp>gdb</samp>&rsquo;,
-&lsquo;<samp>x</samp>&rsquo;,
+     <p>No &lsquo;<samp><span class="samp">--enable</span></samp>&rsquo; option should <strong>ever</strong> cause one feature to
+replace another.  No &lsquo;<samp><span class="samp">--enable</span></samp>&rsquo; option should ever substitute one
+useful behavior for another useful behavior.  The only proper use for
+&lsquo;<samp><span class="samp">--enable</span></samp>&rsquo; is for questions of whether to build part of the program
+or exclude it.
+
+     <br><dt>&lsquo;<samp><span class="samp">--with-</span><var>package</var></samp>&rsquo;<dd><!-- @r{[}=@var{parameter}@r{]} -->
+The package <var>package</var> will be installed, so configure this package
+to work with <var>package</var>.
+
+     <!-- Giving an optional @var{parameter} of -->
+     <!-- @samp{no} should omit @var{package}, if it is used by default. -->
+     <p>Possible values of <var>package</var> include
+&lsquo;<samp><span class="samp">gnu-as</span></samp>&rsquo; (or &lsquo;<samp><span class="samp">gas</span></samp>&rsquo;), &lsquo;<samp><span class="samp">gnu-ld</span></samp>&rsquo;, &lsquo;<samp><span class="samp">gnu-libc</span></samp>&rsquo;,
+&lsquo;<samp><span class="samp">gdb</span></samp>&rsquo;,
+&lsquo;<samp><span class="samp">x</span></samp>&rsquo;,
 and
-&lsquo;<samp>x-toolkit</samp>&rsquo;.
-</p>
-<p>Do not use a &lsquo;<samp>--with</samp>&rsquo; option to specify the file name to use to
-find certain files.  That is outside the scope of what &lsquo;<samp>--with</samp>&rsquo;
+&lsquo;<samp><span class="samp">x-toolkit</span></samp>&rsquo;.
+
+     <p>Do not use a &lsquo;<samp><span class="samp">--with</span></samp>&rsquo; option to specify the file name to use to
+find certain files.  That is outside the scope of what &lsquo;<samp><span class="samp">--with</span></samp>&rsquo;
 options are for.
-</p>
-</dd>
-<dt>&lsquo;<samp><var>variable</var>=<var>value</var></samp>&rsquo;</dt>
-<dd><p>Set the value of the variable <var>variable</var> to <var>value</var>.  This is
+
+     <br><dt>&lsquo;<samp><var>variable</var><span class="samp">=</span><var>value</var></samp>&rsquo;<dd>Set the value of the variable <var>variable</var> to <var>value</var>.  This is
 used to override the default values of commands or arguments in the
-build process.  For example, the user could issue &lsquo;<samp>configure
-CFLAGS=-g CXXFLAGS=-g</samp>&rsquo; to build with debugging information and without
+build process.  For example, the user could issue &lsquo;<samp><span class="samp">configure
+CFLAGS=-g CXXFLAGS=-g</span></samp>&rsquo; to build with debugging information and without
 the default optimization.
-</p>
-<p>Specifying variables as arguments to <code>configure</code>, like this:
-</p><div class="example">
-<pre class="example">./configure CC=gcc
-</pre></div>
-<p>is preferable to setting them in environment variables:
-</p><div class="example">
-<pre class="example">CC=gcc ./configure
-</pre></div>
-<p>as it helps to recreate the same configuration later with
-&lsquo;<tt>config.status</tt>&rsquo;.  However, both methods should be supported.
-</p></dd>
+
+     <p>Specifying variables as arguments to <code>configure</code>, like this:
+     <pre class="example">          ./configure CC=gcc
+</pre>
+     <p>is preferable to setting them in environment variables:
+     <pre class="example">          CC=gcc ./configure
+</pre>
+     <p>as it helps to recreate the same configuration later with
+<samp><span class="file">config.status</span></samp>.  However, both methods should be supported. 
 </dl>
 
-<p>All <code>configure</code> scripts should accept all of the &ldquo;detail&rdquo;
+   <p>All <code>configure</code> scripts should accept all of the &ldquo;detail&rdquo;
 options and the variable settings, whether or not they make any
 difference to the particular package at hand.  In particular, they
-should accept any option that starts with &lsquo;<samp>--with-</samp>&rsquo; or
-&lsquo;<samp>--enable-</samp>&rsquo;.  This is so users will be able to configure an
+should accept any option that starts with &lsquo;<samp><span class="samp">--with-</span></samp>&rsquo; or
+&lsquo;<samp><span class="samp">--enable-</span></samp>&rsquo;.  This is so users will be able to configure an
 entire GNU source tree at once with a single set of options.
-</p>
-<p>You will note that the categories &lsquo;<samp>--with-</samp>&rsquo; and &lsquo;<samp>--enable-</samp>&rsquo;
+
+   <p>You will note that the categories &lsquo;<samp><span class="samp">--with-</span></samp>&rsquo; and &lsquo;<samp><span class="samp">--enable-</span></samp>&rsquo;
 are narrow: they <strong>do not</strong> provide a place for any sort of option
 you might think of.  That is deliberate.  We want to limit the possible
 configuration options in GNU software.  We do not want GNU programs to
 have idiosyncratic configuration options.
-</p>
-<p>Packages that perform part of the compilation process may support
+
+   <p>Packages that perform part of the compilation process may support
 cross-compilation.  In such a case, the host and target machines for the
 program may be different.
-</p>
-<p>The <code>configure</code> script should normally treat the specified type of
+
+   <p>The <code>configure</code> script should normally treat the specified type of
 system as both the host and the target, thus producing a program which
 works for the same type of machine that it runs on.
-</p>
-<p>To compile a program to run on a host type that differs from the build
-type, use the configure option &lsquo;<samp>--host=<var>hosttype</var></samp>&rsquo;, where
+
+   <p>To compile a program to run on a host type that differs from the build
+type, use the configure option <samp><span class="option">--host=</span><var>hosttype</var></samp>, where
 <var>hosttype</var> uses the same syntax as <var>buildtype</var>.  The host type
 normally defaults to the build type.
-</p>
-<p>To configure a cross-compiler, cross-assembler, or what have you, you
+
+   <p>To configure a cross-compiler, cross-assembler, or what have you, you
 should specify a target different from the host, using the configure
-option &lsquo;<samp>--target=<var>targettype</var></samp>&rsquo;.  The syntax for
+option &lsquo;<samp><span class="samp">--target=</span><var>targettype</var></samp>&rsquo;.  The syntax for
 <var>targettype</var> is the same as for the host type.  So the command would
 look like this:
-</p>
-<div class="example">
-<pre class="example">./configure --host=<var>hosttype</var> --target=<var>targettype</var>
-</pre></div>
 
-<p>The target type normally defaults to the host type.
+<pre class="example">     ./configure --host=<var>hosttype</var> --target=<var>targettype</var>
+</pre>
+   <p>The target type normally defaults to the host type. 
 Programs for which cross-operation is not meaningful need not accept the
-&lsquo;<samp>--target</samp>&rsquo; option, because configuring an entire operating system for
+&lsquo;<samp><span class="samp">--target</span></samp>&rsquo; option, because configuring an entire operating system for
 cross-operation is not a meaningful operation.
-</p>
-<p>Some programs have ways of configuring themselves automatically.  If
+
+   <p>Some programs have ways of configuring themselves automatically.  If
 your program is set up to do this, your <code>configure</code> script can simply
 ignore most of its arguments.
-</p>
 
-<hr>
-<div class="header">
-<p>
-Next: <a href="Makefile-Conventions.html#Makefile-Conventions" accesskey="n" rel="next">Makefile Conventions</a>, Up: <a href="Managing-Releases.html#Managing-Releases" accesskey="u" rel="up">Managing Releases</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
-</div>
+<!-- The makefile standards are in a separate file that is also -->
+<!-- included by make.texinfo.  Done by roland@gnu.ai.mit.edu on 1/6/93. -->
+<!-- For this document, turn chapters into sections, etc. -->
+<!-- This file is included by both standards.texi and make.texinfo. -->
+<!-- It was broken out of standards.texi on 1/6/93 by roland. -->
+   </body></html>
 
-
-
-</body>
-</html>
