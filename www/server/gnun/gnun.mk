@@ -70,6 +70,11 @@ ALL_DIRS :=	accessibility \
 		fun/jokes \
 		gnu \
 		graphics \
+		graphics/adrienne \
+		graphics/bahlon \
+		graphics/behroze \
+		graphics/fsfsociety \
+		graphics/gnu-post \
 		help \
 		licenses \
 		licenses/old-licenses \
@@ -284,6 +289,16 @@ graphics :=	3dbabygnutux \
 		whatsgnu \
 		winkler-gnu
 
+graphics/adrienne :=	index
+
+graphics/bahlon :=	index
+
+graphics/behroze :=	index
+
+graphics/fsfsociety :=	fsfsociety
+
+graphics/gnu-post :=	index
+
 help :=		directory \
 		evaluation \
 		gethelp \
@@ -436,6 +451,7 @@ philosophy := 	15-years-of-free-software \
 		netscape \
 		netscape-npl \
 		netscape-npl-old \
+		network-services-arent-free-or-nonfree \
 		new-monopoly \
 		nit-india \
 		no-ip-ethos \
