@@ -302,6 +302,8 @@ graphics/gnu-post :=	index
 help :=		directory \
 		evaluation \
 		gethelp \
+                gnu-bucks \
+                gnu-bucks-recipients \
 		help \
 		help-hardware \
 		linking-gnu
