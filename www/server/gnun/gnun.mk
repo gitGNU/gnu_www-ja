@@ -391,6 +391,7 @@ philosophy := 	15-years-of-free-software \
 		copyright-and-globalization \
 		copyright-versus-community \
 		copyright-versus-community-2000 \
+		correcting-france-mistake \
 		danger-of-software-patents \
 		dat \
 		digital-inclusion-in-freedom \
