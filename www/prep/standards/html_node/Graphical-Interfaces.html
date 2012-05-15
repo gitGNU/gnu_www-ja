@@ -1,16 +1,6 @@
-<html lang="en">
-<head>
-<title>Graphical Interfaces - GNU Coding Standards</title>
-<meta http-equiv="Content-Type" content="text/html">
-<meta name="description" content="GNU Coding Standards">
-<meta name="generator" content="makeinfo 4.13">
-<link title="Top" rel="start" href="index.html#Top">
-<link rel="up" href="Program-Behavior.html#Program-Behavior" title="Program Behavior">
-<link rel="prev" href="User-Interfaces.html#User-Interfaces" title="User Interfaces">
-<link rel="next" href="Command_002dLine-Interfaces.html#Command_002dLine-Interfaces" title="Command-Line Interfaces">
-<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
-<!--
-The GNU coding standards, last updated April 7, 2012.
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated April 7, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -21,50 +11,92 @@ under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
-``GNU Free Documentation License''.-->
-<meta http-equiv="Content-Style-Type" content="text/css">
-<style type="text/css"><!--
-  pre.display { font-family:inherit }
-  pre.format  { font-family:inherit }
-  pre.smalldisplay { font-family:inherit; font-size:smaller }
-  pre.smallformat  { font-family:inherit; font-size:smaller }
-  pre.smallexample { font-size:smaller }
-  pre.smalllisp    { font-size:smaller }
-  span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
---></style>
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 4.13.90+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: Graphical Interfaces</title>
+
+<meta name="description" content="GNU Coding Standards: Graphical Interfaces">
+<meta name="keywords" content="GNU Coding Standards: Graphical Interfaces">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Program-Behavior.html#Program-Behavior" rel="up" title="Program Behavior">
+<link href="Command_002dLine-Interfaces.html#Command_002dLine-Interfaces" rel="next" title="Command-Line Interfaces">
+<link href="User-Interfaces.html#User-Interfaces" rel="previous" title="User Interfaces">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
 </head>
-<body>
-<div class="node">
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
 <a name="Graphical-Interfaces"></a>
+<div class="header">
 <p>
-Next:&nbsp;<a rel="next" accesskey="n" href="Command_002dLine-Interfaces.html#Command_002dLine-Interfaces">Command-Line Interfaces</a>,
-Previous:&nbsp;<a rel="previous" accesskey="p" href="User-Interfaces.html#User-Interfaces">User Interfaces</a>,
-Up:&nbsp;<a rel="up" accesskey="u" href="Program-Behavior.html#Program-Behavior">Program Behavior</a>
-<hr>
+Next: <a href="Command_002dLine-Interfaces.html#Command_002dLine-Interfaces" accesskey="n" rel="next">Command-Line Interfaces</a>, Previous: <a href="User-Interfaces.html#User-Interfaces" accesskey="p" rel="previous">User Interfaces</a>, Up: <a href="Program-Behavior.html#Program-Behavior" accesskey="u" rel="up">Program Behavior</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
 </div>
-
+<hr>
+<a name="Standards-for-Graphical-Interfaces"></a>
 <h3 class="section">4.6 Standards for Graphical Interfaces</h3>
+<a name="index-graphical-user-interface"></a>
+<a name="index-interface-styles"></a>
+<a name="index-user-interface-styles"></a>
 
-<p><a name="index-graphical-user-interface-41"></a><a name="index-interface-styles-42"></a><a name="index-user-interface-styles-43"></a>
-<a name="index-GTK_002b-44"></a>When you write a program that provides a graphical user interface,
+<a name="index-GTK_002b"></a>
+<p>When you write a program that provides a graphical user interface,
 please make it work with the X Window System and the GTK+ toolkit
 unless the functionality specifically requires some alternative (for
 example, &ldquo;displaying jpeg images while in console mode&rdquo;).
-
-   <p>In addition, please provide a command-line interface to control the
+</p>
+<p>In addition, please provide a command-line interface to control the
 functionality.  (In many cases, the graphical user interface can be a
 separate program which invokes the command-line program.)  This is
 so that the same jobs can be done from scripts.
-
-   <p><a name="index-CORBA-45"></a><a name="index-GNOME-46"></a><a name="index-D_002dbus-47"></a><a name="index-keyboard-interface-48"></a><a name="index-library-interface-49"></a>Please also consider providing a D-bus interface for use from other
+</p>
+<a name="index-CORBA"></a>
+<a name="index-GNOME"></a>
+<a name="index-D_002dbus"></a>
+<a name="index-keyboard-interface"></a>
+<a name="index-library-interface"></a>
+<p>Please also consider providing a D-bus interface for use from other
 running programs, such as within GNOME.  (GNOME used to use CORBA
 for this, but that is being phased out.)  In addition, consider
 providing a library interface (for use from C), and perhaps a
 keyboard-driven console interface (for use by users from console
 mode).  Once you are doing the work to provide the functionality and
-the graphical interface, these won't be much extra work.
+the graphical interface, these won&rsquo;t be much extra work.
+</p>
 
-   </body></html>
 
+
+
+</body>
+</html>

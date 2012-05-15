@@ -1,16 +1,6 @@
-<html lang="en">
-<head>
-<title>Directory Variables - GNU Coding Standards</title>
-<meta http-equiv="Content-Type" content="text/html">
-<meta name="description" content="GNU Coding Standards">
-<meta name="generator" content="makeinfo 4.13">
-<link title="Top" rel="start" href="index.html#Top">
-<link rel="up" href="Makefile-Conventions.html#Makefile-Conventions" title="Makefile Conventions">
-<link rel="prev" href="DESTDIR.html#DESTDIR" title="DESTDIR">
-<link rel="next" href="Standard-Targets.html#Standard-Targets" title="Standard Targets">
-<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
-<!--
-The GNU coding standards, last updated April 7, 2012.
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated April 7, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -21,30 +11,60 @@ under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
-``GNU Free Documentation License''.-->
-<meta http-equiv="Content-Style-Type" content="text/css">
-<style type="text/css"><!--
-  pre.display { font-family:inherit }
-  pre.format  { font-family:inherit }
-  pre.smalldisplay { font-family:inherit; font-size:smaller }
-  pre.smallformat  { font-family:inherit; font-size:smaller }
-  pre.smallexample { font-size:smaller }
-  pre.smalllisp    { font-size:smaller }
-  span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
---></style>
-</head>
-<body>
-<div class="node">
-<a name="Directory-Variables"></a>
-<p>
-Next:&nbsp;<a rel="next" accesskey="n" href="Standard-Targets.html#Standard-Targets">Standard Targets</a>,
-Previous:&nbsp;<a rel="previous" accesskey="p" href="DESTDIR.html#DESTDIR">DESTDIR</a>,
-Up:&nbsp;<a rel="up" accesskey="u" href="Makefile-Conventions.html#Makefile-Conventions">Makefile Conventions</a>
-<hr>
-</div>
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 4.13.90+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: Directory Variables</title>
 
+<meta name="description" content="GNU Coding Standards: Directory Variables">
+<meta name="keywords" content="GNU Coding Standards: Directory Variables">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Makefile-Conventions.html#Makefile-Conventions" rel="up" title="Makefile Conventions">
+<link href="Standard-Targets.html#Standard-Targets" rel="next" title="Standard Targets">
+<link href="DESTDIR.html#DESTDIR" rel="previous" title="DESTDIR">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Directory-Variables"></a>
+<div class="header">
+<p>
+Next: <a href="Standard-Targets.html#Standard-Targets" accesskey="n" rel="next">Standard Targets</a>, Previous: <a href="DESTDIR.html#DESTDIR" accesskey="p" rel="previous">DESTDIR</a>, Up: <a href="Makefile-Conventions.html#Makefile-Conventions" accesskey="u" rel="up">Makefile Conventions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Variables-for-Installation-Directories"></a>
 <h4 class="subsection">7.2.5 Variables for Installation Directories</h4>
 
 <p>Installation directories should always be named by variables, so it is
@@ -53,304 +73,376 @@ variables and the values they should have in GNU packages are
 described below.  They are based on a standard file system layout;
 variants of it are used in GNU/Linux and other modern operating
 systems.
-
-   <p>Installers are expected to override these values when calling
-<samp><span class="command">make</span></samp> (e.g., <kbd>make prefix=/usr install</kbd> or
-<samp><span class="command">configure</span></samp> (e.g., <kbd>configure --prefix=/usr</kbd>).  GNU
+</p>
+<p>Installers are expected to override these values when calling
+<code>make</code> (e.g., <kbd>make prefix=/usr install</kbd> or
+<code>configure</code> (e.g., <kbd>configure --prefix=/usr</kbd>).  GNU
 packages should not try to guess which value should be appropriate for
 these variables on the system they are being installed onto: use the
 default settings specified here so that all GNU packages behave
 identically, allowing the installer to achieve any desired layout.
-
-   <p><a name="index-directories_002c-creating-installation-151"></a><a name="index-installation-directories_002c-creating-152"></a>All installation directories, and their parent directories, should be
+</p>
+<a name="index-directories_002c-creating-installation"></a>
+<a name="index-installation-directories_002c-creating"></a>
+<p>All installation directories, and their parent directories, should be
 created (if necessary) before they are installed into.
-
-   <p>These first two variables set the root for the installation.  All the
+</p>
+<p>These first two variables set the root for the installation.  All the
 other installation directories should be subdirectories of one of
 these two, and nothing should be directly installed into these two
 directories.
-
-     <dl>
-<dt><code>prefix</code><dd><a name="index-prefix-153"></a>A prefix used in constructing the default values of the variables listed
-below.  The default value of <code>prefix</code> should be <samp><span class="file">/usr/local</span></samp>. 
+</p>
+<dl compact="compact">
+<dt><code>prefix</code></dt>
+<dd><a name="index-prefix"></a>
+<p>A prefix used in constructing the default values of the variables listed
+below.  The default value of <code>prefix</code> should be &lsquo;<tt>/usr/local</tt>&rsquo;.
 When building the complete GNU system, the prefix will be empty and
-<samp><span class="file">/usr</span></samp> will be a symbolic link to <samp><span class="file">/</span></samp>. 
-(If you are using Autoconf, write it as &lsquo;<samp><span class="samp">@prefix@</span></samp>&rsquo;.)
-
-     <p>Running &lsquo;<samp><span class="samp">make install</span></samp>&rsquo; with a different value of <code>prefix</code> from
+&lsquo;<tt>/usr</tt>&rsquo; will be a symbolic link to &lsquo;<tt>/</tt>&rsquo;.
+(If you are using Autoconf, write it as &lsquo;<samp>@prefix@</samp>&rsquo;.)
+</p>
+<p>Running &lsquo;<samp>make install</samp>&rsquo; with a different value of <code>prefix</code> from
 the one used to build the program should <em>not</em> recompile the
 program.
-
-     <br><dt><code>exec_prefix</code><dd><a name="index-exec_005fprefix-154"></a>A prefix used in constructing the default values of some of the
+</p>
+</dd>
+<dt><code>exec_prefix</code></dt>
+<dd><a name="index-exec_005fprefix"></a>
+<p>A prefix used in constructing the default values of some of the
 variables listed below.  The default value of <code>exec_prefix</code> should
-be <code>$(prefix)</code>. 
-(If you are using Autoconf, write it as &lsquo;<samp><span class="samp">@exec_prefix@</span></samp>&rsquo;.)
-
-     <p>Generally, <code>$(exec_prefix)</code> is used for directories that contain
+be <code>$(prefix)</code>.
+(If you are using Autoconf, write it as &lsquo;<samp>@exec_prefix@</samp>&rsquo;.)
+</p>
+<p>Generally, <code>$(exec_prefix)</code> is used for directories that contain
 machine-specific files (such as executables and subroutine libraries),
 while <code>$(prefix)</code> is used directly for other directories.
-
-     <p>Running &lsquo;<samp><span class="samp">make install</span></samp>&rsquo; with a different value of <code>exec_prefix</code>
+</p>
+<p>Running &lsquo;<samp>make install</samp>&rsquo; with a different value of <code>exec_prefix</code>
 from the one used to build the program should <em>not</em> recompile the
-program. 
+program.
+</p></dd>
 </dl>
 
-   <p>Executable programs are installed in one of the following directories.
-
-     <dl>
-<dt><code>bindir</code><dd><a name="index-bindir-155"></a>The directory for installing executable programs that users can run. 
-This should normally be <samp><span class="file">/usr/local/bin</span></samp>, but write it as
-<samp><span class="file">$(exec_prefix)/bin</span></samp>. 
-(If you are using Autoconf, write it as &lsquo;<samp><span class="samp">@bindir@</span></samp>&rsquo;.)
-
-     <br><dt><code>sbindir</code><dd><a name="index-sbindir-156"></a>The directory for installing executable programs that can be run from
+<p>Executable programs are installed in one of the following directories.
+</p>
+<dl compact="compact">
+<dt><code>bindir</code></dt>
+<dd><a name="index-bindir"></a>
+<p>The directory for installing executable programs that users can run.
+This should normally be &lsquo;<tt>/usr/local/bin</tt>&rsquo;, but write it as
+&lsquo;<tt>$(exec_prefix)/bin</tt>&rsquo;.
+(If you are using Autoconf, write it as &lsquo;<samp>@bindir@</samp>&rsquo;.)
+</p>
+</dd>
+<dt><code>sbindir</code></dt>
+<dd><a name="index-sbindir"></a>
+<p>The directory for installing executable programs that can be run from
 the shell, but are only generally useful to system administrators.  This
-should normally be <samp><span class="file">/usr/local/sbin</span></samp>, but write it as
-<samp><span class="file">$(exec_prefix)/sbin</span></samp>. 
-(If you are using Autoconf, write it as &lsquo;<samp><span class="samp">@sbindir@</span></samp>&rsquo;.)
-
-     <br><dt><code>libexecdir</code><dd><a name="index-libexecdir-157"></a><!-- This paragraph adjusted to avoid overfull hbox -roland 5jul94 -->
-The directory for installing executable programs to be run by other
+should normally be &lsquo;<tt>/usr/local/sbin</tt>&rsquo;, but write it as
+&lsquo;<tt>$(exec_prefix)/sbin</tt>&rsquo;.
+(If you are using Autoconf, write it as &lsquo;<samp>@sbindir@</samp>&rsquo;.)
+</p>
+</dd>
+<dt><code>libexecdir</code></dt>
+<dd><a name="index-libexecdir"></a>
+<p>The directory for installing executable programs to be run by other
 programs rather than by users.  This directory should normally be
-<samp><span class="file">/usr/local/libexec</span></samp>, but write it as <samp><span class="file">$(exec_prefix)/libexec</span></samp>. 
-(If you are using Autoconf, write it as &lsquo;<samp><span class="samp">@libexecdir@</span></samp>&rsquo;.)
-
-     <p>The definition of &lsquo;<samp><span class="samp">libexecdir</span></samp>&rsquo; is the same for all packages, so
+&lsquo;<tt>/usr/local/libexec</tt>&rsquo;, but write it as &lsquo;<tt>$(exec_prefix)/libexec</tt>&rsquo;.
+(If you are using Autoconf, write it as &lsquo;<samp>@libexecdir@</samp>&rsquo;.)
+</p>
+<p>The definition of &lsquo;<samp>libexecdir</samp>&rsquo; is the same for all packages, so
 you should install your data in a subdirectory thereof.  Most packages
-install their data under <samp><span class="file">$(libexecdir)/</span><var>package-name</var><span class="file">/</span></samp>,
+install their data under &lsquo;<tt>$(libexecdir)/<var>package-name</var>/</tt>&rsquo;,
 possibly within additional subdirectories thereof, such as
-<samp><span class="file">$(libexecdir)/</span><var>package-name</var><span class="file">/</span><var>machine</var><span class="file">/</span><var>version</var></samp>. 
+&lsquo;<tt>$(libexecdir)/<var>package-name</var>/<var>machine</var>/<var>version</var></tt>&rsquo;.
+</p></dd>
 </dl>
 
-   <p>Data files used by the program during its execution are divided into
+<p>Data files used by the program during its execution are divided into
 categories in two ways.
-
-     <ul>
-<li>Some files are normally modified by programs; others are never normally
+</p>
+<ul>
+<li> Some files are normally modified by programs; others are never normally
 modified (though users may edit some of these).
 
-     <li>Some files are architecture-independent and can be shared by all
+</li><li> Some files are architecture-independent and can be shared by all
 machines at a site; some are architecture-dependent and can be shared
 only by machines of the same kind and operating system; others may never
-be shared between two machines. 
-</ul>
+be shared between two machines.
+</li></ul>
 
-   <p>This makes for six different possibilities.  However, we want to
+<p>This makes for six different possibilities.  However, we want to
 discourage the use of architecture-dependent files, aside from object
 files and libraries.  It is much cleaner to make other data files
 architecture-independent, and it is generally not hard.
-
-   <p>Here are the variables Makefiles should use to specify directories
+</p>
+<p>Here are the variables Makefiles should use to specify directories
 to put these various kinds of files in:
-
-     <dl>
-<dt>&lsquo;<samp><span class="samp">datarootdir</span></samp>&rsquo;<dd>The root of the directory tree for read-only architecture-independent
-data files.  This should normally be <samp><span class="file">/usr/local/share</span></samp>, but
-write it as <samp><span class="file">$(prefix)/share</span></samp>.  (If you are using Autoconf, write
-it as &lsquo;<samp><span class="samp">@datarootdir@</span></samp>&rsquo;.)  &lsquo;<samp><span class="samp">datadir</span></samp>&rsquo;'s default value is
-based on this variable; so are &lsquo;<samp><span class="samp">infodir</span></samp>&rsquo;, &lsquo;<samp><span class="samp">mandir</span></samp>&rsquo;, and
+</p>
+<dl compact="compact">
+<dt>&lsquo;<samp>datarootdir</samp>&rsquo;</dt>
+<dd><p>The root of the directory tree for read-only architecture-independent
+data files.  This should normally be &lsquo;<tt>/usr/local/share</tt>&rsquo;, but
+write it as &lsquo;<tt>$(prefix)/share</tt>&rsquo;.  (If you are using Autoconf, write
+it as &lsquo;<samp>@datarootdir@</samp>&rsquo;.)  &lsquo;<samp>datadir</samp>&rsquo;&rsquo;s default value is
+based on this variable; so are &lsquo;<samp>infodir</samp>&rsquo;, &lsquo;<samp>mandir</samp>&rsquo;, and
 others.
-
-     <br><dt>&lsquo;<samp><span class="samp">datadir</span></samp>&rsquo;<dd>The directory for installing idiosyncratic read-only
+</p>
+</dd>
+<dt>&lsquo;<samp>datadir</samp>&rsquo;</dt>
+<dd><p>The directory for installing idiosyncratic read-only
 architecture-independent data files for this program.  This is usually
-the same place as &lsquo;<samp><span class="samp">datarootdir</span></samp>&rsquo;, but we use the two separate
+the same place as &lsquo;<samp>datarootdir</samp>&rsquo;, but we use the two separate
 variables so that you can move these program-specific files without
 altering the location for Info files, man pages, etc.
-
-     <!-- raggedright  (not until next Texinfo release) -->
-     <p>This should normally be <samp><span class="file">/usr/local/share</span></samp>, but write it as
-<samp><span class="file">$(datarootdir)</span></samp>.  (If you are using Autoconf, write it as
-&lsquo;<samp><span class="samp">@datadir@</span></samp>&rsquo;.) 
-<!-- end raggedright -->
-
-     <p>The definition of &lsquo;<samp><span class="samp">datadir</span></samp>&rsquo; is the same for all packages, so you
+</p>
+<p>This should normally be &lsquo;<tt>/usr/local/share</tt>&rsquo;, but write it as
+&lsquo;<tt>$(datarootdir)</tt>&rsquo;.  (If you are using Autoconf, write it as
+&lsquo;<samp>@datadir@</samp>&rsquo;.)
+</p>
+<p>The definition of &lsquo;<samp>datadir</samp>&rsquo; is the same for all packages, so you
 should install your data in a subdirectory thereof.  Most packages
-install their data under <samp><span class="file">$(datadir)/</span><var>package-name</var><span class="file">/</span></samp>.
-
-     <br><dt>&lsquo;<samp><span class="samp">sysconfdir</span></samp>&rsquo;<dd>The directory for installing read-only data files that pertain to a
+install their data under &lsquo;<tt>$(datadir)/<var>package-name</var>/</tt>&rsquo;.
+</p>
+</dd>
+<dt>&lsquo;<samp>sysconfdir</samp>&rsquo;</dt>
+<dd><p>The directory for installing read-only data files that pertain to a
 single machine&ndash;that is to say, files for configuring a host.  Mailer
-and network configuration files, <samp><span class="file">/etc/passwd</span></samp>, and so forth belong
+and network configuration files, &lsquo;<tt>/etc/passwd</tt>&rsquo;, and so forth belong
 here.  All the files in this directory should be ordinary ASCII text
-files.  This directory should normally be <samp><span class="file">/usr/local/etc</span></samp>, but
-write it as <samp><span class="file">$(prefix)/etc</span></samp>. 
-(If you are using Autoconf, write it as &lsquo;<samp><span class="samp">@sysconfdir@</span></samp>&rsquo;.)
-
-     <p>Do not install executables here in this directory (they probably belong
-in <samp><span class="file">$(libexecdir)</span></samp> or <samp><span class="file">$(sbindir)</span></samp>).  Also do not install
+files.  This directory should normally be &lsquo;<tt>/usr/local/etc</tt>&rsquo;, but
+write it as &lsquo;<tt>$(prefix)/etc</tt>&rsquo;.
+(If you are using Autoconf, write it as &lsquo;<samp>@sysconfdir@</samp>&rsquo;.)
+</p>
+<p>Do not install executables here in this directory (they probably belong
+in &lsquo;<tt>$(libexecdir)</tt>&rsquo; or &lsquo;<tt>$(sbindir)</tt>&rsquo;).  Also do not install
 files that are modified in the normal course of their use (programs
-whose purpose is to change the configuration of the system excluded). 
-Those probably belong in <samp><span class="file">$(localstatedir)</span></samp>.
-
-     <br><dt>&lsquo;<samp><span class="samp">sharedstatedir</span></samp>&rsquo;<dd>The directory for installing architecture-independent data files which
+whose purpose is to change the configuration of the system excluded).
+Those probably belong in &lsquo;<tt>$(localstatedir)</tt>&rsquo;.
+</p>
+</dd>
+<dt>&lsquo;<samp>sharedstatedir</samp>&rsquo;</dt>
+<dd><p>The directory for installing architecture-independent data files which
 the programs modify while they run.  This should normally be
-<samp><span class="file">/usr/local/com</span></samp>, but write it as <samp><span class="file">$(prefix)/com</span></samp>. 
-(If you are using Autoconf, write it as &lsquo;<samp><span class="samp">@sharedstatedir@</span></samp>&rsquo;.)
-
-     <br><dt>&lsquo;<samp><span class="samp">localstatedir</span></samp>&rsquo;<dd>The directory for installing data files which the programs modify while
+&lsquo;<tt>/usr/local/com</tt>&rsquo;, but write it as &lsquo;<tt>$(prefix)/com</tt>&rsquo;.
+(If you are using Autoconf, write it as &lsquo;<samp>@sharedstatedir@</samp>&rsquo;.)
+</p>
+</dd>
+<dt>&lsquo;<samp>localstatedir</samp>&rsquo;</dt>
+<dd><p>The directory for installing data files which the programs modify while
 they run, and that pertain to one specific machine.  Users should never
-need to modify files in this directory to configure the package's
+need to modify files in this directory to configure the package&rsquo;s
 operation; put such configuration information in separate files that go
-in <samp><span class="file">$(datadir)</span></samp> or <samp><span class="file">$(sysconfdir)</span></samp>.  <samp><span class="file">$(localstatedir)</span></samp>
-should normally be <samp><span class="file">/usr/local/var</span></samp>, but write it as
-<samp><span class="file">$(prefix)/var</span></samp>. 
-(If you are using Autoconf, write it as &lsquo;<samp><span class="samp">@localstatedir@</span></samp>&rsquo;.) 
+in &lsquo;<tt>$(datadir)</tt>&rsquo; or &lsquo;<tt>$(sysconfdir)</tt>&rsquo;.  &lsquo;<tt>$(localstatedir)</tt>&rsquo;
+should normally be &lsquo;<tt>/usr/local/var</tt>&rsquo;, but write it as
+&lsquo;<tt>$(prefix)/var</tt>&rsquo;.
+(If you are using Autoconf, write it as &lsquo;<samp>@localstatedir@</samp>&rsquo;.)
+</p></dd>
 </dl>
 
-   <p>These variables specify the directory for installing certain specific
+<p>These variables specify the directory for installing certain specific
 types of files, if your program has them.  Every GNU package should
-have Info files, so every program needs &lsquo;<samp><span class="samp">infodir</span></samp>&rsquo;, but not all
-need &lsquo;<samp><span class="samp">libdir</span></samp>&rsquo; or &lsquo;<samp><span class="samp">lispdir</span></samp>&rsquo;.
-
-     <dl>
-<dt>&lsquo;<samp><span class="samp">includedir</span></samp>&rsquo;<dd>The directory for installing header files to be included by user
-programs with the C &lsquo;<samp><span class="samp">#include</span></samp>&rsquo; preprocessor directive.  This
-should normally be <samp><span class="file">/usr/local/include</span></samp>, but write it as
-<samp><span class="file">$(prefix)/include</span></samp>. 
-(If you are using Autoconf, write it as &lsquo;<samp><span class="samp">@includedir@</span></samp>&rsquo;.)
-
-     <p>Most compilers other than GCC do not look for header files in directory
-<samp><span class="file">/usr/local/include</span></samp>.  So installing the header files this way is
+have Info files, so every program needs &lsquo;<samp>infodir</samp>&rsquo;, but not all
+need &lsquo;<samp>libdir</samp>&rsquo; or &lsquo;<samp>lispdir</samp>&rsquo;.
+</p>
+<dl compact="compact">
+<dt>&lsquo;<samp>includedir</samp>&rsquo;</dt>
+<dd><p>The directory for installing header files to be included by user
+programs with the C &lsquo;<samp>#include</samp>&rsquo; preprocessor directive.  This
+should normally be &lsquo;<tt>/usr/local/include</tt>&rsquo;, but write it as
+&lsquo;<tt>$(prefix)/include</tt>&rsquo;.
+(If you are using Autoconf, write it as &lsquo;<samp>@includedir@</samp>&rsquo;.)
+</p>
+<p>Most compilers other than GCC do not look for header files in directory
+&lsquo;<tt>/usr/local/include</tt>&rsquo;.  So installing the header files this way is
 only useful with GCC.  Sometimes this is not a problem because some
 libraries are only really intended to work with GCC.  But some libraries
 are intended to work with other compilers.  They should install their
 header files in two places, one specified by <code>includedir</code> and one
 specified by <code>oldincludedir</code>.
-
-     <br><dt>&lsquo;<samp><span class="samp">oldincludedir</span></samp>&rsquo;<dd>The directory for installing &lsquo;<samp><span class="samp">#include</span></samp>&rsquo; header files for use with
-compilers other than GCC.  This should normally be <samp><span class="file">/usr/include</span></samp>. 
-(If you are using Autoconf, you can write it as &lsquo;<samp><span class="samp">@oldincludedir@</span></samp>&rsquo;.)
-
-     <p>The Makefile commands should check whether the value of
+</p>
+</dd>
+<dt>&lsquo;<samp>oldincludedir</samp>&rsquo;</dt>
+<dd><p>The directory for installing &lsquo;<samp>#include</samp>&rsquo; header files for use with
+compilers other than GCC.  This should normally be &lsquo;<tt>/usr/include</tt>&rsquo;.
+(If you are using Autoconf, you can write it as &lsquo;<samp>@oldincludedir@</samp>&rsquo;.)
+</p>
+<p>The Makefile commands should check whether the value of
 <code>oldincludedir</code> is empty.  If it is, they should not try to use
 it; they should cancel the second installation of the header files.
-
-     <p>A package should not replace an existing header in this directory unless
+</p>
+<p>A package should not replace an existing header in this directory unless
 the header came from the same package.  Thus, if your Foo package
-provides a header file <samp><span class="file">foo.h</span></samp>, then it should install the header
+provides a header file &lsquo;<tt>foo.h</tt>&rsquo;, then it should install the header
 file in the <code>oldincludedir</code> directory if either (1) there is no
-<samp><span class="file">foo.h</span></samp> there or (2) the <samp><span class="file">foo.h</span></samp> that exists came from the Foo
+&lsquo;<tt>foo.h</tt>&rsquo; there or (2) the &lsquo;<tt>foo.h</tt>&rsquo; that exists came from the Foo
 package.
-
-     <p>To tell whether <samp><span class="file">foo.h</span></samp> came from the Foo package, put a magic
+</p>
+<p>To tell whether &lsquo;<tt>foo.h</tt>&rsquo; came from the Foo package, put a magic
 string in the file&mdash;part of a comment&mdash;and <code>grep</code> for that string.
-
-     <br><dt>&lsquo;<samp><span class="samp">docdir</span></samp>&rsquo;<dd>The directory for installing documentation files (other than Info) for
+</p>
+</dd>
+<dt>&lsquo;<samp>docdir</samp>&rsquo;</dt>
+<dd><p>The directory for installing documentation files (other than Info) for
 this package.  By default, it should be
-<samp><span class="file">/usr/local/share/doc/</span><var>yourpkg</var></samp>, but it should be written as
-<samp><span class="file">$(datarootdir)/doc/</span><var>yourpkg</var></samp>.  (If you are using Autoconf,
-write it as &lsquo;<samp><span class="samp">@docdir@</span></samp>&rsquo;.)  The <var>yourpkg</var> subdirectory, which
+&lsquo;<tt>/usr/local/share/doc/<var>yourpkg</var></tt>&rsquo;, but it should be written as
+&lsquo;<tt>$(datarootdir)/doc/<var>yourpkg</var></tt>&rsquo;.  (If you are using Autoconf,
+write it as &lsquo;<samp>@docdir@</samp>&rsquo;.)  The <var>yourpkg</var> subdirectory, which
 may include a version number, prevents collisions among files with
-common names, such as <samp><span class="file">README</span></samp>.
-
-     <br><dt>&lsquo;<samp><span class="samp">infodir</span></samp>&rsquo;<dd>The directory for installing the Info files for this package.  By
-default, it should be <samp><span class="file">/usr/local/share/info</span></samp>, but it should be
-written as <samp><span class="file">$(datarootdir)/info</span></samp>.  (If you are using Autoconf,
-write it as &lsquo;<samp><span class="samp">@infodir@</span></samp>&rsquo;.)  <code>infodir</code> is separate from
+common names, such as &lsquo;<tt>README</tt>&rsquo;.
+</p>
+</dd>
+<dt>&lsquo;<samp>infodir</samp>&rsquo;</dt>
+<dd><p>The directory for installing the Info files for this package.  By
+default, it should be &lsquo;<tt>/usr/local/share/info</tt>&rsquo;, but it should be
+written as &lsquo;<tt>$(datarootdir)/info</tt>&rsquo;.  (If you are using Autoconf,
+write it as &lsquo;<samp>@infodir@</samp>&rsquo;.)  <code>infodir</code> is separate from
 <code>docdir</code> for compatibility with existing practice.
-
-     <br><dt>&lsquo;<samp><span class="samp">htmldir</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">dvidir</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">pdfdir</span></samp>&rsquo;<dt>&lsquo;<samp><span class="samp">psdir</span></samp>&rsquo;<dd>Directories for installing documentation files in the particular
+</p>
+</dd>
+<dt>&lsquo;<samp>htmldir</samp>&rsquo;</dt>
+<dt>&lsquo;<samp>dvidir</samp>&rsquo;</dt>
+<dt>&lsquo;<samp>pdfdir</samp>&rsquo;</dt>
+<dt>&lsquo;<samp>psdir</samp>&rsquo;</dt>
+<dd><p>Directories for installing documentation files in the particular
 format.  They should all be set to <code>$(docdir)</code> by default.  (If
-you are using Autoconf, write them as &lsquo;<samp><span class="samp">@htmldir@</span></samp>&rsquo;,
-&lsquo;<samp><span class="samp">@dvidir@</span></samp>&rsquo;, etc.)  Packages which supply several translations
+you are using Autoconf, write them as &lsquo;<samp>@htmldir@</samp>&rsquo;,
+&lsquo;<samp>@dvidir@</samp>&rsquo;, etc.)  Packages which supply several translations
 of their documentation should install them in
-&lsquo;<samp><span class="samp">$(htmldir)/</span></samp>&rsquo;<var>ll</var>, &lsquo;<samp><span class="samp">$(pdfdir)/</span></samp>&rsquo;<var>ll</var>, etc. where
-<var>ll</var> is a locale abbreviation such as &lsquo;<samp><span class="samp">en</span></samp>&rsquo; or &lsquo;<samp><span class="samp">pt_BR</span></samp>&rsquo;.
-
-     <br><dt>&lsquo;<samp><span class="samp">libdir</span></samp>&rsquo;<dd>The directory for object files and libraries of object code.  Do not
-install executables here, they probably ought to go in <samp><span class="file">$(libexecdir)</span></samp>
+&lsquo;<samp>$(htmldir)/</samp>&rsquo;<var>ll</var>, &lsquo;<samp>$(pdfdir)/</samp>&rsquo;<var>ll</var>, etc. where
+<var>ll</var> is a locale abbreviation such as &lsquo;<samp>en</samp>&rsquo; or &lsquo;<samp>pt_BR</samp>&rsquo;.
+</p>
+</dd>
+<dt>&lsquo;<samp>libdir</samp>&rsquo;</dt>
+<dd><p>The directory for object files and libraries of object code.  Do not
+install executables here, they probably ought to go in &lsquo;<tt>$(libexecdir)</tt>&rsquo;
 instead.  The value of <code>libdir</code> should normally be
-<samp><span class="file">/usr/local/lib</span></samp>, but write it as <samp><span class="file">$(exec_prefix)/lib</span></samp>. 
-(If you are using Autoconf, write it as &lsquo;<samp><span class="samp">@libdir@</span></samp>&rsquo;.)
+&lsquo;<tt>/usr/local/lib</tt>&rsquo;, but write it as &lsquo;<tt>$(exec_prefix)/lib</tt>&rsquo;.
+(If you are using Autoconf, write it as &lsquo;<samp>@libdir@</samp>&rsquo;.)
+</p>
+</dd>
+<dt>&lsquo;<samp>lispdir</samp>&rsquo;</dt>
+<dd><p>The directory for installing any Emacs Lisp files in this package.  By
+default, it should be &lsquo;<tt>/usr/local/share/emacs/site-lisp</tt>&rsquo;, but it
+should be written as &lsquo;<tt>$(datarootdir)/emacs/site-lisp</tt>&rsquo;.
+</p>
+<p>If you are using Autoconf, write the default as &lsquo;<samp>@lispdir@</samp>&rsquo;.
+In order to make &lsquo;<samp>@lispdir@</samp>&rsquo; work, you need the following lines
+in your &lsquo;<tt>configure.in</tt>&rsquo; file:
+</p>
+<div class="example">
+<pre class="example">lispdir='${datarootdir}/emacs/site-lisp'
+AC_SUBST(lispdir)
+</pre></div>
 
-     <br><dt>&lsquo;<samp><span class="samp">lispdir</span></samp>&rsquo;<dd>The directory for installing any Emacs Lisp files in this package.  By
-default, it should be <samp><span class="file">/usr/local/share/emacs/site-lisp</span></samp>, but it
-should be written as <samp><span class="file">$(datarootdir)/emacs/site-lisp</span></samp>.
-
-     <p>If you are using Autoconf, write the default as &lsquo;<samp><span class="samp">@lispdir@</span></samp>&rsquo;. 
-In order to make &lsquo;<samp><span class="samp">@lispdir@</span></samp>&rsquo; work, you need the following lines
-in your <samp><span class="file">configure.in</span></samp> file:
-
-     <pre class="example">          lispdir='${datarootdir}/emacs/site-lisp'
-          AC_SUBST(lispdir)
-</pre>
-     <br><dt>&lsquo;<samp><span class="samp">localedir</span></samp>&rsquo;<dd>The directory for installing locale-specific message catalogs for this
-package.  By default, it should be <samp><span class="file">/usr/local/share/locale</span></samp>, but
-it should be written as <samp><span class="file">$(datarootdir)/locale</span></samp>.  (If you are
-using Autoconf, write it as &lsquo;<samp><span class="samp">@localedir@</span></samp>&rsquo;.)  This directory
-usually has a subdirectory per locale. 
+</dd>
+<dt>&lsquo;<samp>localedir</samp>&rsquo;</dt>
+<dd><p>The directory for installing locale-specific message catalogs for this
+package.  By default, it should be &lsquo;<tt>/usr/local/share/locale</tt>&rsquo;, but
+it should be written as &lsquo;<tt>$(datarootdir)/locale</tt>&rsquo;.  (If you are
+using Autoconf, write it as &lsquo;<samp>@localedir@</samp>&rsquo;.)  This directory
+usually has a subdirectory per locale.
+</p></dd>
 </dl>
 
-   <p>Unix-style man pages are installed in one of the following:
-
-     <dl>
-<dt>&lsquo;<samp><span class="samp">mandir</span></samp>&rsquo;<dd>The top-level directory for installing the man pages (if any) for this
-package.  It will normally be <samp><span class="file">/usr/local/share/man</span></samp>, but you
-should write it as <samp><span class="file">$(datarootdir)/man</span></samp>.  (If you are using
-Autoconf, write it as &lsquo;<samp><span class="samp">@mandir@</span></samp>&rsquo;.)
-
-     <br><dt>&lsquo;<samp><span class="samp">man1dir</span></samp>&rsquo;<dd>The directory for installing section 1 man pages.  Write it as
-<samp><span class="file">$(mandir)/man1</span></samp>. 
-<br><dt>&lsquo;<samp><span class="samp">man2dir</span></samp>&rsquo;<dd>The directory for installing section 2 man pages.  Write it as
-<samp><span class="file">$(mandir)/man2</span></samp>
-<br><dt>&lsquo;<samp><span class="samp">...</span></samp>&rsquo;<dd>
-<strong>Don't make the primary documentation for any GNU software be a
+<p>Unix-style man pages are installed in one of the following:
+</p>
+<dl compact="compact">
+<dt>&lsquo;<samp>mandir</samp>&rsquo;</dt>
+<dd><p>The top-level directory for installing the man pages (if any) for this
+package.  It will normally be &lsquo;<tt>/usr/local/share/man</tt>&rsquo;, but you
+should write it as &lsquo;<tt>$(datarootdir)/man</tt>&rsquo;.  (If you are using
+Autoconf, write it as &lsquo;<samp>@mandir@</samp>&rsquo;.)
+</p>
+</dd>
+<dt>&lsquo;<samp>man1dir</samp>&rsquo;</dt>
+<dd><p>The directory for installing section 1 man pages.  Write it as
+&lsquo;<tt>$(mandir)/man1</tt>&rsquo;.
+</p></dd>
+<dt>&lsquo;<samp>man2dir</samp>&rsquo;</dt>
+<dd><p>The directory for installing section 2 man pages.  Write it as
+&lsquo;<tt>$(mandir)/man2</tt>&rsquo;
+</p></dd>
+<dt>&lsquo;<samp>&hellip;</samp>&rsquo;</dt>
+<dd>
+<p><strong>Don&rsquo;t make the primary documentation for any GNU software be a
 man page.  Write a manual in Texinfo instead.  Man pages are just for
 the sake of people running GNU software on Unix, which is a secondary
 application only.</strong>
-
-     <br><dt>&lsquo;<samp><span class="samp">manext</span></samp>&rsquo;<dd>The file name extension for the installed man page.  This should contain
-a period followed by the appropriate digit; it should normally be &lsquo;<samp><span class="samp">.1</span></samp>&rsquo;.
-
-     <br><dt>&lsquo;<samp><span class="samp">man1ext</span></samp>&rsquo;<dd>The file name extension for installed section 1 man pages. 
-<br><dt>&lsquo;<samp><span class="samp">man2ext</span></samp>&rsquo;<dd>The file name extension for installed section 2 man pages. 
-<br><dt>&lsquo;<samp><span class="samp">...</span></samp>&rsquo;<dd>Use these names instead of &lsquo;<samp><span class="samp">manext</span></samp>&rsquo; if the package needs to install man
-pages in more than one section of the manual. 
+</p>
+</dd>
+<dt>&lsquo;<samp>manext</samp>&rsquo;</dt>
+<dd><p>The file name extension for the installed man page.  This should contain
+a period followed by the appropriate digit; it should normally be &lsquo;<samp>.1</samp>&rsquo;.
+</p>
+</dd>
+<dt>&lsquo;<samp>man1ext</samp>&rsquo;</dt>
+<dd><p>The file name extension for installed section 1 man pages.
+</p></dd>
+<dt>&lsquo;<samp>man2ext</samp>&rsquo;</dt>
+<dd><p>The file name extension for installed section 2 man pages.
+</p></dd>
+<dt>&lsquo;<samp>&hellip;</samp>&rsquo;</dt>
+<dd><p>Use these names instead of &lsquo;<samp>manext</samp>&rsquo; if the package needs to install man
+pages in more than one section of the manual.
+</p></dd>
 </dl>
 
-   <p>And finally, you should set the following variable:
-
-     <dl>
-<dt>&lsquo;<samp><span class="samp">srcdir</span></samp>&rsquo;<dd>The directory for the sources being compiled.  The value of this
-variable is normally inserted by the <code>configure</code> shell script. 
-(If you are using Autoconf, use &lsquo;<samp><span class="samp">srcdir = @srcdir@</span></samp>&rsquo;.) 
+<p>And finally, you should set the following variable:
+</p>
+<dl compact="compact">
+<dt>&lsquo;<samp>srcdir</samp>&rsquo;</dt>
+<dd><p>The directory for the sources being compiled.  The value of this
+variable is normally inserted by the <code>configure</code> shell script.
+(If you are using Autoconf, use &lsquo;<samp>srcdir = @srcdir@</samp>&rsquo;.)
+</p></dd>
 </dl>
 
-   <p>For example:
+<p>For example:
+</p>
+<div class="smallexample">
+<pre class="smallexample"># Common prefix for installation directories.
+# NOTE: This directory must exist when you start the install.
+prefix = /usr/local
+datarootdir = $(prefix)/share
+datadir = $(datarootdir)
+exec_prefix = $(prefix)
+# Where to put the executable for the command `gcc'.
+bindir = $(exec_prefix)/bin
+# Where to put the directories used by the compiler.
+libexecdir = $(exec_prefix)/libexec
+# Where to put the Info files.
+infodir = $(datarootdir)/info
+</pre></div>
 
-<pre class="smallexample">     <!-- I have changed some of the comments here slightly to fix an overfull -->
-     <!-- hbox, so the make manual can format correctly. -roland -->
-     # Common prefix for installation directories.
-     # NOTE: This directory must exist when you start the install.
-     prefix = /usr/local
-     datarootdir = $(prefix)/share
-     datadir = $(datarootdir)
-     exec_prefix = $(prefix)
-     # Where to put the executable for the command `gcc'.
-     bindir = $(exec_prefix)/bin
-     # Where to put the directories used by the compiler.
-     libexecdir = $(exec_prefix)/libexec
-     # Where to put the Info files.
-     infodir = $(datarootdir)/info
-</pre>
-   <p>If your program installs a large number of files into one of the
+<p>If your program installs a large number of files into one of the
 standard user-specified directories, it might be useful to group them
 into a subdirectory particular to that program.  If you do this, you
 should write the <code>install</code> rule to create these subdirectories.
-
-   <p>Do not expect the user to include the subdirectory name in the value of
+</p>
+<p>Do not expect the user to include the subdirectory name in the value of
 any of the variables listed above.  The idea of having a uniform set of
 variable names for installation directories is to enable the user to
 specify the exact same values for several different GNU packages.  In
 order for this to be useful, all the packages must be designed so that
 they will work sensibly when the user does so.
-
-   <p>At times, not all of these variables may be implemented in the current
+</p>
+<p>At times, not all of these variables may be implemented in the current
 release of Autoconf and/or Automake; but as of Autoconf&nbsp;2.60, we
 believe all of them are.  When any are missing, the descriptions here
 serve as specifications for what Autoconf will implement.  As a
 programmer, you can either use a development version of Autoconf or
 avoid using these variables until a stable release is made which
 supports them.
+</p>
 
-   </body></html>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Standard-Targets.html#Standard-Targets" accesskey="n" rel="next">Standard Targets</a>, Previous: <a href="DESTDIR.html#DESTDIR" accesskey="p" rel="previous">DESTDIR</a>, Up: <a href="Makefile-Conventions.html#Makefile-Conventions" accesskey="u" rel="up">Makefile Conventions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
 
+
+
+</body>
+</html>

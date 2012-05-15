@@ -1,16 +1,6 @@
-<html lang="en">
-<head>
-<title>DESTDIR - GNU Coding Standards</title>
-<meta http-equiv="Content-Type" content="text/html">
-<meta name="description" content="GNU Coding Standards">
-<meta name="generator" content="makeinfo 4.13">
-<link title="Top" rel="start" href="index.html#Top">
-<link rel="up" href="Makefile-Conventions.html#Makefile-Conventions" title="Makefile Conventions">
-<link rel="prev" href="Command-Variables.html#Command-Variables" title="Command Variables">
-<link rel="next" href="Directory-Variables.html#Directory-Variables" title="Directory Variables">
-<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
-<!--
-The GNU coding standards, last updated April 7, 2012.
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated April 7, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -21,76 +11,122 @@ under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
-``GNU Free Documentation License''.-->
-<meta http-equiv="Content-Style-Type" content="text/css">
-<style type="text/css"><!--
-  pre.display { font-family:inherit }
-  pre.format  { font-family:inherit }
-  pre.smalldisplay { font-family:inherit; font-size:smaller }
-  pre.smallformat  { font-family:inherit; font-size:smaller }
-  pre.smallexample { font-size:smaller }
-  pre.smalllisp    { font-size:smaller }
-  span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
---></style>
-</head>
-<body>
-<div class="node">
-<a name="DESTDIR"></a>
-<p>
-Next:&nbsp;<a rel="next" accesskey="n" href="Directory-Variables.html#Directory-Variables">Directory Variables</a>,
-Previous:&nbsp;<a rel="previous" accesskey="p" href="Command-Variables.html#Command-Variables">Command Variables</a>,
-Up:&nbsp;<a rel="up" accesskey="u" href="Makefile-Conventions.html#Makefile-Conventions">Makefile Conventions</a>
-<hr>
-</div>
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 4.13.90+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: DESTDIR</title>
 
+<meta name="description" content="GNU Coding Standards: DESTDIR">
+<meta name="keywords" content="GNU Coding Standards: DESTDIR">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Makefile-Conventions.html#Makefile-Conventions" rel="up" title="Makefile Conventions">
+<link href="Directory-Variables.html#Directory-Variables" rel="next" title="Directory Variables">
+<link href="Command-Variables.html#Command-Variables" rel="previous" title="Command Variables">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="DESTDIR"></a>
+<div class="header">
+<p>
+Next: <a href="Directory-Variables.html#Directory-Variables" accesskey="n" rel="next">Directory Variables</a>, Previous: <a href="Command-Variables.html#Command-Variables" accesskey="p" rel="previous">Command Variables</a>, Up: <a href="Makefile-Conventions.html#Makefile-Conventions" accesskey="u" rel="up">Makefile Conventions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="DESTDIR_003a-Support-for-Staged-Installs"></a>
 <h4 class="subsection">7.2.4 <code>DESTDIR</code>: Support for Staged Installs</h4>
 
-<p><a name="index-DESTDIR-148"></a><a name="index-staged-installs-149"></a><a name="index-installations_002c-staged-150"></a>
-<code>DESTDIR</code> is a variable prepended to each installed target file,
+<a name="index-DESTDIR"></a>
+<a name="index-staged-installs"></a>
+<a name="index-installations_002c-staged"></a>
+
+<p><code>DESTDIR</code> is a variable prepended to each installed target file,
 like this:
+</p>
+<div class="example">
+<pre class="example">$(INSTALL_PROGRAM) foo $(DESTDIR)$(bindir)/foo
+$(INSTALL_DATA) libfoo.a $(DESTDIR)$(libdir)/libfoo.a
+</pre></div>
 
-<pre class="example">     $(INSTALL_PROGRAM) foo $(DESTDIR)$(bindir)/foo
-     $(INSTALL_DATA) libfoo.a $(DESTDIR)$(libdir)/libfoo.a
-</pre>
-   <p>The <code>DESTDIR</code> variable is specified by the user on the <code>make</code>
+<p>The <code>DESTDIR</code> variable is specified by the user on the <code>make</code>
 command line as an absolute file name.  For example:
+</p>
+<div class="example">
+<pre class="example">make DESTDIR=/tmp/stage install
+</pre></div>
 
-<pre class="example">     make DESTDIR=/tmp/stage install
-</pre>
-   <p class="noindent"><code>DESTDIR</code> should be supported only in the <code>install*</code> and
+<p><code>DESTDIR</code> should be supported only in the <code>install*</code> and
 <code>uninstall*</code> targets, as those are the only targets where it is
 useful.
-
-   <p>If your installation step would normally install
-<samp><span class="file">/usr/local/bin/foo</span></samp> and <samp><span class="file">/usr/local/lib/libfoo.a</span></samp>, then an
+</p>
+<p>If your installation step would normally install
+&lsquo;<tt>/usr/local/bin/foo</tt>&rsquo; and &lsquo;<tt>/usr/local/lib/libfoo.a</tt>&rsquo;, then an
 installation invoked as in the example above would install
-<samp><span class="file">/tmp/stage/usr/local/bin/foo</span></samp> and
-<samp><span class="file">/tmp/stage/usr/local/lib/libfoo.a</span></samp> instead.
-
-   <p>Prepending the variable <code>DESTDIR</code> to each target in this way
-provides for <dfn>staged installs</dfn>, where the installed files are not
+&lsquo;<tt>/tmp/stage/usr/local/bin/foo</tt>&rsquo; and
+&lsquo;<tt>/tmp/stage/usr/local/lib/libfoo.a</tt>&rsquo; instead.
+</p>
+<p>Prepending the variable <code>DESTDIR</code> to each target in this way
+provides for <em>staged installs</em>, where the installed files are not
 placed directly into their expected location but are instead copied
 into a temporary location (<code>DESTDIR</code>).  However, installed files
 maintain their relative directory structure and any embedded file names
 will not be modified.
-
-   <p>You should not set the value of <code>DESTDIR</code> in your <samp><span class="file">Makefile</span></samp>
+</p>
+<p>You should not set the value of <code>DESTDIR</code> in your &lsquo;<tt>Makefile</tt>&rsquo;
 at all; then the files are installed into their expected locations by
 default.  Also, specifying <code>DESTDIR</code> should not change the
 operation of the software in any way, so its value should not be
 included in any file contents.
-
-   <p><code>DESTDIR</code> support is commonly used in package creation.  It is
+</p>
+<p><code>DESTDIR</code> support is commonly used in package creation.  It is
 also helpful to users who want to understand what a given package will
-install where, and to allow users who don't normally have permissions
+install where, and to allow users who don&rsquo;t normally have permissions
 to install into protected areas to build and install before gaining
 those permissions.  Finally, it can be useful with tools such as
 <code>stow</code>, where code is installed in one place but made to appear
 to be installed somewhere else using symbolic links or special mount
 operations.  So, we strongly recommend GNU packages support
 <code>DESTDIR</code>, though it is not an absolute requirement.
+</p>
 
-   </body></html>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Directory-Variables.html#Directory-Variables" accesskey="n" rel="next">Directory Variables</a>, Previous: <a href="Command-Variables.html#Command-Variables" accesskey="p" rel="previous">Command Variables</a>, Up: <a href="Makefile-Conventions.html#Makefile-Conventions" accesskey="u" rel="up">Makefile Conventions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
 
+
+
+</body>
+</html>

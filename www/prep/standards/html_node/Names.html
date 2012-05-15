@@ -1,16 +1,6 @@
-<html lang="en">
-<head>
-<title>Names - GNU Coding Standards</title>
-<meta http-equiv="Content-Type" content="text/html">
-<meta name="description" content="GNU Coding Standards">
-<meta name="generator" content="makeinfo 4.13">
-<link title="Top" rel="start" href="index.html#Top">
-<link rel="up" href="Writing-C.html#Writing-C" title="Writing C">
-<link rel="prev" href="Syntactic-Conventions.html#Syntactic-Conventions" title="Syntactic Conventions">
-<link rel="next" href="System-Portability.html#System-Portability" title="System Portability">
-<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
-<!--
-The GNU coding standards, last updated April 7, 2012.
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated April 7, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -21,75 +11,119 @@ under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
-``GNU Free Documentation License''.-->
-<meta http-equiv="Content-Style-Type" content="text/css">
-<style type="text/css"><!--
-  pre.display { font-family:inherit }
-  pre.format  { font-family:inherit }
-  pre.smalldisplay { font-family:inherit; font-size:smaller }
-  pre.smallformat  { font-family:inherit; font-size:smaller }
-  pre.smallexample { font-size:smaller }
-  pre.smalllisp    { font-size:smaller }
-  span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
---></style>
-</head>
-<body>
-<div class="node">
-<a name="Names"></a>
-<p>
-Next:&nbsp;<a rel="next" accesskey="n" href="System-Portability.html#System-Portability">System Portability</a>,
-Previous:&nbsp;<a rel="previous" accesskey="p" href="Syntactic-Conventions.html#Syntactic-Conventions">Syntactic Conventions</a>,
-Up:&nbsp;<a rel="up" accesskey="u" href="Writing-C.html#Writing-C">Writing C</a>
-<hr>
-</div>
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 4.13.90+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: Names</title>
 
+<meta name="description" content="GNU Coding Standards: Names">
+<meta name="keywords" content="GNU Coding Standards: Names">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Writing-C.html#Writing-C" rel="up" title="Writing C">
+<link href="System-Portability.html#System-Portability" rel="next" title="System Portability">
+<link href="Syntactic-Conventions.html#Syntactic-Conventions" rel="previous" title="Syntactic Conventions">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="Names"></a>
+<div class="header">
+<p>
+Next: <a href="System-Portability.html#System-Portability" accesskey="n" rel="next">System Portability</a>, Previous: <a href="Syntactic-Conventions.html#Syntactic-Conventions" accesskey="p" rel="previous">Syntactic Conventions</a>, Up: <a href="Writing-C.html#Writing-C" accesskey="u" rel="up">Writing C</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Naming-Variables_002c-Functions_002c-and-Files"></a>
 <h3 class="section">5.4 Naming Variables, Functions, and Files</h3>
 
-<p><a name="index-names-of-variables_002c-functions_002c-and-files-98"></a>The names of global variables and functions in a program serve as
-comments of a sort.  So don't choose terse names&mdash;instead, look for
+<a name="index-names-of-variables_002c-functions_002c-and-files"></a>
+<p>The names of global variables and functions in a program serve as
+comments of a sort.  So don&rsquo;t choose terse names&mdash;instead, look for
 names that give useful information about the meaning of the variable or
 function.  In a GNU program, names should be English, like other
 comments.
-
-   <p>Local variable names can be shorter, because they are used only within
+</p>
+<p>Local variable names can be shorter, because they are used only within
 one context, where (presumably) comments explain their purpose.
-
-   <p>Try to limit your use of abbreviations in symbol names.  It is ok to
+</p>
+<p>Try to limit your use of abbreviations in symbol names.  It is ok to
 make a few abbreviations, explain what they mean, and then use them
-frequently, but don't use lots of obscure abbreviations.
-
-   <p>Please use underscores to separate words in a name, so that the Emacs
+frequently, but don&rsquo;t use lots of obscure abbreviations.
+</p>
+<p>Please use underscores to separate words in a name, so that the Emacs
 word commands can be useful within them.  Stick to lower case; reserve
 upper case for macros and <code>enum</code> constants, and for name-prefixes
 that follow a uniform convention.
-
-   <p>For example, you should use names like <code>ignore_space_change_flag</code>;
-don't use names like <code>iCantReadThis</code>.
-
-   <p>Variables that indicate whether command-line options have been
+</p>
+<p>For example, you should use names like <code>ignore_space_change_flag</code>;
+don&rsquo;t use names like <code>iCantReadThis</code>.
+</p>
+<p>Variables that indicate whether command-line options have been
 specified should be named after the meaning of the option, not after
 the option-letter.  A comment should state both the exact meaning of
 the option and its letter.  For example,
+</p>
+<div class="example">
+<pre class="example">/* Ignore changes in horizontal whitespace (-b).  */
+int ignore_space_change_flag;
+</pre></div>
 
-<pre class="example">     /* Ignore changes in horizontal whitespace (-b).  */
-     int ignore_space_change_flag;
-</pre>
-   <p>When you want to define names with constant integer values, use
-<code>enum</code> rather than &lsquo;<samp><span class="samp">#define</span></samp>&rsquo;.  GDB knows about enumeration
+<p>When you want to define names with constant integer values, use
+<code>enum</code> rather than &lsquo;<samp>#define</samp>&rsquo;.  GDB knows about enumeration
 constants.
-
-   <p><a name="index-file_002dname-limitations-99"></a><a name="index-doschk-100"></a>You might want to make sure that none of the file names would conflict
+</p>
+<a name="index-file_002dname-limitations"></a>
+<a name="index-doschk"></a>
+<p>You might want to make sure that none of the file names would conflict
 if the files were loaded onto an MS-DOS file system which shortens the
 names.  You can use the program <code>doschk</code> to test for this.
-
-   <p>Some GNU programs were designed to limit themselves to file names of 14
+</p>
+<p>Some GNU programs were designed to limit themselves to file names of 14
 characters or less, to avoid file name conflicts if they are read into
 older System V systems.  Please preserve this feature in the existing
 GNU programs that have it, but there is no need to do this in new GNU
 programs.  <code>doschk</code> also reports file names longer than 14
 characters.
+</p>
 
-   </body></html>
+<hr>
+<div class="header">
+<p>
+Next: <a href="System-Portability.html#System-Portability" accesskey="n" rel="next">System Portability</a>, Previous: <a href="Syntactic-Conventions.html#Syntactic-Conventions" accesskey="p" rel="previous">Syntactic Conventions</a>, Up: <a href="Writing-C.html#Writing-C" accesskey="u" rel="up">Writing C</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
 
+
+
+</body>
+</html>

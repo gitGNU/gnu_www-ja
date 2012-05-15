@@ -253,6 +253,7 @@ graphics :=	3dbabygnutux \
 		bwcartoon \
 		digital-restrictions-management \
 		emacs-ref \
+		freedom \
 		fromagnulinux \
 		fsf-logo \
 		FSFS-logo \
@@ -398,6 +399,7 @@ philosophy := 	15-years-of-free-software \
 		dmarti-patent \
 		drdobbs-letter \
 		ebooks \
+		ebooks-must-increase-freedom \
 		eldred-amicus \
 		enforcing-gpl \
 		essays-and-articles \

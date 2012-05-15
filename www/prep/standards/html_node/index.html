@@ -1,13 +1,6 @@
-<html lang="en">
-<head>
-<title>GNU Coding Standards</title>
-<meta http-equiv="Content-Type" content="text/html">
-<meta name="description" content="GNU Coding Standards">
-<meta name="generator" content="makeinfo 4.13">
-<link title="Top" rel="start" href="#Top">
-<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
-<!--
-The GNU coding standards, last updated April 7, 2012.
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- The GNU coding standards, last updated April 7, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -18,153 +11,210 @@ under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
-"GNU Free Documentation License".-->
-<meta http-equiv="Content-Style-Type" content="text/css">
-<style type="text/css"><!--
-  pre.display { font-family:inherit }
-  pre.format  { font-family:inherit }
-  pre.smalldisplay { font-family:inherit; font-size:smaller }
-  pre.smallformat  { font-family:inherit; font-size:smaller }
-  pre.smallexample { font-size:smaller }
-  pre.smalllisp    { font-size:smaller }
-  span.sc    { font-variant:small-caps }
-  span.roman { font-family:serif; font-weight:normal; } 
-  span.sansserif { font-family:sans-serif; font-weight:normal; } 
---></style>
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 4.13.90+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>GNU Coding Standards: Top</title>
+
+<meta name="description" content="GNU Coding Standards: Top">
+<meta name="keywords" content="GNU Coding Standards: Top">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="../dir/index.html" rel="up" title="(dir)">
+<link href="Preface.html#Preface" rel="next" title="Preface">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:pre}
+span.nolinebreak {white-space:pre}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
 </head>
-<body>
-<h1 class="settitle">GNU Coding Standards</h1>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<h1 class="settitle" align="center">GNU Coding Standards</h1>
+
+
+
+
+
+
+
+<a name="SEC_Contents"></a>
+<h2 class="contents-heading">Table of Contents</h2>
+
 <div class="contents">
-<h2>Table of Contents</h2>
-<ul>
-<li><a name="toc_Top" href="index.html#Top">GNU Coding Standards</a>
-<li><a name="toc_Preface" href="Preface.html#Preface">1 About the GNU Coding Standards</a>
-<li><a name="toc_Legal-Issues" href="Legal-Issues.html#Legal-Issues">2 Keeping Free Software Free</a>
-<ul>
-<li><a href="Reading-Non_002dFree-Code.html#Reading-Non_002dFree-Code">2.1 Referring to Proprietary Programs</a>
-<li><a href="Contributions.html#Contributions">2.2 Accepting Contributions</a>
-<li><a href="Trademarks.html#Trademarks">2.3 Trademarks</a>
-</li></ul>
-<li><a name="toc_Design-Advice" href="Design-Advice.html#Design-Advice">3 General Program Design</a>
-<ul>
-<li><a href="Source-Language.html#Source-Language">3.1 Which Languages to Use</a>
-<li><a href="Compatibility.html#Compatibility">3.2 Compatibility with Other Implementations</a>
-<li><a href="Using-Extensions.html#Using-Extensions">3.3 Using Non-standard Features</a>
-<li><a href="Standard-C.html#Standard-C">3.4 Standard C and Pre-Standard C</a>
-<li><a href="Conditional-Compilation.html#Conditional-Compilation">3.5 Conditional Compilation</a>
-</li></ul>
-<li><a name="toc_Program-Behavior" href="Program-Behavior.html#Program-Behavior">4 Program Behavior for All Programs</a>
-<ul>
-<li><a href="Non_002dGNU-Standards.html#Non_002dGNU-Standards">4.1 Non-GNU Standards</a>
-<li><a href="Semantics.html#Semantics">4.2 Writing Robust Programs</a>
-<li><a href="Libraries.html#Libraries">4.3 Library Behavior</a>
-<li><a href="Errors.html#Errors">4.4 Formatting Error Messages</a>
-<li><a href="User-Interfaces.html#User-Interfaces">4.5 Standards for Interfaces Generally</a>
-<li><a href="Graphical-Interfaces.html#Graphical-Interfaces">4.6 Standards for Graphical Interfaces</a>
-<li><a href="Command_002dLine-Interfaces.html#Command_002dLine-Interfaces">4.7 Standards for Command Line Interfaces</a>
-<ul>
-<li><a href="_002d_002dversion.html#_002d_002dversion">4.7.1 <samp><span class="option">--version</span></samp></a>
-<li><a href="_002d_002dhelp.html#_002d_002dhelp">4.7.2 <samp><span class="option">--help</span></samp></a>
-</li></ul>
-<li><a href="Dynamic-Plug_002dIn-Interfaces.html#Dynamic-Plug_002dIn-Interfaces">4.8 Standards for Dynamic Plug-in Interfaces</a>
-<li><a href="Option-Table.html#Option-Table">4.9 Table of Long Options</a>
-<li><a href="OID-Allocations.html#OID-Allocations">4.10 OID Allocations</a>
-<li><a href="Memory-Usage.html#Memory-Usage">4.11 Memory Usage</a>
-<li><a href="File-Usage.html#File-Usage">4.12 File Usage</a>
-</li></ul>
-<li><a name="toc_Writing-C" href="Writing-C.html#Writing-C">5 Making The Best Use of C</a>
-<ul>
-<li><a href="Formatting.html#Formatting">5.1 Formatting Your Source Code</a>
-<li><a href="Comments.html#Comments">5.2 Commenting Your Work</a>
-<li><a href="Syntactic-Conventions.html#Syntactic-Conventions">5.3 Clean Use of C Constructs</a>
-<li><a href="Names.html#Names">5.4 Naming Variables, Functions, and Files</a>
-<li><a href="System-Portability.html#System-Portability">5.5 Portability between System Types</a>
-<li><a href="CPU-Portability.html#CPU-Portability">5.6 Portability between <span class="sc">cpu</span>s</a>
-<li><a href="System-Functions.html#System-Functions">5.7 Calling System Functions</a>
-<li><a href="Internationalization.html#Internationalization">5.8 Internationalization</a>
-<li><a href="Character-Set.html#Character-Set">5.9 Character Set</a>
-<li><a href="Quote-Characters.html#Quote-Characters">5.10 Quote Characters</a>
-<li><a href="Mmap.html#Mmap">5.11 Mmap</a>
-</li></ul>
-<li><a name="toc_Documentation" href="Documentation.html#Documentation">6 Documenting Programs</a>
-<ul>
-<li><a href="GNU-Manuals.html#GNU-Manuals">6.1 GNU Manuals</a>
-<li><a href="Doc-Strings-and-Manuals.html#Doc-Strings-and-Manuals">6.2 Doc Strings and Manuals</a>
-<li><a href="Manual-Structure-Details.html#Manual-Structure-Details">6.3 Manual Structure Details</a>
-<li><a href="License-for-Manuals.html#License-for-Manuals">6.4 License for Manuals</a>
-<li><a href="Manual-Credits.html#Manual-Credits">6.5 Manual Credits</a>
-<li><a href="Printed-Manuals.html#Printed-Manuals">6.6 Printed Manuals</a>
-<li><a href="NEWS-File.html#NEWS-File">6.7 The NEWS File</a>
-<li><a href="Change-Logs.html#Change-Logs">6.8 Change Logs</a>
-<ul>
-<li><a href="Change-Log-Concepts.html#Change-Log-Concepts">6.8.1 Change Log Concepts</a>
-<li><a href="Style-of-Change-Logs.html#Style-of-Change-Logs">6.8.2 Style of Change Logs</a>
-<li><a href="Simple-Changes.html#Simple-Changes">6.8.3 Simple Changes</a>
-<li><a href="Conditional-Changes.html#Conditional-Changes">6.8.4 Conditional Changes</a>
-<li><a href="Indicating-the-Part-Changed.html#Indicating-the-Part-Changed">6.8.5 Indicating the Part Changed</a>
-</li></ul>
-<li><a href="Man-Pages.html#Man-Pages">6.9 Man Pages</a>
-<li><a href="Reading-other-Manuals.html#Reading-other-Manuals">6.10 Reading other Manuals</a>
-</li></ul>
-<li><a name="toc_Managing-Releases" href="Managing-Releases.html#Managing-Releases">7 The Release Process</a>
-<ul>
-<li><a href="Configuration.html#Configuration">7.1 How Configuration Should Work</a>
-<li><a href="Makefile-Conventions.html#Makefile-Conventions">7.2 Makefile Conventions</a>
-<ul>
-<li><a href="Makefile-Basics.html#Makefile-Basics">7.2.1 General Conventions for Makefiles</a>
-<li><a href="Utilities-in-Makefiles.html#Utilities-in-Makefiles">7.2.2 Utilities in Makefiles</a>
-<li><a href="Command-Variables.html#Command-Variables">7.2.3 Variables for Specifying Commands</a>
-<li><a href="DESTDIR.html#DESTDIR">7.2.4 <code>DESTDIR</code>: Support for Staged Installs</a>
-<li><a href="Directory-Variables.html#Directory-Variables">7.2.5 Variables for Installation Directories</a>
-<li><a href="Standard-Targets.html#Standard-Targets">7.2.6 Standard Targets for Users</a>
-<li><a href="Install-Command-Categories.html#Install-Command-Categories">7.2.7 Install Command Categories</a>
-</li></ul>
-<li><a href="Releases.html#Releases">7.3 Making Releases</a>
-</li></ul>
-<li><a name="toc_References" href="References.html#References">8 References to Non-Free Software and Documentation</a>
-<li><a name="toc_GNU-Free-Documentation-License" href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License">Appendix A GNU Free Documentation License</a>
-<li><a name="toc_Index" href="Index.html#Index">Index</a>
-</li></ul>
+
+<ul class="no-bullet">
+  <li><a name="toc-About-the-GNU-Coding-Standards" href="Preface.html#Preface">1 About the GNU Coding Standards</a></li>
+  <li><a name="toc-Keeping-Free-Software-Free" href="Legal-Issues.html#Legal-Issues">2 Keeping Free Software Free</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Referring-to-Proprietary-Programs" href="Reading-Non_002dFree-Code.html#Reading-Non_002dFree-Code">2.1 Referring to Proprietary Programs</a></li>
+    <li><a name="toc-Accepting-Contributions" href="Contributions.html#Contributions">2.2 Accepting Contributions</a></li>
+    <li><a name="toc-Trademarks-1" href="Trademarks.html#Trademarks">2.3 Trademarks</a></li>
+  </ul></li>
+  <li><a name="toc-General-Program-Design" href="Design-Advice.html#Design-Advice">3 General Program Design</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Which-Languages-to-Use" href="Source-Language.html#Source-Language">3.1 Which Languages to Use</a></li>
+    <li><a name="toc-Compatibility-with-Other-Implementations" href="Compatibility.html#Compatibility">3.2 Compatibility with Other Implementations</a></li>
+    <li><a name="toc-Using-Non_002dstandard-Features" href="Using-Extensions.html#Using-Extensions">3.3 Using Non-standard Features</a></li>
+    <li><a name="toc-Standard-C-and-Pre_002dStandard-C" href="Standard-C.html#Standard-C">3.4 Standard C and Pre-Standard C</a></li>
+    <li><a name="toc-Conditional-Compilation-1" href="Conditional-Compilation.html#Conditional-Compilation">3.5 Conditional Compilation</a></li>
+  </ul></li>
+  <li><a name="toc-Program-Behavior-for-All-Programs" href="Program-Behavior.html#Program-Behavior">4 Program Behavior for All Programs</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Non_002dGNU-Standards-1" href="Non_002dGNU-Standards.html#Non_002dGNU-Standards">4.1 Non-GNU Standards</a></li>
+    <li><a name="toc-Writing-Robust-Programs" href="Semantics.html#Semantics">4.2 Writing Robust Programs</a></li>
+    <li><a name="toc-Library-Behavior" href="Libraries.html#Libraries">4.3 Library Behavior</a></li>
+    <li><a name="toc-Formatting-Error-Messages" href="Errors.html#Errors">4.4 Formatting Error Messages</a></li>
+    <li><a name="toc-Standards-for-Interfaces-Generally" href="User-Interfaces.html#User-Interfaces">4.5 Standards for Interfaces Generally</a></li>
+    <li><a name="toc-Standards-for-Graphical-Interfaces" href="Graphical-Interfaces.html#Graphical-Interfaces">4.6 Standards for Graphical Interfaces</a></li>
+    <li><a name="toc-Standards-for-Command-Line-Interfaces" href="Command_002dLine-Interfaces.html#Command_002dLine-Interfaces">4.7 Standards for Command Line Interfaces</a>
+    <ul class="no-bullet">
+      <li><a name="toc-_002d_002dversion-1" href="_002d_002dversion.html#g_t_002d_002dversion">4.7.1 &lsquo;<samp>--version</samp>&rsquo;</a></li>
+      <li><a name="toc-_002d_002dhelp-1" href="_002d_002dhelp.html#g_t_002d_002dhelp">4.7.2 &lsquo;<samp>--help</samp>&rsquo;</a></li>
+    </ul></li>
+    <li><a name="toc-Standards-for-Dynamic-Plug_002din-Interfaces" href="Dynamic-Plug_002dIn-Interfaces.html#Dynamic-Plug_002dIn-Interfaces">4.8 Standards for Dynamic Plug-in Interfaces</a></li>
+    <li><a name="toc-Table-of-Long-Options" href="Option-Table.html#Option-Table">4.9 Table of Long Options</a></li>
+    <li><a name="toc-OID-Allocations-1" href="OID-Allocations.html#OID-Allocations">4.10 OID Allocations</a></li>
+    <li><a name="toc-Memory-Usage-1" href="Memory-Usage.html#Memory-Usage">4.11 Memory Usage</a></li>
+    <li><a name="toc-File-Usage-1" href="File-Usage.html#File-Usage">4.12 File Usage</a></li>
+  </ul></li>
+  <li><a name="toc-Making-The-Best-Use-of-C" href="Writing-C.html#Writing-C">5 Making The Best Use of C</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Formatting-Your-Source-Code" href="Formatting.html#Formatting">5.1 Formatting Your Source Code</a></li>
+    <li><a name="toc-Commenting-Your-Work" href="Comments.html#Comments">5.2 Commenting Your Work</a></li>
+    <li><a name="toc-Clean-Use-of-C-Constructs" href="Syntactic-Conventions.html#Syntactic-Conventions">5.3 Clean Use of C Constructs</a></li>
+    <li><a name="toc-Naming-Variables_002c-Functions_002c-and-Files" href="Names.html#Names">5.4 Naming Variables, Functions, and Files</a></li>
+    <li><a name="toc-Portability-between-System-Types" href="System-Portability.html#System-Portability">5.5 Portability between System Types</a></li>
+    <li><a name="toc-Portability-between-CPUs" href="CPU-Portability.html#CPU-Portability">5.6 Portability between <small>CPU</small>s</a></li>
+    <li><a name="toc-Calling-System-Functions" href="System-Functions.html#System-Functions">5.7 Calling System Functions</a></li>
+    <li><a name="toc-Internationalization-1" href="Internationalization.html#Internationalization">5.8 Internationalization</a></li>
+    <li><a name="toc-Character-Set-1" href="Character-Set.html#Character-Set">5.9 Character Set</a></li>
+    <li><a name="toc-Quote-Characters-1" href="Quote-Characters.html#Quote-Characters">5.10 Quote Characters</a></li>
+    <li><a name="toc-Mmap-1" href="Mmap.html#Mmap">5.11 Mmap</a></li>
+  </ul></li>
+  <li><a name="toc-Documenting-Programs" href="Documentation.html#Documentation">6 Documenting Programs</a>
+  <ul class="no-bullet">
+    <li><a name="toc-GNU-Manuals-1" href="GNU-Manuals.html#GNU-Manuals">6.1 GNU Manuals</a></li>
+    <li><a name="toc-Doc-Strings-and-Manuals-1" href="Doc-Strings-and-Manuals.html#Doc-Strings-and-Manuals">6.2 Doc Strings and Manuals</a></li>
+    <li><a name="toc-Manual-Structure-Details-1" href="Manual-Structure-Details.html#Manual-Structure-Details">6.3 Manual Structure Details</a></li>
+    <li><a name="toc-License-for-Manuals-1" href="License-for-Manuals.html#License-for-Manuals">6.4 License for Manuals</a></li>
+    <li><a name="toc-Manual-Credits-1" href="Manual-Credits.html#Manual-Credits">6.5 Manual Credits</a></li>
+    <li><a name="toc-Printed-Manuals-1" href="Printed-Manuals.html#Printed-Manuals">6.6 Printed Manuals</a></li>
+    <li><a name="toc-The-NEWS-File" href="NEWS-File.html#NEWS-File">6.7 The NEWS File</a></li>
+    <li><a name="toc-Change-Logs-1" href="Change-Logs.html#Change-Logs">6.8 Change Logs</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Change-Log-Concepts-1" href="Change-Log-Concepts.html#Change-Log-Concepts">6.8.1 Change Log Concepts</a></li>
+      <li><a name="toc-Style-of-Change-Logs-1" href="Style-of-Change-Logs.html#Style-of-Change-Logs">6.8.2 Style of Change Logs</a></li>
+      <li><a name="toc-Simple-Changes-1" href="Simple-Changes.html#Simple-Changes">6.8.3 Simple Changes</a></li>
+      <li><a name="toc-Conditional-Changes-1" href="Conditional-Changes.html#Conditional-Changes">6.8.4 Conditional Changes</a></li>
+      <li><a name="toc-Indicating-the-Part-Changed-1" href="Indicating-the-Part-Changed.html#Indicating-the-Part-Changed">6.8.5 Indicating the Part Changed</a></li>
+    </ul></li>
+    <li><a name="toc-Man-Pages-1" href="Man-Pages.html#Man-Pages">6.9 Man Pages</a></li>
+    <li><a name="toc-Reading-other-Manuals-1" href="Reading-other-Manuals.html#Reading-other-Manuals">6.10 Reading other Manuals</a></li>
+  </ul></li>
+  <li><a name="toc-The-Release-Process" href="Managing-Releases.html#Managing-Releases">7 The Release Process</a>
+  <ul class="no-bullet">
+    <li><a name="toc-How-Configuration-Should-Work" href="Configuration.html#Configuration">7.1 How Configuration Should Work</a></li>
+    <li><a name="toc-Makefile-Conventions-1" href="Makefile-Conventions.html#Makefile-Conventions">7.2 Makefile Conventions</a>
+    <ul class="no-bullet">
+      <li><a name="toc-General-Conventions-for-Makefiles" href="Makefile-Basics.html#Makefile-Basics">7.2.1 General Conventions for Makefiles</a></li>
+      <li><a name="toc-Utilities-in-Makefiles-1" href="Utilities-in-Makefiles.html#Utilities-in-Makefiles">7.2.2 Utilities in Makefiles</a></li>
+      <li><a name="toc-Variables-for-Specifying-Commands" href="Command-Variables.html#Command-Variables">7.2.3 Variables for Specifying Commands</a></li>
+      <li><a name="toc-DESTDIR_003a-Support-for-Staged-Installs" href="DESTDIR.html#DESTDIR">7.2.4 <code>DESTDIR</code>: Support for Staged Installs</a></li>
+      <li><a name="toc-Variables-for-Installation-Directories" href="Directory-Variables.html#Directory-Variables">7.2.5 Variables for Installation Directories</a></li>
+      <li><a name="toc-Standard-Targets-for-Users" href="Standard-Targets.html#Standard-Targets">7.2.6 Standard Targets for Users</a></li>
+      <li><a name="toc-Install-Command-Categories-1" href="Install-Command-Categories.html#Install-Command-Categories">7.2.7 Install Command Categories</a></li>
+    </ul></li>
+    <li><a name="toc-Making-Releases" href="Releases.html#Releases">7.3 Making Releases</a></li>
+  </ul></li>
+  <li><a name="toc-References-to-Non_002dFree-Software-and-Documentation" href="References.html#References">8 References to Non-Free Software and Documentation</a></li>
+  <li><a name="toc-GNU-Free-Documentation-License-1" href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License">Appendix A GNU Free Documentation License</a></li>
+  <li><a name="toc-Index-1" href="Index.html#Index">Index</a></li>
+</ul>
 </div>
 
 
-
-<div class="node">
 <a name="Top"></a>
+<div class="header">
 <p>
-Next:&nbsp;<a rel="next" accesskey="n" href="Preface.html#Preface">Preface</a>,
-Up:&nbsp;<a rel="up" accesskey="u" href="../index.html#dir">(dir)</a>
-<hr>
+Next: <a href="Preface.html#Preface" accesskey="n" rel="next">Preface</a>, Up: <a href="../dir/index.html" accesskey="u" rel="up">(dir)</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
 </div>
-
-<h2 class="unnumbered">GNU Coding Standards</h2>
+<hr>
+<a name="GNU-Coding-Standards"></a>
+<h1 class="top">GNU Coding Standards</h1>
 
 <p>The GNU coding standards, last updated April 7, 2012.
-
-   <p>Copyright &copy; 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+</p>
+<p>Copyright &copy; 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
 2011, 2012 Free Software Foundation, Inc.
-
-   <p>Permission is granted to copy, distribute and/or modify this document
+</p>
+<p>Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
 &ldquo;GNU Free Documentation License&rdquo;.
+</p>
 
-<ul class="menu">
-<li><a accesskey="1" href="Preface.html#Preface">Preface</a>:                      About the GNU Coding Standards. 
-<li><a accesskey="2" href="Legal-Issues.html#Legal-Issues">Legal Issues</a>:                 Keeping free software free. 
-<li><a accesskey="3" href="Design-Advice.html#Design-Advice">Design Advice</a>:                General program design. 
-<li><a accesskey="4" href="Program-Behavior.html#Program-Behavior">Program Behavior</a>:             Program behavior for all programs
-<li><a accesskey="5" href="Writing-C.html#Writing-C">Writing C</a>:                    Making the best use of C. 
-<li><a accesskey="6" href="Documentation.html#Documentation">Documentation</a>:                Documenting programs. 
-<li><a accesskey="7" href="Managing-Releases.html#Managing-Releases">Managing Releases</a>:            The release process. 
-<li><a accesskey="8" href="References.html#References">References</a>:                   Mentioning non-free software or documentation. 
-<li><a accesskey="9" href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License">GNU Free Documentation License</a>:   Copying and sharing this manual. 
-<li><a href="Index.html#Index">Index</a>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Preface.html#Preface" accesskey="1">Preface</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">About the GNU Coding Standards.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Legal-Issues.html#Legal-Issues" accesskey="2">Legal Issues</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Keeping free software free.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Design-Advice.html#Design-Advice" accesskey="3">Design Advice</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">General program design.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Program-Behavior.html#Program-Behavior" accesskey="4">Program Behavior</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Program behavior for all programs
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Writing-C.html#Writing-C" accesskey="5">Writing C</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Making the best use of C.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Documentation.html#Documentation" accesskey="6">Documentation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Documenting programs.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Managing-Releases.html#Managing-Releases" accesskey="7">Managing Releases</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The release process.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="References.html#References" accesskey="8">References</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Mentioning non-free software or documentation.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="GNU-Free-Documentation-License.html#GNU-Free-Documentation-License" accesskey="9">GNU Free Documentation License</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Copying and sharing this manual.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Index.html#Index">Index</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+</pre></th></tr></table>
 
-   </ul>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Preface.html#Preface" accesskey="n" rel="next">Preface</a>, Up: <a href="../dir/index.html" accesskey="u" rel="up">(dir)</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
 
-   </body></html>
 
+
+</body>
+</html>
