@@ -87,7 +87,9 @@ ALL_DIRS :=	accessibility \
 		pronunciation \
 		server \
 		server/standards \
-		software
+		software \
+		testimonials \
+		thankgnus
 
 ROOT :=		keepingup \
 		provide
@@ -378,6 +380,7 @@ philosophy := 	15-years-of-free-software \
 		amazon-nat \
 		amazon-rms-tim \
 		android-and-users-freedom \
+		anonymous-response \
 		apsl \
 		assigning-copyright \
 		basic-freedoms \
@@ -461,11 +464,11 @@ philosophy := 	15-years-of-free-software \
 		nit-india \
 		no-ip-ethos \
 		no-word-attachments \
+		nonfree-games \
 		nonsoftware-copyleft \
 		not-ipr \
 		open-source-misses-the-point \
 		opposing-drm \
-		papadopoulos-response \
 		patent-practice-panel \
 		patent-reform-is-not-enough \
 		philosophy \
@@ -555,3 +558,31 @@ software :=	devel \
 		for-windows \
 		reliability \
 		software
+
+testimonials :=	reliable \
+		supported \
+		testimonial_cadcam \
+		testimonial_HIRLAM \
+		testimonial_media \
+		testimonial_mondrup \
+		testimonial_research_ships \
+		testimonials \
+		useful
+
+thankgnus :=	1997supporters \
+		1998supporters \
+		1999supporters \
+		2000supporters \
+		2001supporters \
+		2002supporters \
+		2003supporters \
+		2004supporters \
+		2005supporters \
+		2006supporters \
+		2007supporters \
+		2008supporters \
+		2009supporters \
+		2010supporters \
+		2011supporters \
+		2012supporters \
+		thankgnus

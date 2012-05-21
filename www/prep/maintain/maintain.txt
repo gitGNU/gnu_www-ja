@@ -34,8 +34,9 @@ Version
   11.5 Automated FTP Uploads
     11.5.1 Automated Upload Registration
     11.5.2 Automated Upload Procedure
-    11.5.3 FTP Upload Directive File - v1.1
-    11.5.4 FTP Upload Directive File - v1.0
+    11.5.3 FTP Upload Directive File - v1.2
+    11.5.4 FTP Upload Directive File - v1.1
+    11.5.5 FTP Upload Directive File - v1.0
   11.6 Announcing Releases
 12 Web Pages
   12.1 Hosting for Web Pages
@@ -57,7 +58,7 @@ Index
 Version
 *******
 
-Information for maintainers of GNU software, last updated May 14, 2012.
+Information for maintainers of GNU software, last updated May 20, 2012.
 
    Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
@@ -107,7 +108,7 @@ the GNU GPL, to let the public benefit from per work, and to enable per
 to feel person has done the right thing."
 
    This release of the GNU Maintainer Information was last updated May
-14, 2012.
+20, 2012.
 
 2 Getting Help
 **************
@@ -861,13 +862,13 @@ want to use a general-purpose free software module which offers a useful
 functionality, as a "library" facility (though the module is not always
 packaged technically as a library).
 
-   Make sure the license of the module is compatible with current
-<em>and future</em> GPL versions.  "GNU GPL version 3 or later" is good,
-and so is anything which includes permission for use under those GPL
-versions (including "GNU GPL version 2 or later", "LGPL version
-<em>n</em> or later", "LGPL version 2.1", "GNU Affero GPL version 3 or
-later").  Lax permissive licenses are ok too, since they are compatible
-with all GPL versions.
+   Make sure the license of the module is compatible with current _and
+future_ GPL versions.  "GNU GPL version 3 or later" is good, and so is
+anything which includes permission for use under those GPL versions
+(including "GNU GPL version 2 or later", "LGPL version N or later",
+"LGPL version 2.1", "GNU Affero GPL version 3 or later").  Lax
+permissive licenses are ok too, since they are compatible with all GPL
+versions.
 
    "GPL version 2 only" is obviously unacceptable because it is
 incompatble with GPL version 3.  "GPL version 3 only" and "GPL version 2
@@ -1367,7 +1368,7 @@ extension.  The directive file must have the same name as the file to be
 distributed, with an additional '.directive.asc' extension.  If you do
 not follow this naming convention, the upload _will not be processed_.
 
-   Since v1.1 of the upload script, it is also possible to upload a
+   Since v1.1 of the upload directives, it is also possible to upload a
 clearsigned directive file on its own (no accompanying '.sig' or any
 other file) to perform certain operations on the server.  *Note FTP
 Upload Directive File - v1.1::, for more information.
@@ -1403,7 +1404,37 @@ as a replacement which uses plain command line 'ftp'.
 You can check the archive of uploads processed at
 'https://lists.gnu.org/archive/html/ftp-upload-report'.
 
-11.5.3 FTP Upload Directive File - v1.1
+11.5.3 FTP Upload Directive File - v1.2
+---------------------------------------
+
+All the directives and documentation for v1.1 of the protocol still
+apply.  *Note FTP Upload Directive File - v1.1::, for more information.
+
+New directive 'replace'
+-----------------------
+
+As part of an uploaded triplet, a 'foo.tar.gz.directive.asc' file might
+contain these lines (before being GPG-clearsigned):
+
+     version: 1.2
+     directory: bar/v1
+     filename: foo.tar.gz
+     comment: hello world!
+
+   If 'foo.tar.gz' exists prior to upload, this directive file will
+result in an error.  Prior to May 2012, the behavior (of v1.1) was
+different: any existing files were automatically archived and replaced
+with the new upload.  Since May 2012, no files are replaced unless the
+(new) 'replace' directive is set to 'true' in the directive file.  That
+directive requires version 1.2 of the protocol.  For example:
+
+     version: 1.2
+     directory: bar/v1
+     filename: foo.tar.gz
+     replace: true
+     comment: hello world!
+
+11.5.4 FTP Upload Directive File - v1.1
 ---------------------------------------
 
 The directive file name must end in 'directive.asc'.
@@ -1436,16 +1467,18 @@ the files 'foo.tar.gz' and 'foo.tar.gz.sig' will be placed in the
 directory 'gnu/bar/v1' of the 'ftp.gnu.org' site.
 
    The directive file can be used to create currently non-existent
-directory trees, as long as they are under the package directory for
-your package (in the example above, that is 'bar').
+directory trees, as long as they are under the directory for your
+package (in the example above, the package directory is 'bar').
 
    If you upload a file that already exists in the FTP directory, the
 original will simply be archived and replaced with the new upload.
+There is no automated or online access to archived files; if you want to
+retrieve or view them, please email sysadmin.
 
 Standalone directives
 ---------------------
 
-When uploaded by itself, the directive file must contain one or more of
+When uploaded by itself, a directive file must contain one or more of
 the directives 'symlink', 'rmsymlink' or 'archive', in addition to the
 obligatory 'directory' and 'version' directives.  A 'filename' directive
 is not allowed, and a 'comment' directive remains optional.
@@ -1500,13 +1533,11 @@ Do everything at once:
      archive: foo-1.1.tar.gz
      comment: now do everything at once
 
-11.5.4 FTP Upload Directive File - v1.0
+11.5.5 FTP Upload Directive File - v1.0
 ---------------------------------------
 
-"As of June 2006, the upload script is running in compatibility mode,
-allowing uploads with either version 1.1 or version 1.0 of the directive
-file syntax.  Support for v1.0 uploads will be phased out by the end of
-2006, so please upgrade to v1.1."
+Support for v1.0 uploads was phased out in May 2012; please upgrade
+to v1.2.
 
    The directive file should contain one line, excluding the clearsigned
 data GPG that inserts, which specifies the final destination directory
@@ -1737,8 +1768,8 @@ correspondence to <bug-texinfo@gnu.org>.
 
 Since 'www.gnu.org' works through CVS, CVS keywords in your manual, such
 as '$Log: maintain.txt,v $
-as 'Revision 1.83  2012/05/14 22:27:40  karl
-as 'url fixes from ineiev
+as 'Revision 1.85  2012/05/21 00:40:28  karl
+as 'ftp-upload protocol v1.2 requiring explicit replace of files
 as '', need special treatment (even if you don't happen to maintain
 your manual in CVS).
 
