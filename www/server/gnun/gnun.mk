@@ -86,6 +86,7 @@ ALL_DIRS :=	accessibility \
 		philosophy/sco \
 		pronunciation \
 		server \
+		server/source \
 		server/standards \
 		software \
 		testimonials \
@@ -551,7 +552,10 @@ server :=	08whatsnew \
 		takeaction \
 		tasks
 
-server/standards :=	README.translations \
+server/source :=	source
+
+server/standards :=	README.editors \
+			README.translations \
 			webmaster-quiz
 
 software :=	devel \
