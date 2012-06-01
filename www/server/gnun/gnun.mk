@@ -22,12 +22,12 @@ TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he id it ja ko ml nb nl pl \
 
 # TRANSLATORS: If you have committed home.LANG.po, add here your
 # language code.
-HOME_LINGUAS := ar bg ca de el es fa fr id it ja ko nb nl pl pt-br ro ru sq \
+HOME_LINGUAS := ar bg ca cs de el es fa fr id it ja ko nb nl pl pt-br ro ru sq \
 		sr tr uk zh-cn
 
 # TRANSLATORS: Add here your language code if you want PO files with wdiffs
 # to previous msgids.
-FUZZY_DIFF_LINGUAS := fr it pl ru
+FUZZY_DIFF_LINGUAS := es fr it pl ru
 
 ### The variables below are edited by GNUN maintainers. ###
 
@@ -193,7 +193,7 @@ fun/jokes :=	10-kinds-of-people \
 		doctor.manifesto \
 		echo-msg \
 		ed \
-		ed.msg \
+		ed-msg \
 		errno.2 \
 		error-haiku \
 		eternal-flame \
