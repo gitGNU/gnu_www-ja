@@ -470,6 +470,7 @@ philosophy := 	15-years-of-free-software \
 		not-ipr \
 		open-source-misses-the-point \
 		opposing-drm \
+		ouch-interview \
 		patent-practice-panel \
 		patent-reform-is-not-enough \
 		philosophy \
