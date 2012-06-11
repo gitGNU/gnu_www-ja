@@ -388,6 +388,7 @@ philosophy := 	15-years-of-free-software \
 		bdk \
 		boldrin-levine \
 		bsd \
+		bug-nobody-allowed-to-understand \
 		can-you-trust \
 		categories \
 		censoring-emacs \
@@ -470,7 +471,7 @@ philosophy := 	15-years-of-free-software \
 		not-ipr \
 		open-source-misses-the-point \
 		opposing-drm \
-		ouch-interview \
+		ough-interview \
 		patent-practice-panel \
 		patent-reform-is-not-enough \
 		philosophy \
