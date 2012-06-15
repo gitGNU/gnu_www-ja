@@ -27,7 +27,7 @@ HOME_LINGUAS := ar bg ca cs de el es fa fr id it ja ko nb nl pl pt-br ro ru sq \
 
 # TRANSLATORS: Add here your language code if you want PO files with wdiffs
 # to previous msgids.
-FUZZY_DIFF_LINGUAS := es fr it pl ru
+FUZZY_DIFF_LINGUAS := es fr it nl pl ru
 
 ### The variables below are edited by GNUN maintainers. ###
 
