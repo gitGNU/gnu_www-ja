@@ -509,7 +509,6 @@ philosophy := 	15-years-of-free-software \
 		stallmans-law \
 		stophr3028 \
 		sun-in-night-time \
-		sylvester-response \
 		the-danger-of-ebooks \
 		the-law-of-success-2 \
 		the-root-of-this-problem \
