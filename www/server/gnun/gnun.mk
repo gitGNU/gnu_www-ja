@@ -1,4 +1,5 @@
-# Copyright (C) 2007, 2008, 2009, 2010, 2011 Free Software Foundation, Inc.
+# Copyright (C) 2007, 2008, 2009, 2010, 2011,
+#   2012 Free Software Foundation, Inc.
 
 # This file is part of GNUnited Nations.
 
@@ -18,7 +19,7 @@
 # TRANSLATORS: Add here your language code.  Please keep the
 # alphabetical order.
 TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he id it ja ko ml nb nl pl \
-                    pt pt-br ro ru sk sq sr sv ta tr uk vi zh-cn
+                    pt pt-br ro ru sk sq sr sv ta tr uk vi zh-cn zh-tw
 
 # TRANSLATORS: If you have committed home.LANG.po, add here your
 # language code.
@@ -38,6 +39,7 @@ no-grace-articles := $(addprefix $(rootdir)/, \
 
 # List of additional templates
 extra-templates := philosophy/philosophy-menu \
+		   planetfeeds \
 		   server/skip-translations \
 		   server/top-addendum
 
