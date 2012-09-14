@@ -482,6 +482,7 @@ philosophy := 	15-years-of-free-software \
 		practical \
 		pragmatic \
 		privacyaction \
+		programs-must-not-limit-freedom \
 		protecting \
 		public-domain-manifesto \
 		push-copyright-aside \
