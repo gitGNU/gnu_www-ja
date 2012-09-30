@@ -19,7 +19,7 @@
 # TRANSLATORS: Add here your language code.  Please keep the
 # alphabetical order.
 TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he id it ja ko ml nb nl pl \
-                    pt pt-br ro ru sk sq sr sv ta tr uk vi zh-cn zh-tw
+                    pt-br ro ru sk sq sr sv ta tr uk vi zh-cn zh-tw
 
 # TRANSLATORS: If you have committed home.LANG.po, add here your
 # language code.
