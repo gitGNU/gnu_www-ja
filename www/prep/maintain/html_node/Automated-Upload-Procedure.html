@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Information for maintainers of GNU software, last updated May 20, 2012.
+<!-- Information for maintainers of GNU software, last updated November 15, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
@@ -34,20 +34,23 @@ a.summary-letter {text-decoration: none}
 blockquote.smallquotation {font-size: smaller}
 div.display {margin-left: 3.2em}
 div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
 div.lisp {margin-left: 3.2em}
 div.smalldisplay {margin-left: 3.2em}
 div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
 div.smalllisp {margin-left: 3.2em}
-pre.display {font-family: serif}
-pre.format {font-family: serif}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
 pre.menu-comment {font-family: serif}
 pre.menu-preformatted {font-family: serif}
-pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
 pre.smallexample {font-size: smaller}
-pre.smallformat {font-family: serif; font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
 pre.smalllisp {font-size: smaller}
-span.nocodebreak {white-space:pre}
-span.nolinebreak {white-space:pre}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
 span.roman {font-family:serif; font-weight:normal}
 span.sansserif {font-family:sans-serif; font-weight:normal}
 ul.no-bullet {list-style: none}
@@ -78,34 +81,33 @@ following procedure.
 uploaded via ftp to the host <code>ftp-upload.gnu.org</code>.
 </p>
 <ol>
-<li> The file to be distributed; for example, &lsquo;<tt>foo.tar.gz</tt>&rsquo;.
+<li> The file to be distributed; for example, <samp>foo.tar.gz</samp>.
 
 </li><li> Detached GPG binary signature file for (1); for example,
-&lsquo;<tt>foo.tar.gz.sig</tt>&rsquo;.  Make this with &lsquo;<samp>gpg -b foo.tar.gz</samp>&rsquo;.
+<samp>foo.tar.gz.sig</samp>.  Make this with &lsquo;<samp>gpg -b foo.tar.gz</samp>&rsquo;.
 
 </li><li> A clearsigned <em>directive file</em>; for example,
-&lsquo;<tt>foo.tar.gz.directive.asc</tt>&rsquo;.  Make this by preparing the plain
-text file &lsquo;<tt>foo.tar.gz.directive</tt>&rsquo; and then run &lsquo;<samp>gpg
---clearsign foo.tar.gz.directive</samp>&rsquo;.  See <a href="FTP-Upload-Directive-File-_002d-v1_002e1.html#FTP-Upload-Directive-File-_002d-v1_002e1">FTP Upload Directive File -
-v1.1</a>, for the contents of the directive file.
+<samp>foo.tar.gz.directive.asc</samp>.  Make this by preparing the plain
+text file <samp>foo.tar.gz.directive</samp> and then run &lsquo;<samp>gpg
+--clearsign foo.tar.gz.directive</samp>&rsquo;.  See <a href="FTP-Upload-Directive-File-_002d-v1_002e1.html#FTP-Upload-Directive-File-_002d-v1_002e1">FTP Upload Directive File - v1.1</a>, for the contents of the directive file.
 </li></ol>
 
 <p>The names of the files are important. The signature file must have the
 same name as the file to be distributed, with an additional
-&lsquo;<tt>.sig</tt>&rsquo; extension. The directive file must have the same name as
-the file to be distributed, with an additional &lsquo;<tt>.directive.asc</tt>&rsquo;
+<samp>.sig</samp> extension. The directive file must have the same name as
+the file to be distributed, with an additional <samp>.directive.asc</samp>
 extension. If you do not follow this naming convention, the upload
 <em>will not be processed</em>.
 </p>
 <p>Since v1.1 of the upload directives, it is also possible to upload a
-clearsigned directive file on its own (no accompanying &lsquo;<tt>.sig</tt>&rsquo; or
+clearsigned directive file on its own (no accompanying <samp>.sig</samp> or
 any other file) to perform certain operations on the server.
 See <a href="FTP-Upload-Directive-File-_002d-v1_002e1.html#FTP-Upload-Directive-File-_002d-v1_002e1">FTP Upload Directive File - v1.1</a>, for more information.
 </p>
 <p>Upload the file(s) via anonymous ftp to <code>ftp-upload.gnu.org</code>. If
 the upload is destined for <code>ftp.gnu.org</code>, place the file(s) in
-the &lsquo;<tt>/incoming/ftp</tt>&rsquo; directory. If the upload is destined for
-<code>alpha.gnu.org</code>, place the file(s) in the &lsquo;<tt>/incoming/alpha</tt>&rsquo;
+the <samp>/incoming/ftp</samp> directory. If the upload is destined for
+<code>alpha.gnu.org</code>, place the file(s) in the <samp>/incoming/alpha</samp>
 directory.
 </p>
 <p>Uploads are processed every five minutes.  Uploads that are in
@@ -121,14 +123,14 @@ processed.
 </p>
 <p>One automated way to create and transfer the necessary files is to use
 the <code>gnupload</code> script, which is available from the
-&lsquo;<tt>build-aux/</tt>&rsquo; directory of the <code>gnulib</code> project at
+<samp>build-aux/</samp> directory of the <code>gnulib</code> project at
 <a href="http://savannah.gnu.org/projects/gnulib">http://savannah.gnu.org/projects/gnulib</a>.  <code>gnupload</code> can
 also remove uploaded files.  Run <code>gnupload --help</code> for a
 description and examples.
 </p>
 <p><code>gnupload</code> uses the <code>ncftpput</code> program to do the actual
 transfers; if you don&rsquo;t happen to have the <code>ncftp</code> package
-installed, the <code>ncftpput-ftp</code> script in the &lsquo;<tt>build-aux/</tt>&rsquo;
+installed, the <code>ncftpput-ftp</code> script in the <samp>build-aux/</samp>
 directory of <code>gnulib</code> serves as a replacement which uses plain
 command line <code>ftp</code>.
 </p>

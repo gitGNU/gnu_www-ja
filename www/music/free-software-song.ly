@@ -1,6 +1,23 @@
  %#(ly:set-option 'old-relative)
  \version "2.10.33"  
- \header { tagline = ##f }
+ \header {
+ tagline = ##f
+ title = "The Free Software Song"
+ subtitle = "Sadi moma bela loza (Bulgarian folk song)"
+ composer = "Lyrics by Richard Stallman"
+ style = "Bulgarian folk"
+ maintainerEmail = "rms-assist@gnu.org"
+ copyright = \markup { \teeny \center-column {
+ "Words by Richard Stallman, the Free Software Foundation http://fsf.org/"
+
+"Richard Stallman and the Free Software Foundation claim no
+ copyright on this song."
+
+ "The official homepage for this song is
+http://www.gnu.org/music/free-software-song.html"
+ "Engraving by GNU Lilypond http://lilypond.org"
+} }
+ }
  TimeKey = { \time 7/8 \key g \major }
 
  %{
@@ -177,4 +194,3 @@ titledefs file. (Somebody *please* tell me a better way.)
  \new Lyrics \lyricsto VA { \VerseThree }
 
 %}
-

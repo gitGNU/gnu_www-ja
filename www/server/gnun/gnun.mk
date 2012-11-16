@@ -129,6 +129,7 @@ distros :=	common-distros \
 		distros \
 		free-distros \
 		free-system-distribution-guidelines \
+		optionally-free-not-enough \
 		screenshot
 
 doc :=	doc \
@@ -525,6 +526,7 @@ philosophy := 	15-years-of-free-software \
 		vaccination \
 		w3c-patent \
 		wassenaar \
+		when_free_software_isnt_practically_better \
 		who-does-that-server-really-serve \
 		why-audio-format-matters \
 		why-copyleft \

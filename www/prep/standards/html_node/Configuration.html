@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- The GNU coding standards, last updated June 30, 2012.
+<!-- The GNU coding standards, last updated October 27, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -38,16 +38,17 @@ div.lisp {margin-left: 3.2em}
 div.smalldisplay {margin-left: 3.2em}
 div.smallexample {margin-left: 3.2em}
 div.smalllisp {margin-left: 3.2em}
-pre.display {font-family: serif}
-pre.format {font-family: serif}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
 pre.menu-comment {font-family: serif}
 pre.menu-preformatted {font-family: serif}
-pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
 pre.smallexample {font-size: smaller}
-pre.smallformat {font-family: serif; font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
 pre.smalllisp {font-size: smaller}
-span.nocodebreak {white-space:pre}
-span.nolinebreak {white-space:pre}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
 span.roman {font-family:serif; font-weight:normal}
 span.sansserif {font-family:sans-serif; font-weight:normal}
 ul.no-bullet {list-style: none}
@@ -84,30 +85,30 @@ you like; for instance, by making <code>configure</code> be a wrapper around
 a completely different configuration system.
 </p>
 <p>Another way for the <code>configure</code> script to operate is to make a
-link from a standard name such as &lsquo;<tt>config.h</tt>&rsquo; to the proper
+link from a standard name such as <samp>config.h</samp> to the proper
 configuration file for the chosen system.  If you use this technique,
 the distribution should <em>not</em> contain a file named
-&lsquo;<tt>config.h</tt>&rsquo;.  This is so that people won&rsquo;t be able to build the
+<samp>config.h</samp>.  This is so that people won&rsquo;t be able to build the
 program without configuring it first.
 </p>
 <p>Another thing that <code>configure</code> can do is to edit the Makefile.  If
 you do this, the distribution should <em>not</em> contain a file named
-&lsquo;<tt>Makefile</tt>&rsquo;.  Instead, it should include a file &lsquo;<tt>Makefile.in</tt>&rsquo; which
+<samp>Makefile</samp>.  Instead, it should include a file <samp>Makefile.in</samp> which
 contains the input used for editing.  Once again, this is so that people
 won&rsquo;t be able to build the program without configuring it first.
 </p>
-<p>If <code>configure</code> does write the &lsquo;<tt>Makefile</tt>&rsquo;, then &lsquo;<tt>Makefile</tt>&rsquo;
-should have a target named &lsquo;<tt>Makefile</tt>&rsquo; which causes <code>configure</code>
+<p>If <code>configure</code> does write the <samp>Makefile</samp>, then <samp>Makefile</samp>
+should have a target named <samp>Makefile</samp> which causes <code>configure</code>
 to be rerun, setting up the same configuration that was set up last
 time.  The files that <code>configure</code> reads should be listed as
-dependencies of &lsquo;<tt>Makefile</tt>&rsquo;.
+dependencies of <samp>Makefile</samp>.
 </p>
 <p>All the files which are output from the <code>configure</code> script should
 have comments at the beginning explaining that they were generated
 automatically using <code>configure</code>.  This is so that users won&rsquo;t think
 of trying to edit them by hand.
 </p>
-<p>The <code>configure</code> script should write a file named &lsquo;<tt>config.status</tt>&rsquo;
+<p>The <code>configure</code> script should write a file named <samp>config.status</samp>
 which describes which configuration options were specified when the
 program was last configured.  This file should be a shell script which,
 if run, will recreate the same configuration.
@@ -119,7 +120,7 @@ the program in a separate directory, so that the actual source directory
 is not modified.
 </p>
 <p>If the user does not specify &lsquo;<samp>--srcdir</samp>&rsquo;, then <code>configure</code> should
-check both &lsquo;<tt>.</tt>&rsquo; and &lsquo;<tt>..</tt>&rsquo; to see if it can find the sources.  If
+check both <samp>.</samp> and <samp>..</samp> to see if it can find the sources.  If
 it finds the sources in one of these places, it should use them from
 there.  Otherwise, it should report that it cannot find the sources, and
 should exit with nonzero status.
@@ -156,17 +157,17 @@ this:
 alternatives for how to describe a machine.  Thus,
 &lsquo;<samp>athlon-pc-gnu/linux</samp>&rsquo; would be a valid alias.  There is a shell
 script called
-<a href="http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD">&lsquo;<tt>config.sub</tt>&rsquo;</a> that you can use as a subroutine to validate system
+<a href="http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD"><samp>config.sub</samp></a> that you can use as a subroutine to validate system
 types and canonicalize aliases.
 </p>
 <p>The <code>configure</code> script should also take the option
-&lsquo;<samp>--build=<var>buildtype</var></samp>&rsquo;, which should be equivalent to a
+<samp>--build=<var>buildtype</var></samp>, which should be equivalent to a
 plain <var>buildtype</var> argument.  For example, &lsquo;<samp>configure
 --build=i686-pc-linux-gnu</samp>&rsquo; is equivalent to &lsquo;<samp>configure
 i686-pc-linux-gnu</samp>&rsquo;.  When the build type is not specified by an option
 or argument, the <code>configure</code> script should normally guess it using
 the shell script
-<a href="http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD">&lsquo;<tt>config.guess</tt>&rsquo;</a>.
+<a href="http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD"><samp>config.guess</samp></a>.
 </p>
 <a name="index-optional-features_002c-configure_002dtime"></a>
 <p>Other options are permitted to specify in more detail the software
@@ -220,7 +221,7 @@ the default optimization.
 <pre class="example">CC=gcc ./configure
 </pre></div>
 <p>as it helps to recreate the same configuration later with
-&lsquo;<tt>config.status</tt>&rsquo;.  However, both methods should be supported.
+<samp>config.status</samp>.  However, both methods should be supported.
 </p></dd>
 </dl>
 
@@ -246,7 +247,7 @@ system as both the host and the target, thus producing a program which
 works for the same type of machine that it runs on.
 </p>
 <p>To compile a program to run on a host type that differs from the build
-type, use the configure option &lsquo;<samp>--host=<var>hosttype</var></samp>&rsquo;, where
+type, use the configure option <samp>--host=<var>hosttype</var></samp>, where
 <var>hosttype</var> uses the same syntax as <var>buildtype</var>.  The host type
 normally defaults to the build type.
 </p>

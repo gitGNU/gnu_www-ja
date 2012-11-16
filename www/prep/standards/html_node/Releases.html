@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- The GNU coding standards, last updated June 30, 2012.
+<!-- The GNU coding standards, last updated October 27, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -38,16 +38,17 @@ div.lisp {margin-left: 3.2em}
 div.smalldisplay {margin-left: 3.2em}
 div.smallexample {margin-left: 3.2em}
 div.smalllisp {margin-left: 3.2em}
-pre.display {font-family: serif}
-pre.format {font-family: serif}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
 pre.menu-comment {font-family: serif}
 pre.menu-preformatted {font-family: serif}
-pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
 pre.smallexample {font-size: smaller}
-pre.smallformat {font-family: serif; font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
 pre.smalllisp {font-size: smaller}
-span.nocodebreak {white-space:pre}
-span.nolinebreak {white-space:pre}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
 span.roman {font-family:serif; font-weight:normal}
 span.sansserif {font-family:sans-serif; font-weight:normal}
 ul.no-bullet {list-style: none}
@@ -68,13 +69,14 @@ Previous: <a href="Makefile-Conventions.html#Makefile-Conventions" accesskey="p"
 <h3 class="section">7.3 Making Releases</h3>
 <a name="index-packaging"></a>
 
+<a name="index-version-numbers_002c-for-releases"></a>
 <p>You should identify each release with a pair of version numbers, a
 major version and a minor.  We have no objection to using more than
 two numbers, but it is very unlikely that you really need them.
 </p>
 <p>Package the distribution of <code>Foo version 69.96</code> up in a gzipped tar
-file with the name &lsquo;<tt>foo-69.96.tar.gz</tt>&rsquo;.  It should unpack into a
-subdirectory named &lsquo;<tt>foo-69.96</tt>&rsquo;.
+file with the name <samp>foo-69.96.tar.gz</samp>.  It should unpack into a
+subdirectory named <samp>foo-69.96</samp>.
 </p>
 <p>Building and installing the program should never modify any of the files
 contained in the distribution.  This means that all the files that form
@@ -84,30 +86,39 @@ and never changed automatically; non-source files are produced from
 source files by programs under the control of the Makefile.
 </p>
 <a name="index-README-file"></a>
-<p>The distribution should contain a file named &lsquo;<tt>README</tt>&rsquo; which gives
-the name of the package, and a general description of what it does.  It
-is also good to explain the purpose of each of the first-level
-subdirectories in the package, if there are any.  The &lsquo;<tt>README</tt>&rsquo; file
-should either state the version number of the package, or refer to where
-in the package it can be found.
+<p>The distribution should contain a file named <samp>README</samp> with a
+general overview of the package:
 </p>
-<p>The &lsquo;<tt>README</tt>&rsquo; file should refer to the file &lsquo;<tt>INSTALL</tt>&rsquo;, which
-should contain an explanation of the installation procedure.
-</p>
-<p>The &lsquo;<tt>README</tt>&rsquo; file should also refer to the file which contains the
-copying conditions.  The GNU GPL, if used, should be in a file called
-&lsquo;<tt>COPYING</tt>&rsquo;.  If the GNU LGPL is used, it should be in a file called
-&lsquo;<tt>COPYING.LESSER</tt>&rsquo;.
-</p>
+<ul>
+<li> the name of the package;
+
+</li><li> the version number of the package, or refer to where in the
+package the version can be found;
+
+</li><li> a general description of what the package does;
+
+</li><li> a reference to the the file <samp>INSTALL</samp>, which
+should in turn contain an explanation of the installation procedure;
+
+</li><li> a brief explanation of any unusual top-level directories or
+files, or other hints for readers to find their way around the source;
+
+</li><li> a reference to the file which contains the copying conditions.
+The GNU GPL, if used, should be in a file called <samp>COPYING</samp>.  If
+the GNU LGPL is used, it should be in a file called
+<samp>COPYING.LESSER</samp>.
+</li></ul>
+
 <p>Naturally, all the source files must be in the distribution.  It is
 okay to include non-source files in the distribution along with the
 source files they are generated from, provided they are up-to-date
 with the source they are made from, and machine-independent, so that
 normal building of the distribution will never modify them.  We
 commonly include non-source files produced by Autoconf, Automake,
-Bison, <code>lex</code>, TeX, and <code>makeinfo</code>; this helps avoid
+Bison, <code>flex</code>, TeX, and <code>makeinfo</code>; this helps avoid
 unnecessary dependencies between our distributions, so that users can
-install whichever packages they want to install.
+install whichever versions of whichever packages they like.  Do not
+induce new dependencies on other software lightly.
 </p>
 <p>Non-source files that might actually be modified by building and
 installing the program should <strong>never</strong> be included in the
@@ -133,13 +144,13 @@ distribution.
 name on MS-DOS consists of up to 8 characters, optionally followed by a
 period and up to three characters.  MS-DOS will truncate extra
 characters both before and after the period.  Thus,
-&lsquo;<tt>foobarhacker.c</tt>&rsquo; and &lsquo;<tt>foobarhacker.o</tt>&rsquo; are not ambiguous; they
-are truncated to &lsquo;<tt>foobarha.c</tt>&rsquo; and &lsquo;<tt>foobarha.o</tt>&rsquo;, which are
+<samp>foobarhacker.c</samp> and <samp>foobarhacker.o</samp> are not ambiguous; they
+are truncated to <samp>foobarha.c</samp> and <samp>foobarha.o</samp>, which are
 distinct.
 </p>
 <a name="index-texinfo_002etex_002c-in-a-distribution"></a>
-<p>Include in your distribution a copy of the &lsquo;<tt>texinfo.tex</tt>&rsquo; you used
-to test print any &lsquo;<tt>*.texinfo</tt>&rsquo; or &lsquo;<tt>*.texi</tt>&rsquo; files.
+<p>Include in your distribution a copy of the <samp>texinfo.tex</samp> you used
+to test print any <samp>*.texinfo</samp> or <samp>*.texi</samp> files.
 </p>
 <p>Likewise, if your program uses small GNU software packages like regex,
 getopt, obstack, or termcap, include them in the distribution file.

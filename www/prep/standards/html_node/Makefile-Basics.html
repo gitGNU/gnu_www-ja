@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- The GNU coding standards, last updated June 30, 2012.
+<!-- The GNU coding standards, last updated October 27, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -38,16 +38,17 @@ div.lisp {margin-left: 3.2em}
 div.smalldisplay {margin-left: 3.2em}
 div.smallexample {margin-left: 3.2em}
 div.smalllisp {margin-left: 3.2em}
-pre.display {font-family: serif}
-pre.format {font-family: serif}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
 pre.menu-comment {font-family: serif}
 pre.menu-preformatted {font-family: serif}
-pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
 pre.smallexample {font-size: smaller}
-pre.smallformat {font-family: serif; font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
 pre.smalllisp {font-size: smaller}
-span.nocodebreak {white-space:pre}
-span.nolinebreak {white-space:pre}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
 span.roman {font-family:serif; font-weight:normal}
 span.sansserif {font-family:sans-serif; font-weight:normal}
 ul.no-bullet {list-style: none}
@@ -90,17 +91,17 @@ suffixes you need in the particular Makefile, like this:
 <p>The first line clears out the suffix list, the second introduces all
 suffixes which may be subject to implicit rules in this Makefile.
 </p>
-<p>Don&rsquo;t assume that &lsquo;<tt>.</tt>&rsquo; is in the path for command execution.  When
+<p>Don&rsquo;t assume that <samp>.</samp> is in the path for command execution.  When
 you need to run programs that are a part of your package during the
-make, please make sure that it uses &lsquo;<tt>./</tt>&rsquo; if the program is built as
-part of the make or &lsquo;<tt>$(srcdir)/</tt>&rsquo; if the file is an unchanging part
+make, please make sure that it uses <samp>./</samp> if the program is built as
+part of the make or <samp>$(srcdir)/</samp> if the file is an unchanging part
 of the source code.  Without one of these prefixes, the current search
 path is used.
 </p>
-<p>The distinction between &lsquo;<tt>./</tt>&rsquo; (the <em>build directory</em>) and
-&lsquo;<tt>$(srcdir)/</tt>&rsquo; (the <em>source directory</em>) is important because
+<p>The distinction between <samp>./</samp> (the <em>build directory</em>) and
+<samp>$(srcdir)/</samp> (the <em>source directory</em>) is important because
 users can build in a separate directory using the &lsquo;<samp>--srcdir</samp>&rsquo; option
-to &lsquo;<tt>configure</tt>&rsquo;.  A rule of the form:
+to <samp>configure</samp>.  A rule of the form:
 </p>
 <div class="smallexample">
 <pre class="smallexample">foo.1 : foo.man sedscript
@@ -108,7 +109,7 @@ to &lsquo;<tt>configure</tt>&rsquo;.  A rule of the form:
 </pre></div>
 
 <p>will fail when the build directory is not the source directory, because
-&lsquo;<tt>foo.man</tt>&rsquo; and &lsquo;<tt>sedscript</tt>&rsquo; are in the source directory.
+<samp>foo.man</samp> and <samp>sedscript</samp> are in the source directory.
 </p>
 <p>When using GNU <code>make</code>, relying on &lsquo;<samp>VPATH</samp>&rsquo; to find the source
 file will work in the case where there is a single dependency file,
@@ -131,7 +132,7 @@ only in implicit rules.)  A Makefile target like
 <p>in order to allow &lsquo;<samp>VPATH</samp>&rsquo; to work correctly.  When the target has
 multiple dependencies, using an explicit &lsquo;<samp>$(srcdir)</samp>&rsquo; is the easiest
 way to make the rule work well.  For example, the target above for
-&lsquo;<tt>foo.1</tt>&rsquo; is best written as:
+<samp>foo.1</samp> is best written as:
 </p>
 <div class="smallexample">
 <pre class="smallexample">foo.1 : foo.man sedscript

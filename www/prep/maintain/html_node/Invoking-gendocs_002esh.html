@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Information for maintainers of GNU software, last updated May 20, 2012.
+<!-- Information for maintainers of GNU software, last updated November 15, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
@@ -34,20 +34,23 @@ a.summary-letter {text-decoration: none}
 blockquote.smallquotation {font-size: smaller}
 div.display {margin-left: 3.2em}
 div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
 div.lisp {margin-left: 3.2em}
 div.smalldisplay {margin-left: 3.2em}
 div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
 div.smalllisp {margin-left: 3.2em}
-pre.display {font-family: serif}
-pre.format {font-family: serif}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
 pre.menu-comment {font-family: serif}
 pre.menu-preformatted {font-family: serif}
-pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
 pre.smallexample {font-size: smaller}
-pre.smallformat {font-family: serif; font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
 pre.smalllisp {font-size: smaller}
-span.nocodebreak {white-space:pre}
-span.nolinebreak {white-space:pre}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
 span.roman {font-family:serif; font-weight:normal}
 span.sansserif {font-family:sans-serif; font-weight:normal}
 ul.no-bullet {list-style: none}
@@ -68,6 +71,7 @@ Up: <a href="Manuals-on-Web-Pages.html#Manuals-on-Web-Pages" accesskey="u" rel="
 <h4 class="subsection">12.3.1 Invoking <code>gendocs.sh</code></h4>
 <a name="index-gendocs_002esh"></a>
 <a name="index-generating-documentation-output"></a>
+<a name="index-documentation-output_002c-generating"></a>
 
 <p>The script <code>gendocs.sh</code> eases the task of generating the
 Texinfo documentation output for your web pages
@@ -96,8 +100,8 @@ source:
 <p>where <var>yourmanual</var> is the short name for your package
 and <var>yourbuglist</var> is the email address for bug reports (which
 should be <code>bug-<var>package</var>@gnu.org</code>).  The script processes
-the file &lsquo;<tt><var>yourmanual</var>.texinfo</tt>&rsquo; (or &lsquo;<tt>.texi</tt>&rsquo; or
-&lsquo;<tt>.txi</tt>&rsquo;).  For example:
+the file <samp><var>yourmanual</var>.texinfo</samp> (or <samp>.texi</samp> or
+<samp>.txi</samp>).  For example:
 </p>
 <div class="smallexample">
 <pre class="smallexample">cd .../texinfo/doc
@@ -105,25 +109,25 @@ the file &lsquo;<tt><var>yourmanual</var>.texinfo</tt>&rsquo; (or &lsquo;<tt>.te
 gendocs.sh --email bug-texinfo@gnu.org texinfo &quot;GNU Texinfo manual&quot;
 </pre></div>
 
-<p><code>gendocs.sh</code> creates a subdirectory &lsquo;<tt>manual/</tt>&rsquo; containing
+<p><code>gendocs.sh</code> creates a subdirectory <samp>manual/</samp> containing
 the manual generated in all the standard output formats: Info, HTML,
 DVI, and so on, as well as the Texinfo source.  You then need to move
 all those files, retaining the subdirectories, into the web pages for
 your package.
 </p>
-<p>You can specify the option &lsquo;<samp>-o <var>outdir</var></samp>&rsquo; to override the
-name &lsquo;<tt>manual</tt>&rsquo;.  Any previous contents of <var>outdir</var> will be deleted.
+<p>You can specify the option <samp>-o <var>outdir</var></samp> to override the
+name <samp>manual</samp>.  Any previous contents of <var>outdir</var> will be deleted.
 </p>
 <p>The second argument, with the description, is included as part of the
-HTML <code>&lt;title&gt;</code> of the overall &lsquo;<tt>manual/index.html</tt>&rsquo; file.  It
+HTML <code>&lt;title&gt;</code> of the overall <samp>manual/index.html</samp> file.  It
 should include the name of the package being documented, as shown.
-&lsquo;<tt>manual/index.html</tt>&rsquo; is created by substitution from the file
-&lsquo;<tt>gendocs_template</tt>&rsquo;.  (Feel free to modify the generic template
+<samp>manual/index.html</samp> is created by substitution from the file
+<samp>gendocs_template</samp>.  (Feel free to modify the generic template
 for your own purposes.)
 </p>
 <p>If you have several manuals, you&rsquo;ll need to run this script several
 times with different arguments, specifying a different output
-directory with &lsquo;<samp>-o</samp>&rsquo; each time, and moving all the output to
+directory with <samp>-o</samp> each time, and moving all the output to
 your web page.  Then write (by hand) an overall index.html with links
 to them all.  For example:
 </p>
@@ -134,9 +138,9 @@ gendocs.sh --email bug-texinfo@gnu.org -o info info &quot;GNU Info manual&quot;
 gendocs.sh --email bug-texinfo@gnu.org -o info-stnd info-stnd &quot;GNU info-stnd manual&quot;
 </pre></div>
 
-<p>By default, the script uses <code>makeinfo</code> for generating
-<acronym>HTML</acronym> output.  If you prefer to use <code>texi2html</code>, use
-the &lsquo;<samp>--texi2html</samp>&rsquo; command line option, e.g.:
+<p>By default, the script uses <code>makeinfo</code> for generating HTML
+output.  If you prefer to use <code>texi2html</code>, use the
+<samp>--texi2html</samp> command line option, e.g.:
 </p>
 <div class="smallexample">
 <pre class="smallexample">gendocs --texi2html -o texinfo texinfo &quot;GNU Texinfo manual&quot;
@@ -147,15 +151,15 @@ HTML output generated by <code>texi2html</code> (i.e., split by sections
 and chapters).
 </p>
 <p>You can set the environment variables <code>MAKEINFO</code>, <code>TEXI2DVI</code>,
-<code>TEXI2HTML</code> and <code>DVIPS</code> to control the programs that get
-executed, and <code>GENDOCS_TEMPLATE_DIR</code> to control where the
-&lsquo;<tt>gendocs_template</tt>&rsquo; file is found.
+etc., to control the programs that get executed, and
+<code>GENDOCS_TEMPLATE_DIR</code> to control where the
+<samp>gendocs_template</samp> file is found.
 </p>
 <p>As usual, run &lsquo;<samp>gendocs.sh --help</samp>&rsquo; for a description of all the
 options, environment variables, and more information.
 </p>
 <p>Please email bug reports, enhancement requests, or other
-correspondence to <a href="mailto:bug-texinfo@gnu.org">bug-texinfo@gnu.org</a>.
+correspondence about <code>gendocs</code> to <a href="mailto:bug-texinfo@gnu.org">bug-texinfo@gnu.org</a>.
 </p>
 
 <hr>

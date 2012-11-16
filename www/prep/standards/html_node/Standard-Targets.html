@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- The GNU coding standards, last updated June 30, 2012.
+<!-- The GNU coding standards, last updated October 27, 2012.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -38,16 +38,17 @@ div.lisp {margin-left: 3.2em}
 div.smalldisplay {margin-left: 3.2em}
 div.smallexample {margin-left: 3.2em}
 div.smalllisp {margin-left: 3.2em}
-pre.display {font-family: serif}
-pre.format {font-family: serif}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
 pre.menu-comment {font-family: serif}
 pre.menu-preformatted {font-family: serif}
-pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
 pre.smallexample {font-size: smaller}
-pre.smallformat {font-family: serif; font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
 pre.smalllisp {font-size: smaller}
-span.nocodebreak {white-space:pre}
-span.nolinebreak {white-space:pre}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
 span.roman {font-family:serif; font-weight:normal}
 span.sansserif {font-family:sans-serif; font-weight:normal}
 ul.no-bullet {list-style: none}
@@ -111,10 +112,10 @@ as described below.
 <code>make</code> will ignore any errors.  This is in case there are systems
 that don&rsquo;t have the Unix man page documentation system installed.
 </p>
-<p>The way to install Info files is to copy them into &lsquo;<tt>$(infodir)</tt>&rsquo;
+<p>The way to install Info files is to copy them into <samp>$(infodir)</samp>
 with <code>$(INSTALL_DATA)</code> (see <a href="Command-Variables.html#Command-Variables">Command Variables</a>), and then run
 the <code>install-info</code> program if it is present.  <code>install-info</code>
-is a program that edits the Info &lsquo;<tt>dir</tt>&rsquo; file to add or update the
+is a program that edits the Info <samp>dir</samp> file to add or update the
 menu entry for the given Info file; it is part of the Texinfo package.
 </p>
 <p>Here is a sample rule to install an Info file that also tries to
@@ -144,8 +145,7 @@ being present.
 
 <p>When writing the <code>install</code> target, you must classify all the
 commands into three categories: normal ones, <em>pre-installation</em>
-commands and <em>post-installation</em> commands.  See <a href="Install-Command-Categories.html#Install-Command-Categories">Install Command
-Categories</a>.
+commands and <em>post-installation</em> commands.  See <a href="Install-Command-Categories.html#Install-Command-Categories">Install Command Categories</a>.
 </p>
 </dd>
 <dt>&lsquo;<samp>install-html</samp>&rsquo;</dt>
@@ -216,7 +216,7 @@ building, but normally aren&rsquo;t because the distribution comes with
 them.  There is no need to delete parent directories that were created
 with &lsquo;<samp>mkdir -p</samp>&rsquo;, since they could have existed anyway.
 </p>
-<p>Delete &lsquo;<tt>.dvi</tt>&rsquo; files here if they are not part of the distribution.
+<p>Delete <samp>.dvi</samp> files here if they are not part of the distribution.
 </p>
 </dd>
 <dt>&lsquo;<samp>distclean</samp>&rsquo;</dt>
@@ -232,7 +232,7 @@ could have existed anyway.
 <dt>&lsquo;<samp>mostlyclean</samp>&rsquo;</dt>
 <dd><p>Like &lsquo;<samp>clean</samp>&rsquo;, but may refrain from deleting a few files that people
 normally don&rsquo;t want to recompile.  For example, the &lsquo;<samp>mostlyclean</samp>&rsquo;
-target for GCC does not delete &lsquo;<tt>libgcc.a</tt>&rsquo;, because recompiling it
+target for GCC does not delete <samp>libgcc.a</samp>, because recompiling it
 is rarely necessary and takes a lot of time.
 </p>
 </dd>
@@ -243,10 +243,10 @@ more: C source files produced by Bison, tags tables, Info files, and
 so on.
 </p>
 <p>The reason we say &ldquo;almost everything&rdquo; is that running the command
-&lsquo;<samp>make maintainer-clean</samp>&rsquo; should not delete &lsquo;<tt>configure</tt>&rsquo; even
-if &lsquo;<tt>configure</tt>&rsquo; can be remade using a rule in the Makefile.  More
+&lsquo;<samp>make maintainer-clean</samp>&rsquo; should not delete <samp>configure</samp> even
+if <samp>configure</samp> can be remade using a rule in the Makefile.  More
 generally, &lsquo;<samp>make maintainer-clean</samp>&rsquo; should not delete anything
-that needs to exist in order to run &lsquo;<tt>configure</tt>&rsquo; and then begin to
+that needs to exist in order to run <samp>configure</samp> and then begin to
 build the program.  Also, there is no need to delete parent
 directories that were created with &lsquo;<samp>mkdir -p</samp>&rsquo;, since they could
 have existed anyway.  These are the only exceptions;
@@ -341,14 +341,14 @@ name which is the name of the package it is a distribution for.  This
 name can include the version number.
 </p>
 <p>For example, the distribution tar file of GCC version 1.40 unpacks into
-a subdirectory named &lsquo;<tt>gcc-1.40</tt>&rsquo;.
+a subdirectory named <samp>gcc-1.40</samp>.
 </p>
 <p>The easiest way to do this is to create a subdirectory appropriately
 named, use <code>ln</code> or <code>cp</code> to install the proper files in it, and
 then <code>tar</code> that subdirectory.
 </p>
 <p>Compress the tar file with <code>gzip</code>.  For example, the actual
-distribution file for GCC version 1.40 is called &lsquo;<tt>gcc-1.40.tar.gz</tt>&rsquo;.
+distribution file for GCC version 1.40 is called <samp>gcc-1.40.tar.gz</samp>.
 It is ok to support other free compression formats as well.
 </p>
 <p>The <code>dist</code> target should explicitly depend on all non-source files
@@ -372,13 +372,13 @@ in which they are useful.
 <dt><code>installcheck</code></dt>
 <dd><p>Perform installation tests (if any).  The user must build and install
 the program before running the tests.  You should not assume that
-&lsquo;<tt>$(bindir)</tt>&rsquo; is in the search path.
+<samp>$(bindir)</samp> is in the search path.
 </p>
 </dd>
 <dt><code>installdirs</code></dt>
 <dd><p>It&rsquo;s useful to add a target named &lsquo;<samp>installdirs</samp>&rsquo; to create the
 directories where files are installed, and their parent directories.
-There is a script called &lsquo;<tt>mkinstalldirs</tt>&rsquo; which is convenient for
+There is a script called <samp>mkinstalldirs</samp> which is convenient for
 this; you can find it in the Gnulib package.
 You can use a rule like this:
 </p>
