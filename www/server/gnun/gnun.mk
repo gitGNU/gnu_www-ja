@@ -22,7 +22,8 @@ TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he id it ja ko ml nb nl pl \
                     pt-br ro ru sk sq sr sv ta tr uk vi zh-cn zh-tw
 
 # TRANSLATORS: If you have committed home.LANG.po, add here your
-# language code.
+# language code.  This variable is obsolete; it must be removed after gnun-0.7
+# release.
 HOME_LINGUAS := ar bg ca cs de el es fa fr id it ja ko nb nl pl pt-br ro ru sq \
 		sr tr uk zh-cn
 
@@ -35,12 +36,19 @@ FUZZY_DIFF_LINGUAS := es fr it nl pl ru
 # List of articles for which GRACE do not apply; i.e. they are
 # regenerated even if there are fuzzy strings.
 no-grace-articles := $(addprefix $(rootdir)/, \
-			server/po/takeaction)
+			home,server/po/takeaction)
 
-# List of additional templates
+# List of mandatory templates (all %.$lang.po files are generated).
 extra-templates := philosophy/philosophy-menu \
+		   server/body-include-1 \
+		   server/body-include-2 \
+		   server/footer-text \
+		   server/head-include-2 \
+		   server/outdated \
 		   server/skip-translations \
 		   server/top-addendum
+# List of templates that are translated or not on the discretion
+# of the respective team (the PO files are merged, but are not created).
 optional-templates := planetfeeds
 
 # List of articles for which VALIDATE has no full effect; i.e. the
@@ -94,7 +102,8 @@ ALL_DIRS :=	accessibility \
 		testimonials \
 		thankgnus
 
-ROOT :=		keepingup \
+ROOT :=		home \
+		keepingup \
 		provide
 
 accessibility :=	accessibility
