@@ -256,6 +256,7 @@ graphics :=	3dbabygnutux \
 		3dgnuhead \
 		agnubody \
 		agnuhead \
+		agnuheadterm \
 		ahurdlogo \
 		alternative-ascii \
 		anfsflogo \
@@ -282,6 +283,7 @@ graphics :=	3dbabygnutux \
 		gnubanner \
 		gnuolantern \
 		gnupascal \
+		gnupumpkin \
 		gnusvgart \
 		graphics \
 		groff-head \
