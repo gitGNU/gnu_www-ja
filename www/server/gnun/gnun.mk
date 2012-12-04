@@ -36,7 +36,7 @@ FUZZY_DIFF_LINGUAS := es fr it nl pl ru
 # List of articles for which GRACE do not apply; i.e. they are
 # regenerated even if there are fuzzy strings.
 no-grace-articles := $(addprefix $(rootdir)/, \
-			home,server/po/takeaction)
+			po/home server/po/takeaction)
 
 # List of mandatory templates (all %.$lang.po files are generated).
 extra-templates := philosophy/philosophy-menu \
