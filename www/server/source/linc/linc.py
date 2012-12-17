@@ -1,3 +1,4 @@
+#! /usr/bin/python
 # -*- coding: utf-8 -*-
 #
 # LINC - LINC Is Not Checklink
@@ -18,6 +19,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # defines
+
+LINC_VERSION = 'LINC 0.1'
+COPYRIGHT= \
+'Copyright (C) 2011-2012 Waclaw Jacek\n\
+Copyright (C) 2012 Free Software Foundation, Inc.\n\
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\
+This is free software: you are free to change and redistribute it.\n\
+There is NO WARRANTY, to the extent permitted by law.\n\
+\n\
+Written by Waclaw Jacek.'
 
 BASE_DIRECTORY = '/home/g/gnun/checkouts/www/'
 REMOTE_BASE_DIRECTORY = 'http://www.gnu.org/'
@@ -84,6 +95,7 @@ HTTP_NEW_LOCATION_HEADER = '^Location: (?P<new_location>.+)$'
 LINK_REGEXP = '<a( .+?)? href="(?P<link>[^mailto:].+?)"( .+?)?>'
 TRANSLATION_REGEXP = '\.(?P<langcode>[a-z]{2}|[a-z]{2}-[a-z]{2})\.[^.]+$'
 
+VERBOSE = 0
 # libraries
 
 import os
@@ -91,6 +103,7 @@ import re
 import socket
 import sys
 import time
+from optparse import OptionParser
 
 # global variables
 
@@ -265,13 +278,101 @@ def clear_file( name ):
 	fd = open( name, 'w' )
 	fd.close()
 
-### OK, main program below.
-	
-if REPORT_FILE_PREFIX[-1] != '/':
-	REPORT_FILE_PREFIX += '/'
+def show_usage(option, opt, value, parser):
+	parser.print_help()
+	exit(0)
 
-REPORT_FILE_NAME = REPORT_FILE_PREFIX + REPORT_FILE_NAME
-COMMENTED_FILE_NAME = REPORT_FILE_PREFIX + COMMENTED_FILE_NAME
+def show_version(option, opt, value, parser):
+	print LINC_VERSION
+	print COPYRIGHT
+	exit(0)
+	
+### OK, main program below.
+
+usage = \
+'Usage: %prog [options] [BASE_DIRECTORY]\n\
+Check links in HTML files from BASE_DIRECTORY.'
+parser = OptionParser(usage = usage, add_help_option = False)
+
+parser.add_option('-a', '--attempts', dest = 'attempts', type = 'int',
+		  metavar = 'N',
+                  help = 'maximum number of attempts [' \
+			 + str(NUMBER_OF_ATTEMPTS) + ']')
+parser.add_option('-c', '--check-delay', dest = 'check_delay',
+		  type = 'float', metavar = 'DELAY',
+                  help = 'delay between checks in seconds [' \
+			+ str(DELAY_BETWEEN_CHECKS) + ']')
+parser.add_option('-f', '--forwards', dest = 'forwards', type = 'int',
+		  metavar = 'N',
+                  help = 'maximum number of forwards to follow [' \
+			 + str(FORWARDS_TO_FOLLOW) + ']')
+parser.add_option('-o', '--output', dest = 'dir_name', metavar = 'DIRECTORY',
+		  help = 'write reports to DIRECTORY [' \
+			 + REPORT_FILE_PREFIX + ']')
+parser.add_option('-q', '--quiet', dest = 'quiet',
+		  action = 'count', help = "be more quiet")
+parser.add_option('-r', '--retry-delay', dest = 'retry_delay', type = 'float',
+		  metavar = 'DELAY',
+                  help = 'delay between retries in seconds [' \
+			 + str(DELAY_BETWEEN_RETRIES) + ']')
+parser.add_option('-s', '--skip-translations', dest = 'skip_translations',
+		  action = 'store_true',
+		  help = "skip files whose name has any language suffix")
+parser.add_option('-t', '--socket-timeout', dest = 'timeout', type = 'float',
+                  help = 'socket timeout [' + str(SOCKET_TIMEOUT) + ']')
+parser.add_option('-u', '--url', dest = 'url', metavar = 'URL', 
+                  help = 'base URL of the website [' \
+			 + REMOTE_BASE_DIRECTORY + ']')
+parser.add_option('-x', '--exclude', dest = 'exclude', metavar = 'REGEXP',
+                  help = 'skip files whose names match REGEXP [' \
+			 + EXCLUDED_FILENAMES_REGEXP + ']')
+parser.add_option('-X', '--exclude-dir', dest = 'exclude_dir',
+		  metavar = 'REGEXP',
+                  help = 'skip directories whose names match REGEXP [' \
+			 + EXCLUDED_DIRECTORIES_REGEXP + ']')
+parser.add_option('-v', '--verbose', dest = 'verbose', action = 'count',
+		  help = "be more verbose")
+parser.add_option('-h', '-?', '--help', action = 'callback',
+		  callback = show_usage, help = 'display this help and exit')
+parser.add_option('-V', '--version', action = 'callback',
+		  callback = show_version,
+                  help = 'output version information and exit')
+
+(options, args) = parser.parse_args()
+
+if len(args) > 1:
+	print 'Incorrect number of arguments (' \
+		+ str(len(args)) + '; should be 1 or less)' >> stderr
+	exit(1)
+
+if len(args) != 0:
+	BASE_DIRECTORY = args[0]
+
+if options.quiet != None:
+	VERBOSE -= options.quiet
+if options.verbose != None:
+	VERBOSE += options.verbose
+
+if options.attempts != None:
+	NUMBER_OF_ATTEMPTS = options.attempts
+if options.check_delay != None:
+	DELAY_BETWEEN_CHECKS = options.check_delay
+if options.forwards != None:
+	FORWARDS_TO_FOLLOW = options.forwards
+if options.dir_name != None:
+	REPORT_FILE_PREFIX = options.dir_name
+if options.retry_delay != None:
+	DELAY_BETWEEN_RETRIES = options.retry_delay
+if options.skip_translations != None:
+	SKIP_TRANSLATION_FILES = options.skip_translations
+if options.timeout != None:
+	SOCKET_TIMEOUT = options.timeout
+if options.url != None:
+	REMOTE_BASE_DIRECTORY = options.url
+if options.exclude != None:
+	EXCLUDED_FILENAMES_REGEXP = options.exclude
+if options.exclude_dir != None:
+	EXCLUDED_DIRECTORIES_REGEXP = options.exclude_dir
 
 base_directory = BASE_DIRECTORY
 remote_base_directory = REMOTE_BASE_DIRECTORY
@@ -282,17 +383,39 @@ pos = remote_base_directory.find( '://' ) + 3
 pos = remote_base_directory.find( '/', pos) + 1
 remote_site_root = remote_base_directory[ : pos ]
 
+if REPORT_FILE_PREFIX[-1] != '/':
+	REPORT_FILE_PREFIX += '/'
+
+REPORT_FILE_NAME = REPORT_FILE_PREFIX + REPORT_FILE_NAME
+COMMENTED_FILE_NAME = REPORT_FILE_PREFIX + COMMENTED_FILE_NAME
+
+if VERBOSE > 0:
+	print "Base directory:       `" + BASE_DIRECTORY + "'"
+	print "Number of attempts:    " + str(NUMBER_OF_ATTEMPTS)
+	print "Delay between checks:  " + str(DELAY_BETWEEN_CHECKS)
+	print "Delay between retries: " + str(DELAY_BETWEEN_RETRIES)
+	print "Socket timeout:        " + str(SOCKET_TIMEOUT)
+	print "Forwards to follow:    " + str(FORWARDS_TO_FOLLOW)
+	print "Skip translations:     " + str(SKIP_TRANSLATION_FILES)
+	print "Report to directory:  `" + REPORT_FILE_PREFIX + "'"
+	print "Base URL:             `" + REMOTE_BASE_DIRECTORY + "'"
+	print "Excluded files:       `" + EXCLUDED_FILENAMES_REGEXP + "'"
+	print "Excluded directories: `" + EXCLUDED_DIRECTORIES_REGEXP + "'"
+
 # `cd` to this path
 if not os.path.isdir( base_directory ):
-	print 'Base directory', \
-	      "`" + base_directory + "'", 'not found.'
-	sys.exit( 1 )
+	if VERBOSE > -3:
+		print 'Base directory', \
+			"`" + base_directory + "'", 'not found.' >> stderr
+	exit(1)
 
-print 'Recursively listing all files in the selected directory...'
+if VERBOSE >= 0:
+	print 'Recursively listing all files in the selected directory...'
 search_directory_for_files( base_directory, '')
 
 links_to_check = []
-print 'Listing files done. Looking for links...'
+if VERBOSE >= 0:
+	print 'Looking for links...'
 for file_to_check in files_to_check:
 	path_to_file = os.path.join( base_directory, file_to_check )
 	fd = open( path_to_file, 'r' )
@@ -319,7 +442,8 @@ for file_to_check in files_to_check:
 				       is_match_inside_comment( match ) }
 		links_to_check.append( link_container )
 
-print 'Alright, I\'ve got all the links. Let\'s check them now!'
+if VERBOSE >= 0:
+	print 'Checking links...'
 
 report_file = REPORT_FILE_NAME
 clear_file( report_file )
@@ -330,7 +454,7 @@ translation_report_files = {}
 number_of_links_to_check = str( len( links_to_check ) )
 already_checked_links = []
 for i, link_container in enumerate( links_to_check ):
-	if i % 10 == 0:
+	if (i % 10 == 0 and VERBOSE > -2):
 		print '\rChecking link ' + str( i + 1 ) + ' of ' \
 		      + number_of_links_to_check + '...',
 		sys.stdout.flush()
@@ -424,4 +548,5 @@ for i, link_container in enumerate( links_to_check ):
 	if DELAY_BETWEEN_CHECKS > 0:
 		time.sleep( DELAY_BETWEEN_CHECKS )
 
-print '\nDone! :-)'
+if VERBOSE >= 0:
+	print '\nDone!'

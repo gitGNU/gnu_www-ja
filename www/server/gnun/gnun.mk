@@ -529,6 +529,7 @@ philosophy := 	15-years-of-free-software \
 		the-root-of-this-problem \
 		third-party-ideas \
 		trivial-patent \
+                ubuntu-spyware \
 		ucita \
 		udi \
 		university \
