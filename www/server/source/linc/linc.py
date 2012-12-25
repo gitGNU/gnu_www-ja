@@ -20,7 +20,7 @@
 
 # defines
 
-LINC_VERSION = 'LINC 0.1'
+LINC_VERSION = 'LINC 0.2'
 COPYRIGHT= \
 'Copyright (C) 2011-2012 Waclaw Jacek\n\
 Copyright (C) 2012 Free Software Foundation, Inc.\n\
@@ -214,8 +214,11 @@ def is_match_inside_comment( regexp_match ):
 	comment_block_start = haystack.rfind('<!--', 0, match_pos)
 	comment_block_end = haystack.rfind('-->', 0, match_pos)
 	if comment_block_start > comment_block_end:
-		return True
-	return False
+		if haystack[comment_block_start + len('<!--')] == '#':
+			return 'ssi'
+		else:
+			return 'yes'
+	return 'no'
 
 def regexp_search_list(regexp, the_list):
 	for list_element in the_list:
@@ -463,6 +466,8 @@ for i, link_container in enumerate( links_to_check ):
 	line_number = link_container['line_number']
 	link = link_container['link']
 	is_inside_comment = link_container['is_inside_comment']
+	if is_inside_comment == 'ssi':
+		continue;
 
 	link_type = None
 
@@ -519,11 +524,11 @@ for i, link_container in enumerate( links_to_check ):
 
 	# Report working links inside comments so that webmasters
 	# could uncomment them.
-	if link_error == None and is_inside_comment:
+	if link_error == None and is_inside_comment == 'yes':
 		link_error = 'no error detected'
 		
 	if link_error != None:
-		if is_inside_comment:
+		if is_inside_comment == 'yes':
 			link_error += ' (link commented out)'
 			file_to_write = commented_file
 			postfix = '/c'
