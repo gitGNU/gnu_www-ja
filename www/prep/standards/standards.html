@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- The GNU coding standards, last updated November 25, 2012.
+<!-- The GNU coding standards, last updated January 1, 2013.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
-2011, 2012 Free Software Foundation, Inc.
+2011, 2012, 2013 Free Software Foundation, Inc.
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -12,7 +12,7 @@ any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
 "GNU Free Documentation License". -->
-<!-- Created by Texinfo 4.13.91+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 4.13.92+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>GNU Coding Standards</title>
 
@@ -114,7 +114,7 @@ ul.no-bullet {list-style: none}
     <li><a name="toc-Clean-Use-of-C-Constructs" href="#Syntactic-Conventions">5.3 Clean Use of C Constructs</a></li>
     <li><a name="toc-Naming-Variables_002c-Functions_002c-and-Files" href="#Names">5.4 Naming Variables, Functions, and Files</a></li>
     <li><a name="toc-Portability-between-System-Types" href="#System-Portability">5.5 Portability between System Types</a></li>
-    <li><a name="toc-Portability-between-CPUs" href="#CPU-Portability">5.6 Portability between <small>CPU</small>s</a></li>
+    <li><a name="toc-Portability-between-CPUs" href="#CPU-Portability">5.6 Portability between CPUs</a></li>
     <li><a name="toc-Calling-System-Functions" href="#System-Functions">5.7 Calling System Functions</a></li>
     <li><a name="toc-Internationalization-1" href="#Internationalization">5.8 Internationalization</a></li>
     <li><a name="toc-Character-Set-1" href="#Character-Set">5.9 Character Set</a></li>
@@ -171,11 +171,11 @@ Next: <a href="#Preface" accesskey="n" rel="next">Preface</a>, Up: <a href="dir.
 <a name="GNU-Coding-Standards"></a>
 <h1 class="top">GNU Coding Standards</h1>
 
-<p>The GNU coding standards, last updated November 25, 2012.
+<p>The GNU coding standards, last updated January 1, 2013.
 </p>
 <p>Copyright &copy; 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
-2011, 2012 Free Software Foundation, Inc.
+2011, 2012, 2013 Free Software Foundation, Inc.
 </p>
 <p>Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -275,7 +275,7 @@ coding standards for a trivial program.
 <a href="http://www.gnu.org/software/hello/hello.html">http://www.gnu.org/software/hello/hello.html</a>.
 </p>
 <p>This release of the GNU Coding Standards was last updated
-November 25, 2012.
+January 1, 2013.
 </p>
 
 <hr>
@@ -524,19 +524,20 @@ Next: <a href="#Using-Extensions" accesskey="n" rel="next">Using Extensions</a>,
 <a name="Compatibility-with-Other-Implementations"></a>
 <h3 class="section">3.2 Compatibility with Other Implementations</h3>
 <a name="index-compatibility-with-C-and-POSIX-standards"></a>
+<a name="index-C-compatibility"></a>
 <a name="index-POSIX-compatibility"></a>
 
 <p>With occasional exceptions, utility programs and libraries for GNU
 should be upward compatible with those in Berkeley Unix, and upward
 compatible with Standard C if Standard C specifies their
-behavior, and upward compatible with <small>POSIX</small> if <small>POSIX</small> specifies
+behavior, and upward compatible with POSIX if POSIX specifies
 their behavior.
 </p>
 <p>When these standards conflict, it is useful to offer compatibility
 modes for each of them.
 </p>
 <a name="index-options-for-compatibility"></a>
-<p>Standard C and <small>POSIX</small> prohibit many kinds of extensions.  Feel
+<p>Standard C and POSIX prohibit many kinds of extensions.  Feel
 free to make the extensions anyway, and include a &lsquo;<samp>--ansi</samp>&rsquo;,
 &lsquo;<samp>--posix</samp>&rsquo;, or &lsquo;<samp>--compatible</samp>&rsquo; option to turn them off.
 However, if the extension has a significant chance of breaking any real
@@ -544,7 +545,7 @@ programs or scripts, then it is not really upward compatible.  So you
 should try to redesign its interface to make it upward compatible.
 </p>
 <a name="index-POSIXLY_005fCORRECT_002c-environment-variable"></a>
-<p>Many GNU programs suppress extensions that conflict with <small>POSIX</small> if the
+<p>Many GNU programs suppress extensions that conflict with POSIX if the
 environment variable <code>POSIXLY_CORRECT</code> is defined (even if it is
 defined with a null value).  Please make your program recognize this
 variable if appropriate.
@@ -607,15 +608,21 @@ Next: <a href="#Conditional-Compilation" accesskey="n" rel="next">Conditional Co
 <a name="index-ANSI-C-standard"></a>
 
 <p>1989 Standard C is widespread enough now that it is ok to use its
-features in new programs.  There is one exception: do not ever use the
+features in programs.  There is one exception: do not ever use the
 &ldquo;trigraph&rdquo; feature of Standard C.
 </p>
-<p>1999 Standard C is not widespread yet, so please do not require its
-features in programs.  It is ok to use its features if they are present.
+<p>The 1999 and 2011 editions of Standard C are not fully supported
+on all platforms.  If you aim to support compilation by
+compilers other than GCC, you should not require these C
+features in your programs.  It is ok to use these features
+conditionally when the compiler supports them.
+</p>
+<p>If your program is only meant to compile with GCC, then you can
+use these features if GCC supports them, when they give substantial
+benefit.
 </p>
 <p>However, it is easy to support pre-standard compilers in most programs,
-so if you know how to do that, feel free.  If a program you are
-maintaining has such support, you should try to keep it working.
+so if you know how to do that, feel free.
 </p>
 <a name="index-function-prototypes"></a>
 <p>To support pre-standard C, instead of writing function definitions in
@@ -892,10 +899,10 @@ These are supported compatibly by GNU.
 </p>
 <a name="index-signal-handling"></a>
 <p>The preferred signal handling facilities are the BSD variant of
-<code>signal</code>, and the <small>POSIX</small> <code>sigaction</code> function; the
+<code>signal</code>, and the POSIX <code>sigaction</code> function; the
 alternative USG <code>signal</code> interface is an inferior design.
 </p>
-<p>Nowadays, using the <small>POSIX</small> signal functions may be the easiest way
+<p>Nowadays, using the POSIX signal functions may be the easiest way
 to make a program portable.  If you use <code>signal</code>, then on GNU/Linux
 systems running GNU libc version 1, you should include
 <samp>bsd/signal.h</samp> instead of <samp>signal.h</samp>, so as to get BSD
@@ -1152,11 +1159,11 @@ Next: <a href="#Dynamic-Plug_002dIn-Interfaces" accesskey="n" rel="next">Dynamic
 <a name="index-command_002dline-interface"></a>
 
 <a name="index-getopt"></a>
-<p>It is a good idea to follow the <small>POSIX</small> guidelines for the
+<p>It is a good idea to follow the POSIX guidelines for the
 command-line options of a program.  The easiest way to do this is to use
 <code>getopt</code> to parse them.  Note that the GNU version of <code>getopt</code>
 will normally permit options anywhere among the arguments unless the
-special argument &lsquo;<samp>--</samp>&rsquo; is used.  This is not what <small>POSIX</small>
+special argument &lsquo;<samp>--</samp>&rsquo; is used.  This is not what POSIX
 specifies; it is a GNU extension.
 </p>
 <a name="index-long_002dnamed-options"></a>
@@ -3581,7 +3588,7 @@ versions.  For a GNU program, this kind of portability is desirable, but
 not paramount.
 </p>
 <p>The primary purpose of GNU software is to run on top of the GNU kernel,
-compiled with the GNU C compiler, on various types of <small>CPU</small>.  So the
+compiled with the GNU C compiler, on various types of CPU.  So the
 kinds of portability that are absolutely necessary are quite limited.
 But it is important to support Linux-based GNU systems, since they
 are the form of GNU that is popular.
@@ -3638,11 +3645,11 @@ to move your code into other GNU programs.
 Next: <a href="#System-Functions" accesskey="n" rel="next">System Functions</a>, Previous: <a href="#System-Portability" accesskey="p" rel="previous">System Portability</a>, Up: <a href="#Writing-C" accesskey="u" rel="up">Writing C</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <a name="Portability-between-CPUs"></a>
-<h3 class="section">5.6 Portability between <small>CPU</small>s</h3>
+<h3 class="section">5.6 Portability between CPUs</h3>
 
 <a name="index-data-types_002c-and-portability"></a>
 <a name="index-portability_002c-and-data-types"></a>
-<p>Even GNU systems will differ because of differences among <small>CPU</small>
+<p>Even GNU systems will differ because of differences among CPU
 types&mdash;for example, difference in byte ordering and alignment
 requirements.  It is absolutely essential to handle these differences.
 However, don&rsquo;t make any effort to cater to the possibility that an
@@ -3719,12 +3726,12 @@ Next: <a href="#Internationalization" accesskey="n" rel="next">Internationalizat
 
 <p>Historically, C implementations differed substantially, and many
 systems lacked a full implementation of ANSI/ISO C89.  Nowadays,
-however, very few systems lack a C89 compiler and GNU C supports
-almost all of C99.  Similarly, most systems implement POSIX.1-1993
-libraries and tools, and many have POSIX.1-2001.
+however, all practical systems have a C89 compiler and GNU C supports
+almost all of C99 and some of C11.  Similarly, most systems implement
+POSIX.1-2001 libraries and tools, and many have POSIX.1-2008.
 </p>
 <p>Hence, there is little reason to support old C or non-POSIX systems,
-and you may want to take advantage of C99 and POSIX-1.2001 to write
+and you may want to take advantage of standard C and POSIX to write
 clearer, more portable, or faster code.  You should use standard
 interfaces where possible; but if GNU extensions make your program
 more maintainable, powerful, or otherwise better, don&rsquo;t hesitate to
@@ -6160,7 +6167,7 @@ package the version can be found;
 
 </li><li> a general description of what the package does;
 
-</li><li> a reference to the the file <samp>INSTALL</samp>, which
+</li><li> a reference to the file <samp>INSTALL</samp>, which
 should in turn contain an explanation of the installation procedure;
 
 </li><li> a brief explanation of any unusual top-level directories or
@@ -6887,7 +6894,7 @@ Previous: <a href="#GNU-Free-Documentation-License" accesskey="p" rel="previous"
 <tr><th><a name="Index_cp_letter-A">A</a></th><td></td><td></td></tr>
 <tr><td></td><td valign="top"><a href="#index-accepting-contributions">accepting contributions</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Contributions">Contributions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-address-for-bug-reports">address for bug reports</a>:</td><td>&nbsp;</td><td valign="top"><a href="#g_t_002d_002dhelp">--help</a></td></tr>
-<tr><td></td><td valign="top"><a href="#index-ANSI-C-standard"><small>ANSI</small> C standard</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Standard-C">Standard C</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-ANSI-C-standard">ANSI C standard</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Standard-C">Standard C</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-arbitrary-limits-on-data">arbitrary limits on data</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Semantics">Semantics</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-ASCII-characters">ASCII characters</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Character-Set">Character Set</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-autoconf"><code>autoconf</code></a>:</td><td>&nbsp;</td><td valign="top"><a href="#System-Portability">System Portability</a></td></tr>
@@ -6903,6 +6910,7 @@ Previous: <a href="#GNU-Free-Documentation-License" accesskey="p" rel="previous"
 <tr><td></td><td valign="top"><a href="#index-bug_002dstandards_0040gnu_002eorg-email-address"><code>bug-standards@gnu.org</code> email address</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Preface">Preface</a></td></tr>
 <tr><td colspan="4"> <hr></td></tr>
 <tr><th><a name="Index_cp_letter-C">C</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-C-compatibility">C compatibility</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Compatibility">Compatibility</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-C-library-functions_002c-and-portability">C library functions, and portability</a>:</td><td>&nbsp;</td><td valign="top"><a href="#System-Functions">System Functions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-canonical-name-of-a-program">canonical name of a program</a>:</td><td>&nbsp;</td><td valign="top"><a href="#g_t_002d_002dversion">--version</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-casting-pointers-to-integers">casting pointers to integers</a>:</td><td>&nbsp;</td><td valign="top"><a href="#CPU-Portability">CPU Portability</a></td></tr>
@@ -6916,7 +6924,7 @@ Previous: <a href="#GNU-Free-Documentation-License" accesskey="p" rel="previous"
 <tr><td></td><td valign="top"><a href="#index-command_002dline-arguments_002c-decoding">command-line arguments, decoding</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Semantics">Semantics</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-command_002dline-interface">command-line interface</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Command_002dLine-Interfaces">Command-Line Interfaces</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-commenting">commenting</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Comments">Comments</a></td></tr>
-<tr><td></td><td valign="top"><a href="#index-compatibility-with-C-and-POSIX-standards">compatibility with C and <small>POSIX</small> standards</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Compatibility">Compatibility</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-compatibility-with-C-and-POSIX-standards">compatibility with C and POSIX standards</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Compatibility">Compatibility</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-compiler-warnings">compiler warnings</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Syntactic-Conventions">Syntactic Conventions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-conditional-changes_002c-and-change-logs">conditional changes, and change logs</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Conditional-Changes">Conditional Changes</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-conditionals_002c-comments-for">conditionals, comments for</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Comments">Comments</a></td></tr>
@@ -7015,7 +7023,7 @@ Previous: <a href="#GNU-Free-Documentation-License" accesskey="p" rel="previous"
 <tr><td></td><td valign="top"><a href="#index-names-of-variables_002c-functions_002c-and-files">names of variables, functions, and files</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Names">Names</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-NEWS-file"><samp>NEWS</samp> file</a>:</td><td>&nbsp;</td><td valign="top"><a href="#NEWS-File">NEWS File</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-non_002dASCII-characters">non-ASCII characters</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Character-Set">Character Set</a></td></tr>
-<tr><td></td><td valign="top"><a href="#index-non_002dPOSIX-systems_002c-and-portability">non-<small>POSIX</small> systems, and portability</a>:</td><td>&nbsp;</td><td valign="top"><a href="#System-Portability">System Portability</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-non_002dPOSIX-systems_002c-and-portability">non-POSIX systems, and portability</a>:</td><td>&nbsp;</td><td valign="top"><a href="#System-Portability">System Portability</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-non_002dstandard-extensions">non-standard extensions</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Using-Extensions">Using Extensions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-NUL-characters"><code>NUL</code> characters</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Semantics">Semantics</a></td></tr>
 <tr><td colspan="4"> <hr></td></tr>
@@ -7036,7 +7044,7 @@ Previous: <a href="#GNU-Free-Documentation-License" accesskey="p" rel="previous"
 <tr><td></td><td valign="top"><a href="#index-portability_002c-and-data-types">portability, and data types</a>:</td><td>&nbsp;</td><td valign="top"><a href="#CPU-Portability">CPU Portability</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-portability_002c-and-library-functions">portability, and library functions</a>:</td><td>&nbsp;</td><td valign="top"><a href="#System-Functions">System Functions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-portability_002c-between-system-types">portability, between system types</a>:</td><td>&nbsp;</td><td valign="top"><a href="#System-Portability">System Portability</a></td></tr>
-<tr><td></td><td valign="top"><a href="#index-POSIX-compatibility"><small>POSIX</small> compatibility</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Compatibility">Compatibility</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-POSIX-compatibility">POSIX compatibility</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Compatibility">Compatibility</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-POSIX-functions_002c-and-portability">POSIX functions, and portability</a>:</td><td>&nbsp;</td><td valign="top"><a href="#System-Functions">System Functions</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-POSIXLY_005fCORRECT_002c-environment-variable"><code>POSIXLY_CORRECT</code>, environment variable</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Compatibility">Compatibility</a></td></tr>
 <tr><td></td><td valign="top"><a href="#index-post_002dinstallation-commands">post-installation commands</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Install-Command-Categories">Install Command Categories</a></td></tr>
