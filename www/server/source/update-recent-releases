@@ -1,0 +1,96 @@
+#!/bin/sh
+# $Id: update-recent-releases,v 1.5 2013/01/14 07:19:56 ineiev Exp $
+# Public domain.  Originally written by Karl Berry, January 2013.
+# This script is run (more than daily) from gnun@fencepost cron.
+# 
+# Construct list of recent GNU releases from info-gnu archives.  The
+# idea is to keep two .html files, one named "lastmonth.html" for the
+# previous month's announcements and one named YYYY-MM.html for the
+# current month's.  When a new month rolls in, current becomes previous,
+# naturally.
+# 
+# We extract out the list of announcements from the full web pages to be
+# SSIncluded in http://www.gnu.org/software/recent-releases.html.
+# 
+# The very first time it is run in a given hierarchy, it is necessary to
+# set up lastmonth.html by hand and a dummy YYYY-MM.html.
+# 
+# We assume GNU date and a decent sed.
+
+if test $# -gt 0; then
+  www_software_dir=$1
+else
+  mydir=`dirname $0`  # WWW/server/source
+  www_software_dir=`cd $mydir/../../software/ && pwd`
+fi
+cd $www_software_dir || exit 1
+
+# need to work in tmp dir.  This is .cvsignored.
+test -d recent-releases-tmp || mkdir recent-releases-tmp
+cd recent-releases-tmp || exit 1
+
+wget="wget -q"
+info_gnu=http://lists.gnu.org/archive/html/info-gnu
+
+lastmonth=`date +%Y-%m -d "last month"`
+thismonth=`date +%Y-%m`
+$wget $info_gnu/$thismonth/index.html -O $thismonth.html.new
+
+if test -s $thismonth.html; then
+  # Continuing on in current month.  See if we have anything new.
+  if cmp -s $thismonth.html $thismonth.html.new; then 
+    #echo "$0: no changes, goodbye."  # be silent by default.
+    rm -f $thismonth.html.new
+    exit 0
+  fi
+  
+  echo "$0: new releases in $thismonth, merging."
+  diff $thismonth.html $thismonth.html.new
+
+else
+  # First releases in a new month.
+  echo "$0: seems $thismonth is a new month, resetting lastmonth=$lastmonth."
+  mv $lastmonth.html lastmonth.html  # static name
+fi
+
+# New stuff in this month, in either case.
+mv $thismonth.html.new $thismonth.html
+
+# Given html info-gnu archive file in $1 and month reference in $2, get
+# rid of the leading and trailing junk, remove the anchors, and fix the
+# href's.  Output to stdout.
+# 
+fix_month () {
+  infile=$1
+  month=$2
+  sed -e '1,/<hr size=/d' -e '/<hr size=/,$d' \
+      -e 's, name="[0-9]\{5\}", ,' \
+      -e "s, href=\",href=\"$info_gnu/$month/," \
+      "$1"
+}
+
+(fix_month $thismonth.html $thismonth; fix_month lastmonth.html $lastmonth) \
+>../recent-releases-include.html
+cd .. || exit 1
+
+validate_file () {
+  (echo '<html>'; cat $1; echo '</html>') | xmllint --noout - 2> /dev/null
+}
+
+# Try to fix validation errors.
+if validate_file recent-releases-include.html; then
+  echo "$0: the file validates."
+else
+  echo "$0: fixing validation errors."
+  sed 's,^</li></ul>$,</ul></li>,' recent-releases-include.html \
+    > recent-releases-tmp/recent-releases-include.html
+  if validate_file recent-releases-tmp/recent-releases-include.html; then
+    echo "$0: the errors were fixed."
+    cp recent-releases-tmp/recent-releases-include.html .
+  else
+    echo "$0: failed to fix."
+  fi
+fi
+
+cvs commit -m"auto-commit: new $thismonth releases" \
+  recent-releases-include.html

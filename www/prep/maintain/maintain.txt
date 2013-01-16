@@ -34,9 +34,13 @@ Version
   11.5 Automated FTP Uploads
     11.5.1 Automated Upload Registration
     11.5.2 Automated Upload Procedure
-    11.5.3 FTP Upload Directive File - v1.2
-    11.5.4 FTP Upload Directive File - v1.1
-    11.5.5 FTP Upload Directive File - v1.0
+    11.5.3 FTP Upload Release File Triplet
+    11.5.4 FTP Upload Directive File
+    11.5.5 FTP Upload Directory Trees
+    11.5.6 FTP Upload File Replacement
+    11.5.7 FTP Upload Standalone Directives
+    11.5.8 FTP Upload Directive File - v1.1
+    11.5.9 FTP Upload Directive File - v1.0
   11.6 Announcing Releases
 12 Web Pages
   12.1 Hosting for Web Pages
@@ -58,7 +62,7 @@ Index
 Version
 *******
 
-Information for maintainers of GNU software, last updated January 1,
+Information for maintainers of GNU software, last updated January 10,
 2013.
 
    Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -109,7 +113,7 @@ the GNU GPL, to let the public benefit from per work, and to enable per
 to feel person has done the right thing."
 
    This release of the GNU Maintainer Information was last updated
-January 1, 2013.
+January 10, 2013.
 
 2 Getting Help
 **************
@@ -1346,23 +1350,63 @@ when an upload is made, either successfully or unsuccessfully.
 ---------------------------------
 
 Once you have registered your information as described in the previous
-section, you will be able to do ftp uploads for yourself using the
-following procedure.
+section, you can and should do ftp uploads for your package.  There are
+two basic kinds of uploads (details in the following sections):
 
-   For each upload destined for 'ftp.gnu.org' or 'alpha.gnu.org', three
-files (a "triplet") need to be uploaded via ftp to the host
-'ftp-upload.gnu.org'.
+  1. Three related files (a "triplet") to upload a file destined for
+     'ftp.gnu.org' or 'alpha.gnu.org': *note FTP Upload Release File
+     Triplet::.
 
-  1. The file to be distributed; for example, 'foo.tar.gz'.
+  2. A single (signed) standalone "directive file" to perform operations
+     on the server: *note FTP Upload Standalone Directives::.
+
+   In either case, you upload the file(s) via anonymous ftp to the host
+'ftp-upload.gnu.org'.  If the upload is destined for 'ftp.gnu.org',
+place the file(s) in the directory '/incoming/ftp'.  If the upload is
+destined for 'alpha.gnu.org', place the file(s) in the directory
+'/incoming/alpha'.
+
+   Uploads are processed every five minutes.  Uploads that are in
+progress while the upload processing script is running are handled
+properly, so do not worry about the timing of your upload.  Spurious and
+stale uploaded files are deleted automatically after 24 hours.
+
+   Your designated upload email addresses (*note Automated Upload
+Registration::) are sent a message if there are problems processing an
+upload for your package.  You also receive a message when an upload has
+been successfully processed.
+
+   One programmatic way to create and transfer the necessary files is to
+use the 'gnupload' script, which is available from the 'build-aux/'
+directory of the 'gnulib' project at
+<http://savannah.gnu.org/projects/gnulib>.  Run 'gnupload --help' for a
+description and examples.
+
+   'gnupload' invokes the program 'ncftpput' to do the actual transfers;
+if you don't happen to have the 'ncftp' package installed, the
+'ncftpput-ftp' script in the 'build-aux/' directory of 'gnulib' can
+serve as a replacement.  It uses the plain command line 'ftp' program.
+
+   If you have difficulties with an upload, email <ftp-upload@gnu.org>.
+You can check the archive of uploads processed at
+<https://lists.gnu.org/archive/html/ftp-upload-report>.
+
+11.5.3 FTP Upload Release File Triplet
+--------------------------------------
+
+Ordinarily, the goal is to upload a new release of your package, let's
+say, the source archive 'foo-1.0.tar.gz'.  To do this, you
+simultaneously upload three files:
+
+  1. The file to be distributed; in our example, 'foo-1.0.tar.gz'.
 
   2. Detached GPG binary signature file for (1); for example,
-     'foo.tar.gz.sig'.  Make this with 'gpg -b foo.tar.gz'.
+     'foo-1.0.tar.gz.sig'.  Make this with 'gpg -b foo-1.0.tar.gz'.
 
   3. A clearsigned "directive file"; for example,
-     'foo.tar.gz.directive.asc'.  Make this by preparing the plain text
-     file 'foo.tar.gz.directive' and then run 'gpg --clearsign
-     foo.tar.gz.directive'.  *Note FTP Upload Directive File - v1.1::,
-     for the contents of the directive file.
+     'foo-1.0.tar.gz.directive.asc', created with 'gpg --clearsign
+     foo-1.0.tar.gz.directive'.  Its contents are described in the next
+     section.
 
    The names of the files are important.  The signature file must have
 the same name as the file to be distributed, with an additional '.sig'
@@ -1370,191 +1414,229 @@ extension.  The directive file must have the same name as the file to be
 distributed, with an additional '.directive.asc' extension.  If you do
 not follow this naming convention, the upload _will not be processed_.
 
-   Since v1.1 of the upload directives, it is also possible to upload a
-clearsigned directive file on its own (no accompanying '.sig' or any
-other file) to perform certain operations on the server.  *Note FTP
-Upload Directive File - v1.1::, for more information.
+11.5.4 FTP Upload Directive File
+--------------------------------
 
-   Upload the file(s) via anonymous ftp to 'ftp-upload.gnu.org'.  If the
-upload is destined for 'ftp.gnu.org', place the file(s) in the
-'/incoming/ftp' directory.  If the upload is destined for
-'alpha.gnu.org', place the file(s) in the '/incoming/alpha' directory.
+To repeat, a (signed) "directive file" must be part of every upload.
+The unsigned original is just a plain text file you can create with any
+text editor.  Its name must be, e.g., 'foo-1.0.tar.gz.directive' for
+accompanying an upload of 'foo-1.0.tar.gz'.
 
-   Uploads are processed every five minutes.  Uploads that are in
-progress while the upload processing script is running are handled
-properly, so do not worry about the timing of your upload.  Uploaded
-files that belong to an incomplete triplet are deleted automatically
-after 24 hours.
+   After creating the file, run 'gpg --clearsign
+foo-1.0.tar.gz.directive', which will create
+'foo-1.0.tar.gz.directive.asc'; this is the file to be uploaded.
 
-   Your designated upload email addresses (*note Automated Upload
-Registration::) are sent a message if there are any problems processing
-an upload for your package.  You also receive a message when your upload
-has been successfully processed.
+   When part of a triplet for uploading a release file, the directive
+file must always contain the directives 'version', 'filename' and
+'directory'.  In addition, a 'comment' directive is optional.  These
+directives can be given in any order.
 
-   One automated way to create and transfer the necessary files is to
-use the 'gnupload' script, which is available from the 'build-aux/'
-directory of the 'gnulib' project at
-<http://savannah.gnu.org/projects/gnulib>.  'gnupload' can also remove
-uploaded files.  Run 'gnupload --help' for a description and examples.
+   Continuing our example of uploading 'foo-1.0.tar.gz' for a package
+named 'foo' to 'ftp.gnu.org', the values would be as follows:
 
-   'gnupload' uses the 'ncftpput' program to do the actual transfers; if
-you don't happen to have the 'ncftp' package installed, the
-'ncftpput-ftp' script in the 'build-aux/' directory of 'gnulib' serves
-as a replacement which uses plain command line 'ftp'.
+'version'
+     must be the value '1.2' (the current version, as of May 2012):
+     version: 1.2
 
-   If you have difficulties with an upload, email <ftp-upload@gnu.org>.
-You can check the archive of uploads processed at
-<https://lists.gnu.org/archive/html/ftp-upload-report>.
+'filename'
+     must be the name of the file to be distributed:
+     filename: foo-1.0.tar.gz
 
-11.5.3 FTP Upload Directive File - v1.2
----------------------------------------
+'directory'
+     specifies the final destination directory where the uploaded file
+     and its '.sig' companion are to be placed.  Here we will put our
+     file in the top level directory of the package, as is the most
+     common practice:
+     directory: foo
 
-All the directives and documentation for v1.1 of the protocol still
-apply.  *Note FTP Upload Directive File - v1.1::, for more information.
+'comment'
+     is optional, and ignored if present:
+     comment: let's hope this works!
 
-New directive 'replace'
------------------------
-
-As part of an uploaded triplet, a 'foo.tar.gz.directive.asc' file might
-contain these lines (before being GPG-clearsigned):
+   Putting the above together, the complete contents of the directive
+file 'foo-1.0.tar.gz.directive' for our example would be:
 
      version: 1.2
-     directory: bar/v1
-     filename: foo.tar.gz
-     comment: hello world!
+     directory: foo
+     filename: foo-1.0.tar.gz
+     comment: let's hope this works!
 
-   If 'foo.tar.gz' exists prior to upload, this directive file will
-result in an error.  Prior to May 2012, the behavior (of v1.1) was
-different: any existing files were automatically archived and replaced
-with the new upload.  Since May 2012, no files are replaced unless the
-(new) 'replace' directive is set to 'true' in the directive file.  That
-directive requires version 1.2 of the protocol.  For example:
+   Then you 'gpg --clearsign' the file as given above, and upload (using
+anonymous ftp) the three files:
+
+'foo-1.0.tar.gz'
+'foo-1.0.tar.gz.sig'
+'foo-1.0.tar.gz.directive.asc'
+
+to the host 'ftp-upload.gnu.org', directory '/incoming/ftp' (for
+official releases), or the directory '/incoming/alpha' (for test
+releases).
+
+   After the system authenticates the signatures, the files
+'foo-1.0.tar.gz' and 'foo-1.0.tar.gz.sig' are placed in the directory
+'gnu/foo/' on 'ftp.gnu.org'.  That is, we'll have made our release
+available at 'http://ftp.gnu.org/gnu/foo/foo-1.0.tar.gz' (and then from
+our many mirrors via 'http://ftpmirror.gnu.org/foo/foo-1.0.tar.gz').
+Whew.
+
+   A common reason for the upload not succeeding is your GPG signature
+not being registered with the upload system.  There is nothing that
+makes this happen automatically.  You must email the system
+administrators as described above (*note Automated Upload
+Registration::).
+
+11.5.5 FTP Upload Directory Trees
+---------------------------------
+
+You can make any directory hierarchy you like under your package
+directory.  The system automatically creates any intermediate
+directories you specify in the 'directory' directive.
+
+   Slightly modifying the example above, the following directive file:
 
      version: 1.2
-     directory: bar/v1
-     filename: foo.tar.gz
+     directory: foo/foo-1.0
+     filename: foo-1.0.tar.gz
+     comment: creates per-version subdirectory as needed
+
+would put the tar file in the 'foo-1.0/' subdirectory of the package
+'foo', thus ending up at 'ftp.gnu.org:gnu/foo/foo-1.0/foo-1.0.tar.gz'.
+
+   However, to keep things simpler for users, we recommend not using
+subdirectories, unless perhaps each release of your package consists of
+many separate files.
+
+11.5.6 FTP Upload File Replacement
+----------------------------------
+
+You can replace existing files that have already been uploaded by
+including a directive line 'replace: true'.  For example, you might like
+to provide a README file in the release directory and update it from
+time to time.  The full directive file for that would look like this:
+
      replace: true
-     comment: hello world!
+     version: 1.2
+     directory: foo
+     filename: README
+     comment: replaces an existing README
 
-11.5.4 FTP Upload Directive File - v1.1
+   It is ok if the file to be replaced doesn't already exist; then the
+new file is simply added, i.e., the 'replace' directive has no effect.
+
+   When an existing file is replaced, the original is archived to a
+private location.  There is no automated or public access to such
+archived files; if you want to retrieve or view them, please email
+<sysadmin@fsf.org>.
+
+   We very strongly discourage replacing an actual software release
+file, such as 'foo-1.0.tar.gz'.  Releases should be unique, and forever.
+If you need to make fixes, make another release.  If you have an exigent
+reason for a particular release file to no longer be available, it can
+be explicitly archived, as described in the next section.
+
+   If you want to make the current release available under a generic
+name, such as 'foo-latest.tar.gz', that is better done with symlinks,
+also as described in the next section.
+
+11.5.7 FTP Upload Standalone Directives
 ---------------------------------------
 
-The directive file name must end in 'directive.asc'.
+The previous sections describe how to upload a file to be publicly
+released.  It's also possible to upload a directive file by itself to
+perform a few operations on the upload directory.  The supported
+directives are:
 
-   When part of a triplet, the directive file must always contain the
-directives 'version', 'directory' and 'filename', as described.  In
-addition, a 'comment' directive is allowed.
+'symlink'
+     creates a symlink.
 
-   The 'version' directive must always have the value '1.1'.
+'rmsymlink'
+     removes a symlink.
 
-   The 'directory' directive specifies the final destination directory
-where the uploaded file and its '.sig' companion are to be placed.
+'archive'
+     takes a file or directory offline.
 
-   The 'filename' directive must contain the name of the file to be
-distributed (item (1) above).
+   As for the directives described above, the 'directory' and 'version'
+directives are still required, the 'comment' directive remains optional,
+and the 'filename' directive is not allowed.
 
-   For example, as part of an uploaded triplet, a
-'foo.tar.gz.directive.asc' file might contain these lines (before being
-gpg clearsigned):
+   When uploaded by itself, the name of the directive file is not
+important.  But it must be still be signed, using 'gpg --clearsign'; the
+resulting '.asc' file is what should be uploaded.
 
-     version: 1.1
-     directory: bar/v1
-     filename: foo.tar.gz
-     comment: hello world!
+   Here's an example of the full directive file to create a
+'foo-latest.tar.gz' symlink:
 
-   This directory line indicates that 'foo.tar.gz' and 'foo.tar.gz.sig'
-are part of package 'bar'.  If you uploaded this triplet to
-'/incoming/ftp' and the system positively authenticates the signatures,
-the files 'foo.tar.gz' and 'foo.tar.gz.sig' will be placed in the
-directory 'gnu/bar/v1' of the 'ftp.gnu.org' site.
+     version: 1.2
+     directory: foo
+     symlink: foo-1.1.tar.gz foo-latest.tar.gz
+     comment: create a symlink
 
-   The directive file can be used to create currently non-existent
-directory trees, as long as they are under the directory for your
-package (in the example above, the package directory is 'bar').
-
-   If you upload a file that already exists in the FTP directory, the
-original will simply be archived and replaced with the new upload.
-There is no automated or online access to archived files; if you want to
-retrieve or view them, please email sysadmin.
-
-Standalone directives
----------------------
-
-When uploaded by itself, a directive file must contain one or more of
-the directives 'symlink', 'rmsymlink' or 'archive', in addition to the
-obligatory 'directory' and 'version' directives.  A 'filename' directive
-is not allowed, and a 'comment' directive remains optional.
-
-   If you use more than one directive, the directives are executed in
-the sequence they are specified in.  If a directive results in an error,
-further execution of the upload is aborted.
+   If you include more than one directive in a standalone upload, the
+directives are executed in the sequence they are specified in.  If a
+directive results in an error, further execution of the upload is
+aborted.
 
    Removing a symbolic link (with 'rmsymlink') which does not exist
-results in an error.  However, attempting to create a symbolic link that
-already exists (with 'symlink') is not an error.  In this case 'symlink'
-behaves like the command 'ln -s -f': any existing symlink is removed
-before creating the link.  (But an existing regular file or directory is
-not removed.)
+results in an error.  On the other hand, attempting to create a symbolic
+link that already exists (with 'symlink') is not an error.  In this case
+'symlink' behaves like the command 'ln -s -f': any existing symlink is
+removed before creating the link.  (But an existing regular file or
+directory is not replaced.)
 
-   Here are a few examples.  The first removes a symlink:
+   Here's an example of removing a symlink, e.g., if you decide not to
+maintain a 'foo-latest' link any more:
 
-     version: 1.1
-     directory: bar/v1
-     rmsymlink: foo-latest.tgz
+     version: 1.2
+     directory: foo
+     rmsymlink: foo-latest.tar.gz
      comment: remove a symlink
 
-Archive an old file, taking it offline:
+And here's an example of archiving a file, e.g., an unintended upload:
 
-     version: 1.1
-     directory: bar/v1
-     archive: foo-1.1.tar.gz
+     version: 1.2
+     directory: foo
+     archive: foo-1.1x.tar.gz
      comment: archive an old file; it will not be
-     comment: available through FTP any more.
+     comment: publicly available any more.
 
-Archive an old directory (with all contents), taking it offline:
+   The 'archive' directive causes the specified items to become
+inaccessible.  This should only be used when it is actively bad for them
+to be available, e.g., you uploaded something by mistake.
 
-     version: 1.1
-     directory: bar/v1
-     archive: foo
-     comment: archive an old directory; it and its entire
-     comment: contents will not be available through FTP anymore
+   If all you want to do is reduce how much stuff is in your release
+directory, an alternative is to email <sysadmin@fsf.org> and ask them to
+move old items to the 'http://ftp.gnu.org/old-gnu/' directory; then they
+will still be available.  In general, however, we recommend leaving all
+official releases in the main release directory.
 
-Create a new symlink:
-
-     version: 1.1
-     directory: bar/v1
-     symlink: foo-1.2.tar.gz foo-latest.tgz
-     comment: create a new symlink
-
-Do everything at once:
-
-     version: 1.1
-     directory: bar/v1
-     rmsymlink: foo-latest.tgz
-     symlink: foo-1.2.tar.gz foo-latest.tgz
-     archive: foo-1.1.tar.gz
-     comment: now do everything at once
-
-11.5.5 FTP Upload Directive File - v1.0
+11.5.8 FTP Upload Directive File - v1.1
 ---------------------------------------
 
-Support for v1.0 uploads was phased out in May 2012; please upgrade
+The v1.1 protocol for uploads lacked the 'replace' directive; instead,
+file replacements were done automatically and silently (clearly
+undesirable).  This is the only difference between v1.2 and v1.1.
+
+11.5.9 FTP Upload Directive File - v1.0
+---------------------------------------
+
+Support for v1.0 uploads was discontinued in May 2012; please upgrade
 to v1.2.
 
-   The directive file should contain one line, excluding the clearsigned
-data GPG that inserts, which specifies the final destination directory
-where items (1) and (2) are to be placed.
+   In v1.0, the directive file contained one line, excluding the
+clearsigned data GPG that inserts, which specifies the final destination
+directory where items (1) and (2) are to be placed.
 
-   For example, the 'foo.tar.gz.directive.asc' file might contain the
-single line:
+   For example, the 'foo-1.0.tar.gz.directive.asc' file might contain
+the single line:
 
      directory: bar/v1
 
-   This directory line indicates that 'foo.tar.gz' and 'foo.tar.gz.sig'
-are part of package 'bar'.  If you were to upload the triplet to
-'/incoming/ftp', and the system can positively authenticate the
-signatures, then the files 'foo.tar.gz' and 'foo.tar.gz.sig' will be
-placed in the directory 'gnu/bar/v1' of the 'ftp.gnu.org' site.
+   This directory line indicates that 'foo-1.0.tar.gz' and
+'foo-1.0.tar.gz.sig' are part of package 'bar'.  If you were to upload
+the triplet to '/incoming/ftp', and the system can positively
+authenticate the signatures, then the files 'foo-1.0.tar.gz' and
+'foo-1.0.tar.gz.sig' will be placed in the directory 'gnu/bar/v1' of the
+'ftp.gnu.org' site.
 
    The directive file can be used to create currently non-existent
 directory trees, as long as they are under the package directory for
@@ -1599,6 +1681,10 @@ handling mail for your package.)
      a nearby mirror.
 
    * The NEWS (*note (standards)NEWS File::) for the present release.
+
+   You may find the 'announce-gen' script useful for creating
+announcements, which is available from the 'build-aux/' directory of the
+'gnulib' project at <http://savannah.gnu.org/projects/gnulib>.
 
 12 Web Pages
 ************
@@ -1770,8 +1856,8 @@ correspondence about 'gendocs' to <bug-texinfo@gnu.org>.
 
 Since 'www.gnu.org' works through CVS, CVS keywords in your manual, such
 as '$Log: maintain.txt,v $
-as 'Revision 1.88  2013/01/02 00:02:07  karl
-as 'standards/maintain updates
+as 'Revision 1.90  2013/01/10 23:21:34  karl
+as 'upload directive.asc
 as '', need special treatment (even if you don't happen to maintain
 your manual in CVS).
 
@@ -2598,169 +2684,183 @@ Index
 * Menu:
 
 * $ keywords in web pages:               CVS Keywords in Web Pages.
-                                                             (line 1771)
-* '/gd/gnuorg' directory:                Copyright Papers.   (line  261)
-* advisory committee:                    Getting Help.       (line  122)
-* 'alpha.gnu.org', test release site:    Test Releases.      (line 1245)
+                                                             (line 1856)
+* '/gd/gnuorg' directory:                Copyright Papers.   (line  265)
+* advisory committee:                    Getting Help.       (line  126)
+* 'alpha.gnu.org', test release site:    Test Releases.      (line 1249)
 * announcement mailing list, project-specific: Announcements.
-                                                             (line 1581)
-* announcements:                         Announcements.      (line 1566)
+                                                             (line 1662)
+* announcements:                         Announcements.      (line 1647)
 * announcements, mailing list for:       Standard Mailing Lists.
-                                                             (line 1023)
-* assignments, copyright:                Copyright Papers.   (line  234)
+                                                             (line 1027)
+* assignments, copyright:                Copyright Papers.   (line  238)
 * 'AUTHORS' file:                        Recording Contributors.
-                                                             (line  483)
+                                                             (line  487)
 * automake:                              Distribution tar Files.
-                                                             (line 1185)
-* beta releases:                         Test Releases.      (line 1245)
-* bug reports, email tracker for:        Replying to Mail.   (line 1109)
-* bug reports, handling:                 Replying to Mail.   (line 1073)
-* bug reports, web tracker for:          Replying to Mail.   (line 1109)
+                                                             (line 1189)
+* beta releases:                         Test Releases.      (line 1249)
+* bug reports, email tracker for:        Replying to Mail.   (line 1113)
+* bug reports, handling:                 Replying to Mail.   (line 1077)
+* bug reports, web tracker for:          Replying to Mail.   (line 1113)
 * <bug-gnu-utils@gnu.org>:               Standard Mailing Lists.
-                                                             (line 1009)
-* 'bug-standards@gnu.org' email address: Preface.            (line   88)
-* contents of announcements:             Announcements.      (line 1587)
-* contributions, accepting:              Clean Ups.          (line  916)
-* copyright notices in program files:    Copyright Notices.  (line  559)
-* copyright papers:                      Copyright Papers.   (line  234)
+                                                             (line 1013)
+* 'bug-standards@gnu.org' email address: Preface.            (line   92)
+* contents of announcements:             Announcements.      (line 1668)
+* contributions, accepting:              Clean Ups.          (line  920)
+* copyright notices in program files:    Copyright Notices.  (line  563)
+* copyright papers:                      Copyright Papers.   (line  238)
 * creating mailing lists:                Creating Mailing Lists.
-                                                             (line 1036)
+                                                             (line 1040)
 * CVS keywords in web pages:             CVS Keywords in Web Pages.
-                                                             (line 1771)
-* CVS repository:                        Hosting.            (line 1988)
-* data base of GNU copyright assignments: Copyright Papers.  (line  255)
+                                                             (line 1856)
+* CVS repository:                        Hosting.            (line 2073)
+* data base of GNU copyright assignments: Copyright Papers.  (line  259)
 * development method, open source:       Free Software and Open Source.
-                                                             (line 1856)
+                                                             (line 1941)
 * development resources:                 GNU Accounts and Resources.
-                                                             (line  142)
+                                                             (line  146)
 * diff:                                  Distribution Patches.
-                                                             (line 1209)
+                                                             (line 1213)
+* directive file, for FTP uploads:       FTP Upload Directive File.
+                                                             (line 1419)
+* directives for ftp uploads, standalone: FTP Upload Standalone Directives.
+                                                             (line 1543)
+* directory trees, in ftp uploads:       FTP Upload Directory Trees.
+                                                             (line 1490)
 * Directory, Free Software:              Free Software Directory.
-                                                             (line 2060)
-* disclaimers:                           Copyright Papers.   (line  234)
+                                                             (line 2145)
+* disclaimers:                           Copyright Papers.   (line  238)
 * distribution, tar files:               Distribution tar Files.
-                                                             (line 1160)
+                                                             (line 1164)
 * documentation output, generating:      Invoking gendocs.sh.
-                                                             (line 1695)
-* Donations, for packages:               Donations.          (line 2021)
-* down, when GNU machines are:           Getting Help.       (line  129)
-* email:                                 Mail.               (line  995)
+                                                             (line 1780)
+* Donations, for packages:               Donations.          (line 2106)
+* down, when GNU machines are:           Getting Help.       (line  133)
+* email:                                 Mail.               (line  999)
 * ethics:                                Ethical and Philosophical Consideration.
-                                                             (line 1801)
+                                                             (line 1886)
 * FDL, GNU Free Documentation License:   GNU Free Documentation License.
-                                                             (line 2116)
+                                                             (line 2201)
 * 'fencepost.gnu.org' GNU login host:    GNU Accounts and Resources.
-                                                             (line  142)
+                                                             (line  146)
 * formats for documentation, desired:    Manuals on Web Pages.
-                                                             (line 1669)
+                                                             (line 1754)
 * Free Software Directory:               Free Software Directory.
-                                                             (line 2060)
+                                                             (line 2145)
 * free software movement:                Free Software and Open Source.
-                                                             (line 1856)
-* FSF system administrators:             Getting Help.       (line  135)
-* FTP site:                              Hosting.            (line 1988)
+                                                             (line 1941)
+* FSF system administrators:             Getting Help.       (line  139)
+* FTP site:                              Hosting.            (line 2073)
 * ftp uploads, automated:                Automated FTP Uploads.
-                                                             (line 1288)
+                                                             (line 1292)
+* FTP uploads, of release files:         FTP Upload Release File Triplet.
+                                                             (line 1396)
 * 'ftp.gnu.org', the GNU release site:   Distribution on ftp.gnu.org.
-                                                             (line 1234)
+                                                             (line 1238)
 * gendocs.sh:                            Invoking gendocs.sh.
-                                                             (line 1695)
+                                                             (line 1780)
 * generating documentation output:       Invoking gendocs.sh.
-                                                             (line 1695)
+                                                             (line 1780)
 * GNU ftp site:                          Distribution on ftp.gnu.org.
-                                                             (line 1234)
-* GNU system administrators:             Getting Help.       (line  135)
-* GNU/Linux:                             GNU and Linux.      (line 1881)
-* 'gnustandards' project repository:     Preface.            (line   88)
-* 'gnustandards-commit@gnu.org' mailing list: Preface.       (line   96)
+                                                             (line 1238)
+* GNU system administrators:             Getting Help.       (line  139)
+* GNU/Linux:                             GNU and Linux.      (line 1966)
+* 'gnustandards' project repository:     Preface.            (line   92)
+* 'gnustandards-commit@gnu.org' mailing list: Preface.       (line  100)
 * help for users, mailing list for:      Standard Mailing Lists.
-                                                             (line 1017)
-* help requests, handling:               Replying to Mail.   (line 1073)
-* help, getting:                         Getting Help.       (line  116)
-* hosting:                               Hosting.            (line 1988)
-* <http://bugs.gnu.org>:                 Replying to Mail.   (line 1109)
-* <http://identi.ca/group/fsfstatus>:    Getting Help.       (line  129)
-* <http://planet.gnu.org>:               Announcements.      (line 1574)
+                                                             (line 1021)
+* help requests, handling:               Replying to Mail.   (line 1077)
+* help, getting:                         Getting Help.       (line  120)
+* hierarchy, under ftp upload directory: FTP Upload Directory Trees.
+                                                             (line 1490)
+* hosting:                               Hosting.            (line 2073)
+* <http://bugs.gnu.org>:                 Replying to Mail.   (line 1113)
+* <http://identi.ca/group/fsfstatus>:    Getting Help.       (line  133)
+* <http://planet.gnu.org>:               Announcements.      (line 1655)
 * Hydra:                                 GNU Accounts and Resources.
-                                                             (line  164)
-* 'info-gnu' mailing list:               Announcements.      (line 1566)
-* legal matters:                         Legal Matters.      (line  228)
-* legal papers for changes in manuals:   Copyright Papers.   (line  343)
-* license notices in program files:      License Notices.    (line  659)
-* Linux:                                 GNU and Linux.      (line 1881)
+                                                             (line  168)
+* 'info-gnu' mailing list:               Announcements.      (line 1647)
+* legal matters:                         Legal Matters.      (line  232)
+* legal papers for changes in manuals:   Copyright Papers.   (line  347)
+* license notices in program files:      License Notices.    (line  663)
+* Linux:                                 GNU and Linux.      (line 1966)
 * mailing list for bug reports:          Standard Mailing Lists.
-                                                             (line 1002)
+                                                             (line 1006)
 * mailing lists, creating:               Creating Mailing Lists.
-                                                             (line 1036)
+                                                             (line 1040)
 * mailing lists, standard names of:      Standard Mailing Lists.
-                                                             (line 1002)
-* <maintainers@gnu.org>:                 Stepping Down.      (line  179)
-* 'mentors@gnu.org' mailing list:        Getting Help.       (line  116)
-* Money, donated to packages:            Donations.          (line 2021)
+                                                             (line 1006)
+* <maintainers@gnu.org>:                 Stepping Down.      (line  183)
+* 'mentors@gnu.org' mailing list:        Getting Help.       (line  120)
+* Money, donated to packages:            Donations.          (line 2106)
 * movement, free software:               Free Software and Open Source.
-                                                             (line 1856)
+                                                             (line 1941)
 * open source:                           Free Software and Open Source.
-                                                             (line 1856)
-* outage, of GNU machines:               Getting Help.       (line  129)
+                                                             (line 1941)
+* outage, of GNU machines:               Getting Help.       (line  133)
 * patch:                                 Distribution Patches.
-                                                             (line 1209)
+                                                             (line 1213)
 * patches, against previous releases:    Distribution Patches.
-                                                             (line 1191)
+                                                             (line 1195)
 * philosophy:                            Ethical and Philosophical Consideration.
-                                                             (line 1801)
-* Piercy, Marge:                         Preface.            (line  102)
+                                                             (line 1886)
+* Piercy, Marge:                         Preface.            (line  106)
 * 'platform-testers' mailing list:       GNU Accounts and Resources.
-                                                             (line  164)
-* pretest releases:                      Test Releases.      (line 1245)
+                                                             (line  168)
+* pretest releases:                      Test Releases.      (line 1249)
 * proofreading:                          Using the Proofreaders List.
-                                                             (line 2071)
-* quality of changes suggested by others: Clean Ups.         (line  916)
+                                                             (line 2156)
+* quality of changes suggested by others: Clean Ups.         (line  920)
 * RCS keywords in web pages:             CVS Keywords in Web Pages.
-                                                             (line 1771)
+                                                             (line 1856)
 * recording contributors:                Recording Contributors.
-                                                             (line  452)
+                                                             (line  456)
 * registration for uploads:              Automated Upload Registration.
-                                                             (line 1299)
-* release site:                          Hosting.            (line 1988)
-* replacing uploaded files:              FTP Upload Directive File - v1.2.
-                                                             (line 1417)
-* repository:                            Hosting.            (line 1988)
-* resigning as maintainer:               Stepping Down.      (line  170)
+                                                             (line 1303)
+* release site:                          Hosting.            (line 2073)
+* replacing uploaded files:              FTP Upload File Replacement.
+                                                             (line 1511)
+* repository:                            Hosting.            (line 2073)
+* resigning as maintainer:               Stepping Down.      (line  174)
 * resources for GNU developers:          GNU Accounts and Resources.
-                                                             (line  142)
-* responding to bug reports:             Replying to Mail.   (line 1073)
-* Savannah repository for 'gnustandards': Preface.           (line   88)
-* Savannah, news area:                   Announcements.      (line 1574)
-* 'savannah-announce@gnu.org' mailing list: Old Versions.    (line 1145)
-* 'savannah-hackers@gnu.org':            Old Versions.       (line 1132)
+                                                             (line  146)
+* responding to bug reports:             Replying to Mail.   (line 1077)
+* Savannah repository for 'gnustandards': Preface.           (line   92)
+* Savannah, news area:                   Announcements.      (line 1655)
+* 'savannah-announce@gnu.org' mailing list: Old Versions.    (line 1149)
+* 'savannah-hackers@gnu.org':            Old Versions.       (line 1136)
 * shell account, on fencepost:           GNU Accounts and Resources.
-                                                             (line  142)
-* source repository:                     Hosting.            (line 1988)
+                                                             (line  146)
+* source repository:                     Hosting.            (line 2073)
 * spam prevention:                       Creating Mailing Lists.
-                                                             (line 1056)
+                                                             (line 1060)
+* standalone directives, for ftp uploads: FTP Upload Standalone Directives.
+                                                             (line 1543)
 * standard mailing lists:                Standard Mailing Lists.
-                                                             (line 1002)
-* stepping down as maintainer:           Stepping Down.      (line  170)
-* sysadmin, FSF:                         Getting Help.       (line  135)
-* terminology:                           Terminology.        (line 1849)
-* test releases:                         Test Releases.      (line 1245)
+                                                             (line 1006)
+* stepping down as maintainer:           Stepping Down.      (line  174)
+* sysadmin, FSF:                         Getting Help.       (line  139)
+* terminology:                           Terminology.        (line 1934)
+* test releases:                         Test Releases.      (line 1249)
 * time stamp in diffs:                   Distribution Patches.
-                                                             (line 1209)
+                                                             (line 1213)
 * uploads:                               Automated Upload Procedure.
-                                                             (line 1347)
+                                                             (line 1351)
+* uploads, directory trees in:           FTP Upload Directory Trees.
+                                                             (line 1490)
 * uploads, registration for:             Automated Upload Registration.
-                                                             (line 1299)
-* uploads, replacing:                    FTP Upload Directive File - v1.2.
-                                                             (line 1417)
-* version control:                       Old Versions.       (line 1120)
-* version control system:                Hosting.            (line 1988)
-* web pages:                             Web Pages.          (line 1606)
+                                                             (line 1303)
+* uploads, replacing:                    FTP Upload File Replacement.
+                                                             (line 1511)
+* version control:                       Old Versions.       (line 1124)
+* version control system:                Hosting.            (line 2073)
+* web pages:                             Web Pages.          (line 1691)
 * web pages, and CVS keywords:           CVS Keywords in Web Pages.
-                                                             (line 1771)
+                                                             (line 1856)
 * web pages, freedom for:                Freedom for Web Pages.
-                                                             (line 1648)
+                                                             (line 1733)
 * web pages, hosting for:                Hosting for Web Pages.
-                                                             (line 1627)
+                                                             (line 1712)
 * web pages, including manuals on:       Manuals on Web Pages.
-                                                             (line 1669)
+                                                             (line 1754)
 

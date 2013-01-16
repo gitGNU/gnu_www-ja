@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Information for maintainers of GNU software, last updated January 10, 2013.
+
+Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
+2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
+2010, 2011, 2012, 2013 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<!-- Created by Texinfo 4.13.93+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Information for Maintainers of GNU Software: FTP Upload File Replacement</title>
+
+<meta name="description" content="Information for Maintainers of GNU Software: FTP Upload File Replacement">
+<meta name="keywords" content="Information for Maintainers of GNU Software: FTP Upload File Replacement">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Index.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" rel="up" title="Automated FTP Uploads">
+<link href="FTP-Upload-Standalone-Directives.html#FTP-Upload-Standalone-Directives" rel="next" title="FTP Upload Standalone Directives">
+<link href="FTP-Upload-Directory-Trees.html#FTP-Upload-Directory-Trees" rel="previous" title="FTP Upload Directory Trees">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="FTP-Upload-File-Replacement"></a>
+<div class="header">
+<p>
+Next: <a href="FTP-Upload-Standalone-Directives.html#FTP-Upload-Standalone-Directives" accesskey="n" rel="next">FTP Upload Standalone Directives</a>, Previous: <a href="FTP-Upload-Directory-Trees.html#FTP-Upload-Directory-Trees" accesskey="p" rel="previous">FTP Upload Directory Trees</a>, Up: <a href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" accesskey="u" rel="up">Automated FTP Uploads</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="FTP-Upload-File-Replacement-1"></a>
+<h4 class="subsection">11.5.6 FTP Upload File Replacement</h4>
+
+<a name="index-replacing-uploaded-files"></a>
+<a name="index-uploads_002c-replacing"></a>
+
+<p>You can replace existing files that have already been uploaded by
+including a directive line <code>replace:&nbsp;true</code>.  For example,
+you might like to provide a README file in the release directory and
+update it from time to time.  The full directive file for that would
+look like this:
+</p>
+<div class="example">
+<pre class="example">replace: true
+version: 1.2
+directory: foo
+filename: README
+comment: replaces an existing README
+</pre></div>
+
+<p>It is ok if the file to be replaced doesn&rsquo;t already exist; then the
+new file is simply added, i.e., the <samp>replace</samp> directive has no
+effect.
+</p>
+<p>When an existing file is replaced, the original is archived to a
+private location.  There is no automated or public access to such
+archived files; if you want to retrieve or view them, please email
+<a href="mailto:sysadmin@fsf.org">sysadmin@fsf.org</a>.
+</p>
+<p>We very strongly discourage replacing an actual software release file,
+such as <samp>foo-1.0.tar.gz</samp>.  Releases should be unique, and
+forever.  If you need to make fixes, make another release.  If you
+have an exigent reason for a particular release file to no longer be
+available, it can be explicitly archived, as described in the next
+section.
+</p>
+<p>If you want to make the current release available under a generic
+name, such as <code>foo-latest.tar.gz</code>, that is better done with
+symlinks, also as described in the next section.
+</p>
+
+
+
+
+</body>
+</html>

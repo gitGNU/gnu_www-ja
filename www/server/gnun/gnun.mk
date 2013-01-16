@@ -1,5 +1,5 @@
 # Copyright (C) 2007, 2008, 2009, 2010, 2011,
-#   2012 Free Software Foundation, Inc.
+#   2012, 2013 Free Software Foundation, Inc.
 
 # This file is part of GNUnited Nations.
 
@@ -29,7 +29,7 @@ HOME_LINGUAS := ar bg ca cs de el es fa fr id it ja ko nb nl pl pt-br ro ru sq \
 
 # TRANSLATORS: Add here your language code if you want PO files with wdiffs
 # to previous msgids.
-FUZZY_DIFF_LINGUAS := es fr it nl pl ru
+FUZZY_DIFF_LINGUAS := de es fr it nl pl ru
 
 ### The variables below are edited by GNUN maintainers. ###
 
@@ -49,7 +49,8 @@ extra-templates := philosophy/philosophy-menu \
 		   server/top-addendum
 # List of templates that are translated or not on the discretion
 # of the respective team (the PO files are merged, but are not created).
-optional-templates := planetfeeds
+optional-templates := planetfeeds \
+		      software/recent-releases-include
 
 # List of articles for which VALIDATE has no full effect; i.e. the
 # HTML files are never validated.
@@ -578,6 +579,7 @@ server/standards :=	README.editors \
 
 software :=	devel \
 		for-windows \
+		recent-releases \
 		reliability \
 		software
 
@@ -607,4 +609,5 @@ thankgnus :=	1997supporters \
 		2010supporters \
 		2011supporters \
 		2012supporters \
+		2013supporters \
 		thankgnus

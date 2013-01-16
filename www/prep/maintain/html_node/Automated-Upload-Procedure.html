@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Information for maintainers of GNU software, last updated January 1, 2013.
+<!-- Information for maintainers of GNU software, last updated January 10, 2013.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
@@ -12,7 +12,7 @@ any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
 "GNU Free Documentation License". -->
-<!-- Created by Texinfo 4.13.92+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 4.13.93+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Information for Maintainers of GNU Software: Automated Upload Procedure</title>
 
@@ -26,7 +26,7 @@ Texts.  A copy of the license is included in the section entitled
 <link href="Index.html#Index" rel="index" title="Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" rel="up" title="Automated FTP Uploads">
-<link href="FTP-Upload-Directive-File-_002d-v1_002e2.html#FTP-Upload-Directive-File-_002d-v1_002e2" rel="next" title="FTP Upload Directive File - v1.2">
+<link href="FTP-Upload-Release-File-Triplet.html#FTP-Upload-Release-File-Triplet" rel="next" title="FTP Upload Release File Triplet">
 <link href="Automated-Upload-Registration.html#Automated-Upload-Registration" rel="previous" title="Automated Upload Registration">
 <style type="text/css">
 <!--
@@ -64,7 +64,7 @@ ul.no-bullet {list-style: none}
 <a name="Automated-Upload-Procedure"></a>
 <div class="header">
 <p>
-Next: <a href="FTP-Upload-Directive-File-_002d-v1_002e2.html#FTP-Upload-Directive-File-_002d-v1_002e2" accesskey="n" rel="next">FTP Upload Directive File - v1.2</a>, Previous: <a href="Automated-Upload-Registration.html#Automated-Upload-Registration" accesskey="p" rel="previous">Automated Upload Registration</a>, Up: <a href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" accesskey="u" rel="up">Automated FTP Uploads</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="FTP-Upload-Release-File-Triplet.html#FTP-Upload-Release-File-Triplet" accesskey="n" rel="next">FTP Upload Release File Triplet</a>, Previous: <a href="Automated-Upload-Registration.html#Automated-Upload-Registration" accesskey="p" rel="previous">Automated Upload Registration</a>, Up: <a href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" accesskey="u" rel="up">Automated FTP Uploads</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <hr>
 <a name="Automated-Upload-Procedure-1"></a>
@@ -73,66 +73,44 @@ Next: <a href="FTP-Upload-Directive-File-_002d-v1_002e2.html#FTP-Upload-Directiv
 <a name="index-uploads"></a>
 
 <p>Once you have registered your information as described in the previous
-section, you will be able to do ftp uploads for yourself using the
-following procedure.
-</p>
-<p>For each upload destined for <code>ftp.gnu.org</code> or
-<code>alpha.gnu.org</code>, three files (a <em>triplet</em>) need to be
-uploaded via ftp to the host <code>ftp-upload.gnu.org</code>.
+section, you can and should do ftp uploads for your package.  There
+are two basic kinds of uploads (details in the following sections):
 </p>
 <ol>
-<li> The file to be distributed; for example, <samp>foo.tar.gz</samp>.
+<li> Three related files (a &ldquo;triplet&rdquo;) to upload a file destined for
+<code>ftp.gnu.org</code> or <code>alpha.gnu.org</code>: see <a href="FTP-Upload-Release-File-Triplet.html#FTP-Upload-Release-File-Triplet">FTP Upload Release File Triplet</a>.
 
-</li><li> Detached GPG binary signature file for (1); for example,
-<samp>foo.tar.gz.sig</samp>.  Make this with &lsquo;<samp>gpg -b foo.tar.gz</samp>&rsquo;.
-
-</li><li> A clearsigned <em>directive file</em>; for example,
-<samp>foo.tar.gz.directive.asc</samp>.  Make this by preparing the plain
-text file <samp>foo.tar.gz.directive</samp> and then run &lsquo;<samp>gpg
---clearsign foo.tar.gz.directive</samp>&rsquo;.  See <a href="FTP-Upload-Directive-File-_002d-v1_002e1.html#FTP-Upload-Directive-File-_002d-v1_002e1">FTP Upload Directive File - v1.1</a>, for the contents of the directive file.
+</li><li> A single (signed) standalone &ldquo;directive file&rdquo; to perform operations
+on the server: see <a href="FTP-Upload-Standalone-Directives.html#FTP-Upload-Standalone-Directives">FTP Upload Standalone Directives</a>.
 </li></ol>
 
-<p>The names of the files are important. The signature file must have the
-same name as the file to be distributed, with an additional
-<samp>.sig</samp> extension. The directive file must have the same name as
-the file to be distributed, with an additional <samp>.directive.asc</samp>
-extension. If you do not follow this naming convention, the upload
-<em>will not be processed</em>.
-</p>
-<p>Since v1.1 of the upload directives, it is also possible to upload a
-clearsigned directive file on its own (no accompanying <samp>.sig</samp> or
-any other file) to perform certain operations on the server.
-See <a href="FTP-Upload-Directive-File-_002d-v1_002e1.html#FTP-Upload-Directive-File-_002d-v1_002e1">FTP Upload Directive File - v1.1</a>, for more information.
-</p>
-<p>Upload the file(s) via anonymous ftp to <code>ftp-upload.gnu.org</code>. If
-the upload is destined for <code>ftp.gnu.org</code>, place the file(s) in
-the <samp>/incoming/ftp</samp> directory. If the upload is destined for
-<code>alpha.gnu.org</code>, place the file(s) in the <samp>/incoming/alpha</samp>
-directory.
+<p>In either case, you upload the file(s) via anonymous ftp to the host
+<code>ftp-upload.gnu.org</code>.  If the upload is destined for
+<code>ftp.gnu.org</code>, place the file(s) in the directory
+<samp>/incoming/ftp</samp>.  If the upload is destined for
+<code>alpha.gnu.org</code>, place the file(s) in the directory
+<samp>/incoming/alpha</samp>.
 </p>
 <p>Uploads are processed every five minutes.  Uploads that are in
 progress while the upload processing script is running are handled
-properly, so do not worry about the timing of your upload.  Uploaded
-files that belong to an incomplete triplet are deleted automatically
-after 24 hours.
+properly, so do not worry about the timing of your upload.  Spurious
+and stale uploaded files are deleted automatically after 24 hours.
 </p>
-<p>Your designated upload email addresses (see <a href="Automated-Upload-Registration.html#Automated-Upload-Registration">Automated Upload Registration</a>)
-are sent a message if there are any problems processing an upload for your
-package. You also receive a message when your upload has been successfully
-processed.
+<p>Your designated upload email addresses (see <a href="Automated-Upload-Registration.html#Automated-Upload-Registration">Automated Upload Registration</a>) are sent a message if there are problems processing an
+upload for your package.  You also receive a message when an upload
+has been successfully processed.
 </p>
-<p>One automated way to create and transfer the necessary files is to use
-the <code>gnupload</code> script, which is available from the
+<p>One programmatic way to create and transfer the necessary files is to
+use the <code>gnupload</code> script, which is available from the
 <samp>build-aux/</samp> directory of the <code>gnulib</code> project at
-<a href="http://savannah.gnu.org/projects/gnulib">http://savannah.gnu.org/projects/gnulib</a>.  <code>gnupload</code> can
-also remove uploaded files.  Run <code>gnupload --help</code> for a
-description and examples.
+<a href="http://savannah.gnu.org/projects/gnulib">http://savannah.gnu.org/projects/gnulib</a>.  Run
+<code>gnupload&nbsp;--help</code> for a description and examples.
 </p>
-<p><code>gnupload</code> uses the <code>ncftpput</code> program to do the actual
+<p><code>gnupload</code> invokes the program <code>ncftpput</code> to do the actual
 transfers; if you don&rsquo;t happen to have the <code>ncftp</code> package
 installed, the <code>ncftpput-ftp</code> script in the <samp>build-aux/</samp>
-directory of <code>gnulib</code> serves as a replacement which uses plain
-command line <code>ftp</code>.
+directory of <code>gnulib</code> can serve as a replacement.  It uses the
+plain command line <code>ftp</code> program.
 </p>
 <p>If you have difficulties with an upload, email
 <a href="mailto:ftp-upload@gnu.org">ftp-upload@gnu.org</a>.  You can check the archive of uploads
@@ -143,7 +121,7 @@ processed at
 <hr>
 <div class="header">
 <p>
-Next: <a href="FTP-Upload-Directive-File-_002d-v1_002e2.html#FTP-Upload-Directive-File-_002d-v1_002e2" accesskey="n" rel="next">FTP Upload Directive File - v1.2</a>, Previous: <a href="Automated-Upload-Registration.html#Automated-Upload-Registration" accesskey="p" rel="previous">Automated Upload Registration</a>, Up: <a href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" accesskey="u" rel="up">Automated FTP Uploads</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="FTP-Upload-Release-File-Triplet.html#FTP-Upload-Release-File-Triplet" accesskey="n" rel="next">FTP Upload Release File Triplet</a>, Previous: <a href="Automated-Upload-Registration.html#Automated-Upload-Registration" accesskey="p" rel="previous">Automated Upload Registration</a>, Up: <a href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" accesskey="u" rel="up">Automated FTP Uploads</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
 </div>
 
 

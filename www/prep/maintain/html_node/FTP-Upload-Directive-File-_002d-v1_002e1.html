@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Information for maintainers of GNU software, last updated January 1, 2013.
+<!-- Information for maintainers of GNU software, last updated January 10, 2013.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
@@ -12,7 +12,7 @@ any later version published by the Free Software Foundation; with no
 Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the section entitled
 "GNU Free Documentation License". -->
-<!-- Created by Texinfo 4.13.92+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 4.13.93+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Information for Maintainers of GNU Software: FTP Upload Directive File - v1.1</title>
 
@@ -27,7 +27,7 @@ Texts.  A copy of the license is included in the section entitled
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" rel="up" title="Automated FTP Uploads">
 <link href="FTP-Upload-Directive-File-_002d-v1_002e0.html#FTP-Upload-Directive-File-_002d-v1_002e0" rel="next" title="FTP Upload Directive File - v1.0">
-<link href="FTP-Upload-Directive-File-_002d-v1_002e2.html#FTP-Upload-Directive-File-_002d-v1_002e2" rel="previous" title="FTP Upload Directive File - v1.2">
+<link href="FTP-Upload-Standalone-Directives.html#FTP-Upload-Standalone-Directives" rel="previous" title="FTP Upload Standalone Directives">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -64,129 +64,18 @@ ul.no-bullet {list-style: none}
 <a name="FTP-Upload-Directive-File-_002d-v1_002e1"></a>
 <div class="header">
 <p>
-Next: <a href="FTP-Upload-Directive-File-_002d-v1_002e0.html#FTP-Upload-Directive-File-_002d-v1_002e0" accesskey="n" rel="next">FTP Upload Directive File - v1.0</a>, Previous: <a href="FTP-Upload-Directive-File-_002d-v1_002e2.html#FTP-Upload-Directive-File-_002d-v1_002e2" accesskey="p" rel="previous">FTP Upload Directive File - v1.2</a>, Up: <a href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" accesskey="u" rel="up">Automated FTP Uploads</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="FTP-Upload-Directive-File-_002d-v1_002e0.html#FTP-Upload-Directive-File-_002d-v1_002e0" accesskey="n" rel="next">FTP Upload Directive File - v1.0</a>, Previous: <a href="FTP-Upload-Standalone-Directives.html#FTP-Upload-Standalone-Directives" accesskey="p" rel="previous">FTP Upload Standalone Directives</a>, Up: <a href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" accesskey="u" rel="up">Automated FTP Uploads</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <hr>
 <a name="FTP-Upload-Directive-File-_002d-v1_002e1-1"></a>
-<h4 class="subsection">11.5.4 FTP Upload Directive File - v1.1</h4>
+<h4 class="subsection">11.5.8 FTP Upload Directive File - v1.1</h4>
 
-<p>The directive file name must end in <samp>directive.asc</samp>.
+<p>The v1.1 protocol for uploads lacked the <code>replace</code> directive;
+instead, file replacements were done automatically and silently
+(clearly undesirable).  This is the only difference between v1.2 and
+v1.1.
 </p>
-<p>When part of a triplet, the directive file must always contain the
-directives <code>version</code>, <code>directory</code> and <code>filename</code>, as
-described. In addition, a <code>comment</code> directive is allowed.
-</p>
-<p>The <code>version</code> directive must always have the value &lsquo;<samp>1.1</samp>&rsquo;.
-</p>
-<p>The <code>directory</code> directive specifies the final destination
-directory where the uploaded file and its <samp>.sig</samp> companion are to
-be placed.
-</p>
-<p>The <code>filename</code> directive must contain the name of the file to be
-distributed (item&nbsp;(1) above).
-</p>
-<p>For example, as part of an uploaded triplet, a
-<samp>foo.tar.gz.directive.asc</samp> file might contain these lines (before
-being gpg clearsigned):
-</p>
-<div class="example">
-<pre class="example">version: 1.1
-directory: bar/v1
-filename: foo.tar.gz
-comment: hello world!
-</pre></div>
 
-<p>This directory line indicates that <samp>foo.tar.gz</samp> and
-<samp>foo.tar.gz.sig</samp> are part of package <code>bar</code>.  If you uploaded
-this triplet to <samp>/incoming/ftp</samp> and the system positively
-authenticates the signatures, the files <samp>foo.tar.gz</samp> and
-<samp>foo.tar.gz.sig</samp> will be placed in the directory
-<samp>gnu/bar/v1</samp> of the <code>ftp.gnu.org</code> site.
-</p>
-<p>The directive file can be used to create currently non-existent
-directory trees, as long as they are under the directory for your
-package (in the example above, the package directory is <code>bar</code>).
-</p>
-<p>If you upload a file that already exists in the FTP directory, the
-original will simply be archived and replaced with the new upload.
-There is no automated or online access to archived files; if you want
-to retrieve or view them, please email sysadmin.
-</p>
-<a name="Standalone-directives"></a>
-<h4 class="subheading">Standalone directives</h4>
-
-<p>When uploaded by itself, a directive file must contain one or more of
-the directives <code>symlink</code>, <code>rmsymlink</code> or <code>archive</code>, in
-addition to the obligatory <code>directory</code> and <code>version</code>
-directives.  A <code>filename</code> directive is not allowed, and a
-<code>comment</code> directive remains optional.
-</p>
-<p>If you use more than one directive, the directives are executed in the
-sequence they are specified in.  If a directive results in an error,
-further execution of the upload is aborted.
-</p>
-<p>Removing a symbolic link (with <code>rmsymlink</code>) which does not exist
-results in an error.  However, attempting to create a symbolic link
-that already exists (with <code>symlink</code>) is not an error.  In this
-case <code>symlink</code> behaves like the command <code>ln -s -f</code>: any
-existing symlink is removed before creating the link.  (But an
-existing regular file or directory is not removed.)
-</p>
-<p>Here are a few examples.  The first removes a symlink:
-</p>
-<div class="example">
-<pre class="example">version: 1.1
-directory: bar/v1
-rmsymlink: foo-latest.tgz
-comment: remove a symlink
-</pre></div>
-
-<p>Archive an old file, taking it offline:
-</p>
-<div class="example">
-<pre class="example">version: 1.1
-directory: bar/v1
-archive: foo-1.1.tar.gz
-comment: archive an old file; it will not be
-comment: available through FTP any more.
-</pre></div>
-
-<p>Archive an old directory (with all contents), taking it offline:
-</p>
-<div class="example">
-<pre class="example">version: 1.1
-directory: bar/v1
-archive: foo
-comment: archive an old directory; it and its entire
-comment: contents will not be available through FTP anymore
-</pre></div>
-
-<p>Create a new symlink:
-</p>
-<div class="example">
-<pre class="example">version: 1.1
-directory: bar/v1
-symlink: foo-1.2.tar.gz foo-latest.tgz
-comment: create a new symlink
-</pre></div>
-
-<p>Do everything at once:
-</p>
-<div class="example">
-<pre class="example">version: 1.1
-directory: bar/v1
-rmsymlink: foo-latest.tgz
-symlink: foo-1.2.tar.gz foo-latest.tgz
-archive: foo-1.1.tar.gz
-comment: now do everything at once
-</pre></div>
-
-
-<hr>
-<div class="header">
-<p>
-Next: <a href="FTP-Upload-Directive-File-_002d-v1_002e0.html#FTP-Upload-Directive-File-_002d-v1_002e0" accesskey="n" rel="next">FTP Upload Directive File - v1.0</a>, Previous: <a href="FTP-Upload-Directive-File-_002d-v1_002e2.html#FTP-Upload-Directive-File-_002d-v1_002e2" accesskey="p" rel="previous">FTP Upload Directive File - v1.2</a>, Up: <a href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" accesskey="u" rel="up">Automated FTP Uploads</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
-</div>
 
 
 

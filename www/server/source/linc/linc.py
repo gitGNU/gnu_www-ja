@@ -3,7 +3,7 @@
 #
 # LINC - LINC Is Not Checklink
 # Copyright © 2011-2012 Wacław Jacek
-# Copyright © 2012 Free Software Foundation, Inc.
+# Copyright © 2013 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,10 +20,10 @@
 
 # defines
 
-LINC_VERSION = 'LINC 0.2'
+LINC_VERSION = 'LINC 0.3'
 COPYRIGHT= \
 'Copyright (C) 2011-2012 Waclaw Jacek\n\
-Copyright (C) 2012 Free Software Foundation, Inc.\n\
+Copyright (C) 2013 Free Software Foundation, Inc.\n\
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\
 This is free software: you are free to change and redistribute it.\n\
 There is NO WARRANTY, to the extent permitted by law.\n\
@@ -445,29 +445,29 @@ for file_to_check in files_to_check:
 				       is_match_inside_comment( match ) }
 		links_to_check.append( link_container )
 
-if VERBOSE >= 0:
-	print 'Checking links...'
-
 report_file = REPORT_FILE_NAME
 clear_file( report_file )
 commented_file = COMMENTED_FILE_NAME
 clear_file( commented_file )
-translation_report_files = {}
+report_files = {}
 
 number_of_links_to_check = str( len( links_to_check ) )
 already_checked_links = []
-for i, link_container in enumerate( links_to_check ):
+for j in range(NUMBER_OF_ATTEMPTS):
+    if VERBOSE > -2:
+	print 'Pass ' + str(j + 1) + ' of ' + str(NUMBER_OF_ATTEMPTS) + ':'
+    for i, link_container in enumerate( links_to_check ):
 	if (i % 10 == 0 and VERBOSE > -2):
-		print '\rChecking link ' + str( i + 1 ) + ' of ' \
+		print '\rChecking link ' + str(i + 1) + ' of ' \
 		      + number_of_links_to_check + '...',
 		sys.stdout.flush()
 
 	filename = link_container['filename']
-	line_number = link_container['line_number']
 	link = link_container['link']
-	is_inside_comment = link_container['is_inside_comment']
-	if is_inside_comment == 'ssi':
-		continue;
+	if link_container['is_inside_comment'] == 'ssi':
+		continue
+	if link[0] == '#':
+		continue
 
 	link_type = None
 
@@ -477,56 +477,106 @@ for i, link_container in enumerate( links_to_check ):
 		link_type = 'http'
 	elif link[:8] == 'https://':
 		link_type = 'https'
+	elif link[0] == '/':
+		link_type = 'http'
+		link = remote_site_root + link[1:]
 	else:
-		if link[0] == '#':
-			continue
-		elif link[0] == '/':
-			link_type = 'http'
-			link = remote_site_root + link[1:]
-		else:
-			link_type = 'http'
-			subdir = ''
-			pos = filename.rfind( '/' )
-			if pos != -1:
-				subdir = filename[: pos] + '/'
-			link = remote_base_directory + subdir + link
+		link_type = 'http'
+		subdir = ''
+		pos = filename.rfind( '/' )
+		if pos != -1:
+			subdir = filename[: pos] + '/'
+		link = remote_base_directory + subdir + link
 			
-	link_already_checked = False
 	link_id = -1
-	for i, already_checked_link in enumerate( already_checked_links ):
-		if link == already_checked_link['link']:
-			link_already_checked = True
+	link_error = None
+	for i, checked_link in enumerate(already_checked_links):
+		if link == checked_link['link']:
 			link_id = i
+			link_error = already_checked_links[link_id]['error']
 			break
-			
-	if link_already_checked:
-		link_error = already_checked_links[link_id]['error']
+	checked_link = None
+	if link_id > -1:
+		if already_checked_links[link_id]['error'] == None:
+			continue
+		checked_link = already_checked_links[link_id]
+	if link_type == 'ftp':
+		link_error = get_ftp_link_error( link )
+	elif link_type == 'http':
+		link_error = get_http_link_error( link )
 	else:
-		link_error = None
-		for i in range( NUMBER_OF_ATTEMPTS ):
-			if link_type == 'ftp':
-				link_error = get_ftp_link_error( link )
-				if link_error == None:
-					break
-			elif link_type == 'http':
-				link_error = get_http_link_error( link )
-				if link_error == None:
-					break
-			else:
-				break # ignore the link,
-				      # since its protocol is unsupported
-			
-			if DELAY_BETWEEN_RETRIES > 0:
-				time.sleep( DELAY_BETWEEN_RETRIES )
-				
+		continue # ignore the link,
+		         # since its protocol is unsupported
+	if checked_link != None:
+		if link_error == None:
+			already_checked_links[link_id]['error'] = None
+	else:
 		already_checked_links.append( { 'link': link, \
-						'error': link_error } )
+					'error': link_error } )
 
+	if DELAY_BETWEEN_CHECKS > 0:
+		time.sleep(DELAY_BETWEEN_CHECKS)
+    if VERBOSE > -2:
+	broken_so_far = 0
+	for checked_link in already_checked_links:
+		if checked_link['error'] != None:
+			broken_so_far = broken_so_far + 1
+	print '\n' + str(len(already_checked_links)) + ' unique links, ' \
+	      + str(broken_so_far) + ' seem broken'
+	if broken_so_far == 0:
+		print 'No more broken links; skipping the rest passes (if any)'
+		break
+    if j < NUMBER_OF_ATTEMPTS - 1 and DELAY_BETWEEN_RETRIES > 0:
+	time.sleep(DELAY_BETWEEN_RETRIES)
+
+if VERBOSE >= 0:
+	print 'Writing reports...'
+for i, link_container in enumerate(links_to_check):
+	filename = link_container['filename']
+	line_number = link_container['line_number']
+	link = link_container['link']
+	is_inside_comment = link_container['is_inside_comment']
+	if is_inside_comment == 'ssi':
+		continue
+	if link[0] == '#':
+		continue
+
+	link_type = None
+
+	if link[:6] == 'ftp://':
+		link_type = 'ftp'
+	elif link[:7] == 'http://':
+		link_type = 'http'
+	elif link[:8] == 'https://':
+		link_type = 'https'
+	elif link[0] == '/':
+		link_type = 'http'
+		link = remote_site_root + link[1:]
+	else:
+		link_type = 'http'
+		subdir = ''
+		pos = filename.rfind( '/' )
+		if pos != -1:
+			subdir = filename[: pos] + '/'
+		link = remote_base_directory + subdir + link
+			
+	if link_type != 'ftp' and link_type != 'http':
+		continue
+	link_id = -1
+	for i, checked_link in enumerate(already_checked_links):
+		if link == checked_link['link']:
+			link_id = i
+			link_error = already_checked_links[link_id]['error']
+			break
+	if link_id == -1:
+		print 'Unchecked link detected'
+		continue
+	checked_link = already_checked_links[link_id]
 	# Report working links inside comments so that webmasters
 	# could uncomment them.
 	if link_error == None and is_inside_comment == 'yes':
 		link_error = 'no error detected'
-		
+
 	if link_error != None:
 		if is_inside_comment == 'yes':
 			link_error += ' (link commented out)'
@@ -536,22 +586,19 @@ for i, link_container in enumerate( links_to_check ):
 			file_to_write = report_file
 			postfix = '/0'
 
-		match = re.search( TRANSLATION_REGEXP, filename )
+		match = re.search(TRANSLATION_REGEXP, filename)
 		if match:
-			langcode = match.group( 'langcode' )
+			langcode = match.group('langcode')
 			file_idx = langcode + postfix
-			if file_idx not in translation_report_files:
-				translation_report_files[file_idx] = \
+			if file_idx not in report_files:
+				report_files[file_idx] = \
 				  file_to_write + '-' + langcode
-				clear_file(translation_report_files[file_idx])
-			file_to_write = translation_report_files[file_idx]
+				clear_file(report_files[file_idx])
+			file_to_write = report_files[file_idx]
 		fd = open(file_to_write, 'a')
 		fd.write(format_error(filename, line_number, \
-					       link, link_error))
+					link, link_error))
 		fd.close()
-	
-	if DELAY_BETWEEN_CHECKS > 0:
-		time.sleep( DELAY_BETWEEN_CHECKS )
 
 if VERBOSE >= 0:
-	print '\nDone!'
+	print 'Done!'
