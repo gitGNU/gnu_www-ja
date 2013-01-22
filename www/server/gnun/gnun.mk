@@ -35,13 +35,13 @@ FUZZY_DIFF_LINGUAS := de es fr it nl pl ru
 
 # List of articles for which GRACE do not apply; i.e. they are
 # regenerated even if there are fuzzy strings.
-no-grace-articles := $(addprefix $(rootdir)/, \
-			po/home server/po/takeaction)
+no-grace-articles := home server/takeaction
 
 # List of mandatory templates (all %.$lang.po files are generated).
 extra-templates := philosophy/philosophy-menu \
 		   server/body-include-1 \
 		   server/body-include-2 \
+		   server/bottom-notes \
 		   server/footer-text \
 		   server/head-include-2 \
 		   server/outdated \
@@ -54,10 +54,9 @@ optional-templates := planetfeeds \
 
 # List of articles for which VALIDATE has no full effect; i.e. the
 # HTML files are never validated.
-#no-validate-articles := $(addprefix $(rootdir)/, \
-#			   fry/po/happy-birthday-to-gnu, \
-#                          education/po/education \
-#                          education/po/edu-software-gimp)
+#no-validate-articles :=   fry/happy-birthday-to-gnu \
+#                          education/education \
+#                          education/edu-software-gimp
 
 ALL_DIRS :=	accessibility \
 		award \
@@ -496,6 +495,7 @@ philosophy := 	15-years-of-free-software \
 		pragmatic \
 		privacyaction \
 		programs-must-not-limit-freedom \
+		proprietary-surveillance \
 		protecting \
 		public-domain-manifesto \
 		push-copyright-aside \
