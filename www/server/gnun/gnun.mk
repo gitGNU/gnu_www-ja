@@ -581,7 +581,9 @@ software :=	devel \
 		for-windows \
 		recent-releases \
 		reliability \
-		software
+		software \
+		year2000 \
+		year2000-list
 
 testimonials :=	reliable \
 		supported \
