@@ -21,21 +21,17 @@
 TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he id it ja ko ml nb nl pl \
                     pt-br ro ru sk sq sr sv ta tr uk vi zh-cn zh-tw
 
-# TRANSLATORS: If you have committed home.LANG.po, add here your
-# language code.  This variable is obsolete; it must be removed after gnun-0.7
-# release.
-HOME_LINGUAS := ar bg ca cs de el es fa fr id it ja ko nb nl pl pt-br ro ru sq \
-		sr tr uk zh-cn
-
 # TRANSLATORS: Add here your language code if you want PO files with wdiffs
 # to previous msgids.
 FUZZY_DIFF_LINGUAS := de es fr it nl pl ru
 
-### The variables below are edited by GNUN maintainers. ###
-
 # List of articles for which GRACE do not apply; i.e. they are
 # regenerated even if there are fuzzy strings.
-no-grace-articles := home server/takeaction
+no-grace-articles := home server/sitemap server/takeaction
+
+# The English sitemap HTML file is generated automatically outside of GNUN.
+# GNUN uses compendia automatically generated for this file when available.
+sitemap := server/sitemap
 
 # List of mandatory templates (all %.$lang.po files are generated).
 extra-templates := philosophy/philosophy-menu \
@@ -47,6 +43,7 @@ extra-templates := philosophy/philosophy-menu \
 		   server/outdated \
 		   server/skip-translations \
 		   server/top-addendum
+
 # List of templates that are translated or not on the discretion
 # of the respective team (the PO files are merged, but are not created).
 optional-templates := planetfeeds \

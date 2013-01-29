@@ -2,6 +2,7 @@
 #
 # Sitemap generator
 # Copyright © 2011-2012 Wacław Jacek
+# Copyright © 2013 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,120 +16,165 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-# ---------------------------------------------------------------------
-#
-# This program uses "Universal Encoding Detector", published under
-# GNU Lesser General Public License version 2.1
-# (see: python2-chardet/COPYING).
 
-import chardet
 import os
 import re
 import sys
+import datetime
 
-CHARSET_REGEXP_CONTENT_PART = 'content=[\'"]text/html;\s*charset=(?P<encoding>.*?)[\'"]'
-CHARSET_REGEXP_HTTP_EQUIV_PART = 'http-equiv=[\'"]?content-type[\'"]?'
-DIRECTORIES_LINK_TO_THEIR_INDEX_FILES = True
+LANGCODE_REGEXP = '(?P<langcode>[a-z]{2}|[a-z]{2}-[a-z]{2})'
+CHARSET_REGEXP_CONTENT_PART = 'content=\s*(?P<cquote>[\'"])text/html;\s*' \
+                                + 'charset\s*=\s*(?P<encoding>.*?)(?P=cquote)'
+CHARSET_REGEXP_HTTP_EQUIV_PART =  \
+ 'http-equiv\s*=\s*(?P<equote>[\'"]?)content-type(?P=equote)'
+HEADER_REGEXP = \
+  '<!--#include\s+virtual=(["\'])/server/(html5-)?header(\.' \
+    + LANGCODE_REGEXP + ')?\.html\\1\s+-->'
+
+LINK_TO_INDEX_FILES = True
 FILENAMES_TO_LIST_REGEXP = '\.html$'
-FORWARD_REGEXP = '<meta\s+http-equiv=[\'"]?refresh[\'"]?\s+content=[\'"]?[0-9]+;\s*url=.+[\'"]?>' # This is used to detect pages that are in fact forwards.
+# This is used to detect pages that are in fact forwards.
+FORWARD_REGEXP = '<meta\s+http-equiv=([\'"]?)refresh\\1\s+' \
+                   + 'content=([\'"]?)[0-9]+;\s*url=.+\\2>'
 OUTPUT_FILE_NAME = 'sitemap.html'
-TOP_LEVEL_LOCAL_DIRECTORY = '/home/w/wwj/www-repo'
-TRANSLATION_REGEXP = '\.(?P<langcode>[a-z]{2}|[a-z]{2}-[a-z]{2})\.[^.]+$'
-VALID_ENCODINGS = [ 'utf-8', 'iso-8859-2', 'big5', 'euc-kr', 'euc-jp', 'gb2312', 'iso8859-7' ] # in lowercase
+# The expression for names of localized sitemap versions.
+SITEMAP_REGEXP = 'sitemap\.' + LANGCODE_REGEXP + '\.html'
+TOP_DIRECTORY = '/home/g/gnun/checkouts/www'
+SITEMAP_DIR = 'server'
+TRANSLATION_REGEXP = '\.(?P<langcode>[a-z]{2}|[a-z]{2}-[a-z]{2})' \
+		     + FILENAMES_TO_LIST_REGEXP
+VALID_ENCODINGS = [ 'utf-8', 'iso-8859-1', 'iso8859-2', 'iso-8859-2', 'big5',
+		    'euc-kr', 'euc-jp', 'gb2312', 'iso-8859-7', 'iso8859-7',
+		    'iso-8859-8', 'windows-1251', 'windows-1252'] # in lowercase
+GNUN_SPLIT = '<span class="gnun-split"></span>\n'
+SITE_LINGUAS = \
+[ 'af', 'ar', 'az', 'bg', 'bn', 'bs', 'ca', 'cs', 'da', 'de', 'el', 'en', 'eo',
+  'es', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'it', 'ja', 'kn', 'ko',
+  'mk', 'ml', 'nb', 'nl', 'nn', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'sk', 'sl',
+  'sq', 'sr', 'sv', 'sw', 'ta', 'th', 'tl', 'tr', 'uk', 'uz', 'vi', 'zh-cn',
+  'zh-tw' ]
+SITE_LINGUAS = []
 
-# global variables
-directories_ignored_in_double_index_file_checks_regexp_list = None
-directories_to_print_regardless_of_emptiness_regexp_list = None
-directories_to_skip_regexp_list = None
-files_to_skip_regexp_list = None
+sitemap_linguas = []
+no_index_checks = None
+print_always = None
+excluded_dirs = None
+excluded_files = None
 output_file = None
-regexps_to_remove_from_titles_list = None
-replacement_titles_regexp_dict = None
+title_tails = None
+replacement_titles = None
+msgids = []
 
-# functions
-def are_directory_and_subdirectories_empty( relative_path_to_directory ):
-	directory_contents = get_directory_contents( relative_path_to_directory )
-	files_names = directory_contents['files']
-	subdirectories_names = directory_contents['subdirectories']
+def is_directory_empty(path):
+	directory_contents = get_directory_contents(path)
+	files = directory_contents['files']
+	subdirs = directory_contents['subdirectories']
 	
-	if len( files_names ) != 0:
+	if len(files) != 0:
 		return False
-	elif len( subdirectories_names ) != 0:
-		for subdirectory_name in subdirectories_names:
-			if not are_directory_and_subdirectories_empty( os.path.join( relative_path_to_directory, subdirectory_name ) ):
+	if len(subdirs) != 0:
+		for subdir in subdirs:
+			if not is_directory_empty(os.path.join(path, subdir)):
 				return False
 	return True
 
-def determine_file_encoding( filename ):
-	file_contents = read_file( filename )
-	match = re.search( '<meta\s*' + CHARSET_REGEXP_HTTP_EQUIV_PART + '\s*' + CHARSET_REGEXP_CONTENT_PART, file_contents, re.IGNORECASE )
-	match2 = re.search( '<meta\s*' + CHARSET_REGEXP_CONTENT_PART + '\s*' + CHARSET_REGEXP_HTTP_EQUIV_PART, file_contents, re.IGNORECASE )
+def determine_file_encoding(text, path):
+	# Headers are known to specify utf-8.
+	if re.search(HEADER_REGEXP, text):
+		return 'utf-8'
+	match = re.search('<meta\s*' + CHARSET_REGEXP_HTTP_EQUIV_PART \
+                            + '\s*' + CHARSET_REGEXP_CONTENT_PART, \
+                          text.lower())
+	if not match:
+		match = re.search('<meta\s*' + CHARSET_REGEXP_CONTENT_PART \
+                             + '\s*' + CHARSET_REGEXP_HTTP_EQUIV_PART, \
+                           text.lower())
 	if match:
-		encoding = match.group( 'encoding' )
-		if encoding.lower() in VALID_ENCODINGS:
+		encoding = match.group('encoding').lower()
+		if encoding == 'iso-8859-8i':
+			encoding = 'iso-8859-8'
+		if encoding in VALID_ENCODINGS:
 			return encoding
-	elif match2:
-		encoding = match2.group( 'encoding' )
-		if encoding.lower() in VALID_ENCODINGS:
-			return encoding
-	else:
-		chardet_result = chardet.detect( file_contents )
-		if chardet_result[ 'confidence' ] > 0.5:
-			return chardet_result[ 'encoding' ]
-	return None
-	
-def get_directory_contents( relative_path_to_directory ):
-	list_of_files = []
-	list_of_subdirectories = []
+	print path + ': no encoding specified.'
+	# A non-ASCII file who declares no encoding has no right to exist.
+	return 'utf-8'
 
-	for element_name in os.listdir( os.path.join( TOP_LEVEL_LOCAL_DIRECTORY, relative_path_to_directory ) ):
-		relative_path_to_element = os.path.join( relative_path_to_directory, element_name )
-		absolute_path_to_element = os.path.join( TOP_LEVEL_LOCAL_DIRECTORY, relative_path_to_element )
-
-		if os.path.isdir( absolute_path_to_element ) and not search_string_using_regexp_list( relative_path_to_element, directories_to_skip_regexp_list ):
-			list_of_subdirectories.append( element_name )
-		elif re.search( FILENAMES_TO_LIST_REGEXP, element_name ) and not search_string_using_regexp_list( relative_path_to_element, files_to_skip_regexp_list ) and not is_file_a_translation( element_name ) and not is_file_a_redirect( relative_path_to_element ):
-			list_of_files.append( element_name )
+def get_sitemap_linguas():
+	linguas = []
+	for f in os.listdir(os.path.join(TOP_DIRECTORY, SITEMAP_DIR)):
+		match = re.search(SITEMAP_REGEXP, f)
+		if match:
+			linguas.append(match.group('langcode'))
+	line = 'Found sitemap translations:'
+	for l in sorted(linguas):
+		line = line + ' ' + l
+	print line
+	return linguas
 			
-	return { 'files': list_of_files, 'subdirectories': list_of_subdirectories }
+
+def get_directory_contents(directory):
+	files = []
+	subdirs = []
+
+	for element_name in os.listdir(os.path.join(TOP_DIRECTORY, directory)):
+		relative_path = os.path.join(directory, element_name)
+
+		if os.path.isdir(os.path.join(TOP_DIRECTORY, relative_path)) \
+                   and not match_against_list(relative_path, excluded_dirs):
+			subdirs.append( element_name )
+		elif re.search(FILENAMES_TO_LIST_REGEXP, element_name) \
+                     and not match_against_list(relative_path, excluded_files) \
+                     and not is_file_a_redirect(relative_path):
+			files.append( element_name )
+			
+	return {'files': files, 'subdirectories': subdirs}
 	
-def get_index_filename( relative_path_to_directory ):
-	# We only want either directoryname.html or index.html files. If both are present, don't use either, and output an error, so it can be resolved.
-	directory_name = get_name_from_path( relative_path_to_directory )
+def get_index_filename(directory):
+	# We only want either directoryname.html or index.html files.
+	# If both are present, don't use either, and output an error,
+	# so it can be resolved.
+	directory_name = get_name_from_path( directory )
 	
-	files_called_index = [ 'index.html', 'index.htm' ]
-	files_called_directoryname = [ directory_name + '.html', directory_name + '.htm' ]
-	files_in_directory = get_directory_contents( relative_path_to_directory )['files']
+	files_called_index = ['index.html', 'index.htm']
+	files_called_directoryname = [directory_name + '.html', \
+                                      directory_name + '.htm']
+	files_in_directory = get_directory_contents(directory)['files']
 	
-	file_called_index_filename = None
-	file_called_directoryname_filename = None
+	index_file = None
+	dir_file = None
 	
 	for filename in files_called_index:
 		if filename in files_in_directory:
-			file_called_index_filename = filename
+			index_file = filename
 			
 	for filename in files_called_directoryname:
 		if filename in files_in_directory:
-			file_called_directoryname_filename = filename
+			dir_file = filename
 			
-	if file_called_index_filename and file_called_directoryname_filename:
-		if not search_string_using_regexp_list( relative_path_to_directory, directories_ignored_in_double_index_file_checks_regexp_list ): # Only complain about duplicate index files if it isn't a deliberate instance of such.
-			print 'Error: Directory ' + relative_path_to_directory + ' has both an index file called "' + file_called_index_filename +  '" and a directoryname file called "' + file_called_directoryname_filename + '". Neither will be used as main page.'
-	elif file_called_index_filename:
-		return file_called_index_filename
-	elif file_called_directoryname_filename:
-		return file_called_directoryname_filename
+	if index_file and dir_file:
+		# Only complain about duplicate index files
+		# if it isn't a deliberate instance of such.
+		if not match_against_list(directory, no_index_checks):
+			print 'Error: Directory ' + directory \
+				+ ' has both an index file called "' \
+				+ index_file \
+				+ '" and a directoryname file called "' \
+				+ dir_file \
+				+ '". Neither will be used as main page.'
+	elif index_file:
+		return index_file
+	elif dir_file:
+		return dir_file
 	return None
 
-def get_name_from_path( path ):
-	rightmost_slash_pos = path.rfind( '/' )
+def get_name_from_path(path):
+	rightmost_slash_pos = path.rfind('/')
 	if rightmost_slash_pos != -1:
 		return path[ rightmost_slash_pos + 1 : ]
 	return path
 	
-def get_replacement_titles_regexp_dict():
-	nonsplitted_list = read_file( 'replacement_titles' ).splitlines()
+def load_replacement_titles():
+	nonsplitted_list = read_file('replacement_titles').splitlines()
 	splitted_dict = {}
 	
 	# the variables below are used in looping
@@ -137,9 +183,14 @@ def get_replacement_titles_regexp_dict():
 	
 	for element in nonsplitted_list:
 		if element != '':
-			if regexp and replacement_title: # if we've already stored a title and a regexp, this is an invalid entry and all lines until '' should be ignored
+			# If we've already stored a title and a regexp,
+			# this is an invalid entry and all lines
+			# until '' should be ignored.
+			if regexp and replacement_title:
 				pass
-			elif regexp: # if only have the regexp, this is the replacement title
+			# If only have the regexp, this is
+			# the replacement title.
+			if regexp:
 				replacement_title = element
 				splitted_dict[regexp] = replacement_title
 			else:
@@ -150,73 +201,81 @@ def get_replacement_titles_regexp_dict():
 			
 	return splitted_dict
 	
-def get_separate_lists_of_files_and_subdirectories( directory_contents ):
-	files_names = []
-	subdirectories_names = []
-	
-	for element in directory_contents:
-		if directory_contents[ element ] == None:
-			files_names.append( element )
-		else:
-			subdirectories_names.append( element )
-	
-	return { 'files': files_names, 'subdirectories': subdirectories_names }
-	
-def get_titles_for_files( relative_path_to_directory, files_names ):
-	files_titles = {}
-	
-	for filename in files_names:
-		title = get_webpage_title_from_file( os.path.join( relative_path_to_directory, filename ) )
+# Return the contents of first tag found in text, encoded in utf-8.
+def extract_tag(text, tag):
+	regexp ='<' + tag + '(\s[^>]*)?>(?P<title>.*?)</' + tag + '>'
+	match = re.search(regexp, text, re.DOTALL)
+	if not match:
+		return None
+	title = match.group('title').strip()
+	if len(title) == 0:
+		return title
+	return title
+
+# Try to find different tags in the text.
+def extract_tags(text, tags):
+	for tag in tags:
+		title = extract_tag(text, tag)
 		if title:
-			files_titles[ filename ] = title
-		
-	return files_titles
-	
-def get_webpage_title_from_file( relative_path_to_file ):
-	# Before we will try to determine the actual title, check if it has to be overwritten.
-	match = search_string_using_regexp_list( relative_path_to_file, replacement_titles_regexp_dict )
+			break
+		title = extract_tag(text, tag.upper())
+		if title:
+			break
+	return title
+
+def get_title(path):
+	# Before we will try to determine the actual title,
+	# check if it has to be overwritten.
+	match = match_against_list(path, replacement_titles)
 	if match:
-		return replacement_titles_regexp_dict[match.re.pattern]
+		return replacement_titles[match.re.pattern]
+	text = read_file(os.path.join(TOP_DIRECTORY, path))
+	title = extract_tags(text, ['h1', 'h2', 'h3'])
+	encoding = determine_file_encoding(text, path)
+	if title:
+		title = re.sub('<CODE>', '<code>', title)
+		title = re.sub('</CODE>', '</code>', title)
+		title = re.sub('<center>', '', title)
+		title = re.sub('</center>', '', title)
+		title = re.sub('<CENTER>', '', title)
+		title = re.sub('</CENTER>', '', title)
+		return title.decode(encoding, 'replace')
+	# No <h?> tags found: use <title>, which needs trimming.
+	title = extract_tags(text, ['title'])
+	if not title:
+		return None
+	for regexp in title_tails:
+		match = re.search(regexp, title)
+		if match:
+			title = title[ : match.start() ] \
+					+ title[ match.end() : ]
+	return title.decode(encoding, 'replace')
+
+def get_titles_for_files( directory, files ):
+	titles = {}
+	
+	for filename in files:
+		title = get_title(os.path.join(directory, filename))
+		if title:
+			titles[filename] = title
 		
-	# If it hasn't, do the things below.
-	absolute_path_to_file = os.path.join( TOP_LEVEL_LOCAL_DIRECTORY, relative_path_to_file )
-
-	the_file = open( absolute_path_to_file, 'r' )
-	file_contents = the_file.read()
-	the_file.close()
+	return titles
 	
-	title_tag_start = file_contents.lower().find( '<title>' )
-	title_tag_end = file_contents.lower().find( '</title>' )
 
-	if title_tag_start != -1 and title_tag_end != -1:
-		title = file_contents[ ( title_tag_start + 7 ) : title_tag_end ].strip()
-		if len( title ) != 0:
-			for regexp in regexps_to_remove_from_titles_list:
-				match = re.search( regexp, title )
-				if match:
-					title = title[ : match.start() ] + title[ match.end() : ]
-			encoding = determine_file_encoding( absolute_path_to_file )
-			if encoding:
-				title = title.decode( encoding, 'replace' )
-			else:
-				title = title.decode( 'utf-8', 'replace' )
-			return title
-	return None
-	
-def is_file_a_redirect( relative_path_to_file ):
-	file_contents = read_file( os.path.join( TOP_LEVEL_LOCAL_DIRECTORY, relative_path_to_file ) )
+def is_file_a_redirect(path):
+	text = read_file(os.path.join(TOP_DIRECTORY, path))
 
-	if re.search( FORWARD_REGEXP, file_contents ):
+	if re.search(FORWARD_REGEXP, text, re.IGNORECASE):
 		return True
 		
 	return False
 	
-def is_file_a_translation( filename ):
-	if re.search( TRANSLATION_REGEXP, filename ):
+def is_file_a_translation(filename):
+	if re.search(TRANSLATION_REGEXP, filename):
 		return True
 	return False
 	
-def join_url_paths( *list_of_paths ):
+def join_url_paths(*list_of_paths):
 	final_path = ''
 
 	for path in list_of_paths:
@@ -228,121 +287,217 @@ def join_url_paths( *list_of_paths ):
 		
 	return final_path
 	
-def print_list_of_links_to_subdirectories( relative_path_to_directory, subdirectories_names ):
-	write( '<div>[top-level directories:' )
-	for subdirectory in sorted( subdirectories_names, key = str.lower ):
-		if not are_directory_and_subdirectories_empty( os.path.join( relative_path_to_directory, subdirectory ) ):
-			write( ' <a href="#directory-' + os.path.join( relative_path_to_directory, subdirectory ).replace( '/', '-' ) + '">' + subdirectory + '</a>' )
-	write( ']</div>\n\n' )
-	
-def print_map_of_directory( relative_path_to_directory, depth_level ):
-	directory_name = get_name_from_path( relative_path_to_directory )
+def print_links_to_subdirs(directory, subdirs):
+	write('\n<div>\n<p>[top-level directories:')
+	for subdir in sorted(subdirs, key = str.lower):
+		if not is_directory_empty(os.path.join(directory, subdir)):
+			full_dir = os.path.join(directory, subdir)
+			write('\n  <a href="#directory-' \
+			      + full_dir.replace('/', '-') + '">' \
+			      + subdir + '</a>')
+	write( ']</p>\n</div>\n\n' )
+
+def escape_po_string(string):
+	ret = string
+	# Remove local links that may conflict (different files may
+	# have identically named links).
+	ret = re.sub('<a\s+[^>]*href=(["\'])#[^>]*\\1[^>]*>(.*?)</a>', '', ret)
+	ret = re.sub('"', '\\\\"', ret)
+	ret = re.sub('\n', ' \\\\' + 'n' + '"\n"', ret)
+	return ret
+
+def append_sitemap_pos(msgid, msgstr = None):
+	# Avoid duplicate msgids.
+	if msgid in msgids:
+		return
+	for lang in sitemap_linguas:
+		fd = open(OUTPUT_FILE_NAME + '.' + lang + '.po', 'a')
+		if msgstr == None or lang in msgstr:
+			string = '\nmsgid "' + escape_po_string(msgid) \
+				 + '"\n' + 'msgstr "' \
+				 + escape_po_string(msgstr[lang] \
+						    if msgstr else msgid)\
+				 + '"\n'
+			fd.write(string.encode('utf-8'))
+		fd.close()
+	msgids.append(msgid)
+
+def append_title_to_pos(filename, title, titles):
+	msgstr = {}
+	for lang in sitemap_linguas:
+		name = re.sub('(' + FILENAMES_TO_LIST_REGEXP + ')', \
+			      '.' + lang +'\\1', filename)
+		if name in titles:
+			msgstr[lang] = titles[name]
+	append_sitemap_pos(title, msgstr)
+
+def init_sitemap_pos():
+	for lang in sitemap_linguas:
+		fd = open(OUTPUT_FILE_NAME + '.' + lang + '.po', 'w')
+		d = datetime.datetime.now()
+		fd.write(\
+'''# Automatically generated by sitemap-generator.py
+msgid ""
+msgstr ""
+"Project-Id-Version: sitemap.html\\n"
+"POT-Creation-Date: ''' + d.strftime('%Y-%m-%d %H:%M%z') + '''\\n"
+"PO-Revision-Date: ''' + d.strftime('%Y-%m-%d %H:%M%z') + '''\\n"
+"Last-Translator: sitemap-generator <gnun@gnu.org>\\n"
+"Language-Team: ''' + lang + ''' <web-translators@gnu.org>\\n"
+"Language: ''' + lang + '''\\n"
+"MIME-Version: 1.0\\n"
+"Content-Type: text/plain; charset=UTF-8\\n"
+"Content-Transfer-Encoding: 8bit\\n"
+''') 
+		fd.close()
+	append_sitemap_pos('<span class="topmost-title">')
+	append_sitemap_pos('</span>')
+	append_sitemap_pos('<span>')
+	append_sitemap_pos('</a>')
+	append_sitemap_pos('Copyright &copy; 2013 Free Software Foundation, Inc.')
+	append_sitemap_pos('span.topmost-title, #content a.topmost-title '\
+                           + '{ font-size: 1.3em; font-weight: bold } ' \
+                           + '#content dt a { font-weight: normal } ' \
+                           + '#content dt { margin: 0.1em } ' \
+                           + '#content dd { margin-bottom: 0.2em }')
+
+
+def print_map(directory, depth_level):
+	directory_name = get_name_from_path(directory)
 	
 	# get lists of directory contents
-	directory_contents = get_directory_contents( relative_path_to_directory )
-	files_names = directory_contents['files']
-	subdirectories_names = directory_contents['subdirectories']
+	directory_contents = get_directory_contents(directory)
+	files = directory_contents['files']
+	subdirs = directory_contents['subdirectories']
 	
-	if not are_directory_and_subdirectories_empty( relative_path_to_directory ) or search_string_using_regexp_list( relative_path_to_directory, directories_to_print_regardless_of_emptiness_regexp_list ): # print directories only if they have anything in them
-		# get titles to print as labels
-		files_titles = get_titles_for_files( relative_path_to_directory, files_names )
+	if not is_directory_empty(directory) \
+	   or match_against_list(directory, print_always):
+		titles = get_titles_for_files(directory, files)
 		
-		# only print a <hr /> above top-level subdirectories
+		# Print a <hr /> above top-level subdirectories
+		title_class = ''
+		title_head = ''
+		title_tail = '\n'
 		if depth_level == 1:
-			write( '\n<hr />\n' )
+			write('\n<hr />\n')
+			title_class = ' class="topmost-title"'
+			title_head = '<span' + title_class + '>' + GNUN_SPLIT
+			title_tail = GNUN_SPLIT + '</span>\n'
 	
-		write( '\n<div' )
-		if relative_path_to_directory != '':
-			write( ' id="directory-' + relative_path_to_directory.replace( '/', '-' ) + '"' )
-		write( ' class="sitemap-directory sitemap-directory-depth-' + str( depth_level ) + '">' )
-
-		# print a header (but only if it's not the top level directory)
+		if directory != '':
+			write('\n<div id="directory-' + directory.replace('/', '-') \
+			      + '">')
+		# Print a header unless it's not the top level directory.
 		if depth_level != 0:
-			index_file = get_index_filename( relative_path_to_directory ) if DIRECTORIES_LINK_TO_THEIR_INDEX_FILES else None
+			index_file = get_index_filename(directory) \
+					if LINK_TO_INDEX_FILES else None
+			msgid = '<a' + title_class + ' href="/' \
+				+ directory + '/'
 			
-			write( '\n<div class="sitemap-header"><a href="/' + relative_path_to_directory + '/' )
 			if index_file:
-				write( index_file )
-			write( '">' + relative_path_to_directory )
-			if index_file and ( index_file in files_titles ):
-				write( ' - ' + files_titles[ index_file ] )
-			write( '</a></div>\n' )
-			
-			if index_file: # don't list the index file in the filelist now.
-				files_names.remove( index_file )
-			
-		if depth_level == 0: # print "#links" to subdirectories if it's the top level directory
-			print_list_of_links_to_subdirectories( relative_path_to_directory, subdirectories_names )
+				msgid = msgid + index_file
+			msgid = msgid + '">' + directory + '</a>'
+			write('\n<dl><dt>' + msgid + '</dt>\n    <dd>')
+			append_sitemap_pos(msgid)
+			if index_file and (index_file in titles):
+				write(title_head  \
+				      + titles[index_file] + title_tail)
+				append_title_to_pos(index_file, titles[index_file], titles)
+
+			# Don't list the index file in the filelist now.
+			if index_file:
+				files.remove(index_file)
+		# Print "#links" to subdirectories
+		# if it's the top level directory.
+		if depth_level == 0:
+			print_links_to_subdirs(directory, subdirs)
 
 		# print a list of files
-		if len( files_names ) != 0:
-			write( '<ul>\n' )
-			for filename in sorted( files_names, key = str.lower ):
-				if filename in files_titles:
-					title = files_titles[ filename ]
+		if len(files) != 0:
+			items = ''
+			for filename in sorted(files, key = str.lower):
+				if is_file_a_translation(filename):
+					continue
+				if filename in titles:
+					title = titles[filename]
 				else:
-					title = None
-				write( '  <li><a href="/' + join_url_paths( relative_path_to_directory, filename ) + '">' + filename + ( ( ' - ' + title ) if title else '' ) + '</a></li>\n' )
-			write( '</ul>\n' )
+					title = ''
+				msgid = '<a href="/' \
+				      + join_url_paths(directory, filename) \
+				      + '">' + filename + '</a>'
+				base = filename[ : filename.rfind('.') ]
+				for lang in SITE_LINGUAS:
+					trans = base + '.' + lang + '.html'
+					if trans in files:
+						msgid = msgid + '\n  <a ' \
+				      + 'hreflang="' + lang + '" href="/' \
+				      + join_url_paths(directory, trans) \
+				      + '">' + lang + '</a>'
+				items = items + '  <dt>' + msgid + '</dt>\n  <dd>' \
+				      + title + '</dd>\n'
+				append_sitemap_pos(msgid)
+				if title != '':
+					append_title_to_pos(filename, title, titles)
+			# Empty definition lists are not allowed.
+			if items != '':
+				write('<dl>\n' + items + '</dl>\n')
 
-		# print subdirectories as blocks
-		if len( subdirectories_names ) != 0:
-			for subdir_name in sorted( subdirectories_names, key = str.lower ):
-				print_map_of_directory( os.path.join( relative_path_to_directory, subdir_name ), depth_level + 1 )
+		# Print subdirectories as blocks.
+		if len(subdirs) != 0:
+			for subdir in sorted(subdirs, key = str.lower):
+				print_map(os.path.join(directory, subdir), \
+					  depth_level + 1)
 		
-		# print another list of links to top level dirs
+		# Print another list of links to top level dirs.
 		if depth_level == 0:
 			write( '\n<hr />\n' )
-			print_list_of_links_to_subdirectories( relative_path_to_directory, subdirectories_names )
-			
-		write( '</div>\n' )
+			print_links_to_subdirs(directory, subdirs)
+		else:
+		 	write('</dd></dl>\n')
+		if directory != '':
+			write( '</div>\n' )
 		
-def read_file( filename ):
-	fd = open( filename, 'r' )
+def read_file(filename):
+	fd = open(filename, 'r')
 	file_contents = fd.read()
 	fd.close()
 	
 	return file_contents
 	
-def replace_space_with_whitespace_in_regexp_list( regexp_list ):
+def escape_spaces(regexp_list):
 	new_regexp_list = []
 	
 	for regexp in regexp_list:
-		new_regexp_list.append( regexp.replace( ' ', '\s+' ) )
+		new_regexp_list.append(regexp.replace(' ', '\s+' ))
 	
 	return new_regexp_list
 		
-def search_string_using_regexp_list( string, regexp_list, search_mode = 'first match only' ):
-	if search_mode == 'list of matches': # returns empty list if no matches
-		list_of_matches = []
-		for regexp in regexp_list:
-			match = re.search( regexp, string )
-			if match:
-				list_of_matches.append( match )
-		return list_of_matches
-	else:
-		for regexp in regexp_list: # returns None if no matches
-			match = re.search( regexp, string )
-			if match:
-				return match
-		return None
+def match_against_list(string, regexp_list):
+	for regexp in regexp_list:
+		match = re.search(regexp, string)
+		if match:
+			return match
+	return None
 	
-def write( message ):
-	output_file.write( message.encode( 'utf-8' ) )
+def write(message):
+	output_file.write(message.encode('utf-8'))
 
-# main program here
-output_file = open( OUTPUT_FILE_NAME, 'w' )
+output_file = open(OUTPUT_FILE_NAME, 'w')
 
-directories_ignored_in_double_index_file_checks_regexp_list = read_file( 'directories_ignored_in_double_index_file_checks' ).splitlines()
-directories_to_print_regardless_of_emptiness_regexp_list = read_file( 'directories_to_print_regardless_of_emptiness' ).splitlines()
-directories_to_skip_regexp_list = read_file( 'directories_to_skip' ).splitlines()
-files_to_skip_regexp_list = read_file( 'files_to_skip' ).splitlines()
-regexps_to_remove_from_titles_list = replace_space_with_whitespace_in_regexp_list( read_file( 'regexps_removed_from_titles' ).splitlines() )
-replacement_titles_regexp_dict = get_replacement_titles_regexp_dict()
+no_index_checks = \
+  read_file('directories_ignored_in_double_index_file_checks').splitlines()
+print_always = \
+  read_file('directories_to_print_regardless_of_emptiness').splitlines()
+excluded_dirs = read_file('directories_to_skip').splitlines()
+excluded_files = read_file('files_to_skip').splitlines()
+title_tails = \
+  escape_spaces(read_file('regexps_removed_from_titles').splitlines())
+replacement_titles = load_replacement_titles()
+sitemap_linguas = get_sitemap_linguas()
+init_sitemap_pos()
 
-write( read_file( 'output.head' ) )
-print_map_of_directory( '', 0 )
-write( read_file( 'output.tail' ) )
+write(read_file('output.head'))
+print_map('', 0)
+write(read_file('output.tail'))
 
 output_file.close()
-
