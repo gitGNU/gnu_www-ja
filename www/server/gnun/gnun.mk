@@ -291,6 +291,7 @@ graphics :=	3dbabygnutux \
 		hitflip-gnu \
 		httptunnel-logo \
 		hurd_mf \
+		jesus-cartoon \
 		kafa \
 		license-logos \
 		listen \
