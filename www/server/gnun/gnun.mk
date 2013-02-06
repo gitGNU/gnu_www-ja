@@ -457,6 +457,7 @@ philosophy := 	15-years-of-free-software \
 		latest-articles \
 		lessig-fsfs-intro \
 		lest-codeplex-perplex \
+		limit-patent-effect \
 		linux-gnu-freedom \
 		luispo-rms-interview \
 		mcvoy \
@@ -493,6 +494,7 @@ philosophy := 	15-years-of-free-software \
 		pragmatic \
 		privacyaction \
 		programs-must-not-limit-freedom \
+		proprietary-sabotage \
 		proprietary-surveillance \
 		protecting \
 		public-domain-manifesto \

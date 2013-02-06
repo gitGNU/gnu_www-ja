@@ -20,7 +20,7 @@
 
 # defines
 
-LINC_VERSION = 'LINC 0.3'
+LINC_VERSION = 'LINC 0.4'
 COPYRIGHT= \
 'Copyright (C) 2011-2012 Waclaw Jacek\n\
 Copyright (C) 2013 Free Software Foundation, Inc.\n\
@@ -30,7 +30,7 @@ There is NO WARRANTY, to the extent permitted by law.\n\
 \n\
 Written by Waclaw Jacek.'
 
-BASE_DIRECTORY = '/home/g/gnun/checkouts/www/'
+BASE_DIRECTORY = ''
 REMOTE_BASE_DIRECTORY = 'http://www.gnu.org/'
 
 # End every header with "\r\n"
@@ -59,7 +59,7 @@ NUMBER_OF_ATTEMPTS = 3
 # linc run takes many hours (almost a day), and the old results
 # wouldn't be available during that period if new files went
 # directly to the destination directory.
-REPORT_FILE_PREFIX = 'reports-temp'
+REPORT_FILE_PREFIX = './'
 
 # File to which the errors will be reported.
 REPORT_FILE_NAME = 'broken_links'
@@ -73,11 +73,14 @@ SKIP_TRANSLATION_FILES = False
 # After what time to give up with trying to retrieve a website.
 SOCKET_TIMEOUT = 20
 
+# Don't download the files, assume no error.
+LOCAL = False
+
 # regexp-related defines
 
 # Matching directories will not be entered to check their
 # files or subdirectories.
-EXCLUDED_DIRECTORIES_REGEXP = '^(japan|wwwes|wwwin|education/fr|\
+EXCLUDED_DIRECTORIES_REGEXP = '^(japan|wwwin|education/fr|\
 education/draft|press|server/staging|software/[^/]+)$|(^|/)po$'
 EXCLUDED_FILENAMES_REGEXP = \
   '^server/standards/boilerplate\.html|server/.*whatsnew\.html$'
@@ -92,7 +95,7 @@ HTTP_FORWARD_HEADER = '^HTTP/1\.1 (301 Moved Permanently|302 Found)$'
 HTTP_LINK_REGEXP = \
   'http://(?P<hostname>[^/:]+)(:(?P<port>[0-9]+))?(?P<resource>/[^#]*)?'
 HTTP_NEW_LOCATION_HEADER = '^Location: (?P<new_location>.+)$'
-LINK_REGEXP = '<a( .+?)? href="(?P<link>[^mailto:].+?)"( .+?)?>'
+LINK_REGEXP = '<a( .+?)? href="(?P<link>[^m].+?)"( .+?)?>'
 TRANSLATION_REGEXP = '\.(?P<langcode>[a-z]{2}|[a-z]{2}-[a-z]{2})\.[^.]+$'
 
 VERBOSE = 0
@@ -178,9 +181,14 @@ def get_http_link_error( link, forwarded_from = None ):
 	
 	end_of_headers_pos = webpage.find( '\r\n\r\n' )
 	if end_of_headers_pos == -1:
+		if VERBOSE > 1:
+			print 'No end of headers found on webpage'
+			print '- - - - -'
+			print webpage
+			print '- - - - -'
 		return 'couldn\'t find end of ' \
                        + 'headers (possibly no content in file)'
-		
+
 	header_lines = webpage[ : end_of_headers_pos ]
 	header_lines = header_lines.split( '\r\n' )
 	
@@ -309,6 +317,9 @@ parser.add_option('-f', '--forwards', dest = 'forwards', type = 'int',
 		  metavar = 'N',
                   help = 'maximum number of forwards to follow [' \
 			 + str(FORWARDS_TO_FOLLOW) + ']')
+parser.add_option('-l', '--local', dest = 'local', action = 'store_true',
+		  default = False,
+		  help = "don't download files, assume no error")
 parser.add_option('-o', '--output', dest = 'dir_name', metavar = 'DIRECTORY',
 		  help = 'write reports to DIRECTORY [' \
 			 + REPORT_FILE_PREFIX + ']')
@@ -350,6 +361,12 @@ if len(args) > 1:
 
 if len(args) != 0:
 	BASE_DIRECTORY = args[0]
+else: 
+	prog_dir = sys.argv[0]
+	pos = prog_dir.rfind('/')
+	prog_dir = prog_dir[ : pos] if (pos != -1) else './'
+	# This script's place is /server/source/linc
+	BASE_DIRECTORY = os.path.abspath(os.path.join(prog_dir, '../../..'))
 
 if options.quiet != None:
 	VERBOSE -= options.quiet
@@ -376,6 +393,8 @@ if options.exclude != None:
 	EXCLUDED_FILENAMES_REGEXP = options.exclude
 if options.exclude_dir != None:
 	EXCLUDED_DIRECTORIES_REGEXP = options.exclude_dir
+if options.local != None:
+	LOCAL = options.local
 
 base_directory = BASE_DIRECTORY
 remote_base_directory = REMOTE_BASE_DIRECTORY
@@ -404,6 +423,7 @@ if VERBOSE > 0:
 	print "Base URL:             `" + REMOTE_BASE_DIRECTORY + "'"
 	print "Excluded files:       `" + EXCLUDED_FILENAMES_REGEXP + "'"
 	print "Excluded directories: `" + EXCLUDED_DIRECTORIES_REGEXP + "'"
+	print "Run locally:          `" + ('yes' if LOCAL else 'no') + "'"
 
 # `cd` to this path
 if not os.path.isdir( base_directory ):
@@ -500,7 +520,9 @@ for j in range(NUMBER_OF_ATTEMPTS):
 		if already_checked_links[link_id]['error'] == None:
 			continue
 		checked_link = already_checked_links[link_id]
-	if link_type == 'ftp':
+	if LOCAL:
+		link_error = None
+	elif link_type == 'ftp':
 		link_error = get_ftp_link_error( link )
 	elif link_type == 'http':
 		link_error = get_http_link_error( link )
@@ -523,6 +545,13 @@ for j in range(NUMBER_OF_ATTEMPTS):
 			broken_so_far = broken_so_far + 1
 	print '\n' + str(len(already_checked_links)) + ' unique links, ' \
 	      + str(broken_so_far) + ' seem broken'
+    	if VERBOSE > 1:
+		for i, checked_link in enumerate(already_checked_links):
+			if checked_link['error'] != None or VERBOSE > 2:
+				print 'link ' + str(i) + ': ' \
+				+ checked_link['link'] + ': ' \
+				+ (checked_link['error'] \
+				     if checked_link['error'] else '')
 	if broken_so_far == 0:
 		print 'No more broken links; skipping the rest passes (if any)'
 		break

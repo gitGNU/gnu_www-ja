@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: update-recent-releases,v 1.5 2013/01/14 07:19:56 ineiev Exp $
+# $Id: update-recent-releases,v 1.7 2013/02/02 05:55:51 ineiev Exp $
 # Public domain.  Originally written by Karl Berry, January 2013.
 # This script is run (more than daily) from gnun@fencepost cron.
 # 
@@ -36,24 +36,27 @@ lastmonth=`date +%Y-%m -d "last month"`
 thismonth=`date +%Y-%m`
 $wget $info_gnu/$thismonth/index.html -O $thismonth.html.new
 
-if test -s $thismonth.html; then
-  # Continuing on in current month.  See if we have anything new.
-  if cmp -s $thismonth.html $thismonth.html.new; then 
-    #echo "$0: no changes, goodbye."  # be silent by default.
-    rm -f $thismonth.html.new
-    exit 0
-  fi
-  
-  echo "$0: new releases in $thismonth, merging."
-  diff $thismonth.html $thismonth.html.new
-
-else
-  # First releases in a new month.
+if test -f $lastmonth.html; then
+  # First run in a new month.
   echo "$0: seems $thismonth is a new month, resetting lastmonth=$lastmonth."
   mv $lastmonth.html lastmonth.html  # static name
 fi
 
-# New stuff in this month, in either case.
+if test -s $thismonth.html.new; then
+  touch $thismonth.html
+  # Continuing on in current month.  See if we have anything new.
+  if cmp -s $thismonth.html $thismonth.html.new; then
+    echo "$0: no changes, goodbye."
+    rm -f $thismonth.html.new
+    exit 0
+  fi
+  echo "$0: new releases in $thismonth, merging."
+  diff $thismonth.html $thismonth.html.new
+else
+  echo "$0: no releases in this month yet."
+  exit 0
+fi
+
 mv $thismonth.html.new $thismonth.html
 
 # Given html info-gnu archive file in $1 and month reference in $2, get

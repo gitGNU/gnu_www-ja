@@ -1,250 +1,292 @@
-<!--#include virtual="/server/header.es.html" -->
-<title>Libre pero encadenado. La trampa del Java</title>
-<!--#include virtual="/server/banner.es.html" -->
 
-				<h2>Libre pero encadenado. La trampa del Java.</h2>
-				<p>por <a href="http://www.stallman.org/">Richard Stallman</a></p>
-				
-				<div class="announcement">
-					<h3>Nota</h3>
-					<p>En diciembre de 2006 Sun est&aacute; en pleno 
-					<a href="http://www.fsf.org/news/fsf-welcomes-gpl-java.html">relanzamiento de 
-					su plataforma Java bajo la GPL de GNU</a>.  Cuando este cambio de licencia haya
-					terminado, esperamos que Java ya no sea una trampa.  A pesar de eso, el problema general
-					descrito aqu&iacute; seguir&aacute; siendo importante, porque cualquier biblioteca 
-					no libre o plataforma de programaci&oacute;n puede causar un problema similar. Debemos
-					aprender una lecci&oacute;n de la historia del Java, para poder evitar otras
-					trampas en el futuro.
-					</p>
-				</div>
-				
-				<p>12 de abril de 2004</p>
-				<p>
-				Si su programa es software libre, b&aacute;sicamente es &eacute;tico &mdash; pero hay 
-				una trampa de la que debe estar atento &mdash;. Su programa, aunque en s&iacute; 
-				mismo libre, puede estar limitado por software no libre del que dependa. A d&iacute;a 
-				de hoy este problema es notable, sobre todo, en los programas en Java, por lo que 
-				lo llamamos &laquo;la trampa del Java&raquo;.
-				</p>
-				
-				<p>
-				Un programa es software libre si sus usuarios tienen ciertas libertades 
-				esenciales. Sin entrar en detalles, &eacute;stas son: la libertad de usar el programa, 
-				la libertad de estudiar y modificar el c&oacute;digo fuente, la libertad de distribuir 
-				el c&oacute;digo y los binarios, y la libertad de publicar versiones mejoradas (v&eacute;ase 
-				<a href="/philosophy/free-sw.es.html">http://www.gnu.org/philosophy/free-sw.es.html</a>).
-				Que un programa dado sea software libre depende &uacute;nicamente de los t&eacute;rminos 
-				de su licencia.
-				</p>
-				
-				<p>
-				Que el programa se pueda usar en el mundo libre, por la gente que quiere 
-				vivir en libertad, es una pregunta m&aacute;s compleja. Esto no lo determina 
-				la licencia del propio programa, porque ning&uacute;n programa funciona aislado. Todos 
-				los programas dependen de otros programas. Por ejemplo, un programa necesita ser 
-				compilado o interpretado, as&iacute; que depende de un compilador o un int&eacute;rprete. 
-				Si es compilado a <em>byte code</em>, depende de un int&eacute;rprete de 
-				<em>byte code</em>. Adem&aacute;s, necesita bibliotecas para ejecutarse, y tambi&eacute;n
-				puede invocar a otros programas aparte que se ejecutan en otros procesos. Todos estos
-				programas son dependencias. Las dependencias pueden ser necesarias para que el programa 
-				pueda ejecutarse, o pueden ser necesarias solamente para ciertas funciones. En 
-				cualquier caso, todo o parte del programa no puede funcionar sin las dependencias.
-				</p>
-				
-				<p>
-				Si algunas de las dependencias de un programa no son libres, entonces todo o parte del 
-				programa no se puede ejecutar en un sistema completamente libre &mdash;es inusable en el 
-				mundo Libre&mdash;. Ciertamente podemos distribuir el programa y tener copias en nuestras 
-				m&aacute;quinas, pero eso no sirve de mucho si no podemos ejecutarlo. El programa es 
-				software libre, pero en la pr&aacute;ctica est&aacute; encadenado por sus dependencias 
-				no libres.
-				</p>
-				
-				<p>
-				Este problema puede suceder en cualquier tipo de software, en cualquier lenguaje. Por 
-				ejemplo, un programa libre que solamente funcione sobre Microsoft Windows es claramente 
-				inusable en el mundo Libre. Pero el software que funciona sobre GNU/Linux tambi&eacute;n
-				puede ser in&uacute;til si depende de otro software no libre. En el pasado, Motif 
-				(antes de que tuvi&eacute;ramos LessTif) y Qt (antes de que sus desarrolladores lo
-				hicieran software libre) fueron importantes causantes de este problema. La mayor&iacute;a 
-				de las tarjetas gr&aacute;ficas 3D solamente funcionan a pleno rendimiento con 
-				controladores no libres, que tambi&eacute;n originan este problema. Pero hoy, la mayor
-				fuente de este problema es Java, porque la gente que escribe software libre a menudo
-				cree que el Java es <em>sexy</em>. Cegados por su atracci&oacute;n por el lenguaje,
-				descuidan el problema de las dependencias y caen en la trampa del Java.
-				</p>
-				
-				<p>
-				La implementación del Java de Sun no es libre. Las bibliotecas estándar
-				del Java tampoco son libres. S&iacute; que tenemos implementaciones libres del Java, como el 
-        <a href="http://gcc.gnu.org/java/">compilador de Java</a> de GNU (GCJ) y 
-        <a href="/software/classpath">Classpath de GNU</a>, pero todav&iacute;a no tienen todas las
-				funcionalidades. Estamos intentando alcanzarlas.
-				</p>
-				
-				<p>
-				Si usted escribe un programa en Java sobre la plataforma Java de Sun, est&aacute; 
-				expuesto a usar funcionalidades exclusivas de Sun sin ni siquiera darse cuenta. Para
-				cuando se d&eacute; cuenta, quiz&aacute;s las haya estado usando durante meses, y rehacer
-				el trabajo le tomar&iacute;a m&aacute;s meses. Podr&iacute;a decir &laquo;volver a empezar 
-				es demasiado trabajo&raquo;. Entonces su programa habr&aacute; ca&iacute;do en la trampa
-				del Java; ser&aacute; inusable en el mundo Libre.
-				</p>
-				
-				<p>
-				La manera fiable de evitar la trampa del Java es tener en su sistema solamente una 
-				implementaci&oacute;n libre del Java. As&iacute;, si usted usa una funcionalidad o 
-				biblioteca del Java que el software libre todav&iacute;a no soporta, se dar&aacute; cuenta 
-				en seguida, y podr&aacute; reescribir ese c&oacute;digo de inmediato.
-				</p>
-				
-				<p>
-				Sun contin&uacute;a desarrollando bibliotecas &laquo;est&aacute;ndar&raquo; del Java 
-				adicionales, y casi todas son no libres; en muchos casos, incluso la 
-				especificaci&oacute;n de la biblioteca es un secreto comercial, y la &uacute;ltima
-				licencia de Sun para esta especificaci&oacute;n proh&iacute;be publicar nada que sea menos 
-				que una implementaci&oacute;n completa de la especificaci&oacute;n (v&eacute;ase 
-				<a href="http://jcp.org/aboutJava/communityprocess/JSPA2.pdf">http://jcp.org/aboutJava/
-				communityprocess/JSPA2.pdf</a> y <a href="http://jcp.org/aboutJava/communityprocess/final/jsr129/j2me_pb-1_0-fr-spec-license.html"
->http://jcp.org/aboutJava/communityprocess/final/jsr129/j2me_pb-1_0-fr-spec-license.html</a>, para
-encontrar ejemplos).
+
+<!--#include virtual="/server/header.es.html" -->
+<!-- Parent-Version: 1.72 -->
+
+<!-- This file is automatically generated by GNUnited Nations! -->
+ <!--#set var="ENGLISH_PAGE" value="/philosophy/java-trap.en.html" -->
+
+<title>Libre pero encadenado. La trampa de Java - Proyecto GNU - Free Software
+Foundation</title>
+
+<!--#include virtual="/server/banner.es.html" -->
+<!--#include virtual="/philosophy/po/java-trap.translist" -->
+<h2>Libre pero encadenado. La trampa de Java</h2>
+
+<p>por <a href="http://www.stallman.org/">Richard Stallman</a></p>
+
+
+<div class="announcement"><h3>Nota</h3>
+<p>Después de que se publicara este artículo, Sun <a
+href="http://www.fsf.org/news/fsf-welcomes-gpl-java.html">relicenció</a> la
+mayor parte de la implementación de referencia de su plataforma Java bajo la
+Licencia Pública General de GNU, de manera que ahora existe un entorno de
+desarrollo libre para Java. Así pues, el lenguaje Java ya no es una trampa.</p>
+
+<p>No obstante, debe ser precavido, pues no toda plataforma Java es libre. Sun
+sigue distribuyendo una plataforma Java ejecutable que no es libre, y
+también otras compañías lo hacen.</p>
+
+<p>El entorno libre para Java se denomina «IcedTea» &mdash;que es donde se
+incluye el código fuente liberado por Sun&mdash;, de manera que es este el
+entorno que se debe utilizar. Muchas distribuciones de GNU/Linux vienen con
+IcedTea, pero algunas incluyen plataformas Java que no son libres.</p>
+
+<p>Para tener la seguridad de que sus programas Java funcionarán correctamente
+en un entorno libre, tiene que escribirlos utilizando IcedTea. En teoría,
+las plataformas Java deberían ser compatibles, pero no lo son al cien por
+cien.</p>
+
+<p>Además, hay programas privativos que incluyen la palabra «Java» en el
+nombre, como sucede con JavaFX, y existen paquetes Java que uno podría
+sentirse tentado a utilizar pero que hay que rechazar, pues no son
+libres. Si utiliza Swing, asegúrese de que sea la versión libre, que viene
+con IcedTea.</p>
+
+<p>Dejando a un lado los aspectos que se refieren específicamente a Java, el
+asunto general aquí descrito continúa siendo importante, pues cualquier
+plataforma de programación o biblioteca que no sea libre puede provocar un
+problema similar. Hemos de aprender de la historia de Java para evitar así
+otras trampas en el futuro.</p>
+
+<p>Véase también: <a href="javascript-trap.html">La trampa de JavaScript</a>.</p>
+
+</div>
+
+<p>12 de abril de 2004</p>
+
+<p>
+  Si su programa es software libre, básicamente es ético, pero hay una trampa
+a la que debe estar atento. Su programa, aunque en sí mismo sea libre, puede
+estar limitado por alguna dependencia de software que no es libre. En la
+actualidad este problema se da sobre todo en los programas Java, por lo que
+lo llamamos «la trampa de Java».
 </p>
 
-				<p>
-				Afortunadamente, la licencia de esa especificaci&oacute;n permite publicar una 
-				implementaci&oacute;n como software libre; a otros que reciban la biblioteca se les
-				permite modificarla y no se les exige adherirse a la especificaci&oacute;n. Pero el
-				requisito tiene el efecto de prohibir el uso de un modelo cooperativo de desarrollo 
-				para producir la implementaci&oacute;n libre. El uso de ese modelo implicar&iacute;a 
-				la publicaci&oacute;n de versiones incompletas, que aquellos que han le&iacute;do la
-				especificaci&oacute;n no est&aacute;n autorizados a hacer.
-				</p>
-				
-				<p>
-				En los primeros d&iacute;as del Movimiento del Software Libre, era imposible evitar
-				depender de programas no libres. Antes de que tuvi&eacute;ramos el compilador de C 
-				de GNU, todos los programas en C (libres o no) depend&iacute;an de un compilador de C 
-				no libre. Antes de que tuvi&eacute;ramos la biblioteca de C de GNU, todos los programas
-				depend&iacute;an de una biblioteca de C no libre. Antes de que tuvi&eacute;ramos Linux, 
-				el primer n&uacute;cleo libre, todos los programas depend&iacute;an de un n&uacute;cleo 
-				no libre. Antes de que tuvi&eacute;ramos Bash, todos los scripts de shell ten&iacute;an
-				que ser interpretados por un int&eacute;rprete de &oacute;rdenes no libres. Era inevitable
-				que nuestros primeros programas estuvieran afectados al principio por estas dependencias, 
-				pero lo aceptamos porque nuestro plan inclu&iacute;a su posterior rescate. Nuestra meta 
-				final, un sistema operativo GNU autosuficiente, inclu&iacute;a sustitutos libres para
-				todas estas dependencias; si alcanz&aacute;bamos la meta, todos nuestros programas 
-				ser&iacute;an rescatados. Y as&iacute; sucedi&oacute;: con el sistema GNU/Linux, ahora
-				podemos ejecutar estos programas en plataformas libres.
-				</p>
-				
-				<p>
-				La situaci&oacute;n hoy es diferente. Tenemos potentes sistemas operativos libres y muchas 
-				herramientas libres de programaci&oacute;n. Cualquier trabajo que usted quiera hacer, lo 
-				puede hacer en una plataforma libre; no hay necesidad de aceptar una dependencia no libre
-				ni siquiera temporalmente. La principal raz&oacute;n por la que la gente cae hoy en la 
-				trampa es porque no piensan en ello. La soluci&oacute;n m&aacute;s f&aacute;cil al
-				problema de la trampa del Java es ense&ntilde;ar a la gente a no caer en ella.
-				</p>
-				
-				<p>
-				Para mantener su c&oacute;digo Java a salvo de la trampa del Java, instale un entorno de 
-				desarrollo del Java libre y &uacute;selo. De forma m&aacute;s general, cualquiera que 
-				sea el lenguaje que use, mantenga sus ojos abiertos, y compruebe el estado de libertad 
-				de los programas de los que dependa su c&oacute;digo. La manera m&aacute;s f&aacute;cil de
-				verificar que un programa es libre es buscarlo en el 
-				<a href="http://www.fsf.org/directory">Directorio de Software Libre</a>. Si un programa 
-				no est&aacute; en el directorio, puede comprobar si su licencia est&aacute; en la 
-				<a href="/licenses/license-list.es.html">lista de licencias de software libre</a>.
-				</p>
-				
-				<p>
-				Estamos intentando rescatar a los programas en atrapados en el Java, as&iacute; que si a usted
-				le gusta el lenguaje Java, le invitamos a ayudar en eldesarrollo de GNU Classpath. 
-				Tambi&eacute;n es &uacute;til probar sus programas con el compilador (GJC) y GNU 
-				Classpath, e informar de cualquier problema que encuentre en clases ya implementadas. Sin
-				embargo, finalizar GNU Classpath tomar&aacute; tiempo; si se siguen a&ntilde;adiendo 
-				m&aacute;s bibliotecas no libres, nunca podremos tener todas las &uacute;ltimas. 
-				As&iacute; que, por favor, no encadene su software libre. Cuando escriba una 
-				aplicaci&oacute;n, escr&iacute;bala para que funcione desde el principio sobre 
-				componentes libres.
-				</p>
-								
-				<h3>V&eacute;ase tambi&eacute;n:</h3>
-				<p>
-				<a href="/philosophy/sun-in-night-time.html">The Curious Incident of Sun in the 
-				Night-Time</a></p>
+<p>
+  Un programa es software libre si sus usuarios tienen ciertas libertades
+esenciales. Sin entrar en detalles, éstas son: la libertad de ejecutar el
+programa, la libertad de estudiar y modificar el código fuente, la libertad
+de redistribuir el código fuente y los binarios, y la libertad de publicar
+versiones mejoradas (véase <a
+href="/philosophy/free-sw.html">http://www.gnu.org/philosophy/free-sw.html</a>).
+Que un programa en forma de código fuente sea software libre depende
+únicamente de los términos de su licencia.
+</p>
+
+<p>
+  Que el programa pueda ser usado en el mundo libre por personas que quieren
+vivir en libertad es una cuestión más compleja. No es algo que esté
+determinado únicamente por la licencia del programa, porque ningún programa
+funciona aislado. Todos los programas dependen de otros programas. Por
+ejemplo, un programa necesita ser compilado o interpretado, por lo tanto
+depende de un compilador o de un intérprete. Si es compilado en
+<cite>bytecode</cite>, depende de un intérprete de
+<cite>bytecode</cite>. Además, necesita bibliotecas para ejecutarse, y
+también puede invocar a otros programas aparte que se ejecutan en otros
+procesos. Todos estos programas son dependencias. Las dependencias pueden
+ser necesarias para poder ejecutar el programa, o pueden ser necesarias
+solamente para ciertas funciones. En cualquier caso, el programa entero, o
+alguna parte del mismo, no puede funcionar sin las dependencias. 
+</p>
+
+<p>
+  Si algunas de las dependencias de un programa no son libres, entonces ese
+programa o una parte de él no se puede ejecutar en un sistema completamente
+libre: es inutilizable en el mundo libre. Ciertamente podemos redistribuir
+el programa y tener copias en nuestras máquinas, pero eso no sirve de mucho
+si no podemos ejecutarlo. El programa es software libre, pero en la práctica
+está encadenado por dependencias que no son libres.
+</p>
+
+<p>
+  Este problema puede suceder en cualquier tipo de software, en cualquier
+lenguaje. Por ejemplo, un programa libre que solamente funcione en Microsoft
+Windows es claramente inútil en el mundo libre. Pero el software que
+funciona en GNU/Linux también puede ser inútil si depende de otro software
+que no sea libre. En el pasado, Motif (antes de que tuviéramos LessTif) y Qt
+(antes de que sus desarrolladores lo convirtieran en software libre) fueron
+importantes causantes de este problema. La mayoría de las tarjetas gráficas
+3D solamente funcionan a pleno rendimiento con controladores que no son
+libres, que también originan este problema. Pero hoy en día la causa
+principal de este problema es Java, porque los programadores que escriben
+software libre a menudo se sienten atraídos por Java. Cegados por su
+atracción hacia el lenguaje, descuidan el problema de las dependencias y
+caen en la trampa de Java. 
+</p>
+
+<p>
+  La implementación de Java de Sun no es libre. Las bibliotecas estándar de
+Java tampoco son libres. Sí que tenemos implementaciones libres de Java,
+como el <a href="http://gcc.gnu.org/java/">compilador de GNU para Java</a>
+(GCJ) y <a href="/software/classpath">Classpath de GNU</a>, pero todavía no
+tienen todas las funcionalidades. Aún estamos trabajando en ello.
+</p>
+
+<p>
+  Si usted escribe un programa Java sobre la plataforma Java de Sun, está
+expuesto a usar funcionalidades exclusivas de Sun sin ni siquiera
+advertirlo. Para cuando se dé cuenta, quizás las haya estado usando durante
+meses, y rehacer el trabajo podría llevarle aún más tiempo. Podría pensar:
+«Volver a empezar es demasiado trabajo». Entonces su programa habrá caído en
+la trampa de Java y será inutilizable en el mundo libre.
+</p>
+
+<p>
+  La manera más eficaz de evitar la trampa de Java es tener en su sistema
+solamente una implementación libre de Java. Así, si usted usa una
+funcionalidad o biblioteca de Java que el software libre todavía no soporta,
+se dará cuenta enseguida, y podrá reescribir ese código de inmediato. 
+</p>
+
+<p>
+  Sun continúa desarrollando bibliotecas «estándar» adicionales de Java, y
+casi ninguna es libre. En muchos casos, incluso la especificación de la
+biblioteca es un secreto comercial, y la última licencia de Sun para estas
+especificaciones prohíbe publicar nada que no sea una implementación
+completa de la especificación (para encontrar ejemplos, véase <a
+href="http://jcp.org/aboutJava/communityprocess/JSPA2.pdf">http://jcp.org/aboutJava/communityprocess/JSPA2.pdf</a>
+y <a
+href="http://jcp.org/aboutJava/communityprocess/final/jsr129/j2me_pb-1_0-fr-spec-license.html">http://jcp.org/aboutJava/communityprocess/final/jsr129/j2me_pb-1_0-fr-spec-license.html</a>).
+</p>
+
+<p>
+  Afortunadamente, la licencia de esa especificación permite publicar una
+implementación como software libre. A quien reciba la biblioteca se le
+permite modificarla y no se le exige adherirse a la especificación. Pero el
+requisito tiene el efecto de prohibir el uso de un modelo de desarrollo
+cooperativo para producir la implementación libre. El uso de ese modelo
+implicaría la publicación de versiones incompletas, algo que aquellos que
+han leído la especificación no están autorizados a hacer. 
+</p>
+
+<p>
+  Durante los primeros años del Movimiento del Software Libre era imposible
+evitar la dependencia de programas privativos. Antes de que tuviéramos el
+compilador C de GNU, todos los programas en C (libres o no) dependían de un
+compilador C que no era libre. Antes de que tuviéramos la biblioteca C de
+GNU, todos los programas dependían de una biblioteca C que no era
+libre. Antes de que tuviéramos Linux, el primer núcleo libre, todos los
+programas dependían de un núcleo que no era libre. Antes de que tuviéramos
+BASH, todos los textos para el intérprete de órdenes [<cite>shell
+scripts</cite>] tenían que ser interpretados por un intérprete de órdenes
+[<cite>shell</cite>] que no era libre. Era inevitable que nuestros primeros
+programas se vieran obstaculizados por estas dependencias, pero lo aceptamos
+porque nuestro plan incluía su posterior rescate. Nuestra meta final, un
+sistema operativo GNU autosuficiente, incluía sustitutos libres para todas
+estas dependencias. Si alcanzábamos la meta, todos nuestros programas serían
+rescatados. Y así sucedió: con el sistema GNU/Linux, ahora podemos ejecutar
+estos programas en plataformas libres. 
+</p>
+
+<p>
+  Hoy en día la situación es diferente. Tenemos potentes sistemas operativos
+libres y muchas herramientas de programación libres. Cualquier tarea que
+usted quiera hacer, la puede hacer en una plataforma libre; no hay necesidad
+de aceptar una dependencia que no sea libre, ni siquiera temporalmente. La
+principal razón por la que la gente cae hoy en la trampa es porque no
+piensan en ello. La solución más fácil al problema de la trampa de Java es
+enseñar a reconocerla para que las personas no caigan en ella. 
+</p>
+
+<p>
+  Para mantener su código Java a salvo de la trampa de Java, instale un
+entorno de desarrollo Java que sea libre y úselo. De forma más general,
+cualquiera que sea el lenguaje que use, mantenga los ojos abiertos y
+compruebe que los programas de los que depende su código sean libres. La
+manera más fácil de verificar si un programa es libre es buscarlo en el <a
+href="http://www.fsf.org/directory">Directorio de Software Libre</a>. Si un
+programa no está en el directorio, puede comprobar si su licencia está en la
+<a href="/licenses/license-list.html">lista de licencias de software
+libre</a>.
+</p>
+
+<p>
+  Estamos intentando rescatar los programas atrapados en Java, así que si a
+usted le gusta el lenguaje Java, le invitamos a colaborar en el desarrollo
+de Classpath de GNU. También es útil probar sus programas con el compilador
+GJC y con Classpath de GNU, e informar de cualquier problema que encuentre
+en las clases que ya están implementadas. Sin embargo, finalizar Classpath
+de GNU tomará tiempo. Si se siguen añadiendo más bibliotecas que no sean
+libres, es posible que nunca dispongamos de todas las versiones más
+recientes. Así que, por favor, no encadene su software libre. Cuando escriba
+una aplicación, escríbala para que funcione desde el principio en entornos
+libres.
+</p>
+
+<h3>Véase también:</h3>
+<p><a href="/philosophy/sun-in-night-time.html">El curioso incidente de Sun a
+medianoche</a></p>
+
+
+<div style="font-size: small;">
+
+<!--TRANSLATORS: Use space (SPC) as msgstr if you don't have notes.-->
+ </div>
 </div>
 
+<!-- for id="content", starts in the include above -->
 <!--#include virtual="/server/footer.es.html" -->
+<div id="footer">
 
-		<!-- BEGIN copyleft -->
-		<div id="footer">
-			<p>
-			Por favor, env&iacute;e sus preguntas sobre la FSF y el Proyecto GNU a 
-			<a href="mailto:gnu@gnu.org"><em>gnu@gnu.org</em></a>. Hay tambi&eacute;n 
-			<a href="/contact/">otras maneras de contactar</a> con la FSF.<br />
-			Por favor, env&iacute;e enlaces rotos y otras correcciones (o sugerencias) a 
-			<a href="mailto:webmasters@www.gnu.org"><em>webmasters@gnu.org</em></a>.
-			</p>
-			
-			<p>
-			Para informarse de c&oacute;mo traducir al espa&ntilde;ol o para enviar correcciones 
-			de esta traducci&oacute;n visite el sitio del <a href="/spanish/">equipo de traducci&oacute;n
-			al espa&ntilde;ol de GNU</a>. Para informarse sobre la coordinaci&oacute;n y el env&iacute;o
-			de traducciones lea la <a href="/server/standards/README.translations.es.html">gu&iacute;a 
-			de traducci&oacute;n</a>.
-			</p>
-			
-			<p>
-			Copyright (C) 2004 Richard Stallman<br />
-			Verbatim copying and distribution of this entire article is permitted in any medium without
-			royalty provided this notice is preserved.
-			</p>
-			
-			<!-- Credits:
-			<p>Traducci&oacute;n: 19 abr 2004 Quique<br />
-			Actualizaci&oacute;n: 16 dic 2006 Exal de Jesus Garcia Carrillo
-			</p>
-			-->
+<p>Envíe sus consultas acerca de la FSF y GNU a <a
+href="mailto:gnu@gnu.org">&lt;gnu@gnu.org&gt;</a>. Existen también <a
+href="/contact/">otros medios para contactar</a> con la FSF. <br /> Para
+avisar de enlaces rotos y proponer otras correcciones o sugerencias,
+diríjase a <a
+href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a>.</p>
 
-			<p>
-			Última actualización:
-			<!-- timestamp start -->
-			$Date: 2012/05/14 16:35:45 $
-			<!-- timestamp end -->
-			</p>
-		</div>
-		
-		<div id="translations">
-			<h4>Traducciones de esta p&aacute;gina</h4>
-			
-<ul class="translations-list">
-<!-- Bulgarian -->
-<li><a href="/philosophy/java-trap.bg.html">&#x431;&#x44A;&#x43B;&#x433;&#x430;&#x440;&#x441;&#x43A;&#x438;</a>&nbsp;[bg]</li>
-<!-- German -->
-<li><a href="/philosophy/java-trap.de.html">Deutsch</a>&nbsp;[de]</li>
-<!-- Greek -->
-<li><a href="/philosophy/java-trap.el.html">&#x0395;&#x03bb;&#x03bb;&#x03b7;&#x03bd;&#x03b9;&#x03ba;&#x03ac;</a>&nbsp;[el]</li>
-<!-- English -->
-<li><a href="/philosophy/java-trap.en.html">English</a>&nbsp;[en]</li>
-<!-- Spanish -->
-<li><a href="/philosophy/java-trap.es.html">Espa&#x00f1;ol</a>&nbsp;[es]</li>
-<!-- French -->
-<li><a href="/philosophy/java-trap.fr.html">Fran&#x00e7;ais</a>&nbsp;[fr]</li>
-<!-- Italian -->
-<li><a href="/philosophy/java-trap.it.html">Italiano</a>&nbsp;[it]</li>
-<!-- Dutch-->
-<li><a href="/philosophy/java-trap.nl.html">Nederlands</a>&nbsp;[nl]</li>
-<!-- Polish -->
-<li><a href="/philosophy/java-trap.pl.html">polski</a>&nbsp;[pl]</li>
-<!-- Romanian -->
-<li><a href="/philosophy/java-trap.ro.html">Rom&#x00e2;n&#x0103;</a>&nbsp;[ro]</li>
-<!-- Serbian -->
-<li><a href="/philosophy/java-trap.sr.html">&#x0421;&#x0440;&#x043f;&#x0441;&#x043a;&#x0438;</a>&nbsp;[sr]</li>
-</ul>
+<p>
+<!-- TRANSLATORS: Ignore the original text in this paragraph,
+        replace it with the translation of these two:
+
+        We work hard and do our best to provide accurate, good quality
+        translations.  However, we are not exempt from imperfection.
+        Please send your comments and general suggestions in this regard
+        to <a href="mailto:web-translators@gnu.org">
+
+        &lt;web-translators@gnu.org&gt;</a>.</p>
+
+        <p>For information on coordinating and submitting translations of
+        our web pages, see <a
+        href="/server/standards/README.translations.html">Translations
+        README</a>. -->
+El equipo de traductores al español se esfuerza por ofrecer traducciones
+fieles al original y de buena calidad, pero no estamos libres de cometer
+errores.<br /> Por favor envíe sus comentarios y sugerencias sobre las
+traducciones a <a
+href="mailto:web-translators@gnu.org">&lt;web-translators@gnu.org&gt;</a>.
+</p><p>Consulte la <a href="/server/standards/README.translations.html">Guía
+para las traducciones</a> para obtener información sobre la coordinación y
+el envío de traducciones de las páginas de este sitio web.</p>
+
+<p>Copyright &copy; 2004, 2010 Richard Stallman</p>
+
+<p>Esta página está bajo una <a rel="license"
+href="http://creativecommons.org/licenses/by-nd/3.0/us/deed.es">licencia
+Creative Commons Atribución-SinDerivadas 3.0 Estados Unidos de América</a>.</p>
+
+<!--#include virtual="/server/bottom-notes.es.html" -->
+<div class="translators-credits">
+
+<!--TRANSLATORS: Use space (SPC) as msgstr if you don't want credits.-->
+<strong>Traducción: Quique, 2004.</strong> Revisiones: Maximiliano Curia,
+Exal de Jesus Garcia Carrillo, Javier Fdez. Retenaga, Sergi Ruiz Trepat.</div>
+
+<p>
+Para obtener información sobre cómo traducir al español las páginas de este 
+sitio web, consulte la  
+<a href="http://gnu.org/server/standards/translations/es/">Guía para la traducción al español de las páginas de gnu.org</a>.
+</p>
+ <p>
+<!-- timestamp start -->
+Última actualización: 
+
+$Date: 2013/02/01 10:28:42 $
+
+<!-- timestamp end -->
+</p>
 </div>
 </div>
-
 </body>
 </html>
-
