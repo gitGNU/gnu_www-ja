@@ -493,7 +493,7 @@ philosophy := 	15-years-of-free-software \
 		practical \
 		pragmatic \
 		privacyaction \
-		programs-must-not-limit-freedom \
+		programs-must-not-limit-freedom-to-run \
 		proprietary-sabotage \
 		proprietary-surveillance \
 		protecting \
