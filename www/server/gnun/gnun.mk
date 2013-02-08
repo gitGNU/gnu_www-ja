@@ -564,6 +564,7 @@ philosophy/sco :=	questioning-sco \
 pronunciation :=	pronunciation
 
 server :=	08whatsnew \
+		fsf-html-style-sheet \
 		irc-rules \
 		mirror \
 		server \

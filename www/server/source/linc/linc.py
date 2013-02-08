@@ -20,7 +20,7 @@
 
 # defines
 
-LINC_VERSION = 'LINC 0.4'
+LINC_VERSION = 'LINC 0.5'
 COPYRIGHT= \
 'Copyright (C) 2011-2012 Waclaw Jacek\n\
 Copyright (C) 2013 Free Software Foundation, Inc.\n\
@@ -95,7 +95,8 @@ HTTP_FORWARD_HEADER = '^HTTP/1\.1 (301 Moved Permanently|302 Found)$'
 HTTP_LINK_REGEXP = \
   'http://(?P<hostname>[^/:]+)(:(?P<port>[0-9]+))?(?P<resource>/[^#]*)?'
 HTTP_NEW_LOCATION_HEADER = '^Location: (?P<new_location>.+)$'
-LINK_REGEXP = '<a( .+?)? href="(?P<link>[^m].+?)"( .+?)?>'
+# Links like href="mailto:..." and href="irc:..." are excluded.
+LINK_REGEXP = '<a( .+?)? href="(?P<link>[^mi].+?)"( .+?)?>'
 TRANSLATION_REGEXP = '\.(?P<langcode>[a-z]{2}|[a-z]{2}-[a-z]{2})\.[^.]+$'
 
 VERBOSE = 0
