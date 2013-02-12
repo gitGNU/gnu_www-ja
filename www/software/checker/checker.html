@@ -1,62 +1,35 @@
-<!-- Parent-Version: $Revision: 1.8 $ -->
-
-<!-- This is the template document for GNU web pages.  We use
-     server side includes (#include) for common elements, for
-     instance, the very first line of the file.  If you're reading
-     this in its expanded form, you can retrieve the original source,
-     with the SSI statements intact, from
-     http://web.cvs.savannah.gnu.org/viewvc/*checkout*/www/server/standards/boilerplate.html?root=www&content-type=text%2Fplain
--->
-
-<!-- Instructions for adapting this boilerplate to a new project: -->
-
-<!-- 1. In the line above starting "Parent-Version:", remove the
-        "$Revision...$" from around the revision number,
-        leaving just Parent-Version: and the number. -->
-
-<!-- 2. Replace "baz" with the name of your project.
-        You should be able to do this with search and replace;
-        making sure that the search is case insensitive and
-        that the case of the replacement matches the case
-        of the string found. In Emacs, query-replace will do this
-        when case-fold-search and case-replace are both non-nil
-        and both search and replacement string are given in lower case. -->
-
-<!-- 3. Of course update the actual information according to your project,
-        such as mailing lists, project locations, and maintainer name.  -->
-
-<!-- 4. You can use the patch-from-parent script to semi-automate
-        merging future changes to the boilerplate with your file:
-        http://web.cvs.savannah.gnu.org/viewvc/*checkout*/www/server/standards/patch-from-parent?root=www&content-type=text%2Fplain
--->
-
 <!--#include virtual="/server/header.html" -->
-<title>Checker - GNU Project - Free Software Foundation (FSF)</title>
+<!-- Parent-Version: 1.72 -->
+<title>Checker - GNU Project - Free Software Foundation</title>
 <!--#include virtual="/server/banner.html" -->
+<!--#set var="article_name" value="/software/checker/checker" -->
+<!--#include virtual="/server/gnun/initial-translations-list.html" -->
 <h2>GNU Checker</h2>
 
 <p>The GNU checker package has been decommissioned, as <a
 href="http://valgrind.org/">valgrind</a> does a better job and is being
 actively maintained.  Old home page preserved below for archaeologists.
+</p>
+<hr />
 
-<hr>
-<small>
-
-<P>
+<p>
 Checker is a tool which finds memory errors at runtime.  Its
 primary function is to emit a warning when the program reads an
 uninitialized variable or memory area, or when the program accesses an
 unallocated memory area.
-
+</p>
 <p>
 The Malloc library of Checker is very robust, though a bit slower
 than the usual GNU Malloc.  Checker issues warnings when:
+</p>
 <ul>
 <li> <code>free</code> or <code>realloc</code> is called with a
     pointer that has not been obtained from <code>malloc</code>,
     <code>calloc</code>, or <code>realloc</code>.
+</li>
 <li> <code>free</code> or <code>realloc</code> is called with a
     pointer that has been previously freed.
+</li>
 </ul>
     
 <p>
@@ -64,17 +37,17 @@ Checker's Malloc will refrain from reusing a freed block
 immediately; reuse of the block is delayed for some additional number
 of calls to free.  This is to catch accesses to the block shortly
 after it has been freed.
-
+</p>
 <p>
 Checker implements a garbage detector that can be called either in
 your program, by a debugger such as GDB, or on exit from the program.
 The garbage detector displays all the memory leaks along with the
 functions that called <code>malloc</code>.
-
-<h4>Example</h4>
-
+</p>
+<h3>Example</h3>
+<p>
 Here's a bogus file <code>example.c</code>:
-
+</p>
 <pre>
   #include &lt;stdlib.h&gt;
 
@@ -93,22 +66,22 @@ Here's a bogus file <code>example.c</code>:
                         must produce a core */
   }
 </pre>
-
+<p>
 To compile this example with Checker, simply use
 <code>checkergcc</code> instead of <code>gcc</code>:
-
+</p>
 <pre>
 % checkergcc -o example example.c
 </pre>
-
+<p>
 Next, to run the example:
-
+</p>
 <pre>
   % ./example
 </pre>
-
+<p>
 Execution produces these warnings:
-
+</p>
 <pre>
 Checker 0.9 (sparc-sun-solaris2.5.1) Copyright (C) 1998 Tristan Gingold.
 Checker is a memory access detector.
@@ -169,80 +142,78 @@ Receive signal 11 (SEGV): (default action: terminate core ).
 Segmentation fault
 </pre>
 
-<h4>Current status</h4>
-
+<h3>Current status</h3>
+<p>
 At this time, the current version, 0.9.4, is available on
-<A href="ftp://alpha.gnu.org/gnu/">  alpha.gnu.org/gnu/.</a>
+<a href="ftp://alpha.gnu.org/gnu/">  alpha.gnu.org/gnu/.</a>
 It has been ported to
+</p>
 <ul>
-  <li>i586-pc-linux-gnu
-  <li>sparc-sun-solaris2.5
+  <li>i586-pc-linux-gnu</li>
+  <li>sparc-sun-solaris2.5</li>
 </ul>
+<p>
 You need <code>gcc-2.8.1</code> to use Checker.
-
-</small>
-<HR>
-
-Return to <A HREF="/home.html">GNU's home page</A>.
-<P>
-
-Please send FSF &amp; GNU inquiries &amp; questions to 
-
-<A HREF="mailto:gnu@gnu.org"><EM>gnu@gnu.org</EM></A>.
-There are also <A HREF="http://www.fsf.org/about/contact.html">other ways to
-contact</A> the FSF.
-<P>
-
-Please send comments on these web pages to
-
-<A HREF="mailto:webmasters@gnu.org"><EM>webmasters@gnu.org</EM></A>,
-send other questions to
-<A HREF="mailto:gnu@gnu.org"><EM>gnu@gnu.org</EM></A>.
-<P>
-Copyright &copy; 1998, 2001, 2006 Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA  02110-1301,  USA
-<P>
-Verbatim copying and distribution of this entire article is
-permitted in any medium, provided this notice is preserved.<P>
-Updated:
-<!-- hhmts start -->
-$Date: 2011/10/24 19:35:31 $ $Author: jturner $
-<!-- hhmts end -->
-<!-- If needed, change the copyright block at the bottom. In general,
-     all pages on the GNU web server should have the section about
-     verbatim copying.  Please do NOT remove this without talking
-     with the webmasters first.
-     Please make sure the copyright date is consistent with the document
-     and that it is like this: "2001, 2002", not this: "2001-2002". -->
+</p>
+<hr />
 </div><!-- for id="content", starts in the include above -->
 <!--#include virtual="/server/footer.html" -->
+<div id="footer">
 
-<div id="translations">
-<h4>Translations of this page</h4>
+<p>Please send general FSF &amp; GNU inquiries to
+<a href="mailto:gnu@gnu.org">&lt;gnu@gnu.org&gt;</a>.
+There are also <a href="/contact/">other ways to contact</a>
+the FSF.  Broken links and other corrections or suggestions can be sent
+to <a href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a>.</p>
 
-<!-- Please keep this list alphabetical by language code.
-     Comment what the language is for each type, i.e. de is German.
-     Write the language name in its own language (Deutsch) in the text.
-     If you add a new language here, please
-     advise web-translators@gnu.org and add it to
-      - /home/www/html/server/standards/README.translations.html
-      - one of the lists under the section "Translations Underway"
-      - if there is a translation team, you also have to add an alias
-      to mail.gnu.org:/com/mailer/aliases
-     Please also check you have the language code right; see:
-     http://www.loc.gov/standards/iso639-2/php/code_list.php
-     If the 2-letter ISO 639-1 code is not available,
-     use the 3-letter ISO 639-2.
-     Please use W3C normative character entities.
+<p><!-- TRANSLATORS: Ignore the original text in this paragraph,
+        replace it with the translation of these two:
 
-     See also '(web-trans)Capitalization':
-     http://gnu.org/software/trans-coord/manual/web-trans/html_node/Capitalization.html
-     -->
+        We work hard and do our best to provide accurate, good quality
+        translations.  However, we are not exempt from imperfection.
+        Please send your comments and general suggestions in this regard
+        to <a href="mailto:web-translators@gnu.org">
+        &lt;web-translators@gnu.org&gt;</a>.</p>
 
-<ul class="translations-list">
-<!-- English -->
-<li><a href="/server/standards/boilerplate.html">English</a>&nbsp;[en]</li>
-</ul>
+        <p>For information on coordinating and submitting translations of
+        our web pages, see <a
+        href="/server/standards/README.translations.html">Translations
+        README</a>. -->
+Please see the <a
+href="/server/standards/README.translations.html">Translations
+README</a> for information on coordinating and submitting translations
+of this article.</p>
+
+<!-- Regarding copyright, in general, standalone pages (as opposed to
+     files generated as part of manuals) on the GNU web server should
+     be under CC BY-ND 3.0 US.  Please do NOT change or remove this
+     without talking with the webmasters or licensing team first.
+     Please make sure the copyright date is consistent with the
+     document.  For web pages, it is ok to list just the latest year the
+     document was modified, or published.
+     
+     If you wish to list earlier years, that is ok too.
+     Either "2001, 2002, 2003" or "2001-2003" are ok for specifying
+     years, as long as each year in the range is in fact a copyrightable
+     year, i.e., a year in which the document was published (including
+     being publicly visible on the web or in a revision control system).
+     
+     There is more detail about copyright years in the GNU Maintainers
+     Information document, www.gnu.org/prep/maintain. -->
+
+<p>Copyright &copy; 1998, 2001, 2006 Free Software Foundation</p>
+
+<p>This page is licensed under a <a rel="license"
+href="http://creativecommons.org/licenses/by-nd/3.0/us/">Creative
+Commons Attribution-NoDerivs 3.0 United States License</a>.</p>
+
+<!--#include virtual="/server/bottom-notes.html" -->
+
+<p>Updated:
+<!-- timestamp start -->
+$Date: 2013/02/09 10:19:01 $
+<!-- timestamp end -->
+</p>
 </div>
 </div>
 </body>

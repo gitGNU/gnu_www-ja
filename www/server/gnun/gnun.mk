@@ -86,11 +86,13 @@ ALL_DIRS :=	accessibility \
 		licenses \
 		licenses/old-licenses \
 		links \
+		manual \
 		music \
 		people \
 		philosophy \
 		philosophy/economics_frank \
 		philosophy/sco \
+		press \
 		pronunciation \
 		server \
 		server/source \
@@ -315,8 +317,7 @@ graphics/fsfsociety :=	fsfsociety
 
 graphics/gnu-post :=	index
 
-help :=		directory \
-		evaluation \
+help :=		evaluation \
 		gethelp \
                 gnu-bucks \
                 gnu-bucks-recipients \
@@ -374,6 +375,8 @@ licenses/old-licenses :=	fdl-1.1 \
 
 links :=	companies \
 		links
+
+manual :=	manual
 
 music :=	blues-song \
 		emacsvsvi \
@@ -435,6 +438,7 @@ philosophy := 	15-years-of-free-software \
 		free-world-notes \
 		fs-motives \
 		fs-translations \
+		funding-art-vs-funding-software \
 		gates \
 		gif \
 		gnutella \
@@ -561,6 +565,8 @@ philosophy/sco :=	questioning-sco \
 			sco-without-fear \
 			subpoena
 
+press :=		press
+
 pronunciation :=	pronunciation
 
 server :=	08whatsnew \
@@ -598,6 +604,7 @@ testimonials :=	reliable \
 
 thankgnus :=	1997supporters \
 		1998supporters \
+		1999 \
 		1999supporters \
 		2000supporters \
 		2001supporters \
