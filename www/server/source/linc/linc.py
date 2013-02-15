@@ -20,7 +20,7 @@
 
 # defines
 
-LINC_VERSION = 'LINC 0.5'
+LINC_VERSION = 'LINC 0.6'
 COPYRIGHT= \
 'Copyright (C) 2011-2012 Waclaw Jacek\n\
 Copyright (C) 2013 Free Software Foundation, Inc.\n\
@@ -183,7 +183,8 @@ def get_http_link_error( link, forwarded_from = None ):
 	end_of_headers_pos = webpage.find( '\r\n\r\n' )
 	if end_of_headers_pos == -1:
 		if VERBOSE > 1:
-			print 'No end of headers found on webpage'
+			print 'No end of headers found on webpage (link ' \
+			 + link + ')'
 			print '- - - - -'
 			print webpage
 			print '- - - - -'
@@ -424,7 +425,8 @@ if VERBOSE > 0:
 	print "Base URL:             `" + REMOTE_BASE_DIRECTORY + "'"
 	print "Excluded files:       `" + EXCLUDED_FILENAMES_REGEXP + "'"
 	print "Excluded directories: `" + EXCLUDED_DIRECTORIES_REGEXP + "'"
-	print "Run locally:          `" + ('yes' if LOCAL else 'no') + "'"
+	print "Run locally:           " + str(LOCAL)
+	print "Verbosity:             " + str(VERBOSE)
 
 # `cd` to this path
 if not os.path.isdir( base_directory ):
@@ -446,9 +448,8 @@ for file_to_check in files_to_check:
 	file_contents = fd.read()
 	fd.close()
 
-	for match in re.finditer( LINK_REGEXP, file_contents ):
-		link = match.group( 'link' )
-		
+	for match in re.finditer(LINK_REGEXP, file_contents, re.IGNORECASE):
+		link = match.group('link')
 		line_number = -1
 		split_file_contents = file_contents.split( '\n' )
 		for checked_line_number, line \
@@ -465,12 +466,6 @@ for file_to_check in files_to_check:
 				   'is_inside_comment': \
 				       is_match_inside_comment( match ) }
 		links_to_check.append( link_container )
-
-report_file = REPORT_FILE_NAME
-clear_file( report_file )
-commented_file = COMMENTED_FILE_NAME
-clear_file( commented_file )
-report_files = {}
 
 number_of_links_to_check = str( len( links_to_check ) )
 already_checked_links = []
@@ -491,6 +486,11 @@ for j in range(NUMBER_OF_ATTEMPTS):
 		continue
 
 	link_type = None
+    	if VERBOSE > 2 and link[0] != '/' and link[0] != '#' \
+			and link.find('://') == -1:
+		print '\n' + filename + ':' \
+		      + str(link_container['line_number']) + ': link ' \
+		      + str(i) + ' `' + link + "' is relative"
 
 	if link[:6] == 'ftp://':
 		link_type = 'ftp'
@@ -561,6 +561,13 @@ for j in range(NUMBER_OF_ATTEMPTS):
 
 if VERBOSE >= 0:
 	print 'Writing reports...'
+
+report_file = REPORT_FILE_NAME
+clear_file( report_file )
+commented_file = COMMENTED_FILE_NAME
+clear_file( commented_file )
+report_files = {}
+
 for i, link_container in enumerate(links_to_check):
 	filename = link_container['filename']
 	line_number = link_container['line_number']
