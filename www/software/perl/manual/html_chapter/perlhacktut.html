@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 4.13.97+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perlhacktut</title>
+
+<meta name="description" content="Perl pod documentation: perlhacktut">
+<meta name="keywords" content="Perl pod documentation: perlhacktut">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="perlhist.html#perlhist" rel="next" title="perlhist">
+<link href="perlhacktips.html#perlhacktips-AUTHOR" rel="previous" title="perlhacktips AUTHOR">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perlhacktut"></a>
+<div class="header">
+<p>
+Next: <a href="perlhist.html#perlhist" accesskey="n" rel="next">perlhist</a>, Previous: <a href="perlhacktips.html#perlhacktips" accesskey="p" rel="previous">perlhacktips</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perlhacktut-1"></a>
+<h2 class="chapter">31 perlhacktut</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlhacktut-NAME" accesskey="1">perlhacktut NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlhacktut-DESCRIPTION" accesskey="2">perlhacktut DESCRIPTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="3">perlhacktut EXAMPLE OF A SIMPLE PATCH</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlhacktut-AUTHOR" accesskey="4">perlhacktut AUTHOR</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlhacktut-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perlhacktut-DESCRIPTION" accesskey="n" rel="next">perlhacktut DESCRIPTION</a>, Up: <a href="#perlhacktut" accesskey="u" rel="up">perlhacktut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-30"></a>
+<h3 class="section">31.1 NAME</h3>
+
+<p>perlhacktut - Walk through the creation of a simple C code patch
+</p>
+<hr>
+<a name="perlhacktut-DESCRIPTION"></a>
+<div class="header">
+<p>
+Next: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="n" rel="next">perlhacktut EXAMPLE OF A SIMPLE PATCH</a>, Previous: <a href="#perlhacktut-NAME" accesskey="p" rel="previous">perlhacktut NAME</a>, Up: <a href="#perlhacktut" accesskey="u" rel="up">perlhacktut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESCRIPTION-30"></a>
+<h3 class="section">31.2 DESCRIPTION</h3>
+
+<p>This document takes you through a simple patch example.
+</p>
+<p>If you haven&rsquo;t read <a href="perlhack.html#perlhack-NAME">perlhack NAME</a> yet, go do that first! You might also
+want to read through <a href="perlsource.html#perlsource-NAME">perlsource NAME</a> too.
+</p>
+<p>Once you&rsquo;re done here, check out <a href="perlhacktips.html#perlhacktips-NAME">perlhacktips NAME</a> next.
+</p>
+<hr>
+<a name="perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH"></a>
+<div class="header">
+<p>
+Next: <a href="#perlhacktut-AUTHOR" accesskey="n" rel="next">perlhacktut AUTHOR</a>, Previous: <a href="#perlhacktut-DESCRIPTION" accesskey="p" rel="previous">perlhacktut DESCRIPTION</a>, Up: <a href="#perlhacktut" accesskey="u" rel="up">perlhacktut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="EXAMPLE-OF-A-SIMPLE-PATCH"></a>
+<h3 class="section">31.3 EXAMPLE OF A SIMPLE PATCH</h3>
+
+<p>Let&rsquo;s take a simple patch from start to finish.
+</p>
+<p>Here&rsquo;s something Larry suggested: if a <code>U</code> is the first active format
+during a <code>pack</code>, (for example, <code>pack &quot;U3C8&quot;, @stuff</code>) then the
+resulting string should be treated as UTF-8 encoded.
+</p>
+<p>If you are working with a git clone of the Perl repository, you will
+want to create a branch for your changes. This will make creating a
+proper patch much simpler. See the <a href="perlgit.html#perlgit-NAME">perlgit NAME</a> for details on how to do
+this.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlhacktut-Writing-the-patch" accesskey="1">perlhacktut Writing the patch</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlhacktut-Testing-the-patch" accesskey="2">perlhacktut Testing the patch</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlhacktut-Documenting-the-patch" accesskey="3">perlhacktut Documenting the patch</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlhacktut-Submit" accesskey="4">perlhacktut Submit</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlhacktut-Writing-the-patch"></a>
+<div class="header">
+<p>
+Next: <a href="#perlhacktut-Testing-the-patch" accesskey="n" rel="next">perlhacktut Testing the patch</a>, Up: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="u" rel="up">perlhacktut EXAMPLE OF A SIMPLE PATCH</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Writing-the-patch"></a>
+<h4 class="subsection">31.3.1 Writing the patch</h4>
+
+<p>How do we prepare to fix this up? First we locate the code in question
+- the <code>pack</code> happens at runtime, so it&rsquo;s going to be in one of the
+<samp>pp</samp> files. Sure enough, <code>pp_pack</code> is in <samp>pp.c</samp>. Since we&rsquo;re going
+to be altering this file, let&rsquo;s copy it to <samp>pp.c~</samp>.
+</p>
+<p>[Well, it was in <samp>pp.c</samp> when this tutorial was written. It has now
+been split off with <code>pp_unpack</code> to its own file, <samp>pp_pack.c</samp>]
+</p>
+<p>Now let&rsquo;s look over <code>pp_pack</code>: we take a pattern into <code>pat</code>, and then
+loop over the pattern, taking each format character in turn into
+<code>datum_type</code>. Then for each possible format character, we swallow up
+the other arguments in the pattern (a field width, an asterisk, and so
+on) and convert the next chunk input into the specified format, adding
+it onto the output SV <code>cat</code>.
+</p>
+<p>How do we know if the <code>U</code> is the first format in the <code>pat</code>? Well, if
+we have a pointer to the start of <code>pat</code> then, if we see a <code>U</code> we can
+test whether we&rsquo;re still at the start of the string. So, here&rsquo;s where
+<code>pat</code> is set up:
+</p>
+<pre class="verbatim">    STRLEN fromlen;
+    register char *pat = SvPVx(*++MARK, fromlen);
+    register char *patend = pat + fromlen;
+    register I32 len;
+    I32 datumtype;
+    SV *fromstr;
+</pre>
+<p>We&rsquo;ll have another string pointer in there:
+</p>
+<pre class="verbatim">    STRLEN fromlen;
+    register char *pat = SvPVx(*++MARK, fromlen);
+    register char *patend = pat + fromlen;
+ +  char *patcopy;
+    register I32 len;
+    I32 datumtype;
+    SV *fromstr;
+</pre>
+<p>And just before we start the loop, we&rsquo;ll set <code>patcopy</code> to be the start
+of <code>pat</code>:
+</p>
+<pre class="verbatim">    items = SP - MARK;
+    MARK++;
+    sv_setpvn(cat, &quot;&quot;, 0);
+ +  patcopy = pat;
+    while (pat &lt; patend) {
+</pre>
+<p>Now if we see a <code>U</code> which was at the start of the string, we turn on
+the <code>UTF8</code> flag for the output SV, <code>cat</code>:
+</p>
+<pre class="verbatim"> +  if (datumtype == 'U' &amp;&amp; pat==patcopy+1)
+ +      SvUTF8_on(cat);
+    if (datumtype == '#') {
+        while (pat &lt; patend &amp;&amp; *pat != '\n')
+            pat++;
+</pre>
+<p>Remember that it has to be <code>patcopy+1</code> because the first character of
+the string is the <code>U</code> which has been swallowed into <code>datumtype!</code>
+</p>
+<p>Oops, we forgot one thing: what if there are spaces at the start of the
+pattern? <code>pack(&quot;  U*&quot;, @stuff)</code> will have <code>U</code> as the first active
+character, even though it&rsquo;s not the first thing in the pattern. In this
+case, we have to advance <code>patcopy</code> along with <code>pat</code> when we see
+spaces:
+</p>
+<pre class="verbatim">    if (isSPACE(datumtype))
+        continue;
+</pre>
+<p>needs to become
+</p>
+<pre class="verbatim">    if (isSPACE(datumtype)) {
+        patcopy++;
+        continue;
+    }
+</pre>
+<p>OK. That&rsquo;s the C part done. Now we must do two additional things before
+this patch is ready to go: we&rsquo;ve changed the behaviour of Perl, and so
+we must document that change. We must also provide some more regression
+tests to make sure our patch works and doesn&rsquo;t create a bug somewhere
+else along the line.
+</p>
+<hr>
+<a name="perlhacktut-Testing-the-patch"></a>
+<div class="header">
+<p>
+Next: <a href="#perlhacktut-Documenting-the-patch" accesskey="n" rel="next">perlhacktut Documenting the patch</a>, Previous: <a href="#perlhacktut-Writing-the-patch" accesskey="p" rel="previous">perlhacktut Writing the patch</a>, Up: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="u" rel="up">perlhacktut EXAMPLE OF A SIMPLE PATCH</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Testing-the-patch"></a>
+<h4 class="subsection">31.3.2 Testing the patch</h4>
+
+<p>The regression tests for each operator live in <samp>t/op/</samp>, and so we make
+a copy of <samp>t/op/pack.t</samp> to <samp>t/op/pack.t~</samp>. Now we can add our tests
+to the end. First, we&rsquo;ll test that the <code>U</code> does indeed create Unicode
+strings.
+</p>
+<p>t/op/pack.t has a sensible ok() function, but if it didn&rsquo;t we could use
+the one from t/test.pl.
+</p>
+<pre class="verbatim"> require './test.pl';
+ plan( tests =&gt; 159 );
+</pre>
+<p>so instead of this:
+</p>
+<pre class="verbatim"> print 'not ' unless &quot;1.20.300.4000&quot; eq sprintf &quot;%vd&quot;,
+                                               pack(&quot;U*&quot;,1,20,300,4000);
+ print &quot;ok $test\n&quot;; $test++;
+</pre>
+<p>we can write the more sensible (see <a href="../Test-More/index.html">(Test-More)</a> for a full
+explanation of is() and other testing functions).
+</p>
+<pre class="verbatim"> is( &quot;1.20.300.4000&quot;, sprintf &quot;%vd&quot;, pack(&quot;U*&quot;,1,20,300,4000),
+                                       &quot;U* produces Unicode&quot; );
+</pre>
+<p>Now we&rsquo;ll test that we got that space-at-the-beginning business right:
+</p>
+<pre class="verbatim"> is( &quot;1.20.300.4000&quot;, sprintf &quot;%vd&quot;, pack(&quot;  U*&quot;,1,20,300,4000),
+                                     &quot;  with spaces at the beginning&quot; );
+</pre>
+<p>And finally we&rsquo;ll test that we don&rsquo;t make Unicode strings if <code>U</code> is
+<strong>not</strong> the first active format:
+</p>
+<pre class="verbatim"> isnt( v1.20.300.4000, sprintf &quot;%vd&quot;, pack(&quot;C0U*&quot;,1,20,300,4000),
+                                       &quot;U* not first isn't Unicode&quot; );
+</pre>
+<p>Mustn&rsquo;t forget to change the number of tests which appears at the top,
+or else the automated tester will get confused. This will either look
+like this:
+</p>
+<pre class="verbatim"> print &quot;1..156\n&quot;;
+</pre>
+<p>or this:
+</p>
+<pre class="verbatim"> plan( tests =&gt; 156 );
+</pre>
+<p>We now compile up Perl, and run it through the test suite. Our new
+tests pass, hooray!
+</p>
+<hr>
+<a name="perlhacktut-Documenting-the-patch"></a>
+<div class="header">
+<p>
+Next: <a href="#perlhacktut-Submit" accesskey="n" rel="next">perlhacktut Submit</a>, Previous: <a href="#perlhacktut-Testing-the-patch" accesskey="p" rel="previous">perlhacktut Testing the patch</a>, Up: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="u" rel="up">perlhacktut EXAMPLE OF A SIMPLE PATCH</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Documenting-the-patch"></a>
+<h4 class="subsection">31.3.3 Documenting the patch</h4>
+
+<p>Finally, the documentation. The job is never done until the paperwork
+is over, so let&rsquo;s describe the change we&rsquo;ve just made. The relevant
+place is <samp>pod/perlfunc.pod</samp>; again, we make a copy, and then we&rsquo;ll
+insert this text in the description of <code>pack</code>:
+</p>
+<pre class="verbatim"> =item *
+
+ If the pattern begins with a C&lt;U&gt;, the resulting string will be treated
+ as UTF-8-encoded Unicode. You can force UTF-8 encoding on in a string
+ with an initial C&lt;U0&gt;, and the bytes that follow will be interpreted as
+ Unicode characters. If you don't want this to happen, you can begin
+ your pattern with C&lt;C0&gt; (or anything else) to force Perl not to UTF-8
+ encode your string, and then follow this with a C&lt;U*&gt; somewhere in your
+ pattern.
+</pre>
+<hr>
+<a name="perlhacktut-Submit"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlhacktut-Documenting-the-patch" accesskey="p" rel="previous">perlhacktut Documenting the patch</a>, Up: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="u" rel="up">perlhacktut EXAMPLE OF A SIMPLE PATCH</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Submit"></a>
+<h4 class="subsection">31.3.4 Submit</h4>
+
+<p>See <a href="perlhack.html#perlhack-NAME">perlhack NAME</a> for details on how to submit this patch.
+</p>
+<hr>
+<a name="perlhacktut-AUTHOR"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="p" rel="previous">perlhacktut EXAMPLE OF A SIMPLE PATCH</a>, Up: <a href="#perlhacktut" accesskey="u" rel="up">perlhacktut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="AUTHOR-13"></a>
+<h3 class="section">31.4 AUTHOR</h3>
+
+<p>This document was originally written by Nathan Torkington, and is
+maintained by the perl5-porters mailing list.
+</p>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="p" rel="previous">perlhacktut EXAMPLE OF A SIMPLE PATCH</a>, Up: <a href="#perlhacktut" accesskey="u" rel="up">perlhacktut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

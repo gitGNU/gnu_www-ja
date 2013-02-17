@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 4.13.97+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perldtrace</title>
+
+<meta name="description" content="Perl pod documentation: perldtrace">
+<meta name="keywords" content="Perl pod documentation: perldtrace">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="perlebcdic.html#perlebcdic" rel="next" title="perlebcdic">
+<link href="NAME-data-structure-complex-data-structure-struct.html#NAME-data-structure-complex-data-structure-struct-AUTHOR" rel="previous" title="NAME data structure complex data structure struct AUTHOR">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perldtrace"></a>
+<div class="header">
+<p>
+Next: <a href="perlebcdic.html#perlebcdic" accesskey="n" rel="next">perlebcdic</a>, Previous: <a href="NAME-data-structure-complex-data-structure-struct.html#NAME-data-structure-complex-data-structure-struct" accesskey="p" rel="previous">NAME data structure complex data structure struct</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perldtrace-1"></a>
+<h2 class="chapter">18 perldtrace</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perldtrace-NAME" accesskey="1">perldtrace NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldtrace-SYNOPSIS" accesskey="2">perldtrace SYNOPSIS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldtrace-DESCRIPTION" accesskey="3">perldtrace DESCRIPTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldtrace-HISTORY" accesskey="4">perldtrace HISTORY</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldtrace-PROBES" accesskey="5">perldtrace PROBES</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldtrace-EXAMPLES" accesskey="6">perldtrace EXAMPLES</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldtrace-REFERENCES" accesskey="7">perldtrace REFERENCES</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldtrace-AUTHORS" accesskey="8">perldtrace AUTHORS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perldtrace-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perldtrace-SYNOPSIS" accesskey="n" rel="next">perldtrace SYNOPSIS</a>, Up: <a href="#perldtrace" accesskey="u" rel="up">perldtrace</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-17"></a>
+<h3 class="section">18.1 NAME</h3>
+
+<p>perldtrace - Perl&rsquo;s support for DTrace
+</p>
+<hr>
+<a name="perldtrace-SYNOPSIS"></a>
+<div class="header">
+<p>
+Next: <a href="#perldtrace-DESCRIPTION" accesskey="n" rel="next">perldtrace DESCRIPTION</a>, Previous: <a href="#perldtrace-NAME" accesskey="p" rel="previous">perldtrace NAME</a>, Up: <a href="#perldtrace" accesskey="u" rel="up">perldtrace</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="SYNOPSIS-4"></a>
+<h3 class="section">18.2 SYNOPSIS</h3>
+
+<pre class="verbatim">    # dtrace -Zn 'perl::sub-entry, perl::sub-return { trace(copyinstr(arg0)) }'
+    dtrace: description 'perl::sub-entry, perl::sub-return ' matched 10 probes
+
+    # perl -E 'sub outer { inner(@_) } sub inner { say shift } outer(&quot;hello&quot;)'
+    hello
+
+    (dtrace output)
+    CPU     ID                    FUNCTION:NAME
+      0  75915       Perl_pp_entersub:sub-entry   BEGIN
+      0  75915       Perl_pp_entersub:sub-entry   import
+      0  75922      Perl_pp_leavesub:sub-return   import
+      0  75922      Perl_pp_leavesub:sub-return   BEGIN
+      0  75915       Perl_pp_entersub:sub-entry   outer
+      0  75915       Perl_pp_entersub:sub-entry   inner
+      0  75922      Perl_pp_leavesub:sub-return   inner
+      0  75922      Perl_pp_leavesub:sub-return   outer
+</pre>
+<hr>
+<a name="perldtrace-DESCRIPTION"></a>
+<div class="header">
+<p>
+Next: <a href="#perldtrace-HISTORY" accesskey="n" rel="next">perldtrace HISTORY</a>, Previous: <a href="#perldtrace-SYNOPSIS" accesskey="p" rel="previous">perldtrace SYNOPSIS</a>, Up: <a href="#perldtrace" accesskey="u" rel="up">perldtrace</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESCRIPTION-17"></a>
+<h3 class="section">18.3 DESCRIPTION</h3>
+
+<p>DTrace is a framework for comprehensive system- and application-level
+tracing. Perl is a DTrace <em>provider</em>, meaning it exposes several
+<em>probes</em> for instrumentation. You can use these in conjunction
+with kernel-level probes, as well as probes from other providers
+such as MySQL, in order to diagnose software defects, or even just
+your application&rsquo;s bottlenecks.
+</p>
+<p>Perl must be compiled with the <code>-Dusedtrace</code> option in order to
+make use of the provided probes. While DTrace aims to have no
+overhead when its instrumentation is not active, Perl&rsquo;s support
+itself cannot uphold that guarantee, so it is built without DTrace
+probes under most systems. One notable exception is that Mac OS X
+ships a <samp>/usr/bin/perl</samp> with DTrace support enabled.
+</p>
+<hr>
+<a name="perldtrace-HISTORY"></a>
+<div class="header">
+<p>
+Next: <a href="#perldtrace-PROBES" accesskey="n" rel="next">perldtrace PROBES</a>, Previous: <a href="#perldtrace-DESCRIPTION" accesskey="p" rel="previous">perldtrace DESCRIPTION</a>, Up: <a href="#perldtrace" accesskey="u" rel="up">perldtrace</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="HISTORY"></a>
+<h3 class="section">18.4 HISTORY</h3>
+
+<dl compact="compact">
+<dt>5.10.1</dt>
+<dd><a name="perldtrace-5_002e10_002e1"></a>
+<p>Perl&rsquo;s initial DTrace support was added, providing <code>sub-entry</code> and
+<code>sub-return</code> probes.
+</p>
+</dd>
+<dt>5.14.0</dt>
+<dd><a name="perldtrace-5_002e14_002e0"></a>
+<p>The <code>sub-entry</code> and <code>sub-return</code> probes gain a fourth argument: the
+package name of the function.
+</p>
+</dd>
+<dt>5.16.0</dt>
+<dd><a name="perldtrace-5_002e16_002e0"></a>
+<p>The <code>phase-change</code> probe was added.
+</p>
+</dd>
+</dl>
+
+<hr>
+<a name="perldtrace-PROBES"></a>
+<div class="header">
+<p>
+Next: <a href="#perldtrace-EXAMPLES" accesskey="n" rel="next">perldtrace EXAMPLES</a>, Previous: <a href="#perldtrace-HISTORY" accesskey="p" rel="previous">perldtrace HISTORY</a>, Up: <a href="#perldtrace" accesskey="u" rel="up">perldtrace</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="PROBES"></a>
+<h3 class="section">18.5 PROBES</h3>
+
+<dl compact="compact">
+<dt>sub-entry(SUBNAME, FILE, LINE, PACKAGE)</dt>
+<dd><a name="perldtrace-sub_002dentry_0028SUBNAME_002c-FILE_002c-LINE_002c-PACKAGE_0029"></a>
+<p>Traces the entry of any subroutine. Note that all of the variables
+refer to the subroutine that is being invoked; there is currently
+no way to get ahold of any information about the subroutine&rsquo;s
+<em>caller</em> from a DTrace action.
+</p>
+<pre class="verbatim">    :*perl*::sub-entry {
+        printf(&quot;%s::%s entered at %s line %d\n&quot;,
+               copyinstr(arg3), copyinstr(arg0), copyinstr(arg1), arg0);
+    }
+</pre>
+</dd>
+<dt>sub-return(SUBNAME, FILE, LINE, PACKAGE)</dt>
+<dd><a name="perldtrace-sub_002dreturn_0028SUBNAME_002c-FILE_002c-LINE_002c-PACKAGE_0029"></a>
+<p>Traces the exit of any subroutine. Note that all of the variables
+refer to the subroutine that is returning; there is currently no
+way to get ahold of any information about the subroutine&rsquo;s <em>caller</em>
+from a DTrace action.
+</p>
+<pre class="verbatim">    :*perl*::sub-return {
+        printf(&quot;%s::%s returned at %s line %d\n&quot;,
+               copyinstr(arg3), copyinstr(arg0), copyinstr(arg1), arg0);
+    }
+</pre>
+</dd>
+<dt>phase-change(NEWPHASE, OLDPHASE)</dt>
+<dd><a name="perldtrace-phase_002dchange_0028NEWPHASE_002c-OLDPHASE_0029"></a>
+<p>Traces changes to Perl&rsquo;s interpreter state. You can internalize this
+as tracing changes to Perl&rsquo;s <code>${^GLOBAL_PHASE}</code> variable, especially
+since the values for <code>NEWPHASE</code> and <code>OLDPHASE</code> are the strings that
+<code>${^GLOBAL_PHASE}</code> reports.
+</p>
+<pre class="verbatim">    :*perl*::phase-change {
+        printf(&quot;Phase changed from %s to %s\n&quot;,
+            copyinstr(arg1), copyinstr(arg0));
+    }
+</pre>
+</dd>
+</dl>
+
+<hr>
+<a name="perldtrace-EXAMPLES"></a>
+<div class="header">
+<p>
+Next: <a href="#perldtrace-REFERENCES" accesskey="n" rel="next">perldtrace REFERENCES</a>, Previous: <a href="#perldtrace-PROBES" accesskey="p" rel="previous">perldtrace PROBES</a>, Up: <a href="#perldtrace" accesskey="u" rel="up">perldtrace</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="EXAMPLES-1"></a>
+<h3 class="section">18.6 EXAMPLES</h3>
+
+<dl compact="compact">
+<dt>Most frequently called functions</dt>
+<dd><a name="perldtrace-Most-frequently-called-functions"></a>
+<pre class="verbatim">    # dtrace -qZn 'sub-entry { @[strjoin(strjoin(copyinstr(arg3),&quot;::&quot;),copyinstr(arg0))] = count() } END {trunc(@, 10)}'
+
+    Class::MOP::Attribute::slots                                    400
+    Try::Tiny::catch                                                411
+    Try::Tiny::try                                                  411
+    Class::MOP::Instance::inline_slot_access                        451
+    Class::MOP::Class::Immutable::Trait:::around                    472
+    Class::MOP::Mixin::AttributeCore::has_initializer               496
+    Class::MOP::Method::Wrapped::__ANON__                           544
+    Class::MOP::Package::_package_stash                             737
+    Class::MOP::Class::initialize                                  1128
+    Class::MOP::get_metaclass_by_name                              1204
+</pre>
+</dd>
+<dt>Trace function calls</dt>
+<dd><a name="perldtrace-Trace-function-calls"></a>
+<pre class="verbatim">    # dtrace -qFZn 'sub-entry, sub-return { trace(copyinstr(arg0)) }'
+
+    0  -&gt; Perl_pp_entersub                        BEGIN
+    0  &lt;- Perl_pp_leavesub                        BEGIN
+    0  -&gt; Perl_pp_entersub                        BEGIN
+    0    -&gt; Perl_pp_entersub                      import
+    0    &lt;- Perl_pp_leavesub                      import
+    0  &lt;- Perl_pp_leavesub                        BEGIN
+    0  -&gt; Perl_pp_entersub                        BEGIN
+    0    -&gt; Perl_pp_entersub                      dress
+    0    &lt;- Perl_pp_leavesub                      dress
+    0    -&gt; Perl_pp_entersub                      dirty
+    0    &lt;- Perl_pp_leavesub                      dirty
+    0    -&gt; Perl_pp_entersub                      whiten
+    0    &lt;- Perl_pp_leavesub                      whiten
+    0  &lt;- Perl_dounwind                           BEGIN
+</pre>
+</dd>
+<dt>Function calls during interpreter cleanup</dt>
+<dd><a name="perldtrace-Function-calls-during-interpreter-cleanup"></a>
+<pre class="verbatim">    # dtrace -Zn 'phase-change /copyinstr(arg0) == &quot;END&quot;/ { self-&gt;ending = 1 } sub-entry /self-&gt;ending/ { trace(copyinstr(arg0)) }'
+
+    CPU     ID                    FUNCTION:NAME
+      1  77214       Perl_pp_entersub:sub-entry   END
+      1  77214       Perl_pp_entersub:sub-entry   END
+      1  77214       Perl_pp_entersub:sub-entry   cleanup
+      1  77214       Perl_pp_entersub:sub-entry   _force_writable
+      1  77214       Perl_pp_entersub:sub-entry   _force_writable
+</pre>
+</dd>
+<dt>System calls at compile time</dt>
+<dd><a name="perldtrace-System-calls-at-compile-time"></a>
+<pre class="verbatim">    # dtrace -qZn 'phase-change /copyinstr(arg0) == &quot;START&quot;/ { self-&gt;interesting = 1 } phase-change /copyinstr(arg0) == &quot;RUN&quot;/ { self-&gt;interesting = 0 } syscall::: /self-&gt;interesting/ { @[probefunc] = count() } END { trunc(@, 3) }'
+
+    lseek                                                           310
+    read                                                            374
+    stat64                                                         1056
+</pre>
+</dd>
+</dl>
+
+<hr>
+<a name="perldtrace-REFERENCES"></a>
+<div class="header">
+<p>
+Next: <a href="#perldtrace-AUTHORS" accesskey="n" rel="next">perldtrace AUTHORS</a>, Previous: <a href="#perldtrace-EXAMPLES" accesskey="p" rel="previous">perldtrace EXAMPLES</a>, Up: <a href="#perldtrace" accesskey="u" rel="up">perldtrace</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="REFERENCES-1"></a>
+<h3 class="section">18.7 REFERENCES</h3>
+
+<dl compact="compact">
+<dt>DTrace User Guide</dt>
+<dd><a name="perldtrace-DTrace-User-Guide"></a>
+<p><a href="http://download.oracle.com/docs/cd/E19082-01/819-3620/index.html">http://download.oracle.com/docs/cd/E19082-01/819-3620/index.html</a>
+</p>
+</dd>
+<dt>DTrace: Dynamic Tracing in Oracle Solaris, Mac OS X and FreeBSD</dt>
+<dd><a name="perldtrace-DTrace_003a-Dynamic-Tracing-in-Oracle-Solaris_002c-Mac-OS-X-and-FreeBSD"></a>
+<p><a href="http://www.amazon.com/DTrace-Dynamic-Tracing-Solaris-FreeBSD/dp/0132091518/">http://www.amazon.com/DTrace-Dynamic-Tracing-Solaris-FreeBSD/dp/0132091518/</a>
+</p>
+</dd>
+</dl>
+
+<hr>
+<a name="perldtrace-AUTHORS"></a>
+<div class="header">
+<p>
+Previous: <a href="#perldtrace-REFERENCES" accesskey="p" rel="previous">perldtrace REFERENCES</a>, Up: <a href="#perldtrace" accesskey="u" rel="up">perldtrace</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="AUTHORS"></a>
+<h3 class="section">18.8 AUTHORS</h3>
+
+<p>Shawn M Moore <code>sartak@gmail.com</code>
+</p>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perldtrace-REFERENCES" accesskey="p" rel="previous">perldtrace REFERENCES</a>, Up: <a href="#perldtrace" accesskey="u" rel="up">perldtrace</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

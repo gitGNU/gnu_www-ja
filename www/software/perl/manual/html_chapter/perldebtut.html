@@ -1,0 +1,912 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 4.13.97+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perldebtut</title>
+
+<meta name="description" content="Perl pod documentation: perldebtut">
+<meta name="keywords" content="Perl pod documentation: perldebtut">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="NAME-debug-debugger.html#NAME-debug-debugger" rel="next" title="NAME debug debugger">
+<link href="perldebguts.html#perldebguts-SEE-ALSO" rel="previous" title="perldebguts SEE ALSO">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perldebtut"></a>
+<div class="header">
+<p>
+Next: <a href="NAME-debug-debugger.html#NAME-debug-debugger" accesskey="n" rel="next">NAME debug debugger</a>, Previous: <a href="perldebguts.html#perldebguts" accesskey="p" rel="previous">perldebguts</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perldebtut-1"></a>
+<h2 class="chapter">14 perldebtut</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-NAME" accesskey="1">perldebtut NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-DESCRIPTION" accesskey="2">perldebtut DESCRIPTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-use-strict" accesskey="3">perldebtut use strict</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-Looking-at-data-and-_002dw-and-v" accesskey="4">perldebtut Looking at data and -w and v</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-help" accesskey="5">perldebtut help</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-Stepping-through-code" accesskey="6">perldebtut Stepping through code</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-Placeholder-for-a_002c-w_002c-t_002c-T" accesskey="7">perldebtut Placeholder for a, w, t, T</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-REGULAR-EXPRESSIONS" accesskey="8">perldebtut REGULAR EXPRESSIONS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-OUTPUT-TIPS" accesskey="9">perldebtut OUTPUT TIPS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-CGI">perldebtut CGI</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-GUIs">perldebtut GUIs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-SUMMARY">perldebtut SUMMARY</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-SEE-ALSO">perldebtut SEE ALSO</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-AUTHOR">perldebtut AUTHOR</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldebtut-CONTRIBUTORS">perldebtut CONTRIBUTORS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perldebtut-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-DESCRIPTION" accesskey="n" rel="next">perldebtut DESCRIPTION</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-13"></a>
+<h3 class="section">14.1 NAME</h3>
+
+<p>perldebtut - Perl debugging tutorial
+</p>
+<hr>
+<a name="perldebtut-DESCRIPTION"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-use-strict" accesskey="n" rel="next">perldebtut use strict</a>, Previous: <a href="#perldebtut-NAME" accesskey="p" rel="previous">perldebtut NAME</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESCRIPTION-13"></a>
+<h3 class="section">14.2 DESCRIPTION</h3>
+
+<p>A (very) lightweight introduction in the use of the perl debugger, and a
+pointer to existing, deeper sources of information on the subject of debugging
+perl programs.  
+</p>
+<p>There&rsquo;s an extraordinary number of people out there who don&rsquo;t appear to know
+anything about using the perl debugger, though they use the language every
+day.  
+This is for them.  
+</p>
+<hr>
+<a name="perldebtut-use-strict"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-Looking-at-data-and-_002dw-and-v" accesskey="n" rel="next">perldebtut Looking at data and -w and v</a>, Previous: <a href="#perldebtut-DESCRIPTION" accesskey="p" rel="previous">perldebtut DESCRIPTION</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="use-strict"></a>
+<h3 class="section">14.3 use strict</h3>
+
+<p>First of all, there&rsquo;s a few things you can do to make your life a lot more
+straightforward when it comes to debugging perl programs, without using the
+debugger at all.  To demonstrate, here&rsquo;s a simple script, named &quot;hello&quot;, with
+a problem:
+</p>
+<pre class="verbatim">        #!/usr/bin/perl
+
+        $var1 = 'Hello World'; # always wanted to do that :-)
+        $var2 = &quot;$varl\n&quot;;
+
+        print $var2; 
+        exit;
+</pre>
+<p>While this compiles and runs happily, it probably won&rsquo;t do what&rsquo;s expected,
+namely it doesn&rsquo;t print &quot;Hello World\n&quot; at all;  It will on the other hand do
+exactly what it was told to do, computers being a bit that way inclined.  That
+is, it will print out a newline character, and you&rsquo;ll get what looks like a
+blank line.  It looks like there&rsquo;s 2 variables when (because of the typo)
+there&rsquo;s really 3:
+</p>
+<pre class="verbatim">        $var1 = 'Hello World';
+        $varl = undef;
+        $var2 = &quot;\n&quot;;
+</pre>
+<p>To catch this kind of problem, we can force each variable to be declared
+before use by pulling in the strict module, by putting &rsquo;use strict;&rsquo; after the
+first line of the script.
+</p>
+<p>Now when you run it, perl complains about the 3 undeclared variables and we
+get four error messages because one variable is referenced twice:
+</p>
+<pre class="verbatim"> Global symbol &quot;$var1&quot; requires explicit package name at ./t1 line 4.
+ Global symbol &quot;$var2&quot; requires explicit package name at ./t1 line 5.
+ Global symbol &quot;$varl&quot; requires explicit package name at ./t1 line 5.
+ Global symbol &quot;$var2&quot; requires explicit package name at ./t1 line 7.
+ Execution of ./hello aborted due to compilation errors.     
+</pre>
+<p>Luvverly! and to fix this we declare all variables explicitly and now our
+script looks like this:	
+</p>
+<pre class="verbatim">        #!/usr/bin/perl
+        use strict;
+
+        my $var1 = 'Hello World';
+        my $varl = undef;
+        my $var2 = &quot;$varl\n&quot;;
+
+        print $var2; 
+        exit;
+</pre>
+<p>We then do (always a good idea) a syntax check before we try to run it again:
+</p>
+<pre class="verbatim">        &gt; perl -c hello
+        hello syntax OK 
+</pre>
+<p>And now when we run it, we get &quot;\n&quot; still, but at least we know why.  Just
+getting this script to compile has exposed the &rsquo;$varl&rsquo; (with the letter &rsquo;l&rsquo;)
+variable, and simply changing $varl to $var1 solves the problem.
+</p>
+<hr>
+<a name="perldebtut-Looking-at-data-and-_002dw-and-v"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-help" accesskey="n" rel="next">perldebtut help</a>, Previous: <a href="#perldebtut-use-strict" accesskey="p" rel="previous">perldebtut use strict</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Looking-at-data-and-_002dw-and-v"></a>
+<h3 class="section">14.4 Looking at data and -w and v</h3>
+
+<p>Ok, but how about when you want to really see your data, what&rsquo;s in that
+dynamic variable, just before using it?
+</p>
+<pre class="verbatim">        #!/usr/bin/perl 
+        use strict;
+
+        my $key = 'welcome';
+        my %data = (
+                'this' =&gt; qw(that), 
+                'tom' =&gt; qw(and jerry),
+                'welcome' =&gt; q(Hello World),
+                'zip' =&gt; q(welcome),
+        );
+        my @data = keys %data;
+
+        print &quot;$data{$key}\n&quot;;
+        exit;                               
+</pre>
+<p>Looks OK, after it&rsquo;s been through the syntax check (perl -c scriptname), we
+run it and all we get is a blank line again!  Hmmmm.
+</p>
+<p>One common debugging approach here, would be to liberally sprinkle a few print
+statements, to add a check just before we print out our data, and another just
+after:
+</p>
+<pre class="verbatim">        print &quot;All OK\n&quot; if grep($key, keys %data);
+        print &quot;$data{$key}\n&quot;;
+        print &quot;done: '$data{$key}'\n&quot;;
+</pre>
+<p>And try again:
+</p>
+<pre class="verbatim">        &gt; perl data
+        All OK     
+
+        done: ''
+</pre>
+<p>After much staring at the same piece of code and not seeing the wood for the
+trees for some time, we get a cup of coffee and try another approach.  That
+is, we bring in the cavalry by giving perl the &rsquo;<strong>-d</strong>&rsquo; switch on the command
+line:
+</p>
+<pre class="verbatim">        &gt; perl -d data 
+        Default die handler restored.
+
+        Loading DB routines from perl5db.pl version 1.07
+        Editor support available.
+
+        Enter h or `h h' for help, or `man perldebug' for more help.
+
+        main::(./data:4):     my $key = 'welcome';   
+</pre>
+<p>Now, what we&rsquo;ve done here is to launch the built-in perl debugger on our
+script.  It&rsquo;s stopped at the first line of executable code and is waiting for
+input.
+</p>
+<p>Before we go any further, you&rsquo;ll want to know how to quit the debugger: use
+just the letter &rsquo;<strong>q</strong>&rsquo;, not the words &rsquo;quit&rsquo; or &rsquo;exit&rsquo;:
+</p>
+<pre class="verbatim">        DB&lt;1&gt; q
+        &gt;
+</pre>
+<p>That&rsquo;s it, you&rsquo;re back on home turf again.
+</p>
+<hr>
+<a name="perldebtut-help"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-Stepping-through-code" accesskey="n" rel="next">perldebtut Stepping through code</a>, Previous: <a href="#perldebtut-Looking-at-data-and-_002dw-and-v" accesskey="p" rel="previous">perldebtut Looking at data and -w and v</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="help"></a>
+<h3 class="section">14.5 help</h3>
+
+<p>Fire the debugger up again on your script and we&rsquo;ll look at the help menu. 
+There&rsquo;s a couple of ways of calling help: a simple &rsquo;<strong>h</strong>&rsquo; will get the summary 
+help list, &rsquo;<strong>|h</strong>&rsquo; (pipe-h) will pipe the help through your pager (which is 
+(probably &rsquo;more&rsquo; or &rsquo;less&rsquo;), and finally, &rsquo;<strong>h h</strong>&rsquo; (h-space-h) will give you 
+the entire help screen.  Here is the summary page:
+</p>
+<p>D<strong>1</strong>h
+</p>
+<pre class="verbatim"> List/search source lines:               Control script execution:
+  l [ln|sub]  List source code            T           Stack trace
+  - or .      List previous/current line  s [expr]    Single step [in expr]
+  v [line]    View around line            n [expr]    Next, steps over subs
+  f filename  View source in file         &lt;CR/Enter&gt;  Repeat last n or s
+  /pattern/ ?patt?   Search forw/backw    r           Return from subroutine
+  M           Show module versions        c [ln|sub]  Continue until position
+ Debugger controls:                       L           List break/watch/actions
+  o [...]     Set debugger options        t [expr]    Toggle trace [trace expr]
+  &lt;[&lt;]|{[{]|&gt;[&gt;] [cmd] Do pre/post-prompt b [ln|event|sub] [cnd] Set breakpoint
+  ! [N|pat]   Redo a previous command     B ln|*      Delete a/all breakpoints
+  H [-num]    Display last num commands   a [ln] cmd  Do cmd before line
+  = [a val]   Define/list an alias        A ln|*      Delete a/all actions
+  h [db_cmd]  Get help on command         w expr      Add a watch expression
+  h h         Complete help page          W expr|*    Delete a/all watch exprs
+  |[|]db_cmd  Send output to pager        ![!] syscmd Run cmd in a subprocess
+  q or ^D     Quit                        R           Attempt a restart
+ Data Examination:     expr     Execute perl code, also see: s,n,t expr
+  x|m expr       Evals expr in list context, dumps the result or lists methods.
+  p expr         Print expression (uses script's current package).
+  S [[!]pat]     List subroutine names [not] matching pattern
+  V [Pk [Vars]]  List Variables in Package.  Vars can be ~pattern or !pattern.
+  X [Vars]       Same as &quot;V current_package [Vars]&quot;.
+  y [n [Vars]]   List lexicals in higher scope &lt;n&gt;.  Vars same as V.
+ For more help, type h cmd_letter, or run man perldebug for all docs. 
+</pre>
+<p>More confusing options than you can shake a big stick at!  It&rsquo;s not as bad as
+it looks and it&rsquo;s very useful to know more about all of it, and fun too!
+</p>
+<p>There&rsquo;s a couple of useful ones to know about straight away.  You wouldn&rsquo;t
+think we&rsquo;re using any libraries at all at the moment, but &rsquo;<strong>M</strong>&rsquo; will show
+which modules are currently loaded, and their version number, while &rsquo;<strong>m</strong>&rsquo; 
+will show the methods, and &rsquo;<strong>S</strong>&rsquo; shows all subroutines (by pattern) as 
+shown below.  &rsquo;<strong>V</strong>&rsquo; and &rsquo;<strong>X</strong>&rsquo; show variables in the program by package 
+scope and can be constrained by pattern. 
+</p>
+<pre class="verbatim">        DB&lt;2&gt;S str 
+        dumpvar::stringify
+        strict::bits
+        strict::import
+        strict::unimport  
+</pre>
+<p>Using &rsquo;X&rsquo; and cousins requires you not to use the type identifiers ($@%), just
+the &rsquo;name&rsquo;:
+</p>
+<pre class="verbatim">        DM&lt;3&gt;X ~err
+        FileHandle(stderr) =&gt; fileno(2)    
+</pre>
+<p>Remember we&rsquo;re in our tiny program with a problem, we should have a look at
+where we are, and what our data looks like. First of all let&rsquo;s view some code 
+at our present position (the first line of code in this case), via &rsquo;<strong>v</strong>&rsquo;:
+</p>
+<pre class="verbatim">        DB&lt;4&gt; v
+        1       #!/usr/bin/perl
+        2:      use strict;
+        3
+        4==&gt;    my $key = 'welcome';
+        5:      my %data = (
+        6               'this' =&gt; qw(that),
+        7               'tom' =&gt; qw(and jerry),
+        8               'welcome' =&gt; q(Hello World),
+        9               'zip' =&gt; q(welcome),
+        10      );                                 
+</pre>
+<p>At line number 4 is a helpful pointer, that tells you where you are now.  To
+see more code, type &rsquo;v&rsquo; again:
+</p>
+<pre class="verbatim">        DB&lt;4&gt; v
+        8               'welcome' =&gt; q(Hello World),
+        9               'zip' =&gt; q(welcome),
+        10      );
+        11:     my @data = keys %data;
+        12:     print &quot;All OK\n&quot; if grep($key, keys %data);
+        13:     print &quot;$data{$key}\n&quot;;
+        14:     print &quot;done: '$data{$key}'\n&quot;;
+        15:     exit;      
+</pre>
+<p>And if you wanted to list line 5 again, type &rsquo;l 5&rsquo;, (note the space):
+</p>
+<pre class="verbatim">        DB&lt;4&gt; l 5
+        5:      my %data = (
+</pre>
+<p>In this case, there&rsquo;s not much to see, but of course normally there&rsquo;s pages of
+stuff to wade through, and &rsquo;l&rsquo; can be very useful.  To reset your view to the
+line we&rsquo;re about to execute, type a lone period &rsquo;.&rsquo;:
+</p>
+<pre class="verbatim">        DB&lt;5&gt; .
+        main::(./data_a:4):     my $key = 'welcome';  
+</pre>
+<p>The line shown is the one that is about to be executed <strong>next</strong>, it hasn&rsquo;t
+happened yet.  So while we can print a variable with the letter &rsquo;<strong>p</strong>&rsquo;, at
+this point all we&rsquo;d get is an empty (undefined) value back.  What we need to
+do is to step through the next executable statement with an &rsquo;<strong>s</strong>&rsquo;:
+</p>
+<pre class="verbatim">        DB&lt;6&gt; s
+        main::(./data_a:5):     my %data = (
+        main::(./data_a:6):             'this' =&gt; qw(that),
+        main::(./data_a:7):             'tom' =&gt; qw(and jerry),
+        main::(./data_a:8):             'welcome' =&gt; q(Hello World),
+        main::(./data_a:9):             'zip' =&gt; q(welcome),
+        main::(./data_a:10):    );   
+</pre>
+<p>Now we can have a look at that first ($key) variable:
+</p>
+<pre class="verbatim">        DB&lt;7&gt; p $key 
+        welcome 
+</pre>
+<p>line 13 is where the action is, so let&rsquo;s continue down to there via the letter
+&rsquo;<strong>c</strong>&rsquo;, which by the way, inserts a &rsquo;one-time-only&rsquo; breakpoint at the given
+line or sub routine:
+</p>
+<pre class="verbatim">        DB&lt;8&gt; c 13
+        All OK
+        main::(./data_a:13):    print &quot;$data{$key}\n&quot;;
+</pre>
+<p>We&rsquo;ve gone past our check (where &rsquo;All OK&rsquo; was printed) and have stopped just
+before the meat of our task.  We could try to print out a couple of variables
+to see what is happening:
+</p>
+<pre class="verbatim">        DB&lt;9&gt; p $data{$key}
+</pre>
+<p>Not much in there, lets have a look at our hash:
+</p>
+<pre class="verbatim">        DB&lt;10&gt; p %data
+        Hello Worldziptomandwelcomejerrywelcomethisthat 
+
+        DB&lt;11&gt; p keys %data
+        Hello Worldtomwelcomejerrythis  
+</pre>
+<p>Well, this isn&rsquo;t very easy to read, and using the helpful manual (<strong>h h</strong>), the
+&rsquo;<strong>x</strong>&rsquo; command looks promising:
+</p>
+<pre class="verbatim">        DB&lt;12&gt; x %data
+        0  'Hello World'
+        1  'zip'
+        2  'tom'
+        3  'and'
+        4  'welcome'
+        5  undef
+        6  'jerry'
+        7  'welcome'
+        8  'this'
+        9  'that'     
+</pre>
+<p>That&rsquo;s not much help, a couple of welcomes in there, but no indication of
+which are keys, and which are values, it&rsquo;s just a listed array dump and, in
+this case, not particularly helpful.  The trick here, is to use a <strong>reference</strong>
+to the data structure:
+</p>
+<pre class="verbatim">        DB&lt;13&gt; x \%data
+        0  HASH(0x8194bc4)
+           'Hello World' =&gt; 'zip'
+           'jerry' =&gt; 'welcome'
+           'this' =&gt; 'that'
+           'tom' =&gt; 'and'
+           'welcome' =&gt; undef  
+</pre>
+<p>The reference is truly dumped and we can finally see what we&rsquo;re dealing with. 
+Our quoting was perfectly valid but wrong for our purposes, with &rsquo;and jerry&rsquo;
+being treated as 2 separate words rather than a phrase, thus throwing the
+evenly paired hash structure out of alignment.
+</p>
+<p>The &rsquo;<strong>-w</strong>&rsquo; switch would have told us about this, had we used it at the start,
+and saved us a lot of trouble: 
+</p>
+<pre class="verbatim">        &gt; perl -w data
+        Odd number of elements in hash assignment at ./data line 5.    
+</pre>
+<p>We fix our quoting: &rsquo;tom&rsquo; =&gt; q(and jerry), and run it again, this time we get
+our expected output:
+</p>
+<pre class="verbatim">        &gt; perl -w data
+        Hello World
+</pre>
+<p>While we&rsquo;re here, take a closer look at the &rsquo;<strong>x</strong>&rsquo; command, it&rsquo;s really useful
+and will merrily dump out nested references, complete objects, partial objects
+- just about whatever you throw at it:
+</p>
+<p>Let&rsquo;s make a quick object and x-plode it, first we&rsquo;ll start the debugger:
+it wants some form of input from STDIN, so we give it something non-committal,
+a zero:
+</p>
+<pre class="verbatim">        &gt; perl -de 0
+        Default die handler restored.
+
+        Loading DB routines from perl5db.pl version 1.07
+        Editor support available.
+
+        Enter h or `h h' for help, or `man perldebug' for more help.
+
+        main::(-e:1):   0                       
+</pre>
+<p>Now build an on-the-fly object over a couple of lines (note the backslash):
+</p>
+<pre class="verbatim">        DB&lt;1&gt; $obj = bless({'unique_id'=&gt;'123', 'attr'=&gt; \
+        cont:   {'col' =&gt; 'black', 'things' =&gt; [qw(this that etc)]}}, 'MY_class')
+</pre>
+<p>And let&rsquo;s have a look at it:
+</p>
+<pre class="verbatim">        DB&lt;2&gt; x $obj
+        0  MY_class=HASH(0x828ad98)
+                'attr' =&gt; HASH(0x828ad68)
+        'col' =&gt; 'black'
+        'things' =&gt; ARRAY(0x828abb8)
+                0  'this'
+                1  'that'
+                2  'etc'
+                'unique_id' =&gt; 123       
+        DB&lt;3&gt;
+</pre>
+<p>Useful, huh?  You can eval nearly anything in there, and experiment with bits
+of code or regexes until the cows come home:
+</p>
+<pre class="verbatim">        DB&lt;3&gt; @data = qw(this that the other atheism leather theory scythe)
+
+        DB&lt;4&gt; p 'saw -&gt; '.($cnt += map { print &quot;\t:\t$_\n&quot; } grep(/the/, sort @data))
+        atheism
+        leather
+        other
+        scythe
+        the
+        theory  
+        saw -&gt; 6
+</pre>
+<p>If you want to see the command History, type an &rsquo;<strong>H</strong>&rsquo;:
+</p>
+<pre class="verbatim">        DB&lt;5&gt; H
+        4: p 'saw -&gt; '.($cnt += map { print &quot;\t:\t$_\n&quot; } grep(/the/, sort @data))
+        3: @data = qw(this that the other atheism leather theory scythe)
+        2: x $obj
+        1: $obj = bless({'unique_id'=&gt;'123', 'attr'=&gt;
+        {'col' =&gt; 'black', 'things' =&gt; [qw(this that etc)]}}, 'MY_class')
+        DB&lt;5&gt;
+</pre>
+<p>And if you want to repeat any previous command, use the exclamation: &rsquo;<strong>!</strong>&rsquo;:
+</p>
+<pre class="verbatim">        DB&lt;5&gt; !4
+        p 'saw -&gt; '.($cnt += map { print &quot;$_\n&quot; } grep(/the/, sort @data))
+        atheism
+        leather
+        other
+        scythe
+        the
+        theory  
+        saw -&gt; 12
+</pre>
+<p>For more on references see <a href="../perlref/index.html">(perlref)</a> and <a href="perlreftut.html#perlreftut-NAME">perlreftut NAME</a>
+</p>
+<hr>
+<a name="perldebtut-Stepping-through-code"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-Placeholder-for-a_002c-w_002c-t_002c-T" accesskey="n" rel="next">perldebtut Placeholder for a, w, t, T</a>, Previous: <a href="#perldebtut-help" accesskey="p" rel="previous">perldebtut help</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Stepping-through-code"></a>
+<h3 class="section">14.6 Stepping through code</h3>
+
+<p>Here&rsquo;s a simple program which converts between Celsius and Fahrenheit, it too
+has a problem:
+</p>
+<pre class="verbatim">        #!/usr/bin/perl -w
+        use strict;
+
+        my $arg = $ARGV[0] || '-c20';
+
+        if ($arg =~ /^\-(c|f)((\-|\+)*\d+(\.\d+)*)$/) {
+                my ($deg, $num) = ($1, $2);
+                my ($in, $out) = ($num, $num);
+                if ($deg eq 'c') {
+                        $deg = 'f';
+                        $out = &amp;c2f($num);
+                } else {
+                        $deg = 'c';
+                        $out = &amp;f2c($num);
+                }
+                $out = sprintf('%0.2f', $out);
+                $out =~ s/^((\-|\+)*\d+)\.0+$/$1/;
+                print &quot;$out $deg\n&quot;;
+        } else {
+                print &quot;Usage: $0 -[c|f] num\n&quot;;
+        }
+        exit;
+
+        sub f2c {
+                my $f = shift;
+                my $c = 5 * $f - 32 / 9;
+                return $c;
+        }
+
+        sub c2f {
+                my $c = shift;
+                my $f = 9 * $c / 5 + 32;
+                return $f;
+        }
+</pre>
+<p>For some reason, the Fahrenheit to Celsius conversion fails to return the
+expected output.  This is what it does:
+</p>
+<pre class="verbatim">        &gt; temp -c0.72
+        33.30 f
+
+        &gt; temp -f33.3
+        162.94 c
+</pre>
+<p>Not very consistent!  We&rsquo;ll set a breakpoint in the code manually and run it
+under the debugger to see what&rsquo;s going on.  A breakpoint is a flag, to which
+the debugger will run without interruption, when it reaches the breakpoint, it
+will stop execution and offer a prompt for further interaction.  In normal
+use, these debugger commands are completely ignored, and they are safe - if a
+little messy, to leave in production code.
+</p>
+<pre class="verbatim">        my ($in, $out) = ($num, $num);
+        $DB::single=2; # insert at line 9!
+        if ($deg eq 'c') 
+                ...
+
+        &gt; perl -d temp -f33.3
+        Default die handler restored.
+
+        Loading DB routines from perl5db.pl version 1.07
+        Editor support available.
+
+        Enter h or `h h' for help, or `man perldebug' for more help.
+
+        main::(temp:4): my $arg = $ARGV[0] || '-c100';     
+</pre>
+<p>We&rsquo;ll simply continue down to our pre-set breakpoint with a &rsquo;<strong>c</strong>&rsquo;:
+</p>
+<pre class="verbatim">        DB&lt;1&gt; c
+        main::(temp:10):                if ($deg eq 'c') {   
+</pre>
+<p>Followed by a view command to see where we are:
+</p>
+<pre class="verbatim">        DB&lt;1&gt; v
+        7:              my ($deg, $num) = ($1, $2);
+        8:              my ($in, $out) = ($num, $num);
+        9:              $DB::single=2;
+        10==&gt;           if ($deg eq 'c') {
+        11:                     $deg = 'f';
+        12:                     $out = &amp;c2f($num);
+        13              } else {
+        14:                     $deg = 'c';
+        15:                     $out = &amp;f2c($num);
+        16              }                             
+</pre>
+<p>And a print to show what values we&rsquo;re currently using:
+</p>
+<pre class="verbatim">        DB&lt;1&gt; p $deg, $num
+        f33.3
+</pre>
+<p>We can put another break point on any line beginning with a colon, we&rsquo;ll use
+line 17 as that&rsquo;s just as we come out of the subroutine, and we&rsquo;d like to
+pause there later on:
+</p>
+<pre class="verbatim">        DB&lt;2&gt; b 17
+</pre>
+<p>There&rsquo;s no feedback from this, but you can see what breakpoints are set by
+using the list &rsquo;L&rsquo; command:
+</p>
+<pre class="verbatim">        DB&lt;3&gt; L
+        temp:
+                17:            print &quot;$out $deg\n&quot;;
+                break if (1)     
+</pre>
+<p>Note that to delete a breakpoint you use &rsquo;B&rsquo;.
+</p>
+<p>Now we&rsquo;ll continue down into our subroutine, this time rather than by line
+number, we&rsquo;ll use the subroutine name, followed by the now familiar &rsquo;v&rsquo;:
+</p>
+<pre class="verbatim">        DB&lt;3&gt; c f2c
+        main::f2c(temp:30):             my $f = shift;  
+
+        DB&lt;4&gt; v
+        24:     exit;
+        25
+        26      sub f2c {
+        27==&gt;           my $f = shift;
+        28:             my $c = 5 * $f - 32 / 9; 
+        29:             return $c;
+        30      }
+        31
+        32      sub c2f {
+        33:             my $c = shift;   
+</pre>
+<p>Note that if there was a subroutine call between us and line 29, and we wanted
+to <strong>single-step</strong> through it, we could use the &rsquo;<strong>s</strong>&rsquo; command, and to step
+over it we would use &rsquo;<strong>n</strong>&rsquo; which would execute the sub, but not descend into
+it for inspection.  In this case though, we simply continue down to line 29:
+</p>
+<pre class="verbatim">        DB&lt;4&gt; c 29  
+        main::f2c(temp:29):             return $c;
+</pre>
+<p>And have a look at the return value:
+</p>
+<pre class="verbatim">        DB&lt;5&gt; p $c
+        162.944444444444
+</pre>
+<p>This is not the right answer at all, but the sum looks correct.  I wonder if
+it&rsquo;s anything to do with operator precedence?  We&rsquo;ll try a couple of other
+possibilities with our sum:
+</p>
+<pre class="verbatim">        DB&lt;6&gt; p (5 * $f - 32 / 9)
+        162.944444444444
+
+        DB&lt;7&gt; p 5 * $f - (32 / 9) 
+        162.944444444444
+
+        DB&lt;8&gt; p (5 * $f) - 32 / 9
+        162.944444444444
+
+        DB&lt;9&gt; p 5 * ($f - 32) / 9
+        0.722222222222221
+</pre>
+<p>:-) that&rsquo;s more like it!  Ok, now we can set our return variable and we&rsquo;ll
+return out of the sub with an &rsquo;r&rsquo;:
+</p>
+<pre class="verbatim">        DB&lt;10&gt; $c = 5 * ($f - 32) / 9
+
+        DB&lt;11&gt; r
+        scalar context return from main::f2c: 0.722222222222221
+</pre>
+<p>Looks good, let&rsquo;s just continue off the end of the script:
+</p>
+<pre class="verbatim">        DB&lt;12&gt; c
+        0.72 c 
+        Debugged program terminated.  Use q to quit or R to restart,
+        use O inhibit_exit to avoid stopping after program termination,
+        h q, h R or h O to get additional info.   
+</pre>
+<p>A quick fix to the offending line (insert the missing parentheses) in the
+actual program and we&rsquo;re finished.
+</p>
+<hr>
+<a name="perldebtut-Placeholder-for-a_002c-w_002c-t_002c-T"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-REGULAR-EXPRESSIONS" accesskey="n" rel="next">perldebtut REGULAR EXPRESSIONS</a>, Previous: <a href="#perldebtut-Stepping-through-code" accesskey="p" rel="previous">perldebtut Stepping through code</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Placeholder-for-a_002c-w_002c-t_002c-T"></a>
+<h3 class="section">14.7 Placeholder for a, w, t, T</h3>
+
+<p>Actions, watch variables, stack traces etc.: on the TODO list.
+</p>
+<pre class="verbatim">        a 
+
+        w 
+
+        t 
+
+        T
+</pre>
+<hr>
+<a name="perldebtut-REGULAR-EXPRESSIONS"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-OUTPUT-TIPS" accesskey="n" rel="next">perldebtut OUTPUT TIPS</a>, Previous: <a href="#perldebtut-Placeholder-for-a_002c-w_002c-t_002c-T" accesskey="p" rel="previous">perldebtut Placeholder for a, w, t, T</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="REGULAR-EXPRESSIONS"></a>
+<h3 class="section">14.8 REGULAR EXPRESSIONS</h3>
+
+<p>Ever wanted to know what a regex looked like?  You&rsquo;ll need perl compiled with
+the DEBUGGING flag for this one:
+</p>
+<pre class="verbatim">        &gt; perl -Dr -e '/^pe(a)*rl$/i'
+        Compiling REx `^pe(a)*rl$'
+        size 17 first at 2
+        rarest char
+         at 0
+           1: BOL(2)
+           2: EXACTF &lt;pe&gt;(4)
+           4: CURLYN[1] {0,32767}(14)
+           6:   NOTHING(8)
+           8:   EXACTF &lt;a&gt;(0)
+          12:   WHILEM(0)
+          13: NOTHING(14)
+          14: EXACTF &lt;rl&gt;(16)
+          16: EOL(17)
+          17: END(0)
+        floating `'$ at 4..2147483647 (checking floating) stclass `EXACTF &lt;pe&gt;'
+anchored(BOL) minlen 4
+        Omitting $` $&amp; $' support.
+
+        EXECUTING...
+
+        Freeing REx: `^pe(a)*rl$'  
+</pre>
+<p>Did you really want to know? :-)
+For more gory details on getting regular expressions to work, have a look at
+<a href="../perlre/index.html">(perlre)</a>, <a href="perlretut.html#perlretut-NAME">perlretut NAME</a>, and to decode the mysterious labels (BOL and CURLYN,
+etc. above), see <a href="perldebguts.html#perldebguts-NAME">perldebguts NAME</a>.
+</p>
+<hr>
+<a name="perldebtut-OUTPUT-TIPS"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-CGI" accesskey="n" rel="next">perldebtut CGI</a>, Previous: <a href="#perldebtut-REGULAR-EXPRESSIONS" accesskey="p" rel="previous">perldebtut REGULAR EXPRESSIONS</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="OUTPUT-TIPS"></a>
+<h3 class="section">14.9 OUTPUT TIPS</h3>
+
+<p>To get all the output from your error log, and not miss any messages via
+helpful operating system buffering, insert a line like this, at the start of
+your script:
+</p>
+<pre class="verbatim">        $|=1;   
+</pre>
+<p>To watch the tail of a dynamically growing logfile, (from the command line):
+</p>
+<pre class="verbatim">        tail -f $error_log
+</pre>
+<p>Wrapping all die calls in a handler routine can be useful to see how, and from
+where, they&rsquo;re being called, <a href="perlvar.html#perlvar-NAME">perlvar NAME</a> has more information:
+</p>
+<pre class="verbatim">        BEGIN { $SIG{__DIE__} = sub { require Carp; Carp::confess(@_) } }
+</pre>
+<p>Various useful techniques for the redirection of STDOUT and STDERR filehandles
+are explained in <a href="perlopentut.html#perlopentut-NAME">perlopentut NAME</a> and <a href="../perlfaq8/index.html">(perlfaq8)</a>.
+</p>
+<hr>
+<a name="perldebtut-CGI"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-GUIs" accesskey="n" rel="next">perldebtut GUIs</a>, Previous: <a href="#perldebtut-OUTPUT-TIPS" accesskey="p" rel="previous">perldebtut OUTPUT TIPS</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="CGI"></a>
+<h3 class="section">14.10 CGI</h3>
+
+<p>Just a quick hint here for all those CGI programmers who can&rsquo;t figure out how
+on earth to get past that &rsquo;waiting for input&rsquo; prompt, when running their CGI
+script from the command-line, try something like this:
+</p>
+<pre class="verbatim">        &gt; perl -d my_cgi.pl -nodebug 
+</pre>
+<p>Of course <a href="../CGI/index.html">(CGI)</a> and <a href="../perlfaq9/index.html">(perlfaq9)</a> will tell you more.
+</p>
+<hr>
+<a name="perldebtut-GUIs"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-SUMMARY" accesskey="n" rel="next">perldebtut SUMMARY</a>, Previous: <a href="#perldebtut-CGI" accesskey="p" rel="previous">perldebtut CGI</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="GUIs"></a>
+<h3 class="section">14.11 GUIs</h3>
+
+<p>The command line interface is tightly integrated with an <strong>emacs</strong> extension
+and there&rsquo;s a <strong>vi</strong> interface too.  
+</p>
+<p>You don&rsquo;t have to do this all on the command line, though, there are a few GUI
+options out there.  The nice thing about these is you can wave a mouse over a
+variable and a dump of its data will appear in an appropriate window, or in a
+popup balloon, no more tiresome typing of &rsquo;x $varname&rsquo; :-)
+</p>
+<p>In particular have a hunt around for the following:
+</p>
+<p><strong>ptkdb</strong> perlTK based wrapper for the built-in debugger
+</p>
+<p><strong>ddd</strong> data display debugger
+</p>
+<p><strong>PerlDevKit</strong> and <strong>PerlBuilder</strong> are NT specific
+</p>
+<p>NB. (more info on these and others would be appreciated).
+</p>
+<hr>
+<a name="perldebtut-SUMMARY"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-SEE-ALSO" accesskey="n" rel="next">perldebtut SEE ALSO</a>, Previous: <a href="#perldebtut-GUIs" accesskey="p" rel="previous">perldebtut GUIs</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="SUMMARY"></a>
+<h3 class="section">14.12 SUMMARY</h3>
+
+<p>We&rsquo;ve seen how to encourage good coding practices with <strong>use strict</strong> and
+<strong>-w</strong>.  We can run the perl debugger <strong>perl -d scriptname</strong> to inspect your
+data from within the perl debugger with the <strong>p</strong> and <strong>x</strong> commands.  You can
+walk through your code, set breakpoints with <strong>b</strong> and step through that code
+with <strong>s</strong> or <strong>n</strong>, continue with <strong>c</strong> and return from a sub with <strong>r</strong>.  Fairly
+intuitive stuff when you get down to it.  
+</p>
+<p>There is of course lots more to find out about, this has just scratched the
+surface.  The best way to learn more is to use perldoc to find out more about
+the language, to read the on-line help (<a href="../perldebug/index.html">(perldebug)</a> is probably the next
+place to go), and of course, experiment.  
+</p>
+<hr>
+<a name="perldebtut-SEE-ALSO"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-AUTHOR" accesskey="n" rel="next">perldebtut AUTHOR</a>, Previous: <a href="#perldebtut-SUMMARY" accesskey="p" rel="previous">perldebtut SUMMARY</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="SEE-ALSO-7"></a>
+<h3 class="section">14.13 SEE ALSO</h3>
+
+<p><a href="../perldebug/index.html">(perldebug)</a>, 
+<a href="perldebguts.html#perldebguts-NAME">perldebguts NAME</a>, 
+<a href="perldiag.html#perldiag-NAME">perldiag NAME</a>,
+<a href="perlrun.html#perlrun-NAME">perlrun NAME</a>
+</p>
+<hr>
+<a name="perldebtut-AUTHOR"></a>
+<div class="header">
+<p>
+Next: <a href="#perldebtut-CONTRIBUTORS" accesskey="n" rel="next">perldebtut CONTRIBUTORS</a>, Previous: <a href="#perldebtut-SEE-ALSO" accesskey="p" rel="previous">perldebtut SEE ALSO</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="AUTHOR-5"></a>
+<h3 class="section">14.14 AUTHOR</h3>
+
+<p>Richard Foley &lt;richard.foley@rfi.net&gt; Copyright (c) 2000
+</p>
+<hr>
+<a name="perldebtut-CONTRIBUTORS"></a>
+<div class="header">
+<p>
+Previous: <a href="#perldebtut-AUTHOR" accesskey="p" rel="previous">perldebtut AUTHOR</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="CONTRIBUTORS"></a>
+<h3 class="section">14.15 CONTRIBUTORS</h3>
+
+<p>Various people have made helpful suggestions and contributions, in particular:
+</p>
+<p>Ronald J Kimball &lt;rjk@linguist.dartmouth.edu&gt;
+</p>
+<p>Hugo van der Sanden &lt;hv@crypt0.demon.co.uk&gt;
+</p>
+<p>Peter Scott &lt;Peter@PSDT.com&gt;
+</p>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perldebtut-AUTHOR" accesskey="p" rel="previous">perldebtut AUTHOR</a>, Up: <a href="#perldebtut" accesskey="u" rel="up">perldebtut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 4.13.97+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perlunitut</title>
+
+<meta name="description" content="Perl pod documentation: perlunitut">
+<meta name="keywords" content="Perl pod documentation: perlunitut">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="perlutil.html#perlutil" rel="next" title="perlutil">
+<link href="perluniintro.html#perluniintro-AUTHOR_002c-COPYRIGHT_002c-AND-LICENSE" rel="previous" title="perluniintro AUTHOR, COPYRIGHT, AND LICENSE">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perlunitut"></a>
+<div class="header">
+<p>
+Next: <a href="perlutil.html#perlutil" accesskey="n" rel="next">perlutil</a>, Previous: <a href="perluniintro.html#perluniintro" accesskey="p" rel="previous">perluniintro</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perlunitut-1"></a>
+<h2 class="chapter">83 perlunitut</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-NAME" accesskey="1">perlunitut NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-DESCRIPTION" accesskey="2">perlunitut DESCRIPTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-SUMMARY" accesskey="3">perlunitut SUMMARY</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-Q-and-A-_0028or-FAQ_0029" accesskey="4">perlunitut Q and A (or FAQ)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-ACKNOWLEDGEMENTS" accesskey="5">perlunitut ACKNOWLEDGEMENTS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-AUTHOR" accesskey="6">perlunitut AUTHOR</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-SEE-ALSO" accesskey="7">perlunitut SEE ALSO</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlunitut-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-DESCRIPTION" accesskey="n" rel="next">perlunitut DESCRIPTION</a>, Up: <a href="#perlunitut" accesskey="u" rel="up">perlunitut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-82"></a>
+<h3 class="section">83.1 NAME</h3>
+
+<p>perlunitut - Perl Unicode Tutorial
+</p>
+<hr>
+<a name="perlunitut-DESCRIPTION"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-SUMMARY" accesskey="n" rel="next">perlunitut SUMMARY</a>, Previous: <a href="#perlunitut-NAME" accesskey="p" rel="previous">perlunitut NAME</a>, Up: <a href="#perlunitut" accesskey="u" rel="up">perlunitut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESCRIPTION-80"></a>
+<h3 class="section">83.2 DESCRIPTION</h3>
+
+<p>The days of just flinging strings around are over. It&rsquo;s well established that
+modern programs need to be capable of communicating funny accented letters, and
+things like euro symbols. This means that programmers need new habits. It&rsquo;s
+easy to program Unicode capable software, but it does require discipline to do
+it right.
+</p>
+<p>There&rsquo;s a lot to know about character sets, and text encodings. It&rsquo;s probably
+best to spend a full day learning all this, but the basics can be learned in
+minutes. 
+</p>
+<p>These are not the very basics, though. It is assumed that you already
+know the difference between bytes and characters, and realise (and accept!)
+that there are many different character sets and encodings, and that your
+program has to be explicit about them. Recommended reading is &quot;The Absolute
+Minimum Every Software Developer Absolutely, Positively Must Know About Unicode
+and Character Sets (No Excuses!)&quot; by Joel Spolsky, at
+<a href="http://joelonsoftware.com/articles/Unicode.html">http://joelonsoftware.com/articles/Unicode.html</a>.
+</p>
+<p>This tutorial speaks in rather absolute terms, and provides only a limited view
+of the wealth of character string related features that Perl has to offer. For
+most projects, this information will probably suffice.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-Definitions" accesskey="1">perlunitut Definitions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-Your-new-toolkit" accesskey="2">perlunitut Your new toolkit</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-I_002fO-flow-_0028the-actual-5-minute-tutorial_0029" accesskey="3">perlunitut I/O flow (the actual 5 minute tutorial)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlunitut-Definitions"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-Your-new-toolkit" accesskey="n" rel="next">perlunitut Your new toolkit</a>, Up: <a href="#perlunitut-DESCRIPTION" accesskey="u" rel="up">perlunitut DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Definitions-1"></a>
+<h4 class="subsection">83.2.1 Definitions</h4>
+
+<p>It&rsquo;s important to set a few things straight first. This is the most important
+part of this tutorial. This view may conflict with other information that you
+may have found on the web, but that&rsquo;s mostly because many sources are wrong.
+</p>
+<p>You may have to re-read this entire section a few times...
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-Unicode" accesskey="1">perlunitut Unicode</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-UTF_002d8" accesskey="2">perlunitut UTF-8</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-Text-strings-_0028character-strings_0029" accesskey="3">perlunitut Text strings (character strings)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-Binary-strings-_0028byte-strings_0029" accesskey="4">perlunitut Binary strings (byte strings)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-Encoding" accesskey="5">perlunitut Encoding</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-Decoding" accesskey="6">perlunitut Decoding</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlunitut-Internal-format" accesskey="7">perlunitut Internal format</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlunitut-Unicode"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-UTF_002d8" accesskey="n" rel="next">perlunitut UTF-8</a>, Up: <a href="#perlunitut-Definitions" accesskey="u" rel="up">perlunitut Definitions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Unicode-3"></a>
+<h4 class="subsubsection">83.2.1.1 Unicode</h4>
+
+<p><strong>Unicode</strong> is a character set with room for lots of characters. The ordinal
+value of a character is called a <strong>code point</strong>.   (But in practice, the
+distinction between code point and character is blurred, so the terms often
+are used interchangeably.)
+</p>
+<p>There are many, many code points, but computers work with bytes, and a byte has
+room for only 256 values.  Unicode has many more characters than that,
+so you need a method to make these accessible.
+</p>
+<p>Unicode is encoded using several competing encodings, of which UTF-8 is the
+most used. In a Unicode encoding, multiple subsequent bytes can be used to
+store a single code point, or simply: character.
+</p>
+<hr>
+<a name="perlunitut-UTF_002d8"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-Text-strings-_0028character-strings_0029" accesskey="n" rel="next">perlunitut Text strings (character strings)</a>, Previous: <a href="#perlunitut-Unicode" accesskey="p" rel="previous">perlunitut Unicode</a>, Up: <a href="#perlunitut-Definitions" accesskey="u" rel="up">perlunitut Definitions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="UTF_002d8"></a>
+<h4 class="subsubsection">83.2.1.2 UTF-8</h4>
+
+<p><strong>UTF-8</strong> is a Unicode encoding. Many people think that Unicode and UTF-8 are
+the same thing, but they&rsquo;re not. There are more Unicode encodings, but much of
+the world has standardized on UTF-8. 
+</p>
+<p>UTF-8 treats the first 128 codepoints, 0..127, the same as ASCII. They take
+only one byte per character. All other characters are encoded as two or more
+(up to six) bytes using a complex scheme. Fortunately, Perl handles this for
+us, so we don&rsquo;t have to worry about this.
+</p>
+<hr>
+<a name="perlunitut-Text-strings-_0028character-strings_0029"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-Binary-strings-_0028byte-strings_0029" accesskey="n" rel="next">perlunitut Binary strings (byte strings)</a>, Previous: <a href="#perlunitut-UTF_002d8" accesskey="p" rel="previous">perlunitut UTF-8</a>, Up: <a href="#perlunitut-Definitions" accesskey="u" rel="up">perlunitut Definitions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Text-strings-_0028character-strings_0029"></a>
+<h4 class="subsubsection">83.2.1.3 Text strings (character strings)</h4>
+
+<p><strong>Text strings</strong>, or <strong>character strings</strong> are made of characters. Bytes are
+irrelevant here, and so are encodings. Each character is just that: the
+character.
+</p>
+<p>On a text string, you would do things like:
+</p>
+<pre class="verbatim">    $text =~ s/foo/bar/;
+    if ($string =~ /^\d+$/) { ... }
+    $text = ucfirst $text;
+    my $character_count = length $text;
+</pre>
+<p>The value of a character (<code>ord</code>, <code>chr</code>) is the corresponding Unicode code
+point.
+</p>
+<hr>
+<a name="perlunitut-Binary-strings-_0028byte-strings_0029"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-Encoding" accesskey="n" rel="next">perlunitut Encoding</a>, Previous: <a href="#perlunitut-Text-strings-_0028character-strings_0029" accesskey="p" rel="previous">perlunitut Text strings (character strings)</a>, Up: <a href="#perlunitut-Definitions" accesskey="u" rel="up">perlunitut Definitions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Binary-strings-_0028byte-strings_0029"></a>
+<h4 class="subsubsection">83.2.1.4 Binary strings (byte strings)</h4>
+
+<p><strong>Binary strings</strong>, or <strong>byte strings</strong> are made of bytes. Here, you don&rsquo;t have
+characters, just bytes. All communication with the outside world (anything
+outside of your current Perl process) is done in binary.
+</p>
+<p>On a binary string, you would do things like:
+</p>
+<pre class="verbatim">    my (@length_content) = unpack &quot;(V/a)*&quot;, $binary;
+    $binary =~ s/\x00\x0F/\xFF\xF0/;  # for the brave :)
+    print {$fh} $binary;
+    my $byte_count = length $binary;
+</pre>
+<hr>
+<a name="perlunitut-Encoding"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-Decoding" accesskey="n" rel="next">perlunitut Decoding</a>, Previous: <a href="#perlunitut-Binary-strings-_0028byte-strings_0029" accesskey="p" rel="previous">perlunitut Binary strings (byte strings)</a>, Up: <a href="#perlunitut-Definitions" accesskey="u" rel="up">perlunitut Definitions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Encoding"></a>
+<h4 class="subsubsection">83.2.1.5 Encoding</h4>
+
+<p><strong>Encoding</strong> (as a verb) is the conversion from <em>text</em> to <em>binary</em>. To encode,
+you have to supply the target encoding, for example <code>iso-8859-1</code> or <code>UTF-8</code>.
+Some encodings, like the <code>iso-8859</code> (&quot;latin&quot;) range, do not support the full
+Unicode standard; characters that can&rsquo;t be represented are lost in the
+conversion.
+</p>
+<hr>
+<a name="perlunitut-Decoding"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-Internal-format" accesskey="n" rel="next">perlunitut Internal format</a>, Previous: <a href="#perlunitut-Encoding" accesskey="p" rel="previous">perlunitut Encoding</a>, Up: <a href="#perlunitut-Definitions" accesskey="u" rel="up">perlunitut Definitions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Decoding"></a>
+<h4 class="subsubsection">83.2.1.6 Decoding</h4>
+
+<p><strong>Decoding</strong> is the conversion from <em>binary</em> to <em>text</em>. To decode, you have to
+know what encoding was used during the encoding phase. And most of all, it must
+be something decodable. It doesn&rsquo;t make much sense to decode a PNG image into a
+text string.
+</p>
+<hr>
+<a name="perlunitut-Internal-format"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlunitut-Decoding" accesskey="p" rel="previous">perlunitut Decoding</a>, Up: <a href="#perlunitut-Definitions" accesskey="u" rel="up">perlunitut Definitions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Internal-format"></a>
+<h4 class="subsubsection">83.2.1.7 Internal format</h4>
+
+<p>Perl has an <strong>internal format</strong>, an encoding that it uses to encode text strings
+so it can store them in memory. All text strings are in this internal format.
+In fact, text strings are never in any other format!
+</p>
+<p>You shouldn&rsquo;t worry about what this format is, because conversion is
+automatically done when you decode or encode.
+</p>
+<hr>
+<a name="perlunitut-Your-new-toolkit"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-I_002fO-flow-_0028the-actual-5-minute-tutorial_0029" accesskey="n" rel="next">perlunitut I/O flow (the actual 5 minute tutorial)</a>, Previous: <a href="#perlunitut-Definitions" accesskey="p" rel="previous">perlunitut Definitions</a>, Up: <a href="#perlunitut-DESCRIPTION" accesskey="u" rel="up">perlunitut DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Your-new-toolkit"></a>
+<h4 class="subsection">83.2.2 Your new toolkit</h4>
+
+<p>Add to your standard heading the following line:
+</p>
+<pre class="verbatim">    use Encode qw(encode decode);
+</pre>
+<p>Or, if you&rsquo;re lazy, just:
+</p>
+<pre class="verbatim">    use Encode;
+</pre>
+<hr>
+<a name="perlunitut-I_002fO-flow-_0028the-actual-5-minute-tutorial_0029"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlunitut-Your-new-toolkit" accesskey="p" rel="previous">perlunitut Your new toolkit</a>, Up: <a href="#perlunitut-DESCRIPTION" accesskey="u" rel="up">perlunitut DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="I_002fO-flow-_0028the-actual-5-minute-tutorial_0029"></a>
+<h4 class="subsection">83.2.3 I/O flow (the actual 5 minute tutorial)</h4>
+
+<p>The typical input/output flow of a program is:
+</p>
+<pre class="verbatim">    1. Receive and decode
+    2. Process
+    3. Encode and output
+</pre>
+<p>If your input is binary, and is supposed to remain binary, you shouldn&rsquo;t decode
+it to a text string, of course. But in all other cases, you should decode it.
+</p>
+<p>Decoding can&rsquo;t happen reliably if you don&rsquo;t know how the data was encoded. If
+you get to choose, it&rsquo;s a good idea to standardize on UTF-8.
+</p>
+<pre class="verbatim">    my $foo   = decode('UTF-8', get 'http://example.com/');
+    my $bar   = decode('ISO-8859-1', readline STDIN);
+    my $xyzzy = decode('Windows-1251', $cgi-&gt;param('foo'));
+</pre>
+<p>Processing happens as you knew before. The only difference is that you&rsquo;re now
+using characters instead of bytes. That&rsquo;s very useful if you use things like
+<code>substr</code>, or <code>length</code>.
+</p>
+<p>It&rsquo;s important to realize that there are no bytes in a text string. Of course,
+Perl has its internal encoding to store the string in memory, but ignore that.
+If you have to do anything with the number of bytes, it&rsquo;s probably best to move
+that part to step 3, just after you&rsquo;ve encoded the string. Then you know
+exactly how many bytes it will be in the destination string.
+</p>
+<p>The syntax for encoding text strings to binary strings is as simple as decoding:
+</p>
+<pre class="verbatim">    $body = encode('UTF-8', $body);
+</pre>
+<p>If you needed to know the length of the string in bytes, now&rsquo;s the perfect time
+for that. Because <code>$body</code> is now a byte string, <code>length</code> will report the
+number of bytes, instead of the number of characters. The number of
+characters is no longer known, because characters only exist in text strings.
+</p>
+<pre class="verbatim">    my $byte_count = length $body;
+</pre>
+<p>And if the protocol you&rsquo;re using supports a way of letting the recipient know
+which character encoding you used, please help the receiving end by using that
+feature! For example, E-mail and HTTP support MIME headers, so you can use the
+<code>Content-Type</code> header. They can also have <code>Content-Length</code> to indicate the
+number of <em>bytes</em>, which is always a good idea to supply if the number is
+known.
+</p>
+<pre class="verbatim">    &quot;Content-Type: text/plain; charset=UTF-8&quot;,
+    &quot;Content-Length: $byte_count&quot;
+</pre>
+<hr>
+<a name="perlunitut-SUMMARY"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-Q-and-A-_0028or-FAQ_0029" accesskey="n" rel="next">perlunitut Q and A (or FAQ)</a>, Previous: <a href="#perlunitut-DESCRIPTION" accesskey="p" rel="previous">perlunitut DESCRIPTION</a>, Up: <a href="#perlunitut" accesskey="u" rel="up">perlunitut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="SUMMARY-1"></a>
+<h3 class="section">83.3 SUMMARY</h3>
+
+<p>Decode everything you receive, encode everything you send out. (If it&rsquo;s text
+data.)
+</p>
+<hr>
+<a name="perlunitut-Q-and-A-_0028or-FAQ_0029"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-ACKNOWLEDGEMENTS" accesskey="n" rel="next">perlunitut ACKNOWLEDGEMENTS</a>, Previous: <a href="#perlunitut-SUMMARY" accesskey="p" rel="previous">perlunitut SUMMARY</a>, Up: <a href="#perlunitut" accesskey="u" rel="up">perlunitut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Q-and-A-_0028or-FAQ_0029"></a>
+<h3 class="section">83.4 Q and A (or FAQ)</h3>
+
+<p>After reading this document, you ought to read <a href="perlunifaq.html#perlunifaq-NAME">perlunifaq NAME</a> too. 
+</p>
+<hr>
+<a name="perlunitut-ACKNOWLEDGEMENTS"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-AUTHOR" accesskey="n" rel="next">perlunitut AUTHOR</a>, Previous: <a href="#perlunitut-Q-and-A-_0028or-FAQ_0029" accesskey="p" rel="previous">perlunitut Q and A (or FAQ)</a>, Up: <a href="#perlunitut" accesskey="u" rel="up">perlunitut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="ACKNOWLEDGEMENTS-1"></a>
+<h3 class="section">83.5 ACKNOWLEDGEMENTS</h3>
+
+<p>Thanks to Johan Vromans from Squirrel Consultancy. His UTF-8 rants during the
+Amsterdam Perl Mongers meetings got me interested and determined to find out
+how to use character encodings in Perl in ways that don&rsquo;t break easily.
+</p>
+<p>Thanks to Gerard Goossen from TTY. His presentation &quot;UTF-8 in the wild&quot; (Dutch
+Perl Workshop 2006) inspired me to publish my thoughts and write this tutorial.
+</p>
+<p>Thanks to the people who asked about this kind of stuff in several Perl IRC
+channels, and have constantly reminded me that a simpler explanation was
+needed.
+</p>
+<p>Thanks to the people who reviewed this document for me, before it went public.
+They are: Benjamin Smith, Jan-Pieter Cornet, Johan Vromans, Lukas Mai, Nathan
+Gray.
+</p>
+<hr>
+<a name="perlunitut-AUTHOR"></a>
+<div class="header">
+<p>
+Next: <a href="#perlunitut-SEE-ALSO" accesskey="n" rel="next">perlunitut SEE ALSO</a>, Previous: <a href="#perlunitut-ACKNOWLEDGEMENTS" accesskey="p" rel="previous">perlunitut ACKNOWLEDGEMENTS</a>, Up: <a href="#perlunitut" accesskey="u" rel="up">perlunitut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="AUTHOR-31"></a>
+<h3 class="section">83.6 AUTHOR</h3>
+
+<p>Juerd Waalboer &lt;#####@juerd.nl&gt;
+</p>
+<hr>
+<a name="perlunitut-SEE-ALSO"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlunitut-AUTHOR" accesskey="p" rel="previous">perlunitut AUTHOR</a>, Up: <a href="#perlunitut" accesskey="u" rel="up">perlunitut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="SEE-ALSO-42"></a>
+<h3 class="section">83.7 SEE ALSO</h3>
+
+<p><a href="perlunifaq.html#perlunifaq-NAME">perlunifaq NAME</a>, <a href="perlunicode.html#perlunicode-NAME">perlunicode NAME</a>, <a href="perluniintro.html#perluniintro-NAME">perluniintro NAME</a>, <a href="../Encode/index.html">(Encode)</a>
+</p>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perlunitut-AUTHOR" accesskey="p" rel="previous">perlunitut AUTHOR</a>, Up: <a href="#perlunitut" accesskey="u" rel="up">perlunitut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

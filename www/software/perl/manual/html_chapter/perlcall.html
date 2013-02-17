@@ -1,0 +1,2210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 4.13.97+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perlcall</title>
+
+<meta name="description" content="Perl pod documentation: perlcall">
+<meta name="keywords" content="Perl pod documentation: perlcall">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="perlcheat.html#perlcheat" rel="next" title="perlcheat">
+<link href="perlbot.html#perlbot-DESCRIPTION" rel="previous" title="perlbot DESCRIPTION">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perlcall"></a>
+<div class="header">
+<p>
+Next: <a href="perlcheat.html#perlcheat" accesskey="n" rel="next">perlcheat</a>, Previous: <a href="perlbot.html#perlbot" accesskey="p" rel="previous">perlbot</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perlcall-1"></a>
+<h2 class="chapter">7 perlcall</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-NAME" accesskey="1">perlcall NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-DESCRIPTION" accesskey="2">perlcall DESCRIPTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-THE-CALL_005f-FUNCTIONS" accesskey="3">perlcall THE CALL_ FUNCTIONS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-FLAG-VALUES" accesskey="4">perlcall FLAG VALUES</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-EXAMPLES" accesskey="5">perlcall EXAMPLES</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-LIGHTWEIGHT-CALLBACKS" accesskey="6">perlcall LIGHTWEIGHT CALLBACKS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-SEE-ALSO" accesskey="7">perlcall SEE ALSO</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-AUTHOR" accesskey="8">perlcall AUTHOR</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-DATE" accesskey="9">perlcall DATE</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlcall-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-DESCRIPTION" accesskey="n" rel="next">perlcall DESCRIPTION</a>, Up: <a href="#perlcall" accesskey="u" rel="up">perlcall</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-6"></a>
+<h3 class="section">7.1 NAME</h3>
+
+<p>perlcall - Perl calling conventions from C
+</p>
+<hr>
+<a name="perlcall-DESCRIPTION"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-THE-CALL_005f-FUNCTIONS" accesskey="n" rel="next">perlcall THE CALL_ FUNCTIONS</a>, Previous: <a href="#perlcall-NAME" accesskey="p" rel="previous">perlcall NAME</a>, Up: <a href="#perlcall" accesskey="u" rel="up">perlcall</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESCRIPTION-6"></a>
+<h3 class="section">7.2 DESCRIPTION</h3>
+
+<p>The purpose of this document is to show you how to call Perl subroutines
+directly from C, i.e., how to write <em>callbacks</em>.
+</p>
+<p>Apart from discussing the C interface provided by Perl for writing
+callbacks the document uses a series of examples to show how the
+interface actually works in practice.  In addition some techniques for
+coding callbacks are covered.
+</p>
+<p>Examples where callbacks are necessary include
+</p>
+<ul>
+<li> An Error Handler
+
+<p>You have created an XSUB interface to an application&rsquo;s C API.
+</p>
+<p>A fairly common feature in applications is to allow you to define a C
+function that will be called whenever something nasty occurs. What we
+would like is to be able to specify a Perl subroutine that will be
+called instead.
+</p>
+</li><li> An Event-Driven Program
+
+<p>The classic example of where callbacks are used is when writing an
+event driven program, such as for an X11 application.  In this case
+you register functions to be called whenever specific events occur,
+e.g., a mouse button is pressed, the cursor moves into a window or a
+menu item is selected.
+</p>
+</li></ul>
+
+<p>Although the techniques described here are applicable when embedding
+Perl in a C program, this is not the primary goal of this document.
+There are other details that must be considered and are specific to
+embedding Perl. For details on embedding Perl in C refer to
+<a href="perlembed.html#perlembed-NAME">perlembed NAME</a>.
+</p>
+<p>Before you launch yourself head first into the rest of this document,
+it would be a good idea to have read the following two documents&ndash;<a href="../perlxs/index.html">(perlxs)</a>
+and <a href="perlguts.html#perlguts-NAME">perlguts NAME</a>.
+</p>
+<hr>
+<a name="perlcall-THE-CALL_005f-FUNCTIONS"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-FLAG-VALUES" accesskey="n" rel="next">perlcall FLAG VALUES</a>, Previous: <a href="#perlcall-DESCRIPTION" accesskey="p" rel="previous">perlcall DESCRIPTION</a>, Up: <a href="#perlcall" accesskey="u" rel="up">perlcall</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="THE-CALL_005f-FUNCTIONS"></a>
+<h3 class="section">7.3 THE CALL_ FUNCTIONS</h3>
+
+<p>Although this stuff is easier to explain using examples, you first need
+be aware of a few important definitions.
+</p>
+<p>Perl has a number of C functions that allow you to call Perl
+subroutines.  They are
+</p>
+<pre class="verbatim">    I32 call_sv(SV* sv, I32 flags);
+    I32 call_pv(char *subname, I32 flags);
+    I32 call_method(char *methname, I32 flags);
+    I32 call_argv(char *subname, I32 flags, register char **argv);
+</pre>
+<p>The key function is <em>call_sv</em>.  All the other functions are
+fairly simple wrappers which make it easier to call Perl subroutines in
+special cases. At the end of the day they will all call <em>call_sv</em>
+to invoke the Perl subroutine.
+</p>
+<p>All the <em>call_*</em> functions have a <code>flags</code> parameter which is
+used to pass a bit mask of options to Perl.  This bit mask operates
+identically for each of the functions.  The settings available in the
+bit mask are discussed in <a href="#perlcall-FLAG-VALUES">FLAG VALUES</a>.
+</p>
+<p>Each of the functions will now be discussed in turn.
+</p>
+<dl compact="compact">
+<dt>call_sv</dt>
+<dd><a name="perlcall-call_005fsv"></a>
+<p><em>call_sv</em> takes two parameters. The first, <code>sv</code>, is an SV*.
+This allows you to specify the Perl subroutine to be called either as a
+C string (which has first been converted to an SV) or a reference to a
+subroutine. The section, <em>Using call_sv</em>, shows how you can make
+use of <em>call_sv</em>.
+</p>
+</dd>
+<dt>call_pv</dt>
+<dd><a name="perlcall-call_005fpv"></a>
+<p>The function, <em>call_pv</em>, is similar to <em>call_sv</em> except it
+expects its first parameter to be a C char* which identifies the Perl
+subroutine you want to call, e.g., <code>call_pv(&quot;fred&quot;, 0)</code>.  If the
+subroutine you want to call is in another package, just include the
+package name in the string, e.g., <code>&quot;pkg::fred&quot;</code>.
+</p>
+</dd>
+<dt>call_method</dt>
+<dd><a name="perlcall-call_005fmethod"></a>
+<p>The function <em>call_method</em> is used to call a method from a Perl
+class.  The parameter <code>methname</code> corresponds to the name of the method
+to be called.  Note that the class that the method belongs to is passed
+on the Perl stack rather than in the parameter list. This class can be
+either the name of the class (for a static method) or a reference to an
+object (for a virtual method).  See <a href="../perlobj/index.html">(perlobj)</a> for more information on
+static and virtual methods and <a href="#perlcall-Using-call_005fmethod">Using call_method</a> for an example
+of using <em>call_method</em>.
+</p>
+</dd>
+<dt>call_argv</dt>
+<dd><a name="perlcall-call_005fargv"></a>
+<p><em>call_argv</em> calls the Perl subroutine specified by the C string
+stored in the <code>subname</code> parameter. It also takes the usual <code>flags</code>
+parameter.  The final parameter, <code>argv</code>, consists of a NULL-terminated
+list of C strings to be passed as parameters to the Perl subroutine.
+See <em>Using call_argv</em>.
+</p>
+</dd>
+</dl>
+
+<p>All the functions return an integer. This is a count of the number of
+items returned by the Perl subroutine. The actual items returned by the
+subroutine are stored on the Perl stack.
+</p>
+<p>As a general rule you should <em>always</em> check the return value from
+these functions.  Even if you are expecting only a particular number of
+values to be returned from the Perl subroutine, there is nothing to
+stop someone from doing something unexpected&ndash;don&rsquo;t say you haven&rsquo;t
+been warned.
+</p>
+<hr>
+<a name="perlcall-FLAG-VALUES"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-EXAMPLES" accesskey="n" rel="next">perlcall EXAMPLES</a>, Previous: <a href="#perlcall-THE-CALL_005f-FUNCTIONS" accesskey="p" rel="previous">perlcall THE CALL_ FUNCTIONS</a>, Up: <a href="#perlcall" accesskey="u" rel="up">perlcall</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="FLAG-VALUES"></a>
+<h3 class="section">7.4 FLAG VALUES</h3>
+
+<p>The <code>flags</code> parameter in all the <em>call_*</em> functions is one of G_VOID,
+G_SCALAR, or G_ARRAY, which indicate the call context, OR&rsquo;ed together
+with a bit mask of any combination of the other G_* symbols defined below.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-G_005fVOID" accesskey="1">perlcall G_VOID</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-G_005fSCALAR" accesskey="2">perlcall G_SCALAR</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-G_005fARRAY" accesskey="3">perlcall G_ARRAY</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-G_005fDISCARD" accesskey="4">perlcall G_DISCARD</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-G_005fNOARGS" accesskey="5">perlcall G_NOARGS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-G_005fEVAL" accesskey="6">perlcall G_EVAL</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-G_005fKEEPERR" accesskey="7">perlcall G_KEEPERR</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Determining-the-Context" accesskey="8">perlcall Determining the Context</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlcall-G_005fVOID"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-G_005fSCALAR" accesskey="n" rel="next">perlcall G_SCALAR</a>, Up: <a href="#perlcall-FLAG-VALUES" accesskey="u" rel="up">perlcall FLAG VALUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="G_005fVOID"></a>
+<h4 class="subsection">7.4.1 G_VOID</h4>
+
+<p>Calls the Perl subroutine in a void context.
+</p>
+<p>This flag has 2 effects:
+</p>
+<ol>
+<li> It indicates to the subroutine being called that it is executing in
+a void context (if it executes <em>wantarray</em> the result will be the
+undefined value).
+
+</li><li> It ensures that nothing is actually returned from the subroutine.
+
+</li></ol>
+
+<p>The value returned by the <em>call_*</em> function indicates how many
+items have been returned by the Perl subroutine&ndash;in this case it will
+be 0.
+</p>
+<hr>
+<a name="perlcall-G_005fSCALAR"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-G_005fARRAY" accesskey="n" rel="next">perlcall G_ARRAY</a>, Previous: <a href="#perlcall-G_005fVOID" accesskey="p" rel="previous">perlcall G_VOID</a>, Up: <a href="#perlcall-FLAG-VALUES" accesskey="u" rel="up">perlcall FLAG VALUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="G_005fSCALAR"></a>
+<h4 class="subsection">7.4.2 G_SCALAR</h4>
+
+<p>Calls the Perl subroutine in a scalar context.  This is the default
+context flag setting for all the <em>call_*</em> functions.
+</p>
+<p>This flag has 2 effects:
+</p>
+<ol>
+<li> It indicates to the subroutine being called that it is executing in a
+scalar context (if it executes <em>wantarray</em> the result will be false).
+
+</li><li> It ensures that only a scalar is actually returned from the subroutine.
+The subroutine can, of course,  ignore the <em>wantarray</em> and return a
+list anyway. If so, then only the last element of the list will be
+returned.
+
+</li></ol>
+
+<p>The value returned by the <em>call_*</em> function indicates how many
+items have been returned by the Perl subroutine - in this case it will
+be either 0 or 1.
+</p>
+<p>If 0, then you have specified the G_DISCARD flag.
+</p>
+<p>If 1, then the item actually returned by the Perl subroutine will be
+stored on the Perl stack - the section <em>Returning a Scalar</em> shows how
+to access this value on the stack.  Remember that regardless of how
+many items the Perl subroutine returns, only the last one will be
+accessible from the stack - think of the case where only one value is
+returned as being a list with only one element.  Any other items that
+were returned will not exist by the time control returns from the
+<em>call_*</em> function.  The section <em>Returning a list in a scalar
+context</em> shows an example of this behavior.
+</p>
+<hr>
+<a name="perlcall-G_005fARRAY"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-G_005fDISCARD" accesskey="n" rel="next">perlcall G_DISCARD</a>, Previous: <a href="#perlcall-G_005fSCALAR" accesskey="p" rel="previous">perlcall G_SCALAR</a>, Up: <a href="#perlcall-FLAG-VALUES" accesskey="u" rel="up">perlcall FLAG VALUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="G_005fARRAY"></a>
+<h4 class="subsection">7.4.3 G_ARRAY</h4>
+
+<p>Calls the Perl subroutine in a list context.
+</p>
+<p>As with G_SCALAR, this flag has 2 effects:
+</p>
+<ol>
+<li> It indicates to the subroutine being called that it is executing in a
+list context (if it executes <em>wantarray</em> the result will be true).
+
+</li><li> It ensures that all items returned from the subroutine will be
+accessible when control returns from the <em>call_*</em> function.
+
+</li></ol>
+
+<p>The value returned by the <em>call_*</em> function indicates how many
+items have been returned by the Perl subroutine.
+</p>
+<p>If 0, then you have specified the G_DISCARD flag.
+</p>
+<p>If not 0, then it will be a count of the number of items returned by
+the subroutine. These items will be stored on the Perl stack.  The
+section <em>Returning a list of values</em> gives an example of using the
+G_ARRAY flag and the mechanics of accessing the returned items from the
+Perl stack.
+</p>
+<hr>
+<a name="perlcall-G_005fDISCARD"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-G_005fNOARGS" accesskey="n" rel="next">perlcall G_NOARGS</a>, Previous: <a href="#perlcall-G_005fARRAY" accesskey="p" rel="previous">perlcall G_ARRAY</a>, Up: <a href="#perlcall-FLAG-VALUES" accesskey="u" rel="up">perlcall FLAG VALUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="G_005fDISCARD"></a>
+<h4 class="subsection">7.4.4 G_DISCARD</h4>
+
+<p>By default, the <em>call_*</em> functions place the items returned from
+by the Perl subroutine on the stack.  If you are not interested in
+these items, then setting this flag will make Perl get rid of them
+automatically for you.  Note that it is still possible to indicate a
+context to the Perl subroutine by using either G_SCALAR or G_ARRAY.
+</p>
+<p>If you do not set this flag then it is <em>very</em> important that you make
+sure that any temporaries (i.e., parameters passed to the Perl
+subroutine and values returned from the subroutine) are disposed of
+yourself.  The section <em>Returning a Scalar</em> gives details of how to
+dispose of these temporaries explicitly and the section <em>Using Perl to
+dispose of temporaries</em> discusses the specific circumstances where you
+can ignore the problem and let Perl deal with it for you.
+</p>
+<hr>
+<a name="perlcall-G_005fNOARGS"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-G_005fEVAL" accesskey="n" rel="next">perlcall G_EVAL</a>, Previous: <a href="#perlcall-G_005fDISCARD" accesskey="p" rel="previous">perlcall G_DISCARD</a>, Up: <a href="#perlcall-FLAG-VALUES" accesskey="u" rel="up">perlcall FLAG VALUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="G_005fNOARGS"></a>
+<h4 class="subsection">7.4.5 G_NOARGS</h4>
+
+<p>Whenever a Perl subroutine is called using one of the <em>call_*</em>
+functions, it is assumed by default that parameters are to be passed to
+the subroutine.  If you are not passing any parameters to the Perl
+subroutine, you can save a bit of time by setting this flag.  It has
+the effect of not creating the <code>@_</code> array for the Perl subroutine.
+</p>
+<p>Although the functionality provided by this flag may seem
+straightforward, it should be used only if there is a good reason to do
+so.  The reason for being cautious is that, even if you have specified
+the G_NOARGS flag, it is still possible for the Perl subroutine that
+has been called to think that you have passed it parameters.
+</p>
+<p>In fact, what can happen is that the Perl subroutine you have called
+can access the <code>@_</code> array from a previous Perl subroutine.  This will
+occur when the code that is executing the <em>call_*</em> function has
+itself been called from another Perl subroutine. The code below
+illustrates this
+</p>
+<pre class="verbatim">    sub fred
+      { print &quot;@_\n&quot;  }
+
+    sub joe
+      { &amp;fred }
+
+    &amp;joe(1,2,3);
+</pre>
+<p>This will print
+</p>
+<pre class="verbatim">    1 2 3
+</pre>
+<p>What has happened is that <code>fred</code> accesses the <code>@_</code> array which
+belongs to <code>joe</code>.
+</p>
+<hr>
+<a name="perlcall-G_005fEVAL"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-G_005fKEEPERR" accesskey="n" rel="next">perlcall G_KEEPERR</a>, Previous: <a href="#perlcall-G_005fNOARGS" accesskey="p" rel="previous">perlcall G_NOARGS</a>, Up: <a href="#perlcall-FLAG-VALUES" accesskey="u" rel="up">perlcall FLAG VALUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="G_005fEVAL"></a>
+<h4 class="subsection">7.4.6 G_EVAL</h4>
+
+<p>It is possible for the Perl subroutine you are calling to terminate
+abnormally, e.g., by calling <em>die</em> explicitly or by not actually
+existing.  By default, when either of these events occurs, the
+process will terminate immediately.  If you want to trap this
+type of event, specify the G_EVAL flag.  It will put an <em>eval { }</em>
+around the subroutine call.
+</p>
+<p>Whenever control returns from the <em>call_*</em> function you need to
+check the <code>$@</code> variable as you would in a normal Perl script.
+</p>
+<p>The value returned from the <em>call_*</em> function is dependent on
+what other flags have been specified and whether an error has
+occurred.  Here are all the different cases that can occur:
+</p>
+<ul>
+<li> If the <em>call_*</em> function returns normally, then the value
+returned is as specified in the previous sections.
+
+</li><li> If G_DISCARD is specified, the return value will always be 0.
+
+</li><li> If G_ARRAY is specified <em>and</em> an error has occurred, the return value
+will always be 0.
+
+</li><li> If G_SCALAR is specified <em>and</em> an error has occurred, the return value
+will be 1 and the value on the top of the stack will be <em>undef</em>. This
+means that if you have already detected the error by checking <code>$@</code> and
+you want the program to continue, you must remember to pop the <em>undef</em>
+from the stack.
+
+</li></ul>
+
+<p>See <em>Using G_EVAL</em> for details on using G_EVAL.
+</p>
+<hr>
+<a name="perlcall-G_005fKEEPERR"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Determining-the-Context" accesskey="n" rel="next">perlcall Determining the Context</a>, Previous: <a href="#perlcall-G_005fEVAL" accesskey="p" rel="previous">perlcall G_EVAL</a>, Up: <a href="#perlcall-FLAG-VALUES" accesskey="u" rel="up">perlcall FLAG VALUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="G_005fKEEPERR"></a>
+<h4 class="subsection">7.4.7 G_KEEPERR</h4>
+
+<p>Using the G_EVAL flag described above will always set <code>$@</code>: clearing
+it if there was no error, and setting it to describe the error if there
+was an error in the called code.  This is what you want if your intention
+is to handle possible errors, but sometimes you just want to trap errors
+and stop them interfering with the rest of the program.
+</p>
+<p>This scenario will mostly be applicable to code that is meant to be called
+from within destructors, asynchronous callbacks, and signal handlers.
+In such situations, where the code being called has little relation to the
+surrounding dynamic context, the main program needs to be insulated from
+errors in the called code, even if they can&rsquo;t be handled intelligently.
+It may also be useful to do this with code for <code>__DIE__</code> or <code>__WARN__</code>
+hooks, and <code>tie</code> functions.
+</p>
+<p>The G_KEEPERR flag is meant to be used in conjunction with G_EVAL in
+<em>call_*</em> functions that are used to implement such code, or with
+<code>eval_sv</code>.  This flag has no effect on the <code>call_*</code> functions when
+G_EVAL is not used.
+</p>
+<p>When G_KEEPERR is used, any error in the called code will terminate the
+call as usual, and the error will not propagate beyond the call (as usual
+for G_EVAL), but it will not go into <code>$@</code>.  Instead the error will be
+converted into a warning, prefixed with the string &quot;\t(in cleanup)&quot;.
+This can be disabled using <code>no warnings 'misc'</code>.  If there is no error,
+<code>$@</code> will not be cleared.
+</p>
+<p>Note that the G_KEEPERR flag does not propagate into inner evals; these
+may still set <code>$@</code>.
+</p>
+<p>The G_KEEPERR flag was introduced in Perl version 5.002.
+</p>
+<p>See <em>Using G_KEEPERR</em> for an example of a situation that warrants the
+use of this flag.
+</p>
+<hr>
+<a name="perlcall-Determining-the-Context"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlcall-G_005fKEEPERR" accesskey="p" rel="previous">perlcall G_KEEPERR</a>, Up: <a href="#perlcall-FLAG-VALUES" accesskey="u" rel="up">perlcall FLAG VALUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Determining-the-Context"></a>
+<h4 class="subsection">7.4.8 Determining the Context</h4>
+
+<p>As mentioned above, you can determine the context of the currently
+executing subroutine in Perl with <em>wantarray</em>.  The equivalent test
+can be made in C by using the <code>GIMME_V</code> macro, which returns
+<code>G_ARRAY</code> if you have been called in a list context, <code>G_SCALAR</code> if
+in a scalar context, or <code>G_VOID</code> if in a void context (i.e., the
+return value will not be used).  An older version of this macro is
+called <code>GIMME</code>; in a void context it returns <code>G_SCALAR</code> instead of
+<code>G_VOID</code>.  An example of using the <code>GIMME_V</code> macro is shown in
+section <em>Using GIMME_V</em>.
+</p>
+<hr>
+<a name="perlcall-EXAMPLES"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-LIGHTWEIGHT-CALLBACKS" accesskey="n" rel="next">perlcall LIGHTWEIGHT CALLBACKS</a>, Previous: <a href="#perlcall-FLAG-VALUES" accesskey="p" rel="previous">perlcall FLAG VALUES</a>, Up: <a href="#perlcall" accesskey="u" rel="up">perlcall</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="EXAMPLES"></a>
+<h3 class="section">7.5 EXAMPLES</h3>
+
+<p>Enough of the definition talk! Let&rsquo;s have a few examples.
+</p>
+<p>Perl provides many macros to assist in accessing the Perl stack.
+Wherever possible, these macros should always be used when interfacing
+to Perl internals.  We hope this should make the code less vulnerable
+to any changes made to Perl in the future.
+</p>
+<p>Another point worth noting is that in the first series of examples I
+have made use of only the <em>call_pv</em> function.  This has been done
+to keep the code simpler and ease you into the topic.  Wherever
+possible, if the choice is between using <em>call_pv</em> and
+<em>call_sv</em>, you should always try to use <em>call_sv</em>.  See
+<em>Using call_sv</em> for details.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-No-Parameters_002c-Nothing-Returned" accesskey="1">perlcall No Parameters, Nothing Returned</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Passing-Parameters" accesskey="2">perlcall Passing Parameters</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Returning-a-Scalar" accesskey="3">perlcall Returning a Scalar</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Returning-a-List-of-Values" accesskey="4">perlcall Returning a List of Values</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Returning-a-List-in-a-Scalar-Context" accesskey="5">perlcall Returning a List in a Scalar Context</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Returning-Data-from-Perl-via-the-Parameter-List" accesskey="6">perlcall Returning Data from Perl via the Parameter List</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Using-G_005fEVAL" accesskey="7">perlcall Using G_EVAL</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Using-G_005fKEEPERR" accesskey="8">perlcall Using G_KEEPERR</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Using-call_005fsv" accesskey="9">perlcall Using call_sv</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Using-call_005fargv">perlcall Using call_argv</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Using-call_005fmethod">perlcall Using call_method</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Using-GIMME_005fV">perlcall Using GIMME_V</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Using-Perl-to-Dispose-of-Temporaries">perlcall Using Perl to Dispose of Temporaries</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Strategies-for-Storing-Callback-Context-Information">perlcall Strategies for Storing Callback Context Information</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Alternate-Stack-Manipulation">perlcall Alternate Stack Manipulation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlcall-Creating-and-Calling-an-Anonymous-Subroutine-in-C">perlcall Creating and Calling an Anonymous Subroutine in C</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlcall-No-Parameters_002c-Nothing-Returned"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Passing-Parameters" accesskey="n" rel="next">perlcall Passing Parameters</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="No-Parameters_002c-Nothing-Returned"></a>
+<h4 class="subsection">7.5.1 No Parameters, Nothing Returned</h4>
+
+<p>This first trivial example will call a Perl subroutine, <em>PrintUID</em>, to
+print out the UID of the process.
+</p>
+<pre class="verbatim">    sub PrintUID
+    {
+        print &quot;UID is $&lt;\n&quot;;
+    }
+</pre>
+<p>and here is a C function to call it
+</p>
+<pre class="verbatim">    static void
+    call_PrintUID()
+    {
+        dSP;
+
+        PUSHMARK(SP);
+        call_pv(&quot;PrintUID&quot;, G_DISCARD|G_NOARGS);
+    }
+</pre>
+<p>Simple, eh?
+</p>
+<p>A few points to note about this example:
+</p>
+<ol>
+<li> Ignore <code>dSP</code> and <code>PUSHMARK(SP)</code> for now. They will be discussed in
+the next example.
+
+</li><li> We aren&rsquo;t passing any parameters to <em>PrintUID</em> so G_NOARGS can be
+specified.
+
+</li><li> We aren&rsquo;t interested in anything returned from <em>PrintUID</em>, so
+G_DISCARD is specified. Even if <em>PrintUID</em> was changed to
+return some value(s), having specified G_DISCARD will mean that they
+will be wiped by the time control returns from <em>call_pv</em>.
+
+</li><li> As <em>call_pv</em> is being used, the Perl subroutine is specified as a
+C string. In this case the subroutine name has been &rsquo;hard-wired&rsquo; into the
+code.
+
+</li><li> Because we specified G_DISCARD, it is not necessary to check the value
+returned from <em>call_pv</em>. It will always be 0.
+
+</li></ol>
+
+<hr>
+<a name="perlcall-Passing-Parameters"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Returning-a-Scalar" accesskey="n" rel="next">perlcall Returning a Scalar</a>, Previous: <a href="#perlcall-No-Parameters_002c-Nothing-Returned" accesskey="p" rel="previous">perlcall No Parameters, Nothing Returned</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Passing-Parameters"></a>
+<h4 class="subsection">7.5.2 Passing Parameters</h4>
+
+<p>Now let&rsquo;s make a slightly more complex example. This time we want to
+call a Perl subroutine, <code>LeftString</code>, which will take 2 parameters&ndash;a
+string ($s) and an integer ($n).  The subroutine will simply
+print the first $n characters of the string.
+</p>
+<p>So the Perl subroutine would look like this:
+</p>
+<pre class="verbatim">    sub LeftString
+    {
+        my($s, $n) = @_;
+        print substr($s, 0, $n), &quot;\n&quot;;
+    }
+</pre>
+<p>The C function required to call <em>LeftString</em> would look like this:
+</p>
+<pre class="verbatim">    static void
+    call_LeftString(a, b)
+    char * a;
+    int b;
+    {
+        dSP;
+
+        ENTER;
+        SAVETMPS;
+
+        PUSHMARK(SP);
+        XPUSHs(sv_2mortal(newSVpv(a, 0)));
+        XPUSHs(sv_2mortal(newSViv(b)));
+        PUTBACK;
+
+        call_pv(&quot;LeftString&quot;, G_DISCARD);
+
+        FREETMPS;
+        LEAVE;
+    }
+</pre>
+<p>Here are a few notes on the C function <em>call_LeftString</em>.
+</p>
+<ol>
+<li> Parameters are passed to the Perl subroutine using the Perl stack.
+This is the purpose of the code beginning with the line <code>dSP</code> and
+ending with the line <code>PUTBACK</code>.  The <code>dSP</code> declares a local copy
+of the stack pointer.  This local copy should <strong>always</strong> be accessed
+as <code>SP</code>.
+
+</li><li> If you are going to put something onto the Perl stack, you need to know
+where to put it. This is the purpose of the macro <code>dSP</code>&ndash;it declares
+and initializes a <em>local</em> copy of the Perl stack pointer.
+
+<p>All the other macros which will be used in this example require you to
+have used this macro.
+</p>
+<p>The exception to this rule is if you are calling a Perl subroutine
+directly from an XSUB function. In this case it is not necessary to
+use the <code>dSP</code> macro explicitly&ndash;it will be declared for you
+automatically.
+</p>
+</li><li> Any parameters to be pushed onto the stack should be bracketed by the
+<code>PUSHMARK</code> and <code>PUTBACK</code> macros.  The purpose of these two macros, in
+this context, is to count the number of parameters you are
+pushing automatically.  Then whenever Perl is creating the <code>@_</code> array for the
+subroutine, it knows how big to make it.
+
+<p>The <code>PUSHMARK</code> macro tells Perl to make a mental note of the current
+stack pointer. Even if you aren&rsquo;t passing any parameters (like the
+example shown in the section <em>No Parameters, Nothing Returned</em>) you
+must still call the <code>PUSHMARK</code> macro before you can call any of the
+<em>call_*</em> functions&ndash;Perl still needs to know that there are no
+parameters.
+</p>
+<p>The <code>PUTBACK</code> macro sets the global copy of the stack pointer to be
+the same as our local copy. If we didn&rsquo;t do this, <em>call_pv</em>
+wouldn&rsquo;t know where the two parameters we pushed were&ndash;remember that
+up to now all the stack pointer manipulation we have done is with our
+local copy, <em>not</em> the global copy.
+</p>
+</li><li> Next, we come to XPUSHs. This is where the parameters actually get
+pushed onto the stack. In this case we are pushing a string and an
+integer.
+
+<p>See <a href="perlguts.html#perlguts-XSUBs-and-the-Argument-Stack">perlguts XSUBs and the Argument Stack</a> for details
+on how the XPUSH macros work.
+</p>
+</li><li> Because we created temporary values (by means of sv_2mortal() calls)
+we will have to tidy up the Perl stack and dispose of mortal SVs.
+
+<p>This is the purpose of
+</p>
+<pre class="verbatim">    ENTER;
+    SAVETMPS;
+</pre>
+<p>at the start of the function, and
+</p>
+<pre class="verbatim">    FREETMPS;
+    LEAVE;
+</pre>
+<p>at the end. The <code>ENTER</code>/<code>SAVETMPS</code> pair creates a boundary for any
+temporaries we create.  This means that the temporaries we get rid of
+will be limited to those which were created after these calls.
+</p>
+<p>The <code>FREETMPS</code>/<code>LEAVE</code> pair will get rid of any values returned by
+the Perl subroutine (see next example), plus it will also dump the
+mortal SVs we have created.  Having <code>ENTER</code>/<code>SAVETMPS</code> at the
+beginning of the code makes sure that no other mortals are destroyed.
+</p>
+<p>Think of these macros as working a bit like <code>{</code> and <code>}</code> in Perl
+to limit the scope of local variables.
+</p>
+<p>See the section <em>Using Perl to Dispose of Temporaries</em> for details of
+an alternative to using these macros.
+</p>
+</li><li> Finally, <em>LeftString</em> can now be called via the <em>call_pv</em> function.
+The only flag specified this time is G_DISCARD. Because we are passing
+2 parameters to the Perl subroutine this time, we have not specified
+G_NOARGS.
+
+</li></ol>
+
+<hr>
+<a name="perlcall-Returning-a-Scalar"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Returning-a-List-of-Values" accesskey="n" rel="next">perlcall Returning a List of Values</a>, Previous: <a href="#perlcall-Passing-Parameters" accesskey="p" rel="previous">perlcall Passing Parameters</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Returning-a-Scalar"></a>
+<h4 class="subsection">7.5.3 Returning a Scalar</h4>
+
+<p>Now for an example of dealing with the items returned from a Perl
+subroutine.
+</p>
+<p>Here is a Perl subroutine, <em>Adder</em>, that takes 2 integer parameters
+and simply returns their sum.
+</p>
+<pre class="verbatim">    sub Adder
+    {
+        my($a, $b) = @_;
+        $a + $b;
+    }
+</pre>
+<p>Because we are now concerned with the return value from <em>Adder</em>, the C
+function required to call it is now a bit more complex.
+</p>
+<pre class="verbatim">    static void
+    call_Adder(a, b)
+    int a;
+    int b;
+    {
+        dSP;
+        int count;
+
+        ENTER;
+        SAVETMPS;
+
+        PUSHMARK(SP);
+        XPUSHs(sv_2mortal(newSViv(a)));
+        XPUSHs(sv_2mortal(newSViv(b)));
+        PUTBACK;
+
+        count = call_pv(&quot;Adder&quot;, G_SCALAR);
+
+        SPAGAIN;
+
+        if (count != 1)
+            croak(&quot;Big trouble\n&quot;);
+
+        printf (&quot;The sum of %d and %d is %d\n&quot;, a, b, POPi);
+
+        PUTBACK;
+        FREETMPS;
+        LEAVE;
+    }
+</pre>
+<p>Points to note this time are
+</p>
+<ol>
+<li> The only flag specified this time was G_SCALAR. That means that the <code>@_</code>
+array will be created and that the value returned by <em>Adder</em> will
+still exist after the call to <em>call_pv</em>.
+
+</li><li> The purpose of the macro <code>SPAGAIN</code> is to refresh the local copy of the
+stack pointer. This is necessary because it is possible that the memory
+allocated to the Perl stack has been reallocated during the
+<em>call_pv</em> call.
+
+<p>If you are making use of the Perl stack pointer in your code you must
+always refresh the local copy using SPAGAIN whenever you make use
+of the <em>call_*</em> functions or any other Perl internal function.
+</p>
+</li><li> Although only a single value was expected to be returned from <em>Adder</em>,
+it is still good practice to check the return code from <em>call_pv</em>
+anyway.
+
+<p>Expecting a single value is not quite the same as knowing that there
+will be one. If someone modified <em>Adder</em> to return a list and we
+didn&rsquo;t check for that possibility and take appropriate action the Perl
+stack would end up in an inconsistent state. That is something you
+<em>really</em> don&rsquo;t want to happen ever.
+</p>
+</li><li> The <code>POPi</code> macro is used here to pop the return value from the stack.
+In this case we wanted an integer, so <code>POPi</code> was used.
+
+<p>Here is the complete list of POP macros available, along with the types
+they return.
+</p>
+<pre class="verbatim">    POPs        SV
+    POPp        pointer
+    POPn        double
+    POPi        integer
+    POPl        long
+</pre>
+</li><li> The final <code>PUTBACK</code> is used to leave the Perl stack in a consistent
+state before exiting the function.  This is necessary because when we
+popped the return value from the stack with <code>POPi</code> it updated only our
+local copy of the stack pointer.  Remember, <code>PUTBACK</code> sets the global
+stack pointer to be the same as our local copy.
+
+</li></ol>
+
+<hr>
+<a name="perlcall-Returning-a-List-of-Values"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Returning-a-List-in-a-Scalar-Context" accesskey="n" rel="next">perlcall Returning a List in a Scalar Context</a>, Previous: <a href="#perlcall-Returning-a-Scalar" accesskey="p" rel="previous">perlcall Returning a Scalar</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Returning-a-List-of-Values"></a>
+<h4 class="subsection">7.5.4 Returning a List of Values</h4>
+
+<p>Now, let&rsquo;s extend the previous example to return both the sum of the
+parameters and the difference.
+</p>
+<p>Here is the Perl subroutine
+</p>
+<pre class="verbatim">    sub AddSubtract
+    {
+       my($a, $b) = @_;
+       ($a+$b, $a-$b);
+    }
+</pre>
+<p>and this is the C function
+</p>
+<pre class="verbatim">    static void
+    call_AddSubtract(a, b)
+    int a;
+    int b;
+    {
+        dSP;
+        int count;
+
+        ENTER;
+        SAVETMPS;
+
+        PUSHMARK(SP);
+        XPUSHs(sv_2mortal(newSViv(a)));
+        XPUSHs(sv_2mortal(newSViv(b)));
+        PUTBACK;
+
+        count = call_pv(&quot;AddSubtract&quot;, G_ARRAY);
+
+        SPAGAIN;
+
+        if (count != 2)
+            croak(&quot;Big trouble\n&quot;);
+
+        printf (&quot;%d - %d = %d\n&quot;, a, b, POPi);
+        printf (&quot;%d + %d = %d\n&quot;, a, b, POPi);
+
+        PUTBACK;
+        FREETMPS;
+        LEAVE;
+    }
+</pre>
+<p>If <em>call_AddSubtract</em> is called like this
+</p>
+<pre class="verbatim">    call_AddSubtract(7, 4);
+</pre>
+<p>then here is the output
+</p>
+<pre class="verbatim">    7 - 4 = 3
+    7 + 4 = 11
+</pre>
+<p>Notes
+</p>
+<ol>
+<li> We wanted list context, so G_ARRAY was used.
+
+</li><li> Not surprisingly <code>POPi</code> is used twice this time because we were
+retrieving 2 values from the stack. The important thing to note is that
+when using the <code>POP*</code> macros they come off the stack in <em>reverse</em>
+order.
+
+</li></ol>
+
+<hr>
+<a name="perlcall-Returning-a-List-in-a-Scalar-Context"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Returning-Data-from-Perl-via-the-Parameter-List" accesskey="n" rel="next">perlcall Returning Data from Perl via the Parameter List</a>, Previous: <a href="#perlcall-Returning-a-List-of-Values" accesskey="p" rel="previous">perlcall Returning a List of Values</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Returning-a-List-in-a-Scalar-Context"></a>
+<h4 class="subsection">7.5.5 Returning a List in a Scalar Context</h4>
+
+<p>Say the Perl subroutine in the previous section was called in a scalar
+context, like this
+</p>
+<pre class="verbatim">    static void
+    call_AddSubScalar(a, b)
+    int a;
+    int b;
+    {
+        dSP;
+        int count;
+        int i;
+
+        ENTER;
+        SAVETMPS;
+
+        PUSHMARK(SP);
+        XPUSHs(sv_2mortal(newSViv(a)));
+        XPUSHs(sv_2mortal(newSViv(b)));
+        PUTBACK;
+
+        count = call_pv(&quot;AddSubtract&quot;, G_SCALAR);
+
+        SPAGAIN;
+
+        printf (&quot;Items Returned = %d\n&quot;, count);
+
+        for (i = 1; i &lt;= count; ++i)
+            printf (&quot;Value %d = %d\n&quot;, i, POPi);
+
+        PUTBACK;
+        FREETMPS;
+        LEAVE;
+    }
+</pre>
+<p>The other modification made is that <em>call_AddSubScalar</em> will print the
+number of items returned from the Perl subroutine and their value (for
+simplicity it assumes that they are integer).  So if
+<em>call_AddSubScalar</em> is called
+</p>
+<pre class="verbatim">    call_AddSubScalar(7, 4);
+</pre>
+<p>then the output will be
+</p>
+<pre class="verbatim">    Items Returned = 1
+    Value 1 = 3
+</pre>
+<p>In this case the main point to note is that only the last item in the
+list is returned from the subroutine. <em>AddSubtract</em> actually made it back to
+<em>call_AddSubScalar</em>.
+</p>
+<hr>
+<a name="perlcall-Returning-Data-from-Perl-via-the-Parameter-List"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Using-G_005fEVAL" accesskey="n" rel="next">perlcall Using G_EVAL</a>, Previous: <a href="#perlcall-Returning-a-List-in-a-Scalar-Context" accesskey="p" rel="previous">perlcall Returning a List in a Scalar Context</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Returning-Data-from-Perl-via-the-Parameter-List"></a>
+<h4 class="subsection">7.5.6 Returning Data from Perl via the Parameter List</h4>
+
+<p>It is also possible to return values directly via the parameter
+list&ndash;whether it is actually desirable to do it is another matter entirely.
+</p>
+<p>The Perl subroutine, <em>Inc</em>, below takes 2 parameters and increments
+each directly.
+</p>
+<pre class="verbatim">    sub Inc
+    {
+        ++ $_[0];
+        ++ $_[1];
+    }
+</pre>
+<p>and here is a C function to call it.
+</p>
+<pre class="verbatim">    static void
+    call_Inc(a, b)
+    int a;
+    int b;
+    {
+        dSP;
+        int count;
+        SV * sva;
+        SV * svb;
+
+        ENTER;
+        SAVETMPS;
+
+        sva = sv_2mortal(newSViv(a));
+        svb = sv_2mortal(newSViv(b));
+
+        PUSHMARK(SP);
+        XPUSHs(sva);
+        XPUSHs(svb);
+        PUTBACK;
+
+        count = call_pv(&quot;Inc&quot;, G_DISCARD);
+
+        if (count != 0)
+            croak (&quot;call_Inc: expected 0 values from 'Inc', got %d\n&quot;,
+                   count);
+
+        printf (&quot;%d + 1 = %d\n&quot;, a, SvIV(sva));
+        printf (&quot;%d + 1 = %d\n&quot;, b, SvIV(svb));
+
+        FREETMPS;
+        LEAVE;
+    }
+</pre>
+<p>To be able to access the two parameters that were pushed onto the stack
+after they return from <em>call_pv</em> it is necessary to make a note
+of their addresses&ndash;thus the two variables <code>sva</code> and <code>svb</code>.
+</p>
+<p>The reason this is necessary is that the area of the Perl stack which
+held them will very likely have been overwritten by something else by
+the time control returns from <em>call_pv</em>.
+</p>
+<hr>
+<a name="perlcall-Using-G_005fEVAL"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Using-G_005fKEEPERR" accesskey="n" rel="next">perlcall Using G_KEEPERR</a>, Previous: <a href="#perlcall-Returning-Data-from-Perl-via-the-Parameter-List" accesskey="p" rel="previous">perlcall Returning Data from Perl via the Parameter List</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Using-G_005fEVAL"></a>
+<h4 class="subsection">7.5.7 Using G_EVAL</h4>
+
+<p>Now an example using G_EVAL. Below is a Perl subroutine which computes
+the difference of its 2 parameters. If this would result in a negative
+result, the subroutine calls <em>die</em>.
+</p>
+<pre class="verbatim">    sub Subtract
+    {
+        my ($a, $b) = @_;
+
+        die &quot;death can be fatal\n&quot; if $a &lt; $b;
+
+        $a - $b;
+    }
+</pre>
+<p>and some C to call it
+</p>
+<pre class="verbatim">    static void
+    call_Subtract(a, b)
+    int a;
+    int b;
+    {
+        dSP;
+        int count;
+
+        ENTER;
+        SAVETMPS;
+
+        PUSHMARK(SP);
+        XPUSHs(sv_2mortal(newSViv(a)));
+        XPUSHs(sv_2mortal(newSViv(b)));
+        PUTBACK;
+
+        count = call_pv(&quot;Subtract&quot;, G_EVAL|G_SCALAR);
+
+        SPAGAIN;
+
+        /* Check the eval first */
+        if (SvTRUE(ERRSV))
+        {
+            printf (&quot;Uh oh - %s\n&quot;, SvPV_nolen(ERRSV));
+            POPs;
+        }
+        else
+        {
+            if (count != 1)
+               croak(&quot;call_Subtract: wanted 1 value from 'Subtract', got %d\n&quot;,
+                        count);
+
+            printf (&quot;%d - %d = %d\n&quot;, a, b, POPi);
+        }
+
+        PUTBACK;
+        FREETMPS;
+        LEAVE;
+    }
+</pre>
+<p>If <em>call_Subtract</em> is called thus
+</p>
+<pre class="verbatim">    call_Subtract(4, 5)
+</pre>
+<p>the following will be printed
+</p>
+<pre class="verbatim">    Uh oh - death can be fatal
+</pre>
+<p>Notes
+</p>
+<ol>
+<li> We want to be able to catch the <em>die</em> so we have used the G_EVAL
+flag.  Not specifying this flag would mean that the program would
+terminate immediately at the <em>die</em> statement in the subroutine
+<em>Subtract</em>.
+
+</li><li> The code
+
+<pre class="verbatim">    if (SvTRUE(ERRSV))
+    {
+        printf (&quot;Uh oh - %s\n&quot;, SvPV_nolen(ERRSV));
+        POPs;
+    }
+</pre>
+<p>is the direct equivalent of this bit of Perl
+</p>
+<pre class="verbatim">    print &quot;Uh oh - $@\n&quot; if $@;
+</pre>
+<p><code>PL_errgv</code> is a perl global of type <code>GV *</code> that points to the
+symbol table entry containing the error.  <code>ERRSV</code> therefore
+refers to the C equivalent of <code>$@</code>.
+</p>
+</li><li> Note that the stack is popped using <code>POPs</code> in the block where
+<code>SvTRUE(ERRSV)</code> is true.  This is necessary because whenever a
+<em>call_*</em> function invoked with G_EVAL|G_SCALAR returns an error,
+the top of the stack holds the value <em>undef</em>. Because we want the
+program to continue after detecting this error, it is essential that
+the stack be tidied up by removing the <em>undef</em>.
+
+</li></ol>
+
+<hr>
+<a name="perlcall-Using-G_005fKEEPERR"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Using-call_005fsv" accesskey="n" rel="next">perlcall Using call_sv</a>, Previous: <a href="#perlcall-Using-G_005fEVAL" accesskey="p" rel="previous">perlcall Using G_EVAL</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Using-G_005fKEEPERR"></a>
+<h4 class="subsection">7.5.8 Using G_KEEPERR</h4>
+
+<p>Consider this rather facetious example, where we have used an XS
+version of the call_Subtract example above inside a destructor:
+</p>
+<pre class="verbatim">    package Foo;
+    sub new { bless {}, $_[0] }
+    sub Subtract {
+        my($a,$b) = @_;
+        die &quot;death can be fatal&quot; if $a &lt; $b;
+        $a - $b;
+    }
+    sub DESTROY { call_Subtract(5, 4); }
+    sub foo { die &quot;foo dies&quot;; }
+
+    package main;
+    {
+        my $foo = Foo-&gt;new;
+        eval { $foo-&gt;foo };
+    }
+    print &quot;Saw: $@&quot; if $@;             # should be, but isn't
+</pre>
+<p>This example will fail to recognize that an error occurred inside the
+<code>eval {}</code>.  Here&rsquo;s why: the call_Subtract code got executed while perl
+was cleaning up temporaries when exiting the outer braced block, and because
+call_Subtract is implemented with <em>call_pv</em> using the G_EVAL
+flag, it promptly reset <code>$@</code>.  This results in the failure of the
+outermost test for <code>$@</code>, and thereby the failure of the error trap.
+</p>
+<p>Appending the G_KEEPERR flag, so that the <em>call_pv</em> call in
+call_Subtract reads:
+</p>
+<pre class="verbatim">        count = call_pv(&quot;Subtract&quot;, G_EVAL|G_SCALAR|G_KEEPERR);
+</pre>
+<p>will preserve the error and restore reliable error handling.
+</p>
+<hr>
+<a name="perlcall-Using-call_005fsv"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Using-call_005fargv" accesskey="n" rel="next">perlcall Using call_argv</a>, Previous: <a href="#perlcall-Using-G_005fKEEPERR" accesskey="p" rel="previous">perlcall Using G_KEEPERR</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Using-call_005fsv"></a>
+<h4 class="subsection">7.5.9 Using call_sv</h4>
+
+<p>In all the previous examples I have &rsquo;hard-wired&rsquo; the name of the Perl
+subroutine to be called from C.  Most of the time though, it is more
+convenient to be able to specify the name of the Perl subroutine from
+within the Perl script.
+</p>
+<p>Consider the Perl code below
+</p>
+<pre class="verbatim">    sub fred
+    {
+        print &quot;Hello there\n&quot;;
+    }
+
+    CallSubPV(&quot;fred&quot;);
+</pre>
+<p>Here is a snippet of XSUB which defines <em>CallSubPV</em>.
+</p>
+<pre class="verbatim">    void
+    CallSubPV(name)
+        char *  name
+        CODE:
+        PUSHMARK(SP);
+        call_pv(name, G_DISCARD|G_NOARGS);
+</pre>
+<p>That is fine as far as it goes. The thing is, the Perl subroutine
+can be specified as only a string.  For Perl 4 this was adequate,
+but Perl 5 allows references to subroutines and anonymous subroutines.
+This is where <em>call_sv</em> is useful.
+</p>
+<p>The code below for <em>CallSubSV</em> is identical to <em>CallSubPV</em> except
+that the <code>name</code> parameter is now defined as an SV* and we use
+<em>call_sv</em> instead of <em>call_pv</em>.
+</p>
+<pre class="verbatim">    void
+    CallSubSV(name)
+        SV *    name
+        CODE:
+        PUSHMARK(SP);
+        call_sv(name, G_DISCARD|G_NOARGS);
+</pre>
+<p>Because we are using an SV to call <em>fred</em> the following can all be used:
+</p>
+<pre class="verbatim">    CallSubSV(&quot;fred&quot;);
+    CallSubSV(\&amp;fred);
+    $ref = \&amp;fred;
+    CallSubSV($ref);
+    CallSubSV( sub { print &quot;Hello there\n&quot; } );
+</pre>
+<p>As you can see, <em>call_sv</em> gives you much greater flexibility in
+how you can specify the Perl subroutine.
+</p>
+<p>You should note that, if it is necessary to store the SV (<code>name</code> in the
+example above) which corresponds to the Perl subroutine so that it can
+be used later in the program, it not enough just to store a copy of the
+pointer to the SV. Say the code above had been like this:
+</p>
+<pre class="verbatim">    static SV * rememberSub;
+
+    void
+    SaveSub1(name)
+        SV *    name
+        CODE:
+        rememberSub = name;
+
+    void
+    CallSavedSub1()
+        CODE:
+        PUSHMARK(SP);
+        call_sv(rememberSub, G_DISCARD|G_NOARGS);
+</pre>
+<p>The reason this is wrong is that, by the time you come to use the
+pointer <code>rememberSub</code> in <code>CallSavedSub1</code>, it may or may not still refer
+to the Perl subroutine that was recorded in <code>SaveSub1</code>.  This is
+particularly true for these cases:
+</p>
+<pre class="verbatim">    SaveSub1(\&amp;fred);
+    CallSavedSub1();
+
+    SaveSub1( sub { print &quot;Hello there\n&quot; } );
+    CallSavedSub1();
+</pre>
+<p>By the time each of the <code>SaveSub1</code> statements above has been executed,
+the SV*s which corresponded to the parameters will no longer exist.
+Expect an error message from Perl of the form
+</p>
+<pre class="verbatim">    Can't use an undefined value as a subroutine reference at ...
+</pre>
+<p>for each of the <code>CallSavedSub1</code> lines.
+</p>
+<p>Similarly, with this code
+</p>
+<pre class="verbatim">    $ref = \&amp;fred;
+    SaveSub1($ref);
+    $ref = 47;
+    CallSavedSub1();
+</pre>
+<p>you can expect one of these messages (which you actually get is dependent on
+the version of Perl you are using)
+</p>
+<pre class="verbatim">    Not a CODE reference at ...
+    Undefined subroutine &amp;main::47 called ...
+</pre>
+<p>The variable $ref may have referred to the subroutine <code>fred</code>
+whenever the call to <code>SaveSub1</code> was made but by the time
+<code>CallSavedSub1</code> gets called it now holds the number <code>47</code>. Because we
+saved only a pointer to the original SV in <code>SaveSub1</code>, any changes to
+$ref will be tracked by the pointer <code>rememberSub</code>. This means that
+whenever <code>CallSavedSub1</code> gets called, it will attempt to execute the
+code which is referenced by the SV* <code>rememberSub</code>.  In this case
+though, it now refers to the integer <code>47</code>, so expect Perl to complain
+loudly.
+</p>
+<p>A similar but more subtle problem is illustrated with this code:
+</p>
+<pre class="verbatim">    $ref = \&amp;fred;
+    SaveSub1($ref);
+    $ref = \&amp;joe;
+    CallSavedSub1();
+</pre>
+<p>This time whenever <code>CallSavedSub1</code> gets called it will execute the Perl
+subroutine <code>joe</code> (assuming it exists) rather than <code>fred</code> as was
+originally requested in the call to <code>SaveSub1</code>.
+</p>
+<p>To get around these problems it is necessary to take a full copy of the
+SV.  The code below shows <code>SaveSub2</code> modified to do that.
+</p>
+<pre class="verbatim">    static SV * keepSub = (SV*)NULL;
+
+    void
+    SaveSub2(name)
+        SV *    name
+        CODE:
+        /* Take a copy of the callback */
+        if (keepSub == (SV*)NULL)
+            /* First time, so create a new SV */
+            keepSub = newSVsv(name);
+        else
+            /* Been here before, so overwrite */
+            SvSetSV(keepSub, name);
+
+    void
+    CallSavedSub2()
+        CODE:
+        PUSHMARK(SP);
+        call_sv(keepSub, G_DISCARD|G_NOARGS);
+</pre>
+<p>To avoid creating a new SV every time <code>SaveSub2</code> is called,
+the function first checks to see if it has been called before.  If not,
+then space for a new SV is allocated and the reference to the Perl
+subroutine <code>name</code> is copied to the variable <code>keepSub</code> in one
+operation using <code>newSVsv</code>.  Thereafter, whenever <code>SaveSub2</code> is called,
+the existing SV, <code>keepSub</code>, is overwritten with the new value using
+<code>SvSetSV</code>.
+</p>
+<hr>
+<a name="perlcall-Using-call_005fargv"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Using-call_005fmethod" accesskey="n" rel="next">perlcall Using call_method</a>, Previous: <a href="#perlcall-Using-call_005fsv" accesskey="p" rel="previous">perlcall Using call_sv</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Using-call_005fargv"></a>
+<h4 class="subsection">7.5.10 Using call_argv</h4>
+
+<p>Here is a Perl subroutine which prints whatever parameters are passed
+to it.
+</p>
+<pre class="verbatim">    sub PrintList
+    {
+        my(@list) = @_;
+
+        foreach (@list) { print &quot;$_\n&quot; }
+    }
+</pre>
+<p>And here is an example of <em>call_argv</em> which will call
+<em>PrintList</em>.
+</p>
+<pre class="verbatim">    static char * words[] = {&quot;alpha&quot;, &quot;beta&quot;, &quot;gamma&quot;, &quot;delta&quot;, NULL};
+
+    static void
+    call_PrintList()
+    {
+        dSP;
+
+        call_argv(&quot;PrintList&quot;, G_DISCARD, words);
+    }
+</pre>
+<p>Note that it is not necessary to call <code>PUSHMARK</code> in this instance.
+This is because <em>call_argv</em> will do it for you.
+</p>
+<hr>
+<a name="perlcall-Using-call_005fmethod"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Using-GIMME_005fV" accesskey="n" rel="next">perlcall Using GIMME_V</a>, Previous: <a href="#perlcall-Using-call_005fargv" accesskey="p" rel="previous">perlcall Using call_argv</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Using-call_005fmethod"></a>
+<h4 class="subsection">7.5.11 Using call_method</h4>
+
+<p>Consider the following Perl code:
+</p>
+<pre class="verbatim">    {
+        package Mine;
+
+        sub new
+        {
+            my($type) = shift;
+            bless [@_]
+        }
+
+        sub Display
+        {
+            my ($self, $index) = @_;
+            print &quot;$index: $$self[$index]\n&quot;;
+        }
+
+        sub PrintID
+        {
+            my($class) = @_;
+            print &quot;This is Class $class version 1.0\n&quot;;
+        }
+    }
+</pre>
+<p>It implements just a very simple class to manage an array.  Apart from
+the constructor, <code>new</code>, it declares methods, one static and one
+virtual. The static method, <code>PrintID</code>, prints out simply the class
+name and a version number. The virtual method, <code>Display</code>, prints out a
+single element of the array.  Here is an all-Perl example of using it.
+</p>
+<pre class="verbatim">    $a = Mine-&gt;new('red', 'green', 'blue');
+    $a-&gt;Display(1);
+    Mine-&gt;PrintID;
+</pre>
+<p>will print
+</p>
+<pre class="verbatim">    1: green
+    This is Class Mine version 1.0
+</pre>
+<p>Calling a Perl method from C is fairly straightforward. The following
+things are required:
+</p>
+<ul>
+<li> A reference to the object for a virtual method or the name of the class
+for a static method
+
+</li><li> The name of the method
+
+</li><li> Any other parameters specific to the method
+
+</li></ul>
+
+<p>Here is a simple XSUB which illustrates the mechanics of calling both
+the <code>PrintID</code> and <code>Display</code> methods from C.
+</p>
+<pre class="verbatim">    void
+    call_Method(ref, method, index)
+        SV *    ref
+        char *  method
+        int             index
+        CODE:
+        PUSHMARK(SP);
+        XPUSHs(ref);
+        XPUSHs(sv_2mortal(newSViv(index)));
+        PUTBACK;
+
+        call_method(method, G_DISCARD);
+
+    void
+    call_PrintID(class, method)
+        char *  class
+        char *  method
+        CODE:
+        PUSHMARK(SP);
+        XPUSHs(sv_2mortal(newSVpv(class, 0)));
+        PUTBACK;
+
+        call_method(method, G_DISCARD);
+</pre>
+<p>So the methods <code>PrintID</code> and <code>Display</code> can be invoked like this:
+</p>
+<pre class="verbatim">    $a = Mine-&gt;new('red', 'green', 'blue');
+    call_Method($a, 'Display', 1);
+    call_PrintID('Mine', 'PrintID');
+</pre>
+<p>The only thing to note is that, in both the static and virtual methods,
+the method name is not passed via the stack&ndash;it is used as the first
+parameter to <em>call_method</em>.
+</p>
+<hr>
+<a name="perlcall-Using-GIMME_005fV"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Using-Perl-to-Dispose-of-Temporaries" accesskey="n" rel="next">perlcall Using Perl to Dispose of Temporaries</a>, Previous: <a href="#perlcall-Using-call_005fmethod" accesskey="p" rel="previous">perlcall Using call_method</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Using-GIMME_005fV"></a>
+<h4 class="subsection">7.5.12 Using GIMME_V</h4>
+
+<p>Here is a trivial XSUB which prints the context in which it is
+currently executing.
+</p>
+<pre class="verbatim">    void
+    PrintContext()
+        CODE:
+        I32 gimme = GIMME_V;
+        if (gimme == G_VOID)
+            printf (&quot;Context is Void\n&quot;);
+        else if (gimme == G_SCALAR)
+            printf (&quot;Context is Scalar\n&quot;);
+        else
+            printf (&quot;Context is Array\n&quot;);
+</pre>
+<p>And here is some Perl to test it.
+</p>
+<pre class="verbatim">    PrintContext;
+    $a = PrintContext;
+    @a = PrintContext;
+</pre>
+<p>The output from that will be
+</p>
+<pre class="verbatim">    Context is Void
+    Context is Scalar
+    Context is Array
+</pre>
+<hr>
+<a name="perlcall-Using-Perl-to-Dispose-of-Temporaries"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Strategies-for-Storing-Callback-Context-Information" accesskey="n" rel="next">perlcall Strategies for Storing Callback Context Information</a>, Previous: <a href="#perlcall-Using-GIMME_005fV" accesskey="p" rel="previous">perlcall Using GIMME_V</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Using-Perl-to-Dispose-of-Temporaries"></a>
+<h4 class="subsection">7.5.13 Using Perl to Dispose of Temporaries</h4>
+
+<p>In the examples given to date, any temporaries created in the callback
+(i.e., parameters passed on the stack to the <em>call_*</em> function or
+values returned via the stack) have been freed by one of these methods:
+</p>
+<ul>
+<li> Specifying the G_DISCARD flag with <em>call_*</em>
+
+</li><li> Explicitly using the <code>ENTER</code>/<code>SAVETMPS</code>&ndash;<code>FREETMPS</code>/<code>LEAVE</code> pairing
+
+</li></ul>
+
+<p>There is another method which can be used, namely letting Perl do it
+for you automatically whenever it regains control after the callback
+has terminated.  This is done by simply not using the
+</p>
+<pre class="verbatim">    ENTER;
+    SAVETMPS;
+    ...
+    FREETMPS;
+    LEAVE;
+</pre>
+<p>sequence in the callback (and not, of course, specifying the G_DISCARD
+flag).
+</p>
+<p>If you are going to use this method you have to be aware of a possible
+memory leak which can arise under very specific circumstances.  To
+explain these circumstances you need to know a bit about the flow of
+control between Perl and the callback routine.
+</p>
+<p>The examples given at the start of the document (an error handler and
+an event driven program) are typical of the two main sorts of flow
+control that you are likely to encounter with callbacks.  There is a
+very important distinction between them, so pay attention.
+</p>
+<p>In the first example, an error handler, the flow of control could be as
+follows.  You have created an interface to an external library.
+Control can reach the external library like this
+</p>
+<pre class="verbatim">    perl --&gt; XSUB --&gt; external library
+</pre>
+<p>Whilst control is in the library, an error condition occurs. You have
+previously set up a Perl callback to handle this situation, so it will
+get executed. Once the callback has finished, control will drop back to
+Perl again.  Here is what the flow of control will be like in that
+situation
+</p>
+<pre class="verbatim">    perl --&gt; XSUB --&gt; external library
+                      ...
+                      error occurs
+                      ...
+                      external library --&gt; call_* --&gt; perl
+                                                          |
+    perl &lt;-- XSUB &lt;-- external library &lt;-- call_* &lt;----+
+</pre>
+<p>After processing of the error using <em>call_*</em> is completed,
+control reverts back to Perl more or less immediately.
+</p>
+<p>In the diagram, the further right you go the more deeply nested the
+scope is.  It is only when control is back with perl on the extreme
+left of the diagram that you will have dropped back to the enclosing
+scope and any temporaries you have left hanging around will be freed.
+</p>
+<p>In the second example, an event driven program, the flow of control
+will be more like this
+</p>
+<pre class="verbatim">    perl --&gt; XSUB --&gt; event handler
+                      ...
+                      event handler --&gt; call_* --&gt; perl
+                                                       |
+                      event handler &lt;-- call_* &lt;----+
+                      ...
+                      event handler --&gt; call_* --&gt; perl
+                                                       |
+                      event handler &lt;-- call_* &lt;----+
+                      ...
+                      event handler --&gt; call_* --&gt; perl
+                                                       |
+                      event handler &lt;-- call_* &lt;----+
+</pre>
+<p>In this case the flow of control can consist of only the repeated
+sequence
+</p>
+<pre class="verbatim">    event handler --&gt; call_* --&gt; perl
+</pre>
+<p>for practically the complete duration of the program.  This means that
+control may <em>never</em> drop back to the surrounding scope in Perl at the
+extreme left.
+</p>
+<p>So what is the big problem? Well, if you are expecting Perl to tidy up
+those temporaries for you, you might be in for a long wait.  For Perl
+to dispose of your temporaries, control must drop back to the
+enclosing scope at some stage.  In the event driven scenario that may
+never happen.  This means that, as time goes on, your program will
+create more and more temporaries, none of which will ever be freed. As
+each of these temporaries consumes some memory your program will
+eventually consume all the available memory in your system&ndash;kapow!
+</p>
+<p>So here is the bottom line&ndash;if you are sure that control will revert
+back to the enclosing Perl scope fairly quickly after the end of your
+callback, then it isn&rsquo;t absolutely necessary to dispose explicitly of
+any temporaries you may have created. Mind you, if you are at all
+uncertain about what to do, it doesn&rsquo;t do any harm to tidy up anyway.
+</p>
+<hr>
+<a name="perlcall-Strategies-for-Storing-Callback-Context-Information"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Alternate-Stack-Manipulation" accesskey="n" rel="next">perlcall Alternate Stack Manipulation</a>, Previous: <a href="#perlcall-Using-Perl-to-Dispose-of-Temporaries" accesskey="p" rel="previous">perlcall Using Perl to Dispose of Temporaries</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Strategies-for-Storing-Callback-Context-Information"></a>
+<h4 class="subsection">7.5.14 Strategies for Storing Callback Context Information</h4>
+
+<p>Potentially one of the trickiest problems to overcome when designing a
+callback interface can be figuring out how to store the mapping between
+the C callback function and the Perl equivalent.
+</p>
+<p>To help understand why this can be a real problem first consider how a
+callback is set up in an all C environment.  Typically a C API will
+provide a function to register a callback.  This will expect a pointer
+to a function as one of its parameters.  Below is a call to a
+hypothetical function <code>register_fatal</code> which registers the C function
+to get called when a fatal error occurs.
+</p>
+<pre class="verbatim">    register_fatal(cb1);
+</pre>
+<p>The single parameter <code>cb1</code> is a pointer to a function, so you must
+have defined <code>cb1</code> in your code, say something like this
+</p>
+<pre class="verbatim">    static void
+    cb1()
+    {
+        printf (&quot;Fatal Error\n&quot;);
+        exit(1);
+    }
+</pre>
+<p>Now change that to call a Perl subroutine instead
+</p>
+<pre class="verbatim">    static SV * callback = (SV*)NULL;
+
+    static void
+    cb1()
+    {
+        dSP;
+
+        PUSHMARK(SP);
+
+        /* Call the Perl sub to process the callback */
+        call_sv(callback, G_DISCARD);
+    }
+
+
+    void
+    register_fatal(fn)
+        SV *    fn
+        CODE:
+        /* Remember the Perl sub */
+        if (callback == (SV*)NULL)
+            callback = newSVsv(fn);
+        else
+            SvSetSV(callback, fn);
+
+        /* register the callback with the external library */
+        register_fatal(cb1);
+</pre>
+<p>where the Perl equivalent of <code>register_fatal</code> and the callback it
+registers, <code>pcb1</code>, might look like this
+</p>
+<pre class="verbatim">    # Register the sub pcb1
+    register_fatal(\&amp;pcb1);
+
+    sub pcb1
+    {
+        die &quot;I'm dying...\n&quot;;
+    }
+</pre>
+<p>The mapping between the C callback and the Perl equivalent is stored in
+the global variable <code>callback</code>.
+</p>
+<p>This will be adequate if you ever need to have only one callback
+registered at any time. An example could be an error handler like the
+code sketched out above. Remember though, repeated calls to
+<code>register_fatal</code> will replace the previously registered callback
+function with the new one.
+</p>
+<p>Say for example you want to interface to a library which allows asynchronous
+file i/o.  In this case you may be able to register a callback whenever
+a read operation has completed. To be of any use we want to be able to
+call separate Perl subroutines for each file that is opened.  As it
+stands, the error handler example above would not be adequate as it
+allows only a single callback to be defined at any time. What we
+require is a means of storing the mapping between the opened file and
+the Perl subroutine we want to be called for that file.
+</p>
+<p>Say the i/o library has a function <code>asynch_read</code> which associates a C
+function <code>ProcessRead</code> with a file handle <code>fh</code>&ndash;this assumes that it
+has also provided some routine to open the file and so obtain the file
+handle.
+</p>
+<pre class="verbatim">    asynch_read(fh, ProcessRead)
+</pre>
+<p>This may expect the C <em>ProcessRead</em> function of this form
+</p>
+<pre class="verbatim">    void
+    ProcessRead(fh, buffer)
+    int fh;
+    char *      buffer;
+    {
+         ...
+    }
+</pre>
+<p>To provide a Perl interface to this library we need to be able to map
+between the <code>fh</code> parameter and the Perl subroutine we want called.  A
+hash is a convenient mechanism for storing this mapping.  The code
+below shows a possible implementation
+</p>
+<pre class="verbatim">    static HV * Mapping = (HV*)NULL;
+
+    void
+    asynch_read(fh, callback)
+        int     fh
+        SV *    callback
+        CODE:
+        /* If the hash doesn't already exist, create it */
+        if (Mapping == (HV*)NULL)
+            Mapping = newHV();
+
+        /* Save the fh -&gt; callback mapping */
+        hv_store(Mapping, (char*)&amp;fh, sizeof(fh), newSVsv(callback), 0);
+
+        /* Register with the C Library */
+        asynch_read(fh, asynch_read_if);
+</pre>
+<p>and <code>asynch_read_if</code> could look like this
+</p>
+<pre class="verbatim">    static void
+    asynch_read_if(fh, buffer)
+    int fh;
+    char *      buffer;
+    {
+        dSP;
+        SV ** sv;
+
+        /* Get the callback associated with fh */
+        sv =  hv_fetch(Mapping, (char*)&amp;fh , sizeof(fh), FALSE);
+        if (sv == (SV**)NULL)
+            croak(&quot;Internal error...\n&quot;);
+
+        PUSHMARK(SP);
+        XPUSHs(sv_2mortal(newSViv(fh)));
+        XPUSHs(sv_2mortal(newSVpv(buffer, 0)));
+        PUTBACK;
+
+        /* Call the Perl sub */
+        call_sv(*sv, G_DISCARD);
+    }
+</pre>
+<p>For completeness, here is <code>asynch_close</code>.  This shows how to remove
+the entry from the hash <code>Mapping</code>.
+</p>
+<pre class="verbatim">    void
+    asynch_close(fh)
+        int     fh
+        CODE:
+        /* Remove the entry from the hash */
+        (void) hv_delete(Mapping, (char*)&amp;fh, sizeof(fh), G_DISCARD);
+
+        /* Now call the real asynch_close */
+        asynch_close(fh);
+</pre>
+<p>So the Perl interface would look like this
+</p>
+<pre class="verbatim">    sub callback1
+    {
+        my($handle, $buffer) = @_;
+    }
+
+    # Register the Perl callback
+    asynch_read($fh, \&amp;callback1);
+
+    asynch_close($fh);
+</pre>
+<p>The mapping between the C callback and Perl is stored in the global
+hash <code>Mapping</code> this time. Using a hash has the distinct advantage that
+it allows an unlimited number of callbacks to be registered.
+</p>
+<p>What if the interface provided by the C callback doesn&rsquo;t contain a
+parameter which allows the file handle to Perl subroutine mapping?  Say
+in the asynchronous i/o package, the callback function gets passed only
+the <code>buffer</code> parameter like this
+</p>
+<pre class="verbatim">    void
+    ProcessRead(buffer)
+    char *      buffer;
+    {
+        ...
+    }
+</pre>
+<p>Without the file handle there is no straightforward way to map from the
+C callback to the Perl subroutine.
+</p>
+<p>In this case a possible way around this problem is to predefine a
+series of C functions to act as the interface to Perl, thus
+</p>
+<pre class="verbatim">    #define MAX_CB              3
+    #define NULL_HANDLE -1
+    typedef void (*FnMap)();
+
+    struct MapStruct {
+        FnMap    Function;
+        SV *     PerlSub;
+        int      Handle;
+      };
+
+    static void  fn1();
+    static void  fn2();
+    static void  fn3();
+
+    static struct MapStruct Map [MAX_CB] =
+        {
+            { fn1, NULL, NULL_HANDLE },
+            { fn2, NULL, NULL_HANDLE },
+            { fn3, NULL, NULL_HANDLE }
+        };
+
+    static void
+    Pcb(index, buffer)
+    int index;
+    char * buffer;
+    {
+        dSP;
+
+        PUSHMARK(SP);
+        XPUSHs(sv_2mortal(newSVpv(buffer, 0)));
+        PUTBACK;
+
+        /* Call the Perl sub */
+        call_sv(Map[index].PerlSub, G_DISCARD);
+    }
+
+    static void
+    fn1(buffer)
+    char * buffer;
+    {
+        Pcb(0, buffer);
+    }
+
+    static void
+    fn2(buffer)
+    char * buffer;
+    {
+        Pcb(1, buffer);
+    }
+
+    static void
+    fn3(buffer)
+    char * buffer;
+    {
+        Pcb(2, buffer);
+    }
+
+    void
+    array_asynch_read(fh, callback)
+        int             fh
+        SV *    callback
+        CODE:
+        int index;
+        int null_index = MAX_CB;
+
+        /* Find the same handle or an empty entry */
+        for (index = 0; index &lt; MAX_CB; ++index)
+        {
+            if (Map[index].Handle == fh)
+                break;
+
+            if (Map[index].Handle == NULL_HANDLE)
+                null_index = index;
+        }
+
+        if (index == MAX_CB &amp;&amp; null_index == MAX_CB)
+            croak (&quot;Too many callback functions registered\n&quot;);
+
+        if (index == MAX_CB)
+            index = null_index;
+
+        /* Save the file handle */
+        Map[index].Handle = fh;
+
+        /* Remember the Perl sub */
+        if (Map[index].PerlSub == (SV*)NULL)
+            Map[index].PerlSub = newSVsv(callback);
+        else
+            SvSetSV(Map[index].PerlSub, callback);
+
+        asynch_read(fh, Map[index].Function);
+
+    void
+    array_asynch_close(fh)
+        int     fh
+        CODE:
+        int index;
+
+        /* Find the file handle */
+        for (index = 0; index &lt; MAX_CB; ++ index)
+            if (Map[index].Handle == fh)
+                break;
+
+        if (index == MAX_CB)
+            croak (&quot;could not close fh %d\n&quot;, fh);
+
+        Map[index].Handle = NULL_HANDLE;
+        SvREFCNT_dec(Map[index].PerlSub);
+        Map[index].PerlSub = (SV*)NULL;
+
+        asynch_close(fh);
+</pre>
+<p>In this case the functions <code>fn1</code>, <code>fn2</code>, and <code>fn3</code> are used to
+remember the Perl subroutine to be called. Each of the functions holds
+a separate hard-wired index which is used in the function <code>Pcb</code> to
+access the <code>Map</code> array and actually call the Perl subroutine.
+</p>
+<p>There are some obvious disadvantages with this technique.
+</p>
+<p>Firstly, the code is considerably more complex than with the previous
+example.
+</p>
+<p>Secondly, there is a hard-wired limit (in this case 3) to the number of
+callbacks that can exist simultaneously. The only way to increase the
+limit is by modifying the code to add more functions and then
+recompiling.  None the less, as long as the number of functions is
+chosen with some care, it is still a workable solution and in some
+cases is the only one available.
+</p>
+<p>To summarize, here are a number of possible methods for you to consider
+for storing the mapping between C and the Perl callback
+</p>
+<dl compact="compact">
+<dt>1. Ignore the problem - Allow only 1 callback</dt>
+<dd><a name="perlcall-1_002e-Ignore-the-problem-_002d-Allow-only-1-callback"></a>
+<p>For a lot of situations, like interfacing to an error handler, this may
+be a perfectly adequate solution.
+</p>
+</dd>
+<dt>2. Create a sequence of callbacks - hard wired limit</dt>
+<dd><a name="perlcall-2_002e-Create-a-sequence-of-callbacks-_002d-hard-wired-limit"></a>
+<p>If it is impossible to tell from the parameters passed back from the C
+callback what the context is, then you may need to create a sequence of C
+callback interface functions, and store pointers to each in an array.
+</p>
+</dd>
+<dt>3. Use a parameter to map to the Perl callback</dt>
+<dd><a name="perlcall-3_002e-Use-a-parameter-to-map-to-the-Perl-callback"></a>
+<p>A hash is an ideal mechanism to store the mapping between C and Perl.
+</p>
+</dd>
+</dl>
+
+<hr>
+<a name="perlcall-Alternate-Stack-Manipulation"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-Creating-and-Calling-an-Anonymous-Subroutine-in-C" accesskey="n" rel="next">perlcall Creating and Calling an Anonymous Subroutine in C</a>, Previous: <a href="#perlcall-Strategies-for-Storing-Callback-Context-Information" accesskey="p" rel="previous">perlcall Strategies for Storing Callback Context Information</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Alternate-Stack-Manipulation"></a>
+<h4 class="subsection">7.5.15 Alternate Stack Manipulation</h4>
+
+<p>Although I have made use of only the <code>POP*</code> macros to access values
+returned from Perl subroutines, it is also possible to bypass these
+macros and read the stack using the <code>ST</code> macro (See <a href="../perlxs/index.html">(perlxs)</a> for a
+full description of the <code>ST</code> macro).
+</p>
+<p>Most of the time the <code>POP*</code> macros should be adequate; the main
+problem with them is that they force you to process the returned values
+in sequence. This may not be the most suitable way to process the
+values in some cases. What we want is to be able to access the stack in
+a random order. The <code>ST</code> macro as used when coding an XSUB is ideal
+for this purpose.
+</p>
+<p>The code below is the example given in the section <em>Returning a List
+of Values</em> recoded to use <code>ST</code> instead of <code>POP*</code>.
+</p>
+<pre class="verbatim">    static void
+    call_AddSubtract2(a, b)
+    int a;
+    int b;
+    {
+        dSP;
+        I32 ax;
+        int count;
+
+        ENTER;
+        SAVETMPS;
+
+        PUSHMARK(SP);
+        XPUSHs(sv_2mortal(newSViv(a)));
+        XPUSHs(sv_2mortal(newSViv(b)));
+        PUTBACK;
+
+        count = call_pv(&quot;AddSubtract&quot;, G_ARRAY);
+
+        SPAGAIN;
+        SP -= count;
+        ax = (SP - PL_stack_base) + 1;
+
+        if (count != 2)
+            croak(&quot;Big trouble\n&quot;);
+
+        printf (&quot;%d + %d = %d\n&quot;, a, b, SvIV(ST(0)));
+        printf (&quot;%d - %d = %d\n&quot;, a, b, SvIV(ST(1)));
+
+        PUTBACK;
+        FREETMPS;
+        LEAVE;
+    }
+</pre>
+<p>Notes
+</p>
+<ol>
+<li> Notice that it was necessary to define the variable <code>ax</code>.  This is
+because the <code>ST</code> macro expects it to exist.  If we were in an XSUB it
+would not be necessary to define <code>ax</code> as it is already defined for
+us.
+
+</li><li> The code
+
+<pre class="verbatim">        SPAGAIN;
+        SP -= count;
+        ax = (SP - PL_stack_base) + 1;
+</pre>
+<p>sets the stack up so that we can use the <code>ST</code> macro.
+</p>
+</li><li> Unlike the original coding of this example, the returned
+values are not accessed in reverse order.  So <code>ST(0)</code> refers to the
+first value returned by the Perl subroutine and <code>ST(count-1)</code>
+refers to the last.
+
+</li></ol>
+
+<hr>
+<a name="perlcall-Creating-and-Calling-an-Anonymous-Subroutine-in-C"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlcall-Alternate-Stack-Manipulation" accesskey="p" rel="previous">perlcall Alternate Stack Manipulation</a>, Up: <a href="#perlcall-EXAMPLES" accesskey="u" rel="up">perlcall EXAMPLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Creating-and-Calling-an-Anonymous-Subroutine-in-C"></a>
+<h4 class="subsection">7.5.16 Creating and Calling an Anonymous Subroutine in C</h4>
+
+<p>As we&rsquo;ve already shown, <code>call_sv</code> can be used to invoke an
+anonymous subroutine.  However, our example showed a Perl script
+invoking an XSUB to perform this operation.  Let&rsquo;s see how it can be
+done inside our C code:
+</p>
+<pre class="verbatim"> ...
+
+ SV *cvrv = eval_pv(&quot;sub { print 'You will not find me cluttering any namespace!' }&quot;, TRUE);
+
+ ...
+
+ call_sv(cvrv, G_VOID|G_NOARGS);
+</pre>
+<p><code>eval_pv</code> is used to compile the anonymous subroutine, which
+will be the return value as well (read more about <code>eval_pv</code> in
+<a href="../perlapi/eval_005fpv.html#eval_005fpv">(perlapi)eval_pv</a>).  Once this code reference is in hand, it
+can be mixed in with all the previous examples we&rsquo;ve shown.
+</p>
+<hr>
+<a name="perlcall-LIGHTWEIGHT-CALLBACKS"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-SEE-ALSO" accesskey="n" rel="next">perlcall SEE ALSO</a>, Previous: <a href="#perlcall-EXAMPLES" accesskey="p" rel="previous">perlcall EXAMPLES</a>, Up: <a href="#perlcall" accesskey="u" rel="up">perlcall</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="LIGHTWEIGHT-CALLBACKS"></a>
+<h3 class="section">7.6 LIGHTWEIGHT CALLBACKS</h3>
+
+<p>Sometimes you need to invoke the same subroutine repeatedly.
+This usually happens with a function that acts on a list of
+values, such as Perl&rsquo;s built-in sort(). You can pass a
+comparison function to sort(), which will then be invoked
+for every pair of values that needs to be compared. The first()
+and reduce() functions from <a href="../List-Util/index.html">(List-Util)</a> follow a similar
+pattern.
+</p>
+<p>In this case it is possible to speed up the routine (often
+quite substantially) by using the lightweight callback API.
+The idea is that the calling context only needs to be
+created and destroyed once, and the sub can be called
+arbitrarily many times in between.
+</p>
+<p>It is usual to pass parameters using global variables (typically
+$_ for one parameter, or $a and $b for two parameters) rather
+than via @_. (It is possible to use the @_ mechanism if you know
+what you&rsquo;re doing, though there is as yet no supported API for
+it. It&rsquo;s also inherently slower.)
+</p>
+<p>The pattern of macro calls is like this:
+</p>
+<pre class="verbatim">    dMULTICALL;                 /* Declare local variables */
+    I32 gimme = G_SCALAR;       /* context of the call: G_SCALAR,
+                                 * G_ARRAY, or G_VOID */
+
+    PUSH_MULTICALL(cv);         /* Set up the context for calling cv,
+                                   and set local vars appropriately */
+
+    /* loop */ {
+        /* set the value(s) af your parameter variables */
+        MULTICALL;              /* Make the actual call */
+    } /* end of loop */
+
+    POP_MULTICALL;              /* Tear down the calling context */
+</pre>
+<p>For some concrete examples, see the implementation of the
+first() and reduce() functions of List::Util 1.18. There you
+will also find a header file that emulates the multicall API
+on older versions of perl.
+</p>
+<hr>
+<a name="perlcall-SEE-ALSO"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-AUTHOR" accesskey="n" rel="next">perlcall AUTHOR</a>, Previous: <a href="#perlcall-LIGHTWEIGHT-CALLBACKS" accesskey="p" rel="previous">perlcall LIGHTWEIGHT CALLBACKS</a>, Up: <a href="#perlcall" accesskey="u" rel="up">perlcall</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="SEE-ALSO-1"></a>
+<h3 class="section">7.7 SEE ALSO</h3>
+
+<p><a href="../perlxs/index.html">(perlxs)</a>, <a href="perlguts.html#perlguts-NAME">perlguts NAME</a>, <a href="perlembed.html#perlembed-NAME">perlembed NAME</a>
+</p>
+<hr>
+<a name="perlcall-AUTHOR"></a>
+<div class="header">
+<p>
+Next: <a href="#perlcall-DATE" accesskey="n" rel="next">perlcall DATE</a>, Previous: <a href="#perlcall-SEE-ALSO" accesskey="p" rel="previous">perlcall SEE ALSO</a>, Up: <a href="#perlcall" accesskey="u" rel="up">perlcall</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="AUTHOR-1"></a>
+<h3 class="section">7.8 AUTHOR</h3>
+
+<p>Paul Marquess 
+</p>
+<p>Special thanks to the following people who assisted in the creation of
+the document.
+</p>
+<p>Jeff Okamoto, Tim Bunce, Nick Gianniotis, Steve Kelem, Gurusamy Sarathy
+and Larry Wall.
+</p>
+<hr>
+<a name="perlcall-DATE"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlcall-AUTHOR" accesskey="p" rel="previous">perlcall AUTHOR</a>, Up: <a href="#perlcall" accesskey="u" rel="up">perlcall</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DATE"></a>
+<h3 class="section">7.9 DATE</h3>
+
+<p>Version 1.3, 14th Apr 1997
+</p>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perlcall-AUTHOR" accesskey="p" rel="previous">perlcall AUTHOR</a>, Up: <a href="#perlcall" accesskey="u" rel="up">perlcall</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

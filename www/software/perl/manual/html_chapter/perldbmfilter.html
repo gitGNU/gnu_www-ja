@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 4.13.97+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perldbmfilter</title>
+
+<meta name="description" content="Perl pod documentation: perldbmfilter">
+<meta name="keywords" content="Perl pod documentation: perldbmfilter">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="perldebguts.html#perldebguts" rel="next" title="perldebguts">
+<link href="perldata.html#perldata-SEE-ALSO" rel="previous" title="perldata SEE ALSO">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perldbmfilter"></a>
+<div class="header">
+<p>
+Next: <a href="perldebguts.html#perldebguts" accesskey="n" rel="next">perldebguts</a>, Previous: <a href="perldata.html#perldata" accesskey="p" rel="previous">perldata</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perldbmfilter-1"></a>
+<h2 class="chapter">12 perldbmfilter</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perldbmfilter-NAME" accesskey="1">perldbmfilter NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldbmfilter-SYNOPSIS" accesskey="2">perldbmfilter SYNOPSIS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldbmfilter-DESCRIPTION" accesskey="3">perldbmfilter DESCRIPTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldbmfilter-SEE-ALSO" accesskey="4">perldbmfilter SEE ALSO</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldbmfilter-AUTHOR" accesskey="5">perldbmfilter AUTHOR</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perldbmfilter-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perldbmfilter-SYNOPSIS" accesskey="n" rel="next">perldbmfilter SYNOPSIS</a>, Up: <a href="#perldbmfilter" accesskey="u" rel="up">perldbmfilter</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-11"></a>
+<h3 class="section">12.1 NAME</h3>
+
+<p>perldbmfilter - Perl DBM Filters
+</p>
+<hr>
+<a name="perldbmfilter-SYNOPSIS"></a>
+<div class="header">
+<p>
+Next: <a href="#perldbmfilter-DESCRIPTION" accesskey="n" rel="next">perldbmfilter DESCRIPTION</a>, Previous: <a href="#perldbmfilter-NAME" accesskey="p" rel="previous">perldbmfilter NAME</a>, Up: <a href="#perldbmfilter" accesskey="u" rel="up">perldbmfilter</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="SYNOPSIS-3"></a>
+<h3 class="section">12.2 SYNOPSIS</h3>
+
+<pre class="verbatim">    $db = tie %hash, 'DBM', ...
+
+    $old_filter = $db-&gt;filter_store_key  ( sub { ... } );
+    $old_filter = $db-&gt;filter_store_value( sub { ... } );
+    $old_filter = $db-&gt;filter_fetch_key  ( sub { ... } );
+    $old_filter = $db-&gt;filter_fetch_value( sub { ... } );
+</pre>
+<hr>
+<a name="perldbmfilter-DESCRIPTION"></a>
+<div class="header">
+<p>
+Next: <a href="#perldbmfilter-SEE-ALSO" accesskey="n" rel="next">perldbmfilter SEE ALSO</a>, Previous: <a href="#perldbmfilter-SYNOPSIS" accesskey="p" rel="previous">perldbmfilter SYNOPSIS</a>, Up: <a href="#perldbmfilter" accesskey="u" rel="up">perldbmfilter</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESCRIPTION-11"></a>
+<h3 class="section">12.3 DESCRIPTION</h3>
+
+<p>The four <code>filter_*</code> methods shown above are available in all the DBM
+modules that ship with Perl, namely DB_File, GDBM_File, NDBM_File,
+ODBM_File and SDBM_File.
+</p>
+<p>Each of the methods works identically, and is used to install (or
+uninstall) a single DBM Filter. The only difference between them is the
+place that the filter is installed.
+</p>
+<p>To summarise:
+</p>
+<dl compact="compact">
+<dt><strong>filter_store_key</strong></dt>
+<dd><a name="perldbmfilter-filter_005fstore_005fkey"></a>
+<p>If a filter has been installed with this method, it will be invoked
+every time you write a key to a DBM database.
+</p>
+</dd>
+<dt><strong>filter_store_value</strong></dt>
+<dd><a name="perldbmfilter-filter_005fstore_005fvalue"></a>
+<p>If a filter has been installed with this method, it will be invoked
+every time you write a value to a DBM database.
+</p>
+</dd>
+<dt><strong>filter_fetch_key</strong></dt>
+<dd><a name="perldbmfilter-filter_005ffetch_005fkey"></a>
+<p>If a filter has been installed with this method, it will be invoked
+every time you read a key from a DBM database.
+</p>
+</dd>
+<dt><strong>filter_fetch_value</strong></dt>
+<dd><a name="perldbmfilter-filter_005ffetch_005fvalue"></a>
+<p>If a filter has been installed with this method, it will be invoked
+every time you read a value from a DBM database.
+</p>
+</dd>
+</dl>
+
+<p>You can use any combination of the methods from none to all four.
+</p>
+<p>All filter methods return the existing filter, if present, or <code>undef</code>
+if not.
+</p>
+<p>To delete a filter pass <code>undef</code> to it.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perldbmfilter-The-Filter" accesskey="1">perldbmfilter The Filter</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldbmfilter-An-Example_003a-the-NULL-termination-problem_002e" accesskey="2">perldbmfilter An Example: the NULL termination problem.</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldbmfilter-Another-Example_003a-Key-is-a-C-int_002e" accesskey="3">perldbmfilter Another Example: Key is a C int.</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perldbmfilter-The-Filter"></a>
+<div class="header">
+<p>
+Next: <a href="#perldbmfilter-An-Example_003a-the-NULL-termination-problem_002e" accesskey="n" rel="next">perldbmfilter An Example: the NULL termination problem.</a>, Up: <a href="#perldbmfilter-DESCRIPTION" accesskey="u" rel="up">perldbmfilter DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="The-Filter"></a>
+<h4 class="subsection">12.3.1 The Filter</h4>
+
+<p>When each filter is called by Perl, a local copy of <code>$_</code> will contain
+the key or value to be filtered. Filtering is achieved by modifying
+the contents of <code>$_</code>. The return code from the filter is ignored.
+</p>
+<hr>
+<a name="perldbmfilter-An-Example_003a-the-NULL-termination-problem_002e"></a>
+<div class="header">
+<p>
+Next: <a href="#perldbmfilter-Another-Example_003a-Key-is-a-C-int_002e" accesskey="n" rel="next">perldbmfilter Another Example: Key is a C int.</a>, Previous: <a href="#perldbmfilter-The-Filter" accesskey="p" rel="previous">perldbmfilter The Filter</a>, Up: <a href="#perldbmfilter-DESCRIPTION" accesskey="u" rel="up">perldbmfilter DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="An-Example_003a-the-NULL-termination-problem_002e"></a>
+<h4 class="subsection">12.3.2 An Example: the NULL termination problem.</h4>
+
+<p>DBM Filters are useful for a class of problems where you <em>always</em>
+want to make the same transformation to all keys, all values or both.
+</p>
+<p>For example, consider the following scenario. You have a DBM database
+that you need to share with a third-party C application. The C application
+assumes that <em>all</em> keys and values are NULL terminated. Unfortunately
+when Perl writes to DBM databases it doesn&rsquo;t use NULL termination, so
+your Perl application will have to manage NULL termination itself. When
+you write to the database you will have to use something like this:
+</p>
+<pre class="verbatim">    $hash{&quot;$key\0&quot;} = &quot;$value\0&quot;;
+</pre>
+<p>Similarly the NULL needs to be taken into account when you are considering
+the length of existing keys/values.
+</p>
+<p>It would be much better if you could ignore the NULL terminations issue
+in the main application code and have a mechanism that automatically
+added the terminating NULL to all keys and values whenever you write to
+the database and have them removed when you read from the database. As I&rsquo;m
+sure you have already guessed, this is a problem that DBM Filters can
+fix very easily.
+</p>
+<pre class="verbatim">    use strict;
+    use warnings;
+    use SDBM_File;
+    use Fcntl;
+
+    my %hash;
+    my $filename = &quot;filt&quot;;
+    unlink $filename;
+
+    my $db = tie(%hash, 'SDBM_File', $filename, O_RDWR|O_CREAT, 0640)
+      or die &quot;Cannot open $filename: $!\n&quot;;
+
+    # Install DBM Filters
+    $db-&gt;filter_fetch_key  ( sub { s/\0$//    } );
+    $db-&gt;filter_store_key  ( sub { $_ .= &quot;\0&quot; } );
+    $db-&gt;filter_fetch_value( 
+        sub { no warnings 'uninitialized'; s/\0$// } );
+    $db-&gt;filter_store_value( sub { $_ .= &quot;\0&quot; } );
+
+    $hash{&quot;abc&quot;} = &quot;def&quot;;
+    my $a = $hash{&quot;ABC&quot;};
+    # ...
+    undef $db;
+    untie %hash;
+</pre>
+<p>The code above uses SDBM_File, but it will work with any of the DBM
+modules.
+</p>
+<p>Hopefully the contents of each of the filters should be
+self-explanatory. Both &quot;fetch&quot; filters remove the terminating NULL,
+and both &quot;store&quot; filters add a terminating NULL.
+</p>
+<hr>
+<a name="perldbmfilter-Another-Example_003a-Key-is-a-C-int_002e"></a>
+<div class="header">
+<p>
+Previous: <a href="#perldbmfilter-An-Example_003a-the-NULL-termination-problem_002e" accesskey="p" rel="previous">perldbmfilter An Example: the NULL termination problem.</a>, Up: <a href="#perldbmfilter-DESCRIPTION" accesskey="u" rel="up">perldbmfilter DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Another-Example_003a-Key-is-a-C-int_002e"></a>
+<h4 class="subsection">12.3.3 Another Example: Key is a C int.</h4>
+
+<p>Here is another real-life example. By default, whenever Perl writes to
+a DBM database it always writes the key and value as strings. So when
+you use this:
+</p>
+<pre class="verbatim">    $hash{12345} = &quot;something&quot;;
+</pre>
+<p>the key 12345 will get stored in the DBM database as the 5 byte string
+&quot;12345&quot;. If you actually want the key to be stored in the DBM database
+as a C int, you will have to use <code>pack</code> when writing, and <code>unpack</code>
+when reading.
+</p>
+<p>Here is a DBM Filter that does it:
+</p>
+<pre class="verbatim">    use strict;
+    use warnings;
+    use DB_File;
+    my %hash;
+    my $filename = &quot;filt&quot;;
+    unlink $filename;
+
+
+    my $db = tie %hash, 'DB_File', $filename, O_CREAT|O_RDWR, 0666, $DB_HASH 
+      or die &quot;Cannot open $filename: $!\n&quot;;
+
+    $db-&gt;filter_fetch_key  ( sub { $_ = unpack(&quot;i&quot;, $_) } );
+    $db-&gt;filter_store_key  ( sub { $_ = pack (&quot;i&quot;, $_) } );
+    $hash{123} = &quot;def&quot;;
+    # ...
+    undef $db;
+    untie %hash;
+</pre>
+<p>The code above uses DB_File, but again it will work with any of the
+DBM modules.
+</p>
+<p>This time only two filters have been used; we only need to manipulate
+the contents of the key, so it wasn&rsquo;t necessary to install any value
+filters.
+</p>
+<hr>
+<a name="perldbmfilter-SEE-ALSO"></a>
+<div class="header">
+<p>
+Next: <a href="#perldbmfilter-AUTHOR" accesskey="n" rel="next">perldbmfilter AUTHOR</a>, Previous: <a href="#perldbmfilter-DESCRIPTION" accesskey="p" rel="previous">perldbmfilter DESCRIPTION</a>, Up: <a href="#perldbmfilter" accesskey="u" rel="up">perldbmfilter</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="SEE-ALSO-5"></a>
+<h3 class="section">12.4 SEE ALSO</h3>
+
+<p><a href="../DB_File/index.html">(DB_File)</a>, <a href="../GDBM_File/index.html">(GDBM_File)</a>, <a href="../NDBM_File/index.html">(NDBM_File)</a>, <a href="../ODBM_File/index.html">(ODBM_File)</a> and <a href="../SDBM_File/index.html">(SDBM_File)</a>.
+</p>
+<hr>
+<a name="perldbmfilter-AUTHOR"></a>
+<div class="header">
+<p>
+Previous: <a href="#perldbmfilter-SEE-ALSO" accesskey="p" rel="previous">perldbmfilter SEE ALSO</a>, Up: <a href="#perldbmfilter" accesskey="u" rel="up">perldbmfilter</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="AUTHOR-4"></a>
+<h3 class="section">12.5 AUTHOR</h3>
+
+<p>Paul Marquess
+</p>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perldbmfilter-SEE-ALSO" accesskey="p" rel="previous">perldbmfilter SEE ALSO</a>, Up: <a href="#perldbmfilter" accesskey="u" rel="up">perldbmfilter</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

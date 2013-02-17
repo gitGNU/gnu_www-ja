@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 4.13.97+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perlstyle</title>
+
+<meta name="description" content="Perl pod documentation: perlstyle">
+<meta name="keywords" content="Perl pod documentation: perlstyle">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="NAME-subroutine-function.html#NAME-subroutine-function" rel="next" title="NAME subroutine function">
+<link href="perlsource.html#perlsource-MANIFEST" rel="previous" title="perlsource MANIFEST">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perlstyle"></a>
+<div class="header">
+<p>
+Next: <a href="NAME-subroutine-function.html#NAME-subroutine-function" accesskey="n" rel="next">NAME subroutine function</a>, Previous: <a href="perlsource.html#perlsource" accesskey="p" rel="previous">perlsource</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perlstyle-1"></a>
+<h2 class="chapter">71 perlstyle</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlstyle-NAME" accesskey="1">perlstyle NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlstyle-DESCRIPTION" accesskey="2">perlstyle DESCRIPTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlstyle-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perlstyle-DESCRIPTION" accesskey="n" rel="next">perlstyle DESCRIPTION</a>, Up: <a href="#perlstyle" accesskey="u" rel="up">perlstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-70"></a>
+<h3 class="section">71.1 NAME</h3>
+
+<p>perlstyle - Perl style guide
+</p>
+<hr>
+<a name="perlstyle-DESCRIPTION"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlstyle-NAME" accesskey="p" rel="previous">perlstyle NAME</a>, Up: <a href="#perlstyle" accesskey="u" rel="up">perlstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESCRIPTION-69"></a>
+<h3 class="section">71.2 DESCRIPTION</h3>
+
+<p>Each programmer will, of course, have his or her own preferences in
+regards to formatting, but there are some general guidelines that will
+make your programs easier to read, understand, and maintain.
+</p>
+<p>The most important thing is to run your programs under the <strong>-w</strong>
+flag at all times.  You may turn it off explicitly for particular
+portions of code via the <code>no warnings</code> pragma or the <code>$^W</code> variable
+if you must.  You should also always run under <code>use strict</code> or know the
+reason why not.  The <code>use sigtrap</code> and even <code>use diagnostics</code> pragmas
+may also prove useful.
+</p>
+<p>Regarding aesthetics of code lay out, about the only thing Larry
+cares strongly about is that the closing curly bracket of
+a multi-line BLOCK should line up with the keyword that started the construct.
+Beyond that, he has other preferences that aren&rsquo;t so strong:
+</p>
+<ul>
+<li> 4-column indent.
+
+</li><li> Opening curly on same line as keyword, if possible, otherwise line up.
+
+</li><li> Space before the opening curly of a multi-line BLOCK.
+
+</li><li> One-line BLOCK may be put on one line, including curlies.
+
+</li><li> No space before the semicolon.
+
+</li><li> Semicolon omitted in &quot;short&quot; one-line BLOCK.
+
+</li><li> Space around most operators.
+
+</li><li> Space around a &quot;complex&quot; subscript (inside brackets).
+
+</li><li> Blank lines between chunks that do different things.
+
+</li><li> Uncuddled elses.
+
+</li><li> No space between function name and its opening parenthesis.
+
+</li><li> Space after each comma.
+
+</li><li> Long lines broken after an operator (except <code>and</code> and <code>or</code>).
+
+</li><li> Space after last parenthesis matching on current line.
+
+</li><li> Line up corresponding items vertically.
+
+</li><li> Omit redundant punctuation as long as clarity doesn&rsquo;t suffer.
+
+</li></ul>
+
+<p>Larry has his reasons for each of these things, but he doesn&rsquo;t claim that
+everyone else&rsquo;s mind works the same as his does.
+</p>
+<p>Here are some other more substantive style issues to think about:
+</p>
+<ul>
+<li> Just because you <em>CAN</em> do something a particular way doesn&rsquo;t mean that
+you <em>SHOULD</em> do it that way.  Perl is designed to give you several
+ways to do anything, so consider picking the most readable one.  For
+instance
+
+<pre class="verbatim">    open(FOO,$foo) || die &quot;Can't open $foo: $!&quot;;
+</pre>
+<p>is better than
+</p>
+<pre class="verbatim">    die &quot;Can't open $foo: $!&quot; unless open(FOO,$foo);
+</pre>
+<p>because the second way hides the main point of the statement in a
+modifier.  On the other hand
+</p>
+<pre class="verbatim">    print &quot;Starting analysis\n&quot; if $verbose;
+</pre>
+<p>is better than
+</p>
+<pre class="verbatim">    $verbose &amp;&amp; print &quot;Starting analysis\n&quot;;
+</pre>
+<p>because the main point isn&rsquo;t whether the user typed <strong>-v</strong> or not.
+</p>
+<p>Similarly, just because an operator lets you assume default arguments
+doesn&rsquo;t mean that you have to make use of the defaults.  The defaults
+are there for lazy systems programmers writing one-shot programs.  If
+you want your program to be readable, consider supplying the argument.
+</p>
+<p>Along the same lines, just because you <em>CAN</em> omit parentheses in many
+places doesn&rsquo;t mean that you ought to:
+</p>
+<pre class="verbatim">    return print reverse sort num values %array;
+    return print(reverse(sort num (values(%array))));
+</pre>
+<p>When in doubt, parenthesize.  At the very least it will let some poor
+schmuck bounce on the % key in <strong>vi</strong>.
+</p>
+<p>Even if you aren&rsquo;t in doubt, consider the mental welfare of the person
+who has to maintain the code after you, and who will probably put
+parentheses in the wrong place.
+</p>
+</li><li> Don&rsquo;t go through silly contortions to exit a loop at the top or the
+bottom, when Perl provides the <code>last</code> operator so you can exit in
+the middle.  Just &quot;outdent&quot; it a little to make it more visible:
+
+<pre class="verbatim">    LINE:
+        for (;;) {
+            statements;
+          last LINE if $foo;
+            next LINE if /^#/;
+            statements;
+        }
+</pre>
+</li><li> Don&rsquo;t be afraid to use loop labels&ndash;they&rsquo;re there to enhance
+readability as well as to allow multilevel loop breaks.  See the
+previous example.
+
+</li><li> Avoid using <code>grep()</code> (or <code>map()</code>) or &lsquo;backticks&lsquo; in a void context, that is,
+when you just throw away their return values.  Those functions all
+have return values, so use them.  Otherwise use a <code>foreach()</code> loop or
+the <code>system()</code> function instead.
+
+</li><li> For portability, when using features that may not be implemented on
+every machine, test the construct in an eval to see if it fails.  If
+you know what version or patchlevel a particular feature was
+implemented, you can test <code>$]</code> (<code>$PERL_VERSION</code> in <code>English</code>) to see if it
+will be there.  The <code>Config</code> module will also let you interrogate values
+determined by the <strong>Configure</strong> program when Perl was installed.
+
+</li><li> Choose mnemonic identifiers.  If you can&rsquo;t remember what mnemonic means,
+you&rsquo;ve got a problem.
+
+</li><li> While short identifiers like <code>$gotit</code> are probably ok, use underscores to
+separate words in longer identifiers.  It is generally easier to read
+<code>$var_names_like_this</code> than <code>$VarNamesLikeThis</code>, especially for
+non-native speakers of English. It&rsquo;s also a simple rule that works
+consistently with <code>VAR_NAMES_LIKE_THIS</code>.
+
+<p>Package names are sometimes an exception to this rule.  Perl informally
+reserves lowercase module names for &quot;pragma&quot; modules like <code>integer</code> and
+<code>strict</code>.  Other modules should begin with a capital letter and use mixed
+case, but probably without underscores due to limitations in primitive
+file systems&rsquo; representations of module names as files that must fit into a
+few sparse bytes.
+</p>
+</li><li> You may find it helpful to use letter case to indicate the scope
+or nature of a variable. For example:
+
+<pre class="verbatim">    $ALL_CAPS_HERE   constants only (beware clashes with perl vars!)
+    $Some_Caps_Here  package-wide global/static
+    $no_caps_here    function scope my() or local() variables
+</pre>
+<p>Function and method names seem to work best as all lowercase.
+E.g., <code>$obj-&gt;as_string()</code>.
+</p>
+<p>You can use a leading underscore to indicate that a variable or
+function should not be used outside the package that defined it.
+</p>
+</li><li> If you have a really hairy regular expression, use the <code>/x</code> modifier and
+put in some whitespace to make it look a little less like line noise.
+Don&rsquo;t use slash as a delimiter when your regexp has slashes or backslashes.
+
+</li><li> Use the new <code>and</code> and <code>or</code> operators to avoid having to parenthesize
+list operators so much, and to reduce the incidence of punctuation
+operators like <code>&amp;&amp;</code> and <code>||</code>.  Call your subroutines as if they were
+functions or list operators to avoid excessive ampersands and parentheses.
+
+</li><li> Use here documents instead of repeated <code>print()</code> statements.
+
+</li><li> Line up corresponding things vertically, especially if it&rsquo;d be too long
+to fit on one line anyway.
+
+<pre class="verbatim">    $IDX = $ST_MTIME;
+    $IDX = $ST_ATIME       if $opt_u;
+    $IDX = $ST_CTIME       if $opt_c;
+    $IDX = $ST_SIZE        if $opt_s;
+
+    mkdir $tmpdir, 0700 or die &quot;can't mkdir $tmpdir: $!&quot;;
+    chdir($tmpdir)      or die &quot;can't chdir $tmpdir: $!&quot;;
+    mkdir 'tmp',   0777 or die &quot;can't mkdir $tmpdir/tmp: $!&quot;;
+</pre>
+</li><li> Always check the return codes of system calls.  Good error messages should
+go to <code>STDERR</code>, include which program caused the problem, what the failed
+system call and arguments were, and (VERY IMPORTANT) should contain the
+standard system error message for what went wrong.  Here&rsquo;s a simple but
+sufficient example:
+
+<pre class="verbatim">    opendir(D, $dir)     or die &quot;can't opendir $dir: $!&quot;;
+</pre>
+</li><li> Line up your transliterations when it makes sense:
+
+<pre class="verbatim">    tr [abc]
+       [xyz];
+</pre>
+</li><li> Think about reusability.  Why waste brainpower on a one-shot when you
+might want to do something like it again?  Consider generalizing your
+code.  Consider writing a module or object class.  Consider making your
+code run cleanly with <code>use strict</code> and <code>use warnings</code> (or <strong>-w</strong>) in
+effect.  Consider giving away your code.  Consider changing your whole
+world view.  Consider... oh, never mind.
+
+</li><li> Try to document your code and use Pod formatting in a consistent way. Here
+are commonly expected conventions:
+
+<ul>
+<li> use <code>C&lt;&gt;</code> for function, variable and module names (and more
+generally anything that can be considered part of code, like filehandles
+or specific values). Note that function names are considered more readable
+with parentheses after their name, that is <code>function()</code>.
+
+</li><li> use <code>B&lt;&gt;</code> for commands names like <strong>cat</strong> or <strong>grep</strong>.
+
+</li><li> use <code>F&lt;&gt;</code> or <code>C&lt;&gt;</code> for file names. <code>F&lt;&gt;</code> should
+be the only Pod code for file names, but as most Pod formatters render it
+as italic, Unix and Windows paths with their slashes and backslashes may
+be less readable, and better rendered with <code>C&lt;&gt;</code>.
+
+</li></ul>
+
+</li><li> Be consistent.
+
+</li><li> Be nice.
+
+</li></ul>
+
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perlstyle-NAME" accesskey="p" rel="previous">perlstyle NAME</a>, Up: <a href="#perlstyle" accesskey="u" rel="up">perlstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

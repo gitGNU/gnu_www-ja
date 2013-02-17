@@ -1,0 +1,1053 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 4.13.97+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perlmodstyle</title>
+
+<meta name="description" content="Perl pod documentation: perlmodstyle">
+<meta name="keywords" content="Perl pod documentation: perlmodstyle">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="perlmroapi.html#perlmroapi" rel="next" title="perlmroapi">
+<link href="perlmodinstall.html#perlmodinstall-COPYRIGHT" rel="previous" title="perlmodinstall COPYRIGHT">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perlmodstyle"></a>
+<div class="header">
+<p>
+Next: <a href="perlmroapi.html#perlmroapi" accesskey="n" rel="next">perlmroapi</a>, Previous: <a href="perlmodinstall.html#perlmodinstall" accesskey="p" rel="previous">perlmodinstall</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perlmodstyle-1"></a>
+<h2 class="chapter">42 perlmodstyle</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-NAME" accesskey="1">perlmodstyle NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-INTRODUCTION" accesskey="2">perlmodstyle INTRODUCTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-QUICK-CHECKLIST" accesskey="3">perlmodstyle QUICK CHECKLIST</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-BEFORE-YOU-START-WRITING-A-MODULE" accesskey="4">perlmodstyle BEFORE YOU START WRITING A MODULE</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-DESIGNING-AND-WRITING-YOUR-MODULE" accesskey="5">perlmodstyle DESIGNING AND WRITING YOUR MODULE</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-DOCUMENTING-YOUR-MODULE" accesskey="6">perlmodstyle DOCUMENTING YOUR MODULE</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-RELEASE-CONSIDERATIONS" accesskey="7">perlmodstyle RELEASE CONSIDERATIONS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-COMMON-PITFALLS" accesskey="8">perlmodstyle COMMON PITFALLS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-SEE-ALSO" accesskey="9">perlmodstyle SEE ALSO</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-AUTHOR">perlmodstyle AUTHOR</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlmodstyle-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-INTRODUCTION" accesskey="n" rel="next">perlmodstyle INTRODUCTION</a>, Up: <a href="#perlmodstyle" accesskey="u" rel="up">perlmodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-41"></a>
+<h3 class="section">42.1 NAME</h3>
+
+<p>perlmodstyle - Perl module style guide
+</p>
+<hr>
+<a name="perlmodstyle-INTRODUCTION"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-QUICK-CHECKLIST" accesskey="n" rel="next">perlmodstyle QUICK CHECKLIST</a>, Previous: <a href="#perlmodstyle-NAME" accesskey="p" rel="previous">perlmodstyle NAME</a>, Up: <a href="#perlmodstyle" accesskey="u" rel="up">perlmodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="INTRODUCTION-1"></a>
+<h3 class="section">42.2 INTRODUCTION</h3>
+
+<p>This document attempts to describe the Perl Community&rsquo;s &quot;best practice&quot;
+for writing Perl modules.  It extends the recommendations found in 
+<a href="perlstyle.html#perlstyle-NAME">perlstyle NAME</a> , which should be considered required reading
+before reading this document.
+</p>
+<p>While this document is intended to be useful to all module authors, it is
+particularly aimed at authors who wish to publish their modules on CPAN.
+</p>
+<p>The focus is on elements of style which are visible to the users of a 
+module, rather than those parts which are only seen by the module&rsquo;s 
+developers.  However, many of the guidelines presented in this document
+can be extrapolated and applied successfully to a module&rsquo;s internals.
+</p>
+<p>This document differs from <a href="perlnewmod.html#perlnewmod-NAME">perlnewmod NAME</a> in that it is a style guide
+rather than a tutorial on creating CPAN modules.  It provides a
+checklist against which modules can be compared to determine whether
+they conform to best practice, without necessarily describing in detail
+how to achieve this.  
+</p>
+<p>All the advice contained in this document has been gleaned from
+extensive conversations with experienced CPAN authors and users.  Every
+piece of advice given here is the result of previous mistakes.  This
+information is here to help you avoid the same mistakes and the extra
+work that would inevitably be required to fix them.
+</p>
+<p>The first section of this document provides an itemized checklist; 
+subsequent sections provide a more detailed discussion of the items on 
+the list.  The final section, &quot;Common Pitfalls&quot;, describes some of the 
+most popular mistakes made by CPAN authors.
+</p>
+<hr>
+<a name="perlmodstyle-QUICK-CHECKLIST"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-BEFORE-YOU-START-WRITING-A-MODULE" accesskey="n" rel="next">perlmodstyle BEFORE YOU START WRITING A MODULE</a>, Previous: <a href="#perlmodstyle-INTRODUCTION" accesskey="p" rel="previous">perlmodstyle INTRODUCTION</a>, Up: <a href="#perlmodstyle" accesskey="u" rel="up">perlmodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="QUICK-CHECKLIST"></a>
+<h3 class="section">42.3 QUICK CHECKLIST</h3>
+
+<p>For more detail on each item in this checklist, see below.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Before-you-start" accesskey="1">perlmodstyle Before you start</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-The-API" accesskey="2">perlmodstyle The API</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Stability" accesskey="3">perlmodstyle Stability</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Documentation" accesskey="4">perlmodstyle Documentation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Release-considerations" accesskey="5">perlmodstyle Release considerations</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlmodstyle-Before-you-start"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-The-API" accesskey="n" rel="next">perlmodstyle The API</a>, Up: <a href="#perlmodstyle-QUICK-CHECKLIST" accesskey="u" rel="up">perlmodstyle QUICK CHECKLIST</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Before-you-start"></a>
+<h4 class="subsection">42.3.1 Before you start</h4>
+
+<ul>
+<li> Don&rsquo;t re-invent the wheel
+
+</li><li> Patch, extend or subclass an existing module where possible
+
+</li><li> Do one thing and do it well
+
+</li><li> Choose an appropriate name
+
+</li></ul>
+
+<hr>
+<a name="perlmodstyle-The-API"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Stability" accesskey="n" rel="next">perlmodstyle Stability</a>, Previous: <a href="#perlmodstyle-Before-you-start" accesskey="p" rel="previous">perlmodstyle Before you start</a>, Up: <a href="#perlmodstyle-QUICK-CHECKLIST" accesskey="u" rel="up">perlmodstyle QUICK CHECKLIST</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="The-API"></a>
+<h4 class="subsection">42.3.2 The API</h4>
+
+<ul>
+<li> API should be understandable by the average programmer
+
+</li><li> Simple methods for simple tasks
+
+</li><li> Separate functionality from output
+
+</li><li> Consistent naming of subroutines or methods
+
+</li><li> Use named parameters (a hash or hashref) when there are more than two
+parameters
+
+</li></ul>
+
+<hr>
+<a name="perlmodstyle-Stability"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Documentation" accesskey="n" rel="next">perlmodstyle Documentation</a>, Previous: <a href="#perlmodstyle-The-API" accesskey="p" rel="previous">perlmodstyle The API</a>, Up: <a href="#perlmodstyle-QUICK-CHECKLIST" accesskey="u" rel="up">perlmodstyle QUICK CHECKLIST</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Stability"></a>
+<h4 class="subsection">42.3.3 Stability</h4>
+
+<ul>
+<li> Ensure your module works under <code>use strict</code> and <code>-w</code>
+
+</li><li> Stable modules should maintain backwards compatibility
+
+</li></ul>
+
+<hr>
+<a name="perlmodstyle-Documentation"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Release-considerations" accesskey="n" rel="next">perlmodstyle Release considerations</a>, Previous: <a href="#perlmodstyle-Stability" accesskey="p" rel="previous">perlmodstyle Stability</a>, Up: <a href="#perlmodstyle-QUICK-CHECKLIST" accesskey="u" rel="up">perlmodstyle QUICK CHECKLIST</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Documentation"></a>
+<h4 class="subsection">42.3.4 Documentation</h4>
+
+<ul>
+<li> Write documentation in POD
+
+</li><li> Document purpose, scope and target applications
+
+</li><li> Document each publically accessible method or subroutine, including params and return values
+
+</li><li> Give examples of use in your documentation
+
+</li><li> Provide a README file and perhaps also release notes, changelog, etc
+
+</li><li> Provide links to further information (URL, email)
+
+</li></ul>
+
+<hr>
+<a name="perlmodstyle-Release-considerations"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlmodstyle-Documentation" accesskey="p" rel="previous">perlmodstyle Documentation</a>, Up: <a href="#perlmodstyle-QUICK-CHECKLIST" accesskey="u" rel="up">perlmodstyle QUICK CHECKLIST</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Release-considerations"></a>
+<h4 class="subsection">42.3.5 Release considerations</h4>
+
+<ul>
+<li> Specify pre-requisites in Makefile.PL or Build.PL
+
+</li><li> Specify Perl version requirements with <code>use</code>
+
+</li><li> Include tests with your module
+
+</li><li> Choose a sensible and consistent version numbering scheme (X.YY is the common Perl module numbering scheme)
+
+</li><li> Increment the version number for every change, no matter how small
+
+</li><li> Package the module using &quot;make dist&quot;
+
+</li><li> Choose an appropriate license (GPL/Artistic is a good default)
+
+</li></ul>
+
+<hr>
+<a name="perlmodstyle-BEFORE-YOU-START-WRITING-A-MODULE"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-DESIGNING-AND-WRITING-YOUR-MODULE" accesskey="n" rel="next">perlmodstyle DESIGNING AND WRITING YOUR MODULE</a>, Previous: <a href="#perlmodstyle-QUICK-CHECKLIST" accesskey="p" rel="previous">perlmodstyle QUICK CHECKLIST</a>, Up: <a href="#perlmodstyle" accesskey="u" rel="up">perlmodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="BEFORE-YOU-START-WRITING-A-MODULE"></a>
+<h3 class="section">42.4 BEFORE YOU START WRITING A MODULE</h3>
+
+<p>Try not to launch headlong into developing your module without spending
+some time thinking first.  A little forethought may save you a vast
+amount of effort later on.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Has-it-been-done-before_003f" accesskey="1">perlmodstyle Has it been done before?</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Do-one-thing-and-do-it-well" accesskey="2">perlmodstyle Do one thing and do it well</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-What_0027s-in-a-name_003f" accesskey="3">perlmodstyle What's in a name?</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlmodstyle-Has-it-been-done-before_003f"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Do-one-thing-and-do-it-well" accesskey="n" rel="next">perlmodstyle Do one thing and do it well</a>, Up: <a href="#perlmodstyle-BEFORE-YOU-START-WRITING-A-MODULE" accesskey="u" rel="up">perlmodstyle BEFORE YOU START WRITING A MODULE</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Has-it-been-done-before_003f"></a>
+<h4 class="subsection">42.4.1 Has it been done before?</h4>
+
+<p>You may not even need to write the module.  Check whether it&rsquo;s already 
+been done in Perl, and avoid re-inventing the wheel unless you have a 
+good reason.
+</p>
+<p>Good places to look for pre-existing modules include
+http://search.cpan.org/ and asking on modules@perl.org
+</p>
+<p>If an existing module <strong>almost</strong> does what you want, consider writing a
+patch, writing a subclass, or otherwise extending the existing module
+rather than rewriting it.
+</p>
+<hr>
+<a name="perlmodstyle-Do-one-thing-and-do-it-well"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-What_0027s-in-a-name_003f" accesskey="n" rel="next">perlmodstyle What's in a name?</a>, Previous: <a href="#perlmodstyle-Has-it-been-done-before_003f" accesskey="p" rel="previous">perlmodstyle Has it been done before?</a>, Up: <a href="#perlmodstyle-BEFORE-YOU-START-WRITING-A-MODULE" accesskey="u" rel="up">perlmodstyle BEFORE YOU START WRITING A MODULE</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Do-one-thing-and-do-it-well"></a>
+<h4 class="subsection">42.4.2 Do one thing and do it well</h4>
+
+<p>At the risk of stating the obvious, modules are intended to be modular.
+A Perl developer should be able to use modules to put together the
+building blocks of their application.  However, it&rsquo;s important that the
+blocks are the right shape, and that the developer shouldn&rsquo;t have to use
+a big block when all they need is a small one.
+</p>
+<p>Your module should have a clearly defined scope which is no longer than
+a single sentence.  Can your module be broken down into a family of
+related modules?
+</p>
+<p>Bad example:
+</p>
+<p>&quot;FooBar.pm provides an implementation of the FOO protocol and the
+related BAR standard.&quot;
+</p>
+<p>Good example:
+</p>
+<p>&quot;Foo.pm provides an implementation of the FOO protocol.  Bar.pm
+implements the related BAR protocol.&quot;
+</p>
+<p>This means that if a developer only needs a module for the BAR standard,
+they should not be forced to install libraries for FOO as well.
+</p>
+<hr>
+<a name="perlmodstyle-What_0027s-in-a-name_003f"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlmodstyle-Do-one-thing-and-do-it-well" accesskey="p" rel="previous">perlmodstyle Do one thing and do it well</a>, Up: <a href="#perlmodstyle-BEFORE-YOU-START-WRITING-A-MODULE" accesskey="u" rel="up">perlmodstyle BEFORE YOU START WRITING A MODULE</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="What_0027s-in-a-name_003f"></a>
+<h4 class="subsection">42.4.3 What&rsquo;s in a name?</h4>
+
+<p>Make sure you choose an appropriate name for your module early on.  This
+will help people find and remember your module, and make programming
+with your module more intuitive.
+</p>
+<p>When naming your module, consider the following:
+</p>
+<ul>
+<li> Be descriptive (i.e. accurately describes the purpose of the module).
+
+</li><li> Be consistent with existing modules.
+
+</li><li> Reflect the functionality of the module, not the implementation.
+
+</li><li> Avoid starting a new top-level hierarchy, especially if a suitable
+hierarchy already exists under which you could place your module.
+
+</li></ul>
+
+<p>You should contact modules@perl.org to ask them about your module name
+before publishing your module.  You should also try to ask people who 
+are already familiar with the module&rsquo;s application domain and the CPAN
+naming system.  Authors of similar modules, or modules with similar
+names, may be a good place to start.
+</p>
+<hr>
+<a name="perlmodstyle-DESIGNING-AND-WRITING-YOUR-MODULE"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-DOCUMENTING-YOUR-MODULE" accesskey="n" rel="next">perlmodstyle DOCUMENTING YOUR MODULE</a>, Previous: <a href="#perlmodstyle-BEFORE-YOU-START-WRITING-A-MODULE" accesskey="p" rel="previous">perlmodstyle BEFORE YOU START WRITING A MODULE</a>, Up: <a href="#perlmodstyle" accesskey="u" rel="up">perlmodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESIGNING-AND-WRITING-YOUR-MODULE"></a>
+<h3 class="section">42.5 DESIGNING AND WRITING YOUR MODULE</h3>
+
+<p>Considerations for module design and coding:
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-To-OO-or-not-to-OO_003f" accesskey="1">perlmodstyle To OO or not to OO?</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Designing-your-API" accesskey="2">perlmodstyle Designing your API</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Strictness-and-warnings" accesskey="3">perlmodstyle Strictness and warnings</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Backwards-compatibility" accesskey="4">perlmodstyle Backwards compatibility</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Error-handling-and-messages" accesskey="5">perlmodstyle Error handling and messages</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlmodstyle-To-OO-or-not-to-OO_003f"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Designing-your-API" accesskey="n" rel="next">perlmodstyle Designing your API</a>, Up: <a href="#perlmodstyle-DESIGNING-AND-WRITING-YOUR-MODULE" accesskey="u" rel="up">perlmodstyle DESIGNING AND WRITING YOUR MODULE</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="To-OO-or-not-to-OO_003f"></a>
+<h4 class="subsection">42.5.1 To OO or not to OO?</h4>
+
+<p>Your module may be object oriented (OO) or not, or it may have both kinds 
+of interfaces available.  There are pros and cons of each technique, which 
+should be considered when you design your API.
+</p>
+<p>In <em>Perl Best Practices</em> (copyright 2004, Published by O&rsquo;Reilly Media, Inc.),
+Damian Conway provides a list of criteria to use when deciding if OO is the
+right fit for your problem:
+</p>
+<ul>
+<li> The system being designed is large, or is likely to become large.
+
+</li><li> The data can be aggregated into obvious structures, especially if
+there&rsquo;s a large amount of data in each aggregate.
+
+</li><li> The various types of data aggregate form a natural hierarchy that
+facilitates the use of inheritance and polymorphism.
+
+</li><li> You have a piece of data on which many different operations are
+applied.
+
+</li><li> You need to perform the same general operations on related types of
+data, but with slight variations depending on the specific type of data
+the operations are applied to.
+
+</li><li> It&rsquo;s likely you&rsquo;ll have to add new data types later.
+
+</li><li> The typical interactions between pieces of data are best represented by
+operators.
+
+</li><li> The implementation of individual components of the system is likely to
+change over time.
+
+</li><li> The system design is already object-oriented.
+
+</li><li> Large numbers of other programmers will be using your code modules.
+
+</li></ul>
+
+<p>Think carefully about whether OO is appropriate for your module.
+Gratuitous object orientation results in complex APIs which are
+difficult for the average module user to understand or use.
+</p>
+<hr>
+<a name="perlmodstyle-Designing-your-API"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Strictness-and-warnings" accesskey="n" rel="next">perlmodstyle Strictness and warnings</a>, Previous: <a href="#perlmodstyle-To-OO-or-not-to-OO_003f" accesskey="p" rel="previous">perlmodstyle To OO or not to OO?</a>, Up: <a href="#perlmodstyle-DESIGNING-AND-WRITING-YOUR-MODULE" accesskey="u" rel="up">perlmodstyle DESIGNING AND WRITING YOUR MODULE</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Designing-your-API"></a>
+<h4 class="subsection">42.5.2 Designing your API</h4>
+
+<p>Your interfaces should be understandable by an average Perl programmer.  
+The following guidelines may help you judge whether your API is
+sufficiently straightforward:
+</p>
+<dl compact="compact">
+<dt>Write simple routines to do simple things.</dt>
+<dd><a name="perlmodstyle-Write-simple-routines-to-do-simple-things_002e"></a>
+<p>It&rsquo;s better to have numerous simple routines than a few monolithic ones.
+If your routine changes its behaviour significantly based on its
+arguments, it&rsquo;s a sign that you should have two (or more) separate
+routines.
+</p>
+</dd>
+<dt>Separate functionality from output.</dt>
+<dd><a name="perlmodstyle-Separate-functionality-from-output_002e"></a>
+<p>Return your results in the most generic form possible and allow the user 
+to choose how to use them.  The most generic form possible is usually a
+Perl data structure which can then be used to generate a text report,
+HTML, XML, a database query, or whatever else your users require.
+</p>
+<p>If your routine iterates through some kind of list (such as a list of
+files, or records in a database) you may consider providing a callback
+so that users can manipulate each element of the list in turn.
+File::Find provides an example of this with its 
+<code>find(\&amp;wanted, $dir)</code> syntax.
+</p>
+</dd>
+<dt>Provide sensible shortcuts and defaults.</dt>
+<dd><a name="perlmodstyle-Provide-sensible-shortcuts-and-defaults_002e"></a>
+<p>Don&rsquo;t require every module user to jump through the same hoops to achieve a
+simple result.  You can always include optional parameters or routines for 
+more complex or non-standard behaviour.  If most of your users have to
+type a few almost identical lines of code when they start using your
+module, it&rsquo;s a sign that you should have made that behaviour a default.
+Another good indicator that you should use defaults is if most of your 
+users call your routines with the same arguments.
+</p>
+</dd>
+<dt>Naming conventions</dt>
+<dd><a name="perlmodstyle-Naming-conventions"></a>
+<p>Your naming should be consistent.  For instance, it&rsquo;s better to have:
+</p>
+<pre class="verbatim">        display_day();
+        display_week();
+        display_year();
+</pre>
+<p>than
+</p>
+<pre class="verbatim">        display_day();
+        week_display();
+        show_year();
+</pre>
+<p>This applies equally to method names, parameter names, and anything else
+which is visible to the user (and most things that aren&rsquo;t!)
+</p>
+</dd>
+<dt>Parameter passing</dt>
+<dd><a name="perlmodstyle-Parameter-passing"></a>
+<p>Use named parameters. It&rsquo;s easier to use a hash like this:
+</p>
+<pre class="verbatim">    $obj-&gt;do_something(
+            name =&gt; &quot;wibble&quot;,
+            type =&gt; &quot;text&quot;,
+            size =&gt; 1024,
+    );
+</pre>
+<p>... than to have a long list of unnamed parameters like this:
+</p>
+<pre class="verbatim">    $obj-&gt;do_something(&quot;wibble&quot;, &quot;text&quot;, 1024);
+</pre>
+<p>While the list of arguments might work fine for one, two or even three
+arguments, any more arguments become hard for the module user to
+remember, and hard for the module author to manage.  If you want to add
+a new parameter you will have to add it to the end of the list for
+backward compatibility, and this will probably make your list order
+unintuitive.  Also, if many elements may be undefined you may see the
+following unattractive method calls:
+</p>
+<pre class="verbatim">    $obj-&gt;do_something(undef, undef, undef, undef, undef, undef, 1024);
+</pre>
+<p>Provide sensible defaults for parameters which have them.  Don&rsquo;t make
+your users specify parameters which will almost always be the same.
+</p>
+<p>The issue of whether to pass the arguments in a hash or a hashref is
+largely a matter of personal style. 
+</p>
+<p>The use of hash keys starting with a hyphen (<code>-name</code>) or entirely in 
+upper case (<code>NAME</code>) is a relic of older versions of Perl in which
+ordinary lower case strings were not handled correctly by the <code>=&gt;</code>
+operator.  While some modules retain uppercase or hyphenated argument
+keys for historical reasons or as a matter of personal style, most new
+modules should use simple lower case keys.  Whatever you choose, be
+consistent!
+</p>
+</dd>
+</dl>
+
+<hr>
+<a name="perlmodstyle-Strictness-and-warnings"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Backwards-compatibility" accesskey="n" rel="next">perlmodstyle Backwards compatibility</a>, Previous: <a href="#perlmodstyle-Designing-your-API" accesskey="p" rel="previous">perlmodstyle Designing your API</a>, Up: <a href="#perlmodstyle-DESIGNING-AND-WRITING-YOUR-MODULE" accesskey="u" rel="up">perlmodstyle DESIGNING AND WRITING YOUR MODULE</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Strictness-and-warnings"></a>
+<h4 class="subsection">42.5.3 Strictness and warnings</h4>
+
+<p>Your module should run successfully under the strict pragma and should
+run without generating any warnings.  Your module should also handle 
+taint-checking where appropriate, though this can cause difficulties in
+many cases.
+</p>
+<hr>
+<a name="perlmodstyle-Backwards-compatibility"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Error-handling-and-messages" accesskey="n" rel="next">perlmodstyle Error handling and messages</a>, Previous: <a href="#perlmodstyle-Strictness-and-warnings" accesskey="p" rel="previous">perlmodstyle Strictness and warnings</a>, Up: <a href="#perlmodstyle-DESIGNING-AND-WRITING-YOUR-MODULE" accesskey="u" rel="up">perlmodstyle DESIGNING AND WRITING YOUR MODULE</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Backwards-compatibility-2"></a>
+<h4 class="subsection">42.5.4 Backwards compatibility</h4>
+
+<p>Modules which are &quot;stable&quot; should not break backwards compatibility
+without at least a long transition phase and a major change in version
+number.
+</p>
+<hr>
+<a name="perlmodstyle-Error-handling-and-messages"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlmodstyle-Backwards-compatibility" accesskey="p" rel="previous">perlmodstyle Backwards compatibility</a>, Up: <a href="#perlmodstyle-DESIGNING-AND-WRITING-YOUR-MODULE" accesskey="u" rel="up">perlmodstyle DESIGNING AND WRITING YOUR MODULE</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Error-handling-and-messages"></a>
+<h4 class="subsection">42.5.5 Error handling and messages</h4>
+
+<p>When your module encounters an error it should do one or more of:
+</p>
+<ul>
+<li> Return an undefined value.
+
+</li><li> set <code>$Module::errstr</code> or similar (<code>errstr</code> is a common name used by
+DBI and other popular modules; if you choose something else, be sure to
+document it clearly).
+
+</li><li> <code>warn()</code> or <code>carp()</code> a message to STDERR.  
+
+</li><li> <code>croak()</code> only when your module absolutely cannot figure out what to
+do.  (<code>croak()</code> is a better version of <code>die()</code> for use within 
+modules, which reports its errors from the perspective of the caller.  
+See <a href="../Carp/index.html">(Carp)</a> for details of <code>croak()</code>, <code>carp()</code> and other useful
+routines.)
+
+</li><li> As an alternative to the above, you may prefer to throw exceptions using 
+the Error module.
+
+</li></ul>
+
+<p>Configurable error handling can be very useful to your users.  Consider
+offering a choice of levels for warning and debug messages, an option to
+send messages to a separate file, a way to specify an error-handling
+routine, or other such features.  Be sure to default all these options
+to the commonest use.
+</p>
+<hr>
+<a name="perlmodstyle-DOCUMENTING-YOUR-MODULE"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-RELEASE-CONSIDERATIONS" accesskey="n" rel="next">perlmodstyle RELEASE CONSIDERATIONS</a>, Previous: <a href="#perlmodstyle-DESIGNING-AND-WRITING-YOUR-MODULE" accesskey="p" rel="previous">perlmodstyle DESIGNING AND WRITING YOUR MODULE</a>, Up: <a href="#perlmodstyle" accesskey="u" rel="up">perlmodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DOCUMENTING-YOUR-MODULE"></a>
+<h3 class="section">42.6 DOCUMENTING YOUR MODULE</h3>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-POD" accesskey="1">perlmodstyle POD</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-README_002c-INSTALL_002c-release-notes_002c-changelogs" accesskey="2">perlmodstyle README, INSTALL, release notes, changelogs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlmodstyle-POD"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-README_002c-INSTALL_002c-release-notes_002c-changelogs" accesskey="n" rel="next">perlmodstyle README, INSTALL, release notes, changelogs</a>, Up: <a href="#perlmodstyle-DOCUMENTING-YOUR-MODULE" accesskey="u" rel="up">perlmodstyle DOCUMENTING YOUR MODULE</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="POD"></a>
+<h4 class="subsection">42.6.1 POD</h4>
+
+<p>Your module should include documentation aimed at Perl developers.
+You should use Perl&rsquo;s &quot;plain old documentation&quot; (POD) for your general 
+technical documentation, though you may wish to write additional
+documentation (white papers, tutorials, etc) in some other format.  
+You need to cover the following subjects:
+</p>
+<ul>
+<li> A synopsis of the common uses of the module
+
+</li><li> The purpose, scope and target applications of your module
+
+</li><li> Use of each publically accessible method or subroutine, including
+parameters and return values
+
+</li><li> Examples of use
+
+</li><li> Sources of further information
+
+</li><li> A contact email address for the author/maintainer
+
+</li></ul>
+
+<p>The level of detail in Perl module documentation generally goes from
+less detailed to more detailed.  Your SYNOPSIS section should contain a
+minimal example of use (perhaps as little as one line of code; skip the
+unusual use cases or anything not needed by most users); the
+DESCRIPTION should describe your module in broad terms, generally in
+just a few paragraphs; more detail of the module&rsquo;s routines or methods,
+lengthy code examples, or other in-depth material should be given in 
+subsequent sections.
+</p>
+<p>Ideally, someone who&rsquo;s slightly familiar with your module should be able
+to refresh their memory without hitting &quot;page down&quot;.  As your reader
+continues through the document, they should receive a progressively
+greater amount of knowledge.
+</p>
+<p>The recommended order of sections in Perl module documentation is:
+</p>
+<ul>
+<li> NAME
+
+</li><li> SYNOPSIS
+
+</li><li> DESCRIPTION
+
+</li><li> One or more sections or subsections giving greater detail of available 
+methods and routines and any other relevant information.
+
+</li><li> BUGS/CAVEATS/etc
+
+</li><li> AUTHOR
+
+</li><li> SEE ALSO
+
+</li><li> COPYRIGHT and LICENSE
+
+</li></ul>
+
+<p>Keep your documentation near the code it documents (&quot;inline&quot;
+documentation).  Include POD for a given method right above that 
+method&rsquo;s subroutine.  This makes it easier to keep the documentation up
+to date, and avoids having to document each piece of code twice (once in
+POD and once in comments).
+</p>
+<hr>
+<a name="perlmodstyle-README_002c-INSTALL_002c-release-notes_002c-changelogs"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlmodstyle-POD" accesskey="p" rel="previous">perlmodstyle POD</a>, Up: <a href="#perlmodstyle-DOCUMENTING-YOUR-MODULE" accesskey="u" rel="up">perlmodstyle DOCUMENTING YOUR MODULE</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="README_002c-INSTALL_002c-release-notes_002c-changelogs"></a>
+<h4 class="subsection">42.6.2 README, INSTALL, release notes, changelogs</h4>
+
+<p>Your module should also include a README file describing the module and
+giving pointers to further information (website, author email).  
+</p>
+<p>An INSTALL file should be included, and should contain simple installation 
+instructions. When using ExtUtils::MakeMaker this will usually be:
+</p>
+<dl compact="compact">
+<dt>perl Makefile.PL</dt>
+<dd><a name="perlmodstyle-perl-Makefile_002ePL"></a>
+</dd>
+<dt>make</dt>
+<dd><a name="perlmodstyle-make"></a>
+</dd>
+<dt>make test</dt>
+<dd><a name="perlmodstyle-make-test"></a>
+</dd>
+<dt>make install</dt>
+<dd><a name="perlmodstyle-make-install"></a>
+</dd>
+</dl>
+
+<p>When using Module::Build, this will usually be:
+</p>
+<dl compact="compact">
+<dt>perl Build.PL</dt>
+<dd><a name="perlmodstyle-perl-Build_002ePL"></a>
+</dd>
+<dt>perl Build</dt>
+<dd><a name="perlmodstyle-perl-Build"></a>
+</dd>
+<dt>perl Build test</dt>
+<dd><a name="perlmodstyle-perl-Build-test"></a>
+</dd>
+<dt>perl Build install</dt>
+<dd><a name="perlmodstyle-perl-Build-install"></a>
+</dd>
+</dl>
+
+<p>Release notes or changelogs should be produced for each release of your
+software describing user-visible changes to your module, in terms
+relevant to the user.
+</p>
+<hr>
+<a name="perlmodstyle-RELEASE-CONSIDERATIONS"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-COMMON-PITFALLS" accesskey="n" rel="next">perlmodstyle COMMON PITFALLS</a>, Previous: <a href="#perlmodstyle-DOCUMENTING-YOUR-MODULE" accesskey="p" rel="previous">perlmodstyle DOCUMENTING YOUR MODULE</a>, Up: <a href="#perlmodstyle" accesskey="u" rel="up">perlmodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="RELEASE-CONSIDERATIONS"></a>
+<h3 class="section">42.7 RELEASE CONSIDERATIONS</h3>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Version-numbering" accesskey="1">perlmodstyle Version numbering</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Pre_002drequisites" accesskey="2">perlmodstyle Pre-requisites</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Testing" accesskey="3">perlmodstyle Testing</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Packaging" accesskey="4">perlmodstyle Packaging</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Licensing" accesskey="5">perlmodstyle Licensing</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlmodstyle-Version-numbering"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Pre_002drequisites" accesskey="n" rel="next">perlmodstyle Pre-requisites</a>, Up: <a href="#perlmodstyle-RELEASE-CONSIDERATIONS" accesskey="u" rel="up">perlmodstyle RELEASE CONSIDERATIONS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Version-numbering"></a>
+<h4 class="subsection">42.7.1 Version numbering</h4>
+
+<p>Version numbers should indicate at least major and minor releases, and
+possibly sub-minor releases.  A major release is one in which most of
+the functionality has changed, or in which major new functionality is
+added.  A minor release is one in which a small amount of functionality
+has been added or changed.  Sub-minor version numbers are usually used
+for changes which do not affect functionality, such as documentation
+patches.
+</p>
+<p>The most common CPAN version numbering scheme looks like this:
+</p>
+<pre class="verbatim">    1.00, 1.10, 1.11, 1.20, 1.30, 1.31, 1.32
+</pre>
+<p>A correct CPAN version number is a floating point number with at least 
+2 digits after the decimal. You can test whether it conforms to CPAN by 
+using
+</p>
+<pre class="verbatim">    perl -MExtUtils::MakeMaker -le 'print MM-&gt;parse_version(shift)' 'Foo.pm'
+</pre>
+<p>If you want to release a &rsquo;beta&rsquo; or &rsquo;alpha&rsquo; version of a module but
+don&rsquo;t want CPAN.pm to list it as most recent use an &rsquo;_&rsquo; after the
+regular version number followed by at least 2 digits, eg. 1.20_01. If
+you do this, the following idiom is recommended:
+</p>
+<pre class="verbatim">  $VERSION = &quot;1.12_01&quot;;
+  $XS_VERSION = $VERSION; # only needed if you have XS code
+  $VERSION = eval $VERSION;
+</pre>
+<p>With that trick MakeMaker will only read the first line and thus read
+the underscore, while the perl interpreter will evaluate the $VERSION
+and convert the string into a number. Later operations that treat
+$VERSION as a number will then be able to do so without provoking a
+warning about $VERSION not being a number.
+</p>
+<p>Never release anything (even a one-word documentation patch) without
+incrementing the number.  Even a one-word documentation patch should
+result in a change in version at the sub-minor level.
+</p>
+<hr>
+<a name="perlmodstyle-Pre_002drequisites"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Testing" accesskey="n" rel="next">perlmodstyle Testing</a>, Previous: <a href="#perlmodstyle-Version-numbering" accesskey="p" rel="previous">perlmodstyle Version numbering</a>, Up: <a href="#perlmodstyle-RELEASE-CONSIDERATIONS" accesskey="u" rel="up">perlmodstyle RELEASE CONSIDERATIONS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Pre_002drequisites"></a>
+<h4 class="subsection">42.7.2 Pre-requisites</h4>
+
+<p>Module authors should carefully consider whether to rely on other
+modules, and which modules to rely on.
+</p>
+<p>Most importantly, choose modules which are as stable as possible.  In
+order of preference: 
+</p>
+<ul>
+<li> Core Perl modules
+
+</li><li> Stable CPAN modules
+
+</li><li> Unstable CPAN modules
+
+</li><li> Modules not available from CPAN
+
+</li></ul>
+
+<p>Specify version requirements for other Perl modules in the
+pre-requisites in your Makefile.PL or Build.PL.
+</p>
+<p>Be sure to specify Perl version requirements both in Makefile.PL or
+Build.PL and with <code>require 5.6.1</code> or similar. See the section on
+<code>use VERSION</code> of <a href="../perlfunc/require.html#require">(perlfunc)require</a> for details.
+</p>
+<hr>
+<a name="perlmodstyle-Testing"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Packaging" accesskey="n" rel="next">perlmodstyle Packaging</a>, Previous: <a href="#perlmodstyle-Pre_002drequisites" accesskey="p" rel="previous">perlmodstyle Pre-requisites</a>, Up: <a href="#perlmodstyle-RELEASE-CONSIDERATIONS" accesskey="u" rel="up">perlmodstyle RELEASE CONSIDERATIONS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Testing"></a>
+<h4 class="subsection">42.7.3 Testing</h4>
+
+<p>All modules should be tested before distribution (using &quot;make disttest&quot;),
+and the tests should also be available to people installing the modules 
+(using &quot;make test&quot;).  
+For Module::Build you would use the <code>make test</code> equivalent <code>perl Build test</code>.
+</p>
+<p>The importance of these tests is proportional to the alleged stability of a 
+module. A module which purports to be stable or which hopes to achieve wide 
+use should adhere to as strict a testing regime as possible.
+</p>
+<p>Useful modules to help you write tests (with minimum impact on your 
+development process or your time) include Test::Simple, Carp::Assert 
+and Test::Inline.
+For more sophisticated test suites there are Test::More and Test::MockObject.
+</p>
+<hr>
+<a name="perlmodstyle-Packaging"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Licensing" accesskey="n" rel="next">perlmodstyle Licensing</a>, Previous: <a href="#perlmodstyle-Testing" accesskey="p" rel="previous">perlmodstyle Testing</a>, Up: <a href="#perlmodstyle-RELEASE-CONSIDERATIONS" accesskey="u" rel="up">perlmodstyle RELEASE CONSIDERATIONS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Packaging"></a>
+<h4 class="subsection">42.7.4 Packaging</h4>
+
+<p>Modules should be packaged using one of the standard packaging tools.
+Currently you have the choice between ExtUtils::MakeMaker and the
+more platform independent Module::Build, allowing modules to be installed in a
+consistent manner.
+When using ExtUtils::MakeMaker, you can use &quot;make dist&quot; to create your
+package. Tools exist to help you to build your module in a MakeMaker-friendly
+style. These include ExtUtils::ModuleMaker and h2xs.  See also <a href="perlnewmod.html#perlnewmod-NAME">perlnewmod NAME</a>.
+</p>
+<hr>
+<a name="perlmodstyle-Licensing"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlmodstyle-Packaging" accesskey="p" rel="previous">perlmodstyle Packaging</a>, Up: <a href="#perlmodstyle-RELEASE-CONSIDERATIONS" accesskey="u" rel="up">perlmodstyle RELEASE CONSIDERATIONS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Licensing"></a>
+<h4 class="subsection">42.7.5 Licensing</h4>
+
+<p>Make sure that your module has a license, and that the full text of it
+is included in the distribution (unless it&rsquo;s a common one and the terms
+of the license don&rsquo;t require you to include it).
+</p>
+<p>If you don&rsquo;t know what license to use, dual licensing under the GPL
+and Artistic licenses (the same as Perl itself) is a good idea.
+See <a href="perlgpl.html#perlgpl-NAME">perlgpl NAME</a> and <a href="perlartistic.html#perlartistic-NAME">perlartistic NAME</a>.
+</p>
+<hr>
+<a name="perlmodstyle-COMMON-PITFALLS"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-SEE-ALSO" accesskey="n" rel="next">perlmodstyle SEE ALSO</a>, Previous: <a href="#perlmodstyle-RELEASE-CONSIDERATIONS" accesskey="p" rel="previous">perlmodstyle RELEASE CONSIDERATIONS</a>, Up: <a href="#perlmodstyle" accesskey="u" rel="up">perlmodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="COMMON-PITFALLS"></a>
+<h3 class="section">42.8 COMMON PITFALLS</h3>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Reinventing-the-wheel" accesskey="1">perlmodstyle Reinventing the wheel</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Trying-to-do-too-much" accesskey="2">perlmodstyle Trying to do too much</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlmodstyle-Inappropriate-documentation" accesskey="3">perlmodstyle Inappropriate documentation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlmodstyle-Reinventing-the-wheel"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Trying-to-do-too-much" accesskey="n" rel="next">perlmodstyle Trying to do too much</a>, Up: <a href="#perlmodstyle-COMMON-PITFALLS" accesskey="u" rel="up">perlmodstyle COMMON PITFALLS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Reinventing-the-wheel"></a>
+<h4 class="subsection">42.8.1 Reinventing the wheel</h4>
+
+<p>There are certain application spaces which are already very, very well
+served by CPAN.  One example is templating systems, another is date and
+time modules, and there are many more.  While it is a rite of passage to
+write your own version of these things, please consider carefully
+whether the Perl world really needs you to publish it.
+</p>
+<hr>
+<a name="perlmodstyle-Trying-to-do-too-much"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-Inappropriate-documentation" accesskey="n" rel="next">perlmodstyle Inappropriate documentation</a>, Previous: <a href="#perlmodstyle-Reinventing-the-wheel" accesskey="p" rel="previous">perlmodstyle Reinventing the wheel</a>, Up: <a href="#perlmodstyle-COMMON-PITFALLS" accesskey="u" rel="up">perlmodstyle COMMON PITFALLS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Trying-to-do-too-much"></a>
+<h4 class="subsection">42.8.2 Trying to do too much</h4>
+
+<p>Your module will be part of a developer&rsquo;s toolkit.  It will not, in
+itself, form the <strong>entire</strong> toolkit.  It&rsquo;s tempting to add extra features
+until your code is a monolithic system rather than a set of modular
+building blocks.
+</p>
+<hr>
+<a name="perlmodstyle-Inappropriate-documentation"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlmodstyle-Trying-to-do-too-much" accesskey="p" rel="previous">perlmodstyle Trying to do too much</a>, Up: <a href="#perlmodstyle-COMMON-PITFALLS" accesskey="u" rel="up">perlmodstyle COMMON PITFALLS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Inappropriate-documentation"></a>
+<h4 class="subsection">42.8.3 Inappropriate documentation</h4>
+
+<p>Don&rsquo;t fall into the trap of writing for the wrong audience.  Your
+primary audience is a reasonably experienced developer with at least 
+a moderate understanding of your module&rsquo;s application domain, who&rsquo;s just 
+downloaded your module and wants to start using it as quickly as possible.
+</p>
+<p>Tutorials, end-user documentation, research papers, FAQs etc are not 
+appropriate in a module&rsquo;s main documentation.  If you really want to 
+write these, include them as sub-documents such as <code>My::Module::Tutorial</code> or
+<code>My::Module::FAQ</code> and provide a link in the SEE ALSO section of the
+main documentation.  
+</p>
+<hr>
+<a name="perlmodstyle-SEE-ALSO"></a>
+<div class="header">
+<p>
+Next: <a href="#perlmodstyle-AUTHOR" accesskey="n" rel="next">perlmodstyle AUTHOR</a>, Previous: <a href="#perlmodstyle-COMMON-PITFALLS" accesskey="p" rel="previous">perlmodstyle COMMON PITFALLS</a>, Up: <a href="#perlmodstyle" accesskey="u" rel="up">perlmodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="SEE-ALSO-19"></a>
+<h3 class="section">42.9 SEE ALSO</h3>
+
+<dl compact="compact">
+<dt><a href="perlstyle.html#perlstyle-NAME">perlstyle NAME</a></dt>
+<dd><a name="perlmodstyle-perlstyle-NAME"></a>
+<p>General Perl style guide
+</p>
+</dd>
+<dt><a href="perlnewmod.html#perlnewmod-NAME">perlnewmod NAME</a></dt>
+<dd><a name="perlmodstyle-perlnewmod-NAME"></a>
+<p>How to create a new module
+</p>
+</dd>
+<dt><a href="../perlpod/index.html">(perlpod)</a></dt>
+<dd><a name="perlmodstyle-perlpod"></a>
+<p>POD documentation
+</p>
+</dd>
+<dt><a href="../podchecker/index.html">(podchecker)</a></dt>
+<dd><a name="perlmodstyle-podchecker"></a>
+<p>Verifies your POD&rsquo;s correctness
+</p>
+</dd>
+<dt>Packaging Tools</dt>
+<dd><a name="perlmodstyle-Packaging-Tools"></a>
+<p><a href="../ExtUtils-MakeMaker/index.html">(ExtUtils-MakeMaker)</a>, <a href="../Module-Build/index.html">(Module-Build)</a>
+</p>
+</dd>
+<dt>Testing tools</dt>
+<dd><a name="perlmodstyle-Testing-tools"></a>
+<p><a href="../Test-Simple/index.html">(Test-Simple)</a>, <a href="../Test-Inline/index.html">(Test-Inline)</a>, <a href="../Carp-Assert/index.html">(Carp-Assert)</a>, <a href="../Test-More/index.html">(Test-More)</a>, <a href="../Test-MockObject/index.html">(Test-MockObject)</a>
+</p>
+</dd>
+<dt>http://pause.perl.org/</dt>
+<dd><a name="perlmodstyle-http_003a_002f_002fpause_002eperl_002eorg_002f"></a>
+<p>Perl Authors Upload Server.  Contains links to information for module
+authors.
+</p>
+</dd>
+<dt>Any good book on software engineering</dt>
+<dd><a name="perlmodstyle-Any-good-book-on-software-engineering"></a>
+</dd>
+</dl>
+
+<hr>
+<a name="perlmodstyle-AUTHOR"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlmodstyle-SEE-ALSO" accesskey="p" rel="previous">perlmodstyle SEE ALSO</a>, Up: <a href="#perlmodstyle" accesskey="u" rel="up">perlmodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="AUTHOR-19"></a>
+<h3 class="section">42.10 AUTHOR</h3>
+
+<p>Kirrily &quot;Skud&quot; Robert &lt;skud@cpan.org&gt;
+</p>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perlmodstyle-SEE-ALSO" accesskey="p" rel="previous">perlmodstyle SEE ALSO</a>, Up: <a href="#perlmodstyle" accesskey="u" rel="up">perlmodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

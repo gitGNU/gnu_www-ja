@@ -101,7 +101,8 @@ ALL_DIRS :=	accessibility \
 		testimonials \
 		thankgnus
 
-ROOT :=		home \
+ROOT := gnu-404 \
+		home \
 		keepingup \
 		provide
 
@@ -565,7 +566,10 @@ philosophy/sco :=	questioning-sco \
 			sco-without-fear \
 			subpoena
 
-press :=		press
+press :=		2001-07-20-FSF-India \
+			2001-09-18-RTLinux \
+			2002-03-19-Affero \
+			press
 
 pronunciation :=	pronunciation
 

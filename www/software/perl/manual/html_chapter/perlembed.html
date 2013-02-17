@@ -1,0 +1,1336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 4.13.97+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perlembed</title>
+
+<meta name="description" content="Perl pod documentation: perlembed">
+<meta name="keywords" content="Perl pod documentation: perlembed">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="perlexperiment.html#perlexperiment" rel="next" title="perlexperiment">
+<link href="perlebcdic.html#perlebcdic-AUTHOR" rel="previous" title="perlebcdic AUTHOR">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perlembed"></a>
+<div class="header">
+<p>
+Next: <a href="perlexperiment.html#perlexperiment" accesskey="n" rel="next">perlexperiment</a>, Previous: <a href="perlebcdic.html#perlebcdic" accesskey="p" rel="previous">perlebcdic</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perlembed-1"></a>
+<h2 class="chapter">20 perlembed</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-NAME" accesskey="1">perlembed NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-DESCRIPTION" accesskey="2">perlembed DESCRIPTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-Hiding-Perl_005f" accesskey="3">perlembed Hiding Perl_</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-MORAL" accesskey="4">perlembed MORAL</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-AUTHOR" accesskey="5">perlembed AUTHOR</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-COPYRIGHT" accesskey="6">perlembed COPYRIGHT</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlembed-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-DESCRIPTION" accesskey="n" rel="next">perlembed DESCRIPTION</a>, Up: <a href="#perlembed" accesskey="u" rel="up">perlembed</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-19"></a>
+<h3 class="section">20.1 NAME</h3>
+
+<p>perlembed - how to embed perl in your C program
+</p>
+<hr>
+<a name="perlembed-DESCRIPTION"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-Hiding-Perl_005f" accesskey="n" rel="next">perlembed Hiding Perl_</a>, Previous: <a href="#perlembed-NAME" accesskey="p" rel="previous">perlembed NAME</a>, Up: <a href="#perlembed" accesskey="u" rel="up">perlembed</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESCRIPTION-19"></a>
+<h3 class="section">20.2 DESCRIPTION</h3>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-PREAMBLE" accesskey="1">perlembed PREAMBLE</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-ROADMAP" accesskey="2">perlembed ROADMAP</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-Compiling-your-C-program" accesskey="3">perlembed Compiling your C program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-Adding-a-Perl-interpreter-to-your-C-program" accesskey="4">perlembed Adding a Perl interpreter to your C program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-Calling-a-Perl-subroutine-from-your-C-program" accesskey="5">perlembed Calling a Perl subroutine from your C program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-Evaluating-a-Perl-statement-from-your-C-program" accesskey="6">perlembed Evaluating a Perl statement from your C program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-Performing-Perl-pattern-matches-and-substitutions-from-your-C-program" accesskey="7">perlembed Performing Perl pattern matches and substitutions from your C program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-Fiddling-with-the-Perl-stack-from-your-C-program" accesskey="8">perlembed Fiddling with the Perl stack from your C program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-Maintaining-a-persistent-interpreter" accesskey="9">perlembed Maintaining a persistent interpreter</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-Execution-of-END-blocks">perlembed Execution of END blocks</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-_00240-assignments">perlembed $0 assignments</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-Maintaining-multiple-interpreter-instances">perlembed Maintaining multiple interpreter instances</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlembed-Using-Perl-modules_002c-which-themselves-use-C-libraries_002c-from-your-C-program">perlembed Using Perl modules, which themselves use C libraries, from your C program</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlembed-PREAMBLE"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-ROADMAP" accesskey="n" rel="next">perlembed ROADMAP</a>, Up: <a href="#perlembed-DESCRIPTION" accesskey="u" rel="up">perlembed DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="PREAMBLE"></a>
+<h4 class="subsection">20.2.1 PREAMBLE</h4>
+
+<p>Do you want to:
+</p>
+<dl compact="compact">
+<dt><strong>Use C from Perl?</strong></dt>
+<dd><a name="perlembed-Use-C-from-Perl_003f"></a>
+<p>Read <a href="../perlxstut/index.html">(perlxstut)</a>, <a href="../perlxs/index.html">(perlxs)</a>, <a href="../h2xs/index.html">(h2xs)</a>, <a href="perlguts.html#perlguts-NAME">perlguts NAME</a>, and <a href="../perlapi/index.html">(perlapi)</a>.
+</p>
+</dd>
+<dt><strong>Use a Unix program from Perl?</strong></dt>
+<dd><a name="perlembed-Use-a-Unix-program-from-Perl_003f"></a>
+<p>Read about back-quotes and about <code>system</code> and <code>exec</code> in <a href="../perlfunc/index.html">(perlfunc)</a>.
+</p>
+</dd>
+<dt><strong>Use Perl from Perl?</strong></dt>
+<dd><a name="perlembed-Use-Perl-from-Perl_003f"></a>
+<p>Read about <a href="../perlfunc/do.html#do">(perlfunc)do</a> and <a href="../perlfunc/eval.html#eval">(perlfunc)eval</a> and <a href="../perlfunc/require.html#require">(perlfunc)require</a> 
+and <a href="../perlfunc/use.html#use">(perlfunc)use</a>.
+</p>
+</dd>
+<dt><strong>Use C from C?</strong></dt>
+<dd><a name="perlembed-Use-C-from-C_003f"></a>
+<p>Rethink your design.
+</p>
+</dd>
+<dt><strong>Use Perl from C?</strong></dt>
+<dd><a name="perlembed-Use-Perl-from-C_003f"></a>
+<p>Read on...
+</p>
+</dd>
+</dl>
+
+<hr>
+<a name="perlembed-ROADMAP"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-Compiling-your-C-program" accesskey="n" rel="next">perlembed Compiling your C program</a>, Previous: <a href="#perlembed-PREAMBLE" accesskey="p" rel="previous">perlembed PREAMBLE</a>, Up: <a href="#perlembed-DESCRIPTION" accesskey="u" rel="up">perlembed DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="ROADMAP"></a>
+<h4 class="subsection">20.2.2 ROADMAP</h4>
+
+<ul>
+<li> Compiling your C program
+
+</li><li> Adding a Perl interpreter to your C program
+
+</li><li> Calling a Perl subroutine from your C program
+
+</li><li> Evaluating a Perl statement from your C program
+
+</li><li> Performing Perl pattern matches and substitutions from your C program
+
+</li><li> Fiddling with the Perl stack from your C program
+
+</li><li> Maintaining a persistent interpreter
+
+</li><li> Maintaining multiple interpreter instances
+
+</li><li> Using Perl modules, which themselves use C libraries, from your C program
+
+</li><li> Embedding Perl under Win32
+
+</li></ul>
+
+<hr>
+<a name="perlembed-Compiling-your-C-program"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-Adding-a-Perl-interpreter-to-your-C-program" accesskey="n" rel="next">perlembed Adding a Perl interpreter to your C program</a>, Previous: <a href="#perlembed-ROADMAP" accesskey="p" rel="previous">perlembed ROADMAP</a>, Up: <a href="#perlembed-DESCRIPTION" accesskey="u" rel="up">perlembed DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Compiling-your-C-program"></a>
+<h4 class="subsection">20.2.3 Compiling your C program</h4>
+
+<p>If you have trouble compiling the scripts in this documentation,
+you&rsquo;re not alone.  The cardinal rule: COMPILE THE PROGRAMS IN EXACTLY
+THE SAME WAY THAT YOUR PERL WAS COMPILED.  (Sorry for yelling.)
+</p>
+<p>Also, every C program that uses Perl must link in the <em>perl library</em>.
+What&rsquo;s that, you ask?  Perl is itself written in C; the perl library
+is the collection of compiled C programs that were used to create your
+perl executable (<em>/usr/bin/perl</em> or equivalent).  (Corollary: you
+can&rsquo;t use Perl from your C program unless Perl has been compiled on
+your machine, or installed properly&ndash;that&rsquo;s why you shouldn&rsquo;t blithely
+copy Perl executables from machine to machine without also copying the
+<em>lib</em> directory.)
+</p>
+<p>When you use Perl from C, your C program will&ndash;usually&ndash;allocate,
+&quot;run&quot;, and deallocate a <em>PerlInterpreter</em> object, which is defined by
+the perl library.
+</p>
+<p>If your copy of Perl is recent enough to contain this documentation
+(version 5.002 or later), then the perl library (and <em>EXTERN.h</em> and
+<em>perl.h</em>, which you&rsquo;ll also need) will reside in a directory
+that looks like this:
+</p>
+<pre class="verbatim">    /usr/local/lib/perl5/your_architecture_here/CORE
+</pre>
+<p>or perhaps just
+</p>
+<pre class="verbatim">    /usr/local/lib/perl5/CORE
+</pre>
+<p>or maybe something like
+</p>
+<pre class="verbatim">    /usr/opt/perl5/CORE
+</pre>
+<p>Execute this statement for a hint about where to find CORE:
+</p>
+<pre class="verbatim">    perl -MConfig -e 'print $Config{archlib}'
+</pre>
+<p>Here&rsquo;s how you&rsquo;d compile the example in the next section,
+<a href="#perlembed-Adding-a-Perl-interpreter-to-your-C-program">Adding a Perl interpreter to your C program</a>, on my Linux box:
+</p>
+<pre class="verbatim">    % gcc -O2 -Dbool=char -DHAS_BOOL -I/usr/local/include
+    -I/usr/local/lib/perl5/i586-linux/5.003/CORE
+    -L/usr/local/lib/perl5/i586-linux/5.003/CORE
+    -o interp interp.c -lperl -lm
+</pre>
+<p>(That&rsquo;s all one line.)  On my DEC Alpha running old 5.003_05, the 
+incantation is a bit different:
+</p>
+<pre class="verbatim">    % cc -O2 -Olimit 2900 -DSTANDARD_C -I/usr/local/include
+    -I/usr/local/lib/perl5/alpha-dec_osf/5.00305/CORE
+    -L/usr/local/lib/perl5/alpha-dec_osf/5.00305/CORE -L/usr/local/lib
+    -D__LANGUAGE_C__ -D_NO_PROTO -o interp interp.c -lperl -lm
+</pre>
+<p>How can you figure out what to add?  Assuming your Perl is post-5.001,
+execute a <code>perl -V</code> command and pay special attention to the &quot;cc&quot; and
+&quot;ccflags&quot; information.
+</p>
+<p>You&rsquo;ll have to choose the appropriate compiler (<em>cc</em>, <em>gcc</em>, et al.) for
+your machine: <code>perl -MConfig -e 'print $Config{cc}'</code> will tell you what
+to use.
+</p>
+<p>You&rsquo;ll also have to choose the appropriate library directory
+(<em>/usr/local/lib/...</em>) for your machine.  If your compiler complains
+that certain functions are undefined, or that it can&rsquo;t locate
+<em>-lperl</em>, then you need to change the path following the <code>-L</code>.  If it
+complains that it can&rsquo;t find <em>EXTERN.h</em> and <em>perl.h</em>, you need to
+change the path following the <code>-I</code>.
+</p>
+<p>You may have to add extra libraries as well.  Which ones?
+Perhaps those printed by
+</p>
+<pre class="verbatim">   perl -MConfig -e 'print $Config{libs}'
+</pre>
+<p>Provided your perl binary was properly configured and installed the
+<strong>ExtUtils::Embed</strong> module will determine all of this information for
+you:
+</p>
+<pre class="verbatim">   % cc -o interp interp.c `perl -MExtUtils::Embed -e ccopts -e ldopts`
+</pre>
+<p>If the <strong>ExtUtils::Embed</strong> module isn&rsquo;t part of your Perl distribution,
+you can retrieve it from
+http://www.perl.com/perl/CPAN/modules/by-module/ExtUtils/
+(If this documentation came from your Perl distribution, then you&rsquo;re
+running 5.004 or better and you already have it.)
+</p>
+<p>The <strong>ExtUtils::Embed</strong> kit on CPAN also contains all source code for
+the examples in this document, tests, additional examples and other
+information you may find useful.
+</p>
+<hr>
+<a name="perlembed-Adding-a-Perl-interpreter-to-your-C-program"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-Calling-a-Perl-subroutine-from-your-C-program" accesskey="n" rel="next">perlembed Calling a Perl subroutine from your C program</a>, Previous: <a href="#perlembed-Compiling-your-C-program" accesskey="p" rel="previous">perlembed Compiling your C program</a>, Up: <a href="#perlembed-DESCRIPTION" accesskey="u" rel="up">perlembed DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Adding-a-Perl-interpreter-to-your-C-program"></a>
+<h4 class="subsection">20.2.4 Adding a Perl interpreter to your C program</h4>
+
+<p>In a sense, perl (the C program) is a good example of embedding Perl
+(the language), so I&rsquo;ll demonstrate embedding with <em>miniperlmain.c</em>,
+included in the source distribution.  Here&rsquo;s a bastardized, non-portable
+version of <em>miniperlmain.c</em> containing the essentials of embedding:
+</p>
+<pre class="verbatim">    #include &lt;EXTERN.h&gt;               /* from the Perl distribution     */
+    #include &lt;perl.h&gt;                 /* from the Perl distribution     */
+
+    static PerlInterpreter *my_perl;  /***    The Perl interpreter    ***/
+
+    int main(int argc, char **argv, char **env)
+    {
+        PERL_SYS_INIT3(&amp;argc,&amp;argv,&amp;env);
+        my_perl = perl_alloc();
+        perl_construct(my_perl);
+        PL_exit_flags |= PERL_EXIT_DESTRUCT_END;
+        perl_parse(my_perl, NULL, argc, argv, (char **)NULL);
+        perl_run(my_perl);
+        perl_destruct(my_perl);
+        perl_free(my_perl);
+        PERL_SYS_TERM();
+    }
+</pre>
+<p>Notice that we don&rsquo;t use the <code>env</code> pointer.  Normally handed to
+<code>perl_parse</code> as its final argument, <code>env</code> here is replaced by
+<code>NULL</code>, which means that the current environment will be used.
+</p>
+<p>The macros PERL_SYS_INIT3() and PERL_SYS_TERM() provide system-specific
+tune up of the C runtime environment necessary to run Perl interpreters;
+they should only be called once regardless of how many interpreters you
+create or destroy. Call PERL_SYS_INIT3() before you create your first
+interpreter, and PERL_SYS_TERM() after you free your last interpreter.
+</p>
+<p>Since PERL_SYS_INIT3() may change <code>env</code>, it may be more appropriate to
+provide <code>env</code> as an argument to perl_parse().
+</p>
+<p>Also notice that no matter what arguments you pass to perl_parse(),
+PERL_SYS_INIT3() must be invoked on the C main() argc, argv and env and
+only once.
+</p>
+<p>Now compile this program (I&rsquo;ll call it <em>interp.c</em>) into an executable:
+</p>
+<pre class="verbatim">    % cc -o interp interp.c `perl -MExtUtils::Embed -e ccopts -e ldopts`
+</pre>
+<p>After a successful compilation, you&rsquo;ll be able to use <em>interp</em> just
+like perl itself:
+</p>
+<pre class="verbatim">    % interp
+    print &quot;Pretty Good Perl \n&quot;;
+    print &quot;10890 - 9801 is &quot;, 10890 - 9801;
+    &lt;CTRL-D&gt;
+    Pretty Good Perl
+    10890 - 9801 is 1089
+</pre>
+<p>or
+</p>
+<pre class="verbatim">    % interp -e 'printf(&quot;%x&quot;, 3735928559)'
+    deadbeef
+</pre>
+<p>You can also read and execute Perl statements from a file while in the
+midst of your C program, by placing the filename in <em>argv[1]</em> before
+calling <em>perl_run</em>.
+</p>
+<hr>
+<a name="perlembed-Calling-a-Perl-subroutine-from-your-C-program"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-Evaluating-a-Perl-statement-from-your-C-program" accesskey="n" rel="next">perlembed Evaluating a Perl statement from your C program</a>, Previous: <a href="#perlembed-Adding-a-Perl-interpreter-to-your-C-program" accesskey="p" rel="previous">perlembed Adding a Perl interpreter to your C program</a>, Up: <a href="#perlembed-DESCRIPTION" accesskey="u" rel="up">perlembed DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Calling-a-Perl-subroutine-from-your-C-program"></a>
+<h4 class="subsection">20.2.5 Calling a Perl subroutine from your C program</h4>
+
+<p>To call individual Perl subroutines, you can use any of the <strong>call_*</strong>
+functions documented in <a href="perlcall.html#perlcall-NAME">perlcall NAME</a>.
+In this example we&rsquo;ll use <code>call_argv</code>.
+</p>
+<p>That&rsquo;s shown below, in a program I&rsquo;ll call <em>showtime.c</em>.
+</p>
+<pre class="verbatim">    #include &lt;EXTERN.h&gt;
+    #include &lt;perl.h&gt;
+
+    static PerlInterpreter *my_perl;
+
+    int main(int argc, char **argv, char **env)
+    {
+        char *args[] = { NULL };
+        PERL_SYS_INIT3(&amp;argc,&amp;argv,&amp;env);
+        my_perl = perl_alloc();
+        perl_construct(my_perl);
+
+        perl_parse(my_perl, NULL, argc, argv, NULL);
+        PL_exit_flags |= PERL_EXIT_DESTRUCT_END;
+
+        /*** skipping perl_run() ***/
+
+        call_argv(&quot;showtime&quot;, G_DISCARD | G_NOARGS, args);
+
+        perl_destruct(my_perl);
+        perl_free(my_perl);
+        PERL_SYS_TERM();
+    }
+</pre>
+<p>where <em>showtime</em> is a Perl subroutine that takes no arguments (that&rsquo;s the
+<em>G_NOARGS</em>) and for which I&rsquo;ll ignore the return value (that&rsquo;s the
+<em>G_DISCARD</em>).  Those flags, and others, are discussed in <a href="perlcall.html#perlcall-NAME">perlcall NAME</a>.
+</p>
+<p>I&rsquo;ll define the <em>showtime</em> subroutine in a file called <em>showtime.pl</em>:
+</p>
+<pre class="verbatim">    print &quot;I shan't be printed.&quot;;
+
+    sub showtime {
+        print time;
+    }
+</pre>
+<p>Simple enough.  Now compile and run:
+</p>
+<pre class="verbatim">    % cc -o showtime showtime.c `perl -MExtUtils::Embed -e ccopts -e ldopts`
+
+    % showtime showtime.pl
+    818284590
+</pre>
+<p>yielding the number of seconds that elapsed between January 1, 1970
+(the beginning of the Unix epoch), and the moment I began writing this
+sentence.
+</p>
+<p>In this particular case we don&rsquo;t have to call <em>perl_run</em>, as we set 
+the PL_exit_flag PERL_EXIT_DESTRUCT_END which executes END blocks in
+perl_destruct.
+</p>
+<p>If you want to pass arguments to the Perl subroutine, you can add
+strings to the <code>NULL</code>-terminated <code>args</code> list passed to
+<em>call_argv</em>.  For other data types, or to examine return values,
+you&rsquo;ll need to manipulate the Perl stack.  That&rsquo;s demonstrated in
+<a href="#perlembed-Fiddling-with-the-Perl-stack-from-your-C-program">Fiddling with the Perl stack from your C program</a>.
+</p>
+<hr>
+<a name="perlembed-Evaluating-a-Perl-statement-from-your-C-program"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-Performing-Perl-pattern-matches-and-substitutions-from-your-C-program" accesskey="n" rel="next">perlembed Performing Perl pattern matches and substitutions from your C program</a>, Previous: <a href="#perlembed-Calling-a-Perl-subroutine-from-your-C-program" accesskey="p" rel="previous">perlembed Calling a Perl subroutine from your C program</a>, Up: <a href="#perlembed-DESCRIPTION" accesskey="u" rel="up">perlembed DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Evaluating-a-Perl-statement-from-your-C-program"></a>
+<h4 class="subsection">20.2.6 Evaluating a Perl statement from your C program</h4>
+
+<p>Perl provides two API functions to evaluate pieces of Perl code.
+These are <a href="../perlapi/eval_005fsv.html#eval_005fsv">(perlapi)eval_sv</a> and <a href="../perlapi/eval_005fpv.html#eval_005fpv">(perlapi)eval_pv</a>.
+</p>
+<p>Arguably, these are the only routines you&rsquo;ll ever need to execute
+snippets of Perl code from within your C program.  Your code can be as
+long as you wish; it can contain multiple statements; it can employ
+<a href="../perlfunc/use.html#use">(perlfunc)use</a>, <a href="../perlfunc/require.html#require">(perlfunc)require</a>, and <a href="../perlfunc/do.html#do">(perlfunc)do</a> to
+include external Perl files.
+</p>
+<p><em>eval_pv</em> lets us evaluate individual Perl strings, and then
+extract variables for coercion into C types.  The following program,
+<em>string.c</em>, executes three Perl strings, extracting an <code>int</code> from
+the first, a <code>float</code> from the second, and a <code>char *</code> from the third.
+</p>
+<pre class="verbatim">   #include &lt;EXTERN.h&gt;
+   #include &lt;perl.h&gt;
+
+   static PerlInterpreter *my_perl;
+
+   main (int argc, char **argv, char **env)
+   {
+       char *embedding[] = { &quot;&quot;, &quot;-e&quot;, &quot;0&quot; };
+
+       PERL_SYS_INIT3(&amp;argc,&amp;argv,&amp;env);
+       my_perl = perl_alloc();
+       perl_construct( my_perl );
+
+       perl_parse(my_perl, NULL, 3, embedding, NULL);
+       PL_exit_flags |= PERL_EXIT_DESTRUCT_END;
+       perl_run(my_perl);
+
+       /** Treat $a as an integer **/
+       eval_pv(&quot;$a = 3; $a **= 2&quot;, TRUE);
+       printf(&quot;a = %d\n&quot;, SvIV(get_sv(&quot;a&quot;, 0)));
+
+       /** Treat $a as a float **/
+       eval_pv(&quot;$a = 3.14; $a **= 2&quot;, TRUE);
+       printf(&quot;a = %f\n&quot;, SvNV(get_sv(&quot;a&quot;, 0)));
+
+       /** Treat $a as a string **/
+       eval_pv(&quot;$a = 'rekcaH lreP rehtonA tsuJ'; $a = reverse($a);&quot;, TRUE);
+       printf(&quot;a = %s\n&quot;, SvPV_nolen(get_sv(&quot;a&quot;, 0)));
+
+       perl_destruct(my_perl);
+       perl_free(my_perl);
+       PERL_SYS_TERM();
+   }
+</pre>
+<p>All of those strange functions with <em>sv</em> in their names help convert Perl scalars to C types.  They&rsquo;re described in <a href="perlguts.html#perlguts-NAME">perlguts NAME</a> and <a href="../perlapi/index.html">(perlapi)</a>.
+</p>
+<p>If you compile and run <em>string.c</em>, you&rsquo;ll see the results of using
+<em>SvIV()</em> to create an <code>int</code>, <em>SvNV()</em> to create a <code>float</code>, and
+<em>SvPV()</em> to create a string:
+</p>
+<pre class="verbatim">   a = 9
+   a = 9.859600
+   a = Just Another Perl Hacker
+</pre>
+<p>In the example above, we&rsquo;ve created a global variable to temporarily
+store the computed value of our eval&rsquo;ed expression.  It is also
+possible and in most cases a better strategy to fetch the return value
+from <em>eval_pv()</em> instead.  Example:
+</p>
+<pre class="verbatim">   ...
+   SV *val = eval_pv(&quot;reverse 'rekcaH lreP rehtonA tsuJ'&quot;, TRUE);
+   printf(&quot;%s\n&quot;, SvPV_nolen(val));
+   ...
+</pre>
+<p>This way, we avoid namespace pollution by not creating global
+variables and we&rsquo;ve simplified our code as well.
+</p>
+<hr>
+<a name="perlembed-Performing-Perl-pattern-matches-and-substitutions-from-your-C-program"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-Fiddling-with-the-Perl-stack-from-your-C-program" accesskey="n" rel="next">perlembed Fiddling with the Perl stack from your C program</a>, Previous: <a href="#perlembed-Evaluating-a-Perl-statement-from-your-C-program" accesskey="p" rel="previous">perlembed Evaluating a Perl statement from your C program</a>, Up: <a href="#perlembed-DESCRIPTION" accesskey="u" rel="up">perlembed DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Performing-Perl-pattern-matches-and-substitutions-from-your-C-program"></a>
+<h4 class="subsection">20.2.7 Performing Perl pattern matches and substitutions from your C program</h4>
+
+<p>The <em>eval_sv()</em> function lets us evaluate strings of Perl code, so we can
+define some functions that use it to &quot;specialize&quot; in matches and
+substitutions: <em>match()</em>, <em>substitute()</em>, and <em>matches()</em>.
+</p>
+<pre class="verbatim">   I32 match(SV *string, char *pattern);
+</pre>
+<p>Given a string and a pattern (e.g., <code>m/clasp/</code> or <code>/\b\w*\b/</code>, which
+in your C program might appear as &quot;/\\b\\w*\\b/&quot;), match()
+returns 1 if the string matches the pattern and 0 otherwise.
+</p>
+<pre class="verbatim">   int substitute(SV **string, char *pattern);
+</pre>
+<p>Given a pointer to an <code>SV</code> and an <code>=~</code> operation (e.g.,
+<code>s/bob/robert/g</code> or <code>tr[A-Z][a-z]</code>), substitute() modifies the string
+within the <code>SV</code> as according to the operation, returning the number of substitutions
+made.
+</p>
+<pre class="verbatim">   int matches(SV *string, char *pattern, AV **matches);
+</pre>
+<p>Given an <code>SV</code>, a pattern, and a pointer to an empty <code>AV</code>,
+matches() evaluates <code>$string =~ $pattern</code> in a list context, and
+fills in <em>matches</em> with the array elements, returning the number of matches found.
+</p>
+<p>Here&rsquo;s a sample program, <em>match.c</em>, that uses all three (long lines have
+been wrapped here):
+</p>
+<pre class="verbatim"> #include &lt;EXTERN.h&gt;
+ #include &lt;perl.h&gt;
+
+ static PerlInterpreter *my_perl;
+
+ /** my_eval_sv(code, error_check)
+ ** kinda like eval_sv(), 
+ ** but we pop the return value off the stack 
+ **/
+ SV* my_eval_sv(SV *sv, I32 croak_on_error)
+ {
+     dSP;
+     SV* retval;
+
+
+     PUSHMARK(SP);
+     eval_sv(sv, G_SCALAR);
+
+     SPAGAIN;
+     retval = POPs;
+     PUTBACK;
+
+     if (croak_on_error &amp;&amp; SvTRUE(ERRSV))
+        croak(SvPVx_nolen(ERRSV));
+
+     return retval;
+ }
+
+ /** match(string, pattern)
+ **
+ ** Used for matches in a scalar context.
+ **
+ ** Returns 1 if the match was successful; 0 otherwise.
+ **/
+
+ I32 match(SV *string, char *pattern)
+ {
+     SV *command = newSV(0), *retval;
+
+     sv_setpvf(command, &quot;my $string = '%s'; $string =~ %s&quot;,
+              SvPV_nolen(string), pattern);
+
+     retval = my_eval_sv(command, TRUE);
+     SvREFCNT_dec(command);
+
+     return SvIV(retval);
+ }
+
+ /** substitute(string, pattern)
+ **
+ ** Used for =~ operations that modify their left-hand side (s/// and tr///)
+ **
+ ** Returns the number of successful matches, and
+ ** modifies the input string if there were any.
+ **/
+
+ I32 substitute(SV **string, char *pattern)
+ {
+     SV *command = newSV(0), *retval;
+
+     sv_setpvf(command, &quot;$string = '%s'; ($string =~ %s)&quot;,
+              SvPV_nolen(*string), pattern);
+
+     retval = my_eval_sv(command, TRUE);
+     SvREFCNT_dec(command);
+
+     *string = get_sv(&quot;string&quot;, 0);
+     return SvIV(retval);
+ }
+
+ /** matches(string, pattern, matches)
+ **
+ ** Used for matches in a list context.
+ **
+ ** Returns the number of matches,
+ ** and fills in **matches with the matching substrings
+ **/
+
+ I32 matches(SV *string, char *pattern, AV **match_list)
+ {
+     SV *command = newSV(0);
+     I32 num_matches;
+
+     sv_setpvf(command, &quot;my $string = '%s'; @array = ($string =~ %s)&quot;,
+              SvPV_nolen(string), pattern);
+
+     my_eval_sv(command, TRUE);
+     SvREFCNT_dec(command);
+
+     *match_list = get_av(&quot;array&quot;, 0);
+     num_matches = av_len(*match_list) + 1;
+
+     return num_matches;
+ }
+
+ main (int argc, char **argv, char **env)
+ {
+     char *embedding[] = { &quot;&quot;, &quot;-e&quot;, &quot;0&quot; };
+     AV *match_list;
+     I32 num_matches, i;
+     SV *text;
+
+     PERL_SYS_INIT3(&amp;argc,&amp;argv,&amp;env);
+     my_perl = perl_alloc();
+     perl_construct(my_perl);
+     perl_parse(my_perl, NULL, 3, embedding, NULL);
+     PL_exit_flags |= PERL_EXIT_DESTRUCT_END;
+
+     text = newSV(0);
+     sv_setpv(text, &quot;When he is at a convenience store and the &quot;
+        &quot;bill comes to some amount like 76 cents, Maynard is &quot;
+        &quot;aware that there is something he *should* do, something &quot;
+        &quot;that will enable him to get back a quarter, but he has &quot;
+        &quot;no idea *what*.  He fumbles through his red squeezey &quot;
+        &quot;changepurse and gives the boy three extra pennies with &quot;
+        &quot;his dollar, hoping that he might luck into the correct &quot;
+        &quot;amount.  The boy gives him back two of his own pennies &quot;
+        &quot;and then the big shiny quarter that is his prize. &quot;
+        &quot;-RICHH&quot;);
+
+     if (match(text, &quot;m/quarter/&quot;)) /** Does text contain 'quarter'? **/
+        printf(&quot;match: Text contains the word 'quarter'.\n\n&quot;);
+     else
+        printf(&quot;match: Text doesn't contain the word 'quarter'.\n\n&quot;);
+
+     if (match(text, &quot;m/eighth/&quot;)) /** Does text contain 'eighth'? **/
+        printf(&quot;match: Text contains the word 'eighth'.\n\n&quot;);
+     else
+        printf(&quot;match: Text doesn't contain the word 'eighth'.\n\n&quot;);
+
+     /** Match all occurrences of /wi../ **/
+     num_matches = matches(text, &quot;m/(wi..)/g&quot;, &amp;match_list);
+     printf(&quot;matches: m/(wi..)/g found %d matches...\n&quot;, num_matches);
+
+     for (i = 0; i &lt; num_matches; i++)
+        printf(&quot;match: %s\n&quot;, SvPV_nolen(*av_fetch(match_list, i, FALSE)));
+     printf(&quot;\n&quot;);
+
+     /** Remove all vowels from text **/
+     num_matches = substitute(&amp;text, &quot;s/[aeiou]//gi&quot;);
+     if (num_matches) {
+        printf(&quot;substitute: s/[aeiou]//gi...%d substitutions made.\n&quot;,
+               num_matches);
+        printf(&quot;Now text is: %s\n\n&quot;, SvPV_nolen(text));
+     }
+
+     /** Attempt a substitution **/
+     if (!substitute(&amp;text, &quot;s/Perl/C/&quot;)) {
+        printf(&quot;substitute: s/Perl/C...No substitution made.\n\n&quot;);
+     }
+
+     SvREFCNT_dec(text);
+     PL_perl_destruct_level = 1;
+     perl_destruct(my_perl);
+     perl_free(my_perl);
+     PERL_SYS_TERM();
+ }
+</pre>
+<p>which produces the output (again, long lines have been wrapped here)
+</p>
+<pre class="verbatim">   match: Text contains the word 'quarter'.
+
+   match: Text doesn't contain the word 'eighth'.
+
+   matches: m/(wi..)/g found 2 matches...
+   match: will
+   match: with
+
+   substitute: s/[aeiou]//gi...139 substitutions made.
+   Now text is: Whn h s t  cnvnnc str nd th bll cms t sm mnt lk 76 cnts,
+   Mynrd s wr tht thr s smthng h *shld* d, smthng tht wll nbl hm t gt bck
+   qrtr, bt h hs n d *wht*.  H fmbls thrgh hs rd sqzy chngprs nd gvs th by
+   thr xtr pnns wth hs dllr, hpng tht h mght lck nt th crrct mnt.  Th by gvs
+   hm bck tw f hs wn pnns nd thn th bg shny qrtr tht s hs prz. -RCHH
+
+   substitute: s/Perl/C...No substitution made.
+</pre>
+<hr>
+<a name="perlembed-Fiddling-with-the-Perl-stack-from-your-C-program"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-Maintaining-a-persistent-interpreter" accesskey="n" rel="next">perlembed Maintaining a persistent interpreter</a>, Previous: <a href="#perlembed-Performing-Perl-pattern-matches-and-substitutions-from-your-C-program" accesskey="p" rel="previous">perlembed Performing Perl pattern matches and substitutions from your C program</a>, Up: <a href="#perlembed-DESCRIPTION" accesskey="u" rel="up">perlembed DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Fiddling-with-the-Perl-stack-from-your-C-program"></a>
+<h4 class="subsection">20.2.8 Fiddling with the Perl stack from your C program</h4>
+
+<p>When trying to explain stacks, most computer science textbooks mumble
+something about spring-loaded columns of cafeteria plates: the last
+thing you pushed on the stack is the first thing you pop off.  That&rsquo;ll
+do for our purposes: your C program will push some arguments onto &quot;the Perl
+stack&quot;, shut its eyes while some magic happens, and then pop the
+results&ndash;the return value of your Perl subroutine&ndash;off the stack.
+</p>
+<p>First you&rsquo;ll need to know how to convert between C types and Perl
+types, with newSViv() and sv_setnv() and newAV() and all their
+friends.  They&rsquo;re described in <a href="perlguts.html#perlguts-NAME">perlguts NAME</a> and <a href="../perlapi/index.html">(perlapi)</a>.
+</p>
+<p>Then you&rsquo;ll need to know how to manipulate the Perl stack.  That&rsquo;s
+described in <a href="perlcall.html#perlcall-NAME">perlcall NAME</a>.
+</p>
+<p>Once you&rsquo;ve understood those, embedding Perl in C is easy.
+</p>
+<p>Because C has no builtin function for integer exponentiation, let&rsquo;s
+make Perl&rsquo;s ** operator available to it (this is less useful than it
+sounds, because Perl implements ** with C&rsquo;s <em>pow()</em> function).  First
+I&rsquo;ll create a stub exponentiation function in <em>power.pl</em>:
+</p>
+<pre class="verbatim">    sub expo {
+        my ($a, $b) = @_;
+        return $a ** $b;
+    }
+</pre>
+<p>Now I&rsquo;ll create a C program, <em>power.c</em>, with a function
+<em>PerlPower()</em> that contains all the perlguts necessary to push the
+two arguments into <em>expo()</em> and to pop the return value out.  Take a
+deep breath...
+</p>
+<pre class="verbatim">    #include &lt;EXTERN.h&gt;
+    #include &lt;perl.h&gt;
+
+    static PerlInterpreter *my_perl;
+
+    static void
+    PerlPower(int a, int b)
+    {
+      dSP;                            /* initialize stack pointer      */
+      ENTER;                          /* everything created after here */
+      SAVETMPS;                       /* ...is a temporary variable.   */
+      PUSHMARK(SP);                   /* remember the stack pointer    */
+      XPUSHs(sv_2mortal(newSViv(a))); /* push the base onto the stack  */
+      XPUSHs(sv_2mortal(newSViv(b))); /* push the exponent onto stack  */
+      PUTBACK;                      /* make local stack pointer global */
+      call_pv(&quot;expo&quot;, G_SCALAR);      /* call the function             */
+      SPAGAIN;                        /* refresh stack pointer         */
+                                    /* pop the return value from stack */
+      printf (&quot;%d to the %dth power is %d.\n&quot;, a, b, POPi);
+      PUTBACK;
+      FREETMPS;                       /* free that return value        */
+      LEAVE;                       /* ...and the XPUSHed &quot;mortal&quot; args.*/
+    }
+
+    int main (int argc, char **argv, char **env)
+    {
+      char *my_argv[] = { &quot;&quot;, &quot;power.pl&quot; };
+
+      PERL_SYS_INIT3(&amp;argc,&amp;argv,&amp;env);
+      my_perl = perl_alloc();
+      perl_construct( my_perl );
+
+      perl_parse(my_perl, NULL, 2, my_argv, (char **)NULL);
+      PL_exit_flags |= PERL_EXIT_DESTRUCT_END;
+      perl_run(my_perl);
+
+      PerlPower(3, 4);                      /*** Compute 3 ** 4 ***/
+
+      perl_destruct(my_perl);
+      perl_free(my_perl);
+      PERL_SYS_TERM();
+    }
+</pre>
+<p>Compile and run:
+</p>
+<pre class="verbatim">    % cc -o power power.c `perl -MExtUtils::Embed -e ccopts -e ldopts`
+
+    % power
+    3 to the 4th power is 81.
+</pre>
+<hr>
+<a name="perlembed-Maintaining-a-persistent-interpreter"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-Execution-of-END-blocks" accesskey="n" rel="next">perlembed Execution of END blocks</a>, Previous: <a href="#perlembed-Fiddling-with-the-Perl-stack-from-your-C-program" accesskey="p" rel="previous">perlembed Fiddling with the Perl stack from your C program</a>, Up: <a href="#perlembed-DESCRIPTION" accesskey="u" rel="up">perlembed DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Maintaining-a-persistent-interpreter"></a>
+<h4 class="subsection">20.2.9 Maintaining a persistent interpreter</h4>
+
+<p>When developing interactive and/or potentially long-running
+applications, it&rsquo;s a good idea to maintain a persistent interpreter
+rather than allocating and constructing a new interpreter multiple
+times.  The major reason is speed: since Perl will only be loaded into
+memory once.
+</p>
+<p>However, you have to be more cautious with namespace and variable
+scoping when using a persistent interpreter.  In previous examples
+we&rsquo;ve been using global variables in the default package <code>main</code>.  We
+knew exactly what code would be run, and assumed we could avoid
+variable collisions and outrageous symbol table growth.
+</p>
+<p>Let&rsquo;s say your application is a server that will occasionally run Perl
+code from some arbitrary file.  Your server has no way of knowing what
+code it&rsquo;s going to run.  Very dangerous.
+</p>
+<p>If the file is pulled in by <code>perl_parse()</code>, compiled into a newly
+constructed interpreter, and subsequently cleaned out with
+<code>perl_destruct()</code> afterwards, you&rsquo;re shielded from most namespace
+troubles.
+</p>
+<p>One way to avoid namespace collisions in this scenario is to translate
+the filename into a guaranteed-unique package name, and then compile
+the code into that package using <a href="../perlfunc/eval.html#eval">(perlfunc)eval</a>.  In the example
+below, each file will only be compiled once.  Or, the application
+might choose to clean out the symbol table associated with the file
+after it&rsquo;s no longer needed.  Using <a href="../perlapi/call_005fargv.html#call_005fargv">(perlapi)call_argv</a>, We&rsquo;ll
+call the subroutine <code>Embed::Persistent::eval_file</code> which lives in the
+file <code>persistent.pl</code> and pass the filename and boolean cleanup/cache
+flag as arguments.
+</p>
+<p>Note that the process will continue to grow for each file that it
+uses.  In addition, there might be <code>AUTOLOAD</code>ed subroutines and other
+conditions that cause Perl&rsquo;s symbol table to grow.  You might want to
+add some logic that keeps track of the process size, or restarts
+itself after a certain number of requests, to ensure that memory
+consumption is minimized.  You&rsquo;ll also want to scope your variables
+with <a href="../perlfunc/my.html#my">(perlfunc)my</a> whenever possible.
+</p>
+<pre class="verbatim"> package Embed::Persistent;
+ #persistent.pl
+
+ use strict;
+ our %Cache;
+ use Symbol qw(delete_package);
+
+ sub valid_package_name {
+     my($string) = @_;
+     $string =~ s/([^A-Za-z0-9\/])/sprintf(&quot;_%2x&quot;,unpack(&quot;C&quot;,$1))/eg;
+     # second pass only for words starting with a digit
+     $string =~ s|/(\d)|sprintf(&quot;/_%2x&quot;,unpack(&quot;C&quot;,$1))|eg;
+
+     # Dress it up as a real package name
+     $string =~ s|/|::|g;
+     return &quot;Embed&quot; . $string;
+ }
+
+ sub eval_file {
+     my($filename, $delete) = @_;
+     my $package = valid_package_name($filename);
+     my $mtime = -M $filename;
+     if(defined $Cache{$package}{mtime}
+        &amp;&amp;
+        $Cache{$package}{mtime} &lt;= $mtime)
+     {
+        # we have compiled this subroutine already,
+        # it has not been updated on disk, nothing left to do
+        print STDERR &quot;already compiled $package-&gt;handler\n&quot;;
+     }
+     else {
+        local *FH;
+        open FH, $filename or die &quot;open '$filename' $!&quot;;
+        local($/) = undef;
+        my $sub = &lt;FH&gt;;
+        close FH;
+
+        #wrap the code into a subroutine inside our unique package
+        my $eval = qq{package $package; sub handler { $sub; }};
+        {
+            # hide our variables within this block
+            my($filename,$mtime,$package,$sub);
+            eval $eval;
+        }
+        die $@ if $@;
+
+        #cache it unless we're cleaning out each time
+        $Cache{$package}{mtime} = $mtime unless $delete;
+     }
+
+     eval {$package-&gt;handler;};
+     die $@ if $@;
+
+     delete_package($package) if $delete;
+
+     #take a look if you want
+     #print Devel::Symdump-&gt;rnew($package)-&gt;as_string, $/;
+ }
+
+ 1;
+
+ __END__
+
+ /* persistent.c */
+ #include &lt;EXTERN.h&gt;
+ #include &lt;perl.h&gt;
+
+ /* 1 = clean out filename's symbol table after each request, 0 = don't */
+ #ifndef DO_CLEAN
+ #define DO_CLEAN 0
+ #endif
+
+ #define BUFFER_SIZE 1024
+
+ static PerlInterpreter *my_perl = NULL;
+
+ int
+ main(int argc, char **argv, char **env)
+ {
+     char *embedding[] = { &quot;&quot;, &quot;persistent.pl&quot; };
+     char *args[] = { &quot;&quot;, DO_CLEAN, NULL };
+     char filename[BUFFER_SIZE];
+     int exitstatus = 0;
+
+     PERL_SYS_INIT3(&amp;argc,&amp;argv,&amp;env);
+     if((my_perl = perl_alloc()) == NULL) {
+        fprintf(stderr, &quot;no memory!&quot;);
+        exit(1);
+     }
+     perl_construct(my_perl);
+
+     PL_origalen = 1; /* don't let $0 assignment update the proctitle or embedding[0] */
+     exitstatus = perl_parse(my_perl, NULL, 2, embedding, NULL);
+     PL_exit_flags |= PERL_EXIT_DESTRUCT_END;
+     if(!exitstatus) {
+        exitstatus = perl_run(my_perl);
+
+        while(printf(&quot;Enter file name: &quot;) &amp;&amp;
+              fgets(filename, BUFFER_SIZE, stdin)) {
+
+            filename[strlen(filename)-1] = '\0'; /* strip \n */
+            /* call the subroutine, passing it the filename as an argument */
+            args[0] = filename;
+            call_argv(&quot;Embed::Persistent::eval_file&quot;,
+                           G_DISCARD | G_EVAL, args);
+
+            /* check $@ */
+            if(SvTRUE(ERRSV))
+                fprintf(stderr, &quot;eval error: %s\n&quot;, SvPV_nolen(ERRSV));
+        }
+     }
+
+     PL_perl_destruct_level = 0;
+     perl_destruct(my_perl);
+     perl_free(my_perl);
+     PERL_SYS_TERM();
+     exit(exitstatus);
+ }
+</pre>
+<p>Now compile:
+</p>
+<pre class="verbatim"> % cc -o persistent persistent.c `perl -MExtUtils::Embed -e ccopts -e ldopts`
+</pre>
+<p>Here&rsquo;s an example script file:
+</p>
+<pre class="verbatim"> #test.pl
+ my $string = &quot;hello&quot;;
+ foo($string);
+
+ sub foo {
+     print &quot;foo says: @_\n&quot;;
+ }
+</pre>
+<p>Now run:
+</p>
+<pre class="verbatim"> % persistent
+ Enter file name: test.pl
+ foo says: hello
+ Enter file name: test.pl
+ already compiled Embed::test_2epl-&gt;handler
+ foo says: hello
+ Enter file name: ^C
+</pre>
+<hr>
+<a name="perlembed-Execution-of-END-blocks"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-_00240-assignments" accesskey="n" rel="next">perlembed $0 assignments</a>, Previous: <a href="#perlembed-Maintaining-a-persistent-interpreter" accesskey="p" rel="previous">perlembed Maintaining a persistent interpreter</a>, Up: <a href="#perlembed-DESCRIPTION" accesskey="u" rel="up">perlembed DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Execution-of-END-blocks"></a>
+<h4 class="subsection">20.2.10 Execution of END blocks</h4>
+
+<p>Traditionally END blocks have been executed at the end of the perl_run.
+This causes problems for applications that never call perl_run. Since
+perl 5.7.2 you can specify <code>PL_exit_flags |= PERL_EXIT_DESTRUCT_END</code>
+to get the new behaviour. This also enables the running of END blocks if
+the perl_parse fails and <code>perl_destruct</code> will return the exit value.
+</p>
+<hr>
+<a name="perlembed-_00240-assignments"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-Maintaining-multiple-interpreter-instances" accesskey="n" rel="next">perlembed Maintaining multiple interpreter instances</a>, Previous: <a href="#perlembed-Execution-of-END-blocks" accesskey="p" rel="previous">perlembed Execution of END blocks</a>, Up: <a href="#perlembed-DESCRIPTION" accesskey="u" rel="up">perlembed DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="g_t_00240-assignments"></a>
+<h4 class="subsection">20.2.11 $0 assignments</h4>
+
+<p>When a perl script assigns a value to $0 then the perl runtime will
+try to make this value show up as the program name reported by &quot;ps&quot; by
+updating the memory pointed to by the argv passed to perl_parse() and
+also calling API functions like setproctitle() where available.  This
+behaviour might not be appropriate when embedding perl and can be
+disabled by assigning the value <code>1</code> to the variable <code>PL_origalen</code>
+before perl_parse() is called.
+</p>
+<p>The <samp>persistent.c</samp> example above is for instance likely to segfault
+when $0 is assigned to if the <code>PL_origalen = 1;</code> assignment is
+removed.  This because perl will try to write to the read only memory
+of the <code>embedding[]</code> strings.
+</p>
+<hr>
+<a name="perlembed-Maintaining-multiple-interpreter-instances"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-Using-Perl-modules_002c-which-themselves-use-C-libraries_002c-from-your-C-program" accesskey="n" rel="next">perlembed Using Perl modules, which themselves use C libraries, from your C program</a>, Previous: <a href="#perlembed-_00240-assignments" accesskey="p" rel="previous">perlembed $0 assignments</a>, Up: <a href="#perlembed-DESCRIPTION" accesskey="u" rel="up">perlembed DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Maintaining-multiple-interpreter-instances"></a>
+<h4 class="subsection">20.2.12 Maintaining multiple interpreter instances</h4>
+
+<p>Some rare applications will need to create more than one interpreter
+during a session.  Such an application might sporadically decide to
+release any resources associated with the interpreter.
+</p>
+<p>The program must take care to ensure that this takes place <em>before</em>
+the next interpreter is constructed.  By default, when perl is not
+built with any special options, the global variable
+<code>PL_perl_destruct_level</code> is set to <code>0</code>, since extra cleaning isn&rsquo;t
+usually needed when a program only ever creates a single interpreter
+in its entire lifetime.
+</p>
+<p>Setting <code>PL_perl_destruct_level</code> to <code>1</code> makes everything squeaky clean:
+</p>
+<pre class="verbatim"> while(1) {
+     ...
+     /* reset global variables here with PL_perl_destruct_level = 1 */
+     PL_perl_destruct_level = 1;
+     perl_construct(my_perl);
+     ...
+     /* clean and reset _everything_ during perl_destruct */
+     PL_perl_destruct_level = 1;
+     perl_destruct(my_perl);
+     perl_free(my_perl);
+     ...
+     /* let's go do it again! */
+ }
+</pre>
+<p>When <em>perl_destruct()</em> is called, the interpreter&rsquo;s syntax parse tree
+and symbol tables are cleaned up, and global variables are reset.  The
+second assignment to <code>PL_perl_destruct_level</code> is needed because
+perl_construct resets it to <code>0</code>.
+</p>
+<p>Now suppose we have more than one interpreter instance running at the
+same time.  This is feasible, but only if you used the Configure option
+<code>-Dusemultiplicity</code> or the options <code>-Dusethreads -Duseithreads</code> when
+building perl.  By default, enabling one of these Configure options
+sets the per-interpreter global variable <code>PL_perl_destruct_level</code> to
+<code>1</code>, so that thorough cleaning is automatic and interpreter variables
+are initialized correctly.  Even if you don&rsquo;t intend to run two or
+more interpreters at the same time, but to run them sequentially, like
+in the above example, it is recommended to build perl with the
+<code>-Dusemultiplicity</code> option otherwise some interpreter variables may
+not be initialized correctly between consecutive runs and your
+application may crash.
+</p>
+<p>See also <a href="../perlxs/Thread_002daware-system-interfaces.html#Thread_002daware-system-interfaces">(perlxs)Thread-aware system interfaces</a>.
+</p>
+<p>Using <code>-Dusethreads -Duseithreads</code> rather than <code>-Dusemultiplicity</code>
+is more appropriate if you intend to run multiple interpreters
+concurrently in different threads, because it enables support for
+linking in the thread libraries of your system with the interpreter.
+</p>
+<p>Let&rsquo;s give it a try:
+</p>
+<pre class="verbatim"> #include &lt;EXTERN.h&gt;
+ #include &lt;perl.h&gt;
+
+ /* we're going to embed two interpreters */
+
+ #define SAY_HELLO &quot;-e&quot;, &quot;print qq(Hi, I'm $^X\n)&quot;
+
+ int main(int argc, char **argv, char **env)
+ {
+     PerlInterpreter *one_perl, *two_perl;
+     char *one_args[] = { &quot;one_perl&quot;, SAY_HELLO };
+     char *two_args[] = { &quot;two_perl&quot;, SAY_HELLO };
+
+     PERL_SYS_INIT3(&amp;argc,&amp;argv,&amp;env);
+     one_perl = perl_alloc();
+     two_perl = perl_alloc();
+
+     PERL_SET_CONTEXT(one_perl);
+     perl_construct(one_perl);
+     PERL_SET_CONTEXT(two_perl);
+     perl_construct(two_perl);
+
+     PERL_SET_CONTEXT(one_perl);
+     perl_parse(one_perl, NULL, 3, one_args, (char **)NULL);
+     PERL_SET_CONTEXT(two_perl);
+     perl_parse(two_perl, NULL, 3, two_args, (char **)NULL);
+
+     PERL_SET_CONTEXT(one_perl);
+     perl_run(one_perl);
+     PERL_SET_CONTEXT(two_perl);
+     perl_run(two_perl);
+
+     PERL_SET_CONTEXT(one_perl);
+     perl_destruct(one_perl);
+     PERL_SET_CONTEXT(two_perl);
+     perl_destruct(two_perl);
+
+     PERL_SET_CONTEXT(one_perl);
+     perl_free(one_perl);
+     PERL_SET_CONTEXT(two_perl);
+     perl_free(two_perl);
+     PERL_SYS_TERM();
+ }
+</pre>
+<p>Note the calls to PERL_SET_CONTEXT().  These are necessary to initialize
+the global state that tracks which interpreter is the &quot;current&quot; one on
+the particular process or thread that may be running it.  It should
+always be used if you have more than one interpreter and are making
+perl API calls on both interpreters in an interleaved fashion.
+</p>
+<p>PERL_SET_CONTEXT(interp) should also be called whenever <code>interp</code> is
+used by a thread that did not create it (using either perl_alloc(), or
+the more esoteric perl_clone()).
+</p>
+<p>Compile as usual:
+</p>
+<pre class="verbatim"> % cc -o multiplicity multiplicity.c `perl -MExtUtils::Embed -e ccopts -e ldopts`
+</pre>
+<p>Run it, Run it:
+</p>
+<pre class="verbatim"> % multiplicity
+ Hi, I'm one_perl
+ Hi, I'm two_perl
+</pre>
+<hr>
+<a name="perlembed-Using-Perl-modules_002c-which-themselves-use-C-libraries_002c-from-your-C-program"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlembed-Maintaining-multiple-interpreter-instances" accesskey="p" rel="previous">perlembed Maintaining multiple interpreter instances</a>, Up: <a href="#perlembed-DESCRIPTION" accesskey="u" rel="up">perlembed DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Using-Perl-modules_002c-which-themselves-use-C-libraries_002c-from-your-C-program"></a>
+<h4 class="subsection">20.2.13 Using Perl modules, which themselves use C libraries, from your C program</h4>
+
+<p>If you&rsquo;ve played with the examples above and tried to embed a script
+that <em>use()</em>s a Perl module (such as <em>Socket</em>) which itself uses a C or C++ library,
+this probably happened:
+</p>
+<pre class="verbatim"> Can't load module Socket, dynamic loading not available in this perl.
+  (You may need to build a new perl executable which either supports
+  dynamic loading or has the Socket module statically linked into it.)
+</pre>
+<p>What&rsquo;s wrong?
+</p>
+<p>Your interpreter doesn&rsquo;t know how to communicate with these extensions
+on its own.  A little glue will help.  Up until now you&rsquo;ve been
+calling <em>perl_parse()</em>, handing it NULL for the second argument:
+</p>
+<pre class="verbatim"> perl_parse(my_perl, NULL, argc, my_argv, NULL);
+</pre>
+<p>That&rsquo;s where the glue code can be inserted to create the initial contact between
+Perl and linked C/C++ routines.  Let&rsquo;s take a look some pieces of <em>perlmain.c</em>
+to see how Perl does this:
+</p>
+<pre class="verbatim"> static void xs_init (pTHX);
+
+ EXTERN_C void boot_DynaLoader (pTHX_ CV* cv);
+ EXTERN_C void boot_Socket (pTHX_ CV* cv);
+
+
+ EXTERN_C void
+ xs_init(pTHX)
+ {
+        char *file = __FILE__;
+        /* DynaLoader is a special case */
+        newXS(&quot;DynaLoader::boot_DynaLoader&quot;, boot_DynaLoader, file);
+        newXS(&quot;Socket::bootstrap&quot;, boot_Socket, file);
+ }
+</pre>
+<p>Simply put: for each extension linked with your Perl executable
+(determined during its initial configuration on your
+computer or when adding a new extension),
+a Perl subroutine is created to incorporate the extension&rsquo;s
+routines.  Normally, that subroutine is named
+<em>Module::bootstrap()</em> and is invoked when you say <em>use Module</em>.  In
+turn, this hooks into an XSUB, <em>boot_Module</em>, which creates a Perl
+counterpart for each of the extension&rsquo;s XSUBs.  Don&rsquo;t worry about this
+part; leave that to the <em>xsubpp</em> and extension authors.  If your
+extension is dynamically loaded, DynaLoader creates <em>Module::bootstrap()</em>
+for you on the fly.  In fact, if you have a working DynaLoader then there
+is rarely any need to link in any other extensions statically.
+</p>
+<p>Once you have this code, slap it into the second argument of <em>perl_parse()</em>:
+</p>
+<pre class="verbatim"> perl_parse(my_perl, xs_init, argc, my_argv, NULL);
+</pre>
+<p>Then compile:
+</p>
+<pre class="verbatim"> % cc -o interp interp.c `perl -MExtUtils::Embed -e ccopts -e ldopts`
+
+ % interp
+   use Socket;
+   use SomeDynamicallyLoadedModule;
+
+   print &quot;Now I can use extensions!\n&quot;'
+</pre>
+<p><strong>ExtUtils::Embed</strong> can also automate writing the <em>xs_init</em> glue code.
+</p>
+<pre class="verbatim"> % perl -MExtUtils::Embed -e xsinit -- -o perlxsi.c
+ % cc -c perlxsi.c `perl -MExtUtils::Embed -e ccopts`
+ % cc -c interp.c  `perl -MExtUtils::Embed -e ccopts`
+ % cc -o interp perlxsi.o interp.o `perl -MExtUtils::Embed -e ldopts`
+</pre>
+<p>Consult <a href="../perlxs/index.html">(perlxs)</a>, <a href="perlguts.html#perlguts-NAME">perlguts NAME</a>, and <a href="../perlapi/index.html">(perlapi)</a> for more details.
+</p>
+<hr>
+<a name="perlembed-Hiding-Perl_005f"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-MORAL" accesskey="n" rel="next">perlembed MORAL</a>, Previous: <a href="#perlembed-DESCRIPTION" accesskey="p" rel="previous">perlembed DESCRIPTION</a>, Up: <a href="#perlembed" accesskey="u" rel="up">perlembed</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Hiding-Perl_005f"></a>
+<h3 class="section">20.3 Hiding Perl_</h3>
+
+<p>If you completely hide the short forms of the Perl public API,
+add -DPERL_NO_SHORT_NAMES to the compilation flags.  This means that
+for example instead of writing
+</p>
+<pre class="verbatim">    warn(&quot;%d bottles of beer on the wall&quot;, bottlecount);
+</pre>
+<p>you will have to write the explicit full form
+</p>
+<pre class="verbatim">    Perl_warn(aTHX_ &quot;%d bottles of beer on the wall&quot;, bottlecount);
+</pre>
+<p>(See <a href="perlguts.html#perlguts-Background-and-PERL_005fIMPLICIT_005fCONTEXT">perlguts Background and PERL_IMPLICIT_CONTEXT</a> for the explanation
+of the <code>aTHX_</code>. )  Hiding the short forms is very useful for avoiding
+all sorts of nasty (C preprocessor or otherwise) conflicts with other
+software packages (Perl defines about 2400 APIs with these short names,
+take or leave few hundred, so there certainly is room for conflict.)
+</p>
+<hr>
+<a name="perlembed-MORAL"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-AUTHOR" accesskey="n" rel="next">perlembed AUTHOR</a>, Previous: <a href="#perlembed-Hiding-Perl_005f" accesskey="p" rel="previous">perlembed Hiding Perl_</a>, Up: <a href="#perlembed" accesskey="u" rel="up">perlembed</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="MORAL"></a>
+<h3 class="section">20.4 MORAL</h3>
+
+<p>You can sometimes <em>write faster code</em> in C, but
+you can always <em>write code faster</em> in Perl.  Because you can use
+each from the other, combine them as you wish.
+</p>
+<hr>
+<a name="perlembed-AUTHOR"></a>
+<div class="header">
+<p>
+Next: <a href="#perlembed-COPYRIGHT" accesskey="n" rel="next">perlembed COPYRIGHT</a>, Previous: <a href="#perlembed-MORAL" accesskey="p" rel="previous">perlembed MORAL</a>, Up: <a href="#perlembed" accesskey="u" rel="up">perlembed</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="AUTHOR-8"></a>
+<h3 class="section">20.5 AUTHOR</h3>
+
+<p>Jon Orwant &lt;<samp>orwant@media.mit.edu</samp>&gt; and Doug MacEachern
+&lt;<samp>dougm@covalent.net</samp>&gt;, with small contributions from Tim Bunce, Tom
+Christiansen, Guy Decoux, Hallvard Furuseth, Dov Grobgeld, and Ilya
+Zakharevich.
+</p>
+<p>Doug MacEachern has an article on embedding in Volume 1, Issue 4 of
+The Perl Journal ( http://www.tpj.com/ ).  Doug is also the developer of the
+most widely-used Perl embedding: the mod_perl system
+(perl.apache.org), which embeds Perl in the Apache web server.
+Oracle, Binary Evolution, ActiveState, and Ben Sugars&rsquo;s nsapi_perl
+have used this model for Oracle, Netscape and Internet Information
+Server Perl plugins.
+</p>
+<hr>
+<a name="perlembed-COPYRIGHT"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlembed-AUTHOR" accesskey="p" rel="previous">perlembed AUTHOR</a>, Up: <a href="#perlembed" accesskey="u" rel="up">perlembed</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="COPYRIGHT"></a>
+<h3 class="section">20.6 COPYRIGHT</h3>
+
+<p>Copyright (C) 1995, 1996, 1997, 1998 Doug MacEachern and Jon Orwant.  All
+Rights Reserved.
+</p>
+<p>This document may be distributed under the same terms as Perl itself.
+</p>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perlembed-AUTHOR" accesskey="p" rel="previous">perlembed AUTHOR</a>, Up: <a href="#perlembed" accesskey="u" rel="up">perlembed</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 4.13.97+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perlnewmod</title>
+
+<meta name="description" content="Perl pod documentation: perlnewmod">
+<meta name="keywords" content="Perl pod documentation: perlnewmod">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="perlnumber.html#perlnumber" rel="next" title="perlnumber">
+<link href="perlmroapi.html#perlmroapi-AUTHORS" rel="previous" title="perlmroapi AUTHORS">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perlnewmod"></a>
+<div class="header">
+<p>
+Next: <a href="perlnumber.html#perlnumber" accesskey="n" rel="next">perlnumber</a>, Previous: <a href="perlmroapi.html#perlmroapi" accesskey="p" rel="previous">perlmroapi</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perlnewmod-1"></a>
+<h2 class="chapter">44 perlnewmod</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlnewmod-NAME" accesskey="1">perlnewmod NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlnewmod-DESCRIPTION" accesskey="2">perlnewmod DESCRIPTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlnewmod-AUTHOR" accesskey="3">perlnewmod AUTHOR</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlnewmod-SEE-ALSO" accesskey="4">perlnewmod SEE ALSO</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlnewmod-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perlnewmod-DESCRIPTION" accesskey="n" rel="next">perlnewmod DESCRIPTION</a>, Up: <a href="#perlnewmod" accesskey="u" rel="up">perlnewmod</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-43"></a>
+<h3 class="section">44.1 NAME</h3>
+
+<p>perlnewmod - preparing a new module for distribution
+</p>
+<hr>
+<a name="perlnewmod-DESCRIPTION"></a>
+<div class="header">
+<p>
+Next: <a href="#perlnewmod-AUTHOR" accesskey="n" rel="next">perlnewmod AUTHOR</a>, Previous: <a href="#perlnewmod-NAME" accesskey="p" rel="previous">perlnewmod NAME</a>, Up: <a href="#perlnewmod" accesskey="u" rel="up">perlnewmod</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESCRIPTION-42"></a>
+<h3 class="section">44.2 DESCRIPTION</h3>
+
+<p>This document gives you some suggestions about how to go about writing
+Perl modules, preparing them for distribution, and making them available
+via CPAN.
+</p>
+<p>One of the things that makes Perl really powerful is the fact that Perl
+hackers tend to want to share the solutions to problems they&rsquo;ve faced,
+so you and I don&rsquo;t have to battle with the same problem again.
+</p>
+<p>The main way they do this is by abstracting the solution into a Perl
+module. If you don&rsquo;t know what one of these is, the rest of this
+document isn&rsquo;t going to be much use to you. You&rsquo;re also missing out on
+an awful lot of useful code; consider having a look at <a href="perlmod.html#perlmod-NAME">perlmod NAME</a>,
+<a href="../perlmodlib/index.html">(perlmodlib)</a> and <a href="perlmodinstall.html#perlmodinstall-NAME">perlmodinstall NAME</a> before coming back here.
+</p>
+<p>When you&rsquo;ve found that there isn&rsquo;t a module available for what you&rsquo;re
+trying to do, and you&rsquo;ve had to write the code yourself, consider
+packaging up the solution into a module and uploading it to CPAN so that
+others can benefit.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlnewmod-Warning" accesskey="1">perlnewmod Warning</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlnewmod-What-should-I-make-into-a-module_003f" accesskey="2">perlnewmod What should I make into a module?</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlnewmod-Step_002dby_002dstep_003a-Preparing-the-ground" accesskey="3">perlnewmod Step-by-step: Preparing the ground</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlnewmod-Step_002dby_002dstep_003a-Making-the-module" accesskey="4">perlnewmod Step-by-step: Making the module</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlnewmod-Step_002dby_002dstep_003a-Distributing-your-module" accesskey="5">perlnewmod Step-by-step: Distributing your module</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlnewmod-Warning"></a>
+<div class="header">
+<p>
+Next: <a href="#perlnewmod-What-should-I-make-into-a-module_003f" accesskey="n" rel="next">perlnewmod What should I make into a module?</a>, Up: <a href="#perlnewmod-DESCRIPTION" accesskey="u" rel="up">perlnewmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Warning"></a>
+<h4 class="subsection">44.2.1 Warning</h4>
+
+<p>We&rsquo;re going to primarily concentrate on Perl-only modules here, rather
+than XS modules. XS modules serve a rather different purpose, and
+you should consider different things before distributing them - the
+popularity of the library you are gluing, the portability to other
+operating systems, and so on. However, the notes on preparing the Perl
+side of the module and packaging and distributing it will apply equally
+well to an XS module as a pure-Perl one.
+</p>
+<hr>
+<a name="perlnewmod-What-should-I-make-into-a-module_003f"></a>
+<div class="header">
+<p>
+Next: <a href="#perlnewmod-Step_002dby_002dstep_003a-Preparing-the-ground" accesskey="n" rel="next">perlnewmod Step-by-step: Preparing the ground</a>, Previous: <a href="#perlnewmod-Warning" accesskey="p" rel="previous">perlnewmod Warning</a>, Up: <a href="#perlnewmod-DESCRIPTION" accesskey="u" rel="up">perlnewmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="What-should-I-make-into-a-module_003f"></a>
+<h4 class="subsection">44.2.2 What should I make into a module?</h4>
+
+<p>You should make a module out of any code that you think is going to be
+useful to others. Anything that&rsquo;s likely to fill a hole in the communal
+library and which someone else can slot directly into their program. Any
+part of your code which you can isolate and extract and plug into
+something else is a likely candidate.
+</p>
+<p>Let&rsquo;s take an example. Suppose you&rsquo;re reading in data from a local
+format into a hash-of-hashes in Perl, turning that into a tree, walking
+the tree and then piping each node to an Acme Transmogrifier Server.
+</p>
+<p>Now, quite a few people have the Acme Transmogrifier, and you&rsquo;ve had to
+write something to talk the protocol from scratch - you&rsquo;d almost
+certainly want to make that into a module. The level at which you pitch
+it is up to you: you might want protocol-level modules analogous to
+<a href="../Net-SMTP/index.html">(Net-SMTP)Net::SMTP</a> which then talk to higher level modules analogous
+to <a href="../Mail-Send/index.html">(Mail-Send)Mail::Send</a>. The choice is yours, but you do want to get
+a module out for that server protocol.
+</p>
+<p>Nobody else on the planet is going to talk your local data format, so we
+can ignore that. But what about the thing in the middle? Building tree
+structures from Perl variables and then traversing them is a nice,
+general problem, and if nobody&rsquo;s already written a module that does
+that, you might want to modularise that code too.
+</p>
+<p>So hopefully you&rsquo;ve now got a few ideas about what&rsquo;s good to modularise.
+Let&rsquo;s now see how it&rsquo;s done.
+</p>
+<hr>
+<a name="perlnewmod-Step_002dby_002dstep_003a-Preparing-the-ground"></a>
+<div class="header">
+<p>
+Next: <a href="#perlnewmod-Step_002dby_002dstep_003a-Making-the-module" accesskey="n" rel="next">perlnewmod Step-by-step: Making the module</a>, Previous: <a href="#perlnewmod-What-should-I-make-into-a-module_003f" accesskey="p" rel="previous">perlnewmod What should I make into a module?</a>, Up: <a href="#perlnewmod-DESCRIPTION" accesskey="u" rel="up">perlnewmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Step_002dby_002dstep_003a-Preparing-the-ground"></a>
+<h4 class="subsection">44.2.3 Step-by-step: Preparing the ground</h4>
+
+<p>Before we even start scraping out the code, there are a few things we&rsquo;ll
+want to do in advance.
+</p>
+<dl compact="compact">
+<dt>Look around</dt>
+<dd><a name="perlnewmod-Look-around"></a>
+<p>Dig into a bunch of modules to see how they&rsquo;re written. I&rsquo;d suggest
+starting with <a href="../Text-Tabs/index.html">(Text-Tabs)Text::Tabs</a>, since it&rsquo;s in the standard
+library and is nice and simple, and then looking at something a little
+more complex like <a href="../File-Copy/index.html">(File-Copy)File::Copy</a>.  For object oriented
+code, <code>WWW::Mechanize</code> or the <code>Email::*</code> modules provide some good
+examples.
+</p>
+<p>These should give you an overall feel for how modules are laid out and
+written.
+</p>
+</dd>
+<dt>Check it&rsquo;s new</dt>
+<dd><a name="perlnewmod-Check-it_0027s-new"></a>
+<p>There are a lot of modules on CPAN, and it&rsquo;s easy to miss one that&rsquo;s
+similar to what you&rsquo;re planning on contributing. Have a good plough
+through the <a href="http://search.cpan.org">http://search.cpan.org</a> and make sure you&rsquo;re not the one
+reinventing the wheel!
+</p>
+</dd>
+<dt>Discuss the need</dt>
+<dd><a name="perlnewmod-Discuss-the-need"></a>
+<p>You might love it. You might feel that everyone else needs it. But there
+might not actually be any real demand for it out there. If you&rsquo;re unsure
+about the demand your module will have, consider sending out feelers
+on the <code>comp.lang.perl.modules</code> newsgroup, or as a last resort, ask the
+modules list at <code>modules@perl.org</code>. Remember that this is a closed list
+with a very long turn-around time - be prepared to wait a good while for
+a response from them.
+</p>
+</dd>
+<dt>Choose a name</dt>
+<dd><a name="perlnewmod-Choose-a-name"></a>
+<p>Perl modules included on CPAN have a naming hierarchy you should try to
+fit in with. See <a href="../perlmodlib/index.html">(perlmodlib)</a> for more details on how this works, and
+browse around CPAN and the modules list to get a feel of it. At the very
+least, remember this: modules should be title capitalised, (This::Thing)
+fit in with a category, and explain their purpose succinctly.
+</p>
+</dd>
+<dt>Check again</dt>
+<dd><a name="perlnewmod-Check-again"></a>
+<p>While you&rsquo;re doing that, make really sure you haven&rsquo;t missed a module
+similar to the one you&rsquo;re about to write.
+</p>
+<p>When you&rsquo;ve got your name sorted out and you&rsquo;re sure that your module is
+wanted and not currently available, it&rsquo;s time to start coding.
+</p>
+</dd>
+</dl>
+
+<hr>
+<a name="perlnewmod-Step_002dby_002dstep_003a-Making-the-module"></a>
+<div class="header">
+<p>
+Next: <a href="#perlnewmod-Step_002dby_002dstep_003a-Distributing-your-module" accesskey="n" rel="next">perlnewmod Step-by-step: Distributing your module</a>, Previous: <a href="#perlnewmod-Step_002dby_002dstep_003a-Preparing-the-ground" accesskey="p" rel="previous">perlnewmod Step-by-step: Preparing the ground</a>, Up: <a href="#perlnewmod-DESCRIPTION" accesskey="u" rel="up">perlnewmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Step_002dby_002dstep_003a-Making-the-module"></a>
+<h4 class="subsection">44.2.4 Step-by-step: Making the module</h4>
+
+<dl compact="compact">
+<dt>Start with <samp>module-starter</samp> or <samp>h2xs</samp></dt>
+<dd><a name="perlnewmod-Start-with-module_002dstarter-or-h2xs"></a>
+<p>The <samp>module-starter</samp> utility is distributed as part of the
+<a href="../Module-Starter/index.html">(Module-Starter)Module::Starter</a> CPAN package.  It creates a directory
+with stubs of all the necessary files to start a new module, according
+to recent &quot;best practice&quot; for module development, and is invoked from
+the command line, thus:
+</p>
+<pre class="verbatim">    module-starter --module=Foo::Bar \
+       --author=&quot;Your Name&quot; --email=yourname@cpan.org
+</pre>
+<p>If you do not wish to install the <a href="../Module-Starter/index.html">(Module-Starter)Module::Starter</a>
+package from CPAN, <samp>h2xs</samp> is an older tool, originally intended for the
+development of XS modules, which comes packaged with the Perl
+distribution. 
+</p>
+<p>A typical invocation of <a href="../h2xs/index.html">(h2xs)h2xs</a> for a pure Perl module is:
+</p>
+<pre class="verbatim">    h2xs -AX --skip-exporter --use-new-tests -n Foo::Bar 
+</pre>
+<p>The <code>-A</code> omits the Autoloader code, <code>-X</code> omits XS elements,
+<code>--skip-exporter</code> omits the Exporter code, <code>--use-new-tests</code> sets up a
+modern testing environment, and <code>-n</code> specifies the name of the module.
+</p>
+</dd>
+<dt>Use <a href="../strict/index.html">(strict)strict</a> and <a href="../warnings/index.html">(warnings)warnings</a></dt>
+<dd><a name="perlnewmod-Use-strict-and-warnings"></a>
+<p>A module&rsquo;s code has to be warning and strict-clean, since you can&rsquo;t
+guarantee the conditions that it&rsquo;ll be used under. Besides, you wouldn&rsquo;t
+want to distribute code that wasn&rsquo;t warning or strict-clean anyway,
+right?
+</p>
+</dd>
+<dt>Use <a href="../Carp/index.html">(Carp)Carp</a></dt>
+<dd><a name="perlnewmod-Use-Carp"></a>
+<p>The <a href="../Carp/index.html">(Carp)Carp</a> module allows you to present your error messages from
+the caller&rsquo;s perspective; this gives you a way to signal a problem with
+the caller and not your module. For instance, if you say this:
+</p>
+<pre class="verbatim">    warn &quot;No hostname given&quot;;
+</pre>
+<p>the user will see something like this:
+</p>
+<pre class="verbatim">    No hostname given at /usr/local/lib/perl5/site_perl/5.6.0/Net/Acme.pm
+    line 123.
+</pre>
+<p>which looks like your module is doing something wrong. Instead, you want
+to put the blame on the user, and say this:
+</p>
+<pre class="verbatim">    No hostname given at bad_code, line 10.
+</pre>
+<p>You do this by using <a href="../Carp/index.html">(Carp)Carp</a> and replacing your <code>warn</code>s with
+<code>carp</code>s. If you need to <code>die</code>, say <code>croak</code> instead. However, keep
+<code>warn</code> and <code>die</code> in place for your sanity checks - where it really is
+your module at fault.
+</p>
+</dd>
+<dt>Use <a href="../Exporter/index.html">(Exporter)Exporter</a> - wisely!</dt>
+<dd><a name="perlnewmod-Use-Exporter-_002d-wisely_0021"></a>
+<p><a href="../Exporter/index.html">(Exporter)Exporter</a> gives you a standard way of exporting symbols and
+subroutines from your module into the caller&rsquo;s namespace. For instance,
+saying <code>use Net::Acme qw(&amp;frob)</code> would import the <code>frob</code> subroutine.
+</p>
+<p>The package variable <code>@EXPORT</code> will determine which symbols will get
+exported when the caller simply says <code>use Net::Acme</code> - you will hardly
+ever want to put anything in there. <code>@EXPORT_OK</code>, on the other hand,
+specifies which symbols you&rsquo;re willing to export. If you do want to
+export a bunch of symbols, use the <code>%EXPORT_TAGS</code> and define a standard
+export set - look at <a href="../Exporter/index.html">(Exporter)</a> for more details.
+</p>
+</dd>
+<dt>Use <a href="../perlpod/index.html">(perlpod)plain old documentation</a></dt>
+<dd><a name="perlnewmod-Use-plain-old-documentation"></a>
+<p>The work isn&rsquo;t over until the paperwork is done, and you&rsquo;re going to
+need to put in some time writing some documentation for your module.
+<code>module-starter</code> or <code>h2xs</code> will provide a stub for you to fill in; if
+you&rsquo;re not sure about the format, look at <a href="../perlpod/index.html">(perlpod)</a> for an
+introduction. Provide a good synopsis of how your module is used in
+code, a description, and then notes on the syntax and function of the
+individual subroutines or methods. Use Perl comments for developer notes
+and POD for end-user notes.
+</p>
+</dd>
+<dt>Write tests</dt>
+<dd><a name="perlnewmod-Write-tests"></a>
+<p>You&rsquo;re encouraged to create self-tests for your module to ensure it&rsquo;s
+working as intended on the myriad platforms Perl supports; if you upload
+your module to CPAN, a host of testers will build your module and send
+you the results of the tests. Again, <code>module-starter</code> and <code>h2xs</code>
+provide a test framework which you can extend - you should do something
+more than just checking your module will compile.
+<a href="../Test-Simple/index.html">(Test-Simple)Test::Simple</a> and <a href="../Test-More/index.html">(Test-More)Test::More</a> are good
+places to start when writing a test suite.
+</p>
+</dd>
+<dt>Write the README</dt>
+<dd><a name="perlnewmod-Write-the-README"></a>
+<p>If you&rsquo;re uploading to CPAN, the automated gremlins will extract the
+README file and place that in your CPAN directory. It&rsquo;ll also appear in
+the main <samp>by-module</samp> and <samp>by-category</samp> directories if you make it onto
+the modules list. It&rsquo;s a good idea to put here what the module actually
+does in detail, and the user-visible changes since the last release.
+</p>
+</dd>
+</dl>
+
+<hr>
+<a name="perlnewmod-Step_002dby_002dstep_003a-Distributing-your-module"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlnewmod-Step_002dby_002dstep_003a-Making-the-module" accesskey="p" rel="previous">perlnewmod Step-by-step: Making the module</a>, Up: <a href="#perlnewmod-DESCRIPTION" accesskey="u" rel="up">perlnewmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Step_002dby_002dstep_003a-Distributing-your-module"></a>
+<h4 class="subsection">44.2.5 Step-by-step: Distributing your module</h4>
+
+<dl compact="compact">
+<dt>Get a CPAN user ID</dt>
+<dd><a name="perlnewmod-Get-a-CPAN-user-ID"></a>
+<p>Every developer publishing modules on CPAN needs a CPAN ID.  Visit
+<code>http://pause.perl.org/</code>, select &quot;Request PAUSE Account&quot;, and wait for
+your request to be approved by the PAUSE administrators.
+</p>
+</dd>
+<dt><code>perl Makefile.PL; make test; make dist</code></dt>
+<dd><a name="perlnewmod-perl-Makefile_002ePL_003b-make-test_003b-make-dist"></a>
+<p>Once again, <code>module-starter</code> or <code>h2xs</code> has done all the work for you.
+They produce the standard <code>Makefile.PL</code> you see when you download and
+install modules, and this produces a Makefile with a <code>dist</code> target.
+</p>
+<p>Once you&rsquo;ve ensured that your module passes its own tests - always a
+good thing to make sure - you can <code>make dist</code>, and the Makefile will
+hopefully produce you a nice tarball of your module, ready for upload.
+</p>
+</dd>
+<dt>Upload the tarball</dt>
+<dd><a name="perlnewmod-Upload-the-tarball"></a>
+<p>The email you got when you received your CPAN ID will tell you how to
+log in to PAUSE, the Perl Authors Upload SErver. From the menus there,
+you can upload your module to CPAN.
+</p>
+</dd>
+<dt>Announce to the modules list</dt>
+<dd><a name="perlnewmod-Announce-to-the-modules-list"></a>
+<p>Once uploaded, it&rsquo;ll sit unnoticed in your author directory. If you want
+it connected to the rest of the CPAN, you&rsquo;ll need to go to &quot;Register
+Namespace&quot; on PAUSE.  Once registered, your module will appear in the
+by-module and by-category listings on CPAN.
+</p>
+</dd>
+<dt>Announce to clpa</dt>
+<dd><a name="perlnewmod-Announce-to-clpa"></a>
+<p>If you have a burning desire to tell the world about your release, post
+an announcement to the moderated <code>comp.lang.perl.announce</code> newsgroup.
+</p>
+</dd>
+<dt>Fix bugs!</dt>
+<dd><a name="perlnewmod-Fix-bugs_0021"></a>
+<p>Once you start accumulating users, they&rsquo;ll send you bug reports. If
+you&rsquo;re lucky, they&rsquo;ll even send you patches. Welcome to the joys of
+maintaining a software project...
+</p>
+</dd>
+</dl>
+
+<hr>
+<a name="perlnewmod-AUTHOR"></a>
+<div class="header">
+<p>
+Next: <a href="#perlnewmod-SEE-ALSO" accesskey="n" rel="next">perlnewmod SEE ALSO</a>, Previous: <a href="#perlnewmod-DESCRIPTION" accesskey="p" rel="previous">perlnewmod DESCRIPTION</a>, Up: <a href="#perlnewmod" accesskey="u" rel="up">perlnewmod</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="AUTHOR-20"></a>
+<h3 class="section">44.3 AUTHOR</h3>
+
+<p>Simon Cozens, <code>simon@cpan.org</code>
+</p>
+<p>Updated by Kirrily &quot;Skud&quot; Robert, <code>skud@cpan.org</code>
+</p>
+<hr>
+<a name="perlnewmod-SEE-ALSO"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlnewmod-AUTHOR" accesskey="p" rel="previous">perlnewmod AUTHOR</a>, Up: <a href="#perlnewmod" accesskey="u" rel="up">perlnewmod</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="SEE-ALSO-20"></a>
+<h3 class="section">44.4 SEE ALSO</h3>
+
+<p><a href="perlmod.html#perlmod-NAME">perlmod NAME</a>, <a href="../perlmodlib/index.html">(perlmodlib)</a>, <a href="perlmodinstall.html#perlmodinstall-NAME">perlmodinstall NAME</a>, <a href="../h2xs/index.html">(h2xs)</a>, <a href="../strict/index.html">(strict)</a>,
+<a href="../Carp/index.html">(Carp)</a>, <a href="../Exporter/index.html">(Exporter)</a>, <a href="../perlpod/index.html">(perlpod)</a>, <a href="../Test-Simple/index.html">(Test-Simple)</a>, <a href="../Test-More/index.html">(Test-More)</a>
+<a href="../ExtUtils-MakeMaker/index.html">(ExtUtils-MakeMaker)</a>, <a href="../Module-Build/index.html">(Module-Build)</a>, <a href="../Module-Starter/index.html">(Module-Starter)</a>
+http://www.cpan.org/ , Ken Williams&rsquo;s tutorial on building your own
+module at http://mathforum.org/~ken/perl_modules.html
+</p>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perlnewmod-AUTHOR" accesskey="p" rel="previous">perlnewmod AUTHOR</a>, Up: <a href="#perlnewmod" accesskey="u" rel="up">perlnewmod</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,1281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 4.13.97+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perliol</title>
+
+<meta name="description" content="Perl pod documentation: perliol">
+<meta name="keywords" content="Perl pod documentation: perliol">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="perlipc.html#perlipc" rel="next" title="perlipc">
+<link href="perlintro.html#perlintro-AUTHOR" rel="previous" title="perlintro AUTHOR">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perliol"></a>
+<div class="header">
+<p>
+Next: <a href="perlipc.html#perlipc" accesskey="n" rel="next">perlipc</a>, Previous: <a href="perlintro.html#perlintro" accesskey="p" rel="previous">perlintro</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perliol-1"></a>
+<h2 class="chapter">35 perliol</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perliol-NAME" accesskey="1">perliol NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-SYNOPSIS" accesskey="2">perliol SYNOPSIS</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-DESCRIPTION" accesskey="3">perliol DESCRIPTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-TODO" accesskey="4">perliol TODO</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perliol-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-SYNOPSIS" accesskey="n" rel="next">perliol SYNOPSIS</a>, Up: <a href="#perliol" accesskey="u" rel="up">perliol</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-34"></a>
+<h3 class="section">35.1 NAME</h3>
+
+<p>perliol - C API for Perl&rsquo;s implementation of IO in Layers.
+</p>
+<hr>
+<a name="perliol-SYNOPSIS"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-DESCRIPTION" accesskey="n" rel="next">perliol DESCRIPTION</a>, Previous: <a href="#perliol-NAME" accesskey="p" rel="previous">perliol NAME</a>, Up: <a href="#perliol" accesskey="u" rel="up">perliol</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="SYNOPSIS-7"></a>
+<h3 class="section">35.2 SYNOPSIS</h3>
+
+<pre class="verbatim">    /* Defining a layer ... */
+    #include &lt;perliol.h&gt;
+</pre>
+<hr>
+<a name="perliol-DESCRIPTION"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-TODO" accesskey="n" rel="next">perliol TODO</a>, Previous: <a href="#perliol-SYNOPSIS" accesskey="p" rel="previous">perliol SYNOPSIS</a>, Up: <a href="#perliol" accesskey="u" rel="up">perliol</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESCRIPTION-34"></a>
+<h3 class="section">35.3 DESCRIPTION</h3>
+
+<p>This document describes the behavior and implementation of the PerlIO
+abstraction described in <a href="perlapio.html#perlapio-NAME">perlapio NAME</a> when <code>USE_PERLIO</code> is defined (and
+<code>USE_SFIO</code> is not).
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perliol-History-and-Background" accesskey="1">perliol History and Background</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-Basic-Structure" accesskey="2">perliol Basic Structure</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-Layers-vs-Disciplines" accesskey="3">perliol Layers vs Disciplines</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-Data-Structures" accesskey="4">perliol Data Structures</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-Functions-and-Attributes" accesskey="5">perliol Functions and Attributes</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-Per_002dinstance-Data" accesskey="6">perliol Per-instance Data</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-Layers-in-action_002e" accesskey="7">perliol Layers in action.</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-Per_002dinstance-flag-bits" accesskey="8">perliol Per-instance flag bits</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-Methods-in-Detail" accesskey="9">perliol Methods in Detail</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-Utilities">perliol Utilities</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-Implementing-PerlIO-Layers">perliol Implementing PerlIO Layers</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-Core-Layers">perliol Core Layers</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perliol-Extension-Layers">perliol Extension Layers</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perliol-History-and-Background"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-Basic-Structure" accesskey="n" rel="next">perliol Basic Structure</a>, Up: <a href="#perliol-DESCRIPTION" accesskey="u" rel="up">perliol DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="History-and-Background"></a>
+<h4 class="subsection">35.3.1 History and Background</h4>
+
+<p>The PerlIO abstraction was introduced in perl5.003_02 but languished as
+just an abstraction until perl5.7.0. However during that time a number
+of perl extensions switched to using it, so the API is mostly fixed to
+maintain (source) compatibility.
+</p>
+<p>The aim of the implementation is to provide the PerlIO API in a flexible
+and platform neutral manner. It is also a trial of an &quot;Object Oriented
+C, with vtables&quot; approach which may be applied to Perl 6.
+</p>
+<hr>
+<a name="perliol-Basic-Structure"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-Layers-vs-Disciplines" accesskey="n" rel="next">perliol Layers vs Disciplines</a>, Previous: <a href="#perliol-History-and-Background" accesskey="p" rel="previous">perliol History and Background</a>, Up: <a href="#perliol-DESCRIPTION" accesskey="u" rel="up">perliol DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Basic-Structure"></a>
+<h4 class="subsection">35.3.2 Basic Structure</h4>
+
+<p>PerlIO is a stack of layers.
+</p>
+<p>The low levels of the stack work with the low-level operating system
+calls (file descriptors in C) getting bytes in and out, the higher
+layers of the stack buffer, filter, and otherwise manipulate the I/O,
+and return characters (or bytes) to Perl.  Terms <em>above</em> and <em>below</em>
+are used to refer to the relative positioning of the stack layers.
+</p>
+<p>A layer contains a &quot;vtable&quot;, the table of I/O operations (at C level
+a table of function pointers), and status flags.  The functions in the
+vtable implement operations like &quot;open&quot;, &quot;read&quot;, and &quot;write&quot;.
+</p>
+<p>When I/O, for example &quot;read&quot;, is requested, the request goes from Perl
+first down the stack using &quot;read&quot; functions of each layer, then at the
+bottom the input is requested from the operating system services, then
+the result is returned up the stack, finally being interpreted as Perl
+data.
+</p>
+<p>The requests do not necessarily go always all the way down to the
+operating system: that&rsquo;s where PerlIO buffering comes into play.
+</p>
+<p>When you do an open() and specify extra PerlIO layers to be deployed,
+the layers you specify are &quot;pushed&quot; on top of the already existing
+default stack.  One way to see it is that &quot;operating system is
+on the left&quot; and &quot;Perl is on the right&quot;.
+</p>
+<p>What exact layers are in this default stack depends on a lot of
+things: your operating system, Perl version, Perl compile time
+configuration, and Perl runtime configuration.  See <a href="../PerlIO/index.html">(PerlIO)</a>,
+<a href="perlrun.html#perlrun-PERLIO">perlrun PERLIO</a>, and <a href="../open/index.html">(open)</a> for more information.
+</p>
+<p>binmode() operates similarly to open(): by default the specified
+layers are pushed on top of the existing stack.
+</p>
+<p>However, note that even as the specified layers are &quot;pushed on top&quot;
+for open() and binmode(), this doesn&rsquo;t mean that the effects are
+limited to the &quot;top&quot;: PerlIO layers can be very &rsquo;active&rsquo; and inspect
+and affect layers also deeper in the stack.  As an example there
+is a layer called &quot;raw&quot; which repeatedly &quot;pops&quot; layers until
+it reaches the first layer that has declared itself capable of
+handling binary data.  The &quot;pushed&quot; layers are processed in left-to-right
+order.
+</p>
+<p>sysopen() operates (unsurprisingly) at a lower level in the stack than
+open().  For example in Unix or Unix-like systems sysopen() operates
+directly at the level of file descriptors: in the terms of PerlIO
+layers, it uses only the &quot;unix&quot; layer, which is a rather thin wrapper
+on top of the Unix file descriptors.
+</p>
+<hr>
+<a name="perliol-Layers-vs-Disciplines"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-Data-Structures" accesskey="n" rel="next">perliol Data Structures</a>, Previous: <a href="#perliol-Basic-Structure" accesskey="p" rel="previous">perliol Basic Structure</a>, Up: <a href="#perliol-DESCRIPTION" accesskey="u" rel="up">perliol DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Layers-vs-Disciplines"></a>
+<h4 class="subsection">35.3.3 Layers vs Disciplines</h4>
+
+<p>Initial discussion of the ability to modify IO streams behaviour used
+the term &quot;discipline&quot; for the entities which were added. This came (I
+believe) from the use of the term in &quot;sfio&quot;, which in turn borrowed it
+from &quot;line disciplines&quot; on Unix terminals. However, this document (and
+the C code) uses the term &quot;layer&quot;.
+</p>
+<p>This is, I hope, a natural term given the implementation, and should
+avoid connotations that are inherent in earlier uses of &quot;discipline&quot;
+for things which are rather different.
+</p>
+<hr>
+<a name="perliol-Data-Structures"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-Functions-and-Attributes" accesskey="n" rel="next">perliol Functions and Attributes</a>, Previous: <a href="#perliol-Layers-vs-Disciplines" accesskey="p" rel="previous">perliol Layers vs Disciplines</a>, Up: <a href="#perliol-DESCRIPTION" accesskey="u" rel="up">perliol DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Data-Structures"></a>
+<h4 class="subsection">35.3.4 Data Structures</h4>
+
+<p>The basic data structure is a PerlIOl:
+</p>
+<pre class="verbatim">        typedef struct _PerlIO PerlIOl;
+        typedef struct _PerlIO_funcs PerlIO_funcs;
+        typedef PerlIOl *PerlIO;
+
+        struct _PerlIO
+        {
+         PerlIOl *      next;       /* Lower layer */
+         PerlIO_funcs * tab;        /* Functions for this layer */
+         IV             flags;      /* Various flags for state */
+        };
+</pre>
+<p>A <code>PerlIOl *</code> is a pointer to the struct, and the <em>application</em>
+level <code>PerlIO *</code> is a pointer to a <code>PerlIOl *</code> - i.e. a pointer
+to a pointer to the struct. This allows the application level <code>PerlIO *</code>
+to remain constant while the actual <code>PerlIOl *</code> underneath
+changes. (Compare perl&rsquo;s <code>SV *</code> which remains constant while its
+<code>sv_any</code> field changes as the scalar&rsquo;s type changes.) An IO stream is
+then in general represented as a pointer to this linked-list of
+&quot;layers&quot;.
+</p>
+<p>It should be noted that because of the double indirection in a <code>PerlIO *</code>,
+a <code>&amp;(perlio-&gt;next)</code> &quot;is&quot; a <code>PerlIO *</code>, and so to some degree
+at least one layer can use the &quot;standard&quot; API on the next layer down.
+</p>
+<p>A &quot;layer&quot; is composed of two parts:
+</p>
+<ol>
+<li> The functions and attributes of the &quot;layer class&quot;.
+
+</li><li> The per-instance data for a particular handle.
+
+</li></ol>
+
+<hr>
+<a name="perliol-Functions-and-Attributes"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-Per_002dinstance-Data" accesskey="n" rel="next">perliol Per-instance Data</a>, Previous: <a href="#perliol-Data-Structures" accesskey="p" rel="previous">perliol Data Structures</a>, Up: <a href="#perliol-DESCRIPTION" accesskey="u" rel="up">perliol DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Functions-and-Attributes"></a>
+<h4 class="subsection">35.3.5 Functions and Attributes</h4>
+
+<p>The functions and attributes are accessed via the &quot;tab&quot; (for table)
+member of <code>PerlIOl</code>. The functions (methods of the layer &quot;class&quot;) are
+fixed, and are defined by the <code>PerlIO_funcs</code> type. They are broadly the
+same as the public <code>PerlIO_xxxxx</code> functions:
+</p>
+<pre class="verbatim">  struct _PerlIO_funcs
+  {
+   Size_t               fsize;
+   char *               name;
+   Size_t               size;
+   IV           kind;
+   IV           (*Pushed)(pTHX_ PerlIO *f,const char *mode,SV *arg, PerlIO_funcs *tab);
+   IV           (*Popped)(pTHX_ PerlIO *f);
+   PerlIO *     (*Open)(pTHX_ PerlIO_funcs *tab,
+                        PerlIO_list_t *layers, IV n,
+                        const char *mode,
+                        int fd, int imode, int perm,
+                        PerlIO *old,
+                        int narg, SV **args);
+   IV           (*Binmode)(pTHX_ PerlIO *f);
+   SV *         (*Getarg)(pTHX_ PerlIO *f, CLONE_PARAMS *param, int flags)
+   IV           (*Fileno)(pTHX_ PerlIO *f);
+   PerlIO *     (*Dup)(pTHX_ PerlIO *f, PerlIO *o, CLONE_PARAMS *param, int flags)
+   /* Unix-like functions - cf sfio line disciplines */
+   SSize_t      (*Read)(pTHX_ PerlIO *f, void *vbuf, Size_t count);
+   SSize_t      (*Unread)(pTHX_ PerlIO *f, const void *vbuf, Size_t count);
+   SSize_t      (*Write)(pTHX_ PerlIO *f, const void *vbuf, Size_t count);
+   IV           (*Seek)(pTHX_ PerlIO *f, Off_t offset, int whence);
+   Off_t        (*Tell)(pTHX_ PerlIO *f);
+   IV           (*Close)(pTHX_ PerlIO *f);
+   /* Stdio-like buffered IO functions */
+   IV           (*Flush)(pTHX_ PerlIO *f);
+   IV           (*Fill)(pTHX_ PerlIO *f);
+   IV           (*Eof)(pTHX_ PerlIO *f);
+   IV           (*Error)(pTHX_ PerlIO *f);
+   void         (*Clearerr)(pTHX_ PerlIO *f);
+   void         (*Setlinebuf)(pTHX_ PerlIO *f);
+   /* Perl's snooping functions */
+   STDCHAR *    (*Get_base)(pTHX_ PerlIO *f);
+   Size_t       (*Get_bufsiz)(pTHX_ PerlIO *f);
+   STDCHAR *    (*Get_ptr)(pTHX_ PerlIO *f);
+   SSize_t      (*Get_cnt)(pTHX_ PerlIO *f);
+   void         (*Set_ptrcnt)(pTHX_ PerlIO *f,STDCHAR *ptr,SSize_t cnt);
+  };
+</pre>
+<p>The first few members of the struct give a function table size for
+compatibility check &quot;name&quot; for the layer, the  size to <code>malloc</code> for the per-instance data,
+and some flags which are attributes of the class as whole (such as whether it is a buffering
+layer), then follow the functions which fall into four basic groups:
+</p>
+<ol>
+<li> Opening and setup functions
+
+</li><li> Basic IO operations
+
+</li><li> Stdio class buffering options.
+
+</li><li> Functions to support Perl&rsquo;s traditional &quot;fast&quot; access to the buffer.
+
+</li></ol>
+
+<p>A layer does not have to implement all the functions, but the whole
+table has to be present. Unimplemented slots can be NULL (which will
+result in an error when called) or can be filled in with stubs to
+&quot;inherit&quot; behaviour from a &quot;base class&quot;. This &quot;inheritance&quot; is fixed
+for all instances of the layer, but as the layer chooses which stubs
+to populate the table, limited &quot;multiple inheritance&quot; is possible.
+</p>
+<hr>
+<a name="perliol-Per_002dinstance-Data"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-Layers-in-action_002e" accesskey="n" rel="next">perliol Layers in action.</a>, Previous: <a href="#perliol-Functions-and-Attributes" accesskey="p" rel="previous">perliol Functions and Attributes</a>, Up: <a href="#perliol-DESCRIPTION" accesskey="u" rel="up">perliol DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Per_002dinstance-Data"></a>
+<h4 class="subsection">35.3.6 Per-instance Data</h4>
+
+<p>The per-instance data are held in memory beyond the basic PerlIOl
+struct, by making a PerlIOl the first member of the layer&rsquo;s struct
+thus:
+</p>
+<pre class="verbatim">        typedef struct
+        {
+         struct _PerlIO base;       /* Base &quot;class&quot; info */
+         STDCHAR *      buf;        /* Start of buffer */
+         STDCHAR *      end;        /* End of valid part of buffer */
+         STDCHAR *      ptr;        /* Current position in buffer */
+         Off_t          posn;       /* Offset of buf into the file */
+         Size_t         bufsiz;     /* Real size of buffer */
+         IV             oneword;    /* Emergency buffer */
+        } PerlIOBuf;
+</pre>
+<p>In this way (as for perl&rsquo;s scalars) a pointer to a PerlIOBuf can be
+treated as a pointer to a PerlIOl.
+</p>
+<hr>
+<a name="perliol-Layers-in-action_002e"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-Per_002dinstance-flag-bits" accesskey="n" rel="next">perliol Per-instance flag bits</a>, Previous: <a href="#perliol-Per_002dinstance-Data" accesskey="p" rel="previous">perliol Per-instance Data</a>, Up: <a href="#perliol-DESCRIPTION" accesskey="u" rel="up">perliol DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Layers-in-action_002e"></a>
+<h4 class="subsection">35.3.7 Layers in action.</h4>
+
+<pre class="verbatim">                table           perlio          unix
+            |           |
+            +-----------+    +----------+    +--------+
+   PerlIO -&gt;|           |---&gt;|  next    |---&gt;|  NULL  |
+            +-----------+    +----------+    +--------+
+            |           |    |  buffer  |    |   fd   |
+            +-----------+    |          |    +--------+
+            |           |    +----------+
+</pre>
+<p>The above attempts to show how the layer scheme works in a simple case.
+The application&rsquo;s <code>PerlIO *</code> points to an entry in the table(s)
+representing open (allocated) handles. For example the first three slots
+in the table correspond to <code>stdin</code>,<code>stdout</code> and <code>stderr</code>. The table
+in turn points to the current &quot;top&quot; layer for the handle - in this case
+an instance of the generic buffering layer &quot;perlio&quot;. That layer in turn
+points to the next layer down - in this case the low-level &quot;unix&quot; layer.
+</p>
+<p>The above is roughly equivalent to a &quot;stdio&quot; buffered stream, but with
+much more flexibility:
+</p>
+<ul>
+<li> If Unix level <code>read</code>/<code>write</code>/<code>lseek</code> is not appropriate for (say)
+sockets then the &quot;unix&quot; layer can be replaced (at open time or even
+dynamically) with a &quot;socket&quot; layer.
+
+</li><li> Different handles can have different buffering schemes. The &quot;top&quot;
+layer could be the &quot;mmap&quot; layer if reading disk files was quicker
+using <code>mmap</code> than <code>read</code>. An &quot;unbuffered&quot; stream can be implemented
+simply by not having a buffer layer.
+
+</li><li> Extra layers can be inserted to process the data as it flows through.
+This was the driving need for including the scheme in perl 5.7.0+ - we
+needed a mechanism to allow data to be translated between perl&rsquo;s
+internal encoding (conceptually at least Unicode as UTF-8), and the
+&quot;native&quot; format used by the system. This is provided by the
+&quot;:encoding(xxxx)&quot; layer which typically sits above the buffering layer.
+
+</li><li> A layer can be added that does &quot;\n&quot; to CRLF translation. This layer
+can be used on any platform, not just those that normally do such
+things.
+
+</li></ul>
+
+<hr>
+<a name="perliol-Per_002dinstance-flag-bits"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-Methods-in-Detail" accesskey="n" rel="next">perliol Methods in Detail</a>, Previous: <a href="#perliol-Layers-in-action_002e" accesskey="p" rel="previous">perliol Layers in action.</a>, Up: <a href="#perliol-DESCRIPTION" accesskey="u" rel="up">perliol DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Per_002dinstance-flag-bits"></a>
+<h4 class="subsection">35.3.8 Per-instance flag bits</h4>
+
+<p>The generic flag bits are a hybrid of <code>O_XXXXX</code> style flags deduced
+from the mode string passed to <code>PerlIO_open()</code>, and state bits for
+typical buffer layers.
+</p>
+<dl compact="compact">
+<dt>PERLIO_F_EOF</dt>
+<dd><a name="perliol-PERLIO_005fF_005fEOF"></a>
+<p>End of file.
+</p>
+</dd>
+<dt>PERLIO_F_CANWRITE</dt>
+<dd><a name="perliol-PERLIO_005fF_005fCANWRITE"></a>
+<p>Writes are permitted, i.e. opened as &quot;w&quot; or &quot;r+&quot; or &quot;a&quot;, etc.
+</p>
+</dd>
+<dt>PERLIO_F_CANREAD</dt>
+<dd><a name="perliol-PERLIO_005fF_005fCANREAD"></a>
+<p>Reads are permitted i.e. opened &quot;r&quot; or &quot;w+&quot; (or even &quot;a+&quot; - ick).
+</p>
+</dd>
+<dt>PERLIO_F_ERROR</dt>
+<dd><a name="perliol-PERLIO_005fF_005fERROR"></a>
+<p>An error has occurred (for <code>PerlIO_error()</code>).
+</p>
+</dd>
+<dt>PERLIO_F_TRUNCATE</dt>
+<dd><a name="perliol-PERLIO_005fF_005fTRUNCATE"></a>
+<p>Truncate file suggested by open mode.
+</p>
+</dd>
+<dt>PERLIO_F_APPEND</dt>
+<dd><a name="perliol-PERLIO_005fF_005fAPPEND"></a>
+<p>All writes should be appends.
+</p>
+</dd>
+<dt>PERLIO_F_CRLF</dt>
+<dd><a name="perliol-PERLIO_005fF_005fCRLF"></a>
+<p>Layer is performing Win32-like &quot;\n&quot; mapped to CR,LF for output and CR,LF
+mapped to &quot;\n&quot; for input. Normally the provided &quot;crlf&quot; layer is the only
+layer that need bother about this. <code>PerlIO_binmode()</code> will mess with this
+flag rather than add/remove layers if the <code>PERLIO_K_CANCRLF</code> bit is set
+for the layers class.
+</p>
+</dd>
+<dt>PERLIO_F_UTF8</dt>
+<dd><a name="perliol-PERLIO_005fF_005fUTF8"></a>
+<p>Data written to this layer should be UTF-8 encoded; data provided
+by this layer should be considered UTF-8 encoded. Can be set on any layer
+by &quot;:utf8&quot; dummy layer. Also set on &quot;:encoding&quot; layer.
+</p>
+</dd>
+<dt>PERLIO_F_UNBUF</dt>
+<dd><a name="perliol-PERLIO_005fF_005fUNBUF"></a>
+<p>Layer is unbuffered - i.e. write to next layer down should occur for
+each write to this layer.
+</p>
+</dd>
+<dt>PERLIO_F_WRBUF</dt>
+<dd><a name="perliol-PERLIO_005fF_005fWRBUF"></a>
+<p>The buffer for this layer currently holds data written to it but not sent
+to next layer.
+</p>
+</dd>
+<dt>PERLIO_F_RDBUF</dt>
+<dd><a name="perliol-PERLIO_005fF_005fRDBUF"></a>
+<p>The buffer for this layer currently holds unconsumed data read from
+layer below.
+</p>
+</dd>
+<dt>PERLIO_F_LINEBUF</dt>
+<dd><a name="perliol-PERLIO_005fF_005fLINEBUF"></a>
+<p>Layer is line buffered. Write data should be passed to next layer down
+whenever a &quot;\n&quot; is seen. Any data beyond the &quot;\n&quot; should then be
+processed.
+</p>
+</dd>
+<dt>PERLIO_F_TEMP</dt>
+<dd><a name="perliol-PERLIO_005fF_005fTEMP"></a>
+<p>File has been <code>unlink()</code>ed, or should be deleted on <code>close()</code>.
+</p>
+</dd>
+<dt>PERLIO_F_OPEN</dt>
+<dd><a name="perliol-PERLIO_005fF_005fOPEN"></a>
+<p>Handle is open.
+</p>
+</dd>
+<dt>PERLIO_F_FASTGETS</dt>
+<dd><a name="perliol-PERLIO_005fF_005fFASTGETS"></a>
+<p>This instance of this layer supports the &quot;fast <code>gets</code>&quot; interface.
+Normally set based on <code>PERLIO_K_FASTGETS</code> for the class and by the
+existence of the function(s) in the table. However a class that
+normally provides that interface may need to avoid it on a
+particular instance. The &quot;pending&quot; layer needs to do this when
+it is pushed above a layer which does not support the interface.
+(Perl&rsquo;s <code>sv_gets()</code> does not expect the streams fast <code>gets</code> behaviour
+to change during one &quot;get&quot;.)
+</p>
+</dd>
+</dl>
+
+<hr>
+<a name="perliol-Methods-in-Detail"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-Utilities" accesskey="n" rel="next">perliol Utilities</a>, Previous: <a href="#perliol-Per_002dinstance-flag-bits" accesskey="p" rel="previous">perliol Per-instance flag bits</a>, Up: <a href="#perliol-DESCRIPTION" accesskey="u" rel="up">perliol DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Methods-in-Detail"></a>
+<h4 class="subsection">35.3.9 Methods in Detail</h4>
+
+<dl compact="compact">
+<dt>fsize</dt>
+<dd><a name="perliol-fsize"></a>
+<pre class="verbatim">        Size_t fsize;
+</pre>
+<p>Size of the function table. This is compared against the value PerlIO
+code &quot;knows&quot; as a compatibility check. Future versions <em>may</em> be able
+to tolerate layers compiled against an old version of the headers.
+</p>
+</dd>
+<dt>name</dt>
+<dd><a name="perliol-name"></a>
+<pre class="verbatim">        char * name;
+</pre>
+<p>The name of the layer whose open() method Perl should invoke on
+open().  For example if the layer is called APR, you will call:
+</p>
+<pre class="verbatim">  open $fh, &quot;&gt;:APR&quot;, ...
+</pre>
+<p>and Perl knows that it has to invoke the PerlIOAPR_open() method
+implemented by the APR layer.
+</p>
+</dd>
+<dt>size</dt>
+<dd><a name="perliol-size"></a>
+<pre class="verbatim">        Size_t size;
+</pre>
+<p>The size of the per-instance data structure, e.g.:
+</p>
+<pre class="verbatim">  sizeof(PerlIOAPR)
+</pre>
+<p>If this field is zero then <code>PerlIO_pushed</code> does not malloc anything
+and assumes layer&rsquo;s Pushed function will do any required layer stack
+manipulation - used to avoid malloc/free overhead for dummy layers.
+If the field is non-zero it must be at least the size of <code>PerlIOl</code>,
+<code>PerlIO_pushed</code> will allocate memory for the layer&rsquo;s data structures
+and link new layer onto the stream&rsquo;s stack. (If the layer&rsquo;s Pushed
+method returns an error indication the layer is popped again.)
+</p>
+</dd>
+<dt>kind</dt>
+<dd><a name="perliol-kind"></a>
+<pre class="verbatim">        IV kind;
+</pre>
+<ul>
+<li> PERLIO_K_BUFFERED
+
+<p>The layer is buffered.
+</p>
+</li><li> PERLIO_K_RAW
+
+<p>The layer is acceptable to have in a binmode(FH) stack - i.e. it does not
+(or will configure itself not to) transform bytes passing through it.
+</p>
+</li><li> PERLIO_K_CANCRLF
+
+<p>Layer can translate between &quot;\n&quot; and CRLF line ends.
+</p>
+</li><li> PERLIO_K_FASTGETS
+
+<p>Layer allows buffer snooping.
+</p>
+</li><li> PERLIO_K_MULTIARG
+
+<p>Used when the layer&rsquo;s open() accepts more arguments than usual. The
+extra arguments should come not before the <code>MODE</code> argument. When this
+flag is used it&rsquo;s up to the layer to validate the args.
+</p>
+</li></ul>
+
+</dd>
+<dt>Pushed</dt>
+<dd><a name="perliol-Pushed"></a>
+<pre class="verbatim">        IV      (*Pushed)(pTHX_ PerlIO *f,const char *mode, SV *arg);
+</pre>
+<p>The only absolutely mandatory method. Called when the layer is pushed
+onto the stack.  The <code>mode</code> argument may be NULL if this occurs
+post-open. The <code>arg</code> will be non-<code>NULL</code> if an argument string was
+passed. In most cases this should call <code>PerlIOBase_pushed()</code> to
+convert <code>mode</code> into the appropriate <code>PERLIO_F_XXXXX</code> flags in
+addition to any actions the layer itself takes.  If a layer is not
+expecting an argument it need neither save the one passed to it, nor
+provide <code>Getarg()</code> (it could perhaps <code>Perl_warn</code> that the argument
+was un-expected).
+</p>
+<p>Returns 0 on success. On failure returns -1 and should set errno.
+</p>
+</dd>
+<dt>Popped</dt>
+<dd><a name="perliol-Popped"></a>
+<pre class="verbatim">        IV      (*Popped)(pTHX_ PerlIO *f);
+</pre>
+<p>Called when the layer is popped from the stack. A layer will normally
+be popped after <code>Close()</code> is called. But a layer can be popped
+without being closed if the program is dynamically managing layers on
+the stream. In such cases <code>Popped()</code> should free any resources
+(buffers, translation tables, ...) not held directly in the layer&rsquo;s
+struct.  It should also <code>Unread()</code> any unconsumed data that has been
+read and buffered from the layer below back to that layer, so that it
+can be re-provided to what ever is now above.
+</p>
+<p>Returns 0 on success and failure.  If <code>Popped()</code> returns <em>true</em> then
+<em>perlio.c</em> assumes that either the layer has popped itself, or the
+layer is super special and needs to be retained for other reasons.
+In most cases it should return <em>false</em>.
+</p>
+</dd>
+<dt>Open</dt>
+<dd><a name="perliol-Open"></a>
+<pre class="verbatim">        PerlIO *        (*Open)(...);
+</pre>
+<p>The <code>Open()</code> method has lots of arguments because it combines the
+functions of perl&rsquo;s <code>open</code>, <code>PerlIO_open</code>, perl&rsquo;s <code>sysopen</code>,
+<code>PerlIO_fdopen</code> and <code>PerlIO_reopen</code>.  The full prototype is as
+follows:
+</p>
+<pre class="verbatim"> PerlIO *       (*Open)(pTHX_ PerlIO_funcs *tab,
+                        PerlIO_list_t *layers, IV n,
+                        const char *mode,
+                        int fd, int imode, int perm,
+                        PerlIO *old,
+                        int narg, SV **args);
+</pre>
+<p>Open should (perhaps indirectly) call <code>PerlIO_allocate()</code> to allocate
+a slot in the table and associate it with the layers information for
+the opened file, by calling <code>PerlIO_push</code>.  The <em>layers</em> is an
+array of all the layers destined for the <code>PerlIO *</code>, and any
+arguments passed to them, <em>n</em> is the index into that array of the
+layer being called. The macro <code>PerlIOArg</code> will return a (possibly
+<code>NULL</code>) SV * for the argument passed to the layer.
+</p>
+<p>The <em>mode</em> string is an &quot;<code>fopen()</code>-like&quot; string which would match
+the regular expression <code>/^[I#]?[rwa]\+?[bt]?$/</code>.
+</p>
+<p>The <code>'I'</code> prefix is used during creation of <code>stdin</code>..<code>stderr</code> via
+special <code>PerlIO_fdopen</code> calls; the <code>'#'</code> prefix means that this is
+<code>sysopen</code> and that <em>imode</em> and <em>perm</em> should be passed to
+<code>PerlLIO_open3</code>; <code>'r'</code> means <strong>r</strong>ead, <code>'w'</code> means <strong>w</strong>rite and
+<code>'a'</code> means <strong>a</strong>ppend. The <code>'+'</code> suffix means that both reading and
+writing/appending are permitted.  The <code>'b'</code> suffix means file should
+be binary, and <code>'t'</code> means it is text. (Almost all layers should do
+the IO in binary mode, and ignore the b/t bits. The <code>:crlf</code> layer
+should be pushed to handle the distinction.)
+</p>
+<p>If <em>old</em> is not <code>NULL</code> then this is a <code>PerlIO_reopen</code>. Perl itself
+does not use this (yet?) and semantics are a little vague.
+</p>
+<p>If <em>fd</em> not negative then it is the numeric file descriptor <em>fd</em>,
+which will be open in a manner compatible with the supplied mode
+string, the call is thus equivalent to <code>PerlIO_fdopen</code>. In this case
+<em>nargs</em> will be zero.
+</p>
+<p>If <em>nargs</em> is greater than zero then it gives the number of arguments
+passed to <code>open</code>, otherwise it will be 1 if for example
+<code>PerlIO_open</code> was called.  In simple cases SvPV_nolen(*args) is the
+pathname to open.
+</p>
+<p>If a layer provides <code>Open()</code> it should normally call the <code>Open()</code>
+method of next layer down (if any) and then push itself on top if that
+succeeds.  <code>PerlIOBase_open</code> is provided to do exactly that, so in
+most cases you don&rsquo;t have to write your own <code>Open()</code> method.  If this
+method is not defined, other layers may have difficulty pushing
+themselves on top of it during open.
+</p>
+<p>If <code>PerlIO_push</code> was performed and open has failed, it must
+<code>PerlIO_pop</code> itself, since if it&rsquo;s not, the layer won&rsquo;t be removed
+and may cause bad problems.
+</p>
+<p>Returns <code>NULL</code> on failure.
+</p>
+</dd>
+<dt>Binmode</dt>
+<dd><a name="perliol-Binmode"></a>
+<pre class="verbatim">        IV        (*Binmode)(pTHX_ PerlIO *f);
+</pre>
+<p>Optional. Used when <code>:raw</code> layer is pushed (explicitly or as a result
+of binmode(FH)). If not present layer will be popped. If present
+should configure layer as binary (or pop itself) and return 0.
+If it returns -1 for error <code>binmode</code> will fail with layer
+still on the stack.
+</p>
+</dd>
+<dt>Getarg</dt>
+<dd><a name="perliol-Getarg"></a>
+<pre class="verbatim">        SV *      (*Getarg)(pTHX_ PerlIO *f,
+                            CLONE_PARAMS *param, int flags);
+</pre>
+<p>Optional. If present should return an SV * representing the string
+argument passed to the layer when it was
+pushed. e.g. &quot;:encoding(ascii)&quot; would return an SvPV with value
+&quot;ascii&quot;. (<em>param</em> and <em>flags</em> arguments can be ignored in most
+cases)
+</p>
+<p><code>Dup</code> uses <code>Getarg</code> to retrieve the argument originally passed to
+<code>Pushed</code>, so you must implement this function if your layer has an
+extra argument to <code>Pushed</code> and will ever be <code>Dup</code>ed.
+</p>
+</dd>
+<dt>Fileno</dt>
+<dd><a name="perliol-Fileno"></a>
+<pre class="verbatim">        IV        (*Fileno)(pTHX_ PerlIO *f);
+</pre>
+<p>Returns the Unix/Posix numeric file descriptor for the handle. Normally
+<code>PerlIOBase_fileno()</code> (which just asks next layer down) will suffice
+for this.
+</p>
+<p>Returns -1 on error, which is considered to include the case where the
+layer cannot provide such a file descriptor.
+</p>
+</dd>
+<dt>Dup</dt>
+<dd><a name="perliol-Dup"></a>
+<pre class="verbatim">        PerlIO * (*Dup)(pTHX_ PerlIO *f, PerlIO *o,
+                        CLONE_PARAMS *param, int flags);
+</pre>
+<p>XXX: Needs more docs.
+</p>
+<p>Used as part of the &quot;clone&quot; process when a thread is spawned (in which
+case param will be non-NULL) and when a stream is being duplicated via
+&rsquo;&amp;&rsquo; in the <code>open</code>.
+</p>
+<p>Similar to <code>Open</code>, returns PerlIO* on success, <code>NULL</code> on failure.
+</p>
+</dd>
+<dt>Read</dt>
+<dd><a name="perliol-Read"></a>
+<pre class="verbatim">        SSize_t (*Read)(pTHX_ PerlIO *f, void *vbuf, Size_t count);
+</pre>
+<p>Basic read operation.
+</p>
+<p>Typically will call <code>Fill</code> and manipulate pointers (possibly via the
+API).  <code>PerlIOBuf_read()</code> may be suitable for derived classes which
+provide &quot;fast gets&quot; methods.
+</p>
+<p>Returns actual bytes read, or -1 on an error.
+</p>
+</dd>
+<dt>Unread</dt>
+<dd><a name="perliol-Unread"></a>
+<pre class="verbatim">        SSize_t (*Unread)(pTHX_ PerlIO *f,
+                          const void *vbuf, Size_t count);
+</pre>
+<p>A superset of stdio&rsquo;s <code>ungetc()</code>. Should arrange for future reads to
+see the bytes in <code>vbuf</code>. If there is no obviously better implementation
+then <code>PerlIOBase_unread()</code> provides the function by pushing a &quot;fake&quot;
+&quot;pending&quot; layer above the calling layer.
+</p>
+<p>Returns the number of unread chars.
+</p>
+</dd>
+<dt>Write</dt>
+<dd><a name="perliol-Write"></a>
+<pre class="verbatim">        SSize_t (*Write)(PerlIO *f, const void *vbuf, Size_t count);
+</pre>
+<p>Basic write operation.
+</p>
+<p>Returns bytes written or -1 on an error.
+</p>
+</dd>
+<dt>Seek</dt>
+<dd><a name="perliol-Seek"></a>
+<pre class="verbatim">        IV      (*Seek)(pTHX_ PerlIO *f, Off_t offset, int whence);
+</pre>
+<p>Position the file pointer. Should normally call its own <code>Flush</code>
+method and then the <code>Seek</code> method of next layer down.
+</p>
+<p>Returns 0 on success, -1 on failure.
+</p>
+</dd>
+<dt>Tell</dt>
+<dd><a name="perliol-Tell"></a>
+<pre class="verbatim">        Off_t   (*Tell)(pTHX_ PerlIO *f);
+</pre>
+<p>Return the file pointer. May be based on layers cached concept of
+position to avoid overhead.
+</p>
+<p>Returns -1 on failure to get the file pointer.
+</p>
+</dd>
+<dt>Close</dt>
+<dd><a name="perliol-Close"></a>
+<pre class="verbatim">        IV      (*Close)(pTHX_ PerlIO *f);
+</pre>
+<p>Close the stream. Should normally call <code>PerlIOBase_close()</code> to flush
+itself and close layers below, and then deallocate any data structures
+(buffers, translation tables, ...) not  held directly in the data
+structure.
+</p>
+<p>Returns 0 on success, -1 on failure.
+</p>
+</dd>
+<dt>Flush</dt>
+<dd><a name="perliol-Flush"></a>
+<pre class="verbatim">        IV      (*Flush)(pTHX_ PerlIO *f);
+</pre>
+<p>Should make stream&rsquo;s state consistent with layers below. That is, any
+buffered write data should be written, and file position of lower layers
+adjusted for data read from below but not actually consumed.
+(Should perhaps <code>Unread()</code> such data to the lower layer.)
+</p>
+<p>Returns 0 on success, -1 on failure.
+</p>
+</dd>
+<dt>Fill</dt>
+<dd><a name="perliol-Fill"></a>
+<pre class="verbatim">        IV      (*Fill)(pTHX_ PerlIO *f);
+</pre>
+<p>The buffer for this layer should be filled (for read) from layer
+below.  When you &quot;subclass&quot; PerlIOBuf layer, you want to use its
+<em>_read</em> method and to supply your own fill method, which fills the
+PerlIOBuf&rsquo;s buffer.
+</p>
+<p>Returns 0 on success, -1 on failure.
+</p>
+</dd>
+<dt>Eof</dt>
+<dd><a name="perliol-Eof"></a>
+<pre class="verbatim">        IV      (*Eof)(pTHX_ PerlIO *f);
+</pre>
+<p>Return end-of-file indicator. <code>PerlIOBase_eof()</code> is normally sufficient.
+</p>
+<p>Returns 0 on end-of-file, 1 if not end-of-file, -1 on error.
+</p>
+</dd>
+<dt>Error</dt>
+<dd><a name="perliol-Error"></a>
+<pre class="verbatim">        IV      (*Error)(pTHX_ PerlIO *f);
+</pre>
+<p>Return error indicator. <code>PerlIOBase_error()</code> is normally sufficient.
+</p>
+<p>Returns 1 if there is an error (usually when <code>PERLIO_F_ERROR</code> is set,
+0 otherwise.
+</p>
+</dd>
+<dt>Clearerr</dt>
+<dd><a name="perliol-Clearerr"></a>
+<pre class="verbatim">        void    (*Clearerr)(pTHX_ PerlIO *f);
+</pre>
+<p>Clear end-of-file and error indicators. Should call <code>PerlIOBase_clearerr()</code>
+to set the <code>PERLIO_F_XXXXX</code> flags, which may suffice.
+</p>
+</dd>
+<dt>Setlinebuf</dt>
+<dd><a name="perliol-Setlinebuf"></a>
+<pre class="verbatim">        void    (*Setlinebuf)(pTHX_ PerlIO *f);
+</pre>
+<p>Mark the stream as line buffered. <code>PerlIOBase_setlinebuf()</code> sets the
+PERLIO_F_LINEBUF flag and is normally sufficient.
+</p>
+</dd>
+<dt>Get_base</dt>
+<dd><a name="perliol-Get_005fbase"></a>
+<pre class="verbatim">        STDCHAR *       (*Get_base)(pTHX_ PerlIO *f);
+</pre>
+<p>Allocate (if not already done so) the read buffer for this layer and
+return pointer to it. Return NULL on failure.
+</p>
+</dd>
+<dt>Get_bufsiz</dt>
+<dd><a name="perliol-Get_005fbufsiz"></a>
+<pre class="verbatim">        Size_t  (*Get_bufsiz)(pTHX_ PerlIO *f);
+</pre>
+<p>Return the number of bytes that last <code>Fill()</code> put in the buffer.
+</p>
+</dd>
+<dt>Get_ptr</dt>
+<dd><a name="perliol-Get_005fptr"></a>
+<pre class="verbatim">        STDCHAR *       (*Get_ptr)(pTHX_ PerlIO *f);
+</pre>
+<p>Return the current read pointer relative to this layer&rsquo;s buffer.
+</p>
+</dd>
+<dt>Get_cnt</dt>
+<dd><a name="perliol-Get_005fcnt"></a>
+<pre class="verbatim">        SSize_t (*Get_cnt)(pTHX_ PerlIO *f);
+</pre>
+<p>Return the number of bytes left to be read in the current buffer.
+</p>
+</dd>
+<dt>Set_ptrcnt</dt>
+<dd><a name="perliol-Set_005fptrcnt"></a>
+<pre class="verbatim">        void    (*Set_ptrcnt)(pTHX_ PerlIO *f,
+                              STDCHAR *ptr, SSize_t cnt);
+</pre>
+<p>Adjust the read pointer and count of bytes to match <code>ptr</code> and/or <code>cnt</code>.
+The application (or layer above) must ensure they are consistent.
+(Checking is allowed by the paranoid.)
+</p>
+</dd>
+</dl>
+
+<hr>
+<a name="perliol-Utilities"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-Implementing-PerlIO-Layers" accesskey="n" rel="next">perliol Implementing PerlIO Layers</a>, Previous: <a href="#perliol-Methods-in-Detail" accesskey="p" rel="previous">perliol Methods in Detail</a>, Up: <a href="#perliol-DESCRIPTION" accesskey="u" rel="up">perliol DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Utilities"></a>
+<h4 class="subsection">35.3.10 Utilities</h4>
+
+<p>To ask for the next layer down use PerlIONext(PerlIO *f).
+</p>
+<p>To check that a PerlIO* is valid use PerlIOValid(PerlIO *f).  (All
+this does is really just to check that the pointer is non-NULL and
+that the pointer behind that is non-NULL.)
+</p>
+<p>PerlIOBase(PerlIO *f) returns the &quot;Base&quot; pointer, or in other words,
+the <code>PerlIOl*</code> pointer.
+</p>
+<p>PerlIOSelf(PerlIO* f, type) return the PerlIOBase cast to a type.
+</p>
+<p>Perl_PerlIO_or_Base(PerlIO* f, callback, base, failure, args) either
+calls the <em>callback</em> from the functions of the layer <em>f</em> (just by
+the name of the IO function, like &quot;Read&quot;) with the <em>args</em>, or if
+there is no such callback, calls the <em>base</em> version of the callback
+with the same args, or if the f is invalid, set errno to EBADF and
+return <em>failure</em>.
+</p>
+<p>Perl_PerlIO_or_fail(PerlIO* f, callback, failure, args) either calls
+the <em>callback</em> of the functions of the layer <em>f</em> with the <em>args</em>,
+or if there is no such callback, set errno to EINVAL.  Or if the f is
+invalid, set errno to EBADF and return <em>failure</em>.
+</p>
+<p>Perl_PerlIO_or_Base_void(PerlIO* f, callback, base, args) either calls
+the <em>callback</em> of the functions of the layer <em>f</em> with the <em>args</em>,
+or if there is no such callback, calls the <em>base</em> version of the
+callback with the same args, or if the f is invalid, set errno to
+EBADF.
+</p>
+<p>Perl_PerlIO_or_fail_void(PerlIO* f, callback, args) either calls the
+<em>callback</em> of the functions of the layer <em>f</em> with the <em>args</em>, or if
+there is no such callback, set errno to EINVAL.  Or if the f is
+invalid, set errno to EBADF.
+</p>
+<hr>
+<a name="perliol-Implementing-PerlIO-Layers"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-Core-Layers" accesskey="n" rel="next">perliol Core Layers</a>, Previous: <a href="#perliol-Utilities" accesskey="p" rel="previous">perliol Utilities</a>, Up: <a href="#perliol-DESCRIPTION" accesskey="u" rel="up">perliol DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Implementing-PerlIO-Layers"></a>
+<h4 class="subsection">35.3.11 Implementing PerlIO Layers</h4>
+
+<p>If you find the implementation document unclear or not sufficient,
+look at the existing PerlIO layer implementations, which include:
+</p>
+<ul>
+<li> C implementations
+
+<p>The <samp>perlio.c</samp> and <samp>perliol.h</samp> in the Perl core implement the
+&quot;unix&quot;, &quot;perlio&quot;, &quot;stdio&quot;, &quot;crlf&quot;, &quot;utf8&quot;, &quot;byte&quot;, &quot;raw&quot;, &quot;pending&quot;
+layers, and also the &quot;mmap&quot; and &quot;win32&quot; layers if applicable.
+(The &quot;win32&quot; is currently unfinished and unused, to see what is used
+instead in Win32, see <a href="../PerlIO/Querying-the-layers-of-filehandles.html#Querying-the-layers-of-filehandles">(PerlIO)Querying the layers of filehandles</a> .)
+</p>
+<p>PerlIO::encoding, PerlIO::scalar, PerlIO::via in the Perl core.
+</p>
+<p>PerlIO::gzip and APR::PerlIO (mod_perl 2.0) on CPAN.
+</p>
+</li><li> Perl implementations
+
+<p>PerlIO::via::QuotedPrint in the Perl core and PerlIO::via::* on CPAN.
+</p>
+</li></ul>
+
+<p>If you are creating a PerlIO layer, you may want to be lazy, in other
+words, implement only the methods that interest you.  The other methods
+you can either replace with the &quot;blank&quot; methods
+</p>
+<pre class="verbatim">    PerlIOBase_noop_ok
+    PerlIOBase_noop_fail
+</pre>
+<p>(which do nothing, and return zero and -1, respectively) or for
+certain methods you may assume a default behaviour by using a NULL
+method.  The Open method looks for help in the &rsquo;parent&rsquo; layer.
+The following table summarizes the behaviour:
+</p>
+<pre class="verbatim">    method      behaviour with NULL
+
+    Clearerr    PerlIOBase_clearerr
+    Close       PerlIOBase_close
+    Dup         PerlIOBase_dup
+    Eof         PerlIOBase_eof
+    Error       PerlIOBase_error
+    Fileno      PerlIOBase_fileno
+    Fill        FAILURE
+    Flush       SUCCESS
+    Getarg      SUCCESS
+    Get_base    FAILURE
+    Get_bufsiz  FAILURE
+    Get_cnt     FAILURE
+    Get_ptr     FAILURE
+    Open        INHERITED
+    Popped      SUCCESS
+    Pushed      SUCCESS
+    Read        PerlIOBase_read
+    Seek        FAILURE
+    Set_cnt     FAILURE
+    Set_ptrcnt  FAILURE
+    Setlinebuf  PerlIOBase_setlinebuf
+    Tell        FAILURE
+    Unread      PerlIOBase_unread
+    Write       FAILURE
+
+ FAILURE        Set errno (to EINVAL in Unixish, to LIB$_INVARG in VMS) and
+                return -1 (for numeric return values) or NULL (for pointers)
+ INHERITED      Inherited from the layer below
+ SUCCESS        Return 0 (for numeric return values) or a pointer 
+</pre>
+<hr>
+<a name="perliol-Core-Layers"></a>
+<div class="header">
+<p>
+Next: <a href="#perliol-Extension-Layers" accesskey="n" rel="next">perliol Extension Layers</a>, Previous: <a href="#perliol-Implementing-PerlIO-Layers" accesskey="p" rel="previous">perliol Implementing PerlIO Layers</a>, Up: <a href="#perliol-DESCRIPTION" accesskey="u" rel="up">perliol DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Core-Layers"></a>
+<h4 class="subsection">35.3.12 Core Layers</h4>
+
+<p>The file <code>perlio.c</code> provides the following layers:
+</p>
+<dl compact="compact">
+<dt>&quot;unix&quot;</dt>
+<dd><a name="perliol-_0022unix_0022"></a>
+<p>A basic non-buffered layer which calls Unix/POSIX <code>read()</code>, <code>write()</code>,
+<code>lseek()</code>, <code>close()</code>. No buffering. Even on platforms that distinguish
+between O_TEXT and O_BINARY this layer is always O_BINARY.
+</p>
+</dd>
+<dt>&quot;perlio&quot;</dt>
+<dd><a name="perliol-_0022perlio_0022"></a>
+<p>A very complete generic buffering layer which provides the whole of
+PerlIO API. It is also intended to be used as a &quot;base class&quot; for other
+layers. (For example its <code>Read()</code> method is implemented in terms of
+the <code>Get_cnt()</code>/<code>Get_ptr()</code>/<code>Set_ptrcnt()</code> methods).
+</p>
+<p>&quot;perlio&quot; over &quot;unix&quot; provides a complete replacement for stdio as seen
+via PerlIO API. This is the default for USE_PERLIO when system&rsquo;s stdio
+does not permit perl&rsquo;s &quot;fast gets&quot; access, and which do not
+distinguish between <code>O_TEXT</code> and <code>O_BINARY</code>.
+</p>
+</dd>
+<dt>&quot;stdio&quot;</dt>
+<dd><a name="perliol-_0022stdio_0022"></a>
+<p>A layer which provides the PerlIO API via the layer scheme, but
+implements it by calling system&rsquo;s stdio. This is (currently) the default
+if system&rsquo;s stdio provides sufficient access to allow perl&rsquo;s &quot;fast gets&quot;
+access and which do not distinguish between <code>O_TEXT</code> and <code>O_BINARY</code>.
+</p>
+</dd>
+<dt>&quot;crlf&quot;</dt>
+<dd><a name="perliol-_0022crlf_0022"></a>
+<p>A layer derived using &quot;perlio&quot; as a base class. It provides Win32-like
+&quot;\n&quot; to CR,LF translation. Can either be applied above &quot;perlio&quot; or serve
+as the buffer layer itself. &quot;crlf&quot; over &quot;unix&quot; is the default if system
+distinguishes between <code>O_TEXT</code> and <code>O_BINARY</code> opens. (At some point
+&quot;unix&quot; will be replaced by a &quot;native&quot; Win32 IO layer on that platform,
+as Win32&rsquo;s read/write layer has various drawbacks.) The &quot;crlf&quot; layer is
+a reasonable model for a layer which transforms data in some way.
+</p>
+</dd>
+<dt>&quot;mmap&quot;</dt>
+<dd><a name="perliol-_0022mmap_0022"></a>
+<p>If Configure detects <code>mmap()</code> functions this layer is provided (with
+&quot;perlio&quot; as a &quot;base&quot;) which does &quot;read&quot; operations by mmap()ing the
+file. Performance improvement is marginal on modern systems, so it is
+mainly there as a proof of concept. It is likely to be unbundled from
+the core at some point. The &quot;mmap&quot; layer is a reasonable model for a
+minimalist &quot;derived&quot; layer.
+</p>
+</dd>
+<dt>&quot;pending&quot;</dt>
+<dd><a name="perliol-_0022pending_0022"></a>
+<p>An &quot;internal&quot; derivative of &quot;perlio&quot; which can be used to provide
+Unread() function for layers which have no buffer or cannot be
+bothered.  (Basically this layer&rsquo;s <code>Fill()</code> pops itself off the stack
+and so resumes reading from layer below.)
+</p>
+</dd>
+<dt>&quot;raw&quot;</dt>
+<dd><a name="perliol-_0022raw_0022"></a>
+<p>A dummy layer which never exists on the layer stack. Instead when
+&quot;pushed&quot; it actually pops the stack removing itself, it then calls
+Binmode function table entry on all the layers in the stack - normally
+this (via PerlIOBase_binmode) removes any layers which do not have
+<code>PERLIO_K_RAW</code> bit set. Layers can modify that behaviour by defining
+their own Binmode entry.
+</p>
+</dd>
+<dt>&quot;utf8&quot;</dt>
+<dd><a name="perliol-_0022utf8_0022"></a>
+<p>Another dummy layer. When pushed it pops itself and sets the
+<code>PERLIO_F_UTF8</code> flag on the layer which was (and now is once more)
+the top of the stack.
+</p>
+</dd>
+</dl>
+
+<p>In addition <samp>perlio.c</samp> also provides a number of <code>PerlIOBase_xxxx()</code>
+functions which are intended to be used in the table slots of classes
+which do not need to do anything special for a particular method.
+</p>
+<hr>
+<a name="perliol-Extension-Layers"></a>
+<div class="header">
+<p>
+Previous: <a href="#perliol-Core-Layers" accesskey="p" rel="previous">perliol Core Layers</a>, Up: <a href="#perliol-DESCRIPTION" accesskey="u" rel="up">perliol DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Extension-Layers"></a>
+<h4 class="subsection">35.3.13 Extension Layers</h4>
+
+<p>Layers can be made available by extension modules. When an unknown layer
+is encountered the PerlIO code will perform the equivalent of :
+</p>
+<pre class="verbatim">   use PerlIO 'layer';
+</pre>
+<p>Where <em>layer</em> is the unknown layer. <samp>PerlIO.pm</samp> will then attempt to:
+</p>
+<pre class="verbatim">   require PerlIO::layer;
+</pre>
+<p>If after that process the layer is still not defined then the <code>open</code>
+will fail.
+</p>
+<p>The following extension layers are bundled with perl:
+</p>
+<dl compact="compact">
+<dt>&quot;:encoding&quot;</dt>
+<dd><a name="perliol-_0022_003aencoding_0022"></a>
+<pre class="verbatim">   use Encoding;
+</pre>
+<p>makes this layer available, although <samp>PerlIO.pm</samp> &quot;knows&quot; where to
+find it.  It is an example of a layer which takes an argument as it is
+called thus:
+</p>
+<pre class="verbatim">   open( $fh, &quot;&lt;:encoding(iso-8859-7)&quot;, $pathname );
+</pre>
+</dd>
+<dt>&quot;:scalar&quot;</dt>
+<dd><a name="perliol-_0022_003ascalar_0022"></a>
+<p>Provides support for reading data from and writing data to a scalar.
+</p>
+<pre class="verbatim">   open( $fh, &quot;+&lt;:scalar&quot;, \$scalar );
+</pre>
+<p>When a handle is so opened, then reads get bytes from the string value
+of <em>$scalar</em>, and writes change the value. In both cases the position
+in <em>$scalar</em> starts as zero but can be altered via <code>seek</code>, and
+determined via <code>tell</code>.
+</p>
+<p>Please note that this layer is implied when calling open() thus:
+</p>
+<pre class="verbatim">   open( $fh, &quot;+&lt;&quot;, \$scalar );
+</pre>
+</dd>
+<dt>&quot;:via&quot;</dt>
+<dd><a name="perliol-_0022_003avia_0022"></a>
+<p>Provided to allow layers to be implemented as Perl code.  For instance:
+</p>
+<pre class="verbatim">   use PerlIO::via::StripHTML;
+   open( my $fh, &quot;&lt;:via(StripHTML)&quot;, &quot;index.html&quot; );
+</pre>
+<p>See <a href="../PerlIO-via/index.html">(PerlIO-via)</a> for details.
+</p>
+</dd>
+</dl>
+
+<hr>
+<a name="perliol-TODO"></a>
+<div class="header">
+<p>
+Previous: <a href="#perliol-DESCRIPTION" accesskey="p" rel="previous">perliol DESCRIPTION</a>, Up: <a href="#perliol" accesskey="u" rel="up">perliol</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="TODO"></a>
+<h3 class="section">35.4 TODO</h3>
+
+<p>Things that need to be done to improve this document.
+</p>
+<ul>
+<li> Explain how to make a valid fh without going through open()(i.e. apply
+a layer). For example if the file is not opened through perl, but we
+want to get back a fh, like it was opened by Perl.
+
+<p>How PerlIO_apply_layera fits in, where its docs, was it made public?
+</p>
+<p>Currently the example could be something like this:
+</p>
+<pre class="verbatim">  PerlIO *foo_to_PerlIO(pTHX_ char *mode, ...)
+  {
+      char *mode; /* &quot;w&quot;, &quot;r&quot;, etc */
+      const char *layers = &quot;:APR&quot;; /* the layer name */
+      PerlIO *f = PerlIO_allocate(aTHX);
+      if (!f) {
+          return NULL;
+      }
+
+      PerlIO_apply_layers(aTHX_ f, mode, layers);
+
+      if (f) {
+          PerlIOAPR *st = PerlIOSelf(f, PerlIOAPR);
+          /* fill in the st struct, as in _open() */
+          st-&gt;file = file;
+          PerlIOBase(f)-&gt;flags |= PERLIO_F_OPEN;
+
+          return f;
+      }
+      return NULL;
+  }
+</pre>
+</li><li> fix/add the documentation in places marked as XXX.
+
+</li><li> The handling of errors by the layer is not specified. e.g. when $!
+should be set explicitly, when the error handling should be just
+delegated to the top layer.
+
+<p>Probably give some hints on using SETERRNO() or pointers to where they
+can be found.
+</p>
+</li><li> I think it would help to give some concrete examples to make it easier
+to understand the API. Of course I agree that the API has to be
+concise, but since there is no second document that is more of a
+guide, I think that it&rsquo;d make it easier to start with the doc which is
+an API, but has examples in it in places where things are unclear, to
+a person who is not a PerlIO guru (yet).
+
+</li></ul>
+
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perliol-DESCRIPTION" accesskey="p" rel="previous">perliol DESCRIPTION</a>, Up: <a href="#perliol" accesskey="u" rel="up">perliol</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

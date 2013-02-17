@@ -1,0 +1,1087 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 4.13.97+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perlgit</title>
+
+<meta name="description" content="Perl pod documentation: perlgit">
+<meta name="keywords" content="Perl pod documentation: perlgit">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="perlgpl.html#perlgpl" rel="next" title="perlgpl">
+<link href="NAME-function.html#NAME-function-perlsyn" rel="previous" title="NAME function perlsyn">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perlgit"></a>
+<div class="header">
+<p>
+Next: <a href="perlgpl.html#perlgpl" accesskey="n" rel="next">perlgpl</a>, Previous: <a href="NAME-function.html#NAME-function" accesskey="p" rel="previous">NAME function</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perlgit-1"></a>
+<h2 class="chapter">26 perlgit</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-NAME" accesskey="1">perlgit NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-DESCRIPTION" accesskey="2">perlgit DESCRIPTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-CLONING-THE-REPOSITORY" accesskey="3">perlgit CLONING THE REPOSITORY</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="4">perlgit WORKING WITH THE REPOSITORY</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-Topic-branches-and-rewriting-history" accesskey="5">perlgit Topic branches and rewriting history</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-WRITE-ACCESS-TO-THE-GIT-REPOSITORY" accesskey="6">perlgit WRITE ACCESS TO THE GIT REPOSITORY</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-Accepting-a-patch" accesskey="7">perlgit Accepting a patch</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlgit-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-DESCRIPTION" accesskey="n" rel="next">perlgit DESCRIPTION</a>, Up: <a href="#perlgit" accesskey="u" rel="up">perlgit</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-25"></a>
+<h3 class="section">26.1 NAME</h3>
+
+<p>perlgit - Detailed information about git and the Perl repository
+</p>
+<hr>
+<a name="perlgit-DESCRIPTION"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-CLONING-THE-REPOSITORY" accesskey="n" rel="next">perlgit CLONING THE REPOSITORY</a>, Previous: <a href="#perlgit-NAME" accesskey="p" rel="previous">perlgit NAME</a>, Up: <a href="#perlgit" accesskey="u" rel="up">perlgit</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESCRIPTION-25"></a>
+<h3 class="section">26.2 DESCRIPTION</h3>
+
+<p>This document provides details on using git to develop Perl. If you are
+just interested in working on a quick patch, see <a href="perlhack.html#perlhack-NAME">perlhack NAME</a> first.
+This document is intended for people who are regular contributors to
+Perl, including those with write access to the git repository.
+</p>
+<hr>
+<a name="perlgit-CLONING-THE-REPOSITORY"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="n" rel="next">perlgit WORKING WITH THE REPOSITORY</a>, Previous: <a href="#perlgit-DESCRIPTION" accesskey="p" rel="previous">perlgit DESCRIPTION</a>, Up: <a href="#perlgit" accesskey="u" rel="up">perlgit</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="CLONING-THE-REPOSITORY"></a>
+<h3 class="section">26.3 CLONING THE REPOSITORY</h3>
+
+<p>All of Perl&rsquo;s source code is kept centrally in a Git repository at
+<em>perl5.git.perl.org</em>.
+</p>
+<p>You can make a read-only clone of the repository by running:
+</p>
+<pre class="verbatim">  % git clone git://perl5.git.perl.org/perl.git perl
+</pre>
+<p>This uses the git protocol (port 9418).
+</p>
+<p>If you cannot use the git protocol for firewall reasons, you can also
+clone via http, though this is much slower:
+</p>
+<pre class="verbatim">  % git clone http://perl5.git.perl.org/perl.git perl
+</pre>
+<hr>
+<a name="perlgit-WORKING-WITH-THE-REPOSITORY"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-Topic-branches-and-rewriting-history" accesskey="n" rel="next">perlgit Topic branches and rewriting history</a>, Previous: <a href="#perlgit-CLONING-THE-REPOSITORY" accesskey="p" rel="previous">perlgit CLONING THE REPOSITORY</a>, Up: <a href="#perlgit" accesskey="u" rel="up">perlgit</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="WORKING-WITH-THE-REPOSITORY"></a>
+<h3 class="section">26.4 WORKING WITH THE REPOSITORY</h3>
+
+<p>Once you have changed into the repository directory, you can inspect
+it. After a clone the repository will contain a single local branch,
+which will be the current branch as well, as indicated by the asterisk.
+</p>
+<pre class="verbatim">  % git branch
+  * blead
+</pre>
+<p>Using the -a switch to <code>branch</code> will also show the remote tracking
+branches in the repository:
+</p>
+<pre class="verbatim">  % git branch -a
+  * blead
+    origin/HEAD
+    origin/blead
+  ...
+</pre>
+<p>The branches that begin with &quot;origin&quot; correspond to the &quot;git remote&quot;
+that you cloned from (which is named &quot;origin&quot;). Each branch on the
+remote will be exactly tracked by these branches. You should NEVER do
+work on these remote tracking branches. You only ever do work in a
+local branch. Local branches can be configured to automerge (on pull)
+from a designated remote tracking branch. This is the case with the
+default branch <code>blead</code> which will be configured to merge from the
+remote tracking branch <code>origin/blead</code>.
+</p>
+<p>You can see recent commits:
+</p>
+<pre class="verbatim">  % git log
+</pre>
+<p>And pull new changes from the repository, and update your local
+repository (must be clean first)
+</p>
+<pre class="verbatim">  % git pull
+</pre>
+<p>Assuming we are on the branch <code>blead</code> immediately after a pull, this
+command would be more or less equivalent to:
+</p>
+<pre class="verbatim">  % git fetch
+  % git merge origin/blead
+</pre>
+<p>In fact if you want to update your local repository without touching
+your working directory you do:
+</p>
+<pre class="verbatim">  % git fetch
+</pre>
+<p>And if you want to update your remote-tracking branches for all defined
+remotes simultaneously you can do
+</p>
+<pre class="verbatim">  % git remote update
+</pre>
+<p>Neither of these last two commands will update your working directory,
+however both will update the remote-tracking branches in your
+repository.
+</p>
+<p>To make a local branch of a remote branch:
+</p>
+<pre class="verbatim">  % git checkout -b maint-5.10 origin/maint-5.10
+</pre>
+<p>To switch back to blead:
+</p>
+<pre class="verbatim">  % git checkout blead
+</pre>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-Finding-out-your-status" accesskey="1">perlgit Finding out your status</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-Patch-workflow" accesskey="2">perlgit Patch workflow</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-Committing-your-changes" accesskey="3">perlgit Committing your changes</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-Using-git-to-send-patch-emails" accesskey="4">perlgit Using git to send patch emails</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-A-note-on-derived-files" accesskey="5">perlgit A note on derived files</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-Cleaning-a-working-directory" accesskey="6">perlgit Cleaning a working directory</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-Bisecting" accesskey="7">perlgit Bisecting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlgit-Finding-out-your-status"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-Patch-workflow" accesskey="n" rel="next">perlgit Patch workflow</a>, Up: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="u" rel="up">perlgit WORKING WITH THE REPOSITORY</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Finding-out-your-status"></a>
+<h4 class="subsection">26.4.1 Finding out your status</h4>
+
+<p>The most common git command you will use will probably be
+</p>
+<pre class="verbatim">  % git status
+</pre>
+<p>This command will produce as output a description of the current state
+of the repository, including modified files and unignored untracked
+files, and in addition it will show things like what files have been
+staged for the next commit, and usually some useful information about
+how to change things. For instance the following:
+</p>
+<pre class="verbatim">  $ git status
+  # On branch blead
+  # Your branch is ahead of 'origin/blead' by 1 commit.
+  #
+  # Changes to be committed:
+  #   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+  #
+  #       modified:   pod/perlgit.pod
+  #
+  # Changed but not updated:
+  #   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  #
+  #       modified:   pod/perlgit.pod
+  #
+  # Untracked files:
+  #   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+  #
+  #       deliberate.untracked
+</pre>
+<p>This shows that there were changes to this document staged for commit,
+and that there were further changes in the working directory not yet
+staged. It also shows that there was an untracked file in the working
+directory, and as you can see shows how to change all of this. It also
+shows that there is one commit on the working branch <code>blead</code> which has
+not been pushed to the <code>origin</code> remote yet. <strong>NOTE</strong>: that this output
+is also what you see as a template if you do not provide a message to
+<code>git commit</code>.
+</p>
+<hr>
+<a name="perlgit-Patch-workflow"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-Committing-your-changes" accesskey="n" rel="next">perlgit Committing your changes</a>, Previous: <a href="#perlgit-Finding-out-your-status" accesskey="p" rel="previous">perlgit Finding out your status</a>, Up: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="u" rel="up">perlgit WORKING WITH THE REPOSITORY</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Patch-workflow"></a>
+<h4 class="subsection">26.4.2 Patch workflow</h4>
+
+<p>First, please read <a href="perlhack.html#perlhack-NAME">perlhack NAME</a> for details on hacking the Perl core.
+That document covers many details on how to create a good patch.
+</p>
+<p>If you already have a Perl repository, you should ensure that you&rsquo;re on
+the <em>blead</em> branch, and your repository is up to date:
+</p>
+<pre class="verbatim">  % git checkout blead
+  % git pull
+</pre>
+<p>It&rsquo;s preferable to patch against the latest blead version, since this
+is where new development occurs for all changes other than critical bug
+fixes. Critical bug fix patches should be made against the relevant
+maint branches, or should be submitted with a note indicating all the
+branches where the fix should be applied.
+</p>
+<p>Now that we have everything up to date, we need to create a temporary
+new branch for these changes and switch into it:
+</p>
+<pre class="verbatim">  % git checkout -b orange
+</pre>
+<p>which is the short form of
+</p>
+<pre class="verbatim">  % git branch orange
+  % git checkout orange
+</pre>
+<p>Creating a topic branch makes it easier for the maintainers to rebase
+or merge back into the master blead for a more linear history. If you
+don&rsquo;t work on a topic branch the maintainer has to manually cherry pick
+your changes onto blead before they can be applied.
+</p>
+<p>That&rsquo;ll get you scolded on perl5-porters, so don&rsquo;t do that. Be Awesome.
+</p>
+<p>Then make your changes. For example, if Leon Brocard changes his name
+to Orange Brocard, we should change his name in the AUTHORS file:
+</p>
+<pre class="verbatim">  % perl -pi -e 's{Leon Brocard}{Orange Brocard}' AUTHORS
+</pre>
+<p>You can see what files are changed:
+</p>
+<pre class="verbatim">  % git status
+  # On branch orange
+  # Changes to be committed:
+  #   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+  #
+  #    modified:   AUTHORS
+  #
+</pre>
+<p>And you can see the changes:
+</p>
+<pre class="verbatim">  % git diff
+  diff --git a/AUTHORS b/AUTHORS
+  index 293dd70..722c93e 100644
+  --- a/AUTHORS
+  +++ b/AUTHORS
+  @@ -541,7 +541,7 @@    Lars Hecking                   &lt;lhecking@nmrc.ucc.ie&gt;
+   Laszlo Molnar                  &lt;laszlo.molnar@eth.ericsson.se&gt;
+   Leif Huhn                      &lt;leif@hale.dkstat.com&gt;
+   Len Johnson                    &lt;lenjay@ibm.net&gt;
+  -Leon Brocard                   &lt;acme@astray.com&gt;
+  +Orange Brocard                 &lt;acme@astray.com&gt;
+   Les Peters                     &lt;lpeters@aol.net&gt;
+   Lesley Binks                   &lt;lesley.binks@gmail.com&gt;
+   Lincoln D. Stein               &lt;lstein@cshl.org&gt;
+</pre>
+<p>Now commit your change locally:
+</p>
+<pre class="verbatim">  % git commit -a -m 'Rename Leon Brocard to Orange Brocard'
+  Created commit 6196c1d: Rename Leon Brocard to Orange Brocard
+   1 files changed, 1 insertions(+), 1 deletions(-)
+</pre>
+<p>The <code>-a</code> option is used to include all files that git tracks that you
+have changed. If at this time, you only want to commit some of the
+files you have worked on, you can omit the <code>-a</code> and use the command
+<code>git&nbsp;add&nbsp;<em>FILE&nbsp;...</em><!-- /@w --></code> before doing the commit. <code>git&nbsp;add&nbsp;<span class="nolinebreak">--interactive</span><!-- /@w --></code> allows you to even just commit portions of files
+instead of all the changes in them.
+</p>
+<p>The <code>-m</code> option is used to specify the commit message. If you omit it,
+git will open a text editor for you to compose the message
+interactively. This is useful when the changes are more complex than
+the sample given here, and, depending on the editor, to know that the
+first line of the commit message doesn&rsquo;t exceed the 50 character legal
+maximum.
+</p>
+<p>Once you&rsquo;ve finished writing your commit message and exited your
+editor, git will write your change to disk and tell you something like
+this:
+</p>
+<pre class="verbatim">  Created commit daf8e63: explain git status and stuff about remotes
+   1 files changed, 83 insertions(+), 3 deletions(-)
+</pre>
+<p>If you re-run <code>git status</code>, you should see something like this:
+</p>
+<pre class="verbatim">  % git status
+  # On branch blead
+  # Your branch is ahead of 'origin/blead' by 2 commits.
+  #
+  # Untracked files:
+  #   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+  #
+  #       deliberate.untracked
+  nothing added to commit but untracked files present (use &quot;git add&quot; to track)
+</pre>
+<p>When in doubt, before you do anything else, check your status and read
+it carefully, many questions are answered directly by the git status
+output.
+</p>
+<p>You can examine your last commit with:
+</p>
+<pre class="verbatim">  % git show HEAD
+</pre>
+<p>and if you are not happy with either the description or the patch
+itself you can fix it up by editing the files once more and then issue:
+</p>
+<pre class="verbatim">  % git commit -a --amend
+</pre>
+<p>Now you should create a patch file for all your local changes:
+</p>
+<pre class="verbatim">  % git format-patch -M origin..
+  0001-Rename-Leon-Brocard-to-Orange-Brocard.patch
+</pre>
+<p>You should now send an email to
+<a href="mailto:perlbug@perl.org">perlbug@perl.org</a> with a description of your
+changes, and include this patch file as an attachment. In addition to
+being tracked by RT, mail to perlbug will automatically be forwarded to
+perl5-porters (with manual moderation, so please be patient). You
+should only send patches to
+<a href="mailto:perl5-porters@perl.org">perl5-porters@perl.org</a> directly if the
+patch is not ready to be applied, but intended for discussion.
+</p>
+<p>See the next section for how to configure and use git to send these
+emails for you.
+</p>
+<p>If you want to delete your temporary branch, you may do so with:
+</p>
+<pre class="verbatim">  % git checkout blead
+  % git branch -d orange
+  error: The branch 'orange' is not an ancestor of your current HEAD.
+  If you are sure you want to delete it, run 'git branch -D orange'.
+  % git branch -D orange
+  Deleted branch orange.
+</pre>
+<hr>
+<a name="perlgit-Committing-your-changes"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-Using-git-to-send-patch-emails" accesskey="n" rel="next">perlgit Using git to send patch emails</a>, Previous: <a href="#perlgit-Patch-workflow" accesskey="p" rel="previous">perlgit Patch workflow</a>, Up: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="u" rel="up">perlgit WORKING WITH THE REPOSITORY</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Committing-your-changes"></a>
+<h4 class="subsection">26.4.3 Committing your changes</h4>
+
+<p>Assuming that you&rsquo;d like to commit all the changes you&rsquo;ve made as a
+single atomic unit, run this command:
+</p>
+<pre class="verbatim">   % git commit -a
+</pre>
+<p>(That <code>-a</code> tells git to add every file you&rsquo;ve changed to this commit.
+New files aren&rsquo;t automatically added to your commit when you use
+<code>commit -a</code> If you want to add files or to commit some, but not all of
+your changes, have a look at the documentation for <code>git add</code>.)
+</p>
+<p>Git will start up your favorite text editor, so that you can craft a
+commit message for your change. See <a href="perlhack.html#perlhack-Commit-message">perlhack Commit message</a> for more
+information about what makes a good commit message.
+</p>
+<p>Once you&rsquo;ve finished writing your commit message and exited your
+editor, git will write your change to disk and tell you something like
+this:
+</p>
+<pre class="verbatim">  Created commit daf8e63: explain git status and stuff about remotes
+   1 files changed, 83 insertions(+), 3 deletions(-)
+</pre>
+<p>If you re-run <code>git status</code>, you should see something like this:
+</p>
+<pre class="verbatim">  % git status
+  # On branch blead
+  # Your branch is ahead of 'origin/blead' by 2 commits.
+  #
+  # Untracked files:
+  #   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+  #
+  #       deliberate.untracked
+  nothing added to commit but untracked files present (use &quot;git add&quot; to track)
+</pre>
+<p>When in doubt, before you do anything else, check your status and read
+it carefully, many questions are answered directly by the git status
+output.
+</p>
+<hr>
+<a name="perlgit-Using-git-to-send-patch-emails"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-A-note-on-derived-files" accesskey="n" rel="next">perlgit A note on derived files</a>, Previous: <a href="#perlgit-Committing-your-changes" accesskey="p" rel="previous">perlgit Committing your changes</a>, Up: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="u" rel="up">perlgit WORKING WITH THE REPOSITORY</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Using-git-to-send-patch-emails"></a>
+<h4 class="subsection">26.4.4 Using git to send patch emails</h4>
+
+<p>Please read <a href="perlhack.html#perlhack-NAME">perlhack NAME</a> first in order to figure out where your patches
+should be sent.
+</p>
+<p>In your ~/git/perl repository, set the destination email to perl&rsquo;s bug
+tracker:
+</p>
+<pre class="verbatim">  $ git config sendemail.to perlbug@perl.org
+</pre>
+<p>Or maybe perl5-porters:
+</p>
+<pre class="verbatim">  $ git config sendemail.to perl5-porters@perl.org
+</pre>
+<p>Then you can use git directly to send your patch emails:
+</p>
+<pre class="verbatim">  $ git send-email 0001-Rename-Leon-Brocard-to-Orange-Brocard.patch
+</pre>
+<p>You may need to set some configuration variables for your particular
+email service provider. For example, to set your global git config to
+send email via a gmail account:
+</p>
+<pre class="verbatim">  $ git config --global sendemail.smtpserver smtp.gmail.com
+  $ git config --global sendemail.smtpssl 1
+  $ git config --global sendemail.smtpuser YOURUSERNAME@gmail.com
+</pre>
+<p>With this configuration, you will be prompted for your gmail password
+when you run &rsquo;git send-email&rsquo;. You can also configure
+<code>sendemail.smtppass</code> with your password if you don&rsquo;t care about having
+your password in the .gitconfig file.
+</p>
+<hr>
+<a name="perlgit-A-note-on-derived-files"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-Cleaning-a-working-directory" accesskey="n" rel="next">perlgit Cleaning a working directory</a>, Previous: <a href="#perlgit-Using-git-to-send-patch-emails" accesskey="p" rel="previous">perlgit Using git to send patch emails</a>, Up: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="u" rel="up">perlgit WORKING WITH THE REPOSITORY</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="A-note-on-derived-files"></a>
+<h4 class="subsection">26.4.5 A note on derived files</h4>
+
+<p>Be aware that many files in the distribution are derivative&ndash;avoid
+patching them, because git won&rsquo;t see the changes to them, and the build
+process will overwrite them. Patch the originals instead. Most
+utilities (like perldoc) are in this category, i.e. patch
+<samp>utils/perldoc.PL</samp> rather than <samp>utils/perldoc</samp>. Similarly, don&rsquo;t
+create patches for files under $src_root/ext from their copies found in
+$install_root/lib. If you are unsure about the proper location of a
+file that may have gotten copied while building the source
+distribution, consult the <code>MANIFEST</code>.
+</p>
+<hr>
+<a name="perlgit-Cleaning-a-working-directory"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-Bisecting" accesskey="n" rel="next">perlgit Bisecting</a>, Previous: <a href="#perlgit-A-note-on-derived-files" accesskey="p" rel="previous">perlgit A note on derived files</a>, Up: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="u" rel="up">perlgit WORKING WITH THE REPOSITORY</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Cleaning-a-working-directory"></a>
+<h4 class="subsection">26.4.6 Cleaning a working directory</h4>
+
+<p>The command <code>git clean</code> can with varying arguments be used as a
+replacement for <code>make clean</code>.
+</p>
+<p>To reset your working directory to a pristine condition you can do:
+</p>
+<pre class="verbatim">  % git clean -dxf
+</pre>
+<p>However, be aware this will delete ALL untracked content. You can use
+</p>
+<pre class="verbatim">  % git clean -Xf
+</pre>
+<p>to remove all ignored untracked files, such as build and test
+byproduct, but leave any  manually created files alone.
+</p>
+<p>If you only want to cancel some uncommitted edits, you can use <code>git
+checkout</code> and give it a list of files to be reverted, or <code>git checkout
+-f</code> to revert them all.
+</p>
+<p>If you want to cancel one or several commits, you can use <code>git reset</code>.
+</p>
+<hr>
+<a name="perlgit-Bisecting"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlgit-Cleaning-a-working-directory" accesskey="p" rel="previous">perlgit Cleaning a working directory</a>, Up: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="u" rel="up">perlgit WORKING WITH THE REPOSITORY</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Bisecting"></a>
+<h4 class="subsection">26.4.7 Bisecting</h4>
+
+<p><code>git</code> provides a built-in way to determine which commit should be blamed
+for introducing a given bug. <code>git bisect</code> performs a binary search of
+history to locate the first failing commit. It is fast, powerful and
+flexible, but requires some setup and to automate the process an auxiliary
+shell script is needed.
+</p>
+<p>The core provides a wrapper program, <samp>Porting/bisect.pl</samp>, which attempts to
+simplify as much as possible, making bisecting as simple as running a Perl
+one-liner. For example, if you want to know when this became an error:
+</p>
+<pre class="verbatim">    perl -e 'my $a := 2'
+</pre>
+<p>you simply run this:
+</p>
+<pre class="verbatim">    .../Porting/bisect.pl -e 'my $a := 2;'
+</pre>
+<p>Using <code>bisect.pl</code>, with one command (and no other files) it&rsquo;s easy to find
+out
+</p>
+<ul>
+<li> Which commit caused this example code to break?
+
+</li><li> Which commit caused this example code to start working?
+
+</li><li> Which commit added the first file to match this regex?
+
+</li><li> Which commit removed the last file to match this regex?
+
+</li></ul>
+
+<p>usually without needing to know which versions of perl to use as start and
+end revisions, as <samp>bisect.pl</samp> automatically searches to find the earliest
+stable version for which the test case passes. Run
+<code>Porting/bisect.pl --help</code> for the full documentation, including how to
+set the <code>Configure</code> and build time options.
+</p>
+<p>If you require more flexibility than <samp>Porting/bisect.pl</samp> has to offer, you&rsquo;ll
+need to run <code>git bisect</code> yourself. It&rsquo;s most useful to use <code>git bisect run</code>
+to automate the building and testing of perl revisions. For this you&rsquo;ll need
+a shell script for <code>git</code> to call to test a particular revision. An example
+script is <samp>Porting/bisect-example.sh</samp>, which you should copy <strong>outside</strong> of
+the repository, as the bisect process will reset the state to a clean checkout
+as it runs. The instructions below assume that you copied it as <samp>~/run</samp> and
+then edited it as appropriate.
+</p>
+<p>You first enter in bisect mode with:
+</p>
+<pre class="verbatim">  % git bisect start
+</pre>
+<p>For example, if the bug is present on <code>HEAD</code> but wasn&rsquo;t in 5.10.0,
+<code>git</code> will learn about this when you enter:
+</p>
+<pre class="verbatim">  % git bisect bad
+  % git bisect good perl-5.10.0
+  Bisecting: 853 revisions left to test after this
+</pre>
+<p>This results in checking out the median commit between <code>HEAD</code> and
+<code>perl-5.10.0</code>. You can then run the bisecting process with:
+</p>
+<pre class="verbatim">  % git bisect run ~/run
+</pre>
+<p>When the first bad commit is isolated, <code>git bisect</code> will tell you so:
+</p>
+<pre class="verbatim">  ca4cfd28534303b82a216cfe83a1c80cbc3b9dc5 is first bad commit
+  commit ca4cfd28534303b82a216cfe83a1c80cbc3b9dc5
+  Author: Dave Mitchell &lt;davem@fdisolutions.com&gt;
+  Date:   Sat Feb 9 14:56:23 2008 +0000
+
+      [perl #49472] Attributes + Unknown Error
+      ...
+
+  bisect run success
+</pre>
+<p>You can peek into the bisecting process with <code>git bisect log</code> and
+<code>git bisect visualize</code>. <code>git bisect reset</code> will get you out of bisect
+mode.
+</p>
+<p>Please note that the first <code>good</code> state must be an ancestor of the
+first <code>bad</code> state. If you want to search for the commit that <em>solved</em>
+some bug, you have to negate your test case (i.e. exit with <code>1</code> if OK
+and <code>0</code> if not) and still mark the lower bound as <code>good</code> and the
+upper as <code>bad</code>. The &quot;first bad commit&quot; has then to be understood as
+the &quot;first commit where the bug is solved&quot;.
+</p>
+<p><code>git help bisect</code> has much more information on how you can tweak your
+binary searches.
+</p>
+<hr>
+<a name="perlgit-Topic-branches-and-rewriting-history"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-WRITE-ACCESS-TO-THE-GIT-REPOSITORY" accesskey="n" rel="next">perlgit WRITE ACCESS TO THE GIT REPOSITORY</a>, Previous: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="p" rel="previous">perlgit WORKING WITH THE REPOSITORY</a>, Up: <a href="#perlgit" accesskey="u" rel="up">perlgit</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Topic-branches-and-rewriting-history"></a>
+<h3 class="section">26.5 Topic branches and rewriting history</h3>
+
+<p>Individual committers should create topic branches under
+<strong>yourname</strong>/<strong>some_descriptive_name</strong>. Other committers should check
+with a topic branch&rsquo;s creator before making any change to it.
+</p>
+<p>The simplest way to create a remote topic branch that works on all
+versions of git is to push the current head as a new branch on the
+remote, then check it out locally:
+</p>
+<pre class="verbatim">  $ branch=&quot;$yourname/$some_descriptive_name&quot;
+  $ git push origin HEAD:$branch
+  $ git checkout -b $branch origin/$branch
+</pre>
+<p>Users of git 1.7 or newer can do it in a more obvious manner:
+</p>
+<pre class="verbatim">  $ branch=&quot;$yourname/$some_descriptive_name&quot;
+  $ git checkout -b $branch
+  $ git push origin -u $branch
+</pre>
+<p>If you are not the creator of <strong>yourname</strong>/<strong>some_descriptive_name</strong>, you
+might sometimes find that the original author has edited the branch&rsquo;s
+history. There are lots of good reasons for this. Sometimes, an author
+might simply be rebasing the branch onto a newer source point.
+Sometimes, an author might have found an error in an early commit which
+they wanted to fix before merging the branch to blead.
+</p>
+<p>Currently the master repository is configured to forbid
+non-fast-forward merges. This means that the branches within can not be
+rebased and pushed as a single step.
+</p>
+<p>The only way you will ever be allowed to rebase or modify the history
+of a pushed branch is to delete it and push it as a new branch under
+the same name. Please think carefully about doing this. It may be
+better to sequentially rename your branches so that it is easier for
+others working with you to cherry-pick their local changes onto the new
+version. (XXX: needs explanation).
+</p>
+<p>If you want to rebase a personal topic branch, you will have to delete
+your existing topic branch and push as a new version of it. You can do
+this via the following formula (see the explanation about <code>refspec</code>&rsquo;s
+in the git push documentation for details) after you have rebased your
+branch:
+</p>
+<pre class="verbatim">   # first rebase
+   $ git checkout $user/$topic
+   $ git fetch
+   $ git rebase origin/blead
+
+   # then &quot;delete-and-push&quot;
+   $ git push origin :$user/$topic
+   $ git push origin $user/$topic
+</pre>
+<p><strong>NOTE:</strong> it is forbidden at the repository level to delete any of the
+&quot;primary&quot; branches. That is any branch matching
+<code>m!^(blead|maint|perl)!</code>. Any attempt to do so will result in git
+producing an error like this:
+</p>
+<pre class="verbatim">    $ git push origin :blead
+    *** It is forbidden to delete blead/maint branches in this repository
+    error: hooks/update exited with error code 1
+    error: hook declined to update refs/heads/blead
+    To ssh://perl5.git.perl.org/perl
+     ! [remote rejected] blead (hook declined)
+     error: failed to push some refs to 'ssh://perl5.git.perl.org/perl'
+</pre>
+<p>As a matter of policy we do <strong>not</strong> edit the history of the blead and
+maint-* branches. If a typo (or worse) sneaks into a commit to blead or
+maint-*, we&rsquo;ll fix it in another commit. The only types of updates
+allowed on these branches are &quot;fast-forward&rsquo;s&quot;, where all history is
+preserved.
+</p>
+<p>Annotated tags in the canonical perl.git repository will never be
+deleted or modified. Think long and hard about whether you want to push
+a local tag to perl.git before doing so. (Pushing unannotated tags is
+not allowed.)
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-Grafts" accesskey="1">perlgit Grafts</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlgit-Grafts"></a>
+<div class="header">
+<p>
+Up: <a href="#perlgit-Topic-branches-and-rewriting-history" accesskey="u" rel="up">perlgit Topic branches and rewriting history</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Grafts"></a>
+<h4 class="subsection">26.5.1 Grafts</h4>
+
+<p>The perl history contains one mistake which was not caught in the
+conversion: a merge was recorded in the history between blead and
+maint-5.10 where no merge actually occurred. Due to the nature of git,
+this is now impossible to fix in the public repository. You can remove
+this mis-merge locally by adding the following line to your
+<code>.git/info/grafts</code> file:
+</p>
+<pre class="verbatim">  296f12bbbbaa06de9be9d09d3dcf8f4528898a49 434946e0cb7a32589ed92d18008aaa1d88515930
+</pre>
+<p>It is particularly important to have this graft line if any bisecting
+is done in the area of the &quot;merge&quot; in question.
+</p>
+<hr>
+<a name="perlgit-WRITE-ACCESS-TO-THE-GIT-REPOSITORY"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-Accepting-a-patch" accesskey="n" rel="next">perlgit Accepting a patch</a>, Previous: <a href="#perlgit-Topic-branches-and-rewriting-history" accesskey="p" rel="previous">perlgit Topic branches and rewriting history</a>, Up: <a href="#perlgit" accesskey="u" rel="up">perlgit</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="WRITE-ACCESS-TO-THE-GIT-REPOSITORY"></a>
+<h3 class="section">26.6 WRITE ACCESS TO THE GIT REPOSITORY</h3>
+
+<p>Once you have write access, you will need to modify the URL for the
+origin remote to enable pushing. Edit <samp>.git/config</samp> with the
+git-config(1) command:
+</p>
+<pre class="verbatim">  % git config remote.origin.url ssh://perl5.git.perl.org/perl.git
+</pre>
+<p>You can also set up your user name and e-mail address. Most people do
+this once globally in their <samp>~/.gitconfig</samp> by doing something like:
+</p>
+<pre class="verbatim">  % git config --global user.name &quot;Ãvar ArnfjÃ¶rÃ° Bjarmason&quot;
+  % git config --global user.email avarab@gmail.com
+</pre>
+<p>However if you&rsquo;d like to override that just for perl then execute then
+execute something like the following in <samp>perl</samp>:
+</p>
+<pre class="verbatim">  % git config user.email avar@cpan.org
+</pre>
+<p>It is also possible to keep <code>origin</code> as a git remote, and add a new
+remote for ssh access:
+</p>
+<pre class="verbatim">  % git remote add camel perl5.git.perl.org:/perl.git
+</pre>
+<p>This allows you to update your local repository by pulling from
+<code>origin</code>, which is faster and doesn&rsquo;t require you to authenticate, and
+to push your changes back with the <code>camel</code> remote:
+</p>
+<pre class="verbatim">  % git fetch camel
+  % git push camel
+</pre>
+<p>The <code>fetch</code> command just updates the <code>camel</code> refs, as the objects
+themselves should have been fetched when pulling from <code>origin</code>.
+</p>
+<hr>
+<a name="perlgit-Accepting-a-patch"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlgit-WRITE-ACCESS-TO-THE-GIT-REPOSITORY" accesskey="p" rel="previous">perlgit WRITE ACCESS TO THE GIT REPOSITORY</a>, Up: <a href="#perlgit" accesskey="u" rel="up">perlgit</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Accepting-a-patch"></a>
+<h3 class="section">26.7 Accepting a patch</h3>
+
+<p>If you have received a patch file generated using the above section,
+you should try out the patch.
+</p>
+<p>First we need to create a temporary new branch for these changes and
+switch into it:
+</p>
+<pre class="verbatim">  % git checkout -b experimental
+</pre>
+<p>Patches that were formatted by <code>git format-patch</code> are applied with
+<code>git am</code>:
+</p>
+<pre class="verbatim">  % git am 0001-Rename-Leon-Brocard-to-Orange-Brocard.patch
+  Applying Rename Leon Brocard to Orange Brocard
+</pre>
+<p>If just a raw diff is provided, it is also possible use this two-step
+process:
+</p>
+<pre class="verbatim">  % git apply bugfix.diff
+  % git commit -a -m &quot;Some fixing&quot; --author=&quot;That Guy &lt;that.guy@internets.com&gt;&quot;
+</pre>
+<p>Now we can inspect the change:
+</p>
+<pre class="verbatim">  % git show HEAD
+  commit b1b3dab48344cff6de4087efca3dbd63548ab5e2
+  Author: Leon Brocard &lt;acme@astray.com&gt;
+  Date:   Fri Dec 19 17:02:59 2008 +0000
+
+    Rename Leon Brocard to Orange Brocard
+
+  diff --git a/AUTHORS b/AUTHORS
+  index 293dd70..722c93e 100644
+  --- a/AUTHORS
+  +++ b/AUTHORS
+  @@ -541,7 +541,7 @@ Lars Hecking                        &lt;lhecking@nmrc.ucc.ie&gt;
+   Laszlo Molnar                  &lt;laszlo.molnar@eth.ericsson.se&gt;
+   Leif Huhn                      &lt;leif@hale.dkstat.com&gt;
+   Len Johnson                    &lt;lenjay@ibm.net&gt;
+  -Leon Brocard                   &lt;acme@astray.com&gt;
+  +Orange Brocard                 &lt;acme@astray.com&gt;
+   Les Peters                     &lt;lpeters@aol.net&gt;
+   Lesley Binks                   &lt;lesley.binks@gmail.com&gt;
+   Lincoln D. Stein               &lt;lstein@cshl.org&gt;
+</pre>
+<p>If you are a committer to Perl and you think the patch is good, you can
+then merge it into blead then push it out to the main repository:
+</p>
+<pre class="verbatim">  % git checkout blead
+  % git merge experimental
+  % git push
+</pre>
+<p>If you want to delete your temporary branch, you may do so with:
+</p>
+<pre class="verbatim">  % git checkout blead
+  % git branch -d experimental
+  error: The branch 'experimental' is not an ancestor of your current HEAD.
+  If you are sure you want to delete it, run 'git branch -D experimental'.
+  % git branch -D experimental
+  Deleted branch experimental.
+</pre>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-Committing-to-blead" accesskey="1">perlgit Committing to blead</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-Committing-to-maintenance-versions" accesskey="2">perlgit Committing to maintenance versions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-Merging-from-a-branch-via-GitHub" accesskey="3">perlgit Merging from a branch via GitHub</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-A-note-on-camel-and-dromedary" accesskey="4">perlgit A note on camel and dromedary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlgit-Committing-to-blead"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-Committing-to-maintenance-versions" accesskey="n" rel="next">perlgit Committing to maintenance versions</a>, Up: <a href="#perlgit-Accepting-a-patch" accesskey="u" rel="up">perlgit Accepting a patch</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Committing-to-blead"></a>
+<h4 class="subsection">26.7.1 Committing to blead</h4>
+
+<p>The &rsquo;blead&rsquo; branch will become the next production release of Perl.
+</p>
+<p>Before pushing <em>any</em> local change to blead, it&rsquo;s incredibly important
+that you do a few things, lest other committers come after you with
+pitchforks and torches:
+</p>
+<ul>
+<li> Make sure you have a good commit message. See <a href="perlhack.html#perlhack-Commit-message">perlhack Commit message</a> for details.
+
+</li><li> Run the test suite. You might not think that one typo fix would break a
+test file. You&rsquo;d be wrong. Here&rsquo;s an example of where not running the
+suite caused problems. A patch was submitted that added a couple of
+tests to an existing .t. It couldn&rsquo;t possibly affect anything else, so
+no need to test beyond the single affected .t, right?  But, the
+submitter&rsquo;s email address had changed since the last of their
+submissions, and this caused other tests to fail. Running the test
+target given in the next item would have caught this problem.
+
+</li><li> If you don&rsquo;t run the full test suite, at least <code>make test_porting</code>.
+This will run basic sanity checks. To see which sanity checks, have a
+look in <samp>t/porting</samp>.
+
+</li><li> If you make any changes that affect miniperl or core routines that have
+different code paths for miniperl, be sure to run <code>make minitest</code>.
+This will catch problems that even the full test suite will not catch
+because it runs a subset of tests under miniperl rather than perl.
+
+</li></ul>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-On-merging-and-rebasing" accesskey="1">perlgit On merging and rebasing</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlgit-On-merging-and-rebasing"></a>
+<div class="header">
+<p>
+Up: <a href="#perlgit-Committing-to-blead" accesskey="u" rel="up">perlgit Committing to blead</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="On-merging-and-rebasing"></a>
+<h4 class="subsubsection">26.7.1.1 On merging and rebasing</h4>
+
+<p>Simple, one-off commits pushed to the &rsquo;blead&rsquo; branch should be simple
+commits that apply cleanly.  In other words, you should make sure your
+work is committed against the current position of blead, so that you can
+push back to the master repository without merging.
+</p>
+<p>Sometimes, blead will move while you&rsquo;re building or testing your
+changes.  When this happens, your push will be rejected with a message
+like this:
+</p>
+<pre class="verbatim">  To ssh://perl5.git.perl.org/perl.git
+   ! [rejected]        blead -&gt; blead (non-fast-forward)
+  error: failed to push some refs to 'ssh://perl5.git.perl.org/perl.git'
+  To prevent you from losing history, non-fast-forward updates were rejected
+  Merge the remote changes (e.g. 'git pull') before pushing again.  See the
+  'Note about fast-forwards' section of 'git push --help' for details.
+</pre>
+<p>When this happens, you can just <em>rebase</em> your work against the new
+position of blead, like this (assuming your remote for the master
+repository is &quot;p5p&quot;):
+</p>
+<pre class="verbatim">  $ git fetch p5p
+  $ git rebase p5p/blead
+</pre>
+<p>You will see your commits being re-applied, and you will then be able to
+push safely.  More information about rebasing can be found in the
+documentation for the git-rebase(1) command.
+</p>
+<p>For larger sets of commits that only make sense together, or that would
+benefit from a summary of the set&rsquo;s purpose, you should use a merge
+commit.  You should perform your work on a <a href="#perlgit-Topic-branches-and-rewriting-history">topic branch</a>, which you should regularly rebase
+against blead to ensure that your code is not broken by blead moving.
+When you have finished your work, please perform a final rebase and
+test.  Linear history is something that gets lost with every
+commit on blead, but a final rebase makes the history linear
+again, making it easier for future maintainers to see what has
+happened.  Rebase as follows (assuming your work was on the
+branch <code>committer/somework</code>):
+</p>
+<pre class="verbatim">  $ git checkout committer/somework
+  $ git rebase blead
+</pre>
+<p>Then you can merge it into master like this:
+</p>
+<pre class="verbatim">  $ git checkout blead
+  $ git merge --no-ff --no-commit committer/somework
+  $ git commit -a
+</pre>
+<p>The switches above deserve explanation.  <code>--no-ff</code> indicates that even
+if all your work can be applied linearly against blead, a merge commit
+should still be prepared.  This ensures that all your work will be shown
+as a side branch, with all its commits merged into the mainstream blead
+by the merge commit.
+</p>
+<p><code>--no-commit</code> means that the merge commit will be <em>prepared</em> but not
+<em>committed</em>.  The commit is then actually performed when you run the
+next command, which will bring up your editor to describe the commit.
+Without <code>--no-commit</code>, the commit would be made with nearly no useful
+message, which would greatly diminish the value of the merge commit as a
+placeholder for the work&rsquo;s description.
+</p>
+<p>When describing the merge commit, explain the purpose of the branch, and
+keep in mind that this description will probably be used by the
+eventual release engineer when reviewing the next perldelta document.
+</p>
+<hr>
+<a name="perlgit-Committing-to-maintenance-versions"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-Merging-from-a-branch-via-GitHub" accesskey="n" rel="next">perlgit Merging from a branch via GitHub</a>, Previous: <a href="#perlgit-Committing-to-blead" accesskey="p" rel="previous">perlgit Committing to blead</a>, Up: <a href="#perlgit-Accepting-a-patch" accesskey="u" rel="up">perlgit Accepting a patch</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Committing-to-maintenance-versions"></a>
+<h4 class="subsection">26.7.2 Committing to maintenance versions</h4>
+
+<p>Maintenance versions should only be altered to add critical bug fixes,
+see <a href="perlpolicy.html#perlpolicy-NAME">perlpolicy NAME</a>.
+</p>
+<p>To commit to a maintenance version of perl, you need to create a local
+tracking branch:
+</p>
+<pre class="verbatim">  % git checkout --track -b maint-5.005 origin/maint-5.005
+</pre>
+<p>This creates a local branch named <code>maint-5.005</code>, which tracks the
+remote branch <code>origin/maint-5.005</code>. Then you can pull, commit, merge
+and push as before.
+</p>
+<p>You can also cherry-pick commits from blead and another branch, by
+using the <code>git cherry-pick</code> command. It is recommended to use the
+<strong>-x</strong> option to <code>git cherry-pick</code> in order to record the SHA1 of the
+original commit in the new commit message.
+</p>
+<p>Before pushing any change to a maint version, make sure you&rsquo;ve
+satisfied the steps in <a href="#perlgit-Committing-to-blead">Committing to blead</a> above.
+</p>
+<hr>
+<a name="perlgit-Merging-from-a-branch-via-GitHub"></a>
+<div class="header">
+<p>
+Next: <a href="#perlgit-A-note-on-camel-and-dromedary" accesskey="n" rel="next">perlgit A note on camel and dromedary</a>, Previous: <a href="#perlgit-Committing-to-maintenance-versions" accesskey="p" rel="previous">perlgit Committing to maintenance versions</a>, Up: <a href="#perlgit-Accepting-a-patch" accesskey="u" rel="up">perlgit Accepting a patch</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Merging-from-a-branch-via-GitHub"></a>
+<h4 class="subsection">26.7.3 Merging from a branch via GitHub</h4>
+
+<p>While we don&rsquo;t encourage the submission of patches via GitHub, that
+will still happen. Here is a guide to merging patches from a GitHub
+repository.
+</p>
+<pre class="verbatim">  % git remote add avar git://github.com/avar/perl.git
+  % git fetch avar
+</pre>
+<p>Now you can see the differences between the branch and blead:
+</p>
+<pre class="verbatim">  % git diff avar/orange
+</pre>
+<p>And you can see the commits:
+</p>
+<pre class="verbatim">  % git log avar/orange
+</pre>
+<p>If you approve of a specific commit, you can cherry pick it:
+</p>
+<pre class="verbatim">  % git cherry-pick 0c24b290ae02b2ab3304f51d5e11e85eb3659eae
+</pre>
+<p>Or you could just merge the whole branch if you like it all:
+</p>
+<pre class="verbatim">  % git merge avar/orange
+</pre>
+<p>And then push back to the repository:
+</p>
+<pre class="verbatim">  % git push
+</pre>
+<hr>
+<a name="perlgit-A-note-on-camel-and-dromedary"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlgit-Merging-from-a-branch-via-GitHub" accesskey="p" rel="previous">perlgit Merging from a branch via GitHub</a>, Up: <a href="#perlgit-Accepting-a-patch" accesskey="u" rel="up">perlgit Accepting a patch</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="A-note-on-camel-and-dromedary"></a>
+<h4 class="subsection">26.7.4 A note on camel and dromedary</h4>
+
+<p>The committers have SSH access to the two servers that serve
+<code>perl5.git.perl.org</code>. One is <code>perl5.git.perl.org</code> itself (<em>camel</em>),
+which is the &rsquo;master&rsquo; repository. The second one is
+<code>users.perl5.git.perl.org</code> (<em>dromedary</em>), which can be used for
+general testing and development. Dromedary syncs the git tree from
+camel every few minutes, you should not push there. Both machines also
+have a full CPAN mirror in /srv/CPAN, please use this. To share files
+with the general public, dromedary serves your ~/public_html/ as
+<code>http://users.perl5.git.perl.org/~yourlogin/</code>
+</p>
+<p>These hosts have fairly strict firewalls to the outside. Outgoing, only
+rsync, ssh and git are allowed. For http and ftp, you can use
+http://webproxy:3128 as proxy. Incoming, the firewall tries to detect
+attacks and blocks IP addresses with suspicious activity. This
+sometimes (but very rarely) has false positives and you might get
+blocked. The quickest way to get unblocked is to notify the admins.
+</p>
+<p>These two boxes are owned, hosted, and operated by booking.com. You can
+reach the sysadmins in #p5p on irc.perl.org or via mail to
+<code>perl5-porters@perl.org</code>.
+</p>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perlgit-Merging-from-a-branch-via-GitHub" accesskey="p" rel="previous">perlgit Merging from a branch via GitHub</a>, Up: <a href="#perlgit-Accepting-a-patch" accesskey="u" rel="up">perlgit Accepting a patch</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

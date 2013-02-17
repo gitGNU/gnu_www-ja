@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 4.13.97+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perlpragma</title>
+
+<meta name="description" content="Perl pod documentation: perlpragma">
+<meta name="keywords" content="Perl pod documentation: perlpragma">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="NAME-regular-expression-regex-regexp.html#NAME-regular-expression-regex-regexp" rel="next" title="NAME regular expression regex regexp">
+<link href="perlport.html#perlport-AUTHORS-_002f-CONTRIBUTORS" rel="previous" title="perlport AUTHORS / CONTRIBUTORS">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perlpragma"></a>
+<div class="header">
+<p>
+Next: <a href="NAME-regular-expression-regex-regexp.html#NAME-regular-expression-regex-regexp" accesskey="n" rel="next">NAME regular expression regex regexp</a>, Previous: <a href="perlport.html#perlport" accesskey="p" rel="previous">perlport</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perlpragma-1"></a>
+<h2 class="chapter">57 perlpragma</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlpragma-NAME" accesskey="1">perlpragma NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlpragma-DESCRIPTION" accesskey="2">perlpragma DESCRIPTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlpragma-A-basic-example" accesskey="3">perlpragma A basic example</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlpragma-Key-naming" accesskey="4">perlpragma Key naming</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlpragma-Implementation-details" accesskey="5">perlpragma Implementation details</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlpragma-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perlpragma-DESCRIPTION" accesskey="n" rel="next">perlpragma DESCRIPTION</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-56"></a>
+<h3 class="section">57.1 NAME</h3>
+
+<p>perlpragma - how to write a user pragma
+</p>
+<hr>
+<a name="perlpragma-DESCRIPTION"></a>
+<div class="header">
+<p>
+Next: <a href="#perlpragma-A-basic-example" accesskey="n" rel="next">perlpragma A basic example</a>, Previous: <a href="#perlpragma-NAME" accesskey="p" rel="previous">perlpragma NAME</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESCRIPTION-55"></a>
+<h3 class="section">57.2 DESCRIPTION</h3>
+
+<p>A pragma is a module which influences some aspect of the compile time or run
+time behaviour of Perl, such as <code>strict</code> or <code>warnings</code>. With Perl 5.10 you
+are no longer limited to the built in pragmata; you can now create user
+pragmata that modify the behaviour of user functions within a lexical scope.
+</p>
+<hr>
+<a name="perlpragma-A-basic-example"></a>
+<div class="header">
+<p>
+Next: <a href="#perlpragma-Key-naming" accesskey="n" rel="next">perlpragma Key naming</a>, Previous: <a href="#perlpragma-DESCRIPTION" accesskey="p" rel="previous">perlpragma DESCRIPTION</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="A-basic-example"></a>
+<h3 class="section">57.3 A basic example</h3>
+
+<p>For example, say you need to create a class implementing overloaded
+mathematical operators, and would like to provide your own pragma that
+functions much like <code>use integer;</code> You&rsquo;d like this code
+</p>
+<pre class="verbatim">    use MyMaths;
+    
+    my $l = MyMaths-&gt;new(1.2);
+    my $r = MyMaths-&gt;new(3.4);
+    
+    print &quot;A: &quot;, $l + $r, &quot;\n&quot;;
+    
+    use myint;
+    print &quot;B: &quot;, $l + $r, &quot;\n&quot;;
+    
+    {
+        no myint;
+        print &quot;C: &quot;, $l + $r, &quot;\n&quot;;
+    }
+    
+    print &quot;D: &quot;, $l + $r, &quot;\n&quot;;
+    
+    no myint;
+    print &quot;E: &quot;, $l + $r, &quot;\n&quot;;
+</pre>
+<p>to give the output
+</p>
+<pre class="verbatim">    A: 4.6
+    B: 4
+    C: 4.6
+    D: 4
+    E: 4.6
+</pre>
+<p><em>i.e.</em>, where <code>use myint;</code> is in effect, addition operations are forced
+to integer, whereas by default they are not, with the default behaviour being
+restored via <code>no myint;</code>
+</p>
+<p>The minimal implementation of the package <code>MyMaths</code> would be something like
+this:
+</p>
+<pre class="verbatim">    package MyMaths;
+    use warnings;
+    use strict;
+    use myint();
+    use overload '+' =&gt; sub {
+        my ($l, $r) = @_;
+        # Pass 1 to check up one call level from here
+        if (myint::in_effect(1)) {
+            int($$l) + int($$r);
+        } else {
+            $$l + $$r;
+        }
+    };
+    
+    sub new {
+        my ($class, $value) = @_;
+        bless \$value, $class;
+    }
+    
+    1;
+</pre>
+<p>Note how we load the user pragma <code>myint</code> with an empty list <code>()</code> to
+prevent its <code>import</code> being called.
+</p>
+<p>The interaction with the Perl compilation happens inside package <code>myint</code>:
+</p>
+<pre class="verbatim">    package myint;
+    
+    use strict;
+    use warnings;
+    
+    sub import {
+        $^H{&quot;myint/in_effect&quot;} = 1;
+    }
+    
+    sub unimport {
+        $^H{&quot;myint/in_effect&quot;} = 0;
+    }
+    
+    sub in_effect {
+        my $level = shift // 0;
+        my $hinthash = (caller($level))[10];
+        return $hinthash-&gt;{&quot;myint/in_effect&quot;};
+    }
+    
+    1;
+</pre>
+<p>As pragmata are implemented as modules, like any other module, <code>use myint;</code>
+becomes
+</p>
+<pre class="verbatim">    BEGIN {
+        require myint;
+        myint-&gt;import();
+    }
+</pre>
+<p>and <code>no myint;</code> is
+</p>
+<pre class="verbatim">    BEGIN {
+        require myint;
+        myint-&gt;unimport();
+    }
+</pre>
+<p>Hence the <code>import</code> and <code>unimport</code> routines are called at <strong>compile time</strong>
+for the user&rsquo;s code.
+</p>
+<p>User pragmata store their state by writing to the magical hash <code>%^H</code>,
+hence these two routines manipulate it. The state information in <code>%^H</code> is
+stored in the optree, and can be retrieved read-only at runtime with <code>caller()</code>,
+at index 10 of the list of returned results. In the example pragma, retrieval
+is encapsulated into the routine <code>in_effect()</code>, which takes as parameter
+the number of call frames to go up to find the value of the pragma in the
+user&rsquo;s script. This uses <code>caller()</code> to determine the value of
+<code>$^H{&quot;myint/in_effect&quot;}</code> when each line of the user&rsquo;s script was called, and
+therefore provide the correct semantics in the subroutine implementing the
+overloaded addition.
+</p>
+<hr>
+<a name="perlpragma-Key-naming"></a>
+<div class="header">
+<p>
+Next: <a href="#perlpragma-Implementation-details" accesskey="n" rel="next">perlpragma Implementation details</a>, Previous: <a href="#perlpragma-A-basic-example" accesskey="p" rel="previous">perlpragma A basic example</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Key-naming"></a>
+<h3 class="section">57.4 Key naming</h3>
+
+<p>There is only a single <code>%^H</code>, but arbitrarily many modules that want
+to use its scoping semantics.  To avoid stepping on each other&rsquo;s toes,
+they need to be sure to use different keys in the hash.  It is therefore
+conventional for a module to use only keys that begin with the module&rsquo;s
+name (the name of its main package) and a &quot;/&quot; character.  After this
+module-identifying prefix, the rest of the key is entirely up to the
+module: it may include any characters whatsoever.  For example, a module
+<code>Foo::Bar</code> should use keys such as <code>Foo::Bar/baz</code> and <code>Foo::Bar/$%/_!</code>.
+Modules following this convention all play nicely with each other.
+</p>
+<p>The Perl core uses a handful of keys in <code>%^H</code> which do not follow this
+convention, because they predate it.  Keys that follow the convention
+won&rsquo;t conflict with the core&rsquo;s historical keys.
+</p>
+<hr>
+<a name="perlpragma-Implementation-details"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlpragma-Key-naming" accesskey="p" rel="previous">perlpragma Key naming</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Implementation-details"></a>
+<h3 class="section">57.5 Implementation details</h3>
+
+<p>The optree is shared between threads.  This means there is a possibility that
+the optree will outlive the particular thread (and therefore the interpreter
+instance) that created it, so true Perl scalars cannot be stored in the
+optree.  Instead a compact form is used, which can only store values that are
+integers (signed and unsigned), strings or <code>undef</code> - references and
+floating point values are stringified.  If you need to store multiple values
+or complex structures, you should serialise them, for example with <code>pack</code>.
+The deletion of a hash key from <code>%^H</code> is recorded, and as ever can be
+distinguished from the existence of a key with value <code>undef</code> with
+<code>exists</code>.
+</p>
+<p><strong>Don&rsquo;t</strong> attempt to store references to data structures as integers which
+are retrieved via <code>caller</code> and converted back, as this will not be threadsafe.
+Accesses would be to the structure without locking (which is not safe for
+Perl&rsquo;s scalars), and either the structure has to leak, or it has to be
+freed when its creating thread terminates, which may be before the optree
+referencing it is deleted, if other threads outlive it.
+</p>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perlpragma-Key-naming" accesskey="p" rel="previous">perlpragma Key naming</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>
