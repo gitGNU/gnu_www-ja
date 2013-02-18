@@ -296,6 +296,7 @@ graphics :=	3dbabygnutux \
 		license-logos \
 		listen \
 		meditate \
+		nandakumar-gnu \
 		package-logos \
 		philosophicalgnu \
 		philosoputer \
