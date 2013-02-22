@@ -567,8 +567,17 @@ philosophy/sco :=	questioning-sco \
 			sco-without-fear \
 			subpoena
 
-press :=		2001-07-20-FSF-India \
+press :=		2001-07-09-DotGNU-Mono \
+			2001-07-20-FSF-India \
 			2001-09-18-RTLinux \
+			2001-09-24-CPI \
+			2001-10-12-bayonne \
+			2001-10-22-Emacs \
+			2001-12-03-Takeda \
+			2002-02-16-FSF-Award \
+			2002-02-26-MySQL \
+			2002-03-01-pi-MySQL \
+			2002-03-18-digitalspeech \
 			2002-03-19-Affero \
 			press
 

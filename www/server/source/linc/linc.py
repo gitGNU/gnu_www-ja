@@ -20,7 +20,7 @@
 
 # defines
 
-LINC_VERSION = 'LINC 0.6'
+LINC_VERSION = 'LINC 0.8'
 COPYRIGHT= \
 'Copyright (C) 2011-2012 Waclaw Jacek\n\
 Copyright (C) 2013 Free Software Foundation, Inc.\n\
@@ -76,6 +76,8 @@ SOCKET_TIMEOUT = 20
 # Don't download the files, assume no error.
 LOCAL = False
 
+CACHE = None
+
 # regexp-related defines
 
 # Matching directories will not be entered to check their
@@ -96,8 +98,10 @@ HTTP_LINK_REGEXP = \
   'http://(?P<hostname>[^/:]+)(:(?P<port>[0-9]+))?(?P<resource>/[^#]*)?'
 HTTP_NEW_LOCATION_HEADER = '^Location: (?P<new_location>.+)$'
 # Links like href="mailto:..." and href="irc:..." are excluded.
-LINK_REGEXP = '<a( .+?)? href="(?P<link>[^mi].+?)"( .+?)?>'
+LINK_REGEXP = '<a(\s.+?)?\shref="(?P<link>[^"]+)"(\s.+?)?>'
 TRANSLATION_REGEXP = '\.(?P<langcode>[a-z]{2}|[a-z]{2}-[a-z]{2})\.[^.]+$'
+# Don't report against commented out link to README.translations.html
+LINK_TO_SKIP = '/server/standards/README.translations.html'
 
 VERBOSE = 0
 # libraries
@@ -112,6 +116,8 @@ from optparse import OptionParser
 # global variables
 
 files_to_check = []
+remote_site_root = None
+remote_base_directory = None
 
 # functions
 	
@@ -122,24 +128,25 @@ def format_error( filename, line_number, link, error_message ):
 	
 def get_ftp_link_error( link ):
 	connection_data = re.search( FTP_LINK_REGEXP, link )
-	if connection_data:
-		hostname = connection_data.group( 'hostname' )
-		port = connection_data.group( 'port' )
+	if not connection_data:
+		return None
+	hostname = connection_data.group('hostname')
+	port = connection_data.group('port')
+	
+	if port == None:
+		port = 21
 		
-		if port == None:
-			port = 21
-			
-		socketfd = socket_create()
-		# if a socket couldn't be created,
-		# just ignore this link this time.
-		if socketfd == None:
-			return None
-			
-		if socket_connect( socketfd, hostname, port ) == False:
-			socketfd.close()
-			return 'couldn\'t connect to host'
-			
+	socketfd = socket_create()
+	# if a socket couldn't be created,
+	# just ignore this link this time.
+	if socketfd == None:
+		return None
+		
+	if socket_connect(socketfd, hostname, port) == False:
 		socketfd.close()
+		return 'couldn\'t connect to host'
+		
+	socketfd.close()
 	return None
 
 # forwarded_from is either None or a list
@@ -299,8 +306,63 @@ def show_version(option, opt, value, parser):
 	print LINC_VERSION
 	print COPYRIGHT
 	exit(0)
-	
-### OK, main program below.
+
+def classify_link(filename, link):
+	link_type = 'http'
+	if re.search('^(mailto:|irc://|https://)', link):
+		link_type = 'unsupported'
+	elif link.find('http://') == 0:
+		link_type = 'http'
+	elif link.find('ftp://') == 0:
+		link_type = 'ftp'
+	elif link[0] == '/':
+		link = remote_site_root + link[1:]
+	else:
+		subdir = ''
+		pos = filename.rfind('/')
+		if pos != -1:
+			subdir = filename[: pos] + '/'
+		link = remote_base_directory + subdir + link
+	return [link_type, link]
+
+def load_cache(cache):
+	if cache == None:
+		if VERBOSE > 2:
+			print "No cache file is loaded."
+		return []
+	try:
+		f = open(cache, 'r')
+	except IOError:
+		if VERBOSE > -3:
+			print "Failed to read cache file `" + cache + "'."
+		return []
+	if VERBOSE > 2:
+		print "Loading cache file `" + cache +"'."
+	links = f.read().splitlines()
+	f.close();
+	if VERBOSE > 2:
+		print "Loaded links: " + str(len(links))
+	return links
+
+def save_cache(cache, checked_links):
+	if cache == None:
+		if VERBOSE > 2:
+			print "No cache file is saved."
+		return
+	try:
+		f = open(cache, 'w')
+	except IOError:
+		if VERBOSE > -3:
+			print "Failed to write cache file `" + cache + "'."
+		return
+	if VERBOSE > 2:
+		print "\nSaving cache file `" + cache +"'."
+	for link in checked_links:
+		# Links containing a newline are not cached
+		# because newline is used in cache as the separator.
+		if link['error'] == None and link['link'].find('\n') == -1:
+			f.write(link['link'] + '\n')
+	f.close()
 
 usage = \
 'Usage: %prog [options] [BASE_DIRECTORY]\n\
@@ -315,6 +377,8 @@ parser.add_option('-c', '--check-delay', dest = 'check_delay',
 		  type = 'float', metavar = 'DELAY',
                   help = 'delay between checks in seconds [' \
 			+ str(DELAY_BETWEEN_CHECKS) + ']')
+parser.add_option('-C', '--cache', dest = 'cache', metavar = 'FILE',
+		  help = 'use cache FILE')
 parser.add_option('-f', '--forwards', dest = 'forwards', type = 'int',
 		  metavar = 'N',
                   help = 'maximum number of forwards to follow [' \
@@ -397,6 +461,7 @@ if options.exclude_dir != None:
 	EXCLUDED_DIRECTORIES_REGEXP = options.exclude_dir
 if options.local != None:
 	LOCAL = options.local
+CACHE = options.cache
 
 base_directory = BASE_DIRECTORY
 remote_base_directory = REMOTE_BASE_DIRECTORY
@@ -415,6 +480,8 @@ COMMENTED_FILE_NAME = REPORT_FILE_PREFIX + COMMENTED_FILE_NAME
 
 if VERBOSE > 0:
 	print "Base directory:       `" + BASE_DIRECTORY + "'"
+	print "Cache file:           " + \
+		("`" + CACHE + "'" if CACHE else "(None)")
 	print "Number of attempts:    " + str(NUMBER_OF_ATTEMPTS)
 	print "Delay between checks:  " + str(DELAY_BETWEEN_CHECKS)
 	print "Delay between retries: " + str(DELAY_BETWEEN_RETRIES)
@@ -469,6 +536,9 @@ for file_to_check in files_to_check:
 
 number_of_links_to_check = str( len( links_to_check ) )
 already_checked_links = []
+cached_links = load_cache(CACHE)
+for link in cached_links:
+	already_checked_links.append({'link': link, 'error': None})
 for j in range(NUMBER_OF_ATTEMPTS):
     if VERBOSE > -2:
 	print 'Pass ' + str(j + 1) + ' of ' + str(NUMBER_OF_ATTEMPTS) + ':'
@@ -480,35 +550,18 @@ for j in range(NUMBER_OF_ATTEMPTS):
 
 	filename = link_container['filename']
 	link = link_container['link']
-	if link_container['is_inside_comment'] == 'ssi':
-		continue
-	if link[0] == '#':
+	if link_container['is_inside_comment'] == 'ssi' or link[0] == '#':
 		continue
 
-	link_type = None
-    	if VERBOSE > 2 and link[0] != '/' and link[0] != '#' \
-			and link.find('://') == -1:
+    	if VERBOSE > 2 and link[0] != '/' and not re.search('^[^/]*:', link):
 		print '\n' + filename + ':' \
 		      + str(link_container['line_number']) + ': link ' \
 		      + str(i) + ' `' + link + "' is relative"
 
-	if link[:6] == 'ftp://':
-		link_type = 'ftp'
-	elif link[:7] == 'http://':
-		link_type = 'http'
-	elif link[:8] == 'https://':
-		link_type = 'https'
-	elif link[0] == '/':
-		link_type = 'http'
-		link = remote_site_root + link[1:]
-	else:
-		link_type = 'http'
-		subdir = ''
-		pos = filename.rfind( '/' )
-		if pos != -1:
-			subdir = filename[: pos] + '/'
-		link = remote_base_directory + subdir + link
-			
+	[link_type, link] = classify_link(filename, link)
+	if link_type == 'unsupported':
+		continue
+
 	link_id = -1
 	link_error = None
 	for i, checked_link in enumerate(already_checked_links):
@@ -528,17 +581,16 @@ for j in range(NUMBER_OF_ATTEMPTS):
 	elif link_type == 'http':
 		link_error = get_http_link_error( link )
 	else:
-		continue # ignore the link,
-		         # since its protocol is unsupported
+		continue
 	if checked_link != None:
 		if link_error == None:
 			already_checked_links[link_id]['error'] = None
 	else:
 		already_checked_links.append( { 'link': link, \
 					'error': link_error } )
-
 	if DELAY_BETWEEN_CHECKS > 0:
 		time.sleep(DELAY_BETWEEN_CHECKS)
+    save_cache(CACHE, already_checked_links)
     if VERBOSE > -2:
 	broken_so_far = 0
 	for checked_link in already_checked_links:
@@ -552,7 +604,7 @@ for j in range(NUMBER_OF_ATTEMPTS):
 				print 'link ' + str(i) + ': ' \
 				+ checked_link['link'] + ': ' \
 				+ (checked_link['error'] \
-				     if checked_link['error'] else '')
+				     if checked_link['error'] else '(no error)')
 	if broken_so_far == 0:
 		print 'No more broken links; skipping the rest passes (if any)'
 		break
@@ -573,31 +625,19 @@ for i, link_container in enumerate(links_to_check):
 	line_number = link_container['line_number']
 	link = link_container['link']
 	is_inside_comment = link_container['is_inside_comment']
-	if is_inside_comment == 'ssi':
+	if is_inside_comment == 'ssi' or link[0] == '#':
 		continue
-	if link[0] == '#':
+	if link_container['is_inside_comment'] == 'yes' \
+		and link == LINK_TO_SKIP:
+    		if VERBOSE > 2 :
+			print 'Skipping link `' + LINK_TO_SKIP + "'"
 		continue
 
-	link_type = None
-
-	if link[:6] == 'ftp://':
-		link_type = 'ftp'
-	elif link[:7] == 'http://':
-		link_type = 'http'
-	elif link[:8] == 'https://':
-		link_type = 'https'
-	elif link[0] == '/':
-		link_type = 'http'
-		link = remote_site_root + link[1:]
-	else:
-		link_type = 'http'
-		subdir = ''
-		pos = filename.rfind( '/' )
-		if pos != -1:
-			subdir = filename[: pos] + '/'
-		link = remote_base_directory + subdir + link
+	[link_type, link] = classify_link(filename, link)
 			
-	if link_type != 'ftp' and link_type != 'http':
+	if link_type == 'unsupported':
+		if VERBOSE > 2:
+			print 'Note: link `' + link + "' is not supported."
 		continue
 	link_id = -1
 	for i, checked_link in enumerate(already_checked_links):
