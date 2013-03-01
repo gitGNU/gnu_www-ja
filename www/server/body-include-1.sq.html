@@ -1,7 +1,17 @@
 
+
 <!-- start of server/body-include-1.html -->
+<!--#set var="HTML_BODY" value="yes" -->
 <div id="toplinks"><a href="#content">Kalo te lënda</a> | <span class="netscape4"> <a
 href="#navigation">Kalo te lundrimi</a> |</span> <a
 href="/accessibility/">Hyrshmëri</a></div>
 
+<!--#if expr="$TRANSLATION_LIST" -->
+<!--#echo encoding="none" var="TRANSLATION_LIST" -->
+<!--#elif expr="$INITIAL_TRANSLATIONS_LIST = included" -->
+<!-- if initial translation list isn't included before banner.html,
+     then the file may use an old boilerplate that contains
+     div#translations in its body, and we mustn't duplicate it here. -->
+<!--#include virtual="/server/gnun/initial-translations-list.html" -->
+<!--#endif -->
 <!-- end of server/body-include-1.html -->

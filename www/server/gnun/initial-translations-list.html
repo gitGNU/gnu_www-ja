@@ -1,10 +1,15 @@
 <!-- begin /server/initial-translations-list.html -->
+<!--#if expr="$HTML_BODY != yes " -->
+<!-- HTML head: set a flag for further expansion in body-include*.html. -->
+<!--#set var="INITIAL_TRANSLATIONS_LIST" value="included" -->
+<!--#elif expr="$INITIAL_TRANSLATIONS_LIST != expanded" -->
+<!-- HTML body: expand unless already expanded. -->
 <div id="translations">
-<ul class="translations-list">
-<!-- English -->
-<li><!--#set var="translation"
-       value="<a href=\"$REQUEST_URI\">English</a>&nbsp;[en]"
-  --><!--#echo encoding="none" var="translation" --></li>
-</ul>
+<p dir="ltr"><!--#set var="translation"
+          value="<a href=\"$REQUEST_URI\">English</a>&nbsp;[en]" -->
+<span class="original"><!--#echo encoding="none" var="translation" --></span>
+</p>
 </div>
+<!--#set var="INITIAL_TRANSLATIONS_LIST" value="expanded" -->
+<!--#endif -->
 <!-- end /server/initial-translations-list.html -->
