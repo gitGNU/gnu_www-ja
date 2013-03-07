@@ -19,7 +19,7 @@
 # TRANSLATORS: Add here your language code.  Please keep the
 # alphabetical order.
 TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he id it ja ko ml nb nl pl \
-                    pt-br ro ru sk sq sr sv ta tr uk vi zh-cn zh-tw
+                    pt-br ro ru sk sq sr sv ta tr uk zh-cn zh-tw
 
 # TRANSLATORS: Add here your language code if you want PO files with wdiffs
 # to previous msgids.
