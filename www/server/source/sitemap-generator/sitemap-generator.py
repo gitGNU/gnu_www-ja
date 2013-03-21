@@ -64,6 +64,7 @@ output_text = ''
 title_tails = None
 replacement_titles = None
 translations = {}
+index_filenames = {}
 
 def is_directory_empty(path):
 	directory_contents = get_directory_contents(path)
@@ -130,6 +131,8 @@ def get_directory_contents(directory):
 	return {'files': files, 'subdirectories': subdirs}
 	
 def get_index_filename(directory):
+	if directory in index_filenames:
+		return index_filenames[directory]
 	# We only want either directoryname.html or index.html files.
 	# If both are present, don't use either, and output an error,
 	# so it can be resolved.
@@ -478,6 +481,24 @@ def read_file(filename):
 	fd.close()
 	
 	return file_contents
+
+def load_index_filenames(filename):
+	filenames = {}
+	fd = open(filename, 'r')
+	lines = fd.read().splitlines()
+	fd.close()
+	for line in lines:
+		line = re.sub('^\s*', '', line)
+		line = re.sub('\s*$', '', line)
+		if line[0] == '#':
+			continue
+		pos = line.rfind('/')
+		if pos < 1:
+			continue
+		name = line[pos + 1: ]	
+		directory = line[: pos]
+		filenames[directory] = name
+	return filenames
 	
 def escape_spaces(regexp_list):
 	new_regexp_list = []
@@ -513,6 +534,7 @@ print_always = \
   read_file('directories_to_print_regardless_of_emptiness').splitlines()
 excluded_dirs = read_file('directories_to_skip').splitlines()
 excluded_files = read_file('files_to_skip').splitlines()
+index_filenames = load_index_filenames('index_files')
 title_tails = \
   escape_spaces(read_file('regexps_removed_from_titles').splitlines())
 replacement_titles = load_replacement_titles()
