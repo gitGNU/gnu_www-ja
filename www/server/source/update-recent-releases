@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: update-recent-releases,v 1.7 2013/02/02 05:55:51 ineiev Exp $
+# $Id: update-recent-releases,v 1.8 2013/03/30 09:31:42 ineiev Exp $
 # Public domain.  Originally written by Karl Berry, January 2013.
 # This script is run (more than daily) from gnun@fencepost cron.
 # 
@@ -32,7 +32,7 @@ cd recent-releases-tmp || exit 1
 wget="wget -q"
 info_gnu=http://lists.gnu.org/archive/html/info-gnu
 
-lastmonth=`date +%Y-%m -d "last month"`
+lastmonth=`date +%Y-%m -d "$(date +%Y-%m-15) -1 month"`
 thismonth=`date +%Y-%m`
 $wget $info_gnu/$thismonth/index.html -O $thismonth.html.new
 
