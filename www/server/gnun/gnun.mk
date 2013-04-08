@@ -18,12 +18,12 @@
 
 # TRANSLATORS: Add here your language code.  Please keep the
 # alphabetical order.
-TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he id it ja ko ml nb nl pl \
-                    pt-br ro ru sk sq sr sv ta tr uk zh-cn zh-tw
+TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he hr id it ja ko ml nb nl \
+                    pl pt-br ro ru sk sq sr sv ta tr uk zh-cn zh-tw
 
 # TRANSLATORS: Add here your language code if you want PO files with wdiffs
 # to previous msgids.
-FUZZY_DIFF_LINGUAS := de es fr it nl pl ru
+FUZZY_DIFF_LINGUAS := de es fr hr it nl pl ru
 
 # List of articles for which GRACE do not apply; i.e. they are
 # regenerated even if there are fuzzy strings.
