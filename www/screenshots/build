@@ -1,0 +1,171 @@
+#!/usr/bin/env sh
+
+### TEMPLATE
+
+HEADER=$(cat <<EOF
+<!--#include virtual="/server/header.html" -->
+
+<style type="text/css" media="all">
+  div#screenshot-zone         { text-align: center; }
+  div#screenshot-zone     div { display: block; }
+  div#screenshot-carousel     { white-space: nowrap; overflow: auto; margin-bottom: 12px; }
+  div#screenshot-carousel img { vertical-align: middle; margin-left: 4px; margin-right: 4px; }
+  div#screenshot-grid         { width: 100%; }
+  div#screenshot-grid     div { float: left; width: 264px; }
+</style>
+
+<h2>Screenshots</h2>
+EOF
+)
+
+PREJSHTML=$(cat <<EOF
+<div id="screenshot-zone">
+  <div id="screenshot-box"></div>
+  <div id="screenshot-carousel"></div>
+</div>
+
+<script type="text/javascript" src="jquery-1.8.3.js"></script>
+<script type="text/javascript">
+var screenshots = [
+EOF
+)
+
+POSTJSHTML=$(cat <<EOF
+];
+
+function get_good_width() {
+  var width = \$(document).width() - 80; // 80 = padding
+
+  if (width < 600) {
+    return width;
+  }
+
+  return 600;
+}
+
+function create_carousel() {
+  var result = '';
+
+  for (var screenshot in screenshots) {
+    result += '<a href="javascript:select_shot(' + screenshot + ');">';
+    result += '<img src="thumbnails/' + screenshots[screenshot][0] + '" />';
+    result += '</a>';
+  }
+
+  \$('#screenshot-carousel').html(result);
+}
+
+function select_shot(id) {
+  var result = '';
+  var width = get_good_width();
+  var image = screenshots[id][0];
+  var caption = screenshots[id][1];
+
+  result += '<a href="screenshots/' + image + '" target="_blank">';
+  result += '<img id="screenshot" style="width:' + width + 'px;" src="screenshots/' + image + '" />';
+  result += '</a>';
+
+  result += '<p>' + caption + '</p>';
+
+  \$('#screenshot-box').html(result);
+}
+
+\$(document).ready(function() {
+  create_carousel();
+  select_shot(0);
+});
+
+\$(window).resize(function() {
+  \$('#screenshot').width(get_good_width());
+});
+</script>
+EOF
+)
+
+PRENSHTML=$(cat <<EOF
+<noscript><hr />
+<div id="screenshot-grid">
+EOF
+)
+
+POSTNSHTML=$(cat <<EOF
+</div>
+</noscript>
+EOF
+)
+
+FOOTER=$(cat <<EOF
+<!--#include virtual="/server/bottom-notes.html" -->
+
+</div>
+</div>
+</body>
+</html>
+EOF
+)
+
+### GENERATOR
+
+# javascripted and noscripted versions of the page
+jshtml=''
+nshtml=''
+
+function die()
+{
+  printf "\033[1;31m$1\033[0m\n" >&2
+  exit 1
+}
+
+function verbose()
+{
+  printf "\033[1;34m$1\033[0m\n" >&2
+}
+
+function jsprint()
+{
+  jshtml="$jshtml
+$1"
+}
+
+function nsprint()
+{
+  nshtml="$nshtml
+$1"
+}
+
+convert -version > /dev/null || die 'Requires ImageMagick (http://www.imagemagick.org)!'
+
+verbose 'Cleaning up after previous run...'
+rm -f screenshots.html #TODO:thumbnails/*.png
+
+verbose 'Processing screenshots...'
+
+for screenshot in screenshots/*.png
+  do
+    basename="`basename $screenshot`"
+
+    verbose "Generating thumbnail $basename..."
+    convert "$screenshot" -resize 256x256 thumbnails/$basename || die 'Resize failed!'
+
+    caption="`cat $screenshot.txt`"
+    caption_escaped="`printf '%q' "$caption"`"
+
+    jsprint "  [ '$basename', '$caption_escaped' ],"
+
+    nsprint '  <div>'
+    nsprint "    <a href='$screenshot' target='_blank'>"
+    nsprint "      <img src='thumbnails/$basename' />"
+    nsprint "      <p>$caption</p>"
+    nsprint '    </a>'
+    nsprint '  </div>'
+  done
+
+### IMPLEMENTER
+
+verbose 'Generating web page screenshots.html...'
+echo "$HEADER" > screenshots.html
+echo "$PREJSHTML$jshtml$POSTJSHTML" >> screenshots.html
+echo "$PRENSHTML$nshtml$POSTNSHTML" >> screenshots.html
+echo "$FOOTER" >> screenshots.html
+
+# vim:set ts=8 sts=2 sw=2 noet:

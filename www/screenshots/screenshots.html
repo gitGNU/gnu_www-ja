@@ -1,0 +1,202 @@
+<!--#include virtual="/server/header.html" -->
+
+<style type="text/css" media="all">
+  div#screenshot-zone         { text-align: center; }
+  div#screenshot-zone     div { display: block; }
+  div#screenshot-carousel     { white-space: nowrap; overflow: auto; margin-bottom: 12px; }
+  div#screenshot-carousel img { vertical-align: middle; margin-left: 4px; margin-right: 4px; }
+  div#screenshot-grid         { width: 100%; }
+  div#screenshot-grid     div { float: left; width: 264px; }
+</style>
+
+<h2>Screenshots</h2>
+<div id="screenshot-zone">
+  <div id="screenshot-box"></div>
+  <div id="screenshot-carousel"></div>
+</div>
+
+<script type="text/javascript" src="jquery-1.8.3.js"></script>
+<script type="text/javascript">
+var screenshots = [
+  [ 'blag0.png', 'This\ file\,\ blag0.png\,\ needs\ a\ caption\\\!' ],
+  [ 'blag1.png', 'This\ file\,\ blag1.png\,\ needs\ a\ caption\\\!' ],
+  [ 'blag2.png', 'This\ file\,\ blag2.png\,\ needs\ a\ caption\\\!' ],
+  [ 'blag.png', 'Yeah\,\ all\ of\ these\ need\ captions\,\ and\ I\ have\ no\ idea\ what\ to\ give\ them.' ],
+  [ 'dragora0.png', 'This\ file\,\ dragora0.png\,\ needs\ a\ caption\\\!' ],
+  [ 'dragora1.png', 'This\ file\,\ dragora1.png\,\ needs\ a\ caption\\\!' ],
+  [ 'dragora2.png', 'This\ file\,\ dragora2.png\,\ needs\ a\ caption\\\!' ],
+  [ 'dragora.png', 'This\ file\,\ dragora.png\,\ needs\ a\ caption\\\!' ],
+  [ 'gnewsense0.png', 'This\ file\,\ gnewsense0.png\,\ needs\ a\ caption\\\!' ],
+  [ 'gnewsense1.png', 'This\ file\,\ gnewsense1.png\,\ needs\ a\ caption\\\!' ],
+  [ 'gnewsense2.png', 'This\ file\,\ gnewsense2.png\,\ needs\ a\ caption\\\!' ],
+  [ 'gnewsense.png', 'This\ file\,\ gnewsense.png\,\ needs\ a\ caption\\\!' ],
+  [ 'musix0.png', 'This\ file\,\ musix0.png\,\ needs\ a\ caption\\\!' ],
+  [ 'musix1.png', 'This\ file\,\ musix1.png\,\ needs\ a\ caption\\\!' ],
+  [ 'musix2.png', 'This\ file\,\ musix2.png\,\ needs\ a\ caption\\\!' ],
+  [ 'musix.png', 'This\ file\,\ musix.png\,\ needs\ a\ caption\\\!' ],
+  [ 'parabola0.png', 'This\ file\,\ parabola0.png\,\ needs\ a\ caption\\\!' ],
+  [ 'parabola.png', 'This\ file\,\ parabola.png\,\ needs\ a\ caption\\\!' ],];
+
+function get_good_width() {
+  var width = $(document).width() - 80; // 80 = padding
+
+  if (width < 600) {
+    return width;
+  }
+
+  return 600;
+}
+
+function create_carousel() {
+  var result = '';
+
+  for (var screenshot in screenshots) {
+    result += '<a href="javascript:select_shot(' + screenshot + ');">';
+    result += '<img src="thumbnails/' + screenshots[screenshot][0] + '" />';
+    result += '</a>';
+  }
+
+  $('#screenshot-carousel').html(result);
+}
+
+function select_shot(id) {
+  var result = '';
+  var width = get_good_width();
+  var image = screenshots[id][0];
+  var caption = screenshots[id][1];
+
+  result += '<a href="screenshots/' + image + '" target="_blank">';
+  result += '<img id="screenshot" style="width:' + width + 'px;" src="screenshots/' + image + '" />';
+  result += '</a>';
+
+  result += '<p>' + caption + '</p>';
+
+  $('#screenshot-box').html(result);
+}
+
+$(document).ready(function() {
+  create_carousel();
+  select_shot(0);
+});
+
+$(window).resize(function() {
+  $('#screenshot').width(get_good_width());
+});
+</script>
+<noscript><hr />
+<div id="screenshot-grid">
+  <div>
+    <a href='screenshots/blag0.png' target='_blank'>
+      <img src='thumbnails/blag0.png' />
+      <p>This file, blag0.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/blag1.png' target='_blank'>
+      <img src='thumbnails/blag1.png' />
+      <p>This file, blag1.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/blag2.png' target='_blank'>
+      <img src='thumbnails/blag2.png' />
+      <p>This file, blag2.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/blag.png' target='_blank'>
+      <img src='thumbnails/blag.png' />
+      <p>Yeah, all of these need captions, and I have no idea what to give them.</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/dragora0.png' target='_blank'>
+      <img src='thumbnails/dragora0.png' />
+      <p>This file, dragora0.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/dragora1.png' target='_blank'>
+      <img src='thumbnails/dragora1.png' />
+      <p>This file, dragora1.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/dragora2.png' target='_blank'>
+      <img src='thumbnails/dragora2.png' />
+      <p>This file, dragora2.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/dragora.png' target='_blank'>
+      <img src='thumbnails/dragora.png' />
+      <p>This file, dragora.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/gnewsense0.png' target='_blank'>
+      <img src='thumbnails/gnewsense0.png' />
+      <p>This file, gnewsense0.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/gnewsense1.png' target='_blank'>
+      <img src='thumbnails/gnewsense1.png' />
+      <p>This file, gnewsense1.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/gnewsense2.png' target='_blank'>
+      <img src='thumbnails/gnewsense2.png' />
+      <p>This file, gnewsense2.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/gnewsense.png' target='_blank'>
+      <img src='thumbnails/gnewsense.png' />
+      <p>This file, gnewsense.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/musix0.png' target='_blank'>
+      <img src='thumbnails/musix0.png' />
+      <p>This file, musix0.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/musix1.png' target='_blank'>
+      <img src='thumbnails/musix1.png' />
+      <p>This file, musix1.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/musix2.png' target='_blank'>
+      <img src='thumbnails/musix2.png' />
+      <p>This file, musix2.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/musix.png' target='_blank'>
+      <img src='thumbnails/musix.png' />
+      <p>This file, musix.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/parabola0.png' target='_blank'>
+      <img src='thumbnails/parabola0.png' />
+      <p>This file, parabola0.png, needs a caption\!</p>
+    </a>
+  </div>
+  <div>
+    <a href='screenshots/parabola.png' target='_blank'>
+      <img src='thumbnails/parabola.png' />
+      <p>This file, parabola.png, needs a caption\!</p>
+    </a>
+  </div></div>
+</noscript>
+<!--#include virtual="/server/bottom-notes.html" -->
+
+</div>
+</div>
+</body>
+</html>
