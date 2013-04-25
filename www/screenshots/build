@@ -4,7 +4,7 @@
 
 HEADER=$(cat <<EOF
 <!--#include virtual="/server/header.html" -->
-
+<title>Distribution Screenshots - GNU Operating System</title>
 <style type="text/css" media="all">
   div#screenshot-zone         { text-align: center; }
   div#screenshot-zone     div { display: block; }
@@ -13,6 +13,7 @@ HEADER=$(cat <<EOF
   div#screenshot-grid         { width: 100%; }
   div#screenshot-grid     div { float: left; width: 264px; }
 </style>
+<!--#include virtual="/server/banner.html" -->
 
 <h2>Screenshots</h2>
 EOF
@@ -61,8 +62,8 @@ function select_shot(id) {
   var image = screenshots[id][0];
   var caption = screenshots[id][1];
 
-  result += '<a href="screenshots/' + image + '" target="_blank">';
-  result += '<img id="screenshot" style="width:' + width + 'px;" src="screenshots/' + image + '" />';
+  result += '<a href="images/' + image + '" target="_blank">';
+  result += '<img id="screenshot" style="width:' + width + 'px;" src="images/' + image + '" />';
   result += '</a>';
 
   result += '<p>' + caption + '</p>';
@@ -140,7 +141,7 @@ rm -f screenshots.html #TODO:thumbnails/*.png
 
 verbose 'Processing screenshots...'
 
-for screenshot in screenshots/*.png
+for screenshot in images/*.png
   do
     basename="`basename $screenshot`"
 
