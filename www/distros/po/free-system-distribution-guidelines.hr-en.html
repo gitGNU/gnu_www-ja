@@ -1,0 +1,319 @@
+<!--#include virtual="/server/header.html" -->
+<!-- Parent-Version: 1.75 -->
+<title>Guidelines for Free System Distributions - GNU Project - Free Software Foundation</title>
+<link rel="alternate" title="Free GNU/Linux distributions"
+      href="http://www.gnu.org/distros/distros.rss"
+      type="application/rss+xml" />
+<!--#include virtual="/distros/po/free-system-distribution-guidelines.translist" -->
+<!--#include virtual="/server/banner.html" -->
+<h2>Guidelines for Free System Distributions</h2>
+
+<h3 id="introduction">Introduction</h3>
+
+<p>The purpose of these guidelines is to explain what it means for an
+installable system distribution (such as a GNU/Linux distribution) to
+qualify as free, and help distribution developers make their
+distributions qualify.</p>
+
+<p>These guidelines are not complete.  We have mentioned the issues we
+are aware of now, but we're sure there are more.  We will add them
+when we come across them.</p>
+
+<p>We would like to thank the Fedora Project for their help in focusing
+these policies, and allowing us to use their own distribution license
+guidelines as a basis for this document.</p>
+
+<h3 id="complete-distros">Complete Distros</h3>
+
+<p>Our list of distributions is a guide for what to install in a
+computer.  Therefore, it only includes distributions that are complete
+in themselves and ready to use.  If a distribution is incomplete
+&mdash; if using it requires further work or presupposes installing
+other software as well &mdash; then it doesn't belong in this list,
+even if it is free software.</p>
+
+<h3 id="license-rules">License Rules</h3>
+
+<p>&ldquo;Information for practical use&rdquo;
+includes software, documentation, fonts, and other data that has
+direct functional applications.  It does not include artistic works
+that have an aesthetic (rather than functional) purpose, or statements
+of opinion or judgment.</p>
+
+<p>All information for practical use in a free distribution must be
+available in source form.  (&ldquo;Source&rdquo; means the form of the
+information that is preferred for making changes to it.)</p>
+
+<p>The information, and the source, must be provided under an
+appropriate free license.  We list the ones we have evaluated
+on <a class="reference" href="/licenses/license-list.html">our license
+list</a>, with separate sections for licenses that are suitable for
+software, documentation, fonts, and other useful works.  If such a
+work is released under multiple licenses, at least one of which is
+free, it can be included in the system; the system developers just
+need to follow the terms of the available free license(s) when they
+distribute and/or modify it.</p>
+
+<p>A free system distribution must not steer users towards obtaining
+any nonfree information for practical use, or encourage them to do so.
+The system should have no repositories for nonfree software and no
+specific recipes for installation of particular nonfree programs. Nor
+should the distribution refer to third-party repositories that are not
+committed to only including free software; even if they only have free
+software today, that may not be true tomorrow.  Programs in the system
+should not suggest installing nonfree plugins, documentation, and so
+on.</p>
+
+<p>A free system distribution should be self-hosting.  This means that
+you must be able to develop and build the system with tools that the
+system provides you.  As a result, a free system distribution cannot
+include free software that can only be built by using nonfree
+software.</p>
+
+<p>There's a lot of code in most free system distributions today; the
+amount of effort it would take to audit it all directly is impractical
+for most teams.  In the past, some nonfree code has accidentally been
+included in free system distributions.  We don't de-list distributions
+because of this; instead, we only ask that a distribution put forth a
+good faith effort to avoid including nonfree software, and commit
+itself to removing such programs if they are discovered later.</p>
+
+<p>Certain kinds of license situations merit special attention for people
+creating or considering free software distributions; those are
+discussed in the sections below.</p>
+
+<h3 id="nonfree-firmware">Nonfree Firmware</h3>
+
+<p>Some applications and drivers require firmware to function, and
+sometimes that firmware is distributed only in object code form, under
+a nonfree license.  We call these firmware programs
+&ldquo;blobs.&rdquo; On most GNU/Linux systems, you'll typically find
+these accompanying some drivers in the kernel Linux.  Such firmware
+should be removed from a free system distribution.</p>
+
+<p>Blobs can take many forms.  Sometimes, they will be provided in
+separate files.  Other times, they may be incorporated into the source
+of the driver itself&mdash;for example, it could be encoded as a large
+array of numbers.  But no matter how it's encoded, any nonfree
+firmware needs to be removed from a free system.</p>
+
+<p>(To be clear, not every array of numbers in a driver is firmware.
+It's important to understand the purpose of the data before deciding
+whether or not it's appropriate for a free system.)</p>
+
+<p>Brian Brazil, Jeff Moe, and Alexandre Oliva have developed a series
+of <a class="reference"
+href="http://www.fsfla.org/svn/fsfla/software/linux-libre/scripts/">scripts
+to remove nonfree firmware</a> from a stock version of the Linux kernel.
+You may find them helpful if you would like to develop your own free
+GNU/Linux distribution&mdash;although we recommend joining development
+of an existing free distro rather than fragmenting effort by starting a
+new one.  The complete source for a blob-free version of the Linux
+kernel is also available; you can learn more about this project from the
+<a class="reference" href="http://directory.fsf.org/project/linux/">Free
+Software Directory</a>.</p>
+
+<h3 id="non-functional-data">Non-functional Data</h3>
+
+<p>Data that isn't functional, that doesn't do a practical job, is
+more of an adornment to the system's software than a part of it.
+Thus, we don't insist on the free license criteria for non-functional
+data.  It can be included in a free system distribution as long as its
+license gives you permission to copy and redistribute, both for
+commercial and non-commercial purposes.  For example, some game
+engines released under the GNU GPL have accompanying game
+information&mdash;a fictional world map, game graphics, and so
+on&mdash;released under such a verbatim-distribution license.  This
+kind of data can be part of a free system distribution, even though
+its license does not qualify as free, because it is non-functional.</p>
+
+<h3 id="trademarks">Trademarks</h3>
+
+<p>Trademarks are associated with some software.  For example, the
+name of a program may be trademarked, or its interface may display a
+trademarked logo.  Often, the use of these marks will be controlled
+in some way; in particular, developers are commonly asked to remove
+references to the trademark from the software when they modify
+it.</p>
+
+<p>In extreme cases, these restrictions may effectively render the
+program nonfree.  It is unfair for someone to ask you to remove a
+trademark from modified code if that trademark is scattered all
+throughout the original source.  As long as the practical
+requirements are reasonable, however, free system distributions may
+include these programs, either with or without the trademarks.</p>
+
+<p>Similarly, the distribution itself may hold particular trademarks.
+It is not a problem if modification requires removal of these
+trademarks, as long as they can readily be removed without losing
+functionality.</p>
+
+<p>However, it is unacceptable to use trademarks to restrict verbatim
+copying and redistribution of the whole distribution, or any part.</p>
+
+<h3 id="documentation">Documentation</h3>
+
+<p>All the documentation in a free system distribution must be released
+under an appropriate free license.  Additionally, it must take care
+not to recommend nonfree software.</p>
+
+<p>In general, something that helps people who already use nonfree
+software to use the free software better with it is acceptable, but
+something that encourages users of the free software to install
+nonfree software is not.</p>
+
+<p>For example, a free system distribution may have documentation for
+users setting up dual boot systems.  It could explain how to access
+filesystems of the proprietary operating system, import settings
+from it, and so on.  That would be helping people install a free
+system distribution on a machine which already has proprietary
+software, which is good.</p>
+
+<p>What would be unacceptable is for the documentation to give people
+instructions for installing a nonfree program on the system, or
+mention conveniences they might gain by doing so.</p>
+
+<p>For a borderline case, a clear and serious exhortation not to use the
+nonfree program would move it to the acceptable side of the line.</p>
+
+<h3 id="patents">Patents</h3>
+
+<p>It is effectively impossible for free software developers and
+distributors to know whether or not a given piece of software
+infringes any patents: there are too many of them, they vary from
+country to country, they're often worded so as to make it hard to tell
+what they do or don't cover, and it isn't easy to tell which ones are
+valid.  Therefore, we don't generally ask free system distributions to
+exclude software because of possible threats from patents.  On the
+other hand, we also don't object if a distributor chooses to omit some
+software in order to avoid patent risk.</p>
+
+<h3 id="mistakes">Commitment to Correct Mistakes</h3>
+
+<p>Most distribution development teams don't have the resources to
+exhaustively check that their distribution meet all these criteria.
+Neither do we.  So we expect developers to occasionally make mistakes
+that let some nonfree software slip through, and we don't reject a
+distribution just for that.  Our requirement is for the distribution
+developers to have a firm commitment to promptly correct any mistakes
+that are reported to them.</p>
+
+<h3 id="maintenance">Maintenance</h3>
+
+<p>To be listed, a distribution should be actively maintained,
+and should give the GNU Project a clear and specific way to report problems
+of nonfree software that we find out about.  It should also
+inform us when the problems we have reported are fixed.</p>
+
+<h3 id="name-confusion">Name Confusion</h3>
+
+<p>We will not list a distribution whose name makes confusion with
+nonfree distributions likely.  For example, if Foobar Light is a free
+distribution and Foobar is a nonfree distribution, we will not list
+Foobar Light.  This is because we expect that the distinction between
+the two would be lost in the process of communicating the message.</p>
+
+<h3 id="upstream">Contacting Upstream If You're Downstream</h3>
+
+<p>For distro developers (or anyone else) who have sent an important bug
+report for a GNU package: if it has gone unheeded by the package
+maintainer after a reasonable time (please allow at least two weeks),
+you can escalate the bug by writing to &lt;maintainers@gnu.org&gt;.
+This is especially warranted if you can't find evidence of recent
+activity by the package maintainer.</p>
+
+<h3 id="teaching">Please Teach Users about Free Software</h3>
+
+<p>To establish lasting freedom, just giving users freedom isn't
+sufficient.  It is necessary also to teach them to understand what it
+means and to demand it.  Thus, we suggest and urge that free distros
+announce prominently on the screen, before login and on the default
+desktop after login, a prominent statement about freedom, such as
+&ldquo;This system is freedom-respecting free/libre software&rdquo; or
+something comparable, and to present a link or icon pointing at
+gnu.org or gnu.org/philosophy for further information about the
+issue.</p>
+
+<h3 id="final-notes">Final Notes</h3>
+
+<p>We maintain a list of the <a href="/distros/free-distros.html">free
+system distributions</a> we know about.  If you know about a free
+distribution that isn't listed there, please ask its developers write
+to &lt;<a class="reference"
+href="mailto:webmasters@gnu.org">webmasters@gnu.org</a>&gt; with a description of
+their system and a link to their web page.</p>
+
+<p>Our list consists of systems based on GNU which acknowledge that
+they are based on GNU.  At present, we know of no other systems
+that would qualify.  If someday there is one, we will list it,
+but not necessarily in same way.</p>
+
+<p>If you have questions or comments about these guidelines
+themselves, feel free to send those to &lt;<a class="reference"
+href="mailto:licensing@gnu.org">licensing@gnu.org</a>&gt;.  We hope
+that they help everyone better understand the issues that are important
+for free system distributions, and we look forward to promoting more
+of them in the future.</p>
+
+</div><!-- for id="content", starts in the include above -->
+<!--#include virtual="/server/footer.html" -->
+<div id="footer">
+
+<p>Please send general FSF &amp; GNU inquiries to
+<a href="mailto:gnu@gnu.org">&lt;gnu@gnu.org&gt;</a>.
+There are also <a href="/contact/">other ways to contact</a>
+the FSF.  Broken links and other corrections or suggestions can be sent
+to <a href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a>.</p>
+
+<p><!-- TRANSLATORS: Ignore the original text in this paragraph,
+        replace it with the translation of these two:
+
+        We work hard and do our best to provide accurate, good quality
+        translations.  However, we are not exempt from imperfection.
+        Please send your comments and general suggestions in this regard
+        to <a href="mailto:web-translators@gnu.org">
+        &lt;web-translators@gnu.org&gt;</a>.</p>
+
+        <p>For information on coordinating and submitting translations of
+        our web pages, see <a
+        href="/server/standards/README.translations.html">Translations
+        README</a>. -->
+Please see the <a
+href="/server/standards/README.translations.html">Translations
+README</a> for information on coordinating and submitting translations
+of this article.</p>
+
+<!-- Regarding copyright, in general, standalone pages (as opposed to
+     files generated as part of manuals) on the GNU web server should
+     be under CC BY-ND 3.0 US.  Please do NOT change or remove this
+     without talking with the webmasters or licensing team first.
+     Please make sure the copyright date is consistent with the
+     document.  For web pages, it is ok to list just the latest year the
+     document was modified, or published.
+     
+     If you wish to list earlier years, that is ok too.
+     Either "2001, 2002, 2003" or "2001-2003" are ok for specifying
+     years, as long as each year in the range is in fact a copyrightable
+     year, i.e., a year in which the document was published (including
+     being publicly visible on the web or in a revision control system).
+     
+     There is more detail about copyright years in the GNU Maintainers
+     Information document, www.gnu.org/prep/maintain. -->
+
+<p>Copyright &copy; 2010 Free Software Foundation, Inc.</p>
+
+<p>This page is licensed under a <a rel="license"
+href="http://creativecommons.org/licenses/by-nd/3.0/us/">Creative
+Commons Attribution-NoDerivs 3.0 United States License</a>.</p>
+
+<!--#include virtual="/server/bottom-notes.html" -->
+
+<p>Updated:
+<!-- timestamp start -->
+$Date: 2013/04/30 15:02:59 $
+<!-- timestamp end -->
+</p>
+</div>
+</div>
+</body>
+</html>
