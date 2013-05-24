@@ -454,6 +454,7 @@ philosophy := 	15-years-of-free-software \
 		historical-apsl \
 		ICT-for-prosperity \
 		ipjustice \
+		is-ever-good-use-nonfree-program \
 		java-trap \
 		javascript-trap \
 		judge-internet-usage \
