@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-LINC_VERSION = 'LINC 0.12'
+LINC_VERSION = 'LINC 0.13'
 USAGE = \
 '''Usage: %prog [options] [BASE_DIRECTORY]
 Check links in HTML files from BASE_DIRECTORY.'''
@@ -84,9 +84,9 @@ CACHE = None
 EXCLUDED_DIRECTORIES_REGEXP = '^(japan|wwwin|education/fr|\
 education/draft|press|screenshots|server/staging|software/[^/]+)$|(^|/)po$'
 EXCLUDED_FILENAMES_REGEXP = \
-  '^server/(standards/boilerplate\.html' + \
+  '^(server/(standards/boilerplate\.html' + \
   '|source/linc/linc-report\.html' + \
-  '|.*whatsnew(\.[a-z]{2}(-[a-z]{2})?)?\.html)$'
+  '|.*whatsnew(\.[a-z]{2}(-[a-z]{2})?)?\.html)|volunteers/volunteers\.html)$'
 
 FILENAMES_TO_CHECK_REGEXP = '\.html$' # Only matching files will be checked.
 SYMLINKS_FILENAME = '.symlinks'

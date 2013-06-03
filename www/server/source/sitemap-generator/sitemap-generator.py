@@ -50,17 +50,17 @@ GNUN_SPLIT = '<span class="gnun-split"></span>\n'
 SITE_LINGUAS = \
 [ 'af', 'ar', 'az', 'bg', 'bn', 'bs', 'ca', 'cs', 'da', 'de', 'el', 'en', 'eo',
   'es', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'it', 'ja', 'kn', 'ko',
-  'mk', 'ml', 'nb', 'nl', 'nn', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'sk', 'sl',
+  'mk', 'ml', 'nb', 'nl', 'nn', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'sh', 'sk', 'sl',
   'sq', 'sr', 'sv', 'sw', 'ta', 'th', 'tl', 'tr', 'uk', 'uz', 'vi', 'zh-cn',
   'zh-tw' ]
-SITE_LINGUAS = []
-
 sitemap_linguas = []
 no_index_checks = None
 print_always = None
 excluded_dirs = None
 excluded_files = None
 output_text = ''
+translist = ''
+translation_linguas = []
 title_tails = None
 replacement_titles = None
 translations = {}
@@ -379,6 +379,79 @@ msgstr ""
                            + '#content dt { margin: 0.1em } ' \
                            + '#content dd { margin-bottom: 0.2em }')
 
+# Remove or replace tags that can't appear in <a> elements.
+def filter_for_link (title):
+	name = re.sub('<[Aa]\s[^>]*>', '', title)
+	name = re.sub('</[Aa](\s[^>]*)?>', '', name)
+	name = re.sub('<[Uu](\s[^>]*)?>', '<b>', name)
+	name = re.sub('</[Uu](\s[^>]*)?>', '</b>', name)
+	return name
+
+# Check how outdated the translation is; return the respective tag name.
+def get_outdated_tag (directory, base, lang):
+	po = join_url_paths(directory, 'po')
+	po = join_url_paths(po, base + '.' + lang +'.po')
+	po = join_url_paths(TOP_DIRECTORY, po)
+	if not os.path.exists(po):
+		return 'del'
+	path = join_url_paths(directory, base + '.' + lang + '.html')
+	html = open(join_url_paths(TOP_DIRECTORY, path))
+	try:
+		for line in html:
+			if line.find('<!--#set var="OUTDATED_SINCE"') >= 0:
+				html.close()
+				return 'em'
+		html.close()
+	finally:
+		html.close()
+	return ''
+
+def append_translist (directory, files, base, titles):
+	global translist
+	global translation_linguas
+	item = ''
+	langs = ''
+	for lang in SITE_LINGUAS:
+		trans = base + '.' + lang + '.html'
+		if not trans in files:
+			continue
+		if not lang in translation_linguas:
+			translation_linguas.append(lang)
+		emph_open = ''
+		emph_close = ''
+		emph = get_outdated_tag (directory, base, lang)
+		if emph != '':
+			emph_open = '<' + emph + '>'
+			emph_close = '</' + emph + '>'
+		path = join_url_paths(directory, trans)
+		name = path
+		if trans in titles:
+			name = filter_for_link (titles[trans])
+		if len(langs):
+			langs = langs + '|'
+		langs = langs + lang
+		item = item + '<!--#if expr="$qs = /,' + lang \
+		  + ',/" -->\n' + emph_open + '[' + lang + '] <a ' \
+		  + 'hreflang="' + lang + '" lang="' + lang + '" xml:lang="' \
+		  + lang + '" href="/' + path + '">\n' + name + '</a>' \
+		  + emph_close + '<br /><!--#endif -->'
+	if len(langs) == 0:
+		return
+	translist = translist + '<!--#if expr="$qs = /,(' \
+		+ langs + '),/" -->'
+	path = join_url_paths(directory, base) + '.html'
+	translist = translist + '<dt><a href="/' + path + '">' \
+		+ path + '</a></dt>\n'
+	title = path
+	if base + '.html' in titles:
+		title = titles[base + '.html']
+	trans = base + '.en.html'
+	path = join_url_paths(directory, trans)
+	translist = translist + '<dd><span class="original">[en] ' \
+		+ '<a href="/' + path + '" hreflang="en" ' \
+		+ 'lang="en" xml:lang="en">\n' + filter_for_link (title) \
+		+ '</a></span><br />'
+	translist = translist + item + '</dd>\n\n<!--#endif -->'
 
 def print_map(directory, depth_level):
 	directory_name = get_name_from_path(directory)
@@ -417,13 +490,16 @@ def print_map(directory, depth_level):
 			msgid = msgid + '">' + directory + '</a>'
 			write('\n<dl><dt>' + msgid + '</dt>\n    <dd>')
 			append_sitemap_pos(msgid)
-			if index_file and (index_file in titles):
-				write(title_head  \
-				      + titles[index_file] + title_tail)
-				append_title_to_pos(index_file, titles[index_file], titles)
-
-			# Don't list the index file in the filelist now.
 			if index_file:
+				if index_file in titles:
+					write(title_head \
+					      + titles[index_file] + title_tail)
+					append_title_to_pos(index_file,
+							    titles[index_file],
+							    titles)
+				base = index_file[ : index_file.rfind('.') ]
+				append_translist (directory, files, base, titles)
+			# Don't list the index file in the filelist now.
 				files.remove(index_file)
 		# Print "#links" to subdirectories
 		# if it's the top level directory.
@@ -444,18 +520,13 @@ def print_map(directory, depth_level):
 				      + join_url_paths(directory, filename) \
 				      + '">' + filename + '</a>'
 				base = filename[ : filename.rfind('.') ]
-				for lang in SITE_LINGUAS:
-					trans = base + '.' + lang + '.html'
-					if trans in files:
-						msgid = msgid + '\n  <a ' \
-				      + 'hreflang="' + lang + '" href="/' \
-				      + join_url_paths(directory, trans) \
-				      + '">' + lang + '</a>'
 				items = items + '  <dt>' + msgid + '</dt>\n  <dd>' \
 				      + title + '</dd>\n'
 				append_sitemap_pos(msgid)
 				if title != '':
 					append_title_to_pos(filename, title, titles)
+				append_translist (directory, files, base, titles)
+
 			# Empty definition lists are not allowed.
 			if items != '':
 				write('<dl>\n' + items + '</dl>\n')
@@ -568,3 +639,15 @@ output_file.write(output_text.encode('utf-8'))
 output_file.close()
 
 output_translations(OUTPUT_FILE_NAME)
+
+if len(translist):
+	linguas = ''
+	for l in translation_linguas:
+		linguas = linguas + '|' + l
+	translist = '<!--#if expr="$qs = /,(' \
+		+ linguas[1:] + '),/" -->\n<dl>' \
+		+ translist + '</dl><!--#endif -->\n'
+
+output_file = open(OUTPUT_FILE_NAME + '.translist', 'w')
+output_file.write(translist.encode('utf-8'))
+output_file.close()
