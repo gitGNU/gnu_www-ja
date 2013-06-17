@@ -44,8 +44,8 @@ des logiciels ?</a></li>
     <li><a href="#WhyNotGPLForManuals">Pourquoi n'utilisez-vous pas la GPL pour les
 manuels ?</a></li>
   
-    <li><a href="#GPLTranslations">Existe-t-il des traductions de la GPL dans
-d'autres langues ?</a></li>
+    <li><a href="#GPLTranslations">Existe-t-il des traductions de la GPL en d'autres
+langues ?</a></li>
   
     <li><a href="#WhySomeGPLAndNotLGPL">Pourquoi certaines bibliothèques GNU
 sont-elles distribuées sous GPL normale plutôt que sous GPL amoindrie
@@ -494,6 +494,14 @@ GPL ?</a></li>
 
     <li><a href="#GPLUSGovAdd">Le gouvernement américain peut-il publier des
 améliorations apportées à un programme régi par la GPL ?</a></li>
+
+    <li><a href="#GPLStaticVsDynamic">La GPL a-t-elle des exigences différentes
+concernant les modules liés à une création qu'elle régit, selon que la
+liaison est statique ou dynamique ?</a></li>
+
+    <li><a href="#LGPLStaticVsDynamic">La LGPL a-t-elle des exigences différentes
+concernant les modules liés à une création qu'elle régit, selon que la
+liaison est statique ou dynamique ?</a></li>
 
     <li><a href="#IfLibraryIsGPL">Si une bibliothèque est distribuée sous GPL (et
 non sous LGPL), cela veut-il dire que tout programme qui l'utilise doit être
@@ -1386,6 +1394,40 @@ problème dans ce cas.</p>
 <p>Si le gouvernement utilise des sous-traitants pour faire le travail, alors
 les améliorations elles-mêmes peuvent être régies par la GPL.</p></dd>
 
+<dt id="GPLStaticVsDynamic">La GPL a-t-elle des exigences différentes concernant les modules liés à une
+création qu'elle régit, selon que la liaison est statique ou dynamique ?
+<span class="anchor-reference-id">(<a href="#GPLStaticVsDynamic"
+>#GPLStaticVsDynamic</a>)</span></dt>
+<dd><p>Non. Lier une création régie par la GPL avec d'autres modules, que ce soit
+de manière statique ou dynamique, revient à faire une création combinée
+basée sur la création régie par la GPL. Donc les termes et conditions de la
+licence publique générale GNU s'appliquent à l'ensemble de la
+combinaison. Voir également <a href="#GPLIncompatibleLibs">Quels problèmes
+juridiques puis-je rencontrer si j'utilise avec du logiciel sous GPL des
+bibliothèques incompatibles avec la GPL ?</a></p></dd>
+
+<dt id="LGPLStaticVsDynamic">La LGPL a-t-elle des exigences différentes concernant les modules liés à une
+création qu'elle régit, selon que la liaison est statique ou dynamique ?
+<span class="anchor-reference-id">(<a href="#GPLStaticVsDynamic"
+>#GPLStaticVsDynamic</a>)</span></dt>
+<dd><p>Pour vous mettre en conformité avec la LGPL (quel que soit le numéro de
+version : v2, v2.1 ou v3) : </p>
+
+<blockquote>
+  <p>(1) si vous faites un lien statique avec une bibliothèque sous LGPL, vous
+devez aussi proposer votre application dans un format objet (pas
+nécessairement source) de manière que l'utilisateur ait la possibilité de
+modifier la bibliothèque et d'éditer le lien avec l'application ; </p>
+
+<p>(2) si vous faites un lien dynamique avec une bibliothèque sous LGPL
+<em>déjà présente sur l'ordinateur de l'utilisateur</em>, vous n'avez pas
+besoin de transmettre les sources de la bibliothèque. Si en revanche vous
+transmettez vous-même avec votre application la bibliothèque exécutable
+régie par la LGPL, que le lien soit statique ou dynamique, vous devez aussi
+transmettre les sources de la bibliothèque par un des moyens préconisés par
+la LGPL.</p>
+</blockquote></dd>
+
 
 <dt id="GPLOutput">Y a-t-il un moyen de mettre sous GPL le résultat que les utilisateurs
 obtiennent en se servant de mon programme ? Par exemple, si mon programme
@@ -1393,14 +1435,14 @@ sert à produire des éléments de conception de composants matériels, puis-je
 exiger que ces éléments de conception soient libres ? <span
 class="anchor-reference-id">(<a href="#GPLOutput" >#GPLOutput</a>)</span></dt>
 <dd><p>
-En général, ceci est juridiquement impossible ; les lois du copyright ne
-vous donnent aucun droit sur l'utilisation qui est faite du résultat du
-programme par les gens qui lui ont fourni leurs données. Si l'utilisateur se
-sert de votre programme pour saisir ou convertir ses propres données, c'est
-à lui et non à vous qu'appartient le copyright du produit obtenu. Plus
-généralement, quand un programme met les données qu'il reçoit sous une forme
-différente, le statut de copyright du résultat hérite de celui qui régissait
-les données ayant servi à le générer.</p>
+En général, ceci est juridiquement impossible ; la législation du copyright
+ne vous donne aucun droit sur l'utilisation du résultat obtenu par les gens
+qui ont fourni leurs données à votre programme. Si l'utilisateur se sert de
+votre programme pour saisir ou convertir ses propres données, c'est à lui et
+non à vous qu'appartient le copyright du produit obtenu. Plus généralement,
+quand un programme met les données qu'il reçoit sous une forme différente,
+le statut de copyright du résultat hérite de celui qui régissait les données
+ayant servi à le générer.</p>
 
 <p>Par conséquent, le seul moyen pour que vous ayez des droits sur le résultat
 est que des parties substantielles de ce résultat soient copiées (plus ou
@@ -1408,11 +1450,12 @@ moins) à partir du texte présent dans votre programme. Par exemple, une
 partie du résultat produit par Bison (voir ci-dessus) serait régie par la
 GNU GPL si nous n'avions créé une exception pour ce cas particulier.</p>
 
-<p>Vous pourriez artificiellement forcer un programme à copier un certain texte
-dans son résultat, même s'il n'y a pas de raison technique de le faire. Mais
-si ce texte ne sert à rien en pratique, l'utilisateur pourrait simplement le
-supprimer du résultat et n'utiliser que le reste. Il n'aurait plus alors à
-respecter les conditions de redistribution du texte copié.</p></dd>
+<p>Vous pourriez artificiellement forcer un programme à copier un texte
+particulier dans son résultat, même s'il n'y avait pas de raison technique
+de le faire. Mais si ce texte n'avait aucune utilité pratique, l'utilisateur
+pourrait simplement le supprimer du résultat et se servir uniquement du
+reste. Il n'aurait plus alors à respecter les conditions de redistribution
+du texte copié.</p></dd>
 
 
 <dt id="WhatCaseIsOutputGPL">Dans quels cas le résultat produit par un programme sous GPL est-il
@@ -2470,11 +2513,11 @@ bibliothèques incompatibles avec la GPL</a> fournit plus d'informations sur
 la manière de le faire.</p></dd>
 
 
-<dt id="GPLTranslations">Existe-t-il des traductions de la GPL dans d'autres langues ? <span
+<dt id="GPLTranslations">Existe-t-il des traductions de la GPL en d'autres langues ? <span
 class="anchor-reference-id">(<a href="#GPLTranslations"
 >#GPLTranslations</a>)</span></dt>
 <dd><p>
-Il serait utile d'avoir des traductions de la GPL dans d'autres langues que
+Il serait utile d'avoir des traductions de la GPL en d'autres langues que
 l'anglais. Certains ont même écrit des traductions et nous les ont fait
 parvenir. Mais nous n'avons pas osé les annoncer comme officiellement
 valides. Cela comporte un trop grand risque, que nous ne sommes pas prêts à
@@ -3417,9 +3460,9 @@ code.</p>
 <td class="ok">OK</td>
 <td class="ok">OK <a href="#compat-matrix-footnote-2">[2]</a></td>
 <td class="nok">NON</td>
-<td class="mok">OK : transférez le projet sous GPLv2 seulement <a
+<td class="mok">OK : transmettez le projet sous GPLv2 seulement <a
 href="#compat-matrix-footnote-7">[7]</a></td>
-<td class="mok">OK : transférez le projet sous GPLv2 seulement <a
+<td class="mok">OK : transmettez le projet sous GPLv2 seulement <a
 href="#compat-matrix-footnote-7">[7]</a><a
 href="#compat-matrix-footnote-2">[2]</a></td>
 <td class="nok">NON</td>
@@ -3430,51 +3473,51 @@ href="#compat-matrix-footnote-2">[2]</a></td>
 <td class="ok">OK <a href="#compat-matrix-footnote-1">[1]</a></td>
 <td class="ok">OK</td>
 <td class="ok">OK</td>
-<td class="mok">OK : transférez le projet sous GPLv2 ou ultérieure <a
+<td class="mok">OK : transmettez le projet sous GPLv2 ou ultérieure <a
 href="#compat-matrix-footnote-7">[7]</a></td>
-<td class="mok">OK : transférez le projet sous GPLv2 ou ultérieure <a
+<td class="mok">OK : transmettez le projet sous GPLv2 ou ultérieure <a
 href="#compat-matrix-footnote-7">[7]</a></td>
-<td class="mok">OK : transférez le projet sous GPLv3 <a
+<td class="mok">OK : transmettez le projet sous GPLv3 <a
 href="#compat-matrix-footnote-8">[8]</a></td>
 </tr>
 
 <tr>
 <th class="gpl-matrix-license gpl-matrix-border">GPLv3</th>
 <td class="nok">NON</td>
-<td class="mok">OK : transférez le projet sous GPLv3 <a
+<td class="mok">OK : transmettez le projet sous GPLv3 <a
 href="#compat-matrix-footnote-3">[3]</a></td>
 <td class="ok">OK</td>
-<td class="mok">OK : transférez le projet sous GPLv3 <a
+<td class="mok">OK : transmettez le projet sous GPLv3 <a
 href="#compat-matrix-footnote-7">[7]</a></td>
-<td class="mok">OK : transférez le projet sous GPLv3 <a
+<td class="mok">OK : transmettez le projet sous GPLv3 <a
 href="#compat-matrix-footnote-7">[7]</a></td>
-<td class="mok">OK : transférez le projet sous GPLv3 <a
+<td class="mok">OK : transmettez le projet sous GPLv3 <a
 href="#compat-matrix-footnote-8">[8]</a></td>
 </tr>
 
 <tr>
 <th class="gpl-matrix-license gpl-matrix-border">LGPLv2.1 seulement</th>
-<td class="mok">OK : transférez le code sous GPLv2 <a
+<td class="mok">OK : transmettez le code sous GPLv2 <a
 href="#compat-matrix-footnote-7">[7]</a></td>
-<td class="mok">OK : transférez le code sous GPLv2 ou ultérieure <a
+<td class="mok">OK : transmettez le code sous GPLv2 ou ultérieure <a
 href="#compat-matrix-footnote-7">[7]</a></td>
-<td class="mok">OK : transférez le code sous GPLv3 <a
+<td class="mok">OK : transmettez le code sous GPLv3 <a
 href="#compat-matrix-footnote-7">[7]</a></td>
 <td class="ok">OK</td>
 <td class="ok">OK <a href="#compat-matrix-footnote-6">[6]</a></td>
-<td class="mok">OK : transférez le code sous GPLv3 <a
+<td class="mok">OK : transmettez le code sous GPLv3 <a
 href="#compat-matrix-footnote-7">[7]</a><a
 href="#compat-matrix-footnote-8">[8]</a></td>
 </tr>
 
 <tr>
 <th class="gpl-matrix-license gpl-matrix-border">LGPLv2.1 ou ultérieure</th>
-<td class="mok">OK : transférez le code sous GPLv2 <a
+<td class="mok">OK : transmettez le code sous GPLv2 <a
 href="#compat-matrix-footnote-7">[7]</a><a
 href="#compat-matrix-footnote-1">[1]</a></td>
-<td class="mok">OK : transférez le code sous GPLv2 ou ultérieure <a
+<td class="mok">OK : transmettez le code sous GPLv2 ou ultérieure <a
 href="#compat-matrix-footnote-7">[7]</a></td>
-<td class="mok">OK : transférez le code sous GPLv3 <a
+<td class="mok">OK : transmettez le code sous GPLv3 <a
 href="#compat-matrix-footnote-7">[7]</a></td>
 <td class="ok">OK <a href="#compat-matrix-footnote-5">[5]</a></td>
 <td class="ok">OK</td>
@@ -3484,15 +3527,15 @@ href="#compat-matrix-footnote-7">[7]</a></td>
 <tr>
 <th class="gpl-matrix-license gpl-matrix-border">LGPLv3</th>
 <td class="nok">NON</td>
-<td class="mok">OK : transférez le projet et le code sous GPLv3 <a
+<td class="mok">OK : transmettez le projet et le code sous GPLv3 <a
 href="#compat-matrix-footnote-8">[8]</a><a
 href="#compat-matrix-footnote-3">[3]</a></td>
-<td class="mok">OK : transférez le code sous GPLv3 <a
+<td class="mok">OK : transmettez le code sous GPLv3 <a
 href="#compat-matrix-footnote-8">[8]</a></td>
-<td class="mok">OK : transférez le projet et le code sous GPLv3 <a
+<td class="mok">OK : transmettez le projet et le code sous GPLv3 <a
 href="#compat-matrix-footnote-7">[7]</a><a
 href="#compat-matrix-footnote-8">[8]</a></td>
-<td class="mok">OK : transférez le projet sous LGPLv3 <a
+<td class="mok">OK : transmettez le projet sous LGPLv3 <a
 href="#compat-matrix-footnote-4">[4]</a></td>
 <td class="ok">OK</td>
 </tr>
@@ -3503,9 +3546,9 @@ href="#compat-matrix-footnote-4">[4]</a></td>
 <td class="ok">OK</td>
 <td class="ok">OK <a href="#compat-matrix-footnote-2">[2]</a></td>
 <td class="nok">NON</td>
-<td class="mok">OK : transférez le projet sous GPLv2 seulement <a
+<td class="mok">OK : transmettez le projet sous GPLv2 seulement <a
 href="#compat-matrix-footnote-7">[7]</a></td>
-<td class="mok">OK : transférez le projet sous GPLv2 seulement <a
+<td class="mok">OK : transmettez le projet sous GPLv2 seulement <a
 href="#compat-matrix-footnote-7">[7]</a><a
 href="#compat-matrix-footnote-2">[2]</a></td>
 <td class="nok">NON</td>
@@ -3516,25 +3559,25 @@ href="#compat-matrix-footnote-2">[2]</a></td>
 <td class="ok">OK <a href="#compat-matrix-footnote-1">[1]</a></td>
 <td class="ok">OK</td>
 <td class="ok">OK</td>
-<td class="mok">OK : transférez le projet sous GPLv2 ou ultérieure <a
+<td class="mok">OK : transmettez le projet sous GPLv2 ou ultérieure <a
 href="#compat-matrix-footnote-7">[7]</a></td>
-<td class="mok">OK : transférez le projet sous GPLv2 ou ultérieure <a
+<td class="mok">OK : transmettez le projet sous GPLv2 ou ultérieure <a
 href="#compat-matrix-footnote-7">[7]</a></td>
-<td class="mok">OK : transférez le projet sous GPLv3 <a
+<td class="mok">OK : transmettez le projet sous GPLv3 <a
 href="#compat-matrix-footnote-8">[8]</a></td>
 </tr>
 
 <tr>
 <th class="gpl-matrix-license gpl-matrix-border">GPLv3</th>
 <td class="nok">NON</td>
-<td class="mok">OK : transférez le projet sous GPLv3 <a
+<td class="mok">OK : transmettez le projet sous GPLv3 <a
 href="#compat-matrix-footnote-3">[3]</a></td>
 <td class="ok">OK</td>
-<td class="mok">OK : transférez le projet sous GPLv3 <a
+<td class="mok">OK : transmettez le projet sous GPLv3 <a
 href="#compat-matrix-footnote-7">[7]</a></td>
-<td class="mok">OK : transférez le projet sous GPLv3 <a
+<td class="mok">OK : transmettez le projet sous GPLv3 <a
 href="#compat-matrix-footnote-7">[7]</a></td>
-<td class="mok">OK : transférez le projet sous GPLv3 <a
+<td class="mok">OK : transmettez le projet sous GPLv3 <a
 href="#compat-matrix-footnote-8">[8]</a></td>
 </tr>
 
@@ -3561,7 +3604,7 @@ href="#compat-matrix-footnote-8">[8]</a></td>
 <tr>
 <th class="gpl-matrix-license gpl-matrix-border">LGPLv3</th>
 <td class="nok">NON</td>
-<td class="mok">OK : transférez le projet sous GPLv3 <a
+<td class="mok">OK : transmettez le projet sous GPLv3 <a
 href="#compat-matrix-footnote-9">[9]</a></td>
 <td class="ok">OK</td>
 <td class="ok">OK</td>
@@ -3615,7 +3658,7 @@ que nouvelle licence. Dans ces cas, vous pouvez combiner le code si vous
 faites passer le code sous LGPL à la GPLv3.</p>
 
 <p id="compat-matrix-footnote-9">9 : Parce que la GPLv2 ne permet pas les combinaisons avec la LGPLv3, vous
-devez dans ce cas transférer le projet sous les termes de la GPLv3
+devez dans ce cas transmettre le projet sous les termes de la GPLv3
 puisqu'elle permet cette combinaison.</p>
 
 <div id="matrix-skip-target"></div></dd>
@@ -3821,7 +3864,7 @@ href="mailto:trad-gnu@april.org">trad-gnu@april.org</a></div>
  <p><!-- timestamp start -->
 Dernière mise à jour :
 
-$Date: 2013/04/13 14:30:57 $
+$Date: 2013/06/17 04:58:35 $
 
 <!-- timestamp end -->
 </p>
