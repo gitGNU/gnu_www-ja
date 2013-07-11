@@ -14,7 +14,7 @@
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
 <link href="perlhist.html#perlhist" rel="next" title="perlhist">
-<link href="perlhacktips.html#perlhacktips-AUTHOR" rel="previous" title="perlhacktips AUTHOR">
+<link href="perlhacktips.html#perlhacktips-AUTHOR" rel="prev" title="perlhacktips AUTHOR">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -51,7 +51,7 @@ ul.no-bullet {list-style: none}
 <a name="perlhacktut"></a>
 <div class="header">
 <p>
-Next: <a href="perlhist.html#perlhist" accesskey="n" rel="next">perlhist</a>, Previous: <a href="perlhacktips.html#perlhacktips" accesskey="p" rel="previous">perlhacktips</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="perlhist.html#perlhist" accesskey="n" rel="next">perlhist</a>, Previous: <a href="perlhacktips.html#perlhacktips" accesskey="p" rel="prev">perlhacktips</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perlhacktut-1"></a>
 <h2 class="chapter">31 perlhacktut</h2>
@@ -82,7 +82,7 @@ Next: <a href="#perlhacktut-DESCRIPTION" accesskey="n" rel="next">perlhacktut DE
 <a name="perlhacktut-DESCRIPTION"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="n" rel="next">perlhacktut EXAMPLE OF A SIMPLE PATCH</a>, Previous: <a href="#perlhacktut-NAME" accesskey="p" rel="previous">perlhacktut NAME</a>, Up: <a href="#perlhacktut" accesskey="u" rel="up">perlhacktut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="n" rel="next">perlhacktut EXAMPLE OF A SIMPLE PATCH</a>, Previous: <a href="#perlhacktut-NAME" accesskey="p" rel="prev">perlhacktut NAME</a>, Up: <a href="#perlhacktut" accesskey="u" rel="up">perlhacktut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DESCRIPTION-30"></a>
 <h3 class="section">31.2 DESCRIPTION</h3>
@@ -98,7 +98,7 @@ want to read through <a href="perlsource.html#perlsource-NAME">perlsource NAME</
 <a name="perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktut-AUTHOR" accesskey="n" rel="next">perlhacktut AUTHOR</a>, Previous: <a href="#perlhacktut-DESCRIPTION" accesskey="p" rel="previous">perlhacktut DESCRIPTION</a>, Up: <a href="#perlhacktut" accesskey="u" rel="up">perlhacktut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktut-AUTHOR" accesskey="n" rel="next">perlhacktut AUTHOR</a>, Previous: <a href="#perlhacktut-DESCRIPTION" accesskey="p" rel="prev">perlhacktut DESCRIPTION</a>, Up: <a href="#perlhacktut" accesskey="u" rel="up">perlhacktut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="EXAMPLE-OF-A-SIMPLE-PATCH"></a>
 <h3 class="section">31.3 EXAMPLE OF A SIMPLE PATCH</h3>
@@ -155,19 +155,19 @@ test whether we&rsquo;re still at the start of the string. So, here&rsquo;s wher
 <code>pat</code> is set up:
 </p>
 <pre class="verbatim">    STRLEN fromlen;
-    register char *pat = SvPVx(*++MARK, fromlen);
-    register char *patend = pat + fromlen;
-    register I32 len;
+    char *pat = SvPVx(*++MARK, fromlen);
+    char *patend = pat + fromlen;
+    I32 len;
     I32 datumtype;
     SV *fromstr;
 </pre>
 <p>We&rsquo;ll have another string pointer in there:
 </p>
 <pre class="verbatim">    STRLEN fromlen;
-    register char *pat = SvPVx(*++MARK, fromlen);
-    register char *patend = pat + fromlen;
+    char *pat = SvPVx(*++MARK, fromlen);
+    char *patend = pat + fromlen;
  +  char *patcopy;
-    register I32 len;
+    I32 len;
     I32 datumtype;
     SV *fromstr;
 </pre>
@@ -218,7 +218,7 @@ else along the line.
 <a name="perlhacktut-Testing-the-patch"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktut-Documenting-the-patch" accesskey="n" rel="next">perlhacktut Documenting the patch</a>, Previous: <a href="#perlhacktut-Writing-the-patch" accesskey="p" rel="previous">perlhacktut Writing the patch</a>, Up: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="u" rel="up">perlhacktut EXAMPLE OF A SIMPLE PATCH</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktut-Documenting-the-patch" accesskey="n" rel="next">perlhacktut Documenting the patch</a>, Previous: <a href="#perlhacktut-Writing-the-patch" accesskey="p" rel="prev">perlhacktut Writing the patch</a>, Up: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="u" rel="up">perlhacktut EXAMPLE OF A SIMPLE PATCH</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Testing-the-patch"></a>
 <h4 class="subsection">31.3.2 Testing the patch</h4>
@@ -274,7 +274,7 @@ tests pass, hooray!
 <a name="perlhacktut-Documenting-the-patch"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktut-Submit" accesskey="n" rel="next">perlhacktut Submit</a>, Previous: <a href="#perlhacktut-Testing-the-patch" accesskey="p" rel="previous">perlhacktut Testing the patch</a>, Up: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="u" rel="up">perlhacktut EXAMPLE OF A SIMPLE PATCH</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktut-Submit" accesskey="n" rel="next">perlhacktut Submit</a>, Previous: <a href="#perlhacktut-Testing-the-patch" accesskey="p" rel="prev">perlhacktut Testing the patch</a>, Up: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="u" rel="up">perlhacktut EXAMPLE OF A SIMPLE PATCH</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Documenting-the-patch"></a>
 <h4 class="subsection">31.3.3 Documenting the patch</h4>
@@ -298,7 +298,7 @@ insert this text in the description of <code>pack</code>:
 <a name="perlhacktut-Submit"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlhacktut-Documenting-the-patch" accesskey="p" rel="previous">perlhacktut Documenting the patch</a>, Up: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="u" rel="up">perlhacktut EXAMPLE OF A SIMPLE PATCH</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlhacktut-Documenting-the-patch" accesskey="p" rel="prev">perlhacktut Documenting the patch</a>, Up: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="u" rel="up">perlhacktut EXAMPLE OF A SIMPLE PATCH</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Submit"></a>
 <h4 class="subsection">31.3.4 Submit</h4>
@@ -309,7 +309,7 @@ Previous: <a href="#perlhacktut-Documenting-the-patch" accesskey="p" rel="previo
 <a name="perlhacktut-AUTHOR"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="p" rel="previous">perlhacktut EXAMPLE OF A SIMPLE PATCH</a>, Up: <a href="#perlhacktut" accesskey="u" rel="up">perlhacktut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="p" rel="prev">perlhacktut EXAMPLE OF A SIMPLE PATCH</a>, Up: <a href="#perlhacktut" accesskey="u" rel="up">perlhacktut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="AUTHOR-13"></a>
 <h3 class="section">31.4 AUTHOR</h3>
@@ -320,7 +320,7 @@ maintained by the perl5-porters mailing list.
 <hr>
 <div class="header">
 <p>
-Previous: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="p" rel="previous">perlhacktut EXAMPLE OF A SIMPLE PATCH</a>, Up: <a href="#perlhacktut" accesskey="u" rel="up">perlhacktut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlhacktut-EXAMPLE-OF-A-SIMPLE-PATCH" accesskey="p" rel="prev">perlhacktut EXAMPLE OF A SIMPLE PATCH</a>, Up: <a href="#perlhacktut" accesskey="u" rel="up">perlhacktut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 
 

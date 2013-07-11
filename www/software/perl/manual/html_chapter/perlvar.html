@@ -14,7 +14,7 @@
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
 <link href="perlvms.html#perlvms" rel="next" title="perlvms">
-<link href="perlutil.html#perlutil-SEE-ALSO" rel="previous" title="perlutil SEE ALSO">
+<link href="perlutil.html#perlutil-SEE-ALSO" rel="prev" title="perlutil SEE ALSO">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -51,7 +51,7 @@ ul.no-bullet {list-style: none}
 <a name="perlvar"></a>
 <div class="header">
 <p>
-Next: <a href="perlvms.html#perlvms" accesskey="n" rel="next">perlvms</a>, Previous: <a href="perlutil.html#perlutil" accesskey="p" rel="previous">perlutil</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="perlvms.html#perlvms" accesskey="n" rel="next">perlvms</a>, Previous: <a href="perlutil.html#perlutil" accesskey="p" rel="prev">perlutil</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perlvar-1"></a>
 <h2 class="chapter">85 perlvar</h2>
@@ -80,7 +80,7 @@ Next: <a href="#perlvar-DESCRIPTION" accesskey="n" rel="next">perlvar DESCRIPTIO
 <a name="perlvar-DESCRIPTION"></a>
 <div class="header">
 <p>
-Next: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="n" rel="next">perlvar SPECIAL VARIABLES</a>, Previous: <a href="#perlvar-NAME" accesskey="p" rel="previous">perlvar NAME</a>, Up: <a href="#perlvar" accesskey="u" rel="up">perlvar</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="n" rel="next">perlvar SPECIAL VARIABLES</a>, Previous: <a href="#perlvar-NAME" accesskey="p" rel="prev">perlvar NAME</a>, Up: <a href="#perlvar" accesskey="u" rel="up">perlvar</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DESCRIPTION-82"></a>
 <h3 class="section">85.2 DESCRIPTION</h3>
@@ -117,7 +117,7 @@ character.  For example, the notation <code>$^W</code> (dollar-sign caret
 control-<code>W</code>.  This is better than typing a literal control-<code>W</code>
 into your program.
 </p>
-<p>Since Perl 5.6, Perl variable names may be alphanumeric
+<p>Since Perl v5.6.0, Perl variable names may be alphanumeric
 strings that begin with control characters (or better yet, a caret).
 These variables must be written in the form <code>${^Foo}</code>; the braces
 are not optional.  <code>${^Foo}</code> denotes the scalar variable whose
@@ -148,7 +148,7 @@ presently in scope.
 <a name="perlvar-SPECIAL-VARIABLES"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlvar-DESCRIPTION" accesskey="p" rel="previous">perlvar DESCRIPTION</a>, Up: <a href="#perlvar" accesskey="u" rel="up">perlvar</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlvar-DESCRIPTION" accesskey="p" rel="prev">perlvar DESCRIPTION</a>, Up: <a href="#perlvar" accesskey="u" rel="up">perlvar</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="SPECIAL-VARIABLES"></a>
 <h3 class="section">85.3 SPECIAL VARIABLES</h3>
@@ -203,9 +203,7 @@ Next: <a href="#perlvar-Variables-related-to-regular-expressions" accesskey="n" 
 <dd><a name="perlvar-_0024ARG"></a>
 </dd>
 <dt>$_</dt>
-<dd><a name="perlvar-_0024_005f"></a><a name="index-_0024_005f-1"></a>
-<a name="index-_0024ARG"></a>
-
+<dd><a name="perlvar-_0024_005f"></a>
 <p>The default input and pattern-searching space.  The following pairs are
 equivalent:
 </p>
@@ -227,14 +225,15 @@ equivalent:
 <li> The following functions use <code>$_</code> as a default argument:
 
 <p>abs, alarm, chomp, chop, chr, chroot,
-cos, defined, eval, evalbytes, exp, glob,
-hex, int, lc, lcfirst, length, log, lstat, mkdir, oct, ord, pos, print,
+cos, defined, eval, evalbytes, exp, fc, glob, hex, int, lc,
+lcfirst, length, log, lstat, mkdir, oct, ord, pos, print, printf,
 quotemeta, readlink, readpipe, ref, require, reverse (in scalar context only),
-rmdir, sin, split (on its second argument), sqrt, stat, study, uc, ucfirst,
+rmdir, say, sin, split (for its second
+argument), sqrt, stat, study, uc, ucfirst,
 unlink, unpack.
 </p>
 </li><li> All file tests (<code>-f</code>, <code>-d</code>) except for <code>-t</code>, which defaults to STDIN.
-See <a href="../perlfunc/_002dX.html#g_t_002dX">(perlfunc)-X</a>
+See <a href="perlfunc.html#perlfunc-_002dX">perlfunc -X</a>
 
 </li><li> The pattern matching operations <code>m//</code>, <code>s///</code> and <code>tr///</code> (aka <code>y///</code>)
 when used without an <code>=~</code> operator.
@@ -246,16 +245,26 @@ variable is supplied.
 
 </li><li> The implicit variable of <code>given()</code>.
 
-</li><li> The default place to put an input record when a <code>&lt;FH&gt;</code>
+</li><li> The default place to put the next value or input record
+when a <code>&lt;FH&gt;</code>, <code>readline</code>, <code>readdir</code> or <code>each</code>
 operation&rsquo;s result is tested by itself as the sole criterion of a <code>while</code>
 test.  Outside a <code>while</code> test, this will not happen.
 
 </li></ul>
 
-<p>As <code>$_</code> is a global variable, this may lead in some cases to unwanted
-side-effects.  As of perl 5.10, you can now use a lexical version of
+<p><code>$_</code> is by default a global variable.  However, as
+of perl v5.10.0, you can use a lexical version of
 <code>$_</code> by declaring it in a file or in a block with <code>my</code>.  Moreover,
-declaring <code>our $_</code> restores the global <code>$_</code> in the current scope.
+declaring <code>our $_</code> restores the global <code>$_</code> in the current scope.  Though
+this seemed like a good idea at the time it was introduced, lexical <code>$_</code>
+actually causes more problems than it solves.  If you call a function that
+expects to be passed information via <code>$_</code>, it may or may not work,
+depending on how the function is written, there not being any easy way to
+solve this.  Just avoid lexical <code>$_</code>, unless you are feeling particularly
+masochistic.  For this reason lexical <code>$_</code> is still experimental and will
+produce a warning unless warnings have been disabled.  As with other
+experimental features, the behavior of lexical <code>$_</code> is subject to change
+without notice, including change into a fatal error.
 </p>
 <p>Mnemonic: underline is understood in certain operations.
 </p>
@@ -264,23 +273,19 @@ declaring <code>our $_</code> restores the global <code>$_</code> in the current
 <dd><a name="perlvar-_0040ARG"></a>
 </dd>
 <dt>@_</dt>
-<dd><a name="perlvar-_0040_005f"></a><a name="index-_0040_005f-1"></a>
-<a name="index-_0040ARG"></a>
-
+<dd><a name="perlvar-_0040_005f"></a>
 <p>Within a subroutine the array <code>@_</code> contains the parameters passed to
 that subroutine.  Inside a subroutine, <code>@_</code> is the default array for
 the array operators <code>push</code>, <code>pop</code>, <code>shift</code>, and <code>unshift</code>.
 </p>
-<p>See <a href="../perlsub/index.html">(perlsub)</a>.
+<p>See <a href="perlsub.html#perlsub-NAME">perlsub NAME</a>.
 </p>
 </dd>
 <dt>$LIST_SEPARATOR</dt>
 <dd><a name="perlvar-_0024LIST_005fSEPARATOR"></a>
 </dd>
 <dt>$&quot;</dt>
-<dd><a name="perlvar-_0024_0022"></a><a name="index-_0024_0022-1"></a>
-<a name="index-_0024LIST_005fSEPARATOR"></a>
-
+<dd><a name="perlvar-_0024_0022"></a>
 <p>When an array or an array slice is interpolated into a double-quoted
 string or a similar context such as <code>/.../</code>, its elements are
 separated by this value.  Default is a space.  For example, this:
@@ -301,10 +306,7 @@ separated by this value.  Default is a space.  For example, this:
 <dd><a name="perlvar-_0024PID"></a>
 </dd>
 <dt>$$</dt>
-<dd><a name="perlvar-_0024_0024"></a><a name="index-_0024_0024"></a>
-<a name="index-_0024PID"></a>
-<a name="index-_0024PROCESS_005fID"></a>
-
+<dd><a name="perlvar-_0024_0024"></a>
 <p>The process number of the Perl running this script.  Though you <em>can</em> set
 this variable, doing so is generally discouraged, although it can be
 invaluable for some testing purposes.  It will be reset automatically
@@ -315,7 +317,7 @@ would emulate POSIX semantics on Linux systems using LinuxThreads, a
 partial implementation of POSIX Threads that has since been superseded
 by the Native POSIX Thread Library (NPTL).
 </p>
-<p>LinuxThreads is now obsolete on Linux, and and caching <code>getpid()</code>
+<p>LinuxThreads is now obsolete on Linux, and caching <code>getpid()</code>
 like this made embedding perl unnecessarily complex (since you&rsquo;d have
 to manually update the value of $$), so now <code>$$</code> and <code>getppid()</code>
 will always return the same values as the underlying C library.
@@ -335,9 +337,7 @@ value. NTPL threads preserve the POSIX semantics.
 <dd><a name="perlvar-_0024PROGRAM_005fNAME"></a>
 </dd>
 <dt>$0</dt>
-<dd><a name="perlvar-_00240"></a><a name="index-_00240"></a>
-<a name="index-_0024PROGRAM_005fNAME"></a>
-
+<dd><a name="perlvar-_00240"></a>
 <p>Contains the name of the program being executed.
 </p>
 <p>On some (but not all) operating systems assigning to <code>$0</code> modifies
@@ -372,7 +372,7 @@ have their own copies of it.
 <p>If the program has been given to perl via the switches <code>-e</code> or <code>-E</code>,
 <code>$0</code> will contain the string <code>&quot;-e&quot;</code>.
 </p>
-<p>On Linux as of perl 5.14 the legacy process name will be set with
+<p>On Linux as of perl v5.14.0 the legacy process name will be set with
 <code>prctl(2)</code>, in addition to altering the POSIX name via <code>argv[0]</code> as
 perl has done since version 4.000.  Now system utilities that read the
 legacy process name such as ps, top and killall will recognize the
@@ -389,10 +389,7 @@ cut off at 16 bytes, this is a limitation imposed by Linux.
 <dd><a name="perlvar-_0024GID"></a>
 </dd>
 <dt>$(</dt>
-<dd><a name="perlvar-_0024_0028"></a><a name="index-_0024_0028"></a>
-<a name="index-_0024GID"></a>
-<a name="index-_0024REAL_005fGROUP_005fID"></a>
-
+<dd><a name="perlvar-_0024_0028"></a>
 <p>The real gid of this process.  If you are on a machine that supports
 membership in multiple groups simultaneously, gives a space separated
 list of groups you are in.  The first number is the one returned by
@@ -421,10 +418,7 @@ group you <em>left</em>, if you&rsquo;re running setgid.
 <dd><a name="perlvar-_0024EGID"></a>
 </dd>
 <dt>$)</dt>
-<dd><a name="perlvar-_0024_0029"></a><a name="index-_0024_0029"></a>
-<a name="index-_0024EGID"></a>
-<a name="index-_0024EFFECTIVE_005fGROUP_005fID"></a>
-
+<dd><a name="perlvar-_0024_0029"></a>
 <p>The effective gid of this process.  If you are on a machine that
 supports membership in multiple groups simultaneously, gives a space
 separated list of groups you are in.  The first number is the one
@@ -457,11 +451,8 @@ is the group that&rsquo;s <em>right</em> for you, if you&rsquo;re running setgid
 <dt>$UID</dt>
 <dd><a name="perlvar-_0024UID"></a>
 </dd>
-<dt>$&lt;</dt>
-<dd><a name="perlvar-_0024_003c"></a><a name="index-_0024_003c"></a>
-<a name="index-_0024UID"></a>
-<a name="index-_0024REAL_005fUSER_005fID"></a>
-
+<dt>$&lt; &gt;</dt>
+<dd><a name="perlvar-_0024_003c-_003e"></a>
 <p>The real uid of this process.  You can change both the real uid and the
 effective uid at the same time by using <code>POSIX::setuid()</code>.  Since
 changes to <code>$&lt;</code> require a system call, check <code>$!</code> after a change
@@ -476,11 +467,8 @@ attempt to detect any possible errors.
 <dt>$EUID</dt>
 <dd><a name="perlvar-_0024EUID"></a>
 </dd>
-<dt>$&gt;</dt>
-<dd><a name="perlvar-_0024_003e"></a><a name="index-_0024_003e"></a>
-<a name="index-_0024EUID"></a>
-<a name="index-_0024EFFECTIVE_005fUSER_005fID"></a>
-
+<dt>$&gt;  &gt;&gt;</dt>
+<dd><a name="perlvar-_0024_003e-_003e_003e"></a>
 <p>The effective uid of this process.  For example:
 </p>
 <pre class="verbatim">    $&lt; = $&gt;;            # set real to effective uid
@@ -503,10 +491,7 @@ supporting <code>setreuid()</code>.
 <dd><a name="perlvar-_0024SUBSEP"></a>
 </dd>
 <dt>$;</dt>
-<dd><a name="perlvar-_0024_003b"></a><a name="index-_0024_003b"></a>
-<a name="index-_0024SUBSEP"></a>
-<a name="index-SUBSCRIPT_005fSEPARATOR"></a>
-
+<dd><a name="perlvar-_0024_003b"></a>
 <p>The subscript separator for multidimensional array emulation.  If you
 refer to a hash element as
 </p>
@@ -537,10 +522,8 @@ in <a href="perllol.html#perllol-NAME">perllol NAME</a>.
 <dd><a name="perlvar-_0024a"></a>
 </dd>
 <dt>$b</dt>
-<dd><a name="perlvar-_0024b"></a><a name="index-_0024a"></a>
-<a name="index-_0024b"></a>
-
-<p>Special package variables when using <code>sort()</code>, see <a href="../perlfunc/sort.html#sort">(perlfunc)sort</a>.
+<dd><a name="perlvar-_0024b"></a>
+<p>Special package variables when using <code>sort()</code>, see &lsquo;perlfunc sort&rsquo;.
 Because of this specialness <code>$a</code> and <code>$b</code> don&rsquo;t need to be declared
 (using <code>use vars</code>, or <code>our()</code>) even when using the <code>strict 'vars'</code>
 pragma.  Don&rsquo;t lexicalize them with <code>my $a</code> or <code>my $b</code> if you want to
@@ -548,8 +531,7 @@ be able to use them in the <code>sort()</code> comparison block or function.
 </p>
 </dd>
 <dt>%ENV</dt>
-<dd><a name="perlvar-_0025ENV"></a><a name="index-_0025ENV"></a>
-
+<dd><a name="perlvar-_0025ENV"></a>
 <p>The hash <code>%ENV</code> contains your current environment.  Setting a
 value in <code>ENV</code> changes the environment for any child processes
 you subsequently <code>fork()</code> off.
@@ -559,9 +541,7 @@ you subsequently <code>fork()</code> off.
 <dd><a name="perlvar-_0024SYSTEM_005fFD_005fMAX"></a>
 </dd>
 <dt>$^F</dt>
-<dd><a name="perlvar-_0024_005eF"></a><a name="index-_0024_005eF"></a>
-<a name="index-_0024SYSTEM_005fFD_005fMAX"></a>
-
+<dd><a name="perlvar-_0024_005eF"></a>
 <p>The maximum system file descriptor, ordinarily 2.  System file
 descriptors are passed to <code>exec()</code>ed processes, while higher file
 descriptors are not.  Also, during an
@@ -574,8 +554,7 @@ time of the <code>exec()</code>.
 </p>
 </dd>
 <dt>@F</dt>
-<dd><a name="perlvar-_0040F"></a><a name="index-_0040F"></a>
-
+<dd><a name="perlvar-_0040F"></a>
 <p>The array <code>@F</code> contains the fields of each line read in when autosplit
 mode is turned on.  See <a href="perlrun.html#perlrun-NAME">perlrun NAME</a> for the <strong>-a</strong> switch.  This array
 is package-specific, and must be declared or given a full package name
@@ -583,8 +562,7 @@ if not in package main when running under <code>strict 'vars'</code>.
 </p>
 </dd>
 <dt>@INC</dt>
-<dd><a name="perlvar-_0040INC"></a><a name="index-_0040INC-1"></a>
-
+<dd><a name="perlvar-_0040INC"></a>
 <p>The array <code>@INC</code> contains the list of places that the <code>do EXPR</code>,
 <code>require</code>, or <code>use</code> constructs look for their library files.  It
 initially consists of the arguments to any <strong>-I</strong> command-line
@@ -600,12 +578,11 @@ library properly loaded also:
 </pre>
 <p>You can also insert hooks into the file inclusion system by putting Perl
 code directly into <code>@INC</code>.  Those hooks may be subroutine references,
-array references or blessed objects.  See <a href="../perlfunc/require.html#require">(perlfunc)require</a> for details.
+array references or blessed objects.  See <a href="perlfunc.html#perlfunc-require">perlfunc require</a> for details.
 </p>
 </dd>
 <dt>%INC</dt>
-<dd><a name="perlvar-_0025INC"></a><a name="index-_0025INC"></a>
-
+<dd><a name="perlvar-_0025INC"></a>
 <p>The hash <code>%INC</code> contains entries for each filename included via the
 <code>do</code>, <code>require</code>, or <code>use</code> operators.  The key is the filename
 you specified (with module names converted to pathnames), and the
@@ -614,7 +591,7 @@ operator uses this hash to determine whether a particular file has
 already been included.
 </p>
 <p>If the file was loaded via a hook (e.g. a subroutine reference, see
-<a href="../perlfunc/require.html#require">(perlfunc)require</a> for a description of these hooks), this hook is
+<a href="perlfunc.html#perlfunc-require">perlfunc require</a> for a description of these hooks), this hook is
 by default inserted into <code>%INC</code> in place of a filename.  Note, however,
 that the hook may have set the <code>%INC</code> entry by itself to provide some more
 specific info.
@@ -624,9 +601,7 @@ specific info.
 <dd><a name="perlvar-_0024INPLACE_005fEDIT"></a>
 </dd>
 <dt>$^I</dt>
-<dd><a name="perlvar-_0024_005eI"></a><a name="index-_0024_005eI"></a>
-<a name="index-_0024INPLACE_005fEDIT"></a>
-
+<dd><a name="perlvar-_0024_005eI"></a>
 <p>The current value of the inplace-edit extension.  Use <code>undef</code> to disable
 inplace editing.
 </p>
@@ -634,8 +609,7 @@ inplace editing.
 </p>
 </dd>
 <dt>$^M</dt>
-<dd><a name="perlvar-_0024_005eM"></a><a name="index-_0024_005eM"></a>
-
+<dd><a name="perlvar-_0024_005eM"></a>
 <p>By default, running out of memory is an untrappable, fatal error.
 However, if suitably built, Perl can use the contents of <code>$^M</code>
 as an emergency memory pool after <code>die()</code>ing.  Suppose that your Perl
@@ -657,9 +631,7 @@ this variable.
 <dd><a name="perlvar-_0024OSNAME"></a>
 </dd>
 <dt>$^O</dt>
-<dd><a name="perlvar-_0024_005eO"></a><a name="index-_0024_005eO"></a>
-<a name="index-_0024OSNAME"></a>
-
+<dd><a name="perlvar-_0024_005eO"></a>
 <p>The name of the operating system under which this copy of Perl was
 built, as determined during the configuration process.  For examples
 see <a href="perlport.html#perlport-PLATFORMS">perlport PLATFORMS</a>.
@@ -677,8 +649,7 @@ between the variants.
 </p>
 </dd>
 <dt>%SIG</dt>
-<dd><a name="perlvar-_0025SIG"></a><a name="index-_0025SIG"></a>
-
+<dd><a name="perlvar-_0025SIG"></a>
 <p>The hash <code>%SIG</code> contains signal handlers for signals.  For example:
 </p>
 <pre class="verbatim">    sub handler {   # 1st argument is signal name
@@ -714,7 +685,7 @@ lest you inadvertently call it.
 <p>If your system has the <code>sigaction()</code> function then signal handlers
 are installed using it.  This means you get reliable signal handling.
 </p>
-<p>The default delivery policy of signals changed in Perl 5.8.0 from
+<p>The default delivery policy of signals changed in Perl v5.8.0 from
 immediate (also known as &quot;unsafe&quot;) to deferred, also known as &quot;safe
 signals&quot;.  See <a href="perlipc.html#perlipc-NAME">perlipc NAME</a> for more information.
 </p>
@@ -774,7 +745,7 @@ handlers is simply wrong.  <code>$SIG{__DIE__}</code> as currently implemented
 invites grievous and difficult to track down errors.  Avoid it
 and use an <code>END{}</code> or CORE::GLOBAL::die override instead.
 </p>
-<p>See <a href="../perlfunc/die.html#die">(perlfunc)die</a>, <a href="../perlfunc/warn.html#warn">(perlfunc)warn</a>, <a href="../perlfunc/eval.html#eval">(perlfunc)eval</a>, and
+<p>See &lsquo;perlfunc die&rsquo;, &lsquo;perlfunc warn&rsquo;, <a href="perlfunc.html#perlfunc-eval">perlfunc eval</a>, and
 <a href="../warnings/index.html">(warnings)</a> for additional information.
 </p>
 </dd>
@@ -782,9 +753,7 @@ and use an <code>END{}</code> or CORE::GLOBAL::die override instead.
 <dd><a name="perlvar-_0024BASETIME"></a>
 </dd>
 <dt>$^T</dt>
-<dd><a name="perlvar-_0024_005eT"></a><a name="index-_0024_005eT"></a>
-<a name="index-_0024BASETIME"></a>
-
+<dd><a name="perlvar-_0024_005eT"></a>
 <p>The time at which the program began running, in seconds since the
 epoch (beginning of 1970).  The values returned by the <strong>-M</strong>, <strong>-A</strong>,
 and <strong>-C</strong> filetests are based on this value.
@@ -794,14 +763,12 @@ and <strong>-C</strong> filetests are based on this value.
 <dd><a name="perlvar-_0024PERL_005fVERSION"></a>
 </dd>
 <dt>$^V</dt>
-<dd><a name="perlvar-_0024_005eV"></a><a name="index-_0024_005eV"></a>
-<a name="index-_0024PERL_005fVERSION"></a>
-
+<dd><a name="perlvar-_0024_005eV"></a>
 <p>The revision, version, and subversion of the Perl interpreter,
 represented as a <code>version</code> object.
 </p>
-<p>This variable first appeared in perl 5.6.0; earlier versions of perl
-will see an undefined value.  Before perl 5.10.0 <code>$^V</code> was represented
+<p>This variable first appeared in perl v5.6.0; earlier versions of perl
+will see an undefined value.  Before perl v5.10.0 <code>$^V</code> was represented
 as a v-string.
 </p>
 <p><code>$^V</code> can be used to determine whether the Perl interpreter executing
@@ -819,16 +786,13 @@ for a convenient way to fail if the running Perl interpreter is too old.
 </p>
 <p>See also <code>$]</code> for an older representation of the Perl version.
 </p>
-<p>This variable was added in Perl 5.6.
+<p>This variable was added in Perl v5.6.0.
 </p>
 <p>Mnemonic: use ^V for Version Control.
 </p>
 </dd>
 <dt>${^WIN32_SLOPPY_STAT}</dt>
-<dd><a name="perlvar-_0024_007b_005eWIN32_005fSLOPPY_005fSTAT_007d"></a><a name="index-_0024_007b_005eWIN32_005fSLOPPY_005fSTAT_007d"></a>
-<a name="index-sitecustomize-1"></a>
-<a name="index-sitecustomize_002epl-1"></a>
-
+<dd><a name="perlvar-_0024_007b_005eWIN32_005fSLOPPY_005fSTAT_007d"></a>
 <p>If this variable is set to a true value, then <code>stat()</code> on Windows will
 not try to open the file.  This means that the link count cannot be
 determined and file attributes may be out of date if additional
@@ -841,16 +805,14 @@ default.  See the documentation for <strong>-f</strong> in
 <a href="perlrun.html#perlrun-Command-Switches">perlrun</a> for more information about site
 customization.
 </p>
-<p>This variable was added in Perl 5.10.
+<p>This variable was added in Perl v5.10.0.
 </p>
 </dd>
 <dt>$EXECUTABLE_NAME</dt>
 <dd><a name="perlvar-_0024EXECUTABLE_005fNAME"></a>
 </dd>
 <dt>$^X</dt>
-<dd><a name="perlvar-_0024_005eX"></a><a name="index-_0024_005eX"></a>
-<a name="index-_0024EXECUTABLE_005fNAME"></a>
-
+<dd><a name="perlvar-_0024_005eX"></a>
 <p>The name used to execute the current copy of Perl, from C&rsquo;s
 <code>argv[0]</code> or (where supported) <samp>/proc/self/exe</samp>.
 </p>
@@ -907,7 +869,7 @@ command or referenced as a file.
 <a name="perlvar-Variables-related-to-regular-expressions"></a>
 <div class="header">
 <p>
-Next: <a href="#perlvar-Variables-related-to-filehandles" accesskey="n" rel="next">perlvar Variables related to filehandles</a>, Previous: <a href="#perlvar-General-Variables" accesskey="p" rel="previous">perlvar General Variables</a>, Up: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="u" rel="up">perlvar SPECIAL VARIABLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlvar-Variables-related-to-filehandles" accesskey="n" rel="next">perlvar Variables related to filehandles</a>, Previous: <a href="#perlvar-General-Variables" accesskey="p" rel="prev">perlvar General Variables</a>, Up: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="u" rel="up">perlvar SPECIAL VARIABLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Variables-related-to-regular-expressions"></a>
 <h4 class="subsection">85.3.2 Variables related to regular expressions</h4>
@@ -970,16 +932,13 @@ strongly discouraged unless you import it without the match variables:
 modules can help you find uses of these
 problematic match variables in your code.
 </p>
-<p>Since Perl 5.10, you can use the <code>/p</code> match operator flag and the
+<p>Since Perl v5.10.0, you can use the <code>/p</code> match operator flag and the
 <code>${^PREMATCH}</code>, <code>${^MATCH}</code>, and <code>${^POSTMATCH}</code> variables instead
 so you only suffer the performance penalties.
 </p>
 <dl compact="compact">
 <dt>$&lt;<em>digits</em>&gt; ($1, $2, ...)</dt>
-<dd><a name="perlvar-_0024_003cdigits_003e-_0028_00241_002c-_00242_002c-_002e_002e_002e_0029"></a><a name="index-_00241-1"></a>
-<a name="index-_00242-1"></a>
-<a name="index-_00243-1"></a>
-
+<dd><a name="perlvar-_0024_003cdigits_003e-_0028_00241_002c-_00242_002c-_002e_002e_002e_0029"></a>
 <p>Contains the subpattern from the corresponding set of capturing
 parentheses from the last successful pattern match, not counting patterns
 matched in nested blocks that have been exited already.
@@ -993,9 +952,7 @@ matched in nested blocks that have been exited already.
 <dd><a name="perlvar-_0024MATCH"></a>
 </dd>
 <dt>$&amp;</dt>
-<dd><a name="perlvar-_0024_0026"></a><a name="index-_0024_0026-3"></a>
-<a name="index-_0024MATCH"></a>
-
+<dd><a name="perlvar-_0024_0026"></a>
 <p>The string matched by the last successful pattern match (not counting
 any matches hidden within a BLOCK or <code>eval()</code> enclosed by the current
 BLOCK).
@@ -1003,7 +960,7 @@ BLOCK).
 <p>The use of this variable anywhere in a program imposes a considerable
 performance penalty on all regular expression matches.  To avoid this
 penalty, you can extract the same substring by using <a href="#perlvar-_0040_002d">@-</a>.  Starting
-with Perl 5.10, you can use the <code>/p</code> match flag and the <code>${^MATCH}</code>
+with Perl v5.10.0, you can use the <code>/p</code> match flag and the <code>${^MATCH}</code>
 variable to do the same thing for particular match operations.
 </p>
 <p>This variable is read-only and dynamically-scoped.
@@ -1012,14 +969,13 @@ variable to do the same thing for particular match operations.
 </p>
 </dd>
 <dt>${^MATCH}</dt>
-<dd><a name="perlvar-_0024_007b_005eMATCH_007d"></a><a name="index-_0024_007b_005eMATCH_007d"></a>
-
+<dd><a name="perlvar-_0024_007b_005eMATCH_007d"></a>
 <p>This is similar to <code>$&amp;</code> (<code>$MATCH</code>) except that it does not incur the
 performance penalty associated with that variable, and is only guaranteed
 to return a defined value when the pattern was compiled or executed with
 the <code>/p</code> modifier.
 </p>
-<p>This variable was added in Perl 5.10.
+<p>This variable was added in Perl v5.10.0.
 </p>
 <p>This variable is read-only and dynamically-scoped.
 </p>
@@ -1028,10 +984,7 @@ the <code>/p</code> modifier.
 <dd><a name="perlvar-_0024PREMATCH"></a>
 </dd>
 <dt>$&lsquo;</dt>
-<dd><a name="perlvar-_0024_0060"></a><a name="index-_0024_0060-3"></a>
-<a name="index-_0024PREMATCH"></a>
-<a name="index-_0024_007b_005ePREMATCH_007d"></a>
-
+<dd><a name="perlvar-_0024_0060"></a>
 <p>The string preceding whatever was matched by the last successful
 pattern match, not counting any matches hidden within a BLOCK or <code>eval</code>
 enclosed by the current BLOCK.
@@ -1039,7 +992,7 @@ enclosed by the current BLOCK.
 <p>The use of this variable anywhere in a program imposes a considerable
 performance penalty on all regular expression matches.  To avoid this
 penalty, you can extract the same substring by using <a href="#perlvar-_0040_002d">@-</a>.  Starting
-with Perl 5.10, you can use the <code>/p</code> match flag and the
+with Perl v5.10.0, you can use the <code>/p</code> match flag and the
 <code>${^PREMATCH}</code> variable to do the same thing for particular match
 operations.
 </p>
@@ -1049,15 +1002,13 @@ operations.
 </p>
 </dd>
 <dt>${^PREMATCH}</dt>
-<dd><a name="perlvar-_0024_007b_005ePREMATCH_007d"></a><a name="index-_0024_0060-4"></a>
-<a name="index-_0024_007b_005ePREMATCH_007d-1"></a>
-
+<dd><a name="perlvar-_0024_007b_005ePREMATCH_007d"></a>
 <p>This is similar to <code>$`</code> ($PREMATCH) except that it does not incur the
 performance penalty associated with that variable, and is only guaranteed
 to return a defined value when the pattern was compiled or executed with
 the <code>/p</code> modifier.
 </p>
-<p>This variable was added in Perl 5.10
+<p>This variable was added in Perl v5.10.0
 </p>
 <p>This variable is read-only and dynamically-scoped.
 </p>
@@ -1066,11 +1017,7 @@ the <code>/p</code> modifier.
 <dd><a name="perlvar-_0024POSTMATCH"></a>
 </dd>
 <dt>$&rsquo;</dt>
-<dd><a name="perlvar-_0024_0027"></a><a name="index-_0024_0027-3"></a>
-<a name="index-_0024POSTMATCH"></a>
-<a name="index-_0024_007b_005ePOSTMATCH_007d"></a>
-<a name="index-_0040_002d"></a>
-
+<dd><a name="perlvar-_0024_0027"></a>
 <p>The string following whatever was matched by the last successful
 pattern match (not counting any matches hidden within a BLOCK or <code>eval()</code>
 enclosed by the current BLOCK).  Example:
@@ -1082,7 +1029,7 @@ enclosed by the current BLOCK).  Example:
 <p>The use of this variable anywhere in a program imposes a considerable
 performance penalty on all regular expression matches.
 To avoid this penalty, you can extract the same substring by
-using <a href="#perlvar-_0040_002d">@-</a>.  Starting with Perl 5.10, you can use the <code>/p</code> match flag
+using <a href="#perlvar-_0040_002d">@-</a>.  Starting with Perl v5.10.0, you can use the <code>/p</code> match flag
 and the <code>${^POSTMATCH}</code> variable to do the same thing for particular
 match operations.
 </p>
@@ -1092,16 +1039,13 @@ match operations.
 </p>
 </dd>
 <dt>${^POSTMATCH}</dt>
-<dd><a name="perlvar-_0024_007b_005ePOSTMATCH_007d"></a><a name="index-_0024_007b_005ePOSTMATCH_007d-1"></a>
-<a name="index-_0024_0027-4"></a>
-<a name="index-_0024POSTMATCH-1"></a>
-
+<dd><a name="perlvar-_0024_007b_005ePOSTMATCH_007d"></a>
 <p>This is similar to <code>$'</code> (<code>$POSTMATCH</code>) except that it does not incur the
 performance penalty associated with that variable, and is only guaranteed
 to return a defined value when the pattern was compiled or executed with
 the <code>/p</code> modifier.
 </p>
-<p>This variable was added in Perl 5.10.
+<p>This variable was added in Perl v5.10.0.
 </p>
 <p>This variable is read-only and dynamically-scoped.
 </p>
@@ -1110,9 +1054,7 @@ the <code>/p</code> modifier.
 <dd><a name="perlvar-_0024LAST_005fPAREN_005fMATCH"></a>
 </dd>
 <dt>$+</dt>
-<dd><a name="perlvar-_0024_002b"></a><a name="index-_0024_002b-2"></a>
-<a name="index-_0024LAST_005fPAREN_005fMATCH"></a>
-
+<dd><a name="perlvar-_0024_002b"></a>
 <p>The text matched by the last bracket of the last successful search pattern.
 This is useful if you don&rsquo;t know which one of a set of alternative patterns
 matched.  For example:
@@ -1128,9 +1070,7 @@ matched.  For example:
 <dd><a name="perlvar-_0024LAST_005fSUBMATCH_005fRESULT"></a>
 </dd>
 <dt>$^N</dt>
-<dd><a name="perlvar-_0024_005eN"></a><a name="index-_0024_005eN-2"></a>
-<a name="index-_0024LAST_005fSUBMATCH_005fRESULT"></a>
-
+<dd><a name="perlvar-_0024_005eN"></a>
 <p>The text matched by the used group most-recently closed (i.e. the group
 with the rightmost closing parenthesis) of the last successful search
 pattern.
@@ -1144,7 +1084,7 @@ recently matched.  For example, to effectively capture text to a variable
 <p>By setting and then using <code>$var</code> in this way relieves you from having to
 worry about exactly which numbered set of parentheses they are.
 </p>
-<p>This variable was added in Perl 5.8.
+<p>This variable was added in Perl v5.8.0.
 </p>
 <p>Mnemonic: the (possibly) Nested parenthesis that most recently closed.
 </p>
@@ -1153,9 +1093,7 @@ worry about exactly which numbered set of parentheses they are.
 <dd><a name="perlvar-_0040LAST_005fMATCH_005fEND"></a>
 </dd>
 <dt>@+</dt>
-<dd><a name="perlvar-_0040_002b"></a><a name="index-_0040_002b"></a>
-<a name="index-_0040LAST_005fMATCH_005fEND"></a>
-
+<dd><a name="perlvar-_0040_002b"></a>
 <p>This array holds the offsets of the ends of the last successful
 submatches in the currently active dynamic scope.  <code>$+[0]</code> is
 the offset into the string of the end of the entire match.  This
@@ -1167,16 +1105,14 @@ past where <code>$2</code> ends, and so on.  You can use <code>$#+</code> to det
 how many subgroups were in the last successful match.  See the
 examples given for the <code>@-</code> variable.
 </p>
-<p>This variable was added in Perl 5.6.
+<p>This variable was added in Perl v5.6.0.
 </p>
 </dd>
 <dt>%LAST_PAREN_MATCH</dt>
 <dd><a name="perlvar-_0025LAST_005fPAREN_005fMATCH"></a>
 </dd>
 <dt>%+</dt>
-<dd><a name="perlvar-_0025_002b"></a><a name="index-_0025_002b-1"></a>
-<a name="index-_0025LAST_005fPAREN_005fMATCH"></a>
-
+<dd><a name="perlvar-_0025_002b"></a>
 <p>Similar to <code>@+</code>, the <code>%+</code> hash allows access to the named capture
 buffers, should they exist, in the last successful match in the
 currently active dynamic scope.
@@ -1197,7 +1133,7 @@ iterative access to them via <code>each</code> may have unpredictable results.
 Likewise, if the last successful match changes, then the results may be
 surprising.
 </p>
-<p>This variable was added in Perl 5.10.
+<p>This variable was added in Perl v5.10.0.
 </p>
 <p>This variable is read-only and dynamically-scoped.
 </p>
@@ -1206,9 +1142,7 @@ surprising.
 <dd><a name="perlvar-_0040LAST_005fMATCH_005fSTART"></a>
 </dd>
 <dt>@-</dt>
-<dd><a name="perlvar-_0040_002d"></a><a name="index-_0040_002d-1"></a>
-<a name="index-_0040LAST_005fMATCH_005fSTART"></a>
-
+<dd><a name="perlvar-_0040_002d"></a>
 <p><code>$-[0]</code> is the offset of the start of the last successful match.
 <code>$-[</code><em>n</em><code>]</code> is the offset of the start of the substring matched by
 <em>n</em>-th subpattern, or undef if the subpattern did not match.
@@ -1251,16 +1185,14 @@ begins, <code>$-[2]</code> the offset where <code>$2</code> begins, and so on.
 </dd>
 </dl>
 
-<p>This variable was added in Perl 5.6.
+<p>This variable was added in Perl v5.6.0.
 </p>
 </dd>
 <dt>%LAST_MATCH_START</dt>
 <dd><a name="perlvar-_0025LAST_005fMATCH_005fSTART"></a>
 </dd>
 <dt>%-</dt>
-<dd><a name="perlvar-_0025_002d"></a><a name="index-_0025_002d"></a>
-<a name="index-_0025LAST_005fMATCH_005fSTART"></a>
-
+<dd><a name="perlvar-_0025_002d"></a>
 <p>Similar to <code>%+</code>, this variable allows access to the named capture groups
 in the last successful match in the currently active dynamic scope.  To
 each capture group name found in the regular expression, it associates a
@@ -1302,7 +1234,7 @@ iterative access to them via <code>each</code> may have unpredictable results.
 Likewise, if the last successful match changes, then the results may be
 surprising.
 </p>
-<p>This variable was added in Perl 5.10
+<p>This variable was added in Perl v5.10.0.
 </p>
 <p>This variable is read-only and dynamically-scoped.
 </p>
@@ -1311,27 +1243,23 @@ surprising.
 <dd><a name="perlvar-_0024LAST_005fREGEXP_005fCODE_005fRESULT"></a>
 </dd>
 <dt>$^R</dt>
-<dd><a name="perlvar-_0024_005eR"></a><a name="index-_0024_005eR"></a>
-<a name="index-_0024LAST_005fREGEXP_005fCODE_005fRESULT"></a>
-
+<dd><a name="perlvar-_0024_005eR"></a>
 <p>The result of evaluation of the last successful <code>(?{ code })</code>
-regular expression assertion (see <a href="../perlre/index.html">(perlre)</a>).  May be written to.
+regular expression assertion (see <a href="perlre.html#perlre-NAME">perlre NAME</a>).  May be written to.
 </p>
 <p>This variable was added in Perl 5.005.
 </p>
 </dd>
 <dt>${^RE_DEBUG_FLAGS}</dt>
-<dd><a name="perlvar-_0024_007b_005eRE_005fDEBUG_005fFLAGS_007d"></a><a name="index-_0024_007b_005eRE_005fDEBUG_005fFLAGS_007d"></a>
-
+<dd><a name="perlvar-_0024_007b_005eRE_005fDEBUG_005fFLAGS_007d"></a>
 <p>The current value of the regex debugging flags.  Set to 0 for no debug output
 even when the <code>re 'debug'</code> module is loaded.  See <a href="../re/index.html">(re)</a> for details.
 </p>
-<p>This variable was added in Perl 5.10.
+<p>This variable was added in Perl v5.10.0.
 </p>
 </dd>
 <dt>${^RE_TRIE_MAXBUF}</dt>
-<dd><a name="perlvar-_0024_007b_005eRE_005fTRIE_005fMAXBUF_007d"></a><a name="index-_0024_007b_005eRE_005fTRIE_005fMAXBUF_007d"></a>
-
+<dd><a name="perlvar-_0024_007b_005eRE_005fTRIE_005fMAXBUF_007d"></a>
 <p>Controls how certain regex optimisations are applied and how much memory they
 utilize.  This value by default is 65536 which corresponds to a 512kB
 temporary cache.  Set this to a higher value to trade
@@ -1341,7 +1269,7 @@ be as conservative of memory as possible but still occur, and set it to a
 negative value to prevent the optimisation and conserve the most memory.
 Under normal situations this variable should be of no interest to you.
 </p>
-<p>This variable was added in Perl 5.10.
+<p>This variable was added in Perl v5.10.0.
 </p>
 </dd>
 </dl>
@@ -1350,7 +1278,7 @@ Under normal situations this variable should be of no interest to you.
 <a name="perlvar-Variables-related-to-filehandles"></a>
 <div class="header">
 <p>
-Next: <a href="#perlvar-Error-Variables" accesskey="n" rel="next">perlvar Error Variables</a>, Previous: <a href="#perlvar-Variables-related-to-regular-expressions" accesskey="p" rel="previous">perlvar Variables related to regular expressions</a>, Up: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="u" rel="up">perlvar SPECIAL VARIABLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlvar-Error-Variables" accesskey="n" rel="next">perlvar Error Variables</a>, Previous: <a href="#perlvar-Variables-related-to-regular-expressions" accesskey="p" rel="prev">perlvar Variables related to regular expressions</a>, Up: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="u" rel="up">perlvar SPECIAL VARIABLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Variables-related-to-filehandles"></a>
 <h4 class="subsection">85.3.3 Variables related to filehandles</h4>
@@ -1455,14 +1383,12 @@ changes to the special variables.
 </p>
 <dl compact="compact">
 <dt>$ARGV</dt>
-<dd><a name="perlvar-_0024ARGV"></a><a name="index-_0024ARGV"></a>
-
+<dd><a name="perlvar-_0024ARGV"></a>
 <p>Contains the name of the current file when reading from <code>&lt;&gt;</code>.
 </p>
 </dd>
 <dt>@ARGV</dt>
-<dd><a name="perlvar-_0040ARGV"></a><a name="index-_0040ARGV-1"></a>
-
+<dd><a name="perlvar-_0040ARGV"></a>
 <p>The array <code>@ARGV</code> contains the command-line arguments intended for
 the script.  <code>$#ARGV</code> is generally the number of arguments minus
 one, because <code>$ARGV[0]</code> is the first argument, <em>not</em> the program&rsquo;s
@@ -1470,8 +1396,7 @@ command name itself.  See <a href="#perlvar-_00240">$0</a> for the command name.
 </p>
 </dd>
 <dt>ARGV</dt>
-<dd><a name="perlvar-ARGV"></a><a name="index-ARGV"></a>
-
+<dd><a name="perlvar-ARGV"></a>
 <p>The special filehandle that iterates over command-line filenames in
 <code>@ARGV</code>.  Usually written as the null filehandle in the angle operator
 <code>&lt;&gt;</code>.  Note that currently <code>ARGV</code> only has its magical effect
@@ -1483,16 +1408,15 @@ files in <code>@ARGV</code>.
 </p>
 </dd>
 <dt>ARGVOUT</dt>
-<dd><a name="perlvar-ARGVOUT"></a><a name="index-ARGVOUT"></a>
-
+<dd><a name="perlvar-ARGVOUT"></a>
 <p>The special filehandle that points to the currently open output file
 when doing edit-in-place processing with <strong>-i</strong>.  Useful when you have
 to do a lot of inserting and don&rsquo;t want to keep modifying <code>$_</code>.  See
 <a href="perlrun.html#perlrun-NAME">perlrun NAME</a> for the <strong>-i</strong> switch.
 </p>
 </dd>
-<dt>Handle-&gt;output_field_separator( EXPR )</dt>
-<dd><a name="perlvar-Handle_002d_003eoutput_005ffield_005fseparator_0028-EXPR-_0029"></a>
+<dt>IO::Handle-&gt;output_field_separator( EXPR )</dt>
+<dd><a name="perlvar-IO_003a_003aHandle_002d_003eoutput_005ffield_005fseparator_0028-EXPR-_0029"></a>
 </dd>
 <dt>$OUTPUT_FIELD_SEPARATOR</dt>
 <dd><a name="perlvar-_0024OUTPUT_005fFIELD_005fSEPARATOR"></a>
@@ -1501,12 +1425,12 @@ to do a lot of inserting and don&rsquo;t want to keep modifying <code>$_</code>.
 <dd><a name="perlvar-_0024OFS"></a>
 </dd>
 <dt>$,</dt>
-<dd><a name="perlvar-_0024_002c"></a><a name="index-_0024_002c"></a>
-<a name="index-_0024OFS"></a>
-<a name="index-_0024OUTPUT_005fFIELD_005fSEPARATOR"></a>
-
+<dd><a name="perlvar-_0024_002c"></a>
 <p>The output field separator for the print operator.  If defined, this
 value is printed between each of print&rsquo;s arguments.  Default is <code>undef</code>.
+</p>
+<p>You cannot call <code>output_field_separator()</code> on a handle, only as a
+static method.  See <a href="../IO-Handle/index.html">(IO-Handle)IO::Handle</a>.
 </p>
 <p>Mnemonic: what is printed when there is a &quot;,&quot; in your print statement.
 </p>
@@ -1521,11 +1445,7 @@ value is printed between each of print&rsquo;s arguments.  Default is <code>unde
 <dd><a name="perlvar-_0024NR"></a>
 </dd>
 <dt>$.</dt>
-<dd><a name="perlvar-_0024_002e"></a><a name="index-_0024_002e"></a>
-<a name="index-_0024NR"></a>
-<a name="index-_0024INPUT_005fLINE_005fNUMBER"></a>
-<a name="index-line-number"></a>
-
+<dd><a name="perlvar-_0024_002e"></a>
 <p>Current line number for the last filehandle accessed.
 </p>
 <p>Each filehandle in Perl counts the number of lines that have been read
@@ -1542,9 +1462,9 @@ of which filehandle <code>$.</code> is currently aliased to.
 </p>
 <p><code>$.</code> is reset when the filehandle is closed, but <strong>not</strong> when an open
 filehandle is reopened without an intervening <code>close()</code>.  For more
-details, see <a href="../perlop/I_002fO-Operators.html#I_002fO-Operators">(perlop)I/O Operators</a>.  Because <code>&lt;&gt;</code> never does
+details, see <a href="perlop.html#perlop-I_002fO-Operators">perlop I/O Operators</a>.  Because <code>&lt;&gt;</code> never does
 an explicit close, line numbers increase across <code>ARGV</code> files (but see
-examples in <a href="../perlfunc/eof.html#eof">(perlfunc)eof</a>).
+examples in <a href="perlfunc.html#perlfunc-eof">perlfunc eof</a>).
 </p>
 <p>You can also use <code>HANDLE-&gt;input_line_number(EXPR)</code> to access the
 line counter for a given filehandle without having to worry about
@@ -1553,8 +1473,8 @@ which handle you last accessed.
 <p>Mnemonic: many programs use &quot;.&quot; to mean the current line number.
 </p>
 </dd>
-<dt>HANDLE-&gt;input_record_separator( EXPR )</dt>
-<dd><a name="perlvar-HANDLE_002d_003einput_005frecord_005fseparator_0028-EXPR-_0029"></a>
+<dt>IO::Handle-&gt;input_record_separator( EXPR )</dt>
+<dd><a name="perlvar-IO_003a_003aHandle_002d_003einput_005frecord_005fseparator_0028-EXPR-_0029"></a>
 </dd>
 <dt>$INPUT_RECORD_SEPARATOR</dt>
 <dd><a name="perlvar-_0024INPUT_005fRECORD_005fSEPARATOR"></a>
@@ -1563,10 +1483,7 @@ which handle you last accessed.
 <dd><a name="perlvar-_0024RS"></a>
 </dd>
 <dt>$/</dt>
-<dd><a name="perlvar-_0024_002f"></a><a name="index-_0024_002f-3"></a>
-<a name="index-_0024RS"></a>
-<a name="index-_0024INPUT_005fRECORD_005fSEPARATOR"></a>
-
+<dd><a name="perlvar-_0024_002f"></a>
 <p>The input record separator, newline by default.  This influences Perl&rsquo;s
 idea of what a &quot;line&quot; is.  Works like <strong>awk</strong>&rsquo;s RS variable, including
 treating empty lines as a terminator if set to the null string (an
@@ -1589,13 +1506,13 @@ be better for something. :-)
 <p>Setting <code>$/</code> to a reference to an integer, scalar containing an
 integer, or scalar that&rsquo;s convertible to an integer will attempt to
 read records instead of lines, with the maximum record size being the
-referenced integer.  So this:
+referenced integer number of characters.  So this:
 </p>
 <pre class="verbatim">    local $/ = \32768; # or \&quot;32768&quot;, or \$var_containing_32768
     open my $fh, &quot;&lt;&quot;, $myfile or die $!;
     local $_ = &lt;$fh&gt;;
 </pre>
-<p>will read a record of no more than 32768 bytes from FILE.  If you&rsquo;re
+<p>will read a record of no more than 32768 characters from $fh.  If you&rsquo;re
 not reading from a record-oriented file (or your OS doesn&rsquo;t have
 record-oriented files), then you&rsquo;ll likely get a full chunk of data
 with every read.  If a record is larger than the record size you&rsquo;ve
@@ -1603,24 +1520,20 @@ set, you&rsquo;ll get the record back in pieces.  Trying to set the record
 size to zero or less will cause reading in the (rest of the) whole file.
 </p>
 <p>On VMS only, record reads bypass PerlIO layers and any associated
-buffering,so you must not mix record and non-record reads on the
+buffering, so you must not mix record and non-record reads on the
 same filehandle.  Record mode mixes with line mode only when the
 same buffering layer is in use for both modes.
 </p>
-<p>If you perform a record read on a FILE with an encoding layer such as
-<code>:encoding(latin1)</code> or <code>:utf8</code>, you may get an invalid string as a
-result, may leave the FILE positioned between characters in the stream
-and may not be reading the number of bytes from the underlying file
-that you specified.  This behaviour may change without warning in a
-future version of perl.
+<p>You cannot call <code>input_record_separator()</code> on a handle, only as a
+static method.  See <a href="../IO-Handle/index.html">(IO-Handle)IO::Handle</a>.
 </p>
-<p>See also <a href="perlport.html#perlport-Newlines">perlport Newlines</a>. Also see <a href="#perlvar-_0024_002e">$.</a>.
+<p>See also <a href="perlport.html#perlport-Newlines">perlport Newlines</a>.  Also see <a href="#perlvar-_0024_002e">$.</a>.
 </p>
 <p>Mnemonic: / delimits line boundaries when quoting poetry.
 </p>
 </dd>
-<dt>Handle-&gt;output_record_separator( EXPR )</dt>
-<dd><a name="perlvar-Handle_002d_003eoutput_005frecord_005fseparator_0028-EXPR-_0029"></a>
+<dt>IO::Handle-&gt;output_record_separator( EXPR )</dt>
+<dd><a name="perlvar-IO_003a_003aHandle_002d_003eoutput_005frecord_005fseparator_0028-EXPR-_0029"></a>
 </dd>
 <dt>$OUTPUT_RECORD_SEPARATOR</dt>
 <dd><a name="perlvar-_0024OUTPUT_005fRECORD_005fSEPARATOR"></a>
@@ -1629,12 +1542,12 @@ future version of perl.
 <dd><a name="perlvar-_0024ORS"></a>
 </dd>
 <dt>$\</dt>
-<dd><a name="perlvar-_0024_005c"></a><a name="index-_0024_005c-1"></a>
-<a name="index-_0024ORS"></a>
-<a name="index-_0024OUTPUT_005fRECORD_005fSEPARATOR"></a>
-
+<dd><a name="perlvar-_0024_005c"></a>
 <p>The output record separator for the print operator.  If defined, this
 value is printed after the last of print&rsquo;s arguments.  Default is <code>undef</code>.
+</p>
+<p>You cannot call <code>output_record_separator()</code> on a handle, only as a
+static method.  See <a href="../IO-Handle/index.html">(IO-Handle)IO::Handle</a>.
 </p>
 <p>Mnemonic: you set <code>$\</code> instead of adding &quot;\n&quot; at the end of the print.
 Also, it&rsquo;s just like <code>$/</code>, but it&rsquo;s what you get &quot;back&quot; from Perl.
@@ -1647,11 +1560,7 @@ Also, it&rsquo;s just like <code>$/</code>, but it&rsquo;s what you get &quot;ba
 <dd><a name="perlvar-_0024OUTPUT_005fAUTOFLUSH"></a>
 </dd>
 <dt>$|</dt>
-<dd><a name="perlvar-_0024_007c"></a><a name="index-_0024_007c"></a>
-<a name="index-autoflush"></a>
-<a name="index-flush"></a>
-<a name="index-_0024OUTPUT_005fAUTOFLUSH"></a>
-
+<dd><a name="perlvar-_0024_007c"></a>
 <p>If set to nonzero, forces a flush right away and after every write or
 print on the currently selected output channel.  Default is 0
 (regardless of whether the channel is really buffered by the system or
@@ -1661,10 +1570,21 @@ output is to the terminal and block buffered otherwise.  Setting this
 variable is useful primarily when you are outputting to a pipe or
 socket, such as when you are running a Perl program under <strong>rsh</strong> and
 want to see the output as it&rsquo;s happening.  This has no effect on input
-buffering.  See <a href="../perlfunc/getc.html#getc">(perlfunc)getc</a> for that.  See <a href="../perlfunc/select.html#select">(perlfunc)select</a> on
+buffering.  See <a href="perlfunc.html#perlfunc-getc">perlfunc getc</a> for that.  See <a href="perlfunc.html#perlfunc-select">perlfunc select</a> on
 how to select the output channel.  See also <a href="../IO-Handle/index.html">(IO-Handle)</a>.
 </p>
 <p>Mnemonic: when you want your pipes to be piping hot.
+</p>
+</dd>
+<dt>${^LAST_FH}</dt>
+<dd><a name="perlvar-_0024_007b_005eLAST_005fFH_007d"></a>
+<p>This read-only variable contains a reference to the last-read filehandle.
+This is set by <code>&lt;HANDLE&gt;</code>, <code>readline</code>, <code>tell</code>, <code>eof</code> and <code>seek</code>.
+This is the same handle that <code>$.</code> and <code>tell</code> and <code>eof</code> without arguments
+use.  It is also the handle used when Perl appends &quot;, &lt;STDIN&gt; line 1&quot; to
+an error or warning message.
+</p>
+<p>This variable was added in Perl v5.18.0.
 </p>
 </dd>
 </dl>
@@ -1684,7 +1604,7 @@ Up: <a href="#perlvar-Variables-related-to-filehandles" accesskey="u" rel="up">p
 <h4 class="subsubsection">85.3.3.1 Variables related to formats</h4>
 
 <p>The special variables for formats are a subset of those for
-filehandles.  See <a href="../perlform/index.html">(perlform)</a> for more information about Perl&rsquo;s
+filehandles.  See <a href="perlform.html#perlform-NAME">perlform NAME</a> for more information about Perl&rsquo;s
 formats.
 </p>
 <dl compact="compact">
@@ -1692,28 +1612,27 @@ formats.
 <dd><a name="perlvar-_0024ACCUMULATOR"></a>
 </dd>
 <dt>$^A</dt>
-<dd><a name="perlvar-_0024_005eA"></a><a name="index-_0024_005eA"></a>
-<a name="index-_0024ACCUMULATOR"></a>
-
+<dd><a name="perlvar-_0024_005eA"></a>
 <p>The current value of the <code>write()</code> accumulator for <code>format()</code> lines.
 A format contains <code>formline()</code> calls that put their result into
 <code>$^A</code>.  After calling its format, <code>write()</code> prints out the contents
 of <code>$^A</code> and empties.  So you never really see the contents of <code>$^A</code>
 unless you call <code>formline()</code> yourself and then look at it.  See
-<a href="../perlform/index.html">(perlform)</a> and <a href="../perlfunc/formline-PICTURE_002cLIST.html#formline-PICTURE_002cLIST">(perlfunc)formline PICTURE,LIST</a>.
+<a href="perlform.html#perlform-NAME">perlform NAME</a> and <a href="perlfunc.html#perlfunc-formline-PICTURE_002cLIST">perlfunc formline PICTURE,LIST</a>.
 </p>
 </dd>
-<dt>HANDLE-&gt;format_formfeed(EXPR)</dt>
-<dd><a name="perlvar-HANDLE_002d_003eformat_005fformfeed_0028EXPR_0029"></a>
+<dt>IO::Handle-&gt;format_formfeed(EXPR)</dt>
+<dd><a name="perlvar-IO_003a_003aHandle_002d_003eformat_005fformfeed_0028EXPR_0029"></a>
 </dd>
 <dt>$FORMAT_FORMFEED</dt>
 <dd><a name="perlvar-_0024FORMAT_005fFORMFEED"></a>
 </dd>
 <dt>$^L</dt>
-<dd><a name="perlvar-_0024_005eL"></a><a name="index-_0024_005eL"></a>
-<a name="index-_0024FORMAT_005fFORMFEED"></a>
-
+<dd><a name="perlvar-_0024_005eL"></a>
 <p>What formats output as a form feed.  The default is <code>\f</code>.
+</p>
+<p>You cannot call <code>format_formfeed()</code> on a handle, only as a static
+method.  See <a href="../IO-Handle/index.html">(IO-Handle)IO::Handle</a>.
 </p>
 </dd>
 <dt>HANDLE-&gt;format_page_number(EXPR)</dt>
@@ -1723,9 +1642,7 @@ unless you call <code>formline()</code> yourself and then look at it.  See
 <dd><a name="perlvar-_0024FORMAT_005fPAGE_005fNUMBER"></a>
 </dd>
 <dt>$%</dt>
-<dd><a name="perlvar-_0024_0025"></a><a name="index-_0024_0025"></a>
-<a name="index-_0024FORMAT_005fPAGE_005fNUMBER"></a>
-
+<dd><a name="perlvar-_0024_0025"></a>
 <p>The current page number of the currently selected output channel.
 </p>
 <p>Mnemonic: <code>%</code> is page number in <strong>nroff</strong>.
@@ -1738,28 +1655,27 @@ unless you call <code>formline()</code> yourself and then look at it.  See
 <dd><a name="perlvar-_0024FORMAT_005fLINES_005fLEFT"></a>
 </dd>
 <dt>$-</dt>
-<dd><a name="perlvar-_0024_002d"></a><a name="index-_0024_002d"></a>
-<a name="index-_0024FORMAT_005fLINES_005fLEFT"></a>
-
+<dd><a name="perlvar-_0024_002d"></a>
 <p>The number of lines left on the page of the currently selected output
 channel.
 </p>
 <p>Mnemonic: lines_on_page - lines_printed.
 </p>
 </dd>
-<dt>Handle-&gt;format_line_break_characters EXPR</dt>
-<dd><a name="perlvar-Handle_002d_003eformat_005fline_005fbreak_005fcharacters-EXPR"></a>
+<dt>IO::Handle-&gt;format_line_break_characters EXPR</dt>
+<dd><a name="perlvar-IO_003a_003aHandle_002d_003eformat_005fline_005fbreak_005fcharacters-EXPR"></a>
 </dd>
 <dt>$FORMAT_LINE_BREAK_CHARACTERS</dt>
 <dd><a name="perlvar-_0024FORMAT_005fLINE_005fBREAK_005fCHARACTERS"></a>
 </dd>
 <dt>$:</dt>
-<dd><a name="perlvar-_0024_003a"></a><a name="index-_0024_003a"></a>
-<a name="index-FORMAT_005fLINE_005fBREAK_005fCHARACTERS"></a>
-
+<dd><a name="perlvar-_0024_003a"></a>
 <p>The current set of characters after which a string may be broken to
 fill continuation fields (starting with <code>^</code>) in a format.  The default is
 &quot;&nbsp;<span class="nolinebreak">\n-&quot;</span><!-- /@w -->, to break on a space, newline, or a hyphen.
+</p>
+<p>You cannot call <code>format_line_break_characters()</code> on a handle, only as
+a static method.  See <a href="../IO-Handle/index.html">(IO-Handle)IO::Handle</a>.
 </p>
 <p>Mnemonic: a &quot;colon&quot; in poetry is a part of a line.
 </p>
@@ -1771,9 +1687,7 @@ fill continuation fields (starting with <code>^</code>) in a format.  The defaul
 <dd><a name="perlvar-_0024FORMAT_005fLINES_005fPER_005fPAGE"></a>
 </dd>
 <dt>$=</dt>
-<dd><a name="perlvar-_0024_003d"></a><a name="index-_0024_003d"></a>
-<a name="index-_0024FORMAT_005fLINES_005fPER_005fPAGE"></a>
-
+<dd><a name="perlvar-_0024_003d"></a>
 <p>The current page length (printable lines) of the currently selected
 output channel.  The default is 60.
 </p>
@@ -1787,9 +1701,7 @@ output channel.  The default is 60.
 <dd><a name="perlvar-_0024FORMAT_005fTOP_005fNAME"></a>
 </dd>
 <dt>$^</dt>
-<dd><a name="perlvar-_0024_005e"></a><a name="index-_0024_005e"></a>
-<a name="index-_0024FORMAT_005fTOP_005fNAME"></a>
-
+<dd><a name="perlvar-_0024_005e"></a>
 <p>The name of the current top-of-page format for the currently selected
 output channel.  The default is the name of the filehandle with <code>_TOP</code>
 appended.  For example, the default format top name for the <code>STDOUT</code>
@@ -1805,9 +1717,7 @@ filehandle is <code>STDOUT_TOP</code>.
 <dd><a name="perlvar-_0024FORMAT_005fNAME"></a>
 </dd>
 <dt>$~</dt>
-<dd><a name="perlvar-_0024_007e"></a><a name="index-_0024_007e"></a>
-<a name="index-_0024FORMAT_005fNAME"></a>
-
+<dd><a name="perlvar-_0024_007e"></a>
 <p>The name of the current report format for the currently selected
 output channel.  The default format name is the same as the filehandle
 name.  For example, the default format name for the <code>STDOUT</code>
@@ -1822,12 +1732,10 @@ filehandle is just <code>STDOUT</code>.
 <a name="perlvar-Error-Variables"></a>
 <div class="header">
 <p>
-Next: <a href="#perlvar-Variables-related-to-the-interpreter-state" accesskey="n" rel="next">perlvar Variables related to the interpreter state</a>, Previous: <a href="#perlvar-Variables-related-to-filehandles" accesskey="p" rel="previous">perlvar Variables related to filehandles</a>, Up: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="u" rel="up">perlvar SPECIAL VARIABLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlvar-Variables-related-to-the-interpreter-state" accesskey="n" rel="next">perlvar Variables related to the interpreter state</a>, Previous: <a href="#perlvar-Variables-related-to-filehandles" accesskey="p" rel="prev">perlvar Variables related to filehandles</a>, Up: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="u" rel="up">perlvar SPECIAL VARIABLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Error-Variables"></a>
 <h4 class="subsection">85.3.4 Error Variables</h4>
-<a name="index-error"></a>
-<a name="index-exception-1"></a>
 
 <p>The variables <code>$@</code>, <code>$!</code>, <code>$^E</code>, and <code>$?</code> contain information
 about different types of error conditions that may appear during
@@ -1878,8 +1786,7 @@ overwriting the old value.  This is more like <code>$@</code>, which on every
 </p>
 <dl compact="compact">
 <dt>${^CHILD_ERROR_NATIVE}</dt>
-<dd><a name="perlvar-_0024_007b_005eCHILD_005fERROR_005fNATIVE_007d"></a><a name="index-_0024_005eCHILD_005fERROR_005fNATIVE"></a>
-
+<dd><a name="perlvar-_0024_007b_005eCHILD_005fERROR_005fNATIVE_007d"></a>
 <p>The native status returned by the last pipe close, backtick (<code>``</code>)
 command, successful call to <code>wait()</code> or <code>waitpid()</code>, or from the
 <code>system()</code> operator.  On POSIX-like systems this value can be decoded
@@ -1889,16 +1796,14 @@ WSTOPSIG and WIFCONTINUED functions provided by the <a href="../POSIX/index.html
 <p>Under VMS this reflects the actual VMS exit status; i.e. it is the
 same as <code>$?</code> when the pragma <code>use vmsish 'status'</code> is in effect.
 </p>
-<p>This variable was added in Perl 5.8.9.
+<p>This variable was added in Perl v5.10.0.
 </p>
 </dd>
 <dt>$EXTENDED_OS_ERROR</dt>
 <dd><a name="perlvar-_0024EXTENDED_005fOS_005fERROR"></a>
 </dd>
 <dt>$^E</dt>
-<dd><a name="perlvar-_0024_005eE"></a><a name="index-_0024_005eE"></a>
-<a name="index-_0024EXTENDED_005fOS_005fERROR"></a>
-
+<dd><a name="perlvar-_0024_005eE"></a>
 <p>Error information specific to the current operating system.  At the
 moment, this differs from <code>$!</code> under only VMS, OS/2, and Win32 (and
 for MacPerl).  On all other platforms, <code>$^E</code> is always just the same
@@ -1930,19 +1835,21 @@ portable Perl code will report errors via <code>$!</code>.
 <dd><a name="perlvar-_0024EXCEPTIONS_005fBEING_005fCAUGHT"></a>
 </dd>
 <dt>$^S</dt>
-<dd><a name="perlvar-_0024_005eS"></a><a name="index-_0024_005eS"></a>
-<a name="index-_0024EXCEPTIONS_005fBEING_005fCAUGHT"></a>
-
+<dd><a name="perlvar-_0024_005eS"></a>
 <p>Current state of the interpreter.
 </p>
 <pre class="verbatim">        $^S         State
-        ---------   -------------------
-        undef       Parsing module/eval
+        ---------   -------------------------------------
+        undef       Parsing module, eval, or main program
         true (1)    Executing an eval
         false (0)   Otherwise
 </pre>
 <p>The first state may happen in <code>$SIG{__DIE__}</code> and <code>$SIG{__WARN__}</code>
 handlers.
+</p>
+<p>The English name $EXCEPTIONS_BEING_CAUGHT is slightly misleading, because
+the <code>undef</code> value does not indicate whether exceptions are being caught,
+since compilation of the main program does not catch exceptions.
 </p>
 <p>This variable was added in Perl 5.004.
 </p>
@@ -1951,9 +1858,7 @@ handlers.
 <dd><a name="perlvar-_0024WARNING"></a>
 </dd>
 <dt>$^W</dt>
-<dd><a name="perlvar-_0024_005eW"></a><a name="index-_0024_005eW"></a>
-<a name="index-_0024WARNING"></a>
-
+<dd><a name="perlvar-_0024_005eW"></a>
 <p>The current value of the warning switch, initially true if <strong>-w</strong> was
 used, false otherwise, but directly modifiable.
 </p>
@@ -1963,14 +1868,13 @@ used, false otherwise, but directly modifiable.
 </p>
 </dd>
 <dt>${^WARNING_BITS}</dt>
-<dd><a name="perlvar-_0024_007b_005eWARNING_005fBITS_007d"></a><a name="index-_0024_007b_005eWARNING_005fBITS_007d"></a>
-
+<dd><a name="perlvar-_0024_007b_005eWARNING_005fBITS_007d"></a>
 <p>The current set of warning checks enabled by the <code>use warnings</code> pragma.
 It has the same scoping as the <code>$^H</code> and <code>%^H</code> variables.  The exact
 values are considered internal to the <a href="../warnings/index.html">(warnings)</a> pragma and may change
 between versions of Perl.
 </p>
-<p>This variable was added in Perl 5.6.
+<p>This variable was added in Perl v5.6.0.
 </p>
 </dd>
 <dt>$OS_ERROR</dt>
@@ -1980,10 +1884,7 @@ between versions of Perl.
 <dd><a name="perlvar-_0024ERRNO"></a>
 </dd>
 <dt>$!</dt>
-<dd><a name="perlvar-_0024_0021"></a><a name="index-_0024_0021"></a>
-<a name="index-_0024ERRNO"></a>
-<a name="index-_0024OS_005fERROR"></a>
-
+<dd><a name="perlvar-_0024_0021"></a>
 <p>When referenced, <code>$!</code> retrieves the current value
 of the C <code>errno</code> integer variable.
 If <code>$!</code> is assigned a numerical value, that value is stored in <code>errno</code>.
@@ -2023,10 +1924,7 @@ corresponding to error <em>n</em>, or to restore <code>$!</code> to a meaningful
 <dd><a name="perlvar-_0025ERRNO"></a>
 </dd>
 <dt>%!</dt>
-<dd><a name="perlvar-_0025_0021"></a><a name="index-_0025_0021"></a>
-<a name="index-_0025OS_005fERROR"></a>
-<a name="index-_0025ERRNO"></a>
-
+<dd><a name="perlvar-_0025_0021"></a>
 <p>Each element of <code>%!</code> has a true value only if <code>$!</code> is set to that
 value.  For example, <code>$!{ENOENT}</code> is true if and only if the current
 value of <code>$!</code> is <code>ENOENT</code>; that is, if the most recent error was &quot;No
@@ -2043,9 +1941,7 @@ for more information, and also see <a href="#perlvar-_0024_0021">$!</a>.
 <dd><a name="perlvar-_0024CHILD_005fERROR"></a>
 </dd>
 <dt>$?</dt>
-<dd><a name="perlvar-_0024_003f"></a><a name="index-_0024_003f-1"></a>
-<a name="index-_0024CHILD_005fERROR"></a>
-
+<dd><a name="perlvar-_0024_003f"></a>
 <p>The status returned by the last pipe close, backtick (<code>``</code>) command,
 successful call to <code>wait()</code> or <code>waitpid()</code>, or from the <code>system()</code>
 operator.  This is just the 16-bit status word returned by the
@@ -2079,9 +1975,7 @@ status; see <a href="perlvms.html#perlvms-_0024_003f">perlvms $?</a> for details
 <dd><a name="perlvar-_0024EVAL_005fERROR"></a>
 </dd>
 <dt>$@</dt>
-<dd><a name="perlvar-_0024_0040"></a><a name="index-_0024_0040-1"></a>
-<a name="index-_0024EVAL_005fERROR"></a>
-
+<dd><a name="perlvar-_0024_0040"></a>
 <p>The Perl syntax error message from the
 last <code>eval()</code> operator.  If <code>$@</code> is
 the null string, the last <code>eval()</code> parsed and executed correctly
@@ -2101,7 +1995,7 @@ described in <a href="#perlvar-_0025SIG">%SIG</a>.
 <a name="perlvar-Variables-related-to-the-interpreter-state"></a>
 <div class="header">
 <p>
-Next: <a href="#perlvar-Deprecated-and-removed-variables" accesskey="n" rel="next">perlvar Deprecated and removed variables</a>, Previous: <a href="#perlvar-Error-Variables" accesskey="p" rel="previous">perlvar Error Variables</a>, Up: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="u" rel="up">perlvar SPECIAL VARIABLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlvar-Deprecated-and-removed-variables" accesskey="n" rel="next">perlvar Deprecated and removed variables</a>, Previous: <a href="#perlvar-Error-Variables" accesskey="p" rel="prev">perlvar Error Variables</a>, Up: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="u" rel="up">perlvar SPECIAL VARIABLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Variables-related-to-the-interpreter-state"></a>
 <h4 class="subsection">85.3.5 Variables related to the interpreter state</h4>
@@ -2113,25 +2007,21 @@ Next: <a href="#perlvar-Deprecated-and-removed-variables" accesskey="n" rel="nex
 <dd><a name="perlvar-_0024COMPILING"></a>
 </dd>
 <dt>$^C</dt>
-<dd><a name="perlvar-_0024_005eC"></a><a name="index-_0024_005eC"></a>
-<a name="index-_0024COMPILING"></a>
-
+<dd><a name="perlvar-_0024_005eC"></a>
 <p>The current value of the flag associated with the <strong>-c</strong> switch.
 Mainly of use with <strong>-MO=...</strong> to allow code to alter its behavior
 when being compiled, such as for example to <code>AUTOLOAD</code> at compile
 time rather than normal, deferred loading.  Setting
 <code>$^C = 1</code> is similar to calling <code>B::minus_c</code>.
 </p>
-<p>This variable was added in Perl 5.6.
+<p>This variable was added in Perl v5.6.0.
 </p>
 </dd>
 <dt>$DEBUGGING</dt>
 <dd><a name="perlvar-_0024DEBUGGING"></a>
 </dd>
 <dt>$^D</dt>
-<dd><a name="perlvar-_0024_005eD"></a><a name="index-_0024_005eD"></a>
-<a name="index-_0024DEBUGGING"></a>
-
+<dd><a name="perlvar-_0024_005eD"></a>
 <p>The current value of the debugging flags.  May be read or set.  Like its
 command-line equivalent, you can use numeric or symbolic values, eg
 <code>$^D = 10</code> or <code>$^D = &quot;st&quot;</code>.
@@ -2140,8 +2030,7 @@ command-line equivalent, you can use numeric or symbolic values, eg
 </p>
 </dd>
 <dt>${^ENCODING}</dt>
-<dd><a name="perlvar-_0024_007b_005eENCODING_007d"></a><a name="index-_0024_007b_005eENCODING_007d"></a>
-
+<dd><a name="perlvar-_0024_007b_005eENCODING_007d"></a>
 <p>The <em>object reference</em> to the <code>Encode</code> object that is used to convert
 the source code to Unicode.  Thanks to this variable your Perl script
 does not have to be written in UTF-8.  Default is <em>undef</em>.  The direct
@@ -2151,8 +2040,7 @@ manipulation of this variable is highly discouraged.
 </p>
 </dd>
 <dt>${^GLOBAL_PHASE}</dt>
-<dd><a name="perlvar-_0024_007b_005eGLOBAL_005fPHASE_007d"></a><a name="index-_0024_007b_005eGLOBAL_005fPHASE_007d"></a>
-
+<dd><a name="perlvar-_0024_007b_005eGLOBAL_005fPHASE_007d"></a>
 <p>The current phase of the perl interpreter.
 </p>
 <p>Possible values are:
@@ -2264,8 +2152,7 @@ described in the above list.
 </p>
 </dd>
 <dt>$^H</dt>
-<dd><a name="perlvar-_0024_005eH"></a><a name="index-_0024_005eH"></a>
-
+<dd><a name="perlvar-_0024_005eH"></a>
 <p>WARNING: This variable is strictly for
 internal use only.  Its availability,
 behavior, and contents are subject to change without notice.
@@ -2315,8 +2202,7 @@ version of the same lexical pragma:
 </p>
 </dd>
 <dt>%^H</dt>
-<dd><a name="perlvar-_0025_005eH"></a><a name="index-_0025_005eH"></a>
-
+<dd><a name="perlvar-_0025_005eH"></a>
 <p>The <code>%^H</code> hash provides the same scoping semantic as <code>$^H</code>.  This makes
 it useful for implementation of lexically scoped pragmas.  See
 <a href="perlpragma.html#perlpragma-NAME">perlpragma NAME</a>.
@@ -2327,26 +2213,23 @@ A module should use only keys that begin with the module&rsquo;s name (the
 name of its main package) and a &quot;/&quot; character.  For example, a module
 <code>Foo::Bar</code> should use keys such as <code>Foo::Bar/baz</code>.
 </p>
-<p>This variable was added in Perl 5.6.
+<p>This variable was added in Perl v5.6.0.
 </p>
 </dd>
 <dt>${^OPEN}</dt>
-<dd><a name="perlvar-_0024_007b_005eOPEN_007d"></a><a name="index-_0024_007b_005eOPEN_007d"></a>
-
+<dd><a name="perlvar-_0024_007b_005eOPEN_007d"></a>
 <p>An internal variable used by PerlIO.  A string in two parts, separated
 by a <code>\0</code> byte, the first part describes the input layers, the second
 part describes the output layers.
 </p>
-<p>This variable was added in Perl 5.8.0.
+<p>This variable was added in Perl v5.8.0.
 </p>
 </dd>
 <dt>$PERLDB</dt>
 <dd><a name="perlvar-_0024PERLDB"></a>
 </dd>
 <dt>$^P</dt>
-<dd><a name="perlvar-_0024_005eP"></a><a name="index-_0024_005eP"></a>
-<a name="index-_0024PERLDB"></a>
-
+<dd><a name="perlvar-_0024_005eP"></a>
 <p>The internal variable for debugging support.  The meanings of the
 various bits are subject to change, but currently indicate:
 </p>
@@ -2417,48 +2300,46 @@ See also <a href="perldebguts.html#perldebguts-NAME">perldebguts NAME</a>.
 </p>
 </dd>
 <dt>${^TAINT}</dt>
-<dd><a name="perlvar-_0024_007b_005eTAINT_007d"></a><a name="index-_0024_007b_005eTAINT_007d"></a>
-
+<dd><a name="perlvar-_0024_007b_005eTAINT_007d"></a>
 <p>Reflects if taint mode is on or off.  1 for on (the program was run with
 <strong>-T</strong>), 0 for off, -1 when only taint warnings are enabled (i.e. with
 <strong>-t</strong> or <strong>-TU</strong>).
 </p>
 <p>This variable is read-only.
 </p>
-<p>This variable was added in Perl 5.8.
+<p>This variable was added in Perl v5.8.0.
 </p>
 </dd>
 <dt>${^UNICODE}</dt>
-<dd><a name="perlvar-_0024_007b_005eUNICODE_007d"></a><a name="index-_0024_007b_005eUNICODE_007d"></a>
-
+<dd><a name="perlvar-_0024_007b_005eUNICODE_007d"></a>
 <p>Reflects certain Unicode settings of Perl.  See <a href="perlrun.html#perlrun-NAME">perlrun NAME</a>
 documentation for the <code>-C</code> switch for more information about
 the possible values.
 </p>
 <p>This variable is set during Perl startup and is thereafter read-only.
 </p>
-<p>This variable was added in Perl 5.8.2.
+<p>This variable was added in Perl v5.8.2.
 </p>
 </dd>
 <dt>${^UTF8CACHE}</dt>
-<dd><a name="perlvar-_0024_007b_005eUTF8CACHE_007d"></a><a name="index-_0024_007b_005eUTF8CACHE_007d"></a>
-
+<dd><a name="perlvar-_0024_007b_005eUTF8CACHE_007d"></a>
 <p>This variable controls the state of the internal UTF-8 offset caching code.
 1 for on (the default), 0 for off, -1 to debug the caching code by checking
 all its results against linear scans, and panicking on any discrepancy.
 </p>
-<p>This variable was added in Perl 5.8.9.
+<p>This variable was added in Perl v5.8.9.  It is subject to change or
+removal without notice, but is currently used to avoid recalculating the
+boundaries of multi-byte UTF-8-encoded characters.
 </p>
 </dd>
 <dt>${^UTF8LOCALE}</dt>
-<dd><a name="perlvar-_0024_007b_005eUTF8LOCALE_007d"></a><a name="index-_0024_007b_005eUTF8LOCALE_007d"></a>
-
+<dd><a name="perlvar-_0024_007b_005eUTF8LOCALE_007d"></a>
 <p>This variable indicates whether a UTF-8 locale was detected by perl at
 startup.  This information is used by perl when it&rsquo;s in
 adjust-utf8ness-to-locale mode (as when run with the <code>-CL</code> command-line
 switch); see <a href="perlrun.html#perlrun-NAME">perlrun NAME</a> for more info on this.
 </p>
-<p>This variable was added in Perl 5.8.8.
+<p>This variable was added in Perl v5.8.8.
 </p>
 </dd>
 </dl>
@@ -2467,7 +2348,7 @@ switch); see <a href="perlrun.html#perlrun-NAME">perlrun NAME</a> for more info 
 <a name="perlvar-Deprecated-and-removed-variables"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlvar-Variables-related-to-the-interpreter-state" accesskey="p" rel="previous">perlvar Variables related to the interpreter state</a>, Up: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="u" rel="up">perlvar SPECIAL VARIABLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlvar-Variables-related-to-the-interpreter-state" accesskey="p" rel="prev">perlvar Variables related to the interpreter state</a>, Up: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="u" rel="up">perlvar SPECIAL VARIABLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Deprecated-and-removed-variables"></a>
 <h4 class="subsection">85.3.6 Deprecated and removed variables</h4>
@@ -2487,11 +2368,9 @@ the variable is unsupported.
 <dd><a name="perlvar-_0024OFMT"></a>
 </dd>
 <dt>$#</dt>
-<dd><a name="perlvar-_0024_0023"></a><a name="index-_0024_0023-1"></a>
-<a name="index-_0024OFMT"></a>
-
+<dd><a name="perlvar-_0024_0023"></a>
 <p><code>$#</code> was a variable that could be used to format printed numbers.
-After a deprecation cycle, its magic was removed in Perl 5.10 and
+After a deprecation cycle, its magic was removed in Perl v5.10.0 and
 using it now triggers a warning: <code>$# is no longer supported</code>.
 </p>
 <p>This is not the sigil you use in front of an array name to get the
@@ -2500,29 +2379,26 @@ of an array in Perl.  The two have nothing to do with each other.
 </p>
 <p>Deprecated in Perl 5.
 </p>
-<p>Removed in Perl 5.10.
+<p>Removed in Perl v5.10.0.
 </p>
 </dd>
 <dt>$*</dt>
-<dd><a name="perlvar-_0024_002a"></a><a name="index-_0024_002a"></a>
-
+<dd><a name="perlvar-_0024_002a"></a>
 <p><code>$*</code> was a variable that you could use to enable multiline matching.
-After a deprecation cycle, its magic was removed in Perl 5.10.
+After a deprecation cycle, its magic was removed in Perl v5.10.0.
 Using it now triggers a warning: <code>$* is no longer supported</code>.
 You should use the <code>/s</code> and <code>/m</code> regexp modifiers instead.
 </p>
 <p>Deprecated in Perl 5.
 </p>
-<p>Removed in Perl 5.10.
+<p>Removed in Perl v5.10.0.
 </p>
 </dd>
 <dt>$ARRAY_BASE</dt>
 <dd><a name="perlvar-_0024ARRAY_005fBASE"></a>
 </dd>
 <dt>$[</dt>
-<dd><a name="perlvar-_0024_005b"></a><a name="index-_0024_005b"></a>
-<a name="index-_0024ARRAY_005fBASE"></a>
-
+<dd><a name="perlvar-_0024_005b"></a>
 <p>This variable stores the index of the first element in an array, and
 of the first character in a substring.  The default is 0, but you could
 theoretically set it to 1 to make Perl behave more like <strong>awk</strong> (or Fortran)
@@ -2533,12 +2409,12 @@ directive, and cannot influence the behavior of any other file.
 (That&rsquo;s why you can only assign compile-time constants to it.)
 Its use is highly discouraged.
 </p>
-<p>Prior to Perl 5.10, assignment to <code>$[</code> could be seen from outer lexical
+<p>Prior to Perl v5.10.0, assignment to <code>$[</code> could be seen from outer lexical
 scopes in the same file, unlike other compile-time directives (such as
 <a href="../strict/index.html">(strict)</a>).  Using local() on it would bind its value strictly to a lexical
 block.  Now it is always lexically scoped.
 </p>
-<p>As of Perl 5.16, it is implemented by the <a href="../arybase/index.html">(arybase)</a> module.  See
+<p>As of Perl v5.16.0, it is implemented by the <a href="../arybase/index.html">(arybase)</a> module.  See
 <a href="../arybase/index.html">(arybase)</a> for more details on its behaviour.
 </p>
 <p>Under <code>use v5.16</code>, or <code>no feature &quot;array_base&quot;</code>, <code>$[</code> no longer has any
@@ -2547,16 +2423,14 @@ other value will produce an error.
 </p>
 <p>Mnemonic: [ begins subscripts.
 </p>
-<p>Deprecated in Perl 5.12.
+<p>Deprecated in Perl v5.12.0.
 </p>
 </dd>
 <dt>$OLD_PERL_VERSION</dt>
 <dd><a name="perlvar-_0024OLD_005fPERL_005fVERSION"></a>
 </dd>
 <dt>$]</dt>
-<dd><a name="perlvar-_0024_005d"></a><a name="index-_0024_005d"></a>
-<a name="index-_0024OLD_005fPERL_005fVERSION"></a>
-
+<dd><a name="perlvar-_0024_005d"></a>
 <p>See <a href="#perlvar-_0024_005eV">$^V</a> for a more modern representation of the Perl version that allows
 accurate string comparisons.
 </p>
@@ -2580,7 +2454,7 @@ for a convenient way to fail if the running Perl interpreter is too old.
 <hr>
 <div class="header">
 <p>
-Previous: <a href="#perlvar-Variables-related-to-the-interpreter-state" accesskey="p" rel="previous">perlvar Variables related to the interpreter state</a>, Up: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="u" rel="up">perlvar SPECIAL VARIABLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlvar-Variables-related-to-the-interpreter-state" accesskey="p" rel="prev">perlvar Variables related to the interpreter state</a>, Up: <a href="#perlvar-SPECIAL-VARIABLES" accesskey="u" rel="up">perlvar SPECIAL VARIABLES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 
 

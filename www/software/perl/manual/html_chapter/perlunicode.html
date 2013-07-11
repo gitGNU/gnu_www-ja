@@ -14,7 +14,7 @@
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
 <link href="perlunifaq.html#perlunifaq" rel="next" title="perlunifaq">
-<link href="perltrap.html#perltrap-Unclassified-Traps-1" rel="previous" title="perltrap Unclassified Traps 1">
+<link href="perltrap.html#perltrap-Perl-Traps" rel="prev" title="perltrap Perl Traps">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -51,7 +51,7 @@ ul.no-bullet {list-style: none}
 <a name="perlunicode"></a>
 <div class="header">
 <p>
-Next: <a href="perlunifaq.html#perlunifaq" accesskey="n" rel="next">perlunifaq</a>, Previous: <a href="perltrap.html#perltrap" accesskey="p" rel="previous">perltrap</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="perlunifaq.html#perlunifaq" accesskey="n" rel="next">perlunifaq</a>, Previous: <a href="perltrap.html#perltrap" accesskey="p" rel="prev">perltrap</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perlunicode-1"></a>
 <h2 class="chapter">80 perlunicode</h2>
@@ -82,7 +82,7 @@ Next: <a href="#perlunicode-DESCRIPTION" accesskey="n" rel="next">perlunicode DE
 <a name="perlunicode-DESCRIPTION"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-BUGS" accesskey="n" rel="next">perlunicode BUGS</a>, Previous: <a href="#perlunicode-NAME" accesskey="p" rel="previous">perlunicode NAME</a>, Up: <a href="#perlunicode" accesskey="u" rel="up">perlunicode</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-BUGS" accesskey="n" rel="next">perlunicode BUGS</a>, Previous: <a href="#perlunicode-NAME" accesskey="p" rel="prev">perlunicode NAME</a>, Up: <a href="#perlunicode" accesskey="u" rel="up">perlunicode</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DESCRIPTION-78"></a>
 <h3 class="section">80.2 DESCRIPTION</h3>
@@ -158,8 +158,10 @@ on full internal Unicode support unless the pragma
 selected if you use <code>use 5.012</code> or higher.)  Failure to do this can
 trigger unexpected surprises.  See <a href="#perlunicode-The-_0022Unicode-Bug_0022">The &quot;Unicode Bug&quot;</a> below.
 </p>
-<p>This pragma doesn&rsquo;t affect I/O, and there are still several places
-where Unicode isn&rsquo;t fully supported, such as in filenames.
+<p>This pragma doesn&rsquo;t affect I/O.  Nor does it change the internal
+representation of strings, only their interpretation.  There are still
+several places where Unicode isn&rsquo;t fully supported, such as in
+filenames.
 </p>
 </dd>
 <dt>Input and Output Layers</dt>
@@ -209,13 +211,12 @@ codepoints in Unicode happens to agree with Latin-1.
 <a name="perlunicode-Byte-and-Character-Semantics"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Effects-of-Character-Semantics" accesskey="n" rel="next">perlunicode Effects of Character Semantics</a>, Previous: <a href="#perlunicode-Important-Caveats" accesskey="p" rel="previous">perlunicode Important Caveats</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Effects-of-Character-Semantics" accesskey="n" rel="next">perlunicode Effects of Character Semantics</a>, Previous: <a href="#perlunicode-Important-Caveats" accesskey="p" rel="prev">perlunicode Important Caveats</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Byte-and-Character-Semantics"></a>
 <h4 class="subsection">80.2.2 Byte and Character Semantics</h4>
 
-<p>Beginning with version 5.6, Perl uses logically-wide characters to
-represent strings internally.
+<p>Perl uses logically-wide characters to represent strings internally.
 </p>
 <p>Starting in Perl 5.14, Perl-level operations work with
 characters rather than bytes within the scope of a
@@ -239,13 +240,8 @@ while <code>use locale ':not_characters'</code> effectively also selects
 <code>use feature 'unicode_strings'</code> in its scope; see <a href="perllocale.html#perllocale-NAME">perllocale NAME</a>.)
 Otherwise, Perl uses the platform&rsquo;s native
 byte semantics for characters whose code points are less than 256, and
-Unicode semantics for those greater than 255.  On EBCDIC platforms, this
-is almost seamless, as the EBCDIC code pages that Perl handles are
-equivalent to Unicode&rsquo;s first 256 code points.  (The exception is that
-EBCDIC regular expression case-insensitive matching rules are not as
-as robust as Unicode&rsquo;s.)   But on ASCII platforms, Perl uses US-ASCII
-(or Basic Latin in Unicode terminology) byte semantics, meaning that characters
-whose ordinal numbers are in the range 128 - 255 are undefined except for their
+Unicode semantics for those greater than 255.  That means that non-ASCII
+characters are undefined except for their
 ordinal numbers.  This means that none have case (upper and lower), nor are any
 a member of character classes, like <code>[:alpha:]</code> or <code>\w</code>.  (But all do belong
 to the <code>\W</code> class or the Perl regular expression extension <code>[:^alpha:]</code>.)
@@ -279,7 +275,7 @@ See <a href="perluniintro.html#perluniintro-NAME">perluniintro NAME</a> for more
 <a name="perlunicode-Effects-of-Character-Semantics"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Unicode-Character-Properties" accesskey="n" rel="next">perlunicode Unicode Character Properties</a>, Previous: <a href="#perlunicode-Byte-and-Character-Semantics" accesskey="p" rel="previous">perlunicode Byte and Character Semantics</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Unicode-Character-Properties" accesskey="n" rel="next">perlunicode Unicode Character Properties</a>, Previous: <a href="#perlunicode-Byte-and-Character-Semantics" accesskey="p" rel="prev">perlunicode Byte and Character Semantics</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Effects-of-Character-Semantics"></a>
 <h4 class="subsection">80.2.3 Effects of Character Semantics</h4>
@@ -405,7 +401,7 @@ drawbacks, so the CPAN module was written instead.)
 <a name="perlunicode-Unicode-Character-Properties"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-User_002dDefined-Character-Properties" accesskey="n" rel="next">perlunicode User-Defined Character Properties</a>, Previous: <a href="#perlunicode-Effects-of-Character-Semantics" accesskey="p" rel="previous">perlunicode Effects of Character Semantics</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-User_002dDefined-Character-Properties" accesskey="n" rel="next">perlunicode User-Defined Character Properties</a>, Previous: <a href="#perlunicode-Effects-of-Character-Semantics" accesskey="p" rel="prev">perlunicode Effects of Character Semantics</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Unicode-Character-Properties"></a>
 <h4 class="subsection">80.2.4 Unicode Character Properties</h4>
@@ -597,7 +593,7 @@ two-letter sub-properties starting with the same letter.
 <a name="perlunicode-Bidirectional-Character-Types"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Scripts" accesskey="n" rel="next">perlunicode <strong>Scripts</strong></a>, Previous: <a href="#perlunicode-General_005fCategory" accesskey="p" rel="previous">perlunicode <strong>General_Category</strong></a>, Up: <a href="#perlunicode-Unicode-Character-Properties" accesskey="u" rel="up">perlunicode Unicode Character Properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Scripts" accesskey="n" rel="next">perlunicode <strong>Scripts</strong></a>, Previous: <a href="#perlunicode-General_005fCategory" accesskey="p" rel="prev">perlunicode <strong>General_Category</strong></a>, Up: <a href="#perlunicode-Unicode-Character-Properties" accesskey="u" rel="up">perlunicode Unicode Character Properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Bidirectional-Character-Types"></a>
 <h4 class="subsubsection">80.2.4.2 <strong>Bidirectional Character Types</strong></h4>
@@ -636,7 +632,7 @@ written right to left.
 <a name="perlunicode-Scripts"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Use-of-_0022Is_0022-Prefix" accesskey="n" rel="next">perlunicode <strong>Use of &quot;Is&quot; Prefix</strong></a>, Previous: <a href="#perlunicode-Bidirectional-Character-Types" accesskey="p" rel="previous">perlunicode <strong>Bidirectional Character Types</strong></a>, Up: <a href="#perlunicode-Unicode-Character-Properties" accesskey="u" rel="up">perlunicode Unicode Character Properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Use-of-_0022Is_0022-Prefix" accesskey="n" rel="next">perlunicode <strong>Use of &quot;Is&quot; Prefix</strong></a>, Previous: <a href="#perlunicode-Bidirectional-Character-Types" accesskey="p" rel="prev">perlunicode <strong>Bidirectional Character Types</strong></a>, Up: <a href="#perlunicode-Unicode-Character-Properties" accesskey="u" rel="up">perlunicode Unicode Character Properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Scripts"></a>
 <h4 class="subsubsection">80.2.4.3 <strong>Scripts</strong></h4>
@@ -710,7 +706,7 @@ if they are used in many scripts should they be in <code>scx=Common</code>.
 <a name="perlunicode-Use-of-_0022Is_0022-Prefix"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Blocks" accesskey="n" rel="next">perlunicode <strong>Blocks</strong></a>, Previous: <a href="#perlunicode-Scripts" accesskey="p" rel="previous">perlunicode <strong>Scripts</strong></a>, Up: <a href="#perlunicode-Unicode-Character-Properties" accesskey="u" rel="up">perlunicode Unicode Character Properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Blocks" accesskey="n" rel="next">perlunicode <strong>Blocks</strong></a>, Previous: <a href="#perlunicode-Scripts" accesskey="p" rel="prev">perlunicode <strong>Scripts</strong></a>, Up: <a href="#perlunicode-Unicode-Character-Properties" accesskey="u" rel="up">perlunicode Unicode Character Properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Use-of-_0022Is_0022-Prefix"></a>
 <h4 class="subsubsection">80.2.4.4 <strong>Use of &quot;Is&quot; Prefix</strong></h4>
@@ -724,7 +720,7 @@ example, is equal to <code>\P{Lu}</code>, and <code>\p{IsScript:Arabic}</code> i
 <a name="perlunicode-Blocks"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Other-Properties" accesskey="n" rel="next">perlunicode <strong>Other Properties</strong></a>, Previous: <a href="#perlunicode-Use-of-_0022Is_0022-Prefix" accesskey="p" rel="previous">perlunicode <strong>Use of &quot;Is&quot; Prefix</strong></a>, Up: <a href="#perlunicode-Unicode-Character-Properties" accesskey="u" rel="up">perlunicode Unicode Character Properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Other-Properties" accesskey="n" rel="next">perlunicode <strong>Other Properties</strong></a>, Previous: <a href="#perlunicode-Use-of-_0022Is_0022-Prefix" accesskey="p" rel="prev">perlunicode <strong>Use of &quot;Is&quot; Prefix</strong></a>, Up: <a href="#perlunicode-Unicode-Character-Properties" accesskey="u" rel="up">perlunicode Unicode Character Properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Blocks"></a>
 <h4 class="subsubsection">80.2.4.5 <strong>Blocks</strong></h4>
@@ -782,7 +778,7 @@ eventually will read their code will know that difference.
 <a name="perlunicode-Other-Properties"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlunicode-Blocks" accesskey="p" rel="previous">perlunicode <strong>Blocks</strong></a>, Up: <a href="#perlunicode-Unicode-Character-Properties" accesskey="u" rel="up">perlunicode Unicode Character Properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlunicode-Blocks" accesskey="p" rel="prev">perlunicode <strong>Blocks</strong></a>, Up: <a href="#perlunicode-Unicode-Character-Properties" accesskey="u" rel="up">perlunicode Unicode Character Properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Other-Properties"></a>
 <h4 class="subsubsection">80.2.4.6 <strong>Other Properties</strong></h4>
@@ -907,7 +903,8 @@ spacing horizontally.
 </dd>
 <dt><strong><code>\p{PerlSpace}</code></strong></dt>
 <dd><a name="perlunicode-_005cp_007bPerlSpace_007d"></a>
-<p>This is the same as <code>\s</code>, restricted to ASCII, namely <code>[&nbsp;\f\n\r\t]<!-- /@w --></code>.
+<p>This is the same as <code>\s</code>, restricted to ASCII, namely <code>[&nbsp;\f\n\r\t]<!-- /@w --></code>
+and starting in Perl v5.18, experimentally, a vertical tab.
 </p>
 <p>Mnemonic: Perl&rsquo;s (original) space
 </p>
@@ -923,7 +920,7 @@ spacing horizontally.
 <dd><a name="perlunicode-_005cp_007bPosix_002e_002e_002e_007d"></a>
 <p>There are several of these, which are equivalents using the <code>\p</code>
 notation for Posix classes and are described in
-<a href="../perlrecharclass/POSIX-Character-Classes.html#POSIX-Character-Classes">(perlrecharclass)POSIX Character Classes</a>.
+<a href="perlrecharclass.html#perlrecharclass-POSIX-Character-Classes">perlrecharclass POSIX Character Classes</a>.
 </p>
 </dd>
 <dt><strong><code>\p{Present_In: *}</code></strong>    (Short: <code>\p{In=*}</code>)</dt>
@@ -996,7 +993,7 @@ is that under <code>/i</code> caseless matching, these match the same as
 <dd><a name="perlunicode-_005cp_007bXPosix_002e_002e_002e_007d"></a>
 <p>There are several of these, which are the standard Posix classes
 extended to the full Unicode range.  They are described in
-<a href="../perlrecharclass/POSIX-Character-Classes.html#POSIX-Character-Classes">(perlrecharclass)POSIX Character Classes</a>.
+<a href="perlrecharclass.html#perlrecharclass-POSIX-Character-Classes">perlrecharclass POSIX Character Classes</a>.
 </p>
 </dd>
 </dl>
@@ -1005,13 +1002,15 @@ extended to the full Unicode range.  They are described in
 <a name="perlunicode-User_002dDefined-Character-Properties"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-User_002dDefined-Case-Mappings-_0028for-serious-hackers-only_0029" accesskey="n" rel="next">perlunicode User-Defined Case Mappings (for serious hackers only)</a>, Previous: <a href="#perlunicode-Unicode-Character-Properties" accesskey="p" rel="previous">perlunicode Unicode Character Properties</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-User_002dDefined-Case-Mappings-_0028for-serious-hackers-only_0029" accesskey="n" rel="next">perlunicode User-Defined Case Mappings (for serious hackers only)</a>, Previous: <a href="#perlunicode-Unicode-Character-Properties" accesskey="p" rel="prev">perlunicode Unicode Character Properties</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="User_002dDefined-Character-Properties"></a>
 <h4 class="subsection">80.2.5 User-Defined Character Properties</h4>
 
 <p>You can define your own binary character properties by defining subroutines
-whose names begin with &quot;In&quot; or &quot;Is&quot;.  The subroutines can be defined in any
+whose names begin with &quot;In&quot; or &quot;Is&quot;.  (The experimental feature
+<a href="perlre.html#perlre-_0028_003f_005b-_005d_0029">perlre <code>(?[ ])</code></a> provides an alternative which allows more complex
+definitions.)  The subroutines can be defined in any
 package.  The user-defined properties can be used in the regular expression
 <code>\p</code> and <code>\P</code> constructs; if you are using a user-defined property from a
 package other than the one you are in, you must specify its package in the
@@ -1143,7 +1142,7 @@ a match is attempted on one of those.)
 <a name="perlunicode-User_002dDefined-Case-Mappings-_0028for-serious-hackers-only_0029"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Character-Encodings-for-Input-and-Output" accesskey="n" rel="next">perlunicode Character Encodings for Input and Output</a>, Previous: <a href="#perlunicode-User_002dDefined-Character-Properties" accesskey="p" rel="previous">perlunicode User-Defined Character Properties</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Character-Encodings-for-Input-and-Output" accesskey="n" rel="next">perlunicode Character Encodings for Input and Output</a>, Previous: <a href="#perlunicode-User_002dDefined-Character-Properties" accesskey="p" rel="prev">perlunicode User-Defined Character Properties</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="User_002dDefined-Case-Mappings-_0028for-serious-hackers-only_0029"></a>
 <h4 class="subsection">80.2.6 User-Defined Case Mappings (for serious hackers only)</h4>
@@ -1159,7 +1158,7 @@ this pod:
 <a name="perlunicode-Character-Encodings-for-Input-and-Output"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Unicode-Regular-Expression-Support-Level" accesskey="n" rel="next">perlunicode Unicode Regular Expression Support Level</a>, Previous: <a href="#perlunicode-User_002dDefined-Case-Mappings-_0028for-serious-hackers-only_0029" accesskey="p" rel="previous">perlunicode User-Defined Case Mappings (for serious hackers only)</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Unicode-Regular-Expression-Support-Level" accesskey="n" rel="next">perlunicode Unicode Regular Expression Support Level</a>, Previous: <a href="#perlunicode-User_002dDefined-Case-Mappings-_0028for-serious-hackers-only_0029" accesskey="p" rel="prev">perlunicode User-Defined Case Mappings (for serious hackers only)</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Character-Encodings-for-Input-and-Output"></a>
 <h4 class="subsection">80.2.7 Character Encodings for Input and Output</h4>
@@ -1170,7 +1169,7 @@ Next: <a href="#perlunicode-Unicode-Regular-Expression-Support-Level" accesskey=
 <a name="perlunicode-Unicode-Regular-Expression-Support-Level"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Unicode-Encodings" accesskey="n" rel="next">perlunicode Unicode Encodings</a>, Previous: <a href="#perlunicode-Character-Encodings-for-Input-and-Output" accesskey="p" rel="previous">perlunicode Character Encodings for Input and Output</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Unicode-Encodings" accesskey="n" rel="next">perlunicode Unicode Encodings</a>, Previous: <a href="#perlunicode-Character-Encodings-for-Input-and-Output" accesskey="p" rel="prev">perlunicode Character Encodings for Input and Output</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Unicode-Regular-Expression-Support-Level"></a>
 <h4 class="subsection">80.2.8 Unicode Regular Expression Support Level</h4>
@@ -1186,63 +1185,102 @@ and the section numbers refer to the Unicode Technical Standard #18,
 <pre class="verbatim"> RL1.1   Hex Notation                     - done          [1]
  RL1.2   Properties                       - done          [2][3]
  RL1.2a  Compatibility Properties         - done          [4]
- RL1.3   Subtraction and Intersection     - MISSING       [5]
+ RL1.3   Subtraction and Intersection     - experimental  [5]
  RL1.4   Simple Word Boundaries           - done          [6]
  RL1.5   Simple Loose Matches             - done          [7]
  RL1.6   Line Boundaries                  - MISSING       [8][9]
  RL1.7   Supplementary Code Points        - done          [10]
-
- [1]  \x{...}
- [2]  \p{...} \P{...}
- [3]  supports not only minimal list, but all Unicode character
-      properties (see Unicode Character Properties above)
- [4]  \d \D \s \S \w \W \X [:prop:] [:^prop:]
- [5]  can use regular expression look-ahead [a] or
-      user-defined character properties [b] to emulate set
-      operations
- [6]  \b \B
- [7]  note that Perl does Full case-folding in matching (but with
-      bugs), not Simple: for example U+1F88 is equivalent to
-      U+1F00 U+03B9, instead of just U+1F80.  This difference
-      matters mainly for certain Greek capital letters with certain
-      modifiers: the Full case-folding decomposes the letter,
-      while the Simple case-folding would map it to a single
-      character.
- [8]  should do ^ and $ also on U+000B (\v in C), FF (\f), CR
-      (\r), CRLF (\r\n), NEL (U+0085), LS (U+2028), and PS
-      (U+2029); should also affect &lt;&gt;, $., and script line
-      numbers; should not split lines within CRLF [c] (i.e. there
-      is no empty line between \r and \n)
- [9]  Linebreaking conformant with UAX#14 &quot;Unicode Line Breaking
-      Algorithm&quot; is available through the Unicode::LineBreaking
-      module.
- [10] UTF-8/UTF-EBDDIC used in Perl allows not only U+10000 to
-      U+10FFFF but also beyond U+10FFFF
 </pre>
-<p>[a] You can mimic class subtraction using lookahead.
+<dl compact="compact">
+<dt>[1]</dt>
+<dd><a name="perlunicode-_005b1_005d"></a>
+<p>\x{...}
+</p>
+</dd>
+<dt>[2]</dt>
+<dd><a name="perlunicode-_005b2_005d"></a>
+<p>\p{...} \P{...}
+</p>
+</dd>
+<dt>[3]</dt>
+<dd><a name="perlunicode-_005b3_005d"></a>
+<p>supports not only minimal list, but all Unicode character properties (see Unicode Character Properties above)
+</p>
+</dd>
+<dt>[4]</dt>
+<dd><a name="perlunicode-_005b4_005d"></a>
+<p>\d \D \s \S \w \W \X [:prop:] [:^prop:]
+</p>
+</dd>
+<dt>[5]</dt>
+<dd><a name="perlunicode-_005b5_005d"></a>
+<p>The experimental feature in v5.18 &quot;(?[...])&quot; accomplishes this.  See
+<a href="perlre.html#perlre-_0028_003f_005b-_005d_0029">perlre <code>(?[ ])</code></a>.  If you don&rsquo;t want to use an experimental feature,
+you can use one of the following:
+</p>
+<ul>
+<li> Regular expression look-ahead
+
+<p>You can mimic class subtraction using lookahead.
 For example, what UTS#18 might write as
 </p>
-<pre class="verbatim">    [{Greek}-[{UNASSIGNED}]]
+<pre class="verbatim">    [{Block=Greek}-[{UNASSIGNED}]]
 </pre>
 <p>in Perl can be written as:
 </p>
-<pre class="verbatim">    (?!\p{Unassigned})\p{InGreekAndCoptic}
-    (?=\p{Assigned})\p{InGreekAndCoptic}
+<pre class="verbatim">    (?!\p{Unassigned})\p{Block=Greek}
+    (?=\p{Assigned})\p{Block=Greek}
 </pre>
 <p>But in this particular example, you probably really want
 </p>
-<pre class="verbatim">    \p{GreekAndCoptic}
+<pre class="verbatim">    \p{Greek}
 </pre>
 <p>which will match assigned characters known to be part of the Greek script.
 </p>
-<p>Also see the <a href="../Unicode-Regex-Set/index.html">(Unicode-Regex-Set)</a> module; it does implement the full
-UTS#18 grouping, intersection, union, and removal (subtraction) syntax.
+</li><li> CPAN module <a href="../Unicode-Regex-Set/index.html">(Unicode-Regex-Set)</a>
+
+<p>It does implement the full UTS#18 grouping, intersection, union, and
+removal (subtraction) syntax.
 </p>
-<p>[b] &rsquo;+&rsquo; for union, &rsquo;-&rsquo; for removal (set-difference), &rsquo;&amp;&rsquo; for intersection
-(see <a href="#perlunicode-User_002dDefined-Character-Properties">User-Defined Character Properties</a>)
+</li><li> <a href="#perlunicode-User_002dDefined-Character-Properties">User-Defined Character Properties</a>
+
+<p>&rsquo;+&rsquo; for union, &rsquo;-&rsquo; for removal (set-difference), &rsquo;&amp;&rsquo; for intersection
 </p>
-<p>[c] Try the <code>:crlf</code> layer (see <a href="../PerlIO/index.html">(PerlIO)</a>).
+</li></ul>
+
+</dd>
+<dt>[6]</dt>
+<dd><a name="perlunicode-_005b6_005d"></a>
+<p>\b \B
 </p>
+</dd>
+<dt>[7]</dt>
+<dd><a name="perlunicode-_005b7_005d"></a>
+<p>Note that Perl does Full case-folding in matching (but with bugs), not Simple: for example U+1F88 is equivalent to U+1F00 U+03B9, instead of just U+1F80.  This difference matters mainly for certain Greek capital letters with certain modifiers: the Full case-folding decomposes the letter, while the Simple case-folding would map it to a single character.
+</p>
+</dd>
+<dt>[8]</dt>
+<dd><a name="perlunicode-_005b8_005d"></a>
+<p>Should do ^ and $ also on U+000B (\v in C), FF (\f), CR (\r), CRLF
+(\r\n), NEL (U+0085), LS (U+2028), and PS (U+2029); should also affect
+&lt;&gt;, $., and script line numbers; should not split lines within CRLF
+(i.e. there is no empty line between \r and \n).  For CRLF, try the
+<code>:crlf</code> layer (see <a href="../PerlIO/index.html">(PerlIO)</a>).
+</p>
+</dd>
+<dt>[9]</dt>
+<dd><a name="perlunicode-_005b9_005d"></a>
+<p>Linebreaking conformant with UAX#14 &quot;Unicode Line Breaking Algorithm&quot; is available through the Unicode::LineBreaking module.
+</p>
+</dd>
+<dt>[10]</dt>
+<dd><a name="perlunicode-_005b10_005d"></a>
+<p>UTF-8/UTF-EBDDIC used in Perl allows not only U+10000 to
+U+10FFFF but also beyond U+10FFFF
+</p>
+</dd>
+</dl>
+
 </li><li> Level 2 - Extended Unicode Support
 
 <pre class="verbatim"> RL2.1   Canonical Equivalents           - MISSING       [10][11]
@@ -1287,7 +1325,7 @@ UTS#18 grouping, intersection, union, and removal (subtraction) syntax.
 <a name="perlunicode-Unicode-Encodings"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Non_002dcharacter-code-points" accesskey="n" rel="next">perlunicode Non-character code points</a>, Previous: <a href="#perlunicode-Unicode-Regular-Expression-Support-Level" accesskey="p" rel="previous">perlunicode Unicode Regular Expression Support Level</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Non_002dcharacter-code-points" accesskey="n" rel="next">perlunicode Non-character code points</a>, Previous: <a href="#perlunicode-Unicode-Regular-Expression-Support-Level" accesskey="p" rel="prev">perlunicode Unicode Regular Expression Support Level</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Unicode-Encodings"></a>
 <h4 class="subsection">80.2.9 Unicode Encodings</h4>
@@ -1437,7 +1475,7 @@ transport or storage is not eight-bit safe.  Defined by RFC 2152.
 <a name="perlunicode-Non_002dcharacter-code-points"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Beyond-Unicode-code-points" accesskey="n" rel="next">perlunicode Beyond Unicode code points</a>, Previous: <a href="#perlunicode-Unicode-Encodings" accesskey="p" rel="previous">perlunicode Unicode Encodings</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Beyond-Unicode-code-points" accesskey="n" rel="next">perlunicode Beyond Unicode code points</a>, Previous: <a href="#perlunicode-Unicode-Encodings" accesskey="p" rel="prev">perlunicode Unicode Encodings</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Non_002dcharacter-code-points"></a>
 <h4 class="subsection">80.2.10 Non-character code points</h4>
@@ -1463,7 +1501,7 @@ an attempt is made to output them.
 <a name="perlunicode-Beyond-Unicode-code-points"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Security-Implications-of-Unicode" accesskey="n" rel="next">perlunicode Security Implications of Unicode</a>, Previous: <a href="#perlunicode-Non_002dcharacter-code-points" accesskey="p" rel="previous">perlunicode Non-character code points</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Security-Implications-of-Unicode" accesskey="n" rel="next">perlunicode Security Implications of Unicode</a>, Previous: <a href="#perlunicode-Non_002dcharacter-code-points" accesskey="p" rel="prev">perlunicode Non-character code points</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Beyond-Unicode-code-points"></a>
 <h4 class="subsection">80.2.11 Beyond Unicode code points</h4>
@@ -1481,7 +1519,7 @@ case of every non-Unicode code point is the code point itself.
 <a name="perlunicode-Security-Implications-of-Unicode"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Unicode-in-Perl-on-EBCDIC" accesskey="n" rel="next">perlunicode Unicode in Perl on EBCDIC</a>, Previous: <a href="#perlunicode-Beyond-Unicode-code-points" accesskey="p" rel="previous">perlunicode Beyond Unicode code points</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Unicode-in-Perl-on-EBCDIC" accesskey="n" rel="next">perlunicode Unicode in Perl on EBCDIC</a>, Previous: <a href="#perlunicode-Beyond-Unicode-code-points" accesskey="p" rel="prev">perlunicode Beyond Unicode code points</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Security-Implications-of-Unicode"></a>
 <h4 class="subsection">80.2.12 Security Implications of Unicode</h4>
@@ -1505,7 +1543,7 @@ surrogates, which are not Unicode code points valid for interchange.
 </li><li> Regular expression pattern matching may surprise you if you&rsquo;re not
 accustomed to Unicode.  Starting in Perl 5.14, several pattern
 modifiers are available to control this, called the character set
-modifiers.  Details are given in <a href="../perlre/Character-set-modifiers.html#Character-set-modifiers">(perlre)Character set modifiers</a>.
+modifiers.  Details are given in <a href="perlre.html#perlre-Character-set-modifiers">perlre Character set modifiers</a>.
 
 </li></ul>
 
@@ -1523,7 +1561,7 @@ modifier is in effect).  Review your code.  Use warnings and the <code>strict</c
 <a name="perlunicode-Unicode-in-Perl-on-EBCDIC"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Locales" accesskey="n" rel="next">perlunicode Locales</a>, Previous: <a href="#perlunicode-Security-Implications-of-Unicode" accesskey="p" rel="previous">perlunicode Security Implications of Unicode</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Locales" accesskey="n" rel="next">perlunicode Locales</a>, Previous: <a href="#perlunicode-Security-Implications-of-Unicode" accesskey="p" rel="prev">perlunicode Security Implications of Unicode</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Unicode-in-Perl-on-EBCDIC"></a>
 <h4 class="subsection">80.2.13 Unicode in Perl on EBCDIC</h4>
@@ -1541,7 +1579,7 @@ for more discussion of the issues.
 <a name="perlunicode-Locales"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-When-Unicode-Does-Not-Happen" accesskey="n" rel="next">perlunicode When Unicode Does Not Happen</a>, Previous: <a href="#perlunicode-Unicode-in-Perl-on-EBCDIC" accesskey="p" rel="previous">perlunicode Unicode in Perl on EBCDIC</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-When-Unicode-Does-Not-Happen" accesskey="n" rel="next">perlunicode When Unicode Does Not Happen</a>, Previous: <a href="#perlunicode-Unicode-in-Perl-on-EBCDIC" accesskey="p" rel="prev">perlunicode Unicode in Perl on EBCDIC</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Locales"></a>
 <h4 class="subsection">80.2.14 Locales</h4>
@@ -1552,7 +1590,7 @@ Next: <a href="#perlunicode-When-Unicode-Does-Not-Happen" accesskey="n" rel="nex
 <a name="perlunicode-When-Unicode-Does-Not-Happen"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-The-_0022Unicode-Bug_0022" accesskey="n" rel="next">perlunicode The &quot;Unicode Bug&quot;</a>, Previous: <a href="#perlunicode-Locales" accesskey="p" rel="previous">perlunicode Locales</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-The-_0022Unicode-Bug_0022" accesskey="n" rel="next">perlunicode The &quot;Unicode Bug&quot;</a>, Previous: <a href="#perlunicode-Locales" accesskey="p" rel="prev">perlunicode Locales</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="When-Unicode-Does-Not-Happen"></a>
 <h4 class="subsection">80.2.15 When Unicode Does Not Happen</h4>
@@ -1565,7 +1603,7 @@ results, or both, but it is not.
 </p>
 <p>The following are such interfaces.  Also, see <a href="#perlunicode-The-_0022Unicode-Bug_0022">The &quot;Unicode Bug&quot;</a>.
 For all of these interfaces Perl
-currently (as of 5.8.3) simply assumes byte strings both as arguments
+currently (as of v5.16.0) simply assumes byte strings both as arguments
 and results, or UTF-8 strings if the (problematic) <code>encoding</code> pragma has been used.
 </p>
 <p>One reason that Perl does not attempt to resolve the role of Unicode in
@@ -1595,7 +1633,7 @@ rename, rmdir, stat, symlink, truncate, unlink, utime, -X
 <a name="perlunicode-The-_0022Unicode-Bug_0022"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Forcing-Unicode-in-Perl-_0028Or-Unforcing-Unicode-in-Perl_0029" accesskey="n" rel="next">perlunicode Forcing Unicode in Perl (Or Unforcing Unicode in Perl)</a>, Previous: <a href="#perlunicode-When-Unicode-Does-Not-Happen" accesskey="p" rel="previous">perlunicode When Unicode Does Not Happen</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Forcing-Unicode-in-Perl-_0028Or-Unforcing-Unicode-in-Perl_0029" accesskey="n" rel="next">perlunicode Forcing Unicode in Perl (Or Unforcing Unicode in Perl)</a>, Previous: <a href="#perlunicode-When-Unicode-Does-Not-Happen" accesskey="p" rel="prev">perlunicode When Unicode Does Not Happen</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="The-_0022Unicode-Bug_0022"></a>
 <h4 class="subsection">80.2.16 The &quot;Unicode Bug&quot;</h4>
@@ -1632,7 +1670,7 @@ remainder (so far as we know, anyway).  The lesson here is to enable
 and <code>lcfirst()</code>, or <code>\L</code>, <code>\U</code>, <code>\u</code> and <code>\l</code> in double-quotish
 contexts, such as regular expression substitutions.
 Under <code>unicode_strings</code> starting in Perl 5.12.0, character semantics are
-generally used.  See <a href="../perlfunc/lc.html#lc">(perlfunc)lc</a> for details on how this works
+generally used.  See <a href="perlfunc.html#perlfunc-lc">perlfunc lc</a> for details on how this works
 in combination with various other pragmas.
 
 </li><li> Using caseless (<code>/i</code>) regular expression matching.
@@ -1653,7 +1691,7 @@ regular expressions outside the scope.
 are quoted in UTF-8 encoded strings, but in byte encoded strings, code
 points between 128-255 are always quoted.
 Starting in Perl 5.16.0, consistent quoting rules are used within the
-scope of <code>unicode_strings</code>, as described in <a href="../perlfunc/quotemeta.html#quotemeta">(perlfunc)quotemeta</a>.
+scope of <code>unicode_strings</code>, as described in <a href="perlfunc.html#perlfunc-quotemeta">perlfunc quotemeta</a>.
 
 </li></ul>
 
@@ -1693,7 +1731,7 @@ whose ordinal is above 0x100, or which were specified using either of the
 <a name="perlunicode-Forcing-Unicode-in-Perl-_0028Or-Unforcing-Unicode-in-Perl_0029"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Using-Unicode-in-XS" accesskey="n" rel="next">perlunicode Using Unicode in XS</a>, Previous: <a href="#perlunicode-The-_0022Unicode-Bug_0022" accesskey="p" rel="previous">perlunicode The &quot;Unicode Bug&quot;</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Using-Unicode-in-XS" accesskey="n" rel="next">perlunicode Using Unicode in XS</a>, Previous: <a href="#perlunicode-The-_0022Unicode-Bug_0022" accesskey="p" rel="prev">perlunicode The &quot;Unicode Bug&quot;</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Forcing-Unicode-in-Perl-_0028Or-Unforcing-Unicode-in-Perl_0029"></a>
 <h4 class="subsection">80.2.17 Forcing Unicode in Perl (Or Unforcing Unicode in Perl)</h4>
@@ -1714,7 +1752,7 @@ no-op.
 <a name="perlunicode-Using-Unicode-in-XS"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Hacking-Perl-to-work-on-earlier-Unicode-versions-_0028for-very-serious-hackers-only_0029" accesskey="n" rel="next">perlunicode Hacking Perl to work on earlier Unicode versions (for very serious hackers only)</a>, Previous: <a href="#perlunicode-Forcing-Unicode-in-Perl-_0028Or-Unforcing-Unicode-in-Perl_0029" accesskey="p" rel="previous">perlunicode Forcing Unicode in Perl (Or Unforcing Unicode in Perl)</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Hacking-Perl-to-work-on-earlier-Unicode-versions-_0028for-very-serious-hackers-only_0029" accesskey="n" rel="next">perlunicode Hacking Perl to work on earlier Unicode versions (for very serious hackers only)</a>, Previous: <a href="#perlunicode-Forcing-Unicode-in-Perl-_0028Or-Unforcing-Unicode-in-Perl_0029" accesskey="p" rel="prev">perlunicode Forcing Unicode in Perl (Or Unforcing Unicode in Perl)</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Using-Unicode-in-XS"></a>
 <h4 class="subsection">80.2.18 Using Unicode in XS</h4>
@@ -1763,9 +1801,8 @@ designed to be a one-way street).
 </li><li> <code>is_utf8_string(buf, len)</code> returns true if <code>len</code> bytes of the buffer
 are valid UTF-8.
 
-</li><li> <code>is_utf8_char(s)</code> returns true if the pointer points to a valid UTF-8
-character.  However, this function should not be used because of
-security concerns.  Instead, use <code>is_utf8_string()</code>.
+</li><li> <code>is_utf8_char_buf(buf, buf_end)</code> returns true if the pointer points to
+a valid UTF-8 character.
 
 </li><li> <code>UTF8SKIP(buf)</code> will return the number of bytes in the UTF-8 encoded
 character in the buffer.  <code>UNISKIP(chr)</code> will return the number of bytes
@@ -1805,7 +1842,7 @@ in the Perl source code distribution.
 <a name="perlunicode-Hacking-Perl-to-work-on-earlier-Unicode-versions-_0028for-very-serious-hackers-only_0029"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlunicode-Using-Unicode-in-XS" accesskey="p" rel="previous">perlunicode Using Unicode in XS</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlunicode-Using-Unicode-in-XS" accesskey="p" rel="prev">perlunicode Using Unicode in XS</a>, Up: <a href="#perlunicode-DESCRIPTION" accesskey="u" rel="up">perlunicode DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Hacking-Perl-to-work-on-earlier-Unicode-versions-_0028for-very-serious-hackers-only_0029"></a>
 <h4 class="subsection">80.2.19 Hacking Perl to work on earlier Unicode versions (for very serious hackers only)</h4>
@@ -1823,7 +1860,7 @@ perl (see <a href="../INSTALL/index.html">(INSTALL)</a>).
 <a name="perlunicode-BUGS"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-SEE-ALSO" accesskey="n" rel="next">perlunicode SEE ALSO</a>, Previous: <a href="#perlunicode-DESCRIPTION" accesskey="p" rel="previous">perlunicode DESCRIPTION</a>, Up: <a href="#perlunicode" accesskey="u" rel="up">perlunicode</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-SEE-ALSO" accesskey="n" rel="next">perlunicode SEE ALSO</a>, Previous: <a href="#perlunicode-DESCRIPTION" accesskey="p" rel="prev">perlunicode DESCRIPTION</a>, Up: <a href="#perlunicode" accesskey="u" rel="up">perlunicode</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="BUGS-10"></a>
 <h3 class="section">80.3 BUGS</h3>
@@ -1858,7 +1895,7 @@ Next: <a href="#perlunicode-Problems-with-characters-in-the-Latin_002d1-Suppleme
 <a name="perlunicode-Problems-with-characters-in-the-Latin_002d1-Supplement-range"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Interaction-with-Extensions" accesskey="n" rel="next">perlunicode Interaction with Extensions</a>, Previous: <a href="#perlunicode-Interaction-with-Locales" accesskey="p" rel="previous">perlunicode Interaction with Locales</a>, Up: <a href="#perlunicode-BUGS" accesskey="u" rel="up">perlunicode BUGS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Interaction-with-Extensions" accesskey="n" rel="next">perlunicode Interaction with Extensions</a>, Previous: <a href="#perlunicode-Interaction-with-Locales" accesskey="p" rel="prev">perlunicode Interaction with Locales</a>, Up: <a href="#perlunicode-BUGS" accesskey="u" rel="up">perlunicode BUGS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Problems-with-characters-in-the-Latin_002d1-Supplement-range"></a>
 <h4 class="subsection">80.3.2 Problems with characters in the Latin-1 Supplement range</h4>
@@ -1869,7 +1906,7 @@ Next: <a href="#perlunicode-Interaction-with-Extensions" accesskey="n" rel="next
 <a name="perlunicode-Interaction-with-Extensions"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Speed" accesskey="n" rel="next">perlunicode Speed</a>, Previous: <a href="#perlunicode-Problems-with-characters-in-the-Latin_002d1-Supplement-range" accesskey="p" rel="previous">perlunicode Problems with characters in the Latin-1 Supplement range</a>, Up: <a href="#perlunicode-BUGS" accesskey="u" rel="up">perlunicode BUGS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Speed" accesskey="n" rel="next">perlunicode Speed</a>, Previous: <a href="#perlunicode-Problems-with-characters-in-the-Latin_002d1-Supplement-range" accesskey="p" rel="prev">perlunicode Problems with characters in the Latin-1 Supplement range</a>, Up: <a href="#perlunicode-BUGS" accesskey="u" rel="up">perlunicode BUGS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Interaction-with-Extensions"></a>
 <h4 class="subsection">80.3.3 Interaction with Extensions</h4>
@@ -1940,7 +1977,7 @@ Unicode data much easier.
 <a name="perlunicode-Speed"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Problems-on-EBCDIC-platforms" accesskey="n" rel="next">perlunicode Problems on EBCDIC platforms</a>, Previous: <a href="#perlunicode-Interaction-with-Extensions" accesskey="p" rel="previous">perlunicode Interaction with Extensions</a>, Up: <a href="#perlunicode-BUGS" accesskey="u" rel="up">perlunicode BUGS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Problems-on-EBCDIC-platforms" accesskey="n" rel="next">perlunicode Problems on EBCDIC platforms</a>, Previous: <a href="#perlunicode-Interaction-with-Extensions" accesskey="p" rel="prev">perlunicode Interaction with Extensions</a>, Up: <a href="#perlunicode-BUGS" accesskey="u" rel="up">perlunicode BUGS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Speed"></a>
 <h4 class="subsection">80.3.4 Speed</h4>
@@ -1964,7 +2001,7 @@ compared with the 10 ASCII characters matching <code>d</code>).
 <a name="perlunicode-Problems-on-EBCDIC-platforms"></a>
 <div class="header">
 <p>
-Next: <a href="#perlunicode-Porting-code-from-perl_002d5_002e6_002eX" accesskey="n" rel="next">perlunicode Porting code from perl-5.6.X</a>, Previous: <a href="#perlunicode-Speed" accesskey="p" rel="previous">perlunicode Speed</a>, Up: <a href="#perlunicode-BUGS" accesskey="u" rel="up">perlunicode BUGS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlunicode-Porting-code-from-perl_002d5_002e6_002eX" accesskey="n" rel="next">perlunicode Porting code from perl-5.6.X</a>, Previous: <a href="#perlunicode-Speed" accesskey="p" rel="prev">perlunicode Speed</a>, Up: <a href="#perlunicode-BUGS" accesskey="u" rel="up">perlunicode BUGS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Problems-on-EBCDIC-platforms"></a>
 <h4 class="subsection">80.3.5 Problems on EBCDIC platforms</h4>
@@ -1983,7 +2020,7 @@ old Unicode string used EBCDIC.
 <a name="perlunicode-Porting-code-from-perl_002d5_002e6_002eX"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlunicode-Problems-on-EBCDIC-platforms" accesskey="p" rel="previous">perlunicode Problems on EBCDIC platforms</a>, Up: <a href="#perlunicode-BUGS" accesskey="u" rel="up">perlunicode BUGS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlunicode-Problems-on-EBCDIC-platforms" accesskey="p" rel="prev">perlunicode Problems on EBCDIC platforms</a>, Up: <a href="#perlunicode-BUGS" accesskey="u" rel="up">perlunicode BUGS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Porting-code-from-perl_002d5_002e6_002eX"></a>
 <h4 class="subsection">80.3.6 Porting code from perl-5.6.X</h4>
@@ -1999,7 +2036,7 @@ to work under 5.6, so you should be safe to try them out.
 <ul>
 <li> A filehandle that should read or write UTF-8
 
-<pre class="verbatim">  if ($] &gt; 5.007) {
+<pre class="verbatim">  if ($] &gt; 5.008) {
     binmode $fh, &quot;:encoding(utf8)&quot;;
   }
 </pre>
@@ -2008,10 +2045,10 @@ to work under 5.6, so you should be safe to try them out.
 <p>Be it Compress::Zlib, Apache::Request or any extension that has no
 mention of Unicode in the manpage, you need to make sure that the
 UTF8 flag is stripped off. Note that at the time of this writing
-(October 2002) the mentioned modules are not UTF-8-aware. Please
+(January 2012) the mentioned modules are not UTF-8-aware. Please
 check the documentation to verify if this is still true.
 </p>
-<pre class="verbatim">  if ($] &gt; 5.007) {
+<pre class="verbatim">  if ($] &gt; 5.008) {
     require Encode;
     $val = Encode::encode_utf8($val); # make octets
   }
@@ -2021,14 +2058,14 @@ check the documentation to verify if this is still true.
 <p>If you believe the scalar comes back as UTF-8, you will most likely
 want the UTF8 flag restored:
 </p>
-<pre class="verbatim">  if ($] &gt; 5.007) {
+<pre class="verbatim">  if ($] &gt; 5.008) {
     require Encode;
     $val = Encode::decode_utf8($val);
   }
 </pre>
 </li><li> Same thing, if you are really sure it is UTF-8
 
-<pre class="verbatim">  if ($] &gt; 5.007) {
+<pre class="verbatim">  if ($] &gt; 5.008) {
     require Encode;
     Encode::_utf8_on($val);
   }
@@ -2039,14 +2076,14 @@ want the UTF8 flag restored:
 a convenient way to replace all your fetchrow_array and
 fetchrow_hashref calls. A wrapper function will also make it easier to
 adapt to future enhancements in your database driver. Note that at the
-time of this writing (October 2002), the DBI has no standardized way
+time of this writing (January 2012), the DBI has no standardized way
 to deal with UTF-8 data. Please check the documentation to verify if
 that is still true.
 </p>
 <pre class="verbatim">  sub fetchrow {
     # $what is one of fetchrow_{array,hashref}
     my($self, $sth, $what) = @_;
-    if ($] &lt; 5.007) {
+    if ($] &lt; 5.008) {
       return $sth-&gt;$what;
     } else {
       require Encode;
@@ -2079,7 +2116,7 @@ that is still true.
 a drag to your program. If you recognize such a situation, just remove
 the UTF8 flag:
 </p>
-<pre class="verbatim">  utf8::downgrade($val) if $] &gt; 5.007;
+<pre class="verbatim">  utf8::downgrade($val) if $] &gt; 5.008;
 </pre>
 </li></ul>
 
@@ -2087,9 +2124,9 @@ the UTF8 flag:
 <a name="perlunicode-SEE-ALSO"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlunicode-BUGS" accesskey="p" rel="previous">perlunicode BUGS</a>, Up: <a href="#perlunicode" accesskey="u" rel="up">perlunicode</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlunicode-BUGS" accesskey="p" rel="prev">perlunicode BUGS</a>, Up: <a href="#perlunicode" accesskey="u" rel="up">perlunicode</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="SEE-ALSO-39"></a>
+<a name="SEE-ALSO-40"></a>
 <h3 class="section">80.4 SEE ALSO</h3>
 
 <p><a href="perlunitut.html#perlunitut-NAME">perlunitut NAME</a>, <a href="perluniintro.html#perluniintro-NAME">perluniintro NAME</a>, <a href="../perluniprops/index.html">(perluniprops)</a>, <a href="../Encode/index.html">(Encode)</a>, <a href="../open/index.html">(open)</a>, <a href="../utf8/index.html">(utf8)</a>, <a href="../bytes/index.html">(bytes)</a>,
@@ -2099,7 +2136,7 @@ Previous: <a href="#perlunicode-BUGS" accesskey="p" rel="previous">perlunicode B
 <hr>
 <div class="header">
 <p>
-Previous: <a href="#perlunicode-BUGS" accesskey="p" rel="previous">perlunicode BUGS</a>, Up: <a href="#perlunicode" accesskey="u" rel="up">perlunicode</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlunicode-BUGS" accesskey="p" rel="prev">perlunicode BUGS</a>, Up: <a href="#perlunicode" accesskey="u" rel="up">perlunicode</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 
 

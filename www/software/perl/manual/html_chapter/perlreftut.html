@@ -14,7 +14,7 @@
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
 <link href="perlreguts.html#perlreguts" rel="next" title="perlreguts">
-<link href="NAME-reference-pointer-data-structure-structure-struct.html#NAME-reference-pointer-data-structure-structure-struct-SEE-ALSO" rel="previous" title="NAME reference pointer data structure structure struct SEE ALSO">
+<link href="perlref.html#perlref-SEE-ALSO" rel="prev" title="perlref SEE ALSO">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -51,7 +51,7 @@ ul.no-bullet {list-style: none}
 <a name="perlreftut"></a>
 <div class="header">
 <p>
-Next: <a href="perlreguts.html#perlreguts" accesskey="n" rel="next">perlreguts</a>, Previous: <a href="NAME-reference-pointer-data-structure-structure-struct.html#NAME-reference-pointer-data-structure-structure-struct" accesskey="p" rel="previous">NAME reference pointer data structure structure struct</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="perlreguts.html#perlreguts" accesskey="n" rel="next">perlreguts</a>, Previous: <a href="perlref.html#perlref" accesskey="p" rel="prev">perlref</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perlreftut-1"></a>
 <h2 class="chapter">63 perlreftut</h2>
@@ -92,7 +92,7 @@ Next: <a href="#perlreftut-DESCRIPTION" accesskey="n" rel="next">perlreftut DESC
 <a name="perlreftut-DESCRIPTION"></a>
 <div class="header">
 <p>
-Next: <a href="#perlreftut-Who-Needs-Complicated-Data-Structures_003f" accesskey="n" rel="next">perlreftut Who Needs Complicated Data Structures?</a>, Previous: <a href="#perlreftut-NAME" accesskey="p" rel="previous">perlreftut NAME</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlreftut-Who-Needs-Complicated-Data-Structures_003f" accesskey="n" rel="next">perlreftut Who Needs Complicated Data Structures?</a>, Previous: <a href="#perlreftut-NAME" accesskey="p" rel="prev">perlreftut NAME</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DESCRIPTION-61"></a>
 <h3 class="section">63.2 DESCRIPTION</h3>
@@ -113,14 +113,14 @@ it can be hard to tell what is important and what isn&rsquo;t.
 <a name="perlreftut-Who-Needs-Complicated-Data-Structures_003f"></a>
 <div class="header">
 <p>
-Next: <a href="#perlreftut-The-Solution" accesskey="n" rel="next">perlreftut The Solution</a>, Previous: <a href="#perlreftut-DESCRIPTION" accesskey="p" rel="previous">perlreftut DESCRIPTION</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlreftut-The-Solution" accesskey="n" rel="next">perlreftut The Solution</a>, Previous: <a href="#perlreftut-DESCRIPTION" accesskey="p" rel="prev">perlreftut DESCRIPTION</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Who-Needs-Complicated-Data-Structures_003f"></a>
 <h3 class="section">63.3 Who Needs Complicated Data Structures?</h3>
 
-<p>One problem that came up all the time in Perl 4 was how to represent a
-hash whose values were lists.  Perl 4 had hashes, of course, but the
-values had to be scalars; they couldn&rsquo;t be lists.
+<p>One problem that comes up all the time is needing a hash whose values are
+lists.  Perl has hashes, of course, but the values have to be scalars;
+they can&rsquo;t be lists.
 </p>
 <p>Why would you want a hash of lists?  Let&rsquo;s take a simple example: You
 have a file of city and country names, like this:
@@ -147,8 +147,7 @@ country, and append the new city to the list.  When you&rsquo;re done reading
 the input, iterate over the hash as usual, sorting each list of cities
 before you print it out.
 </p>
-<p>If hash values can&rsquo;t be lists, you lose.  In Perl 4, hash values can&rsquo;t
-be lists; they can only be strings.  You lose.  You&rsquo;d probably have to
+<p>If hash values couldn&rsquo;t be lists, you lose.  You&rsquo;d probably have to
 combine all the cities into a single string somehow, and then when
 time came to write the output, you&rsquo;d have to break the string into a
 list, sort the list, and turn it back into a string.  This is messy
@@ -160,7 +159,7 @@ use them.
 <a name="perlreftut-The-Solution"></a>
 <div class="header">
 <p>
-Next: <a href="#perlreftut-Syntax" accesskey="n" rel="next">perlreftut Syntax</a>, Previous: <a href="#perlreftut-Who-Needs-Complicated-Data-Structures_003f" accesskey="p" rel="previous">perlreftut Who Needs Complicated Data Structures?</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlreftut-Syntax" accesskey="n" rel="next">perlreftut Syntax</a>, Previous: <a href="#perlreftut-Who-Needs-Complicated-Data-Structures_003f" accesskey="p" rel="prev">perlreftut Who Needs Complicated Data Structures?</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="The-Solution"></a>
 <h3 class="section">63.4 The Solution</h3>
@@ -197,7 +196,7 @@ some syntax for managing references.
 <a name="perlreftut-Syntax"></a>
 <div class="header">
 <p>
-Next: <a href="#perlreftut-Solution" accesskey="n" rel="next">perlreftut Solution</a>, Previous: <a href="#perlreftut-The-Solution" accesskey="p" rel="previous">perlreftut The Solution</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlreftut-Solution" accesskey="n" rel="next">perlreftut Solution</a>, Previous: <a href="#perlreftut-The-Solution" accesskey="p" rel="prev">perlreftut The Solution</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Syntax"></a>
 <h3 class="section">63.5 Syntax</h3>
@@ -291,7 +290,7 @@ If you write just <code>{}</code>, you get a new, empty anonymous hash.
 <a name="perlreftut-Using-References"></a>
 <div class="header">
 <p>
-Next: <a href="#perlreftut-An-Example" accesskey="n" rel="next">perlreftut An Example</a>, Previous: <a href="#perlreftut-Making-References" accesskey="p" rel="previous">perlreftut Making References</a>, Up: <a href="#perlreftut-Syntax" accesskey="u" rel="up">perlreftut Syntax</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlreftut-An-Example" accesskey="n" rel="next">perlreftut An Example</a>, Previous: <a href="#perlreftut-Making-References" accesskey="p" rel="prev">perlreftut Making References</a>, Up: <a href="#perlreftut-Syntax" accesskey="u" rel="up">perlreftut Syntax</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Using-References-1"></a>
 <h4 class="subsection">63.5.2 Using References</h4>
@@ -375,7 +374,7 @@ reference?&quot;  First write the code for printing out a hash:
 <a name="perlreftut-Use-Rule-2"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlreftut-Use-Rule-1" accesskey="p" rel="previous">perlreftut <strong>Use Rule 1</strong></a>, Up: <a href="#perlreftut-Using-References" accesskey="u" rel="up">perlreftut Using References</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlreftut-Use-Rule-1" accesskey="p" rel="prev">perlreftut <strong>Use Rule 1</strong></a>, Up: <a href="#perlreftut-Using-References" accesskey="u" rel="up">perlreftut Using References</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Use-Rule-2"></a>
 <h4 class="subsubsection">63.5.2.2 <strong>Use Rule 2</strong></h4>
@@ -410,7 +409,7 @@ to use.
 <a name="perlreftut-An-Example"></a>
 <div class="header">
 <p>
-Next: <a href="#perlreftut-Arrow-Rule" accesskey="n" rel="next">perlreftut Arrow Rule</a>, Previous: <a href="#perlreftut-Using-References" accesskey="p" rel="previous">perlreftut Using References</a>, Up: <a href="#perlreftut-Syntax" accesskey="u" rel="up">perlreftut Syntax</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlreftut-Arrow-Rule" accesskey="n" rel="next">perlreftut Arrow Rule</a>, Previous: <a href="#perlreftut-Using-References" accesskey="p" rel="prev">perlreftut Using References</a>, Up: <a href="#perlreftut-Syntax" accesskey="u" rel="up">perlreftut Syntax</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="An-Example"></a>
 <h4 class="subsection">63.5.3 An Example</h4>
@@ -445,7 +444,7 @@ abbreviation:
 <a name="perlreftut-Arrow-Rule"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlreftut-An-Example" accesskey="p" rel="previous">perlreftut An Example</a>, Up: <a href="#perlreftut-Syntax" accesskey="u" rel="up">perlreftut Syntax</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlreftut-An-Example" accesskey="p" rel="prev">perlreftut An Example</a>, Up: <a href="#perlreftut-Syntax" accesskey="u" rel="up">perlreftut Syntax</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Arrow-Rule"></a>
 <h4 class="subsection">63.5.4 Arrow Rule</h4>
@@ -467,7 +466,7 @@ the unreadable <code>${${$x[2]}[3]}[5]</code>.
 <a name="perlreftut-Solution"></a>
 <div class="header">
 <p>
-Next: <a href="#perlreftut-The-Rest" accesskey="n" rel="next">perlreftut The Rest</a>, Previous: <a href="#perlreftut-Syntax" accesskey="p" rel="previous">perlreftut Syntax</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlreftut-The-Rest" accesskey="n" rel="next">perlreftut The Rest</a>, Previous: <a href="#perlreftut-Syntax" accesskey="p" rel="prev">perlreftut Syntax</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Solution"></a>
 <h3 class="section">63.6 Solution</h3>
@@ -586,7 +585,7 @@ to push <code>Athens</code> onto an array that doesn&rsquo;t exist, so it helpfu
 makes a new, empty, anonymous array for you, installs it into
 <code>%table</code>, and then pushes <code>Athens</code> onto it.  This is called
 &rsquo;autovivification&rsquo;&ndash;bringing things to life automatically.  Perl saw
-that they key wasn&rsquo;t in the hash, so it created a new hash entry
+that the key wasn&rsquo;t in the hash, so it created a new hash entry
 automatically. Perl saw that you wanted to use the hash value as an
 array, so it created a new empty array and installed a reference to it
 in the hash automatically.  And as usual, Perl made the array one
@@ -596,7 +595,7 @@ element longer to hold the new city name.
 <a name="perlreftut-The-Rest"></a>
 <div class="header">
 <p>
-Next: <a href="#perlreftut-Summary" accesskey="n" rel="next">perlreftut Summary</a>, Previous: <a href="#perlreftut-Solution" accesskey="p" rel="previous">perlreftut Solution</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlreftut-Summary" accesskey="n" rel="next">perlreftut Summary</a>, Previous: <a href="#perlreftut-Solution" accesskey="p" rel="prev">perlreftut Solution</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="The-Rest"></a>
 <h3 class="section">63.7 The Rest</h3>
@@ -604,9 +603,9 @@ Next: <a href="#perlreftut-Summary" accesskey="n" rel="next">perlreftut Summary<
 <p>I promised to give you 90% of the benefit with 10% of the details, and
 that means I left out 90% of the details.  Now that you have an
 overview of the important parts, it should be easier to read the
-<a href="../perlref/index.html">(perlref)</a> manual page, which discusses 100% of the details.
+<a href="perlref.html#perlref-NAME">perlref NAME</a> manual page, which discusses 100% of the details.
 </p>
-<p>Some of the highlights of <a href="../perlref/index.html">(perlref)</a>:
+<p>Some of the highlights of <a href="perlref.html#perlref-NAME">perlref NAME</a>:
 </p>
 <ul>
 <li> You can make references to anything, including scalars, functions, and
@@ -662,9 +661,9 @@ feature, which can cause all sorts of trouble if you use it by accident.
 
 </li></ul>
 
-<p>You might prefer to go on to <a href="perllol.html#perllol-NAME">perllol NAME</a> instead of <a href="../perlref/index.html">(perlref)</a>; it
+<p>You might prefer to go on to <a href="perllol.html#perllol-NAME">perllol NAME</a> instead of <a href="perlref.html#perlref-NAME">perlref NAME</a>; it
 discusses lists of lists and multidimensional arrays in detail.  After
-that, you should move on to <a href="../perldsc/index.html">(perldsc)</a>; it&rsquo;s a Data Structure Cookbook
+that, you should move on to <a href="perldsc.html#perldsc-NAME">perldsc NAME</a>; it&rsquo;s a Data Structure Cookbook
 that shows recipes for using and printing out arrays of hashes, hashes
 of arrays, and other kinds of data.
 </p>
@@ -672,7 +671,7 @@ of arrays, and other kinds of data.
 <a name="perlreftut-Summary"></a>
 <div class="header">
 <p>
-Next: <a href="#perlreftut-Credits" accesskey="n" rel="next">perlreftut Credits</a>, Previous: <a href="#perlreftut-The-Rest" accesskey="p" rel="previous">perlreftut The Rest</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlreftut-Credits" accesskey="n" rel="next">perlreftut Credits</a>, Previous: <a href="#perlreftut-The-Rest" accesskey="p" rel="prev">perlreftut The Rest</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Summary"></a>
 <h3 class="section">63.8 Summary</h3>
@@ -687,7 +686,7 @@ to do with references.
 <a name="perlreftut-Credits"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlreftut-Summary" accesskey="p" rel="previous">perlreftut Summary</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlreftut-Summary" accesskey="p" rel="prev">perlreftut Summary</a>, Up: <a href="#perlreftut" accesskey="u" rel="up">perlreftut</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Credits"></a>
 <h3 class="section">63.9 Credits</h3>

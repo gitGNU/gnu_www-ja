@@ -14,7 +14,7 @@
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
 <link href="perlclib.html#perlclib" rel="next" title="perlclib">
-<link href="perlcall.html#perlcall-DATE" rel="previous" title="perlcall DATE">
+<link href="perlcall.html#perlcall-DATE" rel="prev" title="perlcall DATE">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -51,7 +51,7 @@ ul.no-bullet {list-style: none}
 <a name="perlcheat"></a>
 <div class="header">
 <p>
-Next: <a href="perlclib.html#perlclib" accesskey="n" rel="next">perlclib</a>, Previous: <a href="perlcall.html#perlcall" accesskey="p" rel="previous">perlcall</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="perlclib.html#perlclib" accesskey="n" rel="next">perlclib</a>, Previous: <a href="perlcall.html#perlcall" accesskey="p" rel="prev">perlcall</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perlcheat-1"></a>
 <h2 class="chapter">8 perlcheat</h2>
@@ -84,7 +84,7 @@ Next: <a href="#perlcheat-DESCRIPTION" accesskey="n" rel="next">perlcheat DESCRI
 <a name="perlcheat-DESCRIPTION"></a>
 <div class="header">
 <p>
-Next: <a href="#perlcheat-ACKNOWLEDGEMENTS" accesskey="n" rel="next">perlcheat ACKNOWLEDGEMENTS</a>, Previous: <a href="#perlcheat-NAME" accesskey="p" rel="previous">perlcheat NAME</a>, Up: <a href="#perlcheat" accesskey="u" rel="up">perlcheat</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlcheat-ACKNOWLEDGEMENTS" accesskey="n" rel="next">perlcheat ACKNOWLEDGEMENTS</a>, Previous: <a href="#perlcheat-NAME" accesskey="p" rel="prev">perlcheat NAME</a>, Up: <a href="#perlcheat" accesskey="u" rel="up">perlcheat</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DESCRIPTION-7"></a>
 <h3 class="section">8.2 DESCRIPTION</h3>
@@ -120,42 +120,43 @@ Up: <a href="#perlcheat-DESCRIPTION" accesskey="u" rel="up">perlcheat DESCRIPTIO
   []     anon. arrayref  ${$$foo[1]}[2] aka $foo-&gt;[1]-&gt;[2]
   {}     anon. hashref   ${$$foo[1]}[2] aka $foo-&gt;[1][2]
   \()    list of refs
-                         NUMBERS vs STRINGS    LINKS
-  OPERATOR PRECEDENCE    =          =          perldoc.perl.org
-  -&gt;                     +          .           search.cpan.org
-  ++ --                  == !=      eq ne              cpan.org
-  **                     &lt; &gt; &lt;= &gt;=  lt gt le ge          pm.org
-  ! ~ \ u+ u-            &lt;=&gt;        cmp                p3rl.org
-  =~ !~                                           perlmonks.org
-  * / % x                SYNTAX
-  + - .                  foreach (LIST) { }     for (a;b;c) { }
-  &lt;&lt; &gt;&gt;                  while   (e) { }        until (e)   { }
-  named uops             if      (e) { } elsif (e) { } else { }
-  &lt; &gt; &lt;= &gt;= lt gt le ge  unless  (e) { } elsif (e) { } else { }
-  == != &lt;=&gt; eq ne cmp ~~ given   (e) { when (e) {} default {} }
+                         SYNTAX
+  OPERATOR PRECEDENCE    foreach (LIST) { }     for (a;b;c) { }
+  -&gt;                     while   (e) { }        until (e)   { }
+  ++ --                  if      (e) { } elsif (e) { } else { }
+  **                     unless  (e) { } elsif (e) { } else { }
+  ! ~ \ u+ u-            given   (e) { when (e) {} default {} }
+  =~ !~
+  * / % x                 NUMBERS vs STRINGS  FALSE vs TRUE
+  + - .                   =          =        undef, &quot;&quot;, 0, &quot;0&quot;
+  &lt;&lt; &gt;&gt;                   +          .        anything else
+  named uops              == !=      eq ne
+  &lt; &gt; &lt;= &gt;= lt gt le ge   &lt; &gt; &lt;= &gt;=  lt gt le ge
+  == != &lt;=&gt; eq ne cmp ~~  &lt;=&gt;        cmp
   &amp;
-  | ^             REGEX METACHARS          REGEX MODIFIERS
-  &amp;&amp;              ^      string begin      /i case insensitive
-  || //           $      str end (bfr \n)  /m line based ^$
-  .. ...          +      one or more       /s . includes \n
-  ?:              *      zero or more      /x ignore wh.space
-  = += -= *= etc  ?      zero or one       /p preserve
-  , =&gt;            {3,7}  repeat in range   /a ASCII    /aa safe
-  list ops        |      alternation       /l locale   /d  dual
-  not             []     character class   /u Unicode
-  and             \b     word boundary     /e evaluate /ee rpts
-  or xor          \z     string end        /g global
-                  ()     capture           /o compile pat once
-  DEBUG           (?:p)  no capture
-   -MO=Deparse    (?#t)  comment           REGEX CHARCLASSES
-   -MO=Terse      (?=p)  ZW pos ahead      .   [^\n]
-   -D##           (?!p)  ZW neg ahead      \s  whitespace
-   -d:Trace       (?&lt;=p) ZW pos behind \K  \w  word chars
-                  (?&lt;!p) ZW neg behind     \d  digits
-  CONFIGURATION   (?&gt;p)  no backtrack      \pP named property
-  perl -V:ivsize  (?|p|p)branch reset      \h  horiz.wh.space
-                  (?&amp;NM) cap to name       \R  linebreak
-                                           \S \W \D \H negate
+  | ^             REGEX MODIFIERS       REGEX METACHARS
+  &amp;&amp;              /i case insensitive   ^      string begin
+  || //           /m line based ^$      $      str end (bfr \n)
+  .. ...          /s . includes \n      +      one or more
+  ?:              /x ignore wh.space    *      zero or more
+  = += last goto  /p preserve           ?      zero or one
+  , =&gt;            /a ASCII    /aa safe  {3,7}  repeat in range
+  list ops        /l locale   /d  dual  |      alternation
+  not             /u Unicode            []     character class
+  and             /e evaluate /ee rpts  \b     word boundary
+  or xor          /g global             \z     string end
+                  /o compile pat once   ()     capture
+  DEBUG                                 (?:p)  no capture
+  -MO=Deparse     REGEX CHARCLASSES     (?#t)  comment
+  -MO=Terse       .   [^\n]             (?=p)  ZW pos ahead
+  -D##            \s  whitespace        (?!p)  ZW neg ahead
+  -d:Trace        \w  word chars        (?&lt;=p) ZW pos behind \K
+                  \d  digits            (?&lt;!p) ZW neg behind
+  CONFIGURATION   \pP named property    (?&gt;p)  no backtrack
+  perl -V:ivsize  \h  horiz.wh.space    (?|p|p)branch reset
+                  \R  linebreak         (?&lt;n&gt;p)named capture
+                  \S \W \D \H negate    \g{n}  ref to named cap
+                                        \K     keep left part
   FUNCTION RETURN LISTS
   stat      localtime    caller         SPECIAL VARIABLES
    0 dev    0 second      0 package     $_    default variable
@@ -176,7 +177,7 @@ Up: <a href="#perlcheat-DESCRIPTION" accesskey="u" rel="up">perlcheat DESCRIPTIO
 <a name="perlcheat-ACKNOWLEDGEMENTS"></a>
 <div class="header">
 <p>
-Next: <a href="#perlcheat-AUTHOR" accesskey="n" rel="next">perlcheat AUTHOR</a>, Previous: <a href="#perlcheat-DESCRIPTION" accesskey="p" rel="previous">perlcheat DESCRIPTION</a>, Up: <a href="#perlcheat" accesskey="u" rel="up">perlcheat</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlcheat-AUTHOR" accesskey="n" rel="next">perlcheat AUTHOR</a>, Previous: <a href="#perlcheat-DESCRIPTION" accesskey="p" rel="prev">perlcheat DESCRIPTION</a>, Up: <a href="#perlcheat" accesskey="u" rel="up">perlcheat</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="ACKNOWLEDGEMENTS"></a>
 <h3 class="section">8.3 ACKNOWLEDGEMENTS</h3>
@@ -192,7 +193,7 @@ Perl 6 version to show that Perl will stay Perl.
 <a name="perlcheat-AUTHOR"></a>
 <div class="header">
 <p>
-Next: <a href="#perlcheat-SEE-ALSO" accesskey="n" rel="next">perlcheat SEE ALSO</a>, Previous: <a href="#perlcheat-ACKNOWLEDGEMENTS" accesskey="p" rel="previous">perlcheat ACKNOWLEDGEMENTS</a>, Up: <a href="#perlcheat" accesskey="u" rel="up">perlcheat</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlcheat-SEE-ALSO" accesskey="n" rel="next">perlcheat SEE ALSO</a>, Previous: <a href="#perlcheat-ACKNOWLEDGEMENTS" accesskey="p" rel="prev">perlcheat ACKNOWLEDGEMENTS</a>, Up: <a href="#perlcheat" accesskey="u" rel="up">perlcheat</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="AUTHOR-2"></a>
 <h3 class="section">8.4 AUTHOR</h3>
@@ -203,7 +204,7 @@ Next: <a href="#perlcheat-SEE-ALSO" accesskey="n" rel="next">perlcheat SEE ALSO<
 <a name="perlcheat-SEE-ALSO"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlcheat-AUTHOR" accesskey="p" rel="previous">perlcheat AUTHOR</a>, Up: <a href="#perlcheat" accesskey="u" rel="up">perlcheat</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlcheat-AUTHOR" accesskey="p" rel="prev">perlcheat AUTHOR</a>, Up: <a href="#perlcheat" accesskey="u" rel="up">perlcheat</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="SEE-ALSO-2"></a>
 <h3 class="section">8.5 SEE ALSO</h3>
@@ -220,7 +221,7 @@ Previous: <a href="#perlcheat-AUTHOR" accesskey="p" rel="previous">perlcheat AUT
 <hr>
 <div class="header">
 <p>
-Previous: <a href="#perlcheat-AUTHOR" accesskey="p" rel="previous">perlcheat AUTHOR</a>, Up: <a href="#perlcheat" accesskey="u" rel="up">perlcheat</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlcheat-AUTHOR" accesskey="p" rel="prev">perlcheat AUTHOR</a>, Up: <a href="#perlcheat" accesskey="u" rel="up">perlcheat</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 
 

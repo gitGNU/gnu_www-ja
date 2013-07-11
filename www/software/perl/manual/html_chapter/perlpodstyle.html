@@ -14,7 +14,7 @@
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
 <link href="perlpolicy.html#perlpolicy" rel="next" title="perlpolicy">
-<link href="perlpodspec.html#perlpodspec-AUTHOR" rel="previous" title="perlpodspec AUTHOR">
+<link href="perlpodspec.html#perlpodspec-AUTHOR" rel="prev" title="perlpodspec AUTHOR">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -51,7 +51,7 @@ ul.no-bullet {list-style: none}
 <a name="perlpodstyle"></a>
 <div class="header">
 <p>
-Next: <a href="perlpolicy.html#perlpolicy" accesskey="n" rel="next">perlpolicy</a>, Previous: <a href="perlpodspec.html#perlpodspec" accesskey="p" rel="previous">perlpodspec</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="perlpolicy.html#perlpolicy" accesskey="n" rel="next">perlpolicy</a>, Previous: <a href="perlpodspec.html#perlpodspec" accesskey="p" rel="prev">perlpodspec</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perlpodstyle-1"></a>
 <h2 class="chapter">54 perlpodstyle</h2>
@@ -84,79 +84,43 @@ Next: <a href="#perlpodstyle-DESCRIPTION" accesskey="n" rel="next">perlpodstyle 
 <a name="perlpodstyle-DESCRIPTION"></a>
 <div class="header">
 <p>
-Next: <a href="#perlpodstyle-SEE-ALSO-1" accesskey="n" rel="next">perlpodstyle SEE ALSO 1</a>, Previous: <a href="#perlpodstyle-NAME" accesskey="p" rel="previous">perlpodstyle NAME</a>, Up: <a href="#perlpodstyle" accesskey="u" rel="up">perlpodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlpodstyle-SEE-ALSO-1" accesskey="n" rel="next">perlpodstyle SEE ALSO 1</a>, Previous: <a href="#perlpodstyle-NAME" accesskey="p" rel="prev">perlpodstyle NAME</a>, Up: <a href="#perlpodstyle" accesskey="u" rel="up">perlpodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DESCRIPTION-52"></a>
 <h3 class="section">54.2 DESCRIPTION</h3>
 
 <p>These are general guidelines for how to write POD documentation for Perl
-scripts and modules, based on general guidelines for writing good Unix man
+scripts and modules, based on general guidelines for writing good UNIX man
 pages.  All of these guidelines are, of course, optional, but following
 them will make your documentation more consistent with other documentation
 on the system.
 </p>
-<p>Here are some simple guidelines for markup; see <a href="../perlpod/index.html">(perlpod)</a> for details.
-</p>
-<dl compact="compact">
-<dt>bold (B&lt;&gt;)</dt>
-<dd><a name="perlpodstyle-bold-_0028B_003c_003e_0029"></a>
-<p><strong>NOTE: Use extremely rarely.</strong>  Do <em>not</em> use bold for emphasis; that&rsquo;s
-what italics are for.  Restrict bold for notices like <strong>NOTE:</strong> and
-<strong>WARNING:</strong>.  However, program arguments and options&ndash;but <em>not</em> their
-names!&ndash;are written in bold (using B&lt;&gt;) to distinguish the <strong>-f</strong>
-command-line option from the <code>-f</code> filetest operator.
-</p>
-</dd>
-<dt>italic (I&lt;&gt;)</dt>
-<dd><a name="perlpodstyle-italic-_0028I_003c_003e_0029"></a>
-<p>Use italic to emphasize text, like <em>this</em>.  Function names are
+<p>The name of the program being documented is conventionally written in bold
+(using B&lt;&gt;) wherever it occurs, as are all program options.
+Arguments should be written in italics (I&lt;&gt;).  Function names are
 traditionally written in italics; if you write a function as function(),
-Pod::Man will take care of this for you.  Names of programs, including the
-name of the program being documented, are conventionally written in italics
-(using I&lt;&gt;) wherever they occur in normal roman text.
-</p>
-</dd>
-<dt>code (C&lt;&gt;)</dt>
-<dd><a name="perlpodstyle-code-_0028C_003c_003e_0029"></a>
-<p>Literal code should be in C&lt;&gt;.  However metasyntactic placeholders
-should furthermore be nested in &quot;italics&quot; (actually, oblique) like
-C&lt;I&lt;&gt;&gt;.  That way
-C&lt;accept(I&lt;NEWSOCKET&gt;, &lt;GENERICSOCKET&gt;)&gt;
-renders as <code>accept(<em>NEWSOCKET</em>, <em>GENERICSOCKET</em>)</code>.
-</p>
-</dd>
-<dt>files (F&lt;&gt;)</dt>
-<dd><a name="perlpodstyle-files-_0028F_003c_003e_0029"></a>
-<p>Filenames, whether absolute or relative, are specified with the F&lt;&gt;
-markup. This will render as italics, but has other semantic connotations.
-</p>
-</dd>
-</dl>
-
-<p>References to other man pages should be in the form &quot;manpage(section)&quot; or
-&quot;<code>L&lt;manpage(section)&gt;</code>&quot;, and Pod::Man will automatically format
-those appropriately.  Both will render as <em>manpage</em>(section).  The second
-form, with L&lt;&gt;, is used to request that a POD formatter make a link
-to the man page if possible.  As an exception, one normally omits the
-section when referring to module documentation because not all systems
-place it in section 3, although that is the default.  You may use
-<code>L&lt;Module::Name&gt;</code> for module references instead, but this is
-optional because the translators are supposed to recognize module
-references in pod, just as they do variable references like $foo and such.
+Pod::Man will take care of this for you.  Literal code or commands should
+be in C&lt;&gt;.  References to other man pages should be in the form
+<code>manpage(section)</code> or <code>L&lt;manpage(section)&gt;</code>, and Pod::Man will
+automatically format those appropriately.  The second form, with
+L&lt;&gt;, is used to request that a POD formatter make a link to the
+man page if possible.  As an exception, one normally omits the section
+when referring to module documentation since it&rsquo;s not clear what section
+module documentation will be in; use <code>L&lt;Module::Name&gt;</code> for module
+references instead.
 </p>
 <p>References to other programs or functions are normally in the form of man
 page references so that cross-referencing tools can provide the user with
 links and the like.  It&rsquo;s possible to overdo this, though, so be careful not
 to clutter your documentation with too much markup.  References to other
 programs that are not given as man page references should be enclosed in
-italics via I&lt;&gt;.
+B&lt;&gt;.
 </p>
-<p>Major headers should be set out using a <code>=head1</code> directive, and are
-historically written in the rather startling ALL UPPER CASE format; this is
-not mandatory, but it&rsquo;s strongly recommended so that sections have
-consistent naming across different software packages.  The translators are
-supposed to translate all caps into small caps.  Minor headers may be
-included using <code>=head2</code>, and are typically in mixed case.
+<p>The major headers should be set out using a <code>=head1</code> directive, and are
+historically written in the rather startling ALL UPPER CASE format; this
+is not mandatory, but it&rsquo;s strongly recommended so that sections have
+consistent naming across different software packages.  Minor headers may
+be included using <code>=head2</code>, and are typically in mixed case.
 </p>
 <p>The standard sections of a manual page are:
 </p>
@@ -174,7 +138,7 @@ function documented by this POD page should be listed, separated by a
 comma and a space.  For a Perl module, just give the module name.  A
 single dash, and only a single dash, should separate the list of programs
 or functions from the description.  Do not use any markup such as
-C&lt;&gt; or I&lt;&gt; anywhere in this line.  Functions should not be
+C&lt;&gt; or B&lt;&gt; anywhere in this line.  Functions should not be
 qualified with <code>()</code> or the like.  The description should ideally fit on a
 single line, even if a man program replaces the dash with a few tabs.
 </p>
@@ -330,7 +294,7 @@ modified.
 <dt>AUTHOR</dt>
 <dd><a name="perlpodstyle-AUTHOR"></a>
 <p>Who wrote it (use AUTHORS for multiple people).  It&rsquo;s a good idea to
-include your current email address (or some email address to which bug
+include your current e-mail address (or some e-mail address to which bug
 reports should be sent) or some other contact information so that users
 have a way of contacting you.  Remember that program documentation tends
 to roam the wild for far longer than you expect and pick a contact method
@@ -399,30 +363,20 @@ handlers.  These headings are primarily useful when documenting parts of a
 C library.
 </p>
 <p>Finally, as a general note, try not to use an excessive amount of markup.
-As documented here and in <a href="../Pod-Man/index.html">(Pod-Man)</a>, you can safely leave Perl variables,
-module names, function names, man page references, and the like unadorned
-by markup, and the POD translators will figure it all out for you.  This
-makes it much easier to later edit the documentation.  Note that many
-existing translators will do the wrong thing with email addresses when
-wrapped in L&lt;&gt;, so don&rsquo;t do that.
-</p>
-<p>You can check whether your documentation looks right by running
-</p>
-<pre class="verbatim">    % pod2text -o something.pod | less
-</pre>
-<p>If you have <em>groff</em> installed, you can get an even better look this way:
-</p>
-<pre class="verbatim">    % pod2man something.pod | groff -Tps -mandoc &gt; something.ps
-</pre>
-<p>Now view the resulting Postscript file to see whether everything checks out.
+As documented here and in <a href="../Pod-Man/index.html">(Pod-Man)</a>, you can safely leave Perl
+variables, function names, man page references, and the like unadorned by
+markup and the POD translators will figure it out for you.  This makes it
+much easier to later edit the documentation.  Note that many existing
+translators will do the wrong thing with e-mail addresses when wrapped in
+L&lt;&gt;, so don&rsquo;t do that.
 </p>
 <hr>
 <a name="perlpodstyle-SEE-ALSO-1"></a>
 <div class="header">
 <p>
-Next: <a href="#perlpodstyle-AUTHOR-1" accesskey="n" rel="next">perlpodstyle AUTHOR 1</a>, Previous: <a href="#perlpodstyle-DESCRIPTION" accesskey="p" rel="previous">perlpodstyle DESCRIPTION</a>, Up: <a href="#perlpodstyle" accesskey="u" rel="up">perlpodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlpodstyle-AUTHOR-1" accesskey="n" rel="next">perlpodstyle AUTHOR 1</a>, Previous: <a href="#perlpodstyle-DESCRIPTION" accesskey="p" rel="prev">perlpodstyle DESCRIPTION</a>, Up: <a href="#perlpodstyle" accesskey="u" rel="up">perlpodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="SEE-ALSO-27"></a>
+<a name="SEE-ALSO-28"></a>
 <h3 class="section">54.3 SEE ALSO</h3>
 
 <p>For additional information that may be more accurate for your specific
@@ -437,7 +391,7 @@ The current version is always available from its web site at
 <a name="perlpodstyle-AUTHOR-1"></a>
 <div class="header">
 <p>
-Next: <a href="#perlpodstyle-COPYRIGHT-AND-LICENSE-1" accesskey="n" rel="next">perlpodstyle COPYRIGHT AND LICENSE 1</a>, Previous: <a href="#perlpodstyle-SEE-ALSO-1" accesskey="p" rel="previous">perlpodstyle SEE ALSO 1</a>, Up: <a href="#perlpodstyle" accesskey="u" rel="up">perlpodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlpodstyle-COPYRIGHT-AND-LICENSE-1" accesskey="n" rel="next">perlpodstyle COPYRIGHT AND LICENSE 1</a>, Previous: <a href="#perlpodstyle-SEE-ALSO-1" accesskey="p" rel="prev">perlpodstyle SEE ALSO 1</a>, Up: <a href="#perlpodstyle" accesskey="u" rel="up">perlpodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="AUTHOR-25"></a>
 <h3 class="section">54.4 AUTHOR</h3>
@@ -450,7 +404,7 @@ Larry Wall and Tom Christiansen.
 <a name="perlpodstyle-COPYRIGHT-AND-LICENSE-1"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlpodstyle-AUTHOR-1" accesskey="p" rel="previous">perlpodstyle AUTHOR 1</a>, Up: <a href="#perlpodstyle" accesskey="u" rel="up">perlpodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlpodstyle-AUTHOR-1" accesskey="p" rel="prev">perlpodstyle AUTHOR 1</a>, Up: <a href="#perlpodstyle" accesskey="u" rel="up">perlpodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="COPYRIGHT-AND-LICENSE"></a>
 <h3 class="section">54.5 COPYRIGHT AND LICENSE</h3>
@@ -464,7 +418,7 @@ it under the same terms as Perl itself.
 <hr>
 <div class="header">
 <p>
-Previous: <a href="#perlpodstyle-AUTHOR-1" accesskey="p" rel="previous">perlpodstyle AUTHOR 1</a>, Up: <a href="#perlpodstyle" accesskey="u" rel="up">perlpodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlpodstyle-AUTHOR-1" accesskey="p" rel="prev">perlpodstyle AUTHOR 1</a>, Up: <a href="#perlpodstyle" accesskey="u" rel="up">perlpodstyle</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 
 

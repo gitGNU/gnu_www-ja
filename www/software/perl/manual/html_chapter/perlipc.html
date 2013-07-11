@@ -13,8 +13,8 @@
 <link href="index.html#Top" rel="start" title="Top">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
-<link href="NAME-warning_002c-lexical-warnings-warning.html#NAME-warning_002c-lexical-warnings-warning" rel="next" title="NAME warning, lexical warnings warning">
-<link href="perliol.html#perliol-TODO" rel="previous" title="perliol TODO">
+<link href="perllexwarn.html#perllexwarn" rel="next" title="perllexwarn">
+<link href="perliol.html#perliol-TODO" rel="prev" title="perliol TODO">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -51,7 +51,7 @@ ul.no-bullet {list-style: none}
 <a name="perlipc"></a>
 <div class="header">
 <p>
-Next: <a href="NAME-warning_002c-lexical-warnings-warning.html#NAME-warning_002c-lexical-warnings-warning" accesskey="n" rel="next">NAME warning, lexical warnings warning</a>, Previous: <a href="perliol.html#perliol" accesskey="p" rel="previous">perliol</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="perllexwarn.html#perllexwarn" accesskey="n" rel="next">perllexwarn</a>, Previous: <a href="perliol.html#perliol" accesskey="p" rel="prev">perliol</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perlipc-1"></a>
 <h2 class="chapter">36 perlipc</h2>
@@ -102,7 +102,7 @@ Next: <a href="#perlipc-DESCRIPTION" accesskey="n" rel="next">perlipc DESCRIPTIO
 <a name="perlipc-DESCRIPTION"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-Signals" accesskey="n" rel="next">perlipc Signals</a>, Previous: <a href="#perlipc-NAME" accesskey="p" rel="previous">perlipc NAME</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-Signals" accesskey="n" rel="next">perlipc Signals</a>, Previous: <a href="#perlipc-NAME" accesskey="p" rel="prev">perlipc NAME</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DESCRIPTION-35"></a>
 <h3 class="section">36.2 DESCRIPTION</h3>
@@ -115,7 +115,7 @@ IPC calls.  Each is used in slightly different situations.
 <a name="perlipc-Signals"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-Named-Pipes" accesskey="n" rel="next">perlipc Named Pipes</a>, Previous: <a href="#perlipc-DESCRIPTION" accesskey="p" rel="previous">perlipc DESCRIPTION</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-Named-Pipes" accesskey="n" rel="next">perlipc Named Pipes</a>, Previous: <a href="#perlipc-DESCRIPTION" accesskey="p" rel="prev">perlipc DESCRIPTION</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Signals"></a>
 <h3 class="section">36.3 Signals</h3>
@@ -141,7 +141,7 @@ running out of stack space, or hitting a process file-size limit.
     $SIG{INT} = __PACKAGE__ . &quot;::catch_zap&quot;;  
     $SIG{INT} = \&amp;catch_zap;  # best strategy
 </pre>
-<p>Prior to Perl 5.7.3 it was necessary to do as little as you possibly
+<p>Prior to Perl 5.8.0 it was necessary to do as little as you possibly
 could in your handler; notice how all we do is set a global variable
 and then raise an exception.  That&rsquo;s because on most systems,
 libraries are not re-entrant; particularly, memory allocation and I/O
@@ -349,12 +349,12 @@ info to show that it works; it should be replaced with the real code.
 <a name="perlipc-Deferred-Signals-_0028Safe-Signals_0029"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlipc-Handling-the-SIGHUP-Signal-in-Daemons" accesskey="p" rel="previous">perlipc Handling the SIGHUP Signal in Daemons</a>, Up: <a href="#perlipc-Signals" accesskey="u" rel="up">perlipc Signals</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlipc-Handling-the-SIGHUP-Signal-in-Daemons" accesskey="p" rel="prev">perlipc Handling the SIGHUP Signal in Daemons</a>, Up: <a href="#perlipc-Signals" accesskey="u" rel="up">perlipc Signals</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Deferred-Signals-_0028Safe-Signals_0029"></a>
 <h4 class="subsection">36.3.2 Deferred Signals (Safe Signals)</h4>
 
-<p>Before Perl 5.7.3, installing Perl code to deal with signals exposed you to
+<p>Before Perl 5.8.0, installing Perl code to deal with signals exposed you to
 danger from two things.  First, few system library functions are
 re-entrant.  If the signal interrupts while Perl is executing one function
 (like malloc(3) or printf(3)), and your signal handler then calls the same
@@ -374,7 +374,7 @@ The pragmatic approach was to say &quot;I know the risks, but prefer the
 convenience&quot;, and to do anything you wanted in your signal handler,
 and be prepared to clean up core dumps now and again.
 </p>
-<p>Perl 5.7.3 and later avoid these problems by &quot;deferring&quot; signals.  That is,
+<p>Perl 5.8.0 and later avoid these problems by &quot;deferring&quot; signals.  That is,
 when the signal is delivered to the process by the system (to the C code
 that implements Perl) a flag is set, and the handler returns immediately.
 Then at strategic &quot;safe&quot; points in the Perl interpreter (e.g. when it is
@@ -423,7 +423,7 @@ that you want to be able to break into with signals. (The <code>:perlio</code> l
 checks the signal flags and calls %SIG handlers before resuming IO
 operation.)
 </p>
-<p>The default in Perl 5.7.3 and later is to automatically use
+<p>The default in Perl 5.8.0 and later is to automatically use
 the <code>:perlio</code> layer.
 </p>
 <p>Note that it is not advisable to access a file handle within a signal
@@ -459,7 +459,7 @@ all signals.
 SA_RESTART flag when installing %SIG handlers.  This meant that
 restartable system calls would continue rather than returning when
 a signal arrived.  In order to deliver deferred signals promptly,
-Perl 5.7.3 and later do <em>not</em> use SA_RESTART.  Consequently, 
+Perl 5.8.0 and later do <em>not</em> use SA_RESTART.  Consequently, 
 restartable system calls can fail (with $! set to <code>EINTR</code>) in places
 where they previously would have succeeded.
 </p>
@@ -498,7 +498,7 @@ memory corruption, set the environment variable <code>PERL_SIGNALS</code> to
 <a name="perlipc-Named-Pipes"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="n" rel="next">perlipc Using open() for IPC</a>, Previous: <a href="#perlipc-Signals" accesskey="p" rel="previous">perlipc Signals</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="n" rel="next">perlipc Using open() for IPC</a>, Previous: <a href="#perlipc-Signals" accesskey="p" rel="prev">perlipc Signals</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Named-Pipes"></a>
 <h3 class="section">36.4 Named Pipes</h3>
@@ -558,7 +558,7 @@ out whether anyone (or anything) has accidentally removed our fifo.
 <a name="perlipc-Using-open_0028_0029-for-IPC"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-Sockets_003a-Client_002fServer-Communication" accesskey="n" rel="next">perlipc Sockets: Client/Server Communication</a>, Previous: <a href="#perlipc-Named-Pipes" accesskey="p" rel="previous">perlipc Named Pipes</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-Sockets_003a-Client_002fServer-Communication" accesskey="n" rel="next">perlipc Sockets: Client/Server Communication</a>, Previous: <a href="#perlipc-Named-Pipes" accesskey="p" rel="prev">perlipc Named Pipes</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Using-open_0028_0029-for-IPC"></a>
 <h3 class="section">36.5 Using open() for IPC</h3>
@@ -668,7 +668,7 @@ child process cannot outlive the parent.
 <a name="perlipc-Background-Processes"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-Complete-Dissociation-of-Child-from-Parent" accesskey="n" rel="next">perlipc Complete Dissociation of Child from Parent</a>, Previous: <a href="#perlipc-Filehandles" accesskey="p" rel="previous">perlipc Filehandles</a>, Up: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="u" rel="up">perlipc Using open() for IPC</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-Complete-Dissociation-of-Child-from-Parent" accesskey="n" rel="next">perlipc Complete Dissociation of Child from Parent</a>, Previous: <a href="#perlipc-Filehandles" accesskey="p" rel="prev">perlipc Filehandles</a>, Up: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="u" rel="up">perlipc Using open() for IPC</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Background-Processes"></a>
 <h4 class="subsection">36.5.2 Background Processes</h4>
@@ -685,7 +685,7 @@ SIGCHLD because of the double-fork taking place; see below for details.
 <a name="perlipc-Complete-Dissociation-of-Child-from-Parent"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-Safe-Pipe-Opens" accesskey="n" rel="next">perlipc Safe Pipe Opens</a>, Previous: <a href="#perlipc-Background-Processes" accesskey="p" rel="previous">perlipc Background Processes</a>, Up: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="u" rel="up">perlipc Using open() for IPC</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-Safe-Pipe-Opens" accesskey="n" rel="next">perlipc Safe Pipe Opens</a>, Previous: <a href="#perlipc-Background-Processes" accesskey="p" rel="prev">perlipc Background Processes</a>, Up: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="u" rel="up">perlipc Using open() for IPC</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Complete-Dissociation-of-Child-from-Parent"></a>
 <h4 class="subsection">36.5.3 Complete Dissociation of Child from Parent</h4>
@@ -706,7 +706,7 @@ output doesn&rsquo;t wind up on the user&rsquo;s terminal.
         open(STDOUT, &quot;&gt; /dev/null&quot;)     || die &quot;can't write to /dev/null: $!&quot;;
         defined(my $pid = fork())       || die &quot;can't fork: $!&quot;;
         exit if $pid;                   # non-zero now means I am the parent
-        (setsid() != -1)                || die &quot;Can't start a new session: $!&quot; 
+        (setsid() != -1)                || die &quot;Can't start a new session: $!&quot;;
         open(STDERR, &quot;&gt;&amp;STDOUT&quot;)        || die &quot;can't dup stdout: $!&quot;;
     }
 </pre>
@@ -722,7 +722,7 @@ other possible solutions.
 <a name="perlipc-Safe-Pipe-Opens"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-Avoiding-Pipe-Deadlocks" accesskey="n" rel="next">perlipc Avoiding Pipe Deadlocks</a>, Previous: <a href="#perlipc-Complete-Dissociation-of-Child-from-Parent" accesskey="p" rel="previous">perlipc Complete Dissociation of Child from Parent</a>, Up: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="u" rel="up">perlipc Using open() for IPC</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-Avoiding-Pipe-Deadlocks" accesskey="n" rel="next">perlipc Avoiding Pipe Deadlocks</a>, Previous: <a href="#perlipc-Complete-Dissociation-of-Child-from-Parent" accesskey="p" rel="prev">perlipc Complete Dissociation of Child from Parent</a>, Up: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="u" rel="up">perlipc Using open() for IPC</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Safe-Pipe-Opens"></a>
 <h4 class="subsection">36.5.4 Safe Pipe Opens</h4>
@@ -843,7 +843,7 @@ writer.  Consider this code:
 <p>In the example above, the true parent does not want to write to the WRITER
 filehandle, so it closes it.  However, because WRITER was opened using
 <code>open FH, &quot;|-&quot;</code>, it has a special behavior: closing it calls
-waitpid() (see <a href="../perlfunc/waitpid.html#waitpid">(perlfunc)waitpid</a>), which waits for the subprocess
+waitpid() (see &lsquo;perlfunc waitpid&rsquo;), which waits for the subprocess
 to exit.  If the child process ends up waiting for something happening
 in the section marked &quot;do something else&quot;, you have deadlock.
 </p>
@@ -923,7 +923,7 @@ file mentioned below in the SEE ALSO section.
 <a name="perlipc-Avoiding-Pipe-Deadlocks"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-Bidirectional-Communication-with-Another-Process" accesskey="n" rel="next">perlipc Bidirectional Communication with Another Process</a>, Previous: <a href="#perlipc-Safe-Pipe-Opens" accesskey="p" rel="previous">perlipc Safe Pipe Opens</a>, Up: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="u" rel="up">perlipc Using open() for IPC</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-Bidirectional-Communication-with-Another-Process" accesskey="n" rel="next">perlipc Bidirectional Communication with Another Process</a>, Previous: <a href="#perlipc-Safe-Pipe-Opens" accesskey="p" rel="prev">perlipc Safe Pipe Opens</a>, Up: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="u" rel="up">perlipc Using open() for IPC</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Avoiding-Pipe-Deadlocks"></a>
 <h4 class="subsection">36.5.5 Avoiding Pipe Deadlocks</h4>
@@ -952,7 +952,7 @@ which may again deadlock.
 <a name="perlipc-Bidirectional-Communication-with-Another-Process"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-Bidirectional-Communication-with-Yourself" accesskey="n" rel="next">perlipc Bidirectional Communication with Yourself</a>, Previous: <a href="#perlipc-Avoiding-Pipe-Deadlocks" accesskey="p" rel="previous">perlipc Avoiding Pipe Deadlocks</a>, Up: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="u" rel="up">perlipc Using open() for IPC</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-Bidirectional-Communication-with-Yourself" accesskey="n" rel="next">perlipc Bidirectional Communication with Yourself</a>, Previous: <a href="#perlipc-Avoiding-Pipe-Deadlocks" accesskey="p" rel="prev">perlipc Avoiding Pipe Deadlocks</a>, Up: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="u" rel="up">perlipc Using open() for IPC</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Bidirectional-Communication-with-Another-Process"></a>
 <h4 class="subsection">36.5.6 Bidirectional Communication with Another Process</h4>
@@ -1010,7 +1010,7 @@ device driver.  If your system is supported, this may be your best bet.
 <a name="perlipc-Bidirectional-Communication-with-Yourself"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlipc-Bidirectional-Communication-with-Another-Process" accesskey="p" rel="previous">perlipc Bidirectional Communication with Another Process</a>, Up: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="u" rel="up">perlipc Using open() for IPC</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlipc-Bidirectional-Communication-with-Another-Process" accesskey="p" rel="prev">perlipc Bidirectional Communication with Another Process</a>, Up: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="u" rel="up">perlipc Using open() for IPC</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Bidirectional-Communication-with-Yourself"></a>
 <h4 class="subsection">36.5.7 Bidirectional Communication with Yourself</h4>
@@ -1089,7 +1089,7 @@ have the socketpair() system call, it will do this all for you.
 <a name="perlipc-Sockets_003a-Client_002fServer-Communication"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-TCP-Clients-with-IO_003a_003aSocket" accesskey="n" rel="next">perlipc TCP Clients with IO::Socket</a>, Previous: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="p" rel="previous">perlipc Using open() for IPC</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-TCP-Clients-with-IO_003a_003aSocket" accesskey="n" rel="next">perlipc TCP Clients with IO::Socket</a>, Previous: <a href="#perlipc-Using-open_0028_0029-for-IPC" accesskey="p" rel="prev">perlipc Using open() for IPC</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Sockets_003a-Client_002fServer-Communication"></a>
 <h3 class="section">36.6 Sockets: Client/Server Communication</h3>
@@ -1154,7 +1154,7 @@ probably be ok.
 <a name="perlipc-Internet-TCP-Clients-and-Servers"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-Unix_002dDomain-TCP-Clients-and-Servers" accesskey="n" rel="next">perlipc Unix-Domain TCP Clients and Servers</a>, Previous: <a href="#perlipc-Internet-Line-Terminators" accesskey="p" rel="previous">perlipc Internet Line Terminators</a>, Up: <a href="#perlipc-Sockets_003a-Client_002fServer-Communication" accesskey="u" rel="up">perlipc Sockets: Client/Server Communication</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-Unix_002dDomain-TCP-Clients-and-Servers" accesskey="n" rel="next">perlipc Unix-Domain TCP Clients and Servers</a>, Previous: <a href="#perlipc-Internet-Line-Terminators" accesskey="p" rel="prev">perlipc Internet Line Terminators</a>, Up: <a href="#perlipc-Sockets_003a-Client_002fServer-Communication" accesskey="u" rel="up">perlipc Sockets: Client/Server Communication</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Internet-TCP-Clients-and-Servers"></a>
 <h4 class="subsection">36.6.2 Internet TCP Clients and Servers</h4>
@@ -1334,7 +1334,7 @@ living dead.
 <p>Within the while loop we call accept() and check to see if it returns
 a false value.  This would normally indicate a system error needs
 to be reported.  However, the introduction of safe signals (see
-<a href="#perlipc-Deferred-Signals-_0028Safe-Signals_0029">Deferred Signals (Safe Signals)</a> above) in Perl 5.7.3 means that
+<a href="#perlipc-Deferred-Signals-_0028Safe-Signals_0029">Deferred Signals (Safe Signals)</a> above) in Perl 5.8.0 means that
 accept() might also be interrupted when the process receives a signal.
 This typically happens when one of the forked subprocesses exits and
 notifies the parent process with a CHLD signal.  
@@ -1392,7 +1392,7 @@ differ from the system on which it&rsquo;s being run:
 <a name="perlipc-Unix_002dDomain-TCP-Clients-and-Servers"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlipc-Internet-TCP-Clients-and-Servers" accesskey="p" rel="previous">perlipc Internet TCP Clients and Servers</a>, Up: <a href="#perlipc-Sockets_003a-Client_002fServer-Communication" accesskey="u" rel="up">perlipc Sockets: Client/Server Communication</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlipc-Internet-TCP-Clients-and-Servers" accesskey="p" rel="prev">perlipc Internet TCP Clients and Servers</a>, Up: <a href="#perlipc-Sockets_003a-Client_002fServer-Communication" accesskey="u" rel="up">perlipc Sockets: Client/Server Communication</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Unix_002dDomain-TCP-Clients-and-Servers"></a>
 <h4 class="subsection">36.6.3 Unix-Domain TCP Clients and Servers</h4>
@@ -1523,16 +1523,14 @@ as a Unix-domain client and connects to your private server.
 <a name="perlipc-TCP-Clients-with-IO_003a_003aSocket"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-TCP-Servers-with-IO_003a_003aSocket" accesskey="n" rel="next">perlipc TCP Servers with IO::Socket</a>, Previous: <a href="#perlipc-Sockets_003a-Client_002fServer-Communication" accesskey="p" rel="previous">perlipc Sockets: Client/Server Communication</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-TCP-Servers-with-IO_003a_003aSocket" accesskey="n" rel="next">perlipc TCP Servers with IO::Socket</a>, Previous: <a href="#perlipc-Sockets_003a-Client_002fServer-Communication" accesskey="p" rel="prev">perlipc Sockets: Client/Server Communication</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="TCP-Clients-with-IO_003a_003aSocket"></a>
 <h3 class="section">36.7 TCP Clients with IO::Socket</h3>
 
 <p>For those preferring a higher-level interface to socket programming, the
-IO::Socket module provides an object-oriented approach.  IO::Socket has
-been included in the standard Perl distribution ever since Perl 5.004.  If
-you&rsquo;re running an earlier version of Perl (in which case, how are you
-reading this manpage?), just fetch IO::Socket from CPAN, where you&rsquo;ll also
+IO::Socket module provides an object-oriented approach.  If for some reason
+you lack this module, you can just fetch IO::Socket from CPAN, where you&rsquo;ll also
 find modules providing easy interfaces to the following systems: DNS, FTP,
 Ident (RFC 931), NIS and NISPlus, NNTP, Ping, POP3, SMTP, SNMP, SSLeay,
 Telnet, and Time&ndash;to name just a few.
@@ -1628,7 +1626,7 @@ can read one line from it this way:
 <a name="perlipc-A-Webget-Client"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-Interactive-Client-with-IO_003a_003aSocket" accesskey="n" rel="next">perlipc Interactive Client with IO::Socket</a>, Previous: <a href="#perlipc-A-Simple-Client" accesskey="p" rel="previous">perlipc A Simple Client</a>, Up: <a href="#perlipc-TCP-Clients-with-IO_003a_003aSocket" accesskey="u" rel="up">perlipc TCP Clients with IO::Socket</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-Interactive-Client-with-IO_003a_003aSocket" accesskey="n" rel="next">perlipc Interactive Client with IO::Socket</a>, Previous: <a href="#perlipc-A-Simple-Client" accesskey="p" rel="prev">perlipc A Simple Client</a>, Up: <a href="#perlipc-TCP-Clients-with-IO_003a_003aSocket" accesskey="u" rel="up">perlipc TCP Clients with IO::Socket</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="A-Webget-Client"></a>
 <h4 class="subsection">36.7.2 A Webget Client</h4>
@@ -1699,7 +1697,7 @@ the <em>lwp-request</em> program included with the LWP modules from CPAN.
 <a name="perlipc-Interactive-Client-with-IO_003a_003aSocket"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlipc-A-Webget-Client" accesskey="p" rel="previous">perlipc A Webget Client</a>, Up: <a href="#perlipc-TCP-Clients-with-IO_003a_003aSocket" accesskey="u" rel="up">perlipc TCP Clients with IO::Socket</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlipc-A-Webget-Client" accesskey="p" rel="prev">perlipc A Webget Client</a>, Up: <a href="#perlipc-TCP-Clients-with-IO_003a_003aSocket" accesskey="u" rel="up">perlipc TCP Clients with IO::Socket</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Interactive-Client-with-IO_003a_003aSocket"></a>
 <h4 class="subsection">36.7.3 Interactive Client with IO::Socket</h4>
@@ -1783,7 +1781,7 @@ well.
 <a name="perlipc-TCP-Servers-with-IO_003a_003aSocket"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-UDP_003a-Message-Passing" accesskey="n" rel="next">perlipc UDP: Message Passing</a>, Previous: <a href="#perlipc-TCP-Clients-with-IO_003a_003aSocket" accesskey="p" rel="previous">perlipc TCP Clients with IO::Socket</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-UDP_003a-Message-Passing" accesskey="n" rel="next">perlipc UDP: Message Passing</a>, Previous: <a href="#perlipc-TCP-Clients-with-IO_003a_003aSocket" accesskey="p" rel="prev">perlipc TCP Clients with IO::Socket</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="TCP-Servers-with-IO_003a_003aSocket"></a>
 <h3 class="section">36.8 TCP Servers with IO::Socket</h3>
@@ -1889,7 +1887,7 @@ Chapter 16 of the Camel.
 <a name="perlipc-UDP_003a-Message-Passing"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-SysV-IPC" accesskey="n" rel="next">perlipc SysV IPC</a>, Previous: <a href="#perlipc-TCP-Servers-with-IO_003a_003aSocket" accesskey="p" rel="previous">perlipc TCP Servers with IO::Socket</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-SysV-IPC" accesskey="n" rel="next">perlipc SysV IPC</a>, Previous: <a href="#perlipc-TCP-Servers-with-IO_003a_003aSocket" accesskey="p" rel="prev">perlipc TCP Servers with IO::Socket</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="UDP_003a-Message-Passing"></a>
 <h3 class="section">36.9 UDP: Message Passing</h3>
@@ -1968,7 +1966,7 @@ sufficiently large.
 <a name="perlipc-SysV-IPC"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-NOTES" accesskey="n" rel="next">perlipc NOTES</a>, Previous: <a href="#perlipc-UDP_003a-Message-Passing" accesskey="p" rel="previous">perlipc UDP: Message Passing</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-NOTES" accesskey="n" rel="next">perlipc NOTES</a>, Previous: <a href="#perlipc-UDP_003a-Message-Passing" accesskey="p" rel="prev">perlipc UDP: Message Passing</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="SysV-IPC"></a>
 <h3 class="section">36.10 SysV IPC</h3>
@@ -2008,8 +2006,8 @@ look into the <code>IPC::Shareable</code> or <code>threads::shared</code> module
 
     $IPC_KEY = 1234;
     $id = semget($IPC_KEY, 10, 0666 | IPC_CREAT);
-    defined($id)                    || die &quot;shmget: $!&quot;;
-    print &quot;shm key $id\n&quot;;
+    defined($id)                    || die &quot;semget: $!&quot;;
+    print &quot;sem id $id\n&quot;;
 </pre>
 <p>Put this code in a separate file to be run in more than one process.
 Call the file <samp>take</samp>:
@@ -2018,7 +2016,7 @@ Call the file <samp>take</samp>:
 
     $IPC_KEY = 1234;
     $id = semget($IPC_KEY, 0, 0);
-    defined($id)                    || die &quot;shmget: $!&quot;;
+    defined($id)                    || die &quot;semget: $!&quot;;
 
     $semnum  = 0;
     $semflag = 0;
@@ -2056,8 +2054,7 @@ Call this file <samp>give</samp>:
     semop($id, $opstring)   || die &quot;semop: $!&quot;;
 </pre>
 <p>The SysV IPC code above was written long ago, and it&rsquo;s definitely
-clunky looking.  For a more modern look, see the IPC::SysV module
-which is included with Perl starting from Perl 5.005.
+clunky looking.  For a more modern look, see the IPC::SysV module.
 </p>
 <p>A small example demonstrating SysV message queues:
 </p>
@@ -2089,7 +2086,7 @@ which is included with Perl starting from Perl 5.005.
 <a name="perlipc-NOTES"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-BUGS" accesskey="n" rel="next">perlipc BUGS</a>, Previous: <a href="#perlipc-SysV-IPC" accesskey="p" rel="previous">perlipc SysV IPC</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-BUGS" accesskey="n" rel="next">perlipc BUGS</a>, Previous: <a href="#perlipc-SysV-IPC" accesskey="p" rel="prev">perlipc SysV IPC</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="NOTES-2"></a>
 <h3 class="section">36.11 NOTES</h3>
@@ -2111,7 +2108,7 @@ taint-checking flag to the <code>#!</code> line for servers:
 <a name="perlipc-BUGS"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-AUTHOR" accesskey="n" rel="next">perlipc AUTHOR</a>, Previous: <a href="#perlipc-NOTES" accesskey="p" rel="previous">perlipc NOTES</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-AUTHOR" accesskey="n" rel="next">perlipc AUTHOR</a>, Previous: <a href="#perlipc-NOTES" accesskey="p" rel="prev">perlipc NOTES</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="BUGS-4"></a>
 <h3 class="section">36.12 BUGS</h3>
@@ -2127,7 +2124,7 @@ want your code to stand a chance of being portable.
 <a name="perlipc-AUTHOR"></a>
 <div class="header">
 <p>
-Next: <a href="#perlipc-SEE-ALSO" accesskey="n" rel="next">perlipc SEE ALSO</a>, Previous: <a href="#perlipc-BUGS" accesskey="p" rel="previous">perlipc BUGS</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlipc-SEE-ALSO" accesskey="n" rel="next">perlipc SEE ALSO</a>, Previous: <a href="#perlipc-BUGS" accesskey="p" rel="prev">perlipc BUGS</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="AUTHOR-15"></a>
 <h3 class="section">36.13 AUTHOR</h3>
@@ -2139,9 +2136,9 @@ version and suggestions from the Perl Porters.
 <a name="perlipc-SEE-ALSO"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlipc-AUTHOR" accesskey="p" rel="previous">perlipc AUTHOR</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlipc-AUTHOR" accesskey="p" rel="prev">perlipc AUTHOR</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="SEE-ALSO-14"></a>
+<a name="SEE-ALSO-15"></a>
 <h3 class="section">36.14 SEE ALSO</h3>
 
 <p>There&rsquo;s a lot more to networking than this, but this should get you
@@ -2155,7 +2152,7 @@ for the reader.
 </p>
 <p>The IO::Socket(3) manpage describes the object library, and the Socket(3)
 manpage describes the low-level interface to sockets.  Besides the obvious
-functions in <a href="../perlfunc/index.html">(perlfunc)</a>, you should also check out the <samp>modules</samp> file at
+functions in <a href="perlfunc.html#perlfunc-NAME">perlfunc NAME</a>, you should also check out the <samp>modules</samp> file at
 your nearest CPAN site, especially
 <a href="http://www.cpan.org/modules/00modlist.long.html#ID5_Networking_">http://www.cpan.org/modules/00modlist.long.html#ID5_Networking_</a>.  
 See <a href="../perlmodlib/index.html">(perlmodlib)</a> or best yet, the <samp>Perl FAQ</samp> for a description
@@ -2171,7 +2168,7 @@ Threads, and ToolTalk&ndash;to name just a few.
 <hr>
 <div class="header">
 <p>
-Previous: <a href="#perlipc-AUTHOR" accesskey="p" rel="previous">perlipc AUTHOR</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlipc-AUTHOR" accesskey="p" rel="prev">perlipc AUTHOR</a>, Up: <a href="#perlipc" accesskey="u" rel="up">perlipc</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 
 

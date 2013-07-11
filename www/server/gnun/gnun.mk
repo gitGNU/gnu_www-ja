@@ -47,6 +47,7 @@ extra-templates := philosophy/philosophy-menu \
 # List of templates that are translated or not on the discretion
 # of the respective team (the PO files are merged, but are not created).
 optional-templates := planetfeeds \
+		      manual/allgnupkgs \
 		      software/recent-releases-include
 
 # List of articles for which VALIDATE has no full effect; i.e. the
@@ -433,6 +434,7 @@ philosophy := 	15-years-of-free-software \
 		freedom-or-copyright \
 		freedom-or-copyright-old \
 		freedom-or-power \
+		free-open-overlap \
 		free-software-for-freedom \
 		free-software-intro \
 		free-sw \

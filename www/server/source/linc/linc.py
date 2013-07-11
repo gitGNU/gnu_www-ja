@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-LINC_VERSION = 'LINC 0.13'
+LINC_VERSION = 'LINC 0.14'
 USAGE = \
 '''Usage: %prog [options] [BASE_DIRECTORY]
 Check links in HTML files from BASE_DIRECTORY.'''
@@ -189,12 +189,10 @@ def get_http_link_error(link, forwarded_from = None):
 	socketfd.send( 'GET ' + resource + ' HTTP/1.1\r\nHost: ' \
 	              + hostname + '\r\n' + ADDITIONAL_HTTP_HEADERS + '\r\n' )
 
-	webpage = socket_read( socketfd )
-	if webpage == None:
-		socketfd.close()
-		return 'couldn\'t read from socket'
-
+	webpage = socket_read (socketfd)
 	socketfd.close()
+	if webpage == None:
+		return 'couldn\'t read from socket'
 
 	end_of_headers = webpage.find('\r\n\r\n')
 	if end_of_headers == -1:
@@ -432,12 +430,17 @@ def socket_create():
 		return None
 	return socketfd
 
-def socket_read( socketfd ):
+def socket_read (socketfd):
 	output = ''
-	try:
-		output = socketfd.recv( 2048 )
-	except socket.error, message:
-		return None
+	max_header_len = 2048
+	while output.find('\r\n\r\n') == -1:
+		try:
+			buf = socketfd.recv (max_header_len)
+			output += buf
+			if len (buf) == 0 or len (output) >= max_header_len:
+				break
+		except socket.error, message:
+			return None
 	return output
 
 def clear_file(name):

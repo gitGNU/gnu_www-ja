@@ -14,7 +14,7 @@
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
 <link href="perlpragma.html#perlpragma" rel="next" title="perlpragma">
-<link href="perlpolicy.html#perlpolicy-CREDITS" rel="previous" title="perlpolicy CREDITS">
+<link href="perlpolicy.html#perlpolicy-CREDITS" rel="prev" title="perlpolicy CREDITS">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -51,7 +51,7 @@ ul.no-bullet {list-style: none}
 <a name="perlport"></a>
 <div class="header">
 <p>
-Next: <a href="perlpragma.html#perlpragma" accesskey="n" rel="next">perlpragma</a>, Previous: <a href="perlpolicy.html#perlpolicy" accesskey="p" rel="previous">perlpolicy</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="perlpragma.html#perlpragma" accesskey="n" rel="next">perlpragma</a>, Previous: <a href="perlpolicy.html#perlpolicy" accesskey="p" rel="prev">perlpolicy</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perlport-1"></a>
 <h2 class="chapter">56 perlport</h2>
@@ -96,7 +96,7 @@ Next: <a href="#perlport-DESCRIPTION" accesskey="n" rel="next">perlport DESCRIPT
 <a name="perlport-DESCRIPTION"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-ISSUES" accesskey="n" rel="next">perlport ISSUES</a>, Previous: <a href="#perlport-NAME" accesskey="p" rel="previous">perlport NAME</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-ISSUES" accesskey="n" rel="next">perlport ISSUES</a>, Previous: <a href="#perlport-NAME" accesskey="p" rel="prev">perlport NAME</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DESCRIPTION-54"></a>
 <h3 class="section">56.2 DESCRIPTION</h3>
@@ -179,7 +179,7 @@ should be considered a perpetual work in progress
 <a name="perlport-ISSUES"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-CPAN-Testers" accesskey="n" rel="next">perlport CPAN Testers</a>, Previous: <a href="#perlport-DESCRIPTION" accesskey="p" rel="previous">perlport DESCRIPTION</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-CPAN-Testers" accesskey="n" rel="next">perlport CPAN Testers</a>, Previous: <a href="#perlport-DESCRIPTION" accesskey="p" rel="prev">perlport DESCRIPTION</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="ISSUES"></a>
 <h3 class="section">56.3 ISSUES</h3>
@@ -343,7 +343,7 @@ the above material is similar to &quot;Unix&quot; but the code numbers change:
 <a name="perlport-Numbers-endianness-and-Width"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Files-and-Filesystems" accesskey="n" rel="next">perlport Files and Filesystems</a>, Previous: <a href="#perlport-Newlines" accesskey="p" rel="previous">perlport Newlines</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Files-and-Filesystems" accesskey="n" rel="next">perlport Files and Filesystems</a>, Previous: <a href="#perlport-Newlines" accesskey="p" rel="prev">perlport Newlines</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Numbers-endianness-and-Width"></a>
 <h4 class="subsection">56.3.2 Numbers endianness and Width</h4>
@@ -364,7 +364,7 @@ them in big-endian mode.  To avoid this problem in network (socket)
 connections use the <code>pack</code> and <code>unpack</code> formats <code>n</code> and <code>N</code>, the
 &quot;network&quot; orders.  These are guaranteed to be portable.
 </p>
-<p>As of perl 5.9.2, you can also use the <code>&gt;</code> and <code>&lt;</code> modifiers
+<p>As of perl 5.10.0, you can also use the <code>&gt;</code> and <code>&lt;</code> modifiers
 to force big- or little-endian byte-order.  This is useful if you want
 to store signed integers or 64-bit integers, for example.
 </p>
@@ -388,9 +388,9 @@ transferring or storing raw binary numbers.
 </p>
 <p>One can circumnavigate both these problems in two ways.  Either
 transfer and store numbers always in text format, instead of raw
-binary, or else consider using modules like Data::Dumper (included in
-the standard distribution as of Perl 5.005) and Storable (included as
-of perl 5.8).  Keeping all data as text significantly simplifies matters.
+binary, or else consider using modules like Data::Dumper and Storable
+(included as of perl 5.8).  Keeping all data as text significantly
+simplifies matters.
 </p>
 <p>The v-strings are portable only up to v2147483647 (0x7FFFFFFF), that&rsquo;s
 how far EBCDIC, or more precisely UTF-EBCDIC will go.
@@ -399,7 +399,7 @@ how far EBCDIC, or more precisely UTF-EBCDIC will go.
 <a name="perlport-Files-and-Filesystems"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-System-Interaction" accesskey="n" rel="next">perlport System Interaction</a>, Previous: <a href="#perlport-Numbers-endianness-and-Width" accesskey="p" rel="previous">perlport Numbers endianness and Width</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-System-Interaction" accesskey="n" rel="next">perlport System Interaction</a>, Previous: <a href="#perlport-Numbers-endianness-and-Width" accesskey="p" rel="prev">perlport Numbers endianness and Width</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Files-and-Filesystems"></a>
 <h4 class="subsection">56.3.3 Files and Filesystems</h4>
@@ -552,7 +552,7 @@ characters before the <code>.</code>, if any, and to three characters after the
 <a name="perlport-System-Interaction"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Command-names-versus-file-pathnames" accesskey="n" rel="next">perlport Command names versus file pathnames</a>, Previous: <a href="#perlport-Files-and-Filesystems" accesskey="p" rel="previous">perlport Files and Filesystems</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Command-names-versus-file-pathnames" accesskey="n" rel="next">perlport Command names versus file pathnames</a>, Previous: <a href="#perlport-Files-and-Filesystems" accesskey="p" rel="prev">perlport Files and Filesystems</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="System-Interaction"></a>
 <h4 class="subsection">56.3.4 System Interaction</h4>
@@ -628,7 +628,7 @@ at all except immediately after a failed system call.
 <a name="perlport-Command-names-versus-file-pathnames"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Networking" accesskey="n" rel="next">perlport Networking</a>, Previous: <a href="#perlport-System-Interaction" accesskey="p" rel="previous">perlport System Interaction</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Networking" accesskey="n" rel="next">perlport Networking</a>, Previous: <a href="#perlport-System-Interaction" accesskey="p" rel="prev">perlport System Interaction</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Command-names-versus-file-pathnames"></a>
 <h4 class="subsection">56.3.5 Command names versus file pathnames</h4>
@@ -669,7 +669,7 @@ of the various operating system possibilities, say:
 <a name="perlport-Networking"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Interprocess-Communication-_0028IPC_0029" accesskey="n" rel="next">perlport Interprocess Communication (IPC)</a>, Previous: <a href="#perlport-Command-names-versus-file-pathnames" accesskey="p" rel="previous">perlport Command names versus file pathnames</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Interprocess-Communication-_0028IPC_0029" accesskey="n" rel="next">perlport Interprocess Communication (IPC)</a>, Previous: <a href="#perlport-Command-names-versus-file-pathnames" accesskey="p" rel="prev">perlport Command names versus file pathnames</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Networking"></a>
 <h4 class="subsection">56.3.6 Networking</h4>
@@ -712,7 +712,7 @@ service one wants.  Croaking or hanging do not look very professional.
 <a name="perlport-Interprocess-Communication-_0028IPC_0029"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-External-Subroutines-_0028XS_0029" accesskey="n" rel="next">perlport External Subroutines (XS)</a>, Previous: <a href="#perlport-Networking" accesskey="p" rel="previous">perlport Networking</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-External-Subroutines-_0028XS_0029" accesskey="n" rel="next">perlport External Subroutines (XS)</a>, Previous: <a href="#perlport-Networking" accesskey="p" rel="prev">perlport Networking</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Interprocess-Communication-_0028IPC_0029"></a>
 <h4 class="subsection">56.3.7 Interprocess Communication (IPC)</h4>
@@ -766,7 +766,7 @@ code, but expose a common interface).
 <a name="perlport-External-Subroutines-_0028XS_0029"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Standard-Modules" accesskey="n" rel="next">perlport Standard Modules</a>, Previous: <a href="#perlport-Interprocess-Communication-_0028IPC_0029" accesskey="p" rel="previous">perlport Interprocess Communication (IPC)</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Standard-Modules" accesskey="n" rel="next">perlport Standard Modules</a>, Previous: <a href="#perlport-Interprocess-Communication-_0028IPC_0029" accesskey="p" rel="prev">perlport Interprocess Communication (IPC)</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="External-Subroutines-_0028XS_0029"></a>
 <h4 class="subsection">56.3.8 External Subroutines (XS)</h4>
@@ -787,7 +787,7 @@ achieve portability.
 <a name="perlport-Standard-Modules"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Time-and-Date" accesskey="n" rel="next">perlport Time and Date</a>, Previous: <a href="#perlport-External-Subroutines-_0028XS_0029" accesskey="p" rel="previous">perlport External Subroutines (XS)</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Time-and-Date" accesskey="n" rel="next">perlport Time and Date</a>, Previous: <a href="#perlport-External-Subroutines-_0028XS_0029" accesskey="p" rel="prev">perlport External Subroutines (XS)</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Standard-Modules"></a>
 <h4 class="subsection">56.3.9 Standard Modules</h4>
@@ -812,7 +812,7 @@ work with any DBM module.  See <a href="../AnyDBM_File/index.html">(AnyDBM_File)
 <a name="perlport-Time-and-Date"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Character-sets-and-character-encoding" accesskey="n" rel="next">perlport Character sets and character encoding</a>, Previous: <a href="#perlport-Standard-Modules" accesskey="p" rel="previous">perlport Standard Modules</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Character-sets-and-character-encoding" accesskey="n" rel="next">perlport Character sets and character encoding</a>, Previous: <a href="#perlport-Standard-Modules" accesskey="p" rel="prev">perlport Standard Modules</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Time-and-Date"></a>
 <h4 class="subsection">56.3.10 Time and Date</h4>
@@ -853,7 +853,7 @@ value to get what should be the proper value on any system.
 <a name="perlport-Character-sets-and-character-encoding"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Internationalisation" accesskey="n" rel="next">perlport Internationalisation</a>, Previous: <a href="#perlport-Time-and-Date" accesskey="p" rel="previous">perlport Time and Date</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Internationalisation" accesskey="n" rel="next">perlport Internationalisation</a>, Previous: <a href="#perlport-Time-and-Date" accesskey="p" rel="prev">perlport Time and Date</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Character-sets-and-character-encoding"></a>
 <h4 class="subsection">56.3.11 Character sets and character encoding</h4>
@@ -877,7 +877,7 @@ be interlaced so that Ã¤ comes before &quot;b&quot;.
 <a name="perlport-Internationalisation"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-System-Resources" accesskey="n" rel="next">perlport System Resources</a>, Previous: <a href="#perlport-Character-sets-and-character-encoding" accesskey="p" rel="previous">perlport Character sets and character encoding</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-System-Resources" accesskey="n" rel="next">perlport System Resources</a>, Previous: <a href="#perlport-Character-sets-and-character-encoding" accesskey="p" rel="prev">perlport Character sets and character encoding</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Internationalisation"></a>
 <h4 class="subsection">56.3.12 Internationalisation</h4>
@@ -901,15 +901,14 @@ ISO 8859-1 bytes beyond 0x7f into your strings might cause trouble
 later.  If the bytes are native 8-bit bytes, you can use the <code>bytes</code>
 pragma.  If the bytes are in a string (regular expression being a
 curious string), you can often also use the <code>\xHH</code> notation instead
-of embedding the bytes as-is.  (If you want to write your code in UTF-8,
-you can use the <code>utf8</code>.) The <code>bytes</code> and <code>utf8</code> pragmata are
-available since Perl 5.6.0.
+of embedding the bytes as-is.  If you want to write your code in UTF-8,
+you can use the <code>utf8</code>.
 </p>
 <hr>
 <a name="perlport-System-Resources"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Security" accesskey="n" rel="next">perlport Security</a>, Previous: <a href="#perlport-Internationalisation" accesskey="p" rel="previous">perlport Internationalisation</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Security" accesskey="n" rel="next">perlport Security</a>, Previous: <a href="#perlport-Internationalisation" accesskey="p" rel="prev">perlport Internationalisation</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="System-Resources"></a>
 <h4 class="subsection">56.3.13 System Resources</h4>
@@ -932,7 +931,7 @@ more efficient that the first.
 <a name="perlport-Security"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Style" accesskey="n" rel="next">perlport Style</a>, Previous: <a href="#perlport-System-Resources" accesskey="p" rel="previous">perlport System Resources</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Style" accesskey="n" rel="next">perlport Style</a>, Previous: <a href="#perlport-System-Resources" accesskey="p" rel="prev">perlport System Resources</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Security"></a>
 <h4 class="subsection">56.3.14 Security</h4>
@@ -968,7 +967,7 @@ think twice: set-uid and set-gid are a known can of security worms.)
 <a name="perlport-Style"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlport-Security" accesskey="p" rel="previous">perlport Security</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlport-Security" accesskey="p" rel="prev">perlport Security</a>, Up: <a href="#perlport-ISSUES" accesskey="u" rel="up">perlport ISSUES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Style-1"></a>
 <h4 class="subsection">56.3.15 Style</h4>
@@ -996,7 +995,7 @@ testing an error value.
 <a name="perlport-CPAN-Testers"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-PLATFORMS" accesskey="n" rel="next">perlport PLATFORMS</a>, Previous: <a href="#perlport-ISSUES" accesskey="p" rel="previous">perlport ISSUES</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-PLATFORMS" accesskey="n" rel="next">perlport PLATFORMS</a>, Previous: <a href="#perlport-ISSUES" accesskey="p" rel="prev">perlport ISSUES</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="CPAN-Testers"></a>
 <h3 class="section">56.4 CPAN Testers</h3>
@@ -1024,13 +1023,13 @@ a given module works on a given platform.
 <a name="perlport-PLATFORMS"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-FUNCTION-IMPLEMENTATIONS" accesskey="n" rel="next">perlport FUNCTION IMPLEMENTATIONS</a>, Previous: <a href="#perlport-CPAN-Testers" accesskey="p" rel="previous">perlport CPAN Testers</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-FUNCTION-IMPLEMENTATIONS" accesskey="n" rel="next">perlport FUNCTION IMPLEMENTATIONS</a>, Previous: <a href="#perlport-CPAN-Testers" accesskey="p" rel="prev">perlport CPAN Testers</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="PLATFORMS"></a>
 <h3 class="section">56.5 PLATFORMS</h3>
 
-<p>As of version 5.002, Perl is built with a <code>$^O</code> variable that
-indicates the operating system it was built on.  This was implemented
+<p>Perl is built with a <code>$^O</code> variable that indicates the operating
+system it was built on.  This was implemented
 to help speed up code that would otherwise have to <code>use Config</code>
 and use the value of <code>$Config{osname}</code>.  Of course, to get more
 detailed information about the system, looking into <code>%Config</code> is
@@ -1113,7 +1112,7 @@ hardware architecture, it can vary more than the value of <code>$^O</code>.
 <a name="perlport-DOS-and-Derivatives"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-VMS" accesskey="n" rel="next">perlport VMS</a>, Previous: <a href="#perlport-Unix" accesskey="p" rel="previous">perlport Unix</a>, Up: <a href="#perlport-PLATFORMS" accesskey="u" rel="up">perlport PLATFORMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-VMS" accesskey="n" rel="next">perlport VMS</a>, Previous: <a href="#perlport-Unix" accesskey="p" rel="prev">perlport Unix</a>, Up: <a href="#perlport-PLATFORMS" accesskey="u" rel="up">perlport PLATFORMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DOS-and-Derivatives"></a>
 <h4 class="subsection">56.5.2 DOS and Derivatives</h4>
@@ -1234,7 +1233,7 @@ as <a href="../perlcygwin/index.html">(perlcygwin)</a>), <a href="http://www.cyg
 <a name="perlport-VMS"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-VOS" accesskey="n" rel="next">perlport VOS</a>, Previous: <a href="#perlport-DOS-and-Derivatives" accesskey="p" rel="previous">perlport DOS and Derivatives</a>, Up: <a href="#perlport-PLATFORMS" accesskey="u" rel="up">perlport PLATFORMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-VOS" accesskey="n" rel="next">perlport VOS</a>, Previous: <a href="#perlport-DOS-and-Derivatives" accesskey="p" rel="prev">perlport DOS and Derivatives</a>, Up: <a href="#perlport-PLATFORMS" accesskey="u" rel="up">perlport PLATFORMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="VMS"></a>
 <h4 class="subsection">56.5.3 VMS</h4>
@@ -1424,7 +1423,7 @@ calls to <code>localtime</code> are adjusted to count offsets from
 <a name="perlport-VOS"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-EBCDIC-Platforms" accesskey="n" rel="next">perlport EBCDIC Platforms</a>, Previous: <a href="#perlport-VMS" accesskey="p" rel="previous">perlport VMS</a>, Up: <a href="#perlport-PLATFORMS" accesskey="u" rel="up">perlport PLATFORMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-EBCDIC-Platforms" accesskey="n" rel="next">perlport EBCDIC Platforms</a>, Previous: <a href="#perlport-VMS" accesskey="p" rel="prev">perlport VMS</a>, Up: <a href="#perlport-PLATFORMS" accesskey="u" rel="up">perlport PLATFORMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="VOS"></a>
 <h4 class="subsection">56.5.4 VOS</h4>
@@ -1468,12 +1467,12 @@ trailing apostrophe.  Although an extended file name is limited
 to 255 characters, a path name is still limited to 256
 characters.
 </p>
-<p>The value of <code>$^O</code> on VOS is &quot;VOS&quot;.  To determine the
+<p>The value of <code>$^O</code> on VOS is &quot;vos&quot;.  To determine the
 architecture that you are running on without resorting to loading
 all of <code>%Config</code> you can examine the content of the @INC array
 like so:
 </p>
-<pre class="verbatim">    if ($^O =~ /VOS/) {
+<pre class="verbatim">    if ($^O =~ /vos/) {
         print &quot;I'm on a Stratus box!\n&quot;;
     } else {
         print &quot;I'm not on a Stratus box!\n&quot;;
@@ -1487,12 +1486,14 @@ like so:
 
 </li><li> The VOS mailing list.
 
-<p>There is no specific mailing list for Perl on VOS.  You can post
-comments to the comp.sys.stratus newsgroup, or use the contact
-information located in the distribution files on the Stratus
-Anonymous FTP site.
+<p>There is no specific mailing list for Perl on VOS.  You can contact
+the Stratus Technologies Customer Assistance Center (CAC) for your
+region, or you can use the contact information located in the
+distribution files on the Stratus Anonymous FTP site.
 </p>
-</li><li> VOS Perl on the web at <a href="http://ftp.stratus.com/pub/vos/posix/posix.html">http://ftp.stratus.com/pub/vos/posix/posix.html</a>
+</li><li> Stratus Technologies on the web at <a href="http://www.stratus.com">http://www.stratus.com</a>
+
+</li><li> VOS Open-Source Software on the web at <a href="http://ftp.stratus.com/pub/vos/vos.html">http://ftp.stratus.com/pub/vos/vos.html</a>
 
 </li></ul>
 
@@ -1500,7 +1501,7 @@ Anonymous FTP site.
 <a name="perlport-EBCDIC-Platforms"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Acorn-RISC-OS" accesskey="n" rel="next">perlport Acorn RISC OS</a>, Previous: <a href="#perlport-VOS" accesskey="p" rel="previous">perlport VOS</a>, Up: <a href="#perlport-PLATFORMS" accesskey="u" rel="up">perlport PLATFORMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Acorn-RISC-OS" accesskey="n" rel="next">perlport Acorn RISC OS</a>, Previous: <a href="#perlport-VOS" accesskey="p" rel="prev">perlport VOS</a>, Up: <a href="#perlport-PLATFORMS" accesskey="u" rel="up">perlport PLATFORMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="EBCDIC-Platforms"></a>
 <h4 class="subsection">56.5.5 EBCDIC Platforms</h4>
@@ -1513,7 +1514,7 @@ systems).  On the mainframe perl currently works under the &quot;Unix system
 services for OS/390&quot; (formerly known as OpenEdition), VM/ESA OpenEdition, or
 the BS200 POSIX-BC system (BS2000 is supported in perl 5.6 and greater).
 See <a href="../perlos390/index.html">(perlos390)</a> for details.  Note that for OS/400 there is also a port of
-Perl 5.8.1/5.9.0 or later to the PASE which is ASCII-based (as opposed to
+Perl 5.8.1/5.10.0 or later to the PASE which is ASCII-based (as opposed to
 ILE which is EBCDIC-based), see <a href="../perlos400/index.html">(perlos400)</a>. 
 </p>
 <p>As of R2.5 of USS for OS/390 and Version 2.3 of VM/ESA these Unix
@@ -1552,7 +1553,7 @@ and <code>|</code>, not to mention dealing with socket interfaces to ASCII compu
 </p>
 <p>Fortunately, most web servers for the mainframe will correctly
 translate the <code>\n</code> in the following statement to its ASCII equivalent
-(<code>\r</code> is the same under both Unix and OS/390 &amp; VM/ESA):
+(<code>\r</code> is the same under both Unix and OS/390):
 </p>
 <pre class="verbatim">    print &quot;Content-type: text/html\r\n\r\n&quot;;
 </pre>
@@ -1563,7 +1564,6 @@ translate the <code>\n</code> in the following statement to its ASCII equivalent
     OS/390        os390      os390
     OS400         os400      os400
     POSIX-BC      posix-bc   BS2000-posix-bc
-    VM/ESA        vmesa      vmesa
 </pre>
 <p>Some simple tricks for determining if you are running on an EBCDIC
 platform could include any of the following (perhaps all):
@@ -1582,8 +1582,7 @@ folks will want it to work with all EBCDIC character sets).
 <p>Also see:
 </p>
 <ul>
-<li> <a href="../perlos390/index.html">(perlos390)</a>, <samp>README.os390</samp>, <samp>perlbs2000</samp>, <samp>README.vmesa</samp>,
-<a href="perlebcdic.html#perlebcdic-NAME">perlebcdic NAME</a>.
+<li> <a href="../perlos390/index.html">(perlos390)</a>, <samp>README.os390</samp>, <samp>perlbs2000</samp>, <a href="perlebcdic.html#perlebcdic-NAME">perlebcdic NAME</a>.
 
 </li><li> The perl-mvs@perl.org list is for discussion of porting issues as well as
 general usage issues for all EBCDIC Perls.  Send a message body of
@@ -1599,7 +1598,7 @@ as well as on CPAN in the <samp>ports/</samp> directory.
 <a name="perlport-Acorn-RISC-OS"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Other-perls" accesskey="n" rel="next">perlport Other perls</a>, Previous: <a href="#perlport-EBCDIC-Platforms" accesskey="p" rel="previous">perlport EBCDIC Platforms</a>, Up: <a href="#perlport-PLATFORMS" accesskey="u" rel="up">perlport PLATFORMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Other-perls" accesskey="n" rel="next">perlport Other perls</a>, Previous: <a href="#perlport-EBCDIC-Platforms" accesskey="p" rel="prev">perlport EBCDIC Platforms</a>, Up: <a href="#perlport-PLATFORMS" accesskey="u" rel="up">perlport PLATFORMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Acorn-RISC-OS"></a>
 <h4 class="subsection">56.5.6 Acorn RISC OS</h4>
@@ -1709,13 +1708,13 @@ in <code>$^O</code> is &quot;riscos&quot; (because we don&rsquo;t like shouting)
 <a name="perlport-Other-perls"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlport-Acorn-RISC-OS" accesskey="p" rel="previous">perlport Acorn RISC OS</a>, Up: <a href="#perlport-PLATFORMS" accesskey="u" rel="up">perlport PLATFORMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlport-Acorn-RISC-OS" accesskey="p" rel="prev">perlport Acorn RISC OS</a>, Up: <a href="#perlport-PLATFORMS" accesskey="u" rel="up">perlport PLATFORMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Other-perls"></a>
 <h4 class="subsection">56.5.7 Other perls</h4>
 
 <p>Perl has been ported to many platforms that do not fit into any of
-the categories listed above.  Some, such as AmigaOS, BeOS, HP MPE/iX,
+the categories listed above.  Some, such as AmigaOS,
 QNX, Plan 9, and VOS, have been well-integrated into the standard
 Perl source code kit.  You may need to see the <samp>ports/</samp> directory
 on CPAN for information, and possibly binaries, for the likes of:
@@ -1729,18 +1728,11 @@ in the &quot;OTHER&quot; category include:
 <pre class="verbatim">    OS            $^O        $Config{'archname'}
     ------------------------------------------
     Amiga DOS     amigaos    m68k-amigos
-    BeOS          beos
-    MPE/iX        mpeix      PA-RISC1.1
 </pre>
 <p>See also:
 </p>
 <ul>
 <li> Amiga, <samp>README.amiga</samp> (installed as <a href="../perlamiga/index.html">(perlamiga)</a>).
-
-</li><li> Be OS, <samp>README.beos</samp>
-
-</li><li> HP 300 MPE/iX, <samp>README.mpeix</samp> and Mark Bixby&rsquo;s web page
-<a href="http://www.bixby.org/mark/porting.html">http://www.bixby.org/mark/porting.html</a>
 
 </li><li> A free perl5-based PERL.NLM for Novell Netware is available in
 precompiled binary and source code form from <a href="http://www.novell.com/">http://www.novell.com/</a>
@@ -1754,7 +1746,7 @@ as well as from CPAN.
 <a name="perlport-FUNCTION-IMPLEMENTATIONS"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Supported-Platforms" accesskey="n" rel="next">perlport Supported Platforms</a>, Previous: <a href="#perlport-PLATFORMS" accesskey="p" rel="previous">perlport PLATFORMS</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Supported-Platforms" accesskey="n" rel="next">perlport Supported Platforms</a>, Previous: <a href="#perlport-PLATFORMS" accesskey="p" rel="prev">perlport PLATFORMS</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="FUNCTION-IMPLEMENTATIONS"></a>
 <h3 class="section">56.6 FUNCTION IMPLEMENTATIONS</h3>
@@ -1878,7 +1870,7 @@ in the SYSTEM environment settings.  (Cygwin)
 </dd>
 <dt>chroot</dt>
 <dd><a name="perlport-chroot"></a>
-<p>Not implemented. (Win32, VMS, Plan&nbsp;9<!-- /@w -->, RISC&nbsp;OS<!-- /@w -->, VOS, VM/ESA)
+<p>Not implemented. (Win32, VMS, Plan&nbsp;9<!-- /@w -->, RISC&nbsp;OS<!-- /@w -->, VOS)
 </p>
 </dd>
 <dt>crypt</dt>
@@ -1908,8 +1900,6 @@ perl. (Win32)
 </dd>
 <dt>exec</dt>
 <dd><a name="perlport-exec"></a>
-<p>Implemented via Spawn. (VM/ESA)
-</p>
 <p>Does not automatically flush output handles on some platforms.
 (SunOS, Solaris, HP-UX)
 </p>
@@ -1952,7 +1942,7 @@ A workaround is to use <code>POSIX::_exit</code>.  (Solaris)
 </dd>
 <dt>fork</dt>
 <dd><a name="perlport-fork"></a>
-<p>Not implemented. (AmigaOS, RISC&nbsp;OS<!-- /@w -->, VM/ESA, VMS)
+<p>Not implemented. (AmigaOS, RISC&nbsp;OS<!-- /@w -->, VMS)
 </p>
 <p>Emulated using multiple interpreters.  See <a href="perlfork.html#perlfork-NAME">perlfork NAME</a>.  (Win32)
 </p>
@@ -1977,7 +1967,7 @@ A workaround is to use <code>POSIX::_exit</code>.  (Solaris)
 </dd>
 <dt>getpriority</dt>
 <dd><a name="perlport-getpriority"></a>
-<p>Not implemented. (Win32, VMS, RISC&nbsp;OS<!-- /@w -->, VOS, VM/ESA)
+<p>Not implemented. (Win32, VMS, RISC&nbsp;OS<!-- /@w -->, VOS)
 </p>
 </dd>
 <dt>getpwnam</dt>
@@ -2022,12 +2012,12 @@ A workaround is to use <code>POSIX::_exit</code>.  (Solaris)
 </dd>
 <dt>getpwent</dt>
 <dd><a name="perlport-getpwent"></a>
-<p>Not implemented. (Win32, VM/ESA)
+<p>Not implemented. (Win32)
 </p>
 </dd>
 <dt>getgrent</dt>
 <dd><a name="perlport-getgrent"></a>
-<p>Not implemented. (Win32, VMS, VM/ESA)
+<p>Not implemented. (Win32, VMS)
 </p>
 </dd>
 <dt>gethostbyname</dt>
@@ -2078,12 +2068,12 @@ to use <code>gethostbyname('127.0.0.1')</code>. (Irix&nbsp;5<!-- /@w -->)
 </dd>
 <dt>endpwent</dt>
 <dd><a name="perlport-endpwent"></a>
-<p>Not implemented. (MPE/iX, VM/ESA, Win32)
+<p>Not implemented. (Win32)
 </p>
 </dd>
 <dt>endgrent</dt>
 <dd><a name="perlport-endgrent"></a>
-<p>Not implemented. (MPE/iX, RISC&nbsp;OS<!-- /@w -->, VM/ESA, VMS, Win32)
+<p>Not implemented. (RISC&nbsp;OS<!-- /@w -->, VMS, Win32)
 </p>
 </dd>
 <dt>endhostent</dt>
@@ -2160,7 +2150,7 @@ numbers. (VMS)
 </dd>
 <dt>link</dt>
 <dd><a name="perlport-link"></a>
-<p>Not implemented. (MPE/iX, RISC&nbsp;OS<!-- /@w -->, VOS)
+<p>Not implemented. (RISC&nbsp;OS<!-- /@w -->, VOS)
 </p>
 <p>Link count not updated because hard links are not quite that hard
 (They are sort of half-way between hard and soft links). (AmigaOS)
@@ -2249,7 +2239,7 @@ from a cache buffer. (Win32)
 </dd>
 <dt>setgrent</dt>
 <dd><a name="perlport-setgrent"></a>
-<p>Not implemented. (MPE/iX, VMS, Win32, RISC&nbsp;OS<!-- /@w -->)
+<p>Not implemented. (VMS, Win32, RISC&nbsp;OS<!-- /@w -->)
 </p>
 </dd>
 <dt>setpgrp</dt>
@@ -2264,7 +2254,7 @@ from a cache buffer. (Win32)
 </dd>
 <dt>setpwent</dt>
 <dd><a name="perlport-setpwent"></a>
-<p>Not implemented. (MPE/iX, Win32, RISC&nbsp;OS<!-- /@w -->)
+<p>Not implemented. (Win32, RISC&nbsp;OS<!-- /@w -->)
 </p>
 </dd>
 <dt>setsockopt</dt>
@@ -2283,7 +2273,14 @@ from a cache buffer. (Win32)
 </dd>
 <dt>shmwrite</dt>
 <dd><a name="perlport-shmwrite"></a>
-<p>Not implemented. (Win32, VMS, RISC&nbsp;OS<!-- /@w -->, VOS)
+<p>Not implemented. (Win32, VMS, RISC&nbsp;OS<!-- /@w -->)
+</p>
+</dd>
+<dt>sleep</dt>
+<dd><a name="perlport-sleep"></a>
+<p>Emulated using synchronization functions such that it can be
+interrupted by alarm(), and limited to a maximum of 4294967 seconds,
+approximately 49 days. (Win32)
 </p>
 </dd>
 <dt>sockatmark</dt>
@@ -2294,9 +2291,7 @@ be implemented even in Unix platforms.
 </dd>
 <dt>socketpair</dt>
 <dd><a name="perlport-socketpair"></a>
-<p>Not implemented. (RISC&nbsp;OS<!-- /@w -->, VM/ESA)
-</p>
-<p>Available on OpenVOS Release 17.0 or later. (VOS)
+<p>Not implemented. (RISC&nbsp;OS<!-- /@w -->)
 </p>
 <p>Available on 64 bit OpenVMS 8.2 and later.  (VMS)
 </p>
@@ -2340,14 +2335,14 @@ syntax if it is intended to resolve to a valid path.
 </dd>
 <dt>syscall</dt>
 <dd><a name="perlport-syscall"></a>
-<p>Not implemented. (Win32, VMS, RISC&nbsp;OS<!-- /@w -->, VOS, VM/ESA)
+<p>Not implemented. (Win32, VMS, RISC&nbsp;OS<!-- /@w -->, VOS)
 </p>
 </dd>
 <dt>sysopen</dt>
 <dd><a name="perlport-sysopen"></a>
 <p>The traditional &quot;0&quot;, &quot;1&quot;, and &quot;2&quot; MODEs are implemented with different
 numeric values on some systems.  The flags exported by <code>Fcntl</code>
-(O_RDONLY, O_WRONLY, O_RDWR) should work everywhere though.  (Mac&nbsp;OS<!-- /@w -->, OS/390, VM/ESA)
+(O_RDONLY, O_WRONLY, O_RDWR) should work everywhere though.  (Mac&nbsp;OS<!-- /@w -->, OS/390)
 </p>
 </dd>
 <dt>system</dt>
@@ -2406,7 +2401,7 @@ should not be held open elsewhere. (Win32)
 </dd>
 <dt>umask</dt>
 <dd><a name="perlport-umask"></a>
-<p>Returns undef where unavailable, as of version 5.005.
+<p>Returns undef where unavailable.
 </p>
 <p><code>umask</code> works but the correct permissions are set only when the file
 is finally closed. (AmigaOS)
@@ -2414,7 +2409,7 @@ is finally closed. (AmigaOS)
 </dd>
 <dt>utime</dt>
 <dd><a name="perlport-utime"></a>
-<p>Only the modification time is updated. (BeOS<!-- /@w -->, VMS, RISC&nbsp;OS<!-- /@w -->)
+<p>Only the modification time is updated. (VMS, RISC&nbsp;OS<!-- /@w -->)
 </p>
 <p>May not behave as expected.  Behavior depends on the C runtime
 library&rsquo;s implementation of utime(), and the filesystem being
@@ -2440,7 +2435,7 @@ using <code>system(1, ...)</code> or pseudo processes created with <code>fork()<
 <a name="perlport-Supported-Platforms"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-EOL-Platforms-_0028Perl-5_002e14_0029" accesskey="n" rel="next">perlport EOL Platforms (Perl 5.14)</a>, Previous: <a href="#perlport-FUNCTION-IMPLEMENTATIONS" accesskey="p" rel="previous">perlport FUNCTION IMPLEMENTATIONS</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-EOL-Platforms-_0028Perl-5_002e14_0029" accesskey="n" rel="next">perlport EOL Platforms (Perl 5.14)</a>, Previous: <a href="#perlport-FUNCTION-IMPLEMENTATIONS" accesskey="p" rel="prev">perlport FUNCTION IMPLEMENTATIONS</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Supported-Platforms"></a>
 <h3 class="section">56.7 Supported Platforms</h3>
@@ -2525,11 +2520,17 @@ at <a href="http://www.cpan.org/src">http://www.cpan.org/src</a>
 <dt>Dragonfly BSD</dt>
 <dd><a name="perlport-Dragonfly-BSD"></a>
 </dd>
+<dt>Midnight BSD</dt>
+<dd><a name="perlport-Midnight-BSD"></a>
+</dd>
 <dt>QNX Neutrino RTOS (6.5.0)</dt>
 <dd><a name="perlport-QNX-Neutrino-RTOS-_00286_002e5_002e0_0029"></a>
 </dd>
 <dt>MirOS BSD</dt>
 <dd><a name="perlport-MirOS-BSD"></a>
+</dd>
+<dt>Stratus OpenVOS (17.0 or later)</dt>
+<dd><a name="perlport-Stratus-OpenVOS-_002817_002e0-or-later_0029"></a>
 <p>Caveats:
 </p>
 <dl compact="compact">
@@ -2554,7 +2555,7 @@ at <a href="http://www.cpan.org/src">http://www.cpan.org/src</a>
 <a name="perlport-EOL-Platforms-_0028Perl-5_002e14_0029"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-Supported-Platforms-_0028Perl-5_002e8_0029" accesskey="n" rel="next">perlport Supported Platforms (Perl 5.8)</a>, Previous: <a href="#perlport-Supported-Platforms" accesskey="p" rel="previous">perlport Supported Platforms</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-Supported-Platforms-_0028Perl-5_002e8_0029" accesskey="n" rel="next">perlport Supported Platforms (Perl 5.8)</a>, Previous: <a href="#perlport-Supported-Platforms" accesskey="p" rel="prev">perlport Supported Platforms</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="EOL-Platforms-_0028Perl-5_002e14_0029"></a>
 <h3 class="section">56.8 EOL Platforms (Perl 5.14)</h3>
@@ -2600,7 +2601,7 @@ have worked in 5.12, but supporting code has been removed for 5.14:
 <a name="perlport-Supported-Platforms-_0028Perl-5_002e8_0029"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-SEE-ALSO" accesskey="n" rel="next">perlport SEE ALSO</a>, Previous: <a href="#perlport-EOL-Platforms-_0028Perl-5_002e14_0029" accesskey="p" rel="previous">perlport EOL Platforms (Perl 5.14)</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-SEE-ALSO" accesskey="n" rel="next">perlport SEE ALSO</a>, Previous: <a href="#perlport-EOL-Platforms-_0028Perl-5_002e14_0029" accesskey="p" rel="prev">perlport EOL Platforms (Perl 5.14)</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Supported-Platforms-_0028Perl-5_002e8_0029"></a>
 <h3 class="section">56.9 Supported Platforms (Perl 5.8)</h3>
@@ -2644,7 +2645,7 @@ available at <a href="http://www.cpan.org/src/">http://www.cpan.org/src/</a>
         UNICOS
         UNICOS/mk
         UTS
-        VOS
+        VOS / OpenVOS
         Win95/98/ME/2K/XP 2)
         WinCE
         z/OS            (formerly OS/390)
@@ -2737,25 +2738,24 @@ in case you are in a hurry you can check
 <a name="perlport-SEE-ALSO"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-AUTHORS-_002f-CONTRIBUTORS" accesskey="n" rel="next">perlport AUTHORS / CONTRIBUTORS</a>, Previous: <a href="#perlport-Supported-Platforms-_0028Perl-5_002e8_0029" accesskey="p" rel="previous">perlport Supported Platforms (Perl 5.8)</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-AUTHORS-_002f-CONTRIBUTORS" accesskey="n" rel="next">perlport AUTHORS / CONTRIBUTORS</a>, Previous: <a href="#perlport-Supported-Platforms-_0028Perl-5_002e8_0029" accesskey="p" rel="prev">perlport Supported Platforms (Perl 5.8)</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="SEE-ALSO-28"></a>
+<a name="SEE-ALSO-29"></a>
 <h3 class="section">56.10 SEE ALSO</h3>
 
-<p><a href="../perlaix/index.html">(perlaix)</a>, <a href="../perlamiga/index.html">(perlamiga)</a>, <a href="../perlbeos/index.html">(perlbeos)</a>, <a href="../perlbs2000/index.html">(perlbs2000)</a>,
-<a href="../perlce/index.html">(perlce)</a>, <a href="../perlcygwin/index.html">(perlcygwin)</a>, <a href="../perldgux/index.html">(perldgux)</a>, <a href="../perldos/index.html">(perldos)</a>, <a href="../perlepoc/index.html">(perlepoc)</a>,
+<p><a href="../perlaix/index.html">(perlaix)</a>, <a href="../perlamiga/index.html">(perlamiga)</a>, <a href="../perlbs2000/index.html">(perlbs2000)</a>,
+<a href="../perlce/index.html">(perlce)</a>, <a href="../perlcygwin/index.html">(perlcygwin)</a>, <a href="../perldgux/index.html">(perldgux)</a>, <a href="../perldos/index.html">(perldos)</a>,
 <a href="perlebcdic.html#perlebcdic-NAME">perlebcdic NAME</a>, <a href="../perlfreebsd/index.html">(perlfreebsd)</a>, <a href="../perlhurd/index.html">(perlhurd)</a>, <a href="../perlhpux/index.html">(perlhpux)</a>, <a href="../perlirix/index.html">(perlirix)</a>,
-<a href="../perlmacos/index.html">(perlmacos)</a>, <a href="../perlmacosx/index.html">(perlmacosx)</a>, <a href="../perlmpeix/index.html">(perlmpeix)</a>,
+<a href="../perlmacos/index.html">(perlmacos)</a>, <a href="../perlmacosx/index.html">(perlmacosx)</a>,
 <a href="../perlnetware/index.html">(perlnetware)</a>, <a href="../perlos2/index.html">(perlos2)</a>, <a href="../perlos390/index.html">(perlos390)</a>, <a href="../perlos400/index.html">(perlos400)</a>,
 <a href="../perlplan9/index.html">(perlplan9)</a>, <a href="../perlqnx/index.html">(perlqnx)</a>, <a href="../perlsolaris/index.html">(perlsolaris)</a>, <a href="../perltru64/index.html">(perltru64)</a>,
-<a href="perlunicode.html#perlunicode-NAME">perlunicode NAME</a>, <a href="../perlvmesa/index.html">(perlvmesa)</a>, <a href="perlvms.html#perlvms-NAME">perlvms NAME</a>, <a href="../perlvos/index.html">(perlvos)</a>,
-<a href="../perlwin32/index.html">(perlwin32)</a>, and <a href="../Win32/index.html">(Win32)</a>.
+<a href="perlunicode.html#perlunicode-NAME">perlunicode NAME</a>, <a href="perlvms.html#perlvms-NAME">perlvms NAME</a>, <a href="../perlvos/index.html">(perlvos)</a>, <a href="../perlwin32/index.html">(perlwin32)</a>, and <a href="../Win32/index.html">(Win32)</a>.
 </p>
 <hr>
 <a name="perlport-AUTHORS-_002f-CONTRIBUTORS"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlport-SEE-ALSO" accesskey="p" rel="previous">perlport SEE ALSO</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlport-SEE-ALSO" accesskey="p" rel="prev">perlport SEE ALSO</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="AUTHORS-_002f-CONTRIBUTORS"></a>
 <h3 class="section">56.11 AUTHORS / CONTRIBUTORS</h3>
@@ -2798,7 +2798,7 @@ John Malmberg &lt;wb8tyw@qsl.net&gt;
 <hr>
 <div class="header">
 <p>
-Previous: <a href="#perlport-SEE-ALSO" accesskey="p" rel="previous">perlport SEE ALSO</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlport-SEE-ALSO" accesskey="p" rel="prev">perlport SEE ALSO</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 
 

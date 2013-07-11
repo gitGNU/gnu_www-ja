@@ -14,7 +14,7 @@
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
 <link href="perlmodinstall.html#perlmodinstall" rel="next" title="perlmodinstall">
-<link href="perllol.html#perllol-AUTHOR" rel="previous" title="perllol AUTHOR">
+<link href="perllol.html#perllol-AUTHOR" rel="prev" title="perllol AUTHOR">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -51,7 +51,7 @@ ul.no-bullet {list-style: none}
 <a name="perlmod"></a>
 <div class="header">
 <p>
-Next: <a href="perlmodinstall.html#perlmodinstall" accesskey="n" rel="next">perlmodinstall</a>, Previous: <a href="perllol.html#perllol" accesskey="p" rel="previous">perllol</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="perlmodinstall.html#perlmodinstall" accesskey="n" rel="next">perlmodinstall</a>, Previous: <a href="perllol.html#perllol" accesskey="p" rel="prev">perllol</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perlmod-2"></a>
 <h2 class="chapter">40 perlmod</h2>
@@ -80,7 +80,7 @@ Next: <a href="#perlmod-DESCRIPTION" accesskey="n" rel="next">perlmod DESCRIPTIO
 <a name="perlmod-DESCRIPTION"></a>
 <div class="header">
 <p>
-Next: <a href="#perlmod-SEE-ALSO" accesskey="n" rel="next">perlmod SEE ALSO</a>, Previous: <a href="#perlmod-NAME" accesskey="p" rel="previous">perlmod NAME</a>, Up: <a href="#perlmod" accesskey="u" rel="up">perlmod</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlmod-SEE-ALSO" accesskey="n" rel="next">perlmod SEE ALSO</a>, Previous: <a href="#perlmod-NAME" accesskey="p" rel="prev">perlmod NAME</a>, Up: <a href="#perlmod" accesskey="u" rel="up">perlmod</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DESCRIPTION-39"></a>
 <h3 class="section">40.2 DESCRIPTION</h3>
@@ -108,11 +108,6 @@ Next: <a href="#perlmod-Symbol-Tables" accesskey="n" rel="next">perlmod Symbol T
 </div>
 <a name="Packages"></a>
 <h4 class="subsection">40.2.1 Packages</h4>
-<a name="index-package-4"></a>
-<a name="index-namespace-3"></a>
-<a name="index-variable_002c-global"></a>
-<a name="index-global-variable"></a>
-<a name="index-global-1"></a>
 
 <p>Perl provides a mechanism for alternative namespaces to protect
 packages from stomping on each other&rsquo;s variables.  In fact, there&rsquo;s
@@ -136,8 +131,6 @@ colon: <code>$Package::Variable</code>.  If the package name is null, the
 <code>main</code> package is assumed.  That is, <code>$::sail</code> is equivalent to
 <code>$main::sail</code>.
 </p>
-<a name="index-_003a_003a"></a>
-<a name="index-_0027"></a>
 <p>The old package delimiter was a single quote, but double colon is now the
 preferred delimiter, in part because it&rsquo;s more readable to humans, and
 in part because it&rsquo;s more readable to <strong>emacs</strong> macros.  It also makes C++
@@ -149,7 +142,6 @@ supported for backwards compatibility, if you try to use a string like
 the $s variable in package <code>owner</code>, which is probably not what you meant.
 Use braces to disambiguate, as in <code>&quot;This is ${owner}'s house&quot;</code>.
 </p>
-
 <p>Packages may themselves contain package separators, as in
 <code>$OUTER::INNER::var</code>.  This implies nothing about the order of
 name lookups, however.  There are no relative packages: all symbols
@@ -159,7 +151,6 @@ within package <code>OUTER</code> that <code>$INNER::var</code> refers to
 <code>$OUTER::INNER::var</code>.  <code>INNER</code> refers to a totally
 separate global package.
 </p>
-<a name="index-variable_002c-punctuation"></a>
 <p>Only identifiers starting with letters (or underscore) are stored
 in a package&rsquo;s symbol table.  All other symbols are kept in package
 <code>main</code>, including all punctuation variables, like $_.  In addition,
@@ -170,7 +161,6 @@ have a package called <code>m</code>, <code>s</code>, or <code>y</code>, then yo
 qualified form of an identifier because it would be instead interpreted
 as a pattern match, a substitution, or a transliteration.
 </p>
-
 <p>Variables beginning with underscore used to be forced into package
 main, but we decided it was more useful for package writers to be able
 to use leading underscore to indicate private variables and method names.
@@ -187,29 +177,22 @@ to the <code>DB</code> package so that the debugger doesn&rsquo;t interfere with
 in the program you are trying to debug.  At various points, however, it
 temporarily switches back to the <code>main</code> package to evaluate various
 expressions in the context of the <code>main</code> package (or wherever you came
-from).  See <a href="../perldebug/index.html">(perldebug)</a>.
+from).  See <a href="perldebug.html#perldebug-NAME">perldebug NAME</a>.
 </p>
 <p>The special symbol <code>__PACKAGE__</code> contains the current package, but cannot
 (easily) be used to construct variable names.
 </p>
-<p>See <a href="../perlsub/index.html">(perlsub)</a> for other scoping issues related to my() and local(),
-and <a href="../perlref/index.html">(perlref)</a> regarding closures.
+<p>See <a href="perlsub.html#perlsub-NAME">perlsub NAME</a> for other scoping issues related to my() and local(),
+and <a href="perlref.html#perlref-NAME">perlref NAME</a> regarding closures.
 </p>
 <hr>
 <a name="perlmod-Symbol-Tables"></a>
 <div class="header">
 <p>
-Next: <a href="#perlmod-BEGIN_002c-UNITCHECK_002c-CHECK_002c-INIT-and-END" accesskey="n" rel="next">perlmod BEGIN, UNITCHECK, CHECK, INIT and END</a>, Previous: <a href="#perlmod-Packages" accesskey="p" rel="previous">perlmod Packages</a>, Up: <a href="#perlmod-DESCRIPTION" accesskey="u" rel="up">perlmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlmod-BEGIN_002c-UNITCHECK_002c-CHECK_002c-INIT-and-END" accesskey="n" rel="next">perlmod BEGIN, UNITCHECK, CHECK, INIT and END</a>, Previous: <a href="#perlmod-Packages" accesskey="p" rel="prev">perlmod Packages</a>, Up: <a href="#perlmod-DESCRIPTION" accesskey="u" rel="up">perlmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Symbol-Tables"></a>
 <h4 class="subsection">40.2.2 Symbol Tables</h4>
-<a name="index-symbol-table"></a>
-<a name="index-stash"></a>
-<a name="index-_0025_003a_003a"></a>
-<a name="index-_0025main_003a_003a"></a>
-<a name="index-typeglob-1"></a>
-<a name="index-glob-1"></a>
-<a name="index-alias"></a>
 
 <p>The symbol table for a package happens to be stored in the hash of that
 name with two colons appended.  The main symbol table&rsquo;s name is thus
@@ -300,18 +283,15 @@ is a somewhat tricky way of passing around references cheaply
 when you don&rsquo;t want to have to remember to dereference variables
 explicitly.
 </p>
-<a name="index-constant"></a>
-<a name="index-scalar_002c-constant-1"></a>
 <p>Another use of symbol tables is for making &quot;constant&quot; scalars.
 </p>
-
 <pre class="verbatim">    *PI = \3.14159265358979;
 </pre>
 <p>Now you cannot alter <code>$PI</code>, which is probably a good thing all in all.
 This isn&rsquo;t the same as a constant subroutine, which is subject to
 optimization at compile-time.  A constant subroutine is one prototyped
 to take no arguments and to return a constant expression.  See
-<a href="../perlsub/index.html">(perlsub)</a> for details on these.  The <code>use constant</code> pragma is a
+<a href="perlsub.html#perlsub-NAME">perlsub NAME</a> for details on these.  The <code>use constant</code> pragma is a
 convenient shorthand for these.
 </p>
 <p>You can say <code>*foo{PACKAGE}</code> and <code>*foo{NAME}</code> to find out what name and
@@ -331,7 +311,7 @@ in a subroutine that gets passed typeglobs as arguments:
     You gave me bar::baz
 </pre>
 <p>The <code>*foo{THING}</code> notation can also be used to obtain references to the
-individual elements of *foo.  See <a href="../perlref/index.html">(perlref)</a>.
+individual elements of *foo.  See <a href="perlref.html#perlref-NAME">perlref NAME</a>.
 </p>
 <p>Subroutine definitions (and declarations, for that matter) need
 not necessarily be situated in the package whose symbol table they
@@ -376,21 +356,16 @@ something like this:
 <pre class="verbatim">    in Some_package: $name is 'fred'
 </pre>
 <p>This also has implications for the use of the SUPER:: qualifier
-(see <a href="../perlobj/index.html">(perlobj)</a>).
+(see <a href="perlobj.html#perlobj-NAME">perlobj NAME</a>).
 </p>
 <hr>
 <a name="perlmod-BEGIN_002c-UNITCHECK_002c-CHECK_002c-INIT-and-END"></a>
 <div class="header">
 <p>
-Next: <a href="#perlmod-Perl-Classes" accesskey="n" rel="next">perlmod Perl Classes</a>, Previous: <a href="#perlmod-Symbol-Tables" accesskey="p" rel="previous">perlmod Symbol Tables</a>, Up: <a href="#perlmod-DESCRIPTION" accesskey="u" rel="up">perlmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlmod-Perl-Classes" accesskey="n" rel="next">perlmod Perl Classes</a>, Previous: <a href="#perlmod-Symbol-Tables" accesskey="p" rel="prev">perlmod Symbol Tables</a>, Up: <a href="#perlmod-DESCRIPTION" accesskey="u" rel="up">perlmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="BEGIN_002c-UNITCHECK_002c-CHECK_002c-INIT-and-END"></a>
 <h4 class="subsection">40.2.3 BEGIN, UNITCHECK, CHECK, INIT and END</h4>
-<a name="index-BEGIN"></a>
-<a name="index-UNITCHECK"></a>
-<a name="index-CHECK"></a>
-<a name="index-INIT"></a>
-<a name="index-END-1"></a>
 
 <p>Five specially named code blocks are executed at the beginning and at
 the end of a running Perl program.  These are the <code>BEGIN</code>,
@@ -428,13 +403,11 @@ out (LIFO).  <code>END</code> blocks are not executed when you run perl with the
 they will be executed just as any other <code>END</code> code block of that package
 in LIFO order just before the interpreter is being exited.
 </p>
-<a name="index-_0024_003f"></a>
 <p>Inside an <code>END</code> code block, <code>$?</code> contains the value that the program is
 going to pass to <code>exit()</code>.  You can modify <code>$?</code> to change the exit
 value of the program.  Beware of changing <code>$?</code> by accident (e.g. by
 running something via <code>system</code>).
 </p>
-
 <p>Inside of a <code>END</code> block, the value of <code>${^GLOBAL_PHASE}</code> will be
 <code>&quot;END&quot;</code>.
 </p>
@@ -444,7 +417,7 @@ the main program.
 </p>
 <p><code>UNITCHECK</code> blocks are run just after the unit which defined them has
 been compiled.  The main program file and each module it loads are
-compilation units, as are string <code>eval</code>s, code compiled using the
+compilation units, as are string <code>eval</code>s, run-time code compiled using the
 <code>(?{ })</code> construct in a regex, calls to <code>do FILE</code>, <code>require FILE</code>,
 and code after the <code>-e</code> switch on the command line.
 </p>
@@ -513,12 +486,10 @@ is not.
 <a name="perlmod-Perl-Classes"></a>
 <div class="header">
 <p>
-Next: <a href="#perlmod-Perl-Modules" accesskey="n" rel="next">perlmod Perl Modules</a>, Previous: <a href="#perlmod-BEGIN_002c-UNITCHECK_002c-CHECK_002c-INIT-and-END" accesskey="p" rel="previous">perlmod BEGIN, UNITCHECK, CHECK, INIT and END</a>, Up: <a href="#perlmod-DESCRIPTION" accesskey="u" rel="up">perlmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlmod-Perl-Modules" accesskey="n" rel="next">perlmod Perl Modules</a>, Previous: <a href="#perlmod-BEGIN_002c-UNITCHECK_002c-CHECK_002c-INIT-and-END" accesskey="p" rel="prev">perlmod BEGIN, UNITCHECK, CHECK, INIT and END</a>, Up: <a href="#perlmod-DESCRIPTION" accesskey="u" rel="up">perlmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Perl-Classes"></a>
 <h4 class="subsection">40.2.4 Perl Classes</h4>
-<a name="index-class-1"></a>
-<a name="index-_0040ISA"></a>
 
 <p>There is no special class syntax in Perl, but a package may act
 as a class if it provides subroutines to act as methods.  Such a
@@ -526,17 +497,16 @@ package may also derive some of its methods from another class (package)
 by listing the other package name(s) in its global @ISA array (which
 must be a package global, not a lexical).
 </p>
-<p>For more on this, see <a href="perlootut.html#perlootut-NAME">perlootut NAME</a> and <a href="../perlobj/index.html">(perlobj)</a>.
+<p>For more on this, see <a href="perlootut.html#perlootut-NAME">perlootut NAME</a> and <a href="perlobj.html#perlobj-NAME">perlobj NAME</a>.
 </p>
 <hr>
 <a name="perlmod-Perl-Modules"></a>
 <div class="header">
 <p>
-Next: <a href="#perlmod-Making-your-module-threadsafe" accesskey="n" rel="next">perlmod Making your module threadsafe</a>, Previous: <a href="#perlmod-Perl-Classes" accesskey="p" rel="previous">perlmod Perl Classes</a>, Up: <a href="#perlmod-DESCRIPTION" accesskey="u" rel="up">perlmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlmod-Making-your-module-threadsafe" accesskey="n" rel="next">perlmod Making your module threadsafe</a>, Previous: <a href="#perlmod-Perl-Classes" accesskey="p" rel="prev">perlmod Perl Classes</a>, Up: <a href="#perlmod-DESCRIPTION" accesskey="u" rel="up">perlmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Perl-Modules"></a>
 <h4 class="subsection">40.2.5 Perl Modules</h4>
-<a name="index-module-4"></a>
 
 <p>A module is just a set of related functions in a library file, i.e.,
 a Perl package with the same name as the file.  It is specifically
@@ -696,29 +666,19 @@ autoloading, the user can say just <code>use POSIX</code> to get it all.
 <a name="perlmod-Making-your-module-threadsafe"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlmod-Perl-Modules" accesskey="p" rel="previous">perlmod Perl Modules</a>, Up: <a href="#perlmod-DESCRIPTION" accesskey="u" rel="up">perlmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlmod-Perl-Modules" accesskey="p" rel="prev">perlmod Perl Modules</a>, Up: <a href="#perlmod-DESCRIPTION" accesskey="u" rel="up">perlmod DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Making-your-module-threadsafe"></a>
 <h4 class="subsection">40.2.6 Making your module threadsafe</h4>
-<a name="index-threadsafe"></a>
-<a name="index-thread-safe"></a>
-<a name="index-module_002c-threadsafe"></a>
-<a name="index-module_002c-thread-safe"></a>
-<a name="index-CLONE"></a>
-<a name="index-CLONE_005fSKIP"></a>
-<a name="index-thread"></a>
-<a name="index-threads"></a>
-<a name="index-ithread"></a>
 
-<p>Since 5.6.0, Perl has had support for a new type of threads called
-interpreter threads (ithreads). These threads can be used explicitly
-and implicitly.
+<p>Perl supports a type of threads called interpreter threads (ithreads).
+These threads can be used explicitly and implicitly.
 </p>
 <p>Ithreads work by cloning the data tree so that no data is shared
 between different threads. These threads can be used by using the <code>threads</code>
 module or by doing fork() on win32 (fake fork() support). When a
 thread is cloned all Perl data is cloned, however non-Perl data cannot
-be cloned automatically.  Perl after 5.7.2 has support for the <code>CLONE</code>
+be cloned automatically.  Perl after 5.8.0 has support for the <code>CLONE</code>
 special subroutine.  In <code>CLONE</code> you can do whatever
 you need to do,
 like for example handle the cloning of non-Perl data, if necessary.
@@ -755,24 +715,24 @@ allow for future expansion, the return value should be a single <code>0</code> o
 <a name="perlmod-SEE-ALSO"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlmod-DESCRIPTION" accesskey="p" rel="previous">perlmod DESCRIPTION</a>, Up: <a href="#perlmod" accesskey="u" rel="up">perlmod</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlmod-DESCRIPTION" accesskey="p" rel="prev">perlmod DESCRIPTION</a>, Up: <a href="#perlmod" accesskey="u" rel="up">perlmod</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="SEE-ALSO-18"></a>
+<a name="SEE-ALSO-19"></a>
 <h3 class="section">40.3 SEE ALSO</h3>
 
 <p>See <a href="../perlmodlib/index.html">(perlmodlib)</a> for general style issues related to building Perl
 modules and classes, as well as descriptions of the standard library
 and CPAN, <a href="../Exporter/index.html">(Exporter)</a> for how Perl&rsquo;s standard import/export mechanism
-works, <a href="perlootut.html#perlootut-NAME">perlootut NAME</a> and <a href="../perlobj/index.html">(perlobj)</a> for in-depth information on
-creating classes, <a href="../perlobj/index.html">(perlobj)</a> for a hard-core reference document on
-objects, <a href="../perlsub/index.html">(perlsub)</a> for an explanation of functions and scoping,
+works, <a href="perlootut.html#perlootut-NAME">perlootut NAME</a> and <a href="perlobj.html#perlobj-NAME">perlobj NAME</a> for in-depth information on
+creating classes, <a href="perlobj.html#perlobj-NAME">perlobj NAME</a> for a hard-core reference document on
+objects, <a href="perlsub.html#perlsub-NAME">perlsub NAME</a> for an explanation of functions and scoping,
 and <a href="../perlxstut/index.html">(perlxstut)</a> and <a href="perlguts.html#perlguts-NAME">perlguts NAME</a> for more information on writing
 extension modules.
 </p>
 <hr>
 <div class="header">
 <p>
-Previous: <a href="#perlmod-DESCRIPTION" accesskey="p" rel="previous">perlmod DESCRIPTION</a>, Up: <a href="#perlmod" accesskey="u" rel="up">perlmod</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlmod-DESCRIPTION" accesskey="p" rel="prev">perlmod DESCRIPTION</a>, Up: <a href="#perlmod" accesskey="u" rel="up">perlmod</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 
 

@@ -1,0 +1,706 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by Texinfo 5.1+dev, http://www.gnu.org/software/texinfo/ -->
+<head>
+<title>Perl pod documentation: perllexwarn</title>
+
+<meta name="description" content="Perl pod documentation: perllexwarn">
+<meta name="keywords" content="Perl pod documentation: perllexwarn">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2any">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="perllocale.html#perllocale" rel="next" title="perllocale">
+<link href="perlipc.html#perlipc-SEE-ALSO" rel="prev" title="perlipc SEE ALSO">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.indentedblock {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smallindentedblock {margin-left: 3.2em; font-size: smaller}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style:oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nocodebreak {white-space:nowrap}
+span.nolinebreak {white-space:nowrap}
+span.roman {font-family:serif; font-weight:normal}
+span.sansserif {font-family:sans-serif; font-weight:normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<a name="perllexwarn"></a>
+<div class="header">
+<p>
+Next: <a href="perllocale.html#perllocale" accesskey="n" rel="next">perllocale</a>, Previous: <a href="perlipc.html#perlipc" accesskey="p" rel="prev">perlipc</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="perllexwarn-1"></a>
+<h2 class="chapter">37 perllexwarn</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perllexwarn-NAME" accesskey="1">perllexwarn NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perllexwarn-DESCRIPTION" accesskey="2">perllexwarn DESCRIPTION</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perllexwarn-SEE-ALSO" accesskey="3">perllexwarn SEE ALSO</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perllexwarn-AUTHOR" accesskey="4">perllexwarn AUTHOR</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perllexwarn-NAME"></a>
+<div class="header">
+<p>
+Next: <a href="#perllexwarn-DESCRIPTION" accesskey="n" rel="next">perllexwarn DESCRIPTION</a>, Up: <a href="#perllexwarn" accesskey="u" rel="up">perllexwarn</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="NAME-36"></a>
+<h3 class="section">37.1 NAME</h3>
+
+<p>perllexwarn - Perl Lexical Warnings
+</p>
+<hr>
+<a name="perllexwarn-DESCRIPTION"></a>
+<div class="header">
+<p>
+Next: <a href="#perllexwarn-SEE-ALSO" accesskey="n" rel="next">perllexwarn SEE ALSO</a>, Previous: <a href="#perllexwarn-NAME" accesskey="p" rel="prev">perllexwarn NAME</a>, Up: <a href="#perllexwarn" accesskey="u" rel="up">perllexwarn</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="DESCRIPTION-36"></a>
+<h3 class="section">37.2 DESCRIPTION</h3>
+
+<p>The <code>use warnings</code> pragma enables to control precisely what warnings are
+to be enabled in which parts of a Perl program. It&rsquo;s a more flexible
+alternative for both the command line flag <strong>-w</strong> and the equivalent Perl
+variable, <code>$^W</code>.
+</p>
+<p>This pragma works just like the <code>strict</code> pragma.
+This means that the scope of the warning pragma is limited to the
+enclosing block. It also means that the pragma setting will not
+leak across files (via <code>use</code>, <code>require</code> or <code>do</code>). This allows
+authors to independently define the degree of warning checks that will
+be applied to their module.
+</p>
+<p>By default, optional warnings are disabled, so any legacy code that
+doesn&rsquo;t attempt to control the warnings will work unchanged.
+</p>
+<p>All warnings are enabled in a block by either of these:
+</p>
+<pre class="verbatim">    use warnings;
+    use warnings 'all';
+</pre>
+<p>Similarly all warnings are disabled in a block by either of these:
+</p>
+<pre class="verbatim">    no warnings;
+    no warnings 'all';
+</pre>
+<p>For example, consider the code below:
+</p>
+<pre class="verbatim">    use warnings;
+    my @a;
+    {
+        no warnings;
+        my $b = @a[0];
+    }
+    my $c = @a[0];
+</pre>
+<p>The code in the enclosing block has warnings enabled, but the inner
+block has them disabled. In this case that means the assignment to the
+scalar <code>$c</code> will trip the <code>&quot;Scalar value @a[0] better written as $a[0]&quot;</code>
+warning, but the assignment to the scalar <code>$b</code> will not.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perllexwarn-Default-Warnings-and-Optional-Warnings" accesskey="1">perllexwarn Default Warnings and Optional Warnings</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perllexwarn-What_0027s-wrong-with-_002dw-and-_0024_005eW" accesskey="2">perllexwarn What's wrong with <strong>-w</strong> and <code>$^W</code></a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perllexwarn-Controlling-Warnings-from-the-Command-Line" accesskey="3">perllexwarn Controlling Warnings from the Command Line</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perllexwarn-Backward-Compatibility" accesskey="4">perllexwarn Backward Compatibility</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perllexwarn-Category-Hierarchy" accesskey="5">perllexwarn Category Hierarchy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perllexwarn-Fatal-Warnings" accesskey="6">perllexwarn Fatal Warnings</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perllexwarn-Reporting-Warnings-from-a-Module" accesskey="7">perllexwarn Reporting Warnings from a Module</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perllexwarn-Default-Warnings-and-Optional-Warnings"></a>
+<div class="header">
+<p>
+Next: <a href="#perllexwarn-What_0027s-wrong-with-_002dw-and-_0024_005eW" accesskey="n" rel="next">perllexwarn What's wrong with <strong>-w</strong> and <code>$^W</code></a>, Up: <a href="#perllexwarn-DESCRIPTION" accesskey="u" rel="up">perllexwarn DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Default-Warnings-and-Optional-Warnings"></a>
+<h4 class="subsection">37.2.1 Default Warnings and Optional Warnings</h4>
+
+<p>Before the introduction of lexical warnings, Perl had two classes of
+warnings: mandatory and optional. 
+</p>
+<p>As its name suggests, if your code tripped a mandatory warning, you
+would get a warning whether you wanted it or not.
+For example, the code below would always produce an <code>&quot;isn't numeric&quot;</code>
+warning about the &quot;2:&quot;.
+</p>
+<pre class="verbatim">    my $a = &quot;2:&quot; + 3;
+</pre>
+<p>With the introduction of lexical warnings, mandatory warnings now become
+<em>default</em> warnings. The difference is that although the previously
+mandatory warnings are still enabled by default, they can then be
+subsequently enabled or disabled with the lexical warning pragma. For
+example, in the code below, an <code>&quot;isn't numeric&quot;</code> warning will only
+be reported for the <code>$a</code> variable.
+</p>
+<pre class="verbatim">    my $a = &quot;2:&quot; + 3;
+    no warnings;
+    my $b = &quot;2:&quot; + 3;
+</pre>
+<p>Note that neither the <strong>-w</strong> flag or the <code>$^W</code> can be used to
+disable/enable default warnings. They are still mandatory in this case.
+</p>
+<hr>
+<a name="perllexwarn-What_0027s-wrong-with-_002dw-and-_0024_005eW"></a>
+<div class="header">
+<p>
+Next: <a href="#perllexwarn-Controlling-Warnings-from-the-Command-Line" accesskey="n" rel="next">perllexwarn Controlling Warnings from the Command Line</a>, Previous: <a href="#perllexwarn-Default-Warnings-and-Optional-Warnings" accesskey="p" rel="prev">perllexwarn Default Warnings and Optional Warnings</a>, Up: <a href="#perllexwarn-DESCRIPTION" accesskey="u" rel="up">perllexwarn DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="What_0027s-wrong-with-_002dw-and-_0024_005eW"></a>
+<h4 class="subsection">37.2.2 What&rsquo;s wrong with <strong>-w</strong> and <code>$^W</code></h4>
+
+<p>Although very useful, the big problem with using <strong>-w</strong> on the command
+line to enable warnings is that it is all or nothing. Take the typical
+scenario when you are writing a Perl program. Parts of the code you
+will write yourself, but it&rsquo;s very likely that you will make use of
+pre-written Perl modules. If you use the <strong>-w</strong> flag in this case, you
+end up enabling warnings in pieces of code that you haven&rsquo;t written.
+</p>
+<p>Similarly, using <code>$^W</code> to either disable or enable blocks of code is
+fundamentally flawed. For a start, say you want to disable warnings in
+a block of code. You might expect this to be enough to do the trick:
+</p>
+<pre class="verbatim">     {
+         local ($^W) = 0;
+         my $a =+ 2;
+         my $b; chop $b;
+     }
+</pre>
+<p>When this code is run with the <strong>-w</strong> flag, a warning will be produced
+for the <code>$a</code> line:  <code>&quot;Reversed += operator&quot;</code>.
+</p>
+<p>The problem is that Perl has both compile-time and run-time warnings. To
+disable compile-time warnings you need to rewrite the code like this:
+</p>
+<pre class="verbatim">     {
+         BEGIN { $^W = 0 }
+         my $a =+ 2;
+         my $b; chop $b;
+     }
+</pre>
+<p>The other big problem with <code>$^W</code> is the way you can inadvertently
+change the warning setting in unexpected places in your code. For example,
+when the code below is run (without the <strong>-w</strong> flag), the second call
+to <code>doit</code> will trip a <code>&quot;Use of uninitialized value&quot;</code> warning, whereas
+the first will not.
+</p>
+<pre class="verbatim">    sub doit
+    {
+        my $b; chop $b;
+    }
+
+    doit();
+
+    {
+        local ($^W) = 1;
+        doit()
+    }
+</pre>
+<p>This is a side-effect of <code>$^W</code> being dynamically scoped.
+</p>
+<p>Lexical warnings get around these limitations by allowing finer control
+over where warnings can or can&rsquo;t be tripped.
+</p>
+<hr>
+<a name="perllexwarn-Controlling-Warnings-from-the-Command-Line"></a>
+<div class="header">
+<p>
+Next: <a href="#perllexwarn-Backward-Compatibility" accesskey="n" rel="next">perllexwarn Backward Compatibility</a>, Previous: <a href="#perllexwarn-What_0027s-wrong-with-_002dw-and-_0024_005eW" accesskey="p" rel="prev">perllexwarn What's wrong with <strong>-w</strong> and <code>$^W</code></a>, Up: <a href="#perllexwarn-DESCRIPTION" accesskey="u" rel="up">perllexwarn DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Controlling-Warnings-from-the-Command-Line"></a>
+<h4 class="subsection">37.2.3 Controlling Warnings from the Command Line</h4>
+
+<p>There are three Command Line flags that can be used to control when
+warnings are (or aren&rsquo;t) produced:
+</p>
+<dl compact="compact">
+<dt><strong>-w</strong></dt>
+<dd><a name="perllexwarn-_002dw"></a>
+<p>This is  the existing flag. If the lexical warnings pragma is <strong>not</strong>
+used in any of you code, or any of the modules that you use, this flag
+will enable warnings everywhere. See <a href="#perllexwarn-Backward-Compatibility">Backward Compatibility</a> for
+details of how this flag interacts with lexical warnings.
+</p>
+</dd>
+<dt><strong>-W</strong></dt>
+<dd><a name="perllexwarn-_002dW"></a>
+<p>If the <strong>-W</strong> flag is used on the command line, it will enable all warnings
+throughout the program regardless of whether warnings were disabled
+locally using <code>no warnings</code> or <code>$^W =0</code>. This includes all files that get
+included via <code>use</code>, <code>require</code> or <code>do</code>.
+Think of it as the Perl equivalent of the &quot;lint&quot; command.
+</p>
+</dd>
+<dt><strong>-X</strong></dt>
+<dd><a name="perllexwarn-_002dX"></a>
+<p>Does the exact opposite to the <strong>-W</strong> flag, i.e. it disables all warnings.
+</p>
+</dd>
+</dl>
+
+<hr>
+<a name="perllexwarn-Backward-Compatibility"></a>
+<div class="header">
+<p>
+Next: <a href="#perllexwarn-Category-Hierarchy" accesskey="n" rel="next">perllexwarn Category Hierarchy</a>, Previous: <a href="#perllexwarn-Controlling-Warnings-from-the-Command-Line" accesskey="p" rel="prev">perllexwarn Controlling Warnings from the Command Line</a>, Up: <a href="#perllexwarn-DESCRIPTION" accesskey="u" rel="up">perllexwarn DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Backward-Compatibility"></a>
+<h4 class="subsection">37.2.4 Backward Compatibility</h4>
+
+<p>If you are used to working with a version of Perl prior to the
+introduction of lexically scoped warnings, or have code that uses both
+lexical warnings and <code>$^W</code>, this section will describe how they interact.
+</p>
+<p>How Lexical Warnings interact with <strong>-w</strong>/<code>$^W</code>:
+</p>
+<ol>
+<li> If none of the three command line flags (<strong>-w</strong>, <strong>-W</strong> or <strong>-X</strong>) that
+control warnings is used and neither <code>$^W</code> nor the <code>warnings</code> pragma
+are used, then default warnings will be enabled and optional warnings
+disabled.
+This means that legacy code that doesn&rsquo;t attempt to control the warnings
+will work unchanged.
+
+</li><li> The <strong>-w</strong> flag just sets the global <code>$^W</code> variable as in 5.005. This
+means that any legacy code that currently relies on manipulating <code>$^W</code>
+to control warning behavior will still work as is. 
+
+</li><li> Apart from now being a boolean, the <code>$^W</code> variable operates in exactly
+the same horrible uncontrolled global way, except that it cannot
+disable/enable default warnings.
+
+</li><li> If a piece of code is under the control of the <code>warnings</code> pragma,
+both the <code>$^W</code> variable and the <strong>-w</strong> flag will be ignored for the
+scope of the lexical warning.
+
+</li><li> The only way to override a lexical warnings setting is with the <strong>-W</strong>
+or <strong>-X</strong> command line flags.
+
+</li></ol>
+
+<p>The combined effect of 3 &amp; 4 is that it will allow code which uses
+the <code>warnings</code> pragma to control the warning behavior of $^W-type
+code (using a <code>local $^W=0</code>) if it really wants to, but not vice-versa.
+</p>
+<hr>
+<a name="perllexwarn-Category-Hierarchy"></a>
+<div class="header">
+<p>
+Next: <a href="#perllexwarn-Fatal-Warnings" accesskey="n" rel="next">perllexwarn Fatal Warnings</a>, Previous: <a href="#perllexwarn-Backward-Compatibility" accesskey="p" rel="prev">perllexwarn Backward Compatibility</a>, Up: <a href="#perllexwarn-DESCRIPTION" accesskey="u" rel="up">perllexwarn DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Category-Hierarchy"></a>
+<h4 class="subsection">37.2.5 Category Hierarchy</h4>
+
+<p>A hierarchy of &quot;categories&quot; have been defined to allow groups of warnings
+to be enabled/disabled in isolation.
+</p>
+<p>The current hierarchy is:
+</p>
+<pre class="verbatim">    all -+
+         |
+         +- closure
+         |
+         +- deprecated
+         |
+         +- exiting
+         |
+         +- experimental --+
+         |                 |
+         |                 +- experimental::lexical_subs
+         |
+         +- glob
+         |
+         +- imprecision
+         |
+         +- io ------------+
+         |                 |
+         |                 +- closed
+         |                 |
+         |                 +- exec
+         |                 |
+         |                 +- layer
+         |                 |
+         |                 +- newline
+         |                 |
+         |                 +- pipe
+         |                 |
+         |                 +- unopened
+         |
+         +- misc
+         |
+         +- numeric
+         |
+         +- once
+         |
+         +- overflow
+         |
+         +- pack
+         |
+         +- portable
+         |
+         +- recursion
+         |
+         +- redefine
+         |
+         +- regexp
+         |
+         +- severe --------+
+         |                 |
+         |                 +- debugging
+         |                 |
+         |                 +- inplace
+         |                 |
+         |                 +- internal
+         |                 |
+         |                 +- malloc
+         |
+         +- signal
+         |
+         +- substr
+         |
+         +- syntax --------+
+         |                 |
+         |                 +- ambiguous
+         |                 |
+         |                 +- bareword
+         |                 |
+         |                 +- digit
+         |                 |
+         |                 +- illegalproto
+         |                 |
+         |                 +- parenthesis
+         |                 |
+         |                 +- precedence
+         |                 |
+         |                 +- printf
+         |                 |
+         |                 +- prototype
+         |                 |
+         |                 +- qw
+         |                 |
+         |                 +- reserved
+         |                 |
+         |                 +- semicolon
+         |
+         +- taint
+         |
+         +- threads
+         |
+         +- uninitialized
+         |
+         +- unpack
+         |
+         +- untie
+         |
+         +- utf8 ----------+
+         |                 |
+         |                 +- non_unicode
+         |                 |
+         |                 +- nonchar
+         |                 |
+         |                 +- surrogate
+         |
+         +- void
+</pre>
+<p>Just like the &quot;strict&quot; pragma any of these categories can be combined
+</p>
+<pre class="verbatim">    use warnings qw(void redefine);
+    no warnings qw(io syntax untie);
+</pre>
+<p>Also like the &quot;strict&quot; pragma, if there is more than one instance of the
+<code>warnings</code> pragma in a given scope the cumulative effect is additive. 
+</p>
+<pre class="verbatim">    use warnings qw(void); # only &quot;void&quot; warnings enabled
+    ...
+    use warnings qw(io);   # only &quot;void&quot; &amp; &quot;io&quot; warnings enabled
+    ...
+    no warnings qw(void);  # only &quot;io&quot; warnings enabled
+</pre>
+<p>To determine which category a specific warning has been assigned to see
+<a href="perldiag.html#perldiag-NAME">perldiag NAME</a>.
+</p>
+<p>Note: In Perl 5.6.1, the lexical warnings category &quot;deprecated&quot; was a
+sub-category of the &quot;syntax&quot; category. It is now a top-level category
+in its own right.
+</p>
+<hr>
+<a name="perllexwarn-Fatal-Warnings"></a>
+<div class="header">
+<p>
+Next: <a href="#perllexwarn-Reporting-Warnings-from-a-Module" accesskey="n" rel="next">perllexwarn Reporting Warnings from a Module</a>, Previous: <a href="#perllexwarn-Category-Hierarchy" accesskey="p" rel="prev">perllexwarn Category Hierarchy</a>, Up: <a href="#perllexwarn-DESCRIPTION" accesskey="u" rel="up">perllexwarn DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Fatal-Warnings"></a>
+<h4 class="subsection">37.2.6 Fatal Warnings</h4>
+
+<p>The presence of the word &quot;FATAL&quot; in the category list will escalate any
+warnings detected from the categories specified in the lexical scope
+into fatal errors. In the code below, the use of <code>time</code>, <code>length</code>
+and <code>join</code> can all produce a <code>&quot;Useless use of xxx in void context&quot;</code>
+warning.
+</p>
+<pre class="verbatim">    use warnings;
+
+    time;
+
+    {
+        use warnings FATAL =&gt; qw(void);
+        length &quot;abc&quot;;
+    }
+
+    join &quot;&quot;, 1,2,3;
+
+    print &quot;done\n&quot;;
+</pre>
+<p>When run it produces this output
+</p>
+<pre class="verbatim">    Useless use of time in void context at fatal line 3.
+    Useless use of length in void context at fatal line 7.  
+</pre>
+<p>The scope where <code>length</code> is used has escalated the <code>void</code> warnings
+category into a fatal error, so the program terminates immediately it
+encounters the warning.
+</p>
+<p>To explicitly turn off a &quot;FATAL&quot; warning you just disable the warning
+it is associated with.  So, for example, to disable the &quot;void&quot; warning
+in the example above, either of these will do the trick:
+</p>
+<pre class="verbatim">    no warnings qw(void);
+    no warnings FATAL =&gt; qw(void);
+</pre>
+<p>If you want to downgrade a warning that has been escalated into a fatal
+error back to a normal warning, you can use the &quot;NONFATAL&quot; keyword. For
+example, the code below will promote all warnings into fatal errors,
+except for those in the &quot;syntax&quot; category.
+</p>
+<pre class="verbatim">    use warnings FATAL =&gt; 'all', NONFATAL =&gt; 'syntax';
+</pre>
+<hr>
+<a name="perllexwarn-Reporting-Warnings-from-a-Module"></a>
+<div class="header">
+<p>
+Previous: <a href="#perllexwarn-Fatal-Warnings" accesskey="p" rel="prev">perllexwarn Fatal Warnings</a>, Up: <a href="#perllexwarn-DESCRIPTION" accesskey="u" rel="up">perllexwarn DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Reporting-Warnings-from-a-Module"></a>
+<h4 class="subsection">37.2.7 Reporting Warnings from a Module</h4>
+
+<p>The <code>warnings</code> pragma provides a number of functions that are useful for
+module authors. These are used when you want to report a module-specific
+warning to a calling module has enabled warnings via the <code>warnings</code>
+pragma.
+</p>
+<p>Consider the module <code>MyMod::Abc</code> below.
+</p>
+<pre class="verbatim">    package MyMod::Abc;
+
+    use warnings::register;
+
+    sub open {
+        my $path = shift;
+        if ($path !~ m#^/#) {
+            warnings::warn(&quot;changing relative path to /var/abc&quot;)
+                if warnings::enabled();
+            $path = &quot;/var/abc/$path&quot;;
+        }
+    }
+
+    1;
+</pre>
+<p>The call to <code>warnings::register</code> will create a new warnings category
+called &quot;MyMod::Abc&quot;, i.e. the new category name matches the current
+package name. The <code>open</code> function in the module will display a warning
+message if it gets given a relative path as a parameter. This warnings
+will only be displayed if the code that uses <code>MyMod::Abc</code> has actually
+enabled them with the <code>warnings</code> pragma like below.
+</p>
+<pre class="verbatim">    use MyMod::Abc;
+    use warnings 'MyMod::Abc';
+    ...
+    abc::open(&quot;../fred.txt&quot;);
+</pre>
+<p>It is also possible to test whether the pre-defined warnings categories are
+set in the calling module with the <code>warnings::enabled</code> function. Consider
+this snippet of code:
+</p>
+<pre class="verbatim">    package MyMod::Abc;
+
+    sub open {
+        warnings::warnif(&quot;deprecated&quot;, 
+                         &quot;open is deprecated, use new instead&quot;);
+        new(@_);
+    }
+
+    sub new
+    ...
+    1;
+</pre>
+<p>The function <code>open</code> has been deprecated, so code has been included to
+display a warning message whenever the calling module has (at least) the
+&quot;deprecated&quot; warnings category enabled. Something like this, say.
+</p>
+<pre class="verbatim">    use warnings 'deprecated';
+    use MyMod::Abc;
+    ...
+    MyMod::Abc::open($filename);
+</pre>
+<p>Either the <code>warnings::warn</code> or <code>warnings::warnif</code> function should be
+used to actually display the warnings message. This is because they can
+make use of the feature that allows warnings to be escalated into fatal
+errors. So in this case
+</p>
+<pre class="verbatim">    use MyMod::Abc;
+    use warnings FATAL =&gt; 'MyMod::Abc';
+    ...
+    MyMod::Abc::open('../fred.txt');
+</pre>
+<p>the <code>warnings::warnif</code> function will detect this and die after
+displaying the warning message.
+</p>
+<p>The three warnings functions, <code>warnings::warn</code>, <code>warnings::warnif</code>
+and <code>warnings::enabled</code> can optionally take an object reference in place
+of a category name. In this case the functions will use the class name
+of the object as the warnings category.
+</p>
+<p>Consider this example:
+</p>
+<pre class="verbatim">    package Original;
+
+    no warnings;
+    use warnings::register;
+
+    sub new
+    {
+        my $class = shift;
+        bless [], $class;
+    }
+
+    sub check
+    {
+        my $self = shift;
+        my $value = shift;
+
+        if ($value % 2 &amp;&amp; warnings::enabled($self))
+          { warnings::warn($self, &quot;Odd numbers are unsafe&quot;) }
+    }
+
+    sub doit
+    {
+        my $self = shift;
+        my $value = shift;
+        $self-&gt;check($value);
+        # ...
+    }
+
+    1;
+
+    package Derived;
+
+    use warnings::register;
+    use Original;
+    our @ISA = qw( Original );
+    sub new
+    {
+        my $class = shift;
+        bless [], $class;
+    }
+
+
+    1;
+</pre>
+<p>The code below makes use of both modules, but it only enables warnings from 
+<code>Derived</code>.
+</p>
+<pre class="verbatim">    use Original;
+    use Derived;
+    use warnings 'Derived';
+    my $a = Original-&gt;new();
+    $a-&gt;doit(1);
+    my $b = Derived-&gt;new();
+    $a-&gt;doit(1);
+</pre>
+<p>When this code is run only the <code>Derived</code> object, <code>$b</code>, will generate
+a warning. 
+</p>
+<pre class="verbatim">    Odd numbers are unsafe at main.pl line 7
+</pre>
+<p>Notice also that the warning is reported at the line where the object is first
+used.
+</p>
+<p>When registering new categories of warning, you can supply more names to
+warnings::register like this:
+</p>
+<pre class="verbatim">    package MyModule;
+    use warnings::register qw(format precision);
+
+    ...
+
+    warnings::warnif('MyModule::format', '...');
+</pre>
+<hr>
+<a name="perllexwarn-SEE-ALSO"></a>
+<div class="header">
+<p>
+Next: <a href="#perllexwarn-AUTHOR" accesskey="n" rel="next">perllexwarn AUTHOR</a>, Previous: <a href="#perllexwarn-DESCRIPTION" accesskey="p" rel="prev">perllexwarn DESCRIPTION</a>, Up: <a href="#perllexwarn" accesskey="u" rel="up">perllexwarn</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="SEE-ALSO-16"></a>
+<h3 class="section">37.3 SEE ALSO</h3>
+
+<p><a href="../warnings/index.html">(warnings)</a>, <a href="perldiag.html#perldiag-NAME">perldiag NAME</a>.
+</p>
+<hr>
+<a name="perllexwarn-AUTHOR"></a>
+<div class="header">
+<p>
+Previous: <a href="#perllexwarn-SEE-ALSO" accesskey="p" rel="prev">perllexwarn SEE ALSO</a>, Up: <a href="#perllexwarn" accesskey="u" rel="up">perllexwarn</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="AUTHOR-16"></a>
+<h3 class="section">37.4 AUTHOR</h3>
+
+<p>Paul Marquess
+</p>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="#perllexwarn-SEE-ALSO" accesskey="p" rel="prev">perllexwarn SEE ALSO</a>, Up: <a href="#perllexwarn" accesskey="u" rel="up">perllexwarn</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -13,8 +13,8 @@
 <link href="index.html#Top" rel="start" title="Top">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
-<link href="NAME-regular-expression-regex-regexp.html#NAME-regular-expression-regex-regexp" rel="next" title="NAME regular expression regex regexp">
-<link href="perlport.html#perlport-AUTHORS-_002f-CONTRIBUTORS" rel="previous" title="perlport AUTHORS / CONTRIBUTORS">
+<link href="perlre.html#perlre" rel="next" title="perlre">
+<link href="perlport.html#perlport-AUTHORS-_002f-CONTRIBUTORS" rel="prev" title="perlport AUTHORS / CONTRIBUTORS">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -51,7 +51,7 @@ ul.no-bullet {list-style: none}
 <a name="perlpragma"></a>
 <div class="header">
 <p>
-Next: <a href="NAME-regular-expression-regex-regexp.html#NAME-regular-expression-regex-regexp" accesskey="n" rel="next">NAME regular expression regex regexp</a>, Previous: <a href="perlport.html#perlport" accesskey="p" rel="previous">perlport</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="perlre.html#perlre" accesskey="n" rel="next">perlre</a>, Previous: <a href="perlport.html#perlport" accesskey="p" rel="prev">perlport</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perlpragma-1"></a>
 <h2 class="chapter">57 perlpragma</h2>
@@ -84,7 +84,7 @@ Next: <a href="#perlpragma-DESCRIPTION" accesskey="n" rel="next">perlpragma DESC
 <a name="perlpragma-DESCRIPTION"></a>
 <div class="header">
 <p>
-Next: <a href="#perlpragma-A-basic-example" accesskey="n" rel="next">perlpragma A basic example</a>, Previous: <a href="#perlpragma-NAME" accesskey="p" rel="previous">perlpragma NAME</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlpragma-A-basic-example" accesskey="n" rel="next">perlpragma A basic example</a>, Previous: <a href="#perlpragma-NAME" accesskey="p" rel="prev">perlpragma NAME</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DESCRIPTION-55"></a>
 <h3 class="section">57.2 DESCRIPTION</h3>
@@ -98,7 +98,7 @@ pragmata that modify the behaviour of user functions within a lexical scope.
 <a name="perlpragma-A-basic-example"></a>
 <div class="header">
 <p>
-Next: <a href="#perlpragma-Key-naming" accesskey="n" rel="next">perlpragma Key naming</a>, Previous: <a href="#perlpragma-DESCRIPTION" accesskey="p" rel="previous">perlpragma DESCRIPTION</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlpragma-Key-naming" accesskey="n" rel="next">perlpragma Key naming</a>, Previous: <a href="#perlpragma-DESCRIPTION" accesskey="p" rel="prev">perlpragma DESCRIPTION</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="A-basic-example"></a>
 <h3 class="section">57.3 A basic example</h3>
@@ -108,22 +108,22 @@ mathematical operators, and would like to provide your own pragma that
 functions much like <code>use integer;</code> You&rsquo;d like this code
 </p>
 <pre class="verbatim">    use MyMaths;
-    
+
     my $l = MyMaths-&gt;new(1.2);
     my $r = MyMaths-&gt;new(3.4);
-    
+
     print &quot;A: &quot;, $l + $r, &quot;\n&quot;;
-    
+
     use myint;
     print &quot;B: &quot;, $l + $r, &quot;\n&quot;;
-    
+
     {
         no myint;
         print &quot;C: &quot;, $l + $r, &quot;\n&quot;;
     }
-    
+
     print &quot;D: &quot;, $l + $r, &quot;\n&quot;;
-    
+
     no myint;
     print &quot;E: &quot;, $l + $r, &quot;\n&quot;;
 </pre>
@@ -155,12 +155,12 @@ this:
             $$l + $$r;
         }
     };
-    
+
     sub new {
         my ($class, $value) = @_;
         bless \$value, $class;
     }
-    
+
     1;
 </pre>
 <p>Note how we load the user pragma <code>myint</code> with an empty list <code>()</code> to
@@ -169,24 +169,24 @@ prevent its <code>import</code> being called.
 <p>The interaction with the Perl compilation happens inside package <code>myint</code>:
 </p>
 <pre class="verbatim">    package myint;
-    
+
     use strict;
     use warnings;
-    
+
     sub import {
         $^H{&quot;myint/in_effect&quot;} = 1;
     }
-    
+
     sub unimport {
         $^H{&quot;myint/in_effect&quot;} = 0;
     }
-    
+
     sub in_effect {
         my $level = shift // 0;
         my $hinthash = (caller($level))[10];
         return $hinthash-&gt;{&quot;myint/in_effect&quot;};
     }
-    
+
     1;
 </pre>
 <p>As pragmata are implemented as modules, like any other module, <code>use myint;</code>
@@ -222,7 +222,7 @@ overloaded addition.
 <a name="perlpragma-Key-naming"></a>
 <div class="header">
 <p>
-Next: <a href="#perlpragma-Implementation-details" accesskey="n" rel="next">perlpragma Implementation details</a>, Previous: <a href="#perlpragma-A-basic-example" accesskey="p" rel="previous">perlpragma A basic example</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlpragma-Implementation-details" accesskey="n" rel="next">perlpragma Implementation details</a>, Previous: <a href="#perlpragma-A-basic-example" accesskey="p" rel="prev">perlpragma A basic example</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Key-naming"></a>
 <h3 class="section">57.4 Key naming</h3>
@@ -245,7 +245,7 @@ won&rsquo;t conflict with the core&rsquo;s historical keys.
 <a name="perlpragma-Implementation-details"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlpragma-Key-naming" accesskey="p" rel="previous">perlpragma Key naming</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlpragma-Key-naming" accesskey="p" rel="prev">perlpragma Key naming</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Implementation-details"></a>
 <h3 class="section">57.5 Implementation details</h3>
@@ -271,7 +271,7 @@ referencing it is deleted, if other threads outlive it.
 <hr>
 <div class="header">
 <p>
-Previous: <a href="#perlpragma-Key-naming" accesskey="p" rel="previous">perlpragma Key naming</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlpragma-Key-naming" accesskey="p" rel="prev">perlpragma Key naming</a>, Up: <a href="#perlpragma" accesskey="u" rel="up">perlpragma</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 
 

@@ -13,8 +13,8 @@
 <link href="index.html#Top" rel="start" title="Top">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
-<link href="NAME-data-structure-complex-data-structure-struct.html#NAME-data-structure-complex-data-structure-struct" rel="next" title="NAME data structure complex data structure struct">
-<link href="NAME-debug-debugger.html#NAME-debug-debugger-BUGS" rel="previous" title="NAME debug debugger BUGS">
+<link href="perldsc.html#perldsc" rel="next" title="perldsc">
+<link href="perldebug.html#perldebug-BUGS" rel="prev" title="perldebug BUGS">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -51,7 +51,7 @@ ul.no-bullet {list-style: none}
 <a name="perldiag"></a>
 <div class="header">
 <p>
-Next: <a href="NAME-data-structure-complex-data-structure-struct.html#NAME-data-structure-complex-data-structure-struct" accesskey="n" rel="next">NAME data structure complex data structure struct</a>, Previous: <a href="NAME-debug-debugger.html#NAME-debug-debugger" accesskey="p" rel="previous">NAME debug debugger</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="perldsc.html#perldsc" accesskey="n" rel="next">perldsc</a>, Previous: <a href="perldebug.html#perldebug" accesskey="p" rel="prev">perldebug</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perldiag-1"></a>
 <h2 class="chapter">16 perldiag</h2>
@@ -80,7 +80,7 @@ Next: <a href="#perldiag-DESCRIPTION" accesskey="n" rel="next">perldiag DESCRIPT
 <a name="perldiag-DESCRIPTION"></a>
 <div class="header">
 <p>
-Next: <a href="#perldiag-SEE-ALSO" accesskey="n" rel="next">perldiag SEE ALSO</a>, Previous: <a href="#perldiag-NAME" accesskey="p" rel="previous">perldiag NAME</a>, Up: <a href="#perldiag" accesskey="u" rel="up">perldiag</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perldiag-SEE-ALSO" accesskey="n" rel="next">perldiag SEE ALSO</a>, Previous: <a href="#perldiag-NAME" accesskey="p" rel="prev">perldiag NAME</a>, Up: <a href="#perldiag" accesskey="u" rel="up">perldiag</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DESCRIPTION-15"></a>
 <h3 class="section">16.2 DESCRIPTION</h3>
@@ -101,7 +101,7 @@ desperation):
 </p>
 <p>If a message can be controlled by the <code>warnings</code> pragma, its warning
 category is included with the classification letter in the description
-below.
+below.  E.g. <code>(W closed)</code> means a warning in the <code>closed</code> category.
 </p>
 <p>Optional warnings are enabled by using the <code>warnings</code> pragma or the <strong>-w</strong>
 and <strong>-W</strong> switches.  Warnings may be captured by setting <code>$SIG{__WARN__}</code>
@@ -112,7 +112,7 @@ of printing it.  See <a href="perlvar.html#perlvar-NAME">perlvar NAME</a>.
 with the <code>warnings</code> pragma or the <strong>-X</strong> switch.
 </p>
 <p>Trappable errors may be trapped using the eval operator.  See
-<a href="../perlfunc/eval.html#eval">(perlfunc)eval</a>.  In almost all cases, warnings may be selectively
+<a href="perlfunc.html#perlfunc-eval">perlfunc eval</a>.  In almost all cases, warnings may be selectively
 disabled or promoted to fatal errors using the <code>warnings</code> pragma.
 See <a href="../warnings/index.html">(warnings)</a>.
 </p>
@@ -128,7 +128,7 @@ letter.
 <dd><a name="perldiag-accept_0028_0029-on-closed-socket-_0025s"></a>
 <p>(W closed) You tried to do an accept on a closed socket.  Did you forget
 to check the return value of your socket() call?  See
-<a href="../perlfunc/accept.html#accept">(perlfunc)accept</a>.
+&lsquo;perlfunc accept&rsquo;.
 </p>
 </dd>
 <dt>Allocation too large: %x</dt>
@@ -139,7 +139,7 @@ to check the return value of your socket() call?  See
 <dt>&rsquo;%c&rsquo; allowed only after types %s</dt>
 <dd><a name="perldiag-_0027_0025c_0027-allowed-only-after-types-_0025s"></a>
 <p>(F) The modifiers &rsquo;!&rsquo;, &rsquo;&lt;&rsquo; and &rsquo;&gt;&rsquo; are allowed in pack() or unpack() only
-after certain types.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+after certain types.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>Ambiguous call resolved as CORE::%s(), qualify as such or use &amp;</dt>
@@ -156,7 +156,7 @@ imported with the <code>use subs</code> pragma).
 </p>
 <p>To silently interpret it as the Perl operator, use the <code>CORE::</code> prefix
 on the operator (e.g. <code>CORE::log($x)</code>) or declare the subroutine
-to be an object method (see <a href="../perlsub/Subroutine-Attributes.html#Subroutine-Attributes">(perlsub)Subroutine Attributes</a> or
+to be an object method (see <a href="perlsub.html#perlsub-Subroutine-Attributes">perlsub Subroutine Attributes</a> or
 <a href="../attributes/index.html">(attributes)</a>).
 </p>
 </dd>
@@ -170,14 +170,14 @@ first or last.  (In the past, <code>tr/a-z-0//</code> was synonymous with
 </dd>
 <dt>Ambiguous use of %s resolved as %s</dt>
 <dd><a name="perldiag-Ambiguous-use-of-_0025s-resolved-as-_0025s"></a>
-<p>(W ambiguous)(S) You said something that may not be interpreted the way
+<p>(S ambiguous) You said something that may not be interpreted the way
 you thought.  Normally it&rsquo;s pretty easy to disambiguate it by supplying
 a missing quote, operator, parenthesis pair or declaration.
 </p>
 </dd>
 <dt>Ambiguous use of %c resolved as operator %c</dt>
 <dd><a name="perldiag-Ambiguous-use-of-_0025c-resolved-as-operator-_0025c"></a>
-<p>(W ambiguous) <code>%</code>, <code>&amp;</code>, and <code>*</code> are both infix operators (modulus,
+<p>(S ambiguous) <code>%</code>, <code>&amp;</code>, and <code>*</code> are both infix operators (modulus,
 bitwise and, and multiplication) <em>and</em> initial special characters
 (denoting hashes, subroutines and typeglobs), and you said something
 like <code>*foo * foo</code> that might be interpreted as either of them.  We
@@ -220,25 +220,10 @@ off warnings with <code>no warnings 'ambiguous';</code>.
 </dd>
 <dt>Ambiguous use of -%s resolved as -&amp;%s()</dt>
 <dd><a name="perldiag-Ambiguous-use-of-_002d_0025s-resolved-as-_002d_0026_0025s_0028_0029"></a>
-<p>(W ambiguous) You wrote something like <code>-foo</code>, which might be the
+<p>(S ambiguous) You wrote something like <code>-foo</code>, which might be the
 string <code>&quot;-foo&quot;</code>, or a call to the function <code>foo</code>, negated.  If you meant
 the string, just write <code>&quot;-foo&quot;</code>.  If you meant the function call,
 write <code>-foo()</code>.
-</p>
-</dd>
-<dt>Ambiguous use of &rsquo;s//le...&rsquo; resolved as &rsquo;s// le...&rsquo;; Rewrite as &rsquo;s//el&rsquo; if you meant &rsquo;use locale rules and evaluate rhs as an expression&rsquo;.  In Perl 5.18, it will be resolved the other way</dt>
-<dd><a name="perldiag-Ambiguous-use-of-_0027s_002f_002fle_002e_002e_002e_0027-resolved-as-_0027s_002f_002f-le_002e_002e_002e_0027_003b-Rewrite-as-_0027s_002f_002fel_0027-if-you-meant-_0027use-locale-rules-and-evaluate-rhs-as-an-expression_0027_002e-In-Perl-5_002e18_002c-it-will-be-resolved-the-other-way"></a>
-<p>(W deprecated, ambiguous) You wrote a pattern match with substitution
-immediately followed by &quot;le&quot;.  In Perl 5.16 and earlier, this is
-resolved as meaning to take the result of the substitution, and see if
-it is stringwise less-than-or-equal-to what follows in the expression.
-Having the &quot;le&quot; immediately following a pattern is deprecated behavior,
-so in Perl 5.18, this expression will be resolved as meaning to do the
-pattern match using the rules of the current locale, and evaluate the
-rhs as an expression when doing the substitution.  In 5.14, and 5.16 if
-you want the latter interpretation, you can simply write &quot;el&quot; instead.
-But note that the <code>/l</code> modifier should not be used explicitly anyway;
-you should use <code>use locale</code> instead.  See <a href="perllocale.html#perllocale-NAME">perllocale NAME</a>.
 </p>
 </dd>
 <dt>&rsquo;|&rsquo; and &rsquo;&lt;&rsquo; may not both be specified on command line</dt>
@@ -271,7 +256,7 @@ transliteration (<code>tr///</code>) operators work on scalar values.  If you ap
 one of them to an array or a hash, it will convert the array or hash to
 a scalar value (the length of an array, or the population info of a
 hash) and then work on that scalar value.  This is probably not what
-you meant to do.  See <a href="../perlfunc/grep.html#grep">(perlfunc)grep</a> and <a href="../perlfunc/map.html#map">(perlfunc)map</a> for
+you meant to do.  See &lsquo;perlfunc grep&rsquo; and &lsquo;perlfunc map&rsquo; for
 alternatives.
 </p>
 </dd>
@@ -333,6 +318,15 @@ result of the value of the environment variable PERLIO.
 <dd><a name="perldiag-Array-_0040_0025s-missing-the-_0040-in-argument-_0025d-of-_0025s_0028_0029"></a>
 <p>(D deprecated) Really old Perl let you omit the @ on array names in some
 spots.  This is now heavily deprecated.
+</p>
+</dd>
+<dt>A sequence of multiple spaces in a charnames alias definition is deprecated</dt>
+<dd><a name="perldiag-A-sequence-of-multiple-spaces-in-a-charnames-alias-definition-is-deprecated"></a>
+<p>(D) You defined a character name which had multiple space characters in
+a row.  Change them to single spaces.  Usually these names are defined
+in the <code>:alias</code> import argument to <code>use charnames</code>, but they could be
+defined by a translator installed into <code>$^H{charnames}</code>.  See
+<a href="../charnames/CUSTOM-ALIASES.html#CUSTOM-ALIASES">(charnames)CUSTOM ALIASES</a>.
 </p>
 </dd>
 <dt>assertion botched: %s</dt>
@@ -443,7 +437,7 @@ try to free it.
 </dd>
 <dt>Attempt to free unreferenced scalar: SV 0x%x</dt>
 <dd><a name="perldiag-Attempt-to-free-unreferenced-scalar_003a-SV-0x_0025x"></a>
-<p>(W internal) Perl went to decrement the reference count of a scalar to
+<p>(S internal) Perl went to decrement the reference count of a scalar to
 see if it would go to 0, and discovered that it had already gone to 0
 earlier, and should have been freed, and in fact, probably was freed.
 This could indicate that SvREFCNT_dec() was called too many times, or
@@ -473,15 +467,16 @@ avoid this warning.
 <dd><a name="perldiag-Attempt-to-reload-_0025s-aborted_002e"></a>
 <p>(F) You tried to load a file with <code>use</code> or <code>require</code> that failed to
 compile once already.  Perl will not try to compile this file again
-unless you delete its entry from %INC.  See <a href="../perlfunc/require.html#require">(perlfunc)require</a> and
+unless you delete its entry from %INC.  See <a href="perlfunc.html#perlfunc-require">perlfunc require</a> and
 <a href="perlvar.html#perlvar-_0025INC">perlvar %INC</a>.
 </p>
 </dd>
 <dt>Attempt to set length of freed array</dt>
 <dd><a name="perldiag-Attempt-to-set-length-of-freed-array"></a>
-<p>(W) You tried to set the length of an array which has been freed.  You
-can do this by storing a reference to the scalar representing the last index
-of an array and later assigning through that reference.  For example
+<p>(W misc) You tried to set the length of an array which has
+been freed.  You can do this by storing a reference to the
+scalar representing the last index of an array and later
+assigning through that reference.  For example
 </p>
 <pre class="verbatim">    $r = do {my @a; \$#a};
     $$r = 503
@@ -491,7 +486,7 @@ of an array and later assigning through that reference.  For example
 <dd><a name="perldiag-Attempt-to-use-reference-as-lvalue-in-substr"></a>
 <p>(W substr) You supplied a reference as the first argument to substr()
 used as an lvalue, which is pretty strange.  Perhaps you forgot to
-dereference it first.  See <a href="../perlfunc/substr.html#substr">(perlfunc)substr</a>.
+dereference it first.  See &lsquo;perlfunc substr&rsquo;.
 </p>
 </dd>
 <dt>Attribute &quot;locked&quot; is deprecated</dt>
@@ -679,7 +674,7 @@ there are more than 9 backreferences.
 <dt>bind() on closed socket %s</dt>
 <dd><a name="perldiag-bind_0028_0029-on-closed-socket-_0025s"></a>
 <p>(W closed) You tried to do a bind on a closed socket.  Did you forget to
-check the return value of your socket() call?  See <a href="../perlfunc/bind.html#bind">(perlfunc)bind</a>.
+check the return value of your socket() call?  See &lsquo;perlfunc bind&rsquo;.
 </p>
 </dd>
 <dt>binmode() on closed filehandle %s</dt>
@@ -688,14 +683,16 @@ check the return value of your socket() call?  See <a href="../perlfunc/bind.htm
 Check your control flow and number of arguments.
 </p>
 </dd>
-<dt>&quot;\b{&quot; is deprecated; use &quot;\b\{&quot; instead</dt>
-<dd><a name="perldiag-_0022_005cb_007b_0022-is-deprecated_003b-use-_0022_005cb_005c_007b_0022-instead"></a>
+<dt>&quot;\b{&quot; is deprecated; use &quot;\b\{&quot; or &quot;\b[{]&quot; instead in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-_0022_005cb_007b_0022-is-deprecated_003b-use-_0022_005cb_005c_007b_0022-or-_0022_005cb_005b_007b_005d_0022-instead-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 </dd>
-<dt>&quot;\B{&quot; is deprecated; use &quot;\B\{&quot; instead</dt>
-<dd><a name="perldiag-_0022_005cB_007b_0022-is-deprecated_003b-use-_0022_005cB_005c_007b_0022-instead"></a>
-<p>(W deprecated, regexp) Use of an unescaped &quot;{&quot; immediately following a
+<dt>&quot;\B{&quot; is deprecated; use &quot;\B\{&quot; or &quot;\B[{]&quot; instead in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-_0022_005cB_007b_0022-is-deprecated_003b-use-_0022_005cB_005c_007b_0022-or-_0022_005cB_005b_007b_005d_0022-instead-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(W deprecated) Use of an unescaped &quot;{&quot; immediately following a
 <code>\b</code> or <code>\B</code> is now deprecated so as to reserve its use for Perl
-itself in a future release.
+itself in a future release.  You can either precede the brace with a
+backslash, or enclose it in square brackets; the latter is the way to go
+if the pattern delimiters are <code>{}</code>.
 </p>
 </dd>
 <dt>Bit vector size &gt; 32 non-portable</dt>
@@ -737,7 +734,7 @@ early prototype declaration for the subroutine in question, or move the
 subroutine definition ahead of the call to get proper prototype
 checking.  Alternatively, if you are certain that you&rsquo;re calling the
 function correctly, you may put an ampersand before the name to avoid
-the warning.  See <a href="../perlsub/index.html">(perlsub)</a>.
+the warning.  See <a href="perlsub.html#perlsub-NAME">perlsub NAME</a>.
 </p>
 </dd>
 <dt>Cannot compress integer in pack</dt>
@@ -745,13 +742,13 @@ the warning.  See <a href="../perlsub/index.html">(perlsub)</a>.
 <p>(F) An argument to pack(&quot;w&quot;,...) was too large to compress.  The BER
 compressed integer format can only be used with positive integers, and you
 attempted to compress Infinity or a very large number (&gt; 1e308).
-See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>Cannot compress negative numbers in pack</dt>
 <dd><a name="perldiag-Cannot-compress-negative-numbers-in-pack"></a>
 <p>(F) An argument to pack(&quot;w&quot;,...) was negative.  The BER compressed integer
-format can only be used with positive integers.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+format can only be used with positive integers.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>Cannot convert a reference to %s to typeglob</dt>
@@ -792,13 +789,13 @@ Perl code, but are only used internally.
 <dd><a name="perldiag-Can-only-compress-unsigned-integers-in-pack"></a>
 <p>(F) An argument to pack(&quot;w&quot;,...) was not an integer.  The BER compressed
 integer format can only be used with positive integers, and you attempted
-to compress something else.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+to compress something else.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>Can&rsquo;t bless non-reference value</dt>
 <dd><a name="perldiag-Can_0027t-bless-non_002dreference-value"></a>
 <p>(F) Only hard references may be blessed.  This is how Perl &quot;enforces&quot;
-encapsulation of objects.  See <a href="../perlobj/index.html">(perlobj)</a>.
+encapsulation of objects.  See <a href="perlobj.html#perlobj-NAME">perlobj NAME</a>.
 </p>
 </dd>
 <dt>Can&rsquo;t &quot;break&quot; in a loop topicalizer</dt>
@@ -828,7 +825,7 @@ like this will reproduce the error:
 <p>(F) A method call must know in what package it&rsquo;s supposed to run.  It
 ordinarily finds this out from the object reference you supply, but you
 didn&rsquo;t supply an object reference in this case.  A reference isn&rsquo;t an
-object reference until it has been blessed.  See <a href="../perlobj/index.html">(perlobj)</a>.
+object reference until it has been blessed.  See <a href="perlobj.html#perlobj-NAME">perlobj NAME</a>.
 </p>
 </dd>
 <dt>Can&rsquo;t call method &quot;%s&quot; without a package or object reference</dt>
@@ -845,7 +842,7 @@ Something like this will reproduce the error:
 </dd>
 <dt>Can&rsquo;t chdir to %s</dt>
 <dd><a name="perldiag-Can_0027t-chdir-to-_0025s"></a>
-<p>(F) You called <code>perl -x/foo/bar</code>, but <code>/foo/bar</code> is not a directory
+<p>(F) You called <code>perl -x/foo/bar</code>, but <samp>/foo/bar</samp> is not a directory
 that you can chdir to, possibly because it doesn&rsquo;t exist.
 </p>
 </dd>
@@ -900,7 +897,7 @@ error if you use an explicit <code>continue</code>.)
 <dt>Can&rsquo;t do inplace edit: %s is not a regular file</dt>
 <dd><a name="perldiag-Can_0027t-do-inplace-edit_003a-_0025s-is-not-a-regular-file"></a>
 <p>(S inplace) You tried to use the <strong>-i</strong> switch on a special file, such as
-a file in /dev, or a FIFO.  The file was ignored.
+a file in /dev, a FIFO or an uneditable directory.  The file was ignored.
 </p>
 </dd>
 <dt>Can&rsquo;t do inplace edit on %s: %s</dt>
@@ -923,14 +920,6 @@ characters and Perl was unable to create a unique filename during
 inplace editing with the <strong>-i</strong> switch.  The file was ignored.
 </p>
 </dd>
-<dt>Can&rsquo;t do {n,m} with n &gt; m in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
-<dd><a name="perldiag-Can_0027t-do-_007bn_002cm_007d-with-n-_003e-m-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
-<p>(F) Minima must be less than or equal to maxima.  If you really
-want your regexp to match something 0 times, just put {0}.  The
-&lt;&ndash; HERE shows in the regular expression about where the problem
-was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
-</p>
-</dd>
 <dt>Can&rsquo;t do waitpid with flags</dt>
 <dd><a name="perldiag-Can_0027t-do-waitpid-with-flags"></a>
 <p>(F) This machine doesn&rsquo;t have either waitpid() or wait4(), so only
@@ -949,7 +938,7 @@ line.
 <p>(F) Your platform&rsquo;s byte-order is neither big-endian nor little-endian,
 or it has a very strange pointer size.  Packing and unpacking big- or
 little-endian floating point values and pointers may not be possible.
-See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>Can&rsquo;t exec &quot;%s&quot;: %s</dt>
@@ -987,13 +976,13 @@ is no builtin with the name <code>word</code>.
 <p>(F) You used <code>\p{}</code> or <code>\P{}</code> but the character property by that name
 could not be found.  Maybe you misspelled the name of the property?
 See <a href="../perluniprops/Properties-accessible-through-_005cp_007b_007d-and-_005cP_007b_007d.html#Properties-accessible-through-_005cp_007b_007d-and-_005cP_007b_007d">(perluniprops)Properties accessible through \p{} and \P{}</a>
-for a complete list of available properties.
+for a complete list of available official properties.
 </p>
 </dd>
 <dt>Can&rsquo;t find label %s</dt>
 <dd><a name="perldiag-Can_0027t-find-label-_0025s"></a>
 <p>(F) You said to goto a label that isn&rsquo;t mentioned anywhere that it&rsquo;s
-possible for us to go to.  See <a href="../perlfunc/goto.html#goto">(perlfunc)goto</a>.
+possible for us to go to.  See &lsquo;perlfunc goto&rsquo;.
 </p>
 </dd>
 <dt>Can&rsquo;t find %s on PATH</dt>
@@ -1021,7 +1010,7 @@ nesting levels, the following is missing its final parenthesis:
 included unseen whitespace before or after your closing tag or there
 may not be a linebreak after it.  A good programmer&rsquo;s editor will have
 a way to help you find these characters (or lack of characters).  See
-<a href="../perlop/index.html">(perlop)</a> for the full details on here-documents.
+<a href="perlop.html#perlop-NAME">perlop NAME</a> for the full details on here-documents.
 </p>
 </dd>
 <dt>Can&rsquo;t find Unicode property definition &quot;%s&quot;</dt>
@@ -1082,7 +1071,7 @@ mailbox buffers to be, and didn&rsquo;t get an answer.
 <dt>Can&rsquo;t &quot;goto&quot; into the middle of a foreach loop</dt>
 <dd><a name="perldiag-Can_0027t-_0022goto_0022-into-the-middle-of-a-foreach-loop"></a>
 <p>(F) A &quot;goto&quot; statement was executed to jump into the middle of a foreach
-loop.  You can&rsquo;t get there from here.  See <a href="../perlfunc/goto.html#goto">(perlfunc)goto</a>.
+loop.  You can&rsquo;t get there from here.  See &lsquo;perlfunc goto&rsquo;.
 </p>
 </dd>
 <dt>Can&rsquo;t &quot;goto&quot; out of a pseudo block</dt>
@@ -1090,7 +1079,7 @@ loop.  You can&rsquo;t get there from here.  See <a href="../perlfunc/goto.html#
 <p>(F) A &quot;goto&quot; statement was executed to jump out of what might look like
 a block, except that it isn&rsquo;t a proper block.  This usually occurs if
 you tried to jump out of a sort() block or subroutine, which is a no-no.
-See <a href="../perlfunc/goto.html#goto">(perlfunc)goto</a>.
+See &lsquo;perlfunc goto&rsquo;.
 </p>
 </dd>
 <dt>Can&rsquo;t goto subroutine from a sort sub (or similar callback)</dt>
@@ -1111,7 +1100,7 @@ as the reduce() function in List::Util).
 <p>(F) The deeply magical &quot;goto subroutine&quot; call can only replace one
 subroutine call for another.  It can&rsquo;t manufacture one out of whole
 cloth.  In general you should be calling it out of only an AUTOLOAD
-routine anyway.  See <a href="../perlfunc/goto.html#goto">(perlfunc)goto</a>.
+routine anyway.  See &lsquo;perlfunc goto&rsquo;.
 </p>
 </dd>
 <dt>Can&rsquo;t ignore signal CHLD, forcing to default</dt>
@@ -1139,7 +1128,7 @@ block.  Note that an &quot;if&quot; or &quot;else&quot; block doesn&rsquo;t coun
 block, as doesn&rsquo;t a block given to sort(), map() or grep().  You can
 usually double the curlies to get the same effect though, because the
 inner curlies will be considered a block that loops once.  See
-<a href="../perlfunc/last.html#last">(perlfunc)last</a>.
+<a href="perlfunc.html#perlfunc-last">perlfunc last</a>.
 </p>
 </dd>
 <dt>Can&rsquo;t linearize anonymous symbol table</dt>
@@ -1183,7 +1172,7 @@ the file name included the full path to the file.  Perhaps you need
 to set the PERL5LIB or PERL5OPT environment variable to say where the
 extra library is, or maybe the script needs to add the library name
 to @INC.  Or maybe you just misspelled the name of the file.  See
-<a href="../perlfunc/require.html#require">(perlfunc)require</a> and <a href="../lib/index.html">(lib)</a>.
+<a href="perlfunc.html#perlfunc-require">perlfunc require</a> and <a href="../lib/index.html">(lib)</a>.
 </p>
 </dd>
 <dt>Can&rsquo;t locate auto/%s.al in @INC</dt>
@@ -1205,7 +1194,7 @@ unable to locate this library.  See <a href="../DynaLoader/index.html">(DynaLoad
 <dd><a name="perldiag-Can_0027t-locate-object-method-_0022_0025s_0022-via-package-_0022_0025s_0022"></a>
 <p>(F) You called a method correctly, and it correctly indicated a package
 functioning as a class, but that package doesn&rsquo;t define that particular
-method, nor does any of its base classes.  See <a href="../perlobj/index.html">(perlobj)</a>.
+method, nor does any of its base classes.  See <a href="perlobj.html#perlobj-NAME">perlobj NAME</a>.
 </p>
 </dd>
 <dt>Can&rsquo;t locate package %s for @%s::ISA</dt>
@@ -1226,6 +1215,16 @@ e.g. open(FH, &quot;&gt;:nosuchlayer&quot;, &quot;somefile&quot;).
 VMS.
 </p>
 </dd>
+<dt>Can&rsquo;t make loaded symbols global on this platform while loading %s</dt>
+<dd><a name="perldiag-Can_0027t-make-loaded-symbols-global-on-this-platform-while-loading-_0025s"></a>
+<p>(W) A module passed the flag 0x01 to DynaLoader::dl_load_file() to request
+that symbols from the stated file are made available globally within the
+process, but that functionality is not available on this platform.  Whilst
+the module likely will still work, this may prevent the perl interpreter
+from loading other XS-based extensions which need to link directly to
+functions defined in the C or XS code in the stated file.
+</p>
+</dd>
 <dt>Can&rsquo;t modify %s in %s</dt>
 <dd><a name="perldiag-Can_0027t-modify-_0025s-in-_0025s"></a>
 <p>(F) You aren&rsquo;t allowed to assign to the item indicated, or otherwise try
@@ -1241,7 +1240,7 @@ a NULL.
 <dt>Can&rsquo;t modify non-lvalue subroutine call</dt>
 <dd><a name="perldiag-Can_0027t-modify-non_002dlvalue-subroutine-call"></a>
 <p>(F) Subroutines meant to be used in lvalue context should be declared as
-such.  See <a href="../perlsub/Lvalue-subroutines.html#Lvalue-subroutines">(perlsub)Lvalue subroutines</a>.
+such.  See <a href="perlsub.html#perlsub-Lvalue-subroutines">perlsub Lvalue subroutines</a>.
 </p>
 </dd>
 <dt>Can&rsquo;t msgrcv to read-only var</dt>
@@ -1257,7 +1256,7 @@ there isn&rsquo;t a current block.  Note that an &quot;if&quot; or &quot;else&qu
 count as a &quot;loopish&quot; block, as doesn&rsquo;t a block given to sort(), map() or
 grep().  You can usually double the curlies to get the same effect
 though, because the inner curlies will be considered a block that loops
-once.  See <a href="../perlfunc/next.html#next">(perlfunc)next</a>.
+once.  See <a href="perlfunc.html#perlfunc-next">perlfunc next</a>.
 </p>
 </dd>
 <dt>Can&rsquo;t open %s</dt>
@@ -1351,7 +1350,7 @@ there isn&rsquo;t a current block.  Note that an &quot;if&quot; or &quot;else&qu
 count as a &quot;loopish&quot; block, as doesn&rsquo;t a block given to sort(), map()
 or grep().  You can usually double the curlies to get the same effect
 though, because the inner curlies will be considered a block that
-loops once.  See <a href="../perlfunc/redo.html#redo">(perlfunc)redo</a>.
+loops once.  See <a href="perlfunc.html#perlfunc-redo">perlfunc redo</a>.
 </p>
 </dd>
 <dt>Can&rsquo;t remove %s: %s, skipping file</dt>
@@ -1398,7 +1397,7 @@ is not allowed.
 <dt>Can&rsquo;t return outside a subroutine</dt>
 <dd><a name="perldiag-Can_0027t-return-outside-a-subroutine"></a>
 <p>(F) The return statement was executed in mainline code, that is, where
-there was no subroutine call to return out of.  See <a href="../perlsub/index.html">(perlsub)</a>.
+there was no subroutine call to return out of.  See <a href="perlsub.html#perlsub-NAME">perlsub NAME</a>.
 </p>
 </dd>
 <dt>Can&rsquo;t return %s to lvalue scalar context</dt>
@@ -1468,7 +1467,7 @@ be a defined value.  This helps to delurk some insidious errors.
 <dt>Can&rsquo;t use bareword (&quot;%s&quot;) as %s ref while &quot;strict refs&quot; in use</dt>
 <dd><a name="perldiag-Can_0027t-use-bareword-_0028_0022_0025s_0022_0029-as-_0025s-ref-while-_0022strict-refs_0022-in-use"></a>
 <p>(F) Only hard references are allowed by &quot;strict refs&quot;.  Symbolic
-references are disallowed.  See <a href="../perlref/index.html">(perlref)</a>.
+references are disallowed.  See <a href="perlref.html#perlref-NAME">perlref NAME</a>.
 </p>
 </dd>
 <dt>Can&rsquo;t use %! because Errno.pm is not available</dt>
@@ -1482,7 +1481,7 @@ provide symbolic names for <code>$!</code> errno values.
 <dd><a name="perldiag-Can_0027t-use-both-_0027_003c_0027-and-_0027_003e_0027-after-type-_0027_0025c_0027-in-_0025s"></a>
 <p>(F) A type cannot be forced to have both big-endian and little-endian
 byte-order at the same time, so this combination of modifiers is not
-allowed.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+allowed.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>Can&rsquo;t use %s for loop variable</dt>
@@ -1526,8 +1525,13 @@ test the type of the reference, if need be.
 </dd>
 <dt>Can&rsquo;t use string (&quot;%s&quot;) as %s ref while &quot;strict refs&quot; in use</dt>
 <dd><a name="perldiag-Can_0027t-use-string-_0028_0022_0025s_0022_0029-as-_0025s-ref-while-_0022strict-refs_0022-in-use"></a>
-<p>(F) Only hard references are allowed by &quot;strict refs&quot;.  Symbolic
-references are disallowed.  See <a href="../perlref/index.html">(perlref)</a>.
+<p>(F) You&rsquo;ve told Perl to dereference a string, something which
+<code>use strict</code> blocks to prevent it happening accidentally.  See
+<a href="perlref.html#perlref-Symbolic-references">perlref Symbolic references</a>.  This can be triggered by an <code>@</code> or <code>$</code>
+in a double-quoted string immediately before interpolating a variable,
+for example in <code>&quot;user @$twitter_id&quot;</code>, which says to treat the contents
+of <code>$twitter_id</code> as an array reference; use a <code>\</code> to have a literal <code>@</code>
+symbol followed by the contents of <code>$twitter_id</code>: <code>&quot;user \@$twitter_id&quot;</code>.
 </p>
 </dd>
 <dt>Can&rsquo;t use subscript on %s</dt>
@@ -1571,11 +1575,12 @@ Perhaps you need to copy the value to a temporary, and repeat that.
 <dt>Character following &quot;\c&quot; must be ASCII</dt>
 <dd><a name="perldiag-Character-following-_0022_005cc_0022-must-be-ASCII"></a>
 <p>(F)(W deprecated, syntax) In <code>\c<em>X</em></code>, <em>X</em> must be an ASCII character.
-It is planned to make this fatal in all instances in Perl 5.18.  In the
+It is planned to make this fatal in all instances in Perl v5.20.  In the
 cases where it isn&rsquo;t fatal, the character this evaluates to is
 derived by exclusive or&rsquo;ing the code point of this character with 0x40.
 </p>
-<p>Note that non-alphabetic ASCII characters are discouraged here as well.
+<p>Note that non-alphabetic ASCII characters are discouraged here as well,
+and using non-printable ones will be deprecated starting in v5.18.
 </p>
 </dd>
 <dt>Character in &rsquo;C&rsquo; format wrapped in pack</dt>
@@ -1667,7 +1672,7 @@ uses the character values modulus 256 instead, as if you had provided:
 <p>(D deprecated, syntax) The <code>\c<em>X</em></code> construct is intended to be a way
 to specify non-printable characters.  You used it with a &quot;{&quot; which
 evaluates to &quot;;&quot;, which is printable.  It is planned to remove the
-ability to specify a semi-colon this way in Perl 5.18.  Just use a
+ability to specify a semi-colon this way in Perl 5.20.  Just use a
 semi-colon or a backslash-semi-colon without the &quot;\c&quot;.
 </p>
 </dd>
@@ -1705,15 +1710,15 @@ This subroutine cannot be called.
 <dt>Code missing after &rsquo;/&rsquo;</dt>
 <dd><a name="perldiag-Code-missing-after-_0027_002f_0027"></a>
 <p>(F) You had a (sub-)template that ends with a &rsquo;/&rsquo;.  There must be
-another template code following the slash.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+another template code following the slash.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>Code point 0x%X is not Unicode, may not be portable</dt>
 <dd><a name="perldiag-Code-point-0x_0025X-is-not-Unicode_002c-may-not-be-portable"></a>
 </dd>
-<dt>Code point 0x%X is not Unicode, all \p{} matches fail; all \P{} matches succeed</dt>
+<dt>Code point 0x%X is not Unicode, all \p{} matches fail; all \P{} matches  succeed</dt>
 <dd><a name="perldiag-Code-point-0x_0025X-is-not-Unicode_002c-all-_005cp_007b_007d-matches-fail_003b-all-_005cP_007b_007d-matches-succeed"></a>
-<p>(W utf8, non_unicode) You had a code point above the Unicode maximum
+<p>(S utf8, non_unicode) You had a code point above the Unicode maximum
 of U+10FFFF.
 </p>
 <p>Perl allows strings to contain a superset of Unicode code points, up
@@ -1736,13 +1741,13 @@ code point.  For example,
 </p>
 <p>This may be counterintuitive at times, as both these fail:
 </p>
-<pre class="verbatim"> chr(0x110000) =~ \p{ASCII_Hex_Digit=True}      # Fails.
- chr(0x110000) =~ \p{ASCII_Hex_Digit=False}     # Also fails!
+<pre class="verbatim"> chr(0x110000) =~ /\p{ASCII_Hex_Digit=True}/      # Fails.
+ chr(0x110000) =~ /\p{ASCII_Hex_Digit=False}/     # Also fails!
 </pre>
 <p>and both these succeed:
 </p>
-<pre class="verbatim"> chr(0x110000) =~ \P{ASCII_Hex_Digit=True}      # Succeeds.
- chr(0x110000) =~ \P{ASCII_Hex_Digit=False}     # Also succeeds!
+<pre class="verbatim"> chr(0x110000) =~ /\P{ASCII_Hex_Digit=True}/      # Succeeds.
+ chr(0x110000) =~ /\P{ASCII_Hex_Digit=False}/     # Also succeeds!
 </pre>
 </dd>
 <dt>%s: Command not found</dt>
@@ -1802,21 +1807,29 @@ thread has entered cond_wait() and thus relinquished the lock.
 <dd><a name="perldiag-connect_0028_0029-on-closed-socket-_0025s"></a>
 <p>(W closed) You tried to do a connect on a closed socket.  Did you forget
 to check the return value of your socket() call?  See
-<a href="../perlfunc/connect.html#connect">(perlfunc)connect</a>.
+&lsquo;perlfunc connect&rsquo;.
 </p>
 </dd>
-<dt>Constant(%s)%s: %s</dt>
-<dd><a name="perldiag-Constant_0028_0025s_0029_0025s_003a-_0025s"></a>
+<dt>Constant(%s): Call to &amp;{$^H{%s}} did not return a defined value</dt>
+<dd><a name="perldiag-Constant_0028_0025s_0029_003a-Call-to-_0026_007b_0024_005eH_007b_0025s_007d_007d-did-not-return-a-defined-value"></a>
+<p>(F) The subroutine registered to handle constant overloading
+(see <a href="../overload/index.html">(overload)</a>) or a custom charnames handler (see
+<a href="../charnames/CUSTOM-TRANSLATORS.html#CUSTOM-TRANSLATORS">(charnames)CUSTOM TRANSLATORS</a>) returned an undefined value.
+</p>
+</dd>
+<dt>Constant(%s): $^H{%s} is not defined</dt>
+<dd><a name="perldiag-Constant_0028_0025s_0029_003a-_0024_005eH_007b_0025s_007d-is-not-defined"></a>
+<p>(F) The parser found inconsistencies while attempting to define an
+overloaded constant.  Perhaps you forgot to load the corresponding
+<a href="../overload/index.html">(overload)</a> pragma?.
+</p>
+</dd>
+<dt>Constant(%s) unknown</dt>
+<dd><a name="perldiag-Constant_0028_0025s_0029-unknown"></a>
 <p>(F) The parser found inconsistencies either while attempting to define
 an overloaded constant, or when trying to find the character name
 specified in the <code>\N{...}</code> escape.  Perhaps you forgot to load the
 corresponding <a href="../overload/index.html">(overload)</a> pragma?.
-</p>
-</dd>
-<dt>Constant(%s)%s: %s in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
-<dd><a name="perldiag-Constant_0028_0025s_0029_0025s_003a-_0025s-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
-<p>(F) The parser found inconsistencies while attempting to find
-the character name specified in the <code>\N{...}</code> escape.
 </p>
 </dd>
 <dt>Constant is not %s reference</dt>
@@ -1825,20 +1838,20 @@ the character name specified in the <code>\N{...}</code> escape.
 is being dereferenced, but it amounts to the wrong type of reference.
 The message indicates the type of reference that was expected.  This
 usually indicates a syntax error in dereferencing the constant value.
-See <a href="../perlsub/Constant-Functions.html#Constant-Functions">(perlsub)Constant Functions</a> and <a href="../constant/index.html">(constant)</a>.
+See <a href="perlsub.html#perlsub-Constant-Functions">perlsub Constant Functions</a> and <a href="../constant/index.html">(constant)</a>.
 </p>
 </dd>
 <dt>Constant subroutine %s redefined</dt>
 <dd><a name="perldiag-Constant-subroutine-_0025s-redefined"></a>
 <p>(W redefine)(S) You redefined a subroutine which had previously
-been eligible for inlining.  See <a href="../perlsub/Constant-Functions.html#Constant-Functions">(perlsub)Constant Functions</a>
+been eligible for inlining.  See <a href="perlsub.html#perlsub-Constant-Functions">perlsub Constant Functions</a>
 for commentary and workarounds.
 </p>
 </dd>
 <dt>Constant subroutine %s undefined</dt>
 <dd><a name="perldiag-Constant-subroutine-_0025s-undefined"></a>
 <p>(W misc) You undefined a subroutine which had previously been eligible
-for inlining.  See <a href="../perlsub/Constant-Functions.html#Constant-Functions">(perlsub)Constant Functions</a> for commentary and
+for inlining.  See <a href="perlsub.html#perlsub-Constant-Functions">perlsub Constant Functions</a> for commentary and
 workarounds.
 </p>
 </dd>
@@ -1881,11 +1894,19 @@ valid magic number.
 <p>(P) The malloc package that comes with Perl had an internal failure.
 </p>
 </dd>
+<dt>Corrupted regexp opcode %d &gt; %d</dt>
+<dd><a name="perldiag-Corrupted-regexp-opcode-_0025d-_003e-_0025d"></a>
+<p>(F)
+This is either an error in Perl, or, if you&rsquo;re using one, your
+<a href="perlreapi.html#perlreapi-NAME">custom regular expression engine</a>.  If not the latter,
+report the problem through the <a href="../perlbug/index.html">(perlbug)</a> utility.
+</p>
+</dd>
 <dt>Count after length/code in unpack</dt>
 <dd><a name="perldiag-Count-after-length_002fcode-in-unpack"></a>
 <p>(F) You had an unpack template indicating a counted-length string, but
 you have also specified an explicit size for the string.  See
-<a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+&lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>Deep recursion on anonymous subroutine</dt>
@@ -1932,13 +1953,13 @@ a good way to enquire about the features of a package, or whether
 it&rsquo;s loaded, etc.
 </p>
 </dd>
-<dt>(?(DEFINE)....) does not allow branches in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dt>(?(DEFINE)....) does not allow branches in regex; marked by &lt;&ndash; HERE in  m/%s/</dt>
 <dd><a name="perldiag-_0028_003f_0028DEFINE_0029_002e_002e_002e_002e_0029-does-not-allow-branches-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) You used something like <code>(?(DEFINE)...|..)</code> which is illegal.  The
 most likely cause of this error is that you left out a parenthesis inside
 of the <code>....</code> part.
 </p>
-<p>The &lt;&ndash; HERE shows in the regular expression about where the problem was
+<p>The &lt;&ndash; HERE shows whereabouts in the regular expression the problem was
 discovered.
 </p>
 </dd>
@@ -1953,15 +1974,6 @@ there are neither package declarations nor a <code>$VERSION</code>.
 <p>(F) In a here document construct like <code>&lt;&lt;FOO</code>, the label <code>FOO</code> is too
 long for Perl to handle.  You have to be seriously twisted to write code
 that triggers this error.
-</p>
-</dd>
-<dt>Deprecated character in \N{...}; marked by &lt;&ndash; HERE  in \N{%s&lt;&ndash; HERE %s</dt>
-<dd><a name="perldiag-Deprecated-character-in-_005cN_007b_002e_002e_002e_007d_003b-marked-by-_003c_002d_002d-HERE-in-_005cN_007b_0025s_003c_002d_002d-HERE-_0025s"></a>
-<p>(D deprecated) Just about anything is legal for the <code>...</code> in <code>\N{...}</code>.
-But starting in 5.12, non-reasonable ones that don&rsquo;t look like names
-are deprecated.  A reasonable name begins with an alphabetic character
-and continues with any combination of alphanumerics, dashes, spaces,
-parentheses or colons.
 </p>
 </dd>
 <dt>Deprecated use of my() in false conditional</dt>
@@ -2003,7 +2015,7 @@ than to create a dangling reference.
 <p>(F) A required (or used) file must return a true value to indicate that
 it compiled correctly and ran its initialization code correctly.  It&rsquo;s
 traditional to end such a file with a &quot;1;&quot;, though any true value would
-do.  See <a href="../perlfunc/require.html#require">(perlfunc)require</a>.
+do.  See <a href="perlfunc.html#perlfunc-require">perlfunc require</a>.
 </p>
 </dd>
 <dt>(Did you mean &amp;%s instead?)</dt>
@@ -2040,13 +2052,13 @@ you called it with no args and <code>$@</code> was empty.
 <dt>%s does not define %s::VERSION&ndash;version check failed</dt>
 <dd><a name="perldiag-_0025s-does-not-define-_0025s_003a_003aVERSION_002d_002dversion-check-failed"></a>
 <p>(F) You said something like &quot;use Module 42&quot; but the Module did not
-define a <code>$VERSION.</code>
+define a <code>$VERSION</code>.
 </p>
 </dd>
 <dt>&rsquo;/&rsquo; does not take a repeat count</dt>
 <dd><a name="perldiag-_0027_002f_0027-does-not-take-a-repeat-count"></a>
 <p>(F) You cannot put a repeat count of any kind right after the &rsquo;/&rsquo; code.
-See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>Don&rsquo;t know how to handle magic of type &rsquo;%s&rsquo;</dt>
@@ -2074,7 +2086,7 @@ subroutine or package before the current location.  You can use an empty
 <dt>dump() better written as CORE::dump()</dt>
 <dd><a name="perldiag-dump_0028_0029-better-written-as-CORE_003a_003adump_0028_0029"></a>
 <p>(W misc) You used the obsolescent <code>dump()</code> built-in function, without fully
-qualifying it as <code>CORE::dump()</code>.  Maybe it&rsquo;s a typo.  See <a href="../perlfunc/dump.html#dump">(perlfunc)dump</a>.
+qualifying it as <code>CORE::dump()</code>.  Maybe it&rsquo;s a typo.  See <a href="perlfunc.html#perlfunc-dump">perlfunc dump</a>.
 </p>
 </dd>
 <dt>dump is not supported</dt>
@@ -2090,8 +2102,8 @@ already been freed.
 </dd>
 <dt>Duplicate modifier &rsquo;%c&rsquo; after &rsquo;%c&rsquo; in %s</dt>
 <dd><a name="perldiag-Duplicate-modifier-_0027_0025c_0027-after-_0027_0025c_0027-in-_0025s"></a>
-<p>(W) You have applied the same modifier more than once after a type
-in a pack template.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+<p>(W unpack) You have applied the same modifier more than once after a
+type in a pack template.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>elseif should be elsif</dt>
@@ -2102,10 +2114,10 @@ named &quot;elseif&quot; for the class returned by the following block.  This is
 unlikely to be what you want.
 </p>
 </dd>
-<dt>Empty %s</dt>
-<dd><a name="perldiag-Empty-_0025s"></a>
+<dt>Empty \%c{} in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Empty-_005c_0025c_007b_007d-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) <code>\p</code> and <code>\P</code> are used to introduce a named Unicode property, as
-described in <a href="perlunicode.html#perlunicode-NAME">perlunicode NAME</a> and <a href="../perlre/index.html">(perlre)</a>.  You used <code>\p</code> or <code>\P</code> in
+described in <a href="perlunicode.html#perlunicode-NAME">perlunicode NAME</a> and <a href="perlre.html#perlre-NAME">perlre NAME</a>.  You used <code>\p</code> or <code>\P</code> in
 a regular expression without specifying the property name.
 </p>
 </dd>
@@ -2131,37 +2143,55 @@ an invalid file specification to Perl, or you&rsquo;ve found a case the
 conversion routines don&rsquo;t handle.  Drat.
 </p>
 </dd>
-<dt>%s: Eval-group in insecure regular expression</dt>
-<dd><a name="perldiag-_0025s_003a-Eval_002dgroup-in-insecure-regular-expression"></a>
-<p>(F) Perl detected tainted data when trying to compile a regular
-expression that contains the <code>(?{ ... })</code> zero-width assertion, which
-is unsafe.  See <a href="../perlre/_0028_003f_007b-code-_007d_0029.html#g_t_0028_003f_007b-code-_007d_0029">(perlre)(?{ code })</a>, and <a href="perlsec.html#perlsec-NAME">perlsec NAME</a>.
+<dt>Escape literal pattern white space under /x</dt>
+<dd><a name="perldiag-Escape-literal-pattern-white-space-under-_002fx"></a>
+<p>(D deprecated) You compiled a regular expression pattern with <code>/x</code> to
+ignore white space, and you used, as a literal, one of the characters
+that Perl plans to eventually treat as white space.  The character must
+be escaped somehow, or it will work differently on a future Perl that
+does treat it as white space.  The easiest way is to insert a backslash
+immediately before it, or to enclose it with square brackets.  This
+change is to bring Perl into conformance with Unicode recommendations.
+Here are the five characters that generate this warning:
+U+0085 NEXT LINE,
+U+200E LEFT-TO-RIGHT MARK,
+U+200F RIGHT-TO-LEFT MARK,
+U+2028 LINE SEPARATOR,
+and
+U+2029 PARAGRAPH SEPARATOR.
 </p>
 </dd>
-<dt>%s: Eval-group not allowed at runtime, use re &rsquo;eval&rsquo;</dt>
-<dd><a name="perldiag-_0025s_003a-Eval_002dgroup-not-allowed-at-runtime_002c-use-re-_0027eval_0027"></a>
+<dt>Eval-group in insecure regular expression</dt>
+<dd><a name="perldiag-Eval_002dgroup-in-insecure-regular-expression"></a>
+<p>(F) Perl detected tainted data when trying to compile a regular
+expression that contains the <code>(?{ ... })</code> zero-width assertion, which
+is unsafe.  See <a href="perlre.html#perlre-_0028_003f_007b-code-_007d_0029">perlre <code>(?{ code })</code></a>, and <a href="perlsec.html#perlsec-NAME">perlsec NAME</a>.
+</p>
+</dd>
+<dt>Eval-group not allowed at runtime, use re &rsquo;eval&rsquo; in regex m/%s/</dt>
+<dd><a name="perldiag-Eval_002dgroup-not-allowed-at-runtime_002c-use-re-_0027eval_0027-in-regex-m_002f_0025s_002f"></a>
 <p>(F) Perl tried to compile a regular expression containing the
 <code>(?{ ... })</code> zero-width assertion at run time, as it would when the
 pattern contains interpolated values.  Since that is a security risk,
 it is not allowed.  If you insist, you may still do this by using the
 <code>re 'eval'</code> pragma or by explicitly building the pattern from an
 interpolated string at run time and using that in an eval().  See
-<a href="../perlre/_0028_003f_007b-code-_007d_0029.html#g_t_0028_003f_007b-code-_007d_0029">(perlre)(?{ code })</a>.
+<a href="perlre.html#perlre-_0028_003f_007b-code-_007d_0029">perlre <code>(?{ code })</code></a>.
 </p>
 </dd>
-<dt>%s: Eval-group not allowed, use re &rsquo;eval&rsquo;</dt>
-<dd><a name="perldiag-_0025s_003a-Eval_002dgroup-not-allowed_002c-use-re-_0027eval_0027"></a>
+<dt>Eval-group not allowed, use re &rsquo;eval&rsquo; in regex m/%s/</dt>
+<dd><a name="perldiag-Eval_002dgroup-not-allowed_002c-use-re-_0027eval_0027-in-regex-m_002f_0025s_002f"></a>
 <p>(F) A regular expression contained the <code>(?{ ... })</code> zero-width
 assertion, but that construct is only allowed when the <code>use re 'eval'</code>
-pragma is in effect.  See <a href="../perlre/_0028_003f_007b-code-_007d_0029.html#g_t_0028_003f_007b-code-_007d_0029">(perlre)(?{ code })</a>.
+pragma is in effect.  See <a href="perlre.html#perlre-_0028_003f_007b-code-_007d_0029">perlre <code>(?{ code })</code></a>.
 </p>
 </dd>
-<dt>EVAL without pos change exceeded limit in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dt>EVAL without pos change exceeded limit in regex; marked by &lt;&ndash; HERE in  m/%s/</dt>
 <dd><a name="perldiag-EVAL-without-pos-change-exceeded-limit-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) You used a pattern that nested too many EVAL calls without consuming
 any text.  Restructure the pattern so that text is consumed.
 </p>
-<p>The &lt;&ndash; HERE shows in the regular expression about where the problem was
+<p>The &lt;&ndash; HERE shows whereabouts in the regular expression the problem was
 discovered.
 </p>
 </dd>
@@ -2200,7 +2230,7 @@ goto, or a loop control statement.
 <dd><a name="perldiag-Exiting-pseudo_002dblock-via-_0025s"></a>
 <p>(W exiting) You are exiting a rather special block construct (like a
 sort block or subroutine) by unconventional means, such as a goto, or a
-loop control statement.  See <a href="../perlfunc/sort.html#sort">(perlfunc)sort</a>.
+loop control statement.  See &lsquo;perlfunc sort&rsquo;.
 </p>
 </dd>
 <dt>Exiting subroutine via %s</dt>
@@ -2214,6 +2244,27 @@ as a goto, or a loop control statement.
 <p>(W exiting) You are exiting a substitution by unconventional means, such
 as a return, a goto, or a loop control statement.
 </p>
+</dd>
+<dt>Expecting close bracket in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Expecting-close-bracket-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+You wrote something like
+</p>
+<pre class="verbatim"> (?13
+</pre>
+<p>to denote a capturing group of the form
+<a href="perlre.html#perlre-_0028_003fPARNO_0029-_0028_003f_002dPARNO_0029-_0028_003f_002bPARNO_0029-_0028_003fR_0029-_0028_003f0_0029"><code>(?<em>PARNO</em>)</code></a>,
+but omitted the <code>&quot;)&quot;</code>.
+</p>
+</dd>
+<dt>Experimental &quot;%s&quot; subs not enabled</dt>
+<dd><a name="perldiag-Experimental-_0022_0025s_0022-subs-not-enabled"></a>
+<p>(F) To use lexical subs, you must first enable them:
+</p>
+<pre class="verbatim">    no warnings 'experimental::lexical_subs';
+    use feature 'lexical_subs';
+    my sub foo { ... }
+</pre>
 </dd>
 <dt>Explicit blessing to &rdquo; (assuming package main)</dt>
 <dd><a name="perldiag-Explicit-blessing-to-_0027_0027-_0028assuming-package-main_0029"></a>
@@ -2241,8 +2292,8 @@ queue of such routines has been prematurely ended.
 <p>(W regexp) A character class range must start and end at a literal
 character, not another character class like <code>\d</code> or <code>[:alpha:]</code>.  The &quot;-&quot;
 in your false range is interpreted as a literal &quot;-&quot;.  Consider quoting the
-&quot;-&quot;, &quot;\-&quot;.  The &lt;&ndash; HERE shows in the regular expression about where the
-problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+&quot;-&quot;, &quot;\-&quot;.  The &lt;&ndash; HERE shows whereabouts in the regular expression the
+problem was discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>Fatal VMS error (status=%d) at %s, line %d</dt>
@@ -2267,7 +2318,7 @@ is not possible.
 </dd>
 <dt>Field too wide in &rsquo;u&rsquo; format in pack</dt>
 <dd><a name="perldiag-Field-too-wide-in-_0027u_0027-format-in-pack"></a>
-<p>(W pack) Each line in an uuencoded string start with a length indicator
+<p>(W pack) Each line in an uuencoded string starts with a length indicator
 which can&rsquo;t encode values above 63.  So there is no point in asking for
 a line length bigger than that.  Perl will behave as if you specified
 <code>u63</code> as the format.
@@ -2278,7 +2329,7 @@ a line length bigger than that.  Perl will behave as if you specified
 <p>(W io) You tried to write on a read-only filehandle.  If you intended
 it to be a read-write filehandle, you needed to open it with &quot;+&lt;&quot; or
 &quot;+&gt;&quot; or &quot;+&gt;&gt;&quot; instead of with &quot;&lt;&quot; or nothing.  If you intended only to
-write the file, use &quot;&gt;&quot; or &quot;&gt;&gt;&quot;.  See <a href="../perlfunc/open.html#open">(perlfunc)open</a>.
+write the file, use &quot;&gt;&quot; or &quot;&gt;&gt;&quot;.  See &lsquo;perlfunc open&rsquo;.
 </p>
 </dd>
 <dt>Filehandle %s opened only for output</dt>
@@ -2286,7 +2337,7 @@ write the file, use &quot;&gt;&quot; or &quot;&gt;&gt;&quot;.  See <a href="../p
 <p>(W io) You tried to read from a filehandle opened only for writing, If
 you intended it to be a read/write filehandle, you needed to open it
 with &quot;+&lt;&quot; or &quot;+&gt;&quot; or &quot;+&gt;&gt;&quot; instead of with &quot;&gt;&quot;.  If you intended only to
-read from the file, use &quot;&lt;&quot;.  See <a href="../perlfunc/open.html#open">(perlfunc)open</a>.  Another possibility
+read from the file, use &quot;&lt;&quot;.  See &lsquo;perlfunc open&rsquo;.  Another possibility
 is that you attempted to open filedescriptor 0 (also known as STDIN) for
 output (maybe you closed STDIN earlier?).
 </p>
@@ -2385,7 +2436,15 @@ socket.  Did you forget to check the return value of your socket() call?
 <dd><a name="perldiag-getsockopt_0028_0029-on-closed-socket-_0025s"></a>
 <p>(W closed) You tried to get a socket option on a closed socket.  Did you
 forget to check the return value of your socket() call?  See
-<a href="../perlfunc/getsockopt.html#getsockopt">(perlfunc)getsockopt</a>.
+&lsquo;perlfunc getsockopt&rsquo;.
+</p>
+</dd>
+<dt>given is experimental</dt>
+<dd><a name="perldiag-given-is-experimental"></a>
+<p>(S experimental::smartmatch) <code>given</code> depends on both a lexical <code>$_</code> and
+smartmatch, both of which are experimental, so its behavior may change or
+even be removed in any future release of perl.
+See the explanation under <a href="perlsyn.html#perlsyn-Experimental-Details-on-given-and-when">perlsyn Experimental Details on given and when</a>.
 </p>
 </dd>
 <dt>Global symbol &quot;%s&quot; requires explicit package name</dt>
@@ -2442,7 +2501,7 @@ version of Perl, and this should not happen anyway.
 <dt>goto must have label</dt>
 <dd><a name="perldiag-goto-must-have-label"></a>
 <p>(F) Unlike with &quot;next&quot; or &quot;last&quot;, you&rsquo;re not allowed to goto an
-unspecified destination.  See <a href="../perlfunc/goto.html#goto">(perlfunc)goto</a>.
+unspecified destination.  See &lsquo;perlfunc goto&rsquo;.
 </p>
 </dd>
 <dt>Goto undefined subroutine%s</dt>
@@ -2455,7 +2514,14 @@ has since been undefined.
 <dt>()-group starts with a count</dt>
 <dd><a name="perldiag-_0028_0029_002dgroup-starts-with-a-count"></a>
 <p>(F) A ()-group started with a count.  A count is supposed to follow
-something: a template character or a ()-group.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+something: a template character or a ()-group.  See &lsquo;perlfunc pack&rsquo;.
+</p>
+</dd>
+<dt>Group name must start with a non-digit word character in regex; marked by  &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Group-name-must-start-with-a-non_002ddigit-word-character-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F) Group names must follow the rules for perl identifiers, meaning
+they must start with a non-digit word character. A common cause of
+this error is using (?&amp;0) instead of (?0). See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>%s had compilation errors.</dt>
@@ -2482,32 +2548,22 @@ spots.  This is now heavily deprecated.
 Further error messages would likely be uninformative.
 </p>
 </dd>
-<dt>Having no space between pattern and following word is deprecated</dt>
-<dd><a name="perldiag-Having-no-space-between-pattern-and-following-word-is-deprecated"></a>
-<p>(D syntax)
-</p>
-<p>You had a word that isn&rsquo;t a regex modifier immediately following
-a pattern without an intervening space.  If you are trying to use
-the <code>/le</code> flags on a substitution, use <code>/el</code> instead.  Otherwise, add
-white space between the pattern and following word to eliminate
-the warning.  As an example of the latter, the two constructs:
-</p>
-<pre class="verbatim"> $a =~ m/$foo/sand $bar
- $a =~ m/$foo/s and $bar
-</pre>
-<p>both currently mean the same thing, but it is planned to disallow
-the first form in Perl 5.18.  And,
-</p>
-<pre class="verbatim"> $a =~ m/$foo/and $bar
-</pre>
-<p>will be disallowed too.
-</p>
-</dd>
 <dt>Hexadecimal number &gt; 0xffffffff non-portable</dt>
 <dd><a name="perldiag-Hexadecimal-number-_003e-0xffffffff-non_002dportable"></a>
 <p>(W portable) The hexadecimal number you specified is larger than 2**32-1
 (4294967295) and therefore non-portable between systems.  See
 <a href="perlport.html#perlport-NAME">perlport NAME</a> for more on portability concerns.
+</p>
+</dd>
+<dt>-i used with no filenames on the command line, reading from STDIN</dt>
+<dd><a name="perldiag-_002di-used-with-no-filenames-on-the-command-line_002c-reading-from-STDIN"></a>
+<p>(S inplace) The <code>-i</code> option was passed on the command line, indicating
+that the script is intended to edit files inplace, but no files were
+given.  This is usually a mistake, since editing STDIN inplace doesn&rsquo;t
+make sense, and can be confusing because it can make perl look like
+it is hanging when it is really just trying to read from STDIN.  You
+should either pass a filename to edit, or remove <code>-i</code> from the command
+line.  See <a href="perlrun.html#perlrun-NAME">perlrun NAME</a> for more details.
 </p>
 </dd>
 <dt>Identifier too long</dt>
@@ -2518,9 +2574,9 @@ names (like <code>$A::B</code>).  You&rsquo;ve exceeded Perl&rsquo;s limits.  Fu
 of Perl are likely to eliminate these arbitrary limitations.
 </p>
 </dd>
-<dt>Ignoring zero length \N{} in character class</dt>
-<dd><a name="perldiag-Ignoring-zero-length-_005cN_007b_007d-in-character-class"></a>
-<p>(W) Named Unicode character escapes <code>(\N{...})</code> may return a zero-length
+<dt>Ignoring zero length \N{} in character class in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Ignoring-zero-length-_005cN_007b_007d-in-character-class-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(W regexp) Named Unicode character escapes <code>(\N{...})</code> may return a zero-length
 sequence.  When such an escape is used in a character class its
 behaviour is not well defined.  Check that the correct escape has
 been used, and the correct charname handler is in scope.
@@ -2562,12 +2618,12 @@ Legal characters in prototypes are $, @, %, *, ;, [, ], &amp;, \, and +.
 <dt>Illegal declaration of anonymous subroutine</dt>
 <dd><a name="perldiag-Illegal-declaration-of-anonymous-subroutine"></a>
 <p>(F) When using the <code>sub</code> keyword to construct an anonymous subroutine,
-you must always specify a block of code.  See <a href="../perlsub/index.html">(perlsub)</a>.
+you must always specify a block of code.  See <a href="perlsub.html#perlsub-NAME">perlsub NAME</a>.
 </p>
 </dd>
 <dt>Illegal declaration of subroutine %s</dt>
 <dd><a name="perldiag-Illegal-declaration-of-subroutine-_0025s"></a>
-<p>(F) A subroutine was not declared correctly.  See <a href="../perlsub/index.html">(perlsub)</a>.
+<p>(F) A subroutine was not declared correctly.  See <a href="perlsub.html#perlsub-NAME">perlsub NAME</a>.
 </p>
 </dd>
 <dt>Illegal division by zero</dt>
@@ -2607,6 +2663,18 @@ two from 1 to 32 (or 64, if your platform supports that).
 Interpretation of the octal number stopped before the 8 or 9.
 </p>
 </dd>
+<dt>Illegal pattern in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Illegal-pattern-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+You wrote something like
+</p>
+<pre class="verbatim"> (?+foo)
+</pre>
+<p>The <code>&quot;+&quot;</code> is valid only when followed by digits, indicating a
+capturing group.  See
+<a href="perlre.html#perlre-_0028_003fPARNO_0029-_0028_003f_002dPARNO_0029-_0028_003f_002bPARNO_0029-_0028_003fR_0029-_0028_003f0_0029"><code>(?<em>PARNO</em>)</code></a>.
+</p>
+</dd>
 <dt>Illegal switch in PERL5OPT: -%c</dt>
 <dd><a name="perldiag-Illegal-switch-in-PERL5OPT_003a-_002d_0025c"></a>
 <p>(X) The PERL5OPT environment variable may only be used to set the
@@ -2640,7 +2708,38 @@ would otherwise result in the same message being repeated.
 also result in this warning.  See <a href="perlcall.html#perlcall-G_005fKEEPERR">perlcall G_KEEPERR</a>.
 </p>
 </dd>
-<dt>Inconsistent hierarchy during C3 merge of class &rsquo;%s&rsquo;: merging failed on parent &rsquo;%s&rsquo;</dt>
+<dt>In &rsquo;(*VERB...)&rsquo;, splitting the initial &rsquo;(*&rsquo; is deprecated in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-In-_0027_0028_002aVERB_002e_002e_002e_0029_0027_002c-splitting-the-initial-_0027_0028_002a_0027-is-deprecated-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(D regexp, deprecated)
+The two-character sequence <code>&quot;(*&quot;</code> in this context in a regular
+expression pattern should be an indivisible token, with nothing
+intervening between the <code>&quot;(&quot;</code> and the <code>&quot;*&quot;</code>, but you separated them.
+Due to an accident of implementation, this prohibition was not enforced,
+but we do plan to forbid it in a future Perl version.  This message
+serves as giving you fair warning of this pending change.
+</p>
+</dd>
+<dt>In &rsquo;(?...)&rsquo;, splitting the initial &rsquo;(?&rsquo; is deprecated in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-In-_0027_0028_003f_002e_002e_002e_0029_0027_002c-splitting-the-initial-_0027_0028_003f_0027-is-deprecated-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(D regexp, deprecated)
+The two-character sequence <code>&quot;(?&quot;</code> in this context in a regular
+expression pattern should be an indivisible token, with nothing
+intervening between the <code>&quot;(&quot;</code> and the <code>&quot;?&quot;</code>, but you separated them.
+Due to an accident of implementation, this prohibition was not enforced,
+but we do plan to forbid it in a future Perl version.  This message
+serves as giving you fair warning of this pending change.
+</p>
+</dd>
+<dt>Incomplete expression within &rsquo;(?[ ])&rsquo; in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Incomplete-expression-within-_0027_0028_003f_005b-_005d_0029_0027-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+There was a syntax error within the <code>(?[ ])</code>.  This can happen if the
+expression inside the construct was completely empty, or if there are
+too many or few operands for the number of operators.  Perl is not smart
+enough to give you a more precise indication as to what is wrong.
+</p>
+</dd>
+<dt>Inconsistent hierarchy during C3 merge of class &rsquo;%s&rsquo;: merging failed on  parent &rsquo;%s&rsquo;</dt>
 <dd><a name="perldiag-Inconsistent-hierarchy-during-C3-merge-of-class-_0027_0025s_0027_003a-merging-failed-on-parent-_0027_0025s_0027"></a>
 <p>(F) The method resolution order (MRO) of the given class is not
 C3-consistent, and you have enabled the C3 MRO for this class.  See the C3
@@ -2660,7 +2759,7 @@ encoding is limited to code points no larger than 2147483647 (0x7FFFFFFF).
 text.  You should check the pattern to ensure that recursive patterns
 either consume text or fail.
 </p>
-<p>The &lt;&ndash; HERE shows in the regular expression about where the problem was
+<p>The &lt;&ndash; HERE shows whereabouts in the regular expression the problem was
 discovered.
 </p>
 </dd>
@@ -2718,7 +2817,7 @@ integers for your architecture.
 </dd>
 <dt>Integer overflow in %s number</dt>
 <dd><a name="perldiag-Integer-overflow-in-_0025s-number"></a>
-<p>(W overflow) The hexadecimal, octal or binary number you have specified
+<p>(S overflow) The hexadecimal, octal or binary number you have specified
 either as a literal or as an argument to hex() or oct() is too big for
 your architecture, and has been converted to a floating point number.
 On a 32-bit architecture the largest hexadecimal, octal or binary number
@@ -2729,20 +2828,32 @@ internally&ndash;subject to loss of precision errors in subsequent
 operations.
 </p>
 </dd>
+<dt>Integer overflow in srand</dt>
+<dd><a name="perldiag-Integer-overflow-in-srand"></a>
+<p>(S overflow) The number you have passed to srand is too big to fit
+in your architecture&rsquo;s integer representation.  The number has been
+replaced with the largest integer supported (0xFFFFFFFF on 32-bit
+architectures).  This means you may be getting less randomness than
+you expect, because different random seeds above the maximum will
+return the same sequence of random numbers.
+</p>
+</dd>
 <dt>Integer overflow in version</dt>
 <dd><a name="perldiag-Integer-overflow-in-version"></a>
-<p>(F) Some portion of a version initialization is too large for the
-size of integers for your architecture.  This is not a warning
-because there is no rational reason for a version to try and use a
-element larger than typically 2**32.  This is usually caused by
-trying to use some odd mathematical operation as a version, like
-100/9.
+</dd>
+<dt>Integer overflow in version %d</dt>
+<dd><a name="perldiag-Integer-overflow-in-version-_0025d"></a>
+<p>(W overflow) Some portion of a version initialization is too large for
+the size of integers for your architecture.  This is not a warning
+because there is no rational reason for a version to try and use an
+element larger than typically 2**32.  This is usually caused by trying
+to use some odd mathematical operation as a version, like 100/9.
 </p>
 </dd>
 <dt>Internal disaster in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-Internal-disaster-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(P) Something went badly wrong in the regular expression parser.
-The &lt;&ndash; HERE shows in the regular expression about where the problem was
+The &lt;&ndash; HERE shows whereabouts in the regular expression the problem was
 discovered.
 </p>
 </dd>
@@ -2759,7 +2870,7 @@ terminate the Perl script and execute the specified command.
 <dt>Internal urp in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-Internal-urp-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(P) Something went badly awry in the regular expression parser.  The
-&lt;&ndash; HERE shows in the regular expression about where the problem was
+&lt;&ndash; HERE shows whereabouts in the regular expression the problem was
 discovered.
 </p>
 </dd>
@@ -2768,7 +2879,7 @@ discovered.
 <p>(W syntax) You&rsquo;ve run afoul of the rule that says that any list operator
 followed by parentheses turns into a function, with all the list
 operators arguments found inside the parentheses.  See
-<a href="../perlop/Terms-and-List-Operators-_0028Leftward_0029.html#Terms-and-List-Operators-_0028Leftward_0029">(perlop)Terms and List Operators (Leftward)</a>.
+<a href="perlop.html#perlop-Terms-and-List-Operators-_0028Leftward_0029">perlop Terms and List Operators (Leftward)</a>.
 </p>
 </dd>
 <dt>Invalid %s attribute: %s</dt>
@@ -2783,24 +2894,53 @@ by Perl or by a user-supplied handler.  See <a href="../attributes/index.html">(
 recognized by Perl or by a user-supplied handler.  See <a href="../attributes/index.html">(attributes)</a>.
 </p>
 </dd>
+<dt>Invalid [] range &quot;%*.*s&quot; in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Invalid-_005b_005d-range-_0022_0025_002a_002e_002as_0022-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+You wrote something like
+</p>
+<pre class="verbatim"> [z-a]
+</pre>
+<p>in a regular expression pattern.  Ranges must be specified with the
+lowest code point first.  Instead write
+</p>
+<pre class="verbatim"> [a-z]
+</pre>
+</dd>
+<dt>Invalid character in \N{...}; marked by &lt;&ndash; HERE in \N{%s}</dt>
+<dd><a name="perldiag-Invalid-character-in-_005cN_007b_002e_002e_002e_007d_003b-marked-by-_003c_002d_002d-HERE-in-_005cN_007b_0025s_007d"></a>
+<p>(F) Only certain characters are valid for character names.  The
+indicated one isn&rsquo;t.  See <a href="../charnames/CUSTOM-ALIASES.html#CUSTOM-ALIASES">(charnames)CUSTOM ALIASES</a>.
+</p>
+</dd>
+<dt>Invalid character in charnames alias definition; marked by &lt;&ndash; HERE in &rsquo;%s</dt>
+<dd><a name="perldiag-Invalid-character-in-charnames-alias-definition_003b-marked-by-_003c_002d_002d-HERE-in-_0027_0025s"></a>
+<p>(F) You tried to create a custom alias for a character name, with
+the <code>:alias</code> option to <code>use charnames</code> and the specified character in
+the indicated name isn&rsquo;t valid.  See <a href="../charnames/CUSTOM-ALIASES.html#CUSTOM-ALIASES">(charnames)CUSTOM ALIASES</a>.
+</p>
+</dd>
 <dt>Invalid conversion in %s: &quot;%s&quot;</dt>
 <dd><a name="perldiag-Invalid-conversion-in-_0025s_003a-_0022_0025s_0022"></a>
 <p>(W printf) Perl does not understand the given format conversion.  See
-<a href="../perlfunc/sprintf.html#sprintf">(perlfunc)sprintf</a>.
+&lsquo;perlfunc sprintf&rsquo;.
 </p>
 </dd>
-<dt>Invalid escape in the specified encoding in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dt>Invalid escape in the specified encoding in regex; marked by &lt;&ndash; HERE in  m/%s/</dt>
 <dd><a name="perldiag-Invalid-escape-in-the-specified-encoding-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(W regexp) The numeric escape (for example <code>\xHH</code>) of value &lt; 256
 didn&rsquo;t correspond to a single character through the conversion
 from the encoding specified by the encoding pragma.
 The escape was replaced with REPLACEMENT CHARACTER (U+FFFD) instead.
-The &lt;&ndash; HERE shows in the regular expression about where the
+The &lt;&ndash; HERE shows whereabouts in the regular expression the
 escape was discovered.
 </p>
 </dd>
 <dt>Invalid hexadecimal number in \N{U+...}</dt>
 <dd><a name="perldiag-Invalid-hexadecimal-number-in-_005cN_007bU_002b_002e_002e_002e_007d"></a>
+</dd>
+<dt>Invalid hexadecimal number in \N{U+...} in regex; marked by &lt;&ndash; HERE in  m/%s/</dt>
+<dd><a name="perldiag-Invalid-hexadecimal-number-in-_005cN_007bU_002b_002e_002e_002e_007d-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) The character constant represented by <code>...</code> is not a valid hexadecimal
 number.  Either it is empty, or you tried to use a character other than
 0 - 9 or A - F, a - f in a hexadecimal number.
@@ -2822,10 +2962,17 @@ the only valid ones supported are <code>dfs</code> and <code>c3</code>, unless y
 a module that is a MRO plugin.  See <a href="../mro/index.html">(mro)</a> and <a href="perlmroapi.html#perlmroapi-NAME">perlmroapi NAME</a>.
 </p>
 </dd>
+<dt>Invalid negative number (%s) in chr</dt>
+<dd><a name="perldiag-Invalid-negative-number-_0028_0025s_0029-in-chr"></a>
+<p>(W utf8) You passed a negative number to <code>chr</code>.  Negative numbers are
+not valid characters numbers, so it return the Unicode replacement
+character (U+FFFD).
+</p>
+</dd>
 <dt>invalid option -D%c, use -D&rdquo; to see choices</dt>
 <dd><a name="perldiag-invalid-option-_002dD_0025c_002c-use-_002dD_0027_0027-to-see-choices"></a>
-<p>(F) Perl was called with invalid debugger flags.  Call perl with
-the <strong>-D</strong> option with no flags to see the list of acceptable values.
+<p>(S debugging) Perl was called with invalid debugger flags.  Call perl
+with the <strong>-D</strong> option with no flags to see the list of acceptable values.
 See also <a href="perlrun.html#perlrun-_002dDletters">perlrun <strong>-D</strong><em>letters</em></a>.
 </p>
 </dd>
@@ -2834,14 +2981,14 @@ See also <a href="perlrun.html#perlrun-_002dDletters">perlrun <strong>-D</strong
 <p>(F) The range specified in a character class had a minimum character
 greater than the maximum character.  One possibility is that you forgot the
 <code>{}</code> from your ending <code>\x{}</code> - <code>\x</code> without the curly braces can go only
-up to <code>ff</code>.  The &lt;&ndash; HERE shows in the regular expression about where the
-problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+up to <code>ff</code>.  The &lt;&ndash; HERE shows whereabouts in the regular expression the
+problem was discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>Invalid range &quot;%s&quot; in transliteration operator</dt>
 <dd><a name="perldiag-Invalid-range-_0022_0025s_0022-in-transliteration-operator"></a>
 <p>(F) The range specified in the tr/// or y/// operator had a minimum
-character greater than the maximum character.  See <a href="../perlop/index.html">(perlop)</a>.
+character greater than the maximum character.  See <a href="perlop.html#perlop-NAME">perlop NAME</a>.
 </p>
 </dd>
 <dt>Invalid separator character %s in attribute list</dt>
@@ -2873,7 +3020,7 @@ See the <a href="../version/index.html">(version)</a> module for more details on
 <dt>Invalid type &rsquo;%s&rsquo; in %s</dt>
 <dd><a name="perldiag-Invalid-type-_0027_0025s_0027-in-_0025s"></a>
 <p>(F) The given character is not a valid pack or unpack type.
-See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+See &lsquo;perlfunc pack&rsquo;.
 </p>
 <p>(W) The given character is not a valid pack or unpack type but used to be
 silently ignored.
@@ -2958,8 +3105,8 @@ an anonymous subroutine, or a reference to a subroutine.
 unaware of.
 </p>
 </dd>
-<dt>junk on end of regexp</dt>
-<dd><a name="perldiag-junk-on-end-of-regexp"></a>
+<dt>Junk on end of regexp in regex m/%s/</dt>
+<dd><a name="perldiag-Junk-on-end-of-regexp-in-regex-m_002f_0025s_002f"></a>
 <p>(P) The regular expression parser is confused.
 </p>
 </dd>
@@ -2967,21 +3114,21 @@ unaware of.
 <dd><a name="perldiag-Label-not-found-for-_0022last-_0025s_0022"></a>
 <p>(F) You named a loop to break out of, but you&rsquo;re not currently in a loop
 of that name, not even if you count where you were called from.  See
-<a href="../perlfunc/last.html#last">(perlfunc)last</a>.
+<a href="perlfunc.html#perlfunc-last">perlfunc last</a>.
 </p>
 </dd>
 <dt>Label not found for &quot;next %s&quot;</dt>
 <dd><a name="perldiag-Label-not-found-for-_0022next-_0025s_0022"></a>
 <p>(F) You named a loop to continue, but you&rsquo;re not currently in a loop of
 that name, not even if you count where you were called from.  See
-<a href="../perlfunc/last.html#last">(perlfunc)last</a>.
+<a href="perlfunc.html#perlfunc-last">perlfunc last</a>.
 </p>
 </dd>
 <dt>Label not found for &quot;redo %s&quot;</dt>
 <dd><a name="perldiag-Label-not-found-for-_0022redo-_0025s_0022"></a>
 <p>(F) You named a loop to restart, but you&rsquo;re not currently in a loop of
 that name, not even if you count where you were called from.  See
-<a href="../perlfunc/last.html#last">(perlfunc)last</a>.
+<a href="perlfunc.html#perlfunc-last">perlfunc last</a>.
 </p>
 </dd>
 <dt>leaving effective %s failed</dt>
@@ -2994,7 +3141,7 @@ effective uids or gids failed.
 <dd><a name="perldiag-length_002fcode-after-end-of-string-in-unpack"></a>
 <p>(F) While unpacking, the string buffer was already used up when an unpack
 length/code combination tried to obtain more data.  This results in
-an undefined value for the length.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+an undefined value for the length.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>length() used on %s</dt>
@@ -3030,7 +3177,7 @@ detectable way.
 <dd><a name="perldiag-listen_0028_0029-on-closed-socket-_0025s"></a>
 <p>(W closed) You tried to do a listen on a closed socket.  Did you forget
 to check the return value of your socket() call?  See
-<a href="../perlfunc/listen.html#listen">(perlfunc)listen</a>.
+&lsquo;perlfunc listen&rsquo;.
 </p>
 </dd>
 <dt>List form of piped open not implemented</dt>
@@ -3063,12 +3210,12 @@ handle.  This restriction may be eased in a future release.
 </dd>
 <dt>Lost precision when %s %f by 1</dt>
 <dd><a name="perldiag-Lost-precision-when-_0025s-_0025f-by-1"></a>
-<p>(W) The value you attempted to increment or decrement by one is too large
-for the underlying floating point representation to store accurately,
-hence the target of <code>++</code> or <code>--</code> is unchanged.  Perl issues this warning
-because it has already switched from integers to floating point when values
-are too large for integers, and now even floating point is insufficient.
-You may wish to switch to using <a href="../Math-BigInt/index.html">(Math-BigInt)</a> explicitly.
+<p>(W imprecision) The value you attempted to increment or decrement by one
+is too large for the underlying floating point representation to store
+accurately, hence the target of <code>++</code> or <code>--</code> is unchanged.  Perl issues this
+warning because it has already switched from integers to floating point
+when values are too large for integers, and now even floating point is
+insufficient.  You may wish to switch to using <a href="../Math-BigInt/index.html">(Math-BigInt)</a> explicitly.
 </p>
 </dd>
 <dt>lstat() on filehandle%s</dt>
@@ -3102,13 +3249,13 @@ foo :lvalue;</code> declaration before the definition.
 <dt>Malformed integer in [] in pack</dt>
 <dd><a name="perldiag-Malformed-integer-in-_005b_005d-in-pack"></a>
 <p>(F) Between the brackets enclosing a numeric repeat count only digits
-are permitted.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+are permitted.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>Malformed integer in [] in unpack</dt>
 <dd><a name="perldiag-Malformed-integer-in-_005b_005d-in-unpack"></a>
 <p>(F) Between the brackets enclosing a numeric repeat count only digits
-are permitted.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+are permitted.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>Malformed PERLLIB_PREFIX</dt>
@@ -3151,8 +3298,17 @@ message.
 <p>See also <a href="../Encode/Handling-Malformed-Data.html#Handling-Malformed-Data">(Encode)Handling Malformed Data</a>.
 </p>
 </dd>
-<dt>Malformed UTF-8 returned by \N</dt>
-<dd><a name="perldiag-Malformed-UTF_002d8-returned-by-_005cN"></a>
+<dt>Malformed UTF-8 character immediately after &rsquo;%s&rsquo;</dt>
+<dd><a name="perldiag-Malformed-UTF_002d8-character-immediately-after-_0027_0025s_0027"></a>
+<p>(F) You said <code>use utf8</code>, but the program file doesn&rsquo;t comply with UTF-8
+encoding rules.  The message prints out the properly encoded characters
+just before the first bad one.  If <code>utf8</code> warnings are enabled, a
+warning is generated that gives more details about the type of
+malformation.
+</p>
+</dd>
+<dt>Malformed UTF-8 returned by \N{%s} immediately after &rsquo;%s&rsquo;</dt>
+<dd><a name="perldiag-Malformed-UTF_002d8-returned-by-_005cN_007b_0025s_007d-immediately-after-_0027_0025s_0027"></a>
 <p>(F) The charnames handler returned malformed UTF-8.
 </p>
 </dd>
@@ -3184,8 +3340,8 @@ doing it Perl met a malformed Unicode surrogate.
 <dd><a name="perldiag-_0025s-matches-null-string-many-times-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(W regexp) The pattern you&rsquo;ve specified would be an infinite loop if the
 regular expression engine didn&rsquo;t specifically check for that.  The &lt;&ndash; HERE
-shows in the regular expression about where the problem was discovered.
-See <a href="../perlre/index.html">(perlre)</a>.
+shows whereabouts in the regular expression the problem was discovered.
+See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>Maximal count of pending signals (%u) exceeded</dt>
@@ -3208,7 +3364,7 @@ interpreter, especially if the word that is being warned about is
 <dd><a name="perldiag-_0027_0025_0027-may-not-be-used-in-pack"></a>
 <p>(F) You can&rsquo;t pack a string by supplying a checksum, because the
 checksumming process loses information, and you can&rsquo;t go the other way.
-See <a href="../perlfunc/unpack.html#unpack">(perlfunc)unpack</a>.
+See &lsquo;perlfunc unpack&rsquo;.
 </p>
 </dd>
 <dt>Method for operation %s not found in package %s during blessing</dt>
@@ -3249,6 +3405,9 @@ immediately after the switch, without intervening spaces.
 </dd>
 <dt>Missing braces on \N{}</dt>
 <dd><a name="perldiag-Missing-braces-on-_005cN_007b_007d"></a>
+</dd>
+<dt>Missing braces on \N{} in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Missing-braces-on-_005cN_007b_007d-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) Wrong syntax of character name literal <code>\N{charname}</code> within
 double-quotish context.  This can also happen when there is a space
 (or comment) between the <code>\N</code> and the <code>{</code> in a regex with the <code>/x</code> modifier.
@@ -3280,8 +3439,8 @@ blank.
 character name.
 </p>
 </dd>
-<dt>Missing name in &quot;my sub&quot;</dt>
-<dd><a name="perldiag-Missing-name-in-_0022my-sub_0022"></a>
+<dt>Missing name in &quot;%s sub&quot;</dt>
+<dd><a name="perldiag-Missing-name-in-_0022_0025s-sub_0022"></a>
 <p>(F) The reserved syntax for lexically scoped subroutines requires that
 they have a name with which they can be found.
 </p>
@@ -3299,8 +3458,8 @@ can vary from one line to the next.
 &quot;%s found where operator expected&quot;.  Often the missing operator is a comma.
 </p>
 </dd>
-<dt>Missing right brace on %s</dt>
-<dd><a name="perldiag-Missing-right-brace-on-_0025s"></a>
+<dt>Missing right brace on \%c{} in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Missing-right-brace-on-_005c_0025c_007b_007d-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) Missing right brace in <code>\x{...}</code>, <code>\p{...}</code>, <code>\P{...}</code>, or <code>\N{...}</code>.
 </p>
 </dd>
@@ -3395,7 +3554,7 @@ about <code>-M</code> and <code>-m</code>.
 <p>(F) The <code>open</code> function has been asked to open multiple files.  This
 can happen if you are trying to open a pipe to a command that takes a
 list of arguments, but have forgotten to specify a piped open mode.
-See <a href="../perlfunc/open.html#open">(perlfunc)open</a> for details.
+See &lsquo;perlfunc open&rsquo; for details.
 </p>
 </dd>
 <dt>msg%s not implemented</dt>
@@ -3413,7 +3572,7 @@ They&rsquo;re written like <code>$foo[1][2][3]</code>, as in C.
 <dd><a name="perldiag-_0027_002f_0027-must-follow-a-numeric-type-in-unpack"></a>
 <p>(F) You had an unpack template that contained a &rsquo;/&rsquo;, but this did not
 follow some unpack specification producing a numeric value.
-See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>&quot;my sub&quot; not yet implemented</dt>
@@ -3442,16 +3601,16 @@ the same; if a program uses $c only once but also uses any of the others it
 will not trigger this warning.
 </p>
 </dd>
-<dt>\N in a character class must be a named character: \N{...}</dt>
-<dd><a name="perldiag-_005cN-in-a-character-class-must-be-a-named-character_003a-_005cN_007b_002e_002e_002e_007d"></a>
+<dt>\N in a character class must be a named character: \N{...} in regex;  marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-_005cN-in-a-character-class-must-be-a-named-character_003a-_005cN_007b_002e_002e_002e_007d-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) The new (5.12) meaning of <code>\N</code> as <code>[^\n]</code> is not valid in a bracketed
 character class, for the same reason that <code>.</code> in a character class loses
 its specialness: it matches almost everything, which is probably not
 what you want.
 </p>
 </dd>
-<dt>\N{NAME} must be resolved by the lexer</dt>
-<dd><a name="perldiag-_005cN_007bNAME_007d-must-be-resolved-by-the-lexer"></a>
+<dt>\N{NAME} must be resolved by the lexer in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-_005cN_007bNAME_007d-must-be-resolved-by-the-lexer-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) When compiling a regex pattern, an unresolved named character or
 sequence was encountered.  This can happen in any of several ways that
 bypass the lexer, such as using single-quotish context, or an extra
@@ -3482,10 +3641,30 @@ doesn&rsquo;t work here.  Instead use the solution above.
     /\N{SPACE}/x;       # ok
 </pre>
 </dd>
+<dt>Need exactly 3 octal digits in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Need-exactly-3-octal-digits-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F) Within <code>(?[&nbsp;&nbsp;&nbsp;])</code><!-- /@w -->, all constants interpreted as octal need to be
+exactly 3 digits long.  This helps catch some ambiguities.  If your
+constant is too short, add leading zeros, like
+</p>
+<pre class="verbatim"> (?[ [ \078 ] ])     # Syntax error!
+ (?[ [ \0078 ] ])    # Works
+ (?[ [ \007 8 ] ])   # Clearer
+</pre>
+<p>The maximum number this construct can express is <code>\777</code>.  If you
+need a larger one, you need to use <a href="perlrebackslash.html#perlrebackslash-Octal-escapes">\o{}</a>
+instead.  If you meant two separate things, you need to separate them
+</p>
+<pre class="verbatim"> (?[ [ \7776 ] ])        # Syntax error!
+ (?[ [ \o{7776} ] ])     # One meaning
+ (?[ [ \777 6 ] ])       # Another meaning
+ (?[ [ \777 \006 ] ])    # Still another
+</pre>
+</dd>
 <dt>Negative &rsquo;/&rsquo; count in unpack</dt>
 <dd><a name="perldiag-Negative-_0027_002f_0027-count-in-unpack"></a>
 <p>(F) The length count obtained from a length/code unpack operation was
-negative.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+negative.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>Negative length</dt>
@@ -3503,11 +3682,11 @@ greater than or equal to zero.
 <dt>Nested quantifiers in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-Nested-quantifiers-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) You can&rsquo;t quantify a quantifier without intervening parentheses.
-So things like ** or +* or ?* are illegal.  The &lt;&ndash; HERE shows in the
-regular expression about where the problem was discovered.
+So things like ** or +* or ?* are illegal.  The &lt;&ndash; HERE shows
+whereabouts in the regular expression the problem was discovered.
 </p>
 <p>Note that the minimal matching quantifiers, <code>*?</code>, <code>+?</code>, and
-<code>??</code> appear to be nested quantifiers, but aren&rsquo;t.  See <a href="../perlre/index.html">(perlre)</a>.
+<code>??</code> appear to be nested quantifiers, but aren&rsquo;t.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>%s never introduced</dt>
@@ -3553,7 +3732,7 @@ a constant to your name space with <strong>use</strong> or <strong>import</stron
 importing took place, it may for example be that your operating
 system does not support that particular constant.  Hopefully you did
 use an explicit import list for the constants you expect to see;
-please see <a href="../perlfunc/use.html#use">(perlfunc)use</a> and <a href="../perlfunc/import.html#import">(perlfunc)import</a>.  While an
+please see &lsquo;perlfunc use&rsquo; and &lsquo;perlfunc import&rsquo;.  While an
 explicit import list would probably have caught this error earlier
 it naturally does not remedy the fact that your operating system
 still does not support that constant.  Maybe you have a typo in
@@ -3606,7 +3785,7 @@ find the name of the file to which to write data destined for stderr.
 <dt>No group ending character &rsquo;%c&rsquo; found in template</dt>
 <dd><a name="perldiag-No-group-ending-character-_0027_0025c_0027-found-in-template"></a>
 <p>(F) A pack or unpack template has an opening &rsquo;(&rsquo; or &rsquo;[&rsquo; without its
-matching counterpart.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+matching counterpart.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>No input file after &lt; on command line</dt>
@@ -3708,13 +3887,7 @@ names on your system.
 <p>(F) Perl was trying to evaluate a reference to a code value (that is, a
 subroutine), but found a reference to something else instead.  You can
 use the ref() function to find out what kind of ref it really was.  See
-also <a href="../perlref/index.html">(perlref)</a>.
-</p>
-</dd>
-<dt>Not a format reference</dt>
-<dd><a name="perldiag-Not-a-format-reference"></a>
-<p>(F) I&rsquo;m not sure how you managed to generate a reference to an anonymous
-format, but this indicates you did, and that it didn&rsquo;t exist.
+also <a href="perlref.html#perlref-NAME">perlref NAME</a>.
 </p>
 </dd>
 <dt>Not a GLOB reference</dt>
@@ -3722,21 +3895,21 @@ format, but this indicates you did, and that it didn&rsquo;t exist.
 <p>(F) Perl was trying to evaluate a reference to a &quot;typeglob&quot; (that is, a
 symbol table entry that looks like <code>*foo</code>), but found a reference to
 something else instead.  You can use the ref() function to find out what
-kind of ref it really was.  See <a href="../perlref/index.html">(perlref)</a>.
+kind of ref it really was.  See <a href="perlref.html#perlref-NAME">perlref NAME</a>.
 </p>
 </dd>
 <dt>Not a HASH reference</dt>
 <dd><a name="perldiag-Not-a-HASH-reference"></a>
 <p>(F) Perl was trying to evaluate a reference to a hash value, but found a
 reference to something else instead.  You can use the ref() function to
-find out what kind of ref it really was.  See <a href="../perlref/index.html">(perlref)</a>.
+find out what kind of ref it really was.  See <a href="perlref.html#perlref-NAME">perlref NAME</a>.
 </p>
 </dd>
 <dt>Not an ARRAY reference</dt>
 <dd><a name="perldiag-Not-an-ARRAY-reference"></a>
 <p>(F) Perl was trying to evaluate a reference to an array value, but found
 a reference to something else instead.  You can use the ref() function
-to find out what kind of ref it really was.  See <a href="../perlref/index.html">(perlref)</a>.
+to find out what kind of ref it really was.  See <a href="perlref.html#perlref-NAME">perlref NAME</a>.
 </p>
 </dd>
 <dt>Not an unblessed ARRAY reference</dt>
@@ -3750,7 +3923,7 @@ or arrays beginning explicitly with <code>@</code>.
 <dd><a name="perldiag-Not-a-SCALAR-reference"></a>
 <p>(F) Perl was trying to evaluate a reference to a scalar value, but found
 a reference to something else instead.  You can use the ref() function
-to find out what kind of ref it really was.  See <a href="../perlref/index.html">(perlref)</a>.
+to find out what kind of ref it really was.  See <a href="perlref.html#perlref-NAME">perlref NAME</a>.
 </p>
 </dd>
 <dt>Not a subroutine reference</dt>
@@ -3758,7 +3931,7 @@ to find out what kind of ref it really was.  See <a href="../perlref/index.html"
 <p>(F) Perl was trying to evaluate a reference to a code value (that is, a
 subroutine), but found a reference to something else instead.  You can
 use the ref() function to find out what kind of ref it really was.  See
-also <a href="../perlref/index.html">(perlref)</a>.
+also <a href="perlref.html#perlref-NAME">perlref NAME</a>.
 </p>
 </dd>
 <dt>Not a subroutine reference in overload table</dt>
@@ -3775,7 +3948,7 @@ doesn&rsquo;t somehow point to a valid subroutine.  See <a href="../overload/ind
 <dt>Not enough format arguments</dt>
 <dd><a name="perldiag-Not-enough-format-arguments"></a>
 <p>(W syntax) A format specified more picture fields than the next line
-supplied.  See <a href="../perlform/index.html">(perlform)</a>.
+supplied.  See <a href="perlform.html#perlform-NAME">perlform NAME</a>.
 </p>
 </dd>
 <dt>%s: not found</dt>
@@ -3794,6 +3967,16 @@ to UTC.  If it&rsquo;s not, define the logical name
 need to be added to UTC to get local time.
 </p>
 </dd>
+<dt>Non-hex character in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Non_002dhex-character-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+In a regular expression, there was a non-hexadecimal character where
+a hex one was expected, like
+</p>
+<pre class="verbatim"> (?[ [ \xDG ] ])
+ (?[ [ \x{DEKA} ] ])
+</pre>
+</dd>
 <dt>Non-octal character &rsquo;%c&rsquo;.  Resolved as &quot;%s&quot;</dt>
 <dd><a name="perldiag-Non_002doctal-character-_0027_0025c_0027_002e-Resolved-as-_0022_0025s_0022"></a>
 <p>(W digit) In parsing an octal numeric constant, a character was
@@ -3801,17 +3984,35 @@ unexpectedly encountered that isn&rsquo;t octal.  The resulting value
 is as indicated.
 </p>
 </dd>
+<dt>Non-octal character in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Non_002doctal-character-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+In a regular expression, there was a non-octal character where
+an octal one was expected, like
+</p>
+<pre class="verbatim"> (?[ [ \o{1278} ] ])
+</pre>
+</dd>
 <dt>Non-string passed as bitmask</dt>
 <dd><a name="perldiag-Non_002dstring-passed-as-bitmask"></a>
 <p>(W misc) A number has been passed as a bitmask argument to select().
 Use the vec() function to construct the file descriptor bitmasks for
-select.  See <a href="../perlfunc/select.html#select">(perlfunc)select</a>.
+select.  See <a href="perlfunc.html#perlfunc-select">perlfunc select</a>.
+</p>
+</dd>
+<dt>(?[...]) not valid in locale in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-_0028_003f_005b_002e_002e_002e_005d_0029-not-valid-in-locale-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+<code>(?[...])</code> cannot be used within the scope of a <code>use&nbsp;locale<!-- /@w --></code> or
+with an <code>/l</code> regular expression modifier, as that would require
+deferring to run-time the calculation of what it should evaluate to, and
+it is regex compile-time only.
 </p>
 </dd>
 <dt>Null filename used</dt>
 <dd><a name="perldiag-Null-filename-used"></a>
 <p>(F) You can&rsquo;t require the null filename, especially because on many
-machines that means the current directory!  See <a href="../perlfunc/require.html#require">(perlfunc)require</a>.
+machines that means the current directory!  See <a href="perlfunc.html#perlfunc-require">perlfunc require</a>.
 </p>
 </dd>
 <dt>NULL OP IN RUN</dt>
@@ -3824,7 +4025,7 @@ pointer.
 <dd><a name="perldiag-Null-picture-in-formline"></a>
 <p>(F) The first argument to formline must be a valid format picture
 specification.  It was found to be empty, which probably means you
-supplied it an uninitialized value.  See <a href="../perlform/index.html">(perlform)</a>.
+supplied it an uninitialized value.  See <a href="perlform.html#perlform-NAME">perlform NAME</a>.
 </p>
 </dd>
 <dt>Null realloc</dt>
@@ -3856,6 +4057,15 @@ the meantime, try using scientific notation (e.g. &quot;1e6&quot; instead of
 <p>(F) Perl was looking for a number but found nothing that looked like
 a number.  This happens, for example with <code>\o{}</code>, with no number between
 the braces.
+</p>
+</dd>
+<dt>&quot;my %s&quot; used in sort comparison</dt>
+<dd><a name="perldiag-_0022my-_0025s_0022-used-in-sort-comparison"></a>
+<p>(W syntax) The package variables $a and $b are used for sort comparisons.
+You used $a or $b in as an operand to the <code>&lt;=&gt;</code> or <code>cmp</code> operator inside a
+sort comparison block, and the variable had earlier been declared as a
+lexical variable.  Either qualify the sort variable with the package
+name, or rename the lexical variable.
 </p>
 </dd>
 <dt>Octal number &gt; 037777777777 non-portable</dt>
@@ -3904,7 +4114,14 @@ call, or call a constructor from the FileHandle package.
 <dt>-%s on unopened filehandle %s</dt>
 <dd><a name="perldiag-_002d_0025s-on-unopened-filehandle-_0025s"></a>
 <p>(W unopened) You tried to invoke a file test operator on a filehandle
-that isn&rsquo;t open.  Check your control flow.  See also <a href="../perlfunc/_002dX.html#g_t_002dX">(perlfunc)-X</a>.
+that isn&rsquo;t open.  Check your control flow.  See also <a href="perlfunc.html#perlfunc-_002dX">perlfunc -X</a>.
+</p>
+</dd>
+<dt>Strings with code points over 0xFF may not be mapped into in-memory file handles</dt>
+<dd><a name="perldiag-Strings-with-code-points-over-0xFF-may-not-be-mapped-into-in_002dmemory-file-handles"></a>
+<p>(W utf8) You tried to open a reference to a scalar for read or append
+where the scalar contained code points over 0xFF.  In-memory files
+model on-disk files and can only contain bytes.
 </p>
 </dd>
 <dt>oops: oopsAV</dt>
@@ -3919,7 +4136,7 @@ that isn&rsquo;t open.  Check your control flow.  See also <a href="../perlfunc/
 </dd>
 <dt>Opening dirhandle %s also as a file</dt>
 <dd><a name="perldiag-Opening-dirhandle-_0025s-also-as-a-file"></a>
-<p>(W io, deprecated) You used open() to associate a filehandle to
+<p>(D io, deprecated) You used open() to associate a filehandle to
 a symbol (glob or scalar) that already holds a dirhandle.
 Although legal, this idiom might render your code confusing
 and is deprecated.
@@ -3927,10 +4144,21 @@ and is deprecated.
 </dd>
 <dt>Opening filehandle %s also as a directory</dt>
 <dd><a name="perldiag-Opening-filehandle-_0025s-also-as-a-directory"></a>
-<p>(W io, deprecated) You used opendir() to associate a dirhandle to
+<p>(D io, deprecated) You used opendir() to associate a dirhandle to
 a symbol (glob or scalar) that already holds a filehandle.
 Although legal, this idiom might render your code confusing
 and is deprecated.
+</p>
+</dd>
+<dt>Operand with no preceding operator in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Operand-with-no-preceding-operator-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+You wrote something like
+</p>
+<pre class="verbatim"> (?[ \p{Digit} \p{Thai} ])
+</pre>
+<p>There are two operands, but no operator giving how you want to combine
+them.
 </p>
 </dd>
 <dt>Operation &quot;%s&quot;: no method found, %s</dt>
@@ -3943,7 +4171,7 @@ the <code>fallback</code> overloading key is specified to be true.  See <a href=
 </dd>
 <dt>Operation &quot;%s&quot; returns its argument for non-Unicode code point 0x%X</dt>
 <dd><a name="perldiag-Operation-_0022_0025s_0022-returns-its-argument-for-non_002dUnicode-code-point-0x_0025X"></a>
-<p>(W utf8, non_unicode) You performed an operation requiring Unicode
+<p>(S utf8, non_unicode) You performed an operation requiring Unicode
 semantics on a code point that is not in Unicode, so what it should do
 is not defined.  Perl has chosen to have it do nothing, and warn you.
 </p>
@@ -3956,7 +4184,7 @@ matching in a regular expression was done on the code point.
 </dd>
 <dt>Operation &quot;%s&quot; returns its argument for UTF-16 surrogate U+%X</dt>
 <dd><a name="perldiag-Operation-_0022_0025s_0022-returns-its-argument-for-UTF_002d16-surrogate-U_002b_0025X"></a>
-<p>(W utf8, surrogate) You performed an operation requiring Unicode
+<p>(S utf8, surrogate) You performed an operation requiring Unicode
 semantics on a Unicode surrogate.  Unicode frowns upon the use of
 surrogates for anything but storing strings in UTF-16, but semantics
 are (reluctantly) defined for the surrogates, and they are to do
@@ -4049,14 +4277,14 @@ position to before the start of the packed string being built.
 <dt>&rsquo;@&rsquo; outside of string in unpack</dt>
 <dd><a name="perldiag-_0027_0040_0027-outside-of-string-in-unpack"></a>
 <p>(F) You had a template that specified an absolute position outside
-the string being unpacked.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+the string being unpacked.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>&rsquo;@&rsquo; outside of string with malformed UTF-8 in unpack</dt>
 <dd><a name="perldiag-_0027_0040_0027-outside-of-string-with-malformed-UTF_002d8-in-unpack"></a>
 <p>(F) You had a template that specified an absolute position outside
 the string being unpacked.  The string being unpacked was also invalid
-UTF-8.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+UTF-8.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>overload arg &rsquo;%s&rsquo; is invalid</dt>
@@ -4089,13 +4317,13 @@ mixed-case attribute name, instead.  See <a href="../attributes/index.html">(att
 <dt>pack/unpack repeat count overflow</dt>
 <dd><a name="perldiag-pack_002funpack-repeat-count-overflow"></a>
 <p>(F) You can&rsquo;t specify a repeat count so large that it overflows your
-signed integers.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+signed integers.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>page overflow</dt>
 <dd><a name="perldiag-page-overflow"></a>
 <p>(W io) A single call to write() produced more lines than can fit on a
-page.  See <a href="../perlform/index.html">(perlform)</a>.
+page.  See <a href="perlform.html#perlform-NAME">perlform NAME</a>.
 </p>
 </dd>
 <dt>panic: %s</dt>
@@ -4109,6 +4337,13 @@ page.  See <a href="../perlform/index.html">(perlform)</a>.
 an ACL related-function, but that function is not available on this
 platform.  Earlier checks mean that it should not be possible to
 enter this branch on this platform.
+</p>
+</dd>
+<dt>panic: child pseudo-process was never scheduled</dt>
+<dd><a name="perldiag-panic_003a-child-pseudo_002dprocess-was-never-scheduled"></a>
+<p>(P) A child pseudo-process in the ithreads implementation on Windows
+was not scheduled within the time period allowed and therefore was not
+able to initialize properly.
 </p>
 </dd>
 <dt>panic: ck_grep, type=%u</dt>
@@ -4308,6 +4543,13 @@ then discovered it wasn&rsquo;t a subroutine or eval context.
 <p>(P) scan_num() got called on something that wasn&rsquo;t a number.
 </p>
 </dd>
+<dt>panic: Sequence (?{...}): no code block found</dt>
+<dd><a name="perldiag-panic_003a-Sequence-_0028_003f_007b_002e_002e_002e_007d_0029_003a-no-code-block-found"></a>
+<p>(P) while compiling a pattern that has embedded (?{}) or (??{}) code
+blocks, perl couldn&rsquo;t locate the code block that should have already been
+seen and compiled by perl before control passed to the regex compiler.
+</p>
+</dd>
 <dt>panic: sv_chop %s</dt>
 <dd><a name="perldiag-panic_003a-sv_005fchop-_0025s"></a>
 <p>(P) The sv_chop() routine was passed a position that is not within the
@@ -4355,22 +4597,6 @@ to even) byte length.
 <p>(P) The lexer got into a bad state while processing a case modifier.
 </p>
 </dd>
-<dt>Parsing code internal error (%s)</dt>
-<dd><a name="perldiag-Parsing-code-internal-error-_0028_0025s_0029"></a>
-<p>(F) Parsing code supplied by an extension violated the parser&rsquo;s API in
-a detectable way.
-</p>
-</dd>
-<dt>Pattern subroutine nesting without pos change exceeded limit in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
-<dd><a name="perldiag-Pattern-subroutine-nesting-without-pos-change-exceeded-limit-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
-<p>(F) You used a pattern that uses too many nested subpattern calls without
-consuming any text.  Restructure the pattern so text is consumed before
-the nesting limit is exceeded.
-</p>
-<p>The &lt;&ndash; HERE shows in the regular expression about where the problem was
-discovered.
-</p>
-</dd>
 <dt>Parentheses missing around &quot;%s&quot; list</dt>
 <dd><a name="perldiag-Parentheses-missing-around-_0022_0025s_0022-list"></a>
 <p>(W parenthesis) You said something like
@@ -4382,6 +4608,34 @@ discovered.
 <pre class="verbatim">    my ($foo, $bar) = @_;
 </pre>
 <p>Remember that &quot;my&quot;, &quot;our&quot;, &quot;local&quot; and &quot;state&quot; bind tighter than comma.
+</p>
+</dd>
+<dt>Parsing code internal error (%s)</dt>
+<dd><a name="perldiag-Parsing-code-internal-error-_0028_0025s_0029"></a>
+<p>(F) Parsing code supplied by an extension violated the parser&rsquo;s API in
+a detectable way.
+</p>
+</dd>
+<dt>Passing malformed UTF-8 to &quot;%s&quot; is deprecated</dt>
+<dd><a name="perldiag-Passing-malformed-UTF_002d8-to-_0022_0025s_0022-is-deprecated"></a>
+<p>(D deprecated, utf8) This message indicates a bug either in the Perl
+core or in XS code.  Such code was trying to find out if a character,
+allegedly stored internally encoded as UTF-8, was of a given type, such
+as being punctuation or a digit.  But the character was not encoded in
+legal UTF-8.  The <code>%s</code> is replaced by a string that can be used by
+knowledgeable people to determine what the type being checked against
+was.  If <code>utf8</code> warnings are enabled, a further message is raised,
+giving details of the malformation.
+</p>
+</dd>
+<dt>Pattern subroutine nesting without pos change exceeded limit in regex;  marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Pattern-subroutine-nesting-without-pos-change-exceeded-limit-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F) You used a pattern that uses too many nested subpattern calls without
+consuming any text.  Restructure the pattern so text is consumed before
+the nesting limit is exceeded.
+</p>
+<p>The &lt;&ndash; HERE shows whereabouts in the regular expression the problem was
+discovered.
 </p>
 </dd>
 <dt><code>-p</code> destination: %s</dt>
@@ -4398,13 +4652,13 @@ redirected it with select().)
 that a method requires a package that has not been loaded.
 </p>
 </dd>
-<dt>Perl folding rules are not up-to-date for 0x%x; please use the perlbug utility to report</dt>
-<dd><a name="perldiag-Perl-folding-rules-are-not-up_002dto_002ddate-for-0x_0025x_003b-please-use-the-perlbug-utility-to-report"></a>
-<p>(W regex, deprecated) You used a regular expression with
+<dt>Perl folding rules are not up-to-date for 0x%X; please use the perlbug  utility to report; in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Perl-folding-rules-are-not-up_002dto_002ddate-for-0x_0025X_003b-please-use-the-perlbug-utility-to-report_003b-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(D regexp, deprecated) You used a regular expression with
 case-insensitive matching, and there is a bug in Perl in which the
 built-in regular expression folding rules are not accurate.  This may
 lead to incorrect results.  Please report this as a bug using the
-&quot;perlbug&quot; utility.  (This message is marked deprecated, so that it by
+<a href="../perlbug/index.html">(perlbug)</a> utility.  (This message is marked deprecated, so that it by
 default will be turned-on.)
 </p>
 </dd>
@@ -4413,7 +4667,7 @@ default will be turned-on.)
 <p>(F) Your platform has very uncommon byte-order and integer size,
 so it was not possible to set up some or all fixed-width byte-order
 conversion functions.  This is only a problem when you&rsquo;re using the
-&rsquo;&lt;&rsquo; or &rsquo;&gt;&rsquo; modifiers in (un)pack templates.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+&rsquo;&lt;&rsquo; or &rsquo;&gt;&rsquo; modifiers in (un)pack templates.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>Perl %s required (did you mean %s?)&ndash;this is only %s, stopped</dt>
@@ -4430,7 +4684,7 @@ is equivalent to v5.100.
 <dd><a name="perldiag-Perl-_0025s-required_002d_002dthis-is-only-version-_0025s_002c-stopped"></a>
 <p>(F) The module in question uses features of a version of Perl more
 recent than the currently running version.  How long has it been since
-you upgraded, anyway?  See <a href="../perlfunc/require.html#require">(perlfunc)require</a>.
+you upgraded, anyway?  See <a href="perlfunc.html#perlfunc-require">perlfunc require</a>.
 </p>
 </dd>
 <dt>PERL_SH_DIR too long</dt>
@@ -4441,7 +4695,7 @@ you upgraded, anyway?  See <a href="../perlfunc/require.html#require">(perlfunc)
 </dd>
 <dt>PERL_SIGNALS illegal: &quot;%s&quot;</dt>
 <dd><a name="perldiag-PERL_005fSIGNALS-illegal_003a-_0022_0025s_0022"></a>
-<p>See <a href="perlrun.html#perlrun-PERL_005fSIGNALS">perlrun PERL_SIGNALS</a> for legal values.
+<p>(X) See <a href="perlrun.html#perlrun-PERL_005fSIGNALS">perlrun PERL_SIGNALS</a> for legal values.
 </p>
 </dd>
 <dt>Perls since %s too modern&ndash;this is %s, stopped</dt>
@@ -4475,6 +4729,29 @@ time you run Perl.  How to really fix the problem can be found in
 <a href="perllocale.html#perllocale-NAME">perllocale NAME</a> section <strong>LOCALE PROBLEMS</strong>.
 </p>
 </dd>
+<dt>perl: warning: Non hex character in &rsquo;$ENV{PERL_HASH_SEED}&rsquo;, seed only partially set</dt>
+<dd><a name="perldiag-perl_003a-warning_003a-Non-hex-character-in-_0027_0024ENV_007bPERL_005fHASH_005fSEED_007d_0027_002c-seed-only-partially-set"></a>
+<p>(W) PERL_HASH_SEED should match /^\s*(?:0x)?[0-9a-fA-F]+\s*\z/ but it
+contained a non hex character. This could mean you are not using the hash
+seed you think you are.
+</p>
+</dd>
+<dt>perl: warning: strange setting in &rsquo;$ENV{PERL_PERTURB_KEYS}&rsquo;: &rsquo;%s&rsquo;</dt>
+<dd><a name="perldiag-perl_003a-warning_003a-strange-setting-in-_0027_0024ENV_007bPERL_005fPERTURB_005fKEYS_007d_0027_003a-_0027_0025s_0027"></a>
+<p>(W) Perl was run with the environment variable PERL_PERTURB_KEYS defined
+but containing an unexpected value. The legal values of this setting
+are as follows.
+</p>
+<pre class="verbatim">  Numeric | String        | Result
+  --------+---------------+-----------------------------------------
+  0       | NO            | Disables key traversal randomization
+  1       | RANDOM        | Enables full key traversal randomization
+  2       | DETERMINISTIC | Enables repeatable key traversal randomization
+</pre>
+<p>Both numeric and string values are accepted, but note that string values are
+case sensitive. The default for this setting is &quot;RANDOM&quot; or 1.
+</p>
+</dd>
 <dt>pid %x not a child</dt>
 <dd><a name="perldiag-pid-_0025x-not-a-child"></a>
 <p>(W exec) A warning peculiar to VMS.  Waitpid() was asked to wait for a
@@ -4490,10 +4767,10 @@ fine from VMS&rsquo; perspective, it&rsquo;s probably not what you intended.
 <dt>POSIX class [:%s:] unknown in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-POSIX-class-_005b_003a_0025s_003a_005d-unknown-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) The class in the character class [: :] syntax is unknown.  The &lt;&ndash; HERE
-shows in the regular expression about where the problem was discovered.
+shows whereabouts in the regular expression the problem was discovered.
 Note that the POSIX character classes do <strong>not</strong> have the <code>is</code> prefix
 the corresponding C interfaces have: in other words, it&rsquo;s <code>[[:print:]]</code>,
-not <code>isprint</code>.  See <a href="../perlre/index.html">(perlre)</a>.
+not <code>isprint</code>.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>POSIX getpgrp can&rsquo;t take an argument</dt>
@@ -4502,34 +4779,34 @@ not <code>isprint</code>.  See <a href="../perlre/index.html">(perlre)</a>.
 the BSD version, which takes a pid.
 </p>
 </dd>
-<dt>POSIX syntax [%s] belongs inside character classes in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
-<dd><a name="perldiag-POSIX-syntax-_005b_0025s_005d-belongs-inside-character-classes-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<dt>POSIX syntax [%c %c] belongs inside character classes in regex; marked by  &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-POSIX-syntax-_005b_0025c-_0025c_005d-belongs-inside-character-classes-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(W regexp) The character class constructs [: :], [= =], and [. .]  go
 <em>inside</em> character classes, the [] are part of the construct, for example:
 /[012[:alpha:]345]/.  Note that [= =] and [. .] are not currently
-implemented; they are simply placeholders for future extensions and will
-cause fatal errors.  The &lt;&ndash; HERE shows in the regular expression about
-where the problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+implemented; they are simply placeholders for future extensions and
+will cause fatal errors.  The &lt;&ndash; HERE shows whereabouts in the regular
+expression the problem was discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
-<dt>POSIX syntax [. .] is reserved for future extensions in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dt>POSIX syntax [. .] is reserved for future extensions in regex; marked by  &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-POSIX-syntax-_005b_002e-_002e_005d-is-reserved-for-future-extensions-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
-<p>(F regexp) Within regular expression character classes ([]) the syntax
-beginning with &quot;[.&quot; and ending with &quot;.]&quot; is reserved for future extensions.
-If you need to represent those character sequences inside a regular
-expression character class, just quote the square brackets with the
-backslash: &quot;\[.&quot; and &quot;.\]&quot;.  The &lt;&ndash; HERE shows in the regular expression
-about where the problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+<p>(F) Within regular expression character classes ([]) the syntax beginning
+with &quot;[.&quot; and ending with &quot;.]&quot; is reserved for future extensions.  If you
+need to represent those character sequences inside a regular expression
+character class, just quote the square brackets with the backslash: &quot;\[.&quot;
+and &quot;.\]&quot;.  The &lt;&ndash; HERE shows whereabouts in the regular expression the
+problem was discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
-<dt>POSIX syntax [= =] is reserved for future extensions in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dt>POSIX syntax [= =] is reserved for future extensions in regex; marked by  &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-POSIX-syntax-_005b_003d-_003d_005d-is-reserved-for-future-extensions-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) Within regular expression character classes ([]) the syntax beginning
 with &quot;[=&quot; and ending with &quot;=]&quot; is reserved for future extensions.  If you
 need to represent those character sequences inside a regular expression
 character class, just quote the square brackets with the backslash: &quot;\[=&quot;
-and &quot;=\]&quot;.  The &lt;&ndash; HERE shows in the regular expression about where the
-problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+and &quot;=\]&quot;.  The &lt;&ndash; HERE shows whereabouts in the regular expression the
+problem was discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>Possible attempt to put comments in qw() list</dt>
@@ -4584,7 +4861,7 @@ commas if you don&rsquo;t want them to appear in your data:
 <p>(F) An ioctl() or fcntl() returned more than Perl was bargaining for.
 Perl guesses a reasonable buffer size, but puts a sentinel byte at the
 end of the buffer just in case.  This sentinel byte got clobbered, and
-Perl assumes that memory is now corrupted.  See <a href="../perlfunc/ioctl.html#ioctl">(perlfunc)ioctl</a>.
+Perl assumes that memory is now corrupted.  See &lsquo;perlfunc ioctl&rsquo;.
 </p>
 </dd>
 <dt>Possible precedence problem on bitwise %c operator</dt>
@@ -4665,6 +4942,18 @@ port.  One can easily disable this by appropriate sighandlers, see
 in <a href="../perlos2/index.html">(perlos2)</a>.
 </p>
 </dd>
+<dt>Property &rsquo;%s&rsquo; is unknown in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Property-_0027_0025s_0027-is-unknown-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+The named property which you specified via <code>\p</code> or <code>\P</code> is not one
+known to Perl.  Perhaps you misspelled the name?  See
+<a href="../perluniprops/Properties-accessible-through-_005cp_007b_007d-and-_005cP_007b_007d.html#Properties-accessible-through-_005cp_007b_007d-and-_005cP_007b_007d">(perluniprops)Properties accessible through \p{} and \P{}</a>
+for a complete list of available official properties.  If it is a
+<a href="perlunicode.html#perlunicode-User_002dDefined-Character-Properties">user-defined property</a>
+it must have been defined by the time the regular expression is
+compiled.
+</p>
+</dd>
 <dt>Prototype after &rsquo;%c&rsquo; for %s : %s</dt>
 <dd><a name="perldiag-Prototype-after-_0027_0025c_0027-for-_0025s-_003a-_0025s"></a>
 <p>(W illegalproto) A character follows % or @ in a prototype.  This is
@@ -4689,7 +4978,7 @@ definition.
 match (<code>\p</code> or <code>\P</code>), but the regular expression is also being told to
 use the run-time locale, not Unicode.  Instead, use a POSIX character
 class, which should know about the locale&rsquo;s rules.
-(See <a href="../perlrecharclass/POSIX-Character-Classes.html#POSIX-Character-Classes">(perlrecharclass)POSIX Character Classes</a>.)
+(See <a href="perlrecharclass.html#perlrecharclass-POSIX-Character-Classes">perlrecharclass POSIX Character Classes</a>.)
 </p>
 <p>Even if the run-time locale is ISO 8859-1 (Latin1), which is a subset of
 Unicode, some properties will give results that are not valid for that
@@ -4708,30 +4997,42 @@ case of that character is not in Latin1, in that locale it doesn&rsquo;t
 change when upper cased.
 </p>
 </dd>
+<dt>Quantifier {n,m} with n &gt; m can&rsquo;t match in regex</dt>
+<dd><a name="perldiag-Quantifier-_007bn_002cm_007d-with-n-_003e-m-can_0027t-match-in-regex"></a>
+<p>(W regexp) Minima should be less than or equal to maxima.  If you really
+want your regexp to match something 0 times, just put {0}.
+</p>
+</dd>
 <dt>Quantifier follows nothing in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-Quantifier-follows-nothing-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) You started a regular expression with a quantifier.  Backslash it if
-you meant it literally.  The &lt;&ndash; HERE shows in the regular expression
-about where the problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+you meant it literally.  The &lt;&ndash; HERE shows whereabouts in the regular
+expression the problem was discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>Quantifier in {,} bigger than %d in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-Quantifier-in-_007b_002c_007d-bigger-than-_0025d-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) There is currently a limit to the size of the min and max values of
-the {min,max} construct.  The &lt;&ndash; HERE shows in the regular expression
-about where the problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+the {min,max} construct.  The &lt;&ndash; HERE shows whereabouts in the regular
+expression the problem was discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
-<dt>Quantifier unexpected on zero-length expression; marked by &lt;&ndash; HERE in m/%s/</dt>
-<dd><a name="perldiag-Quantifier-unexpected-on-zero_002dlength-expression_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<dt>Quantifier unexpected on zero-length expression in regex; marked by &lt;&ndash;  HERE in m/%s/</dt>
+<dd><a name="perldiag-Quantifier-unexpected-on-zero_002dlength-expression-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(W regexp) You applied a regular expression quantifier in a place where
 it makes no sense, such as on a zero-width assertion.  Try putting the
 quantifier inside the assertion instead.  For example, the way to match
 &quot;abc&quot; provided that it is followed by three repetitions of &quot;xyz&quot; is
 <code>/abc(?=(?:xyz){3})/</code>, not <code>/abc(?=xyz){3}/</code>.
 </p>
-<p>The &lt;&ndash; HERE shows in the regular expression about where the problem was
+<p>The &lt;&ndash; HERE shows whereabouts in the regular expression the problem was
 discovered.
+</p>
+</dd>
+<dt>Quantifier {n,m} with n &gt; m can&rsquo;t match in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Quantifier-_007bn_002cm_007d-with-n-_003e-m-can_0027t-match-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(W regexp) Minima should be less than or equal to maxima.  If you really
+want your regexp to match something 0 times, just put {0}.
 </p>
 </dd>
 <dt>Range iterator outside integer range</dt>
@@ -4777,7 +5078,7 @@ already been freed.
 </dd>
 <dt>Recompile perl with <strong>-D</strong>DEBUGGING to use <strong>-D</strong> switch</dt>
 <dd><a name="perldiag-Recompile-perl-with-_002dDDEBUGGING-to-use-_002dD-switch"></a>
-<p>(F debugging) You can&rsquo;t use the <strong>-D</strong> option unless the code to produce
+<p>(S debugging) You can&rsquo;t use the <strong>-D</strong> option unless the code to produce
 the desired output is compiled into Perl, which entails some overhead,
 which is why it&rsquo;s currently left out of your copy.
 </p>
@@ -4828,8 +5129,8 @@ to use parens.  In any case, a hash requires key/value <strong>pairs</strong>.
 Doing so has no effect.
 </p>
 </dd>
-<dt>Reference to invalid group 0</dt>
-<dd><a name="perldiag-Reference-to-invalid-group-0"></a>
+<dt>Reference to invalid group 0 in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Reference-to-invalid-group-0-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) You used <code>\g0</code> or similar in a regular expression.  You may refer
 to capturing parentheses only with strictly positive integers
 (normal backreferences) or with strictly negative integers (relative
@@ -4843,7 +5144,7 @@ not at least seven sets of capturing parentheses in the expression.  If
 you wanted to have the character with ordinal 7 inserted into the regular
 expression, prepend zeroes to make it three digits long: <code>\007</code>
 </p>
-<p>The &lt;&ndash; HERE shows in the regular expression about where the problem was
+<p>The &lt;&ndash; HERE shows whereabouts in the regular expression the problem was
 discovered.
 </p>
 </dd>
@@ -4854,17 +5155,17 @@ expression, but there is no corresponding named capturing parentheses
 such as <code>(?'NAME'...)</code> or <code>(?&lt;NAME&gt;...)</code>.  Check if the name has been
 spelled correctly both in the backreference and the declaration.
 </p>
-<p>The &lt;&ndash; HERE shows in the regular expression about where the problem was
+<p>The &lt;&ndash; HERE shows whereabouts in the regular expression the problem was
 discovered.
 </p>
 </dd>
-<dt>Reference to nonexistent or unclosed group in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dt>Reference to nonexistent or unclosed group in regex; marked by &lt;&ndash; HERE  in m/%s/</dt>
 <dd><a name="perldiag-Reference-to-nonexistent-or-unclosed-group-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) You used something like <code>\g{-7}</code> in your regular expression, but there
 are not at least seven sets of closed capturing parentheses in the
 expression before where the <code>\g{-7}</code> was located.
 </p>
-<p>The &lt;&ndash; HERE shows in the regular expression about where the problem was
+<p>The &lt;&ndash; HERE shows whereabouts in the regular expression the problem was
 discovered.
 </p>
 </dd>
@@ -4883,10 +5184,10 @@ expression compiler gave it.
 of the specified modifier.  Remove the extraneous ones.
 </p>
 </dd>
-<dt>Regexp modifier &quot;%c&quot; may not appear after the &quot;-&quot;</dt>
-<dd><a name="perldiag-Regexp-modifier-_0022_0025c_0022-may-not-appear-after-the-_0022_002d_0022"></a>
-<p>(F regexp) Turning off the given modifier has the side effect of turning
-on another one.  Perl currently doesn&rsquo;t allow this.  Reword the regular
+<dt>Regexp modifier &quot;%c&quot; may not appear after the &quot;-&quot; in regex; marked by &lt;&ndash;  HERE in m/%s/</dt>
+<dd><a name="perldiag-Regexp-modifier-_0022_0025c_0022-may-not-appear-after-the-_0022_002d_0022-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F) Turning off the given modifier has the side effect of turning on
+another one.  Perl currently doesn&rsquo;t allow this.  Reword the regular
 expression to use the modifier you want to turn on (and place it before
 the minus), instead of the one you want to turn off.
 </p>
@@ -4898,8 +5199,8 @@ mutually exclusive modifiers.  Retain only the modifier that is
 supposed to be there.
 </p>
 </dd>
-<dt>Regexp out of space</dt>
-<dd><a name="perldiag-Regexp-out-of-space"></a>
+<dt>Regexp out of space in regex m/%s/</dt>
+<dd><a name="perldiag-Regexp-out-of-space-in-regex-m_002f_0025s_002f"></a>
 <p>(P) A &quot;can&rsquo;t happen&quot; error, because safemalloc() should have caught it
 earlier.
 </p>
@@ -4908,7 +5209,7 @@ earlier.
 <dd><a name="perldiag-Repeated-format-line-will-never-terminate-_0028_007e_007e-and-_0040_0023-incompatible_0029"></a>
 <p>(F) Your format contains the ~~ repeat-until-blank sequence and a
 numeric field that will never go blank so that the repetition never
-terminates.  You might use ^# instead.  See <a href="../perlform/index.html">(perlform)</a>.
+terminates.  You might use ^# instead.  See <a href="perlform.html#perlform-NAME">perlform NAME</a>.
 </p>
 </dd>
 <dt>Replacement list is longer than search list</dt>
@@ -4916,6 +5217,16 @@ terminates.  You might use ^# instead.  See <a href="../perlform/index.html">(pe
 <p>(W misc) You have used a replacement list that is longer than the
 search list.  So the additional elements in the replacement list
 are meaningless.
+</p>
+</dd>
+<dt>&rsquo;%s&rsquo; resolved to &rsquo;\o{%s}%d&rsquo;</dt>
+<dd><a name="perldiag-_0027_0025s_0027-resolved-to-_0027_005co_007b_0025s_007d_0025d_0027"></a>
+<p>(W misc, regexp)  You wrote something like <code>\08</code>, or <code>\179</code> in a
+double-quotish string.  All but the last digit is treated as a single
+character, specified in octal.  The last digit is the next character in
+the string.  To tell Perl that this is indeed what you want, you can use
+the <code>\o{ }</code> syntax, or use exactly three digits to specify the octal
+for the character.
 </p>
 </dd>
 <dt>Reversed %s= operator</dt>
@@ -4932,10 +5243,11 @@ really a dirhandle.  Check your control flow.
 </dd>
 <dt>Scalars leaked: %d</dt>
 <dd><a name="perldiag-Scalars-leaked_003a-_0025d"></a>
-<p>(P) Something went wrong in Perl&rsquo;s internal bookkeeping of scalars:
-not all scalar variables were deallocated by the time Perl exited.
-What this usually indicates is a memory leak, which is of course bad,
-especially if the Perl program is intended to be long-running.
+<p>(S internal) Something went wrong in Perl&rsquo;s internal bookkeeping
+of scalars: not all scalar variables were deallocated by the time
+Perl exited.  What this usually indicates is a memory leak, which
+is of course bad, especially if the Perl program is intended to be
+long-running.
 </p>
 </dd>
 <dt>Scalar value @%s[%s] better written as $%s[%s]</dt>
@@ -4951,7 +5263,7 @@ if you&rsquo;re expecting only one subscript.
 <p>On the other hand, if you were actually hoping to treat the array
 element as a list, you need to look into how references work, because
 Perl will not magically convert between scalars and lists for you.  See
-<a href="../perlref/index.html">(perlref)</a>.
+<a href="perlref.html#perlref-NAME">perlref NAME</a>.
 </p>
 </dd>
 <dt>Scalar value @%s{%s} better written as $%s{%s}</dt>
@@ -4967,7 +5279,7 @@ if you&rsquo;re expecting only one subscript.
 <p>On the other hand, if you were actually hoping to treat the hash element
 as a list, you need to look into how references work, because Perl will
 not magically convert between scalars and lists for you.  See
-<a href="../perlref/index.html">(perlref)</a>.
+<a href="perlref.html#perlref-NAME">perlref NAME</a>.
 </p>
 </dd>
 <dt>Search pattern not terminated</dt>
@@ -5042,25 +5354,25 @@ before now.  Check your control flow.
 <dt>Sequence (? incomplete in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-Sequence-_0028_003f-incomplete-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) A regular expression ended with an incomplete extension (?.  The
-&lt;&ndash; HERE shows in the regular expression about where the problem was
-discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+&lt;&ndash; HERE shows whereabouts in the regular expression the problem was
+discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>Sequence (?%s...) not implemented in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-Sequence-_0028_003f_0025s_002e_002e_002e_0029-not-implemented-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) A proposed regular expression extension has the character reserved
-but has not yet been written.  The &lt;&ndash; HERE shows in the regular
-expression about where the problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+but has not yet been written.  The &lt;&ndash; HERE shows whereabouts in the
+regular expression the problem was discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>Sequence (?%s...) not recognized in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-Sequence-_0028_003f_0025s_002e_002e_002e_0029-not-recognized-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) You used a regular expression extension that doesn&rsquo;t make sense.  The
-&lt;&ndash; HERE shows in the regular expression about where the problem was
+&lt;&ndash; HERE shows whereabouts in the regular expression the problem was
 discovered.  This happens when using the <code>(?^...)</code> construct to tell
 Perl to use the default regular expression modifiers, and you
 redundantly specify a default modifier.  For other
-causes, see <a href="../perlre/index.html">(perlre)</a>.
+causes, see <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>Sequence \%s... not terminated in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
@@ -5069,20 +5381,17 @@ causes, see <a href="../perlre/index.html">(perlre)</a>.
 sequence and this has been omitted or incorrectly written.
 </p>
 </dd>
-<dt>Sequence (?#... not terminated in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
-<dd><a name="perldiag-Sequence-_0028_003f_0023_002e_002e_002e-not-terminated-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<dt>Sequence (?#... not terminated in regex m/%s/</dt>
+<dd><a name="perldiag-Sequence-_0028_003f_0023_002e_002e_002e-not-terminated-in-regex-m_002f_0025s_002f"></a>
 <p>(F) A regular expression comment must be terminated by a closing
-parenthesis.  Embedded parentheses aren&rsquo;t allowed.  The &lt;&ndash; HERE shows in
-the regular expression about where the problem was discovered.  See
-<a href="../perlre/index.html">(perlre)</a>.
+parenthesis.  Embedded parentheses aren&rsquo;t allowed.  See
+<a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
-<dt>Sequence (?{...}) not terminated or not {}-balanced in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
-<dd><a name="perldiag-Sequence-_0028_003f_007b_002e_002e_002e_007d_0029-not-terminated-or-not-_007b_007d_002dbalanced-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
-<p>(F) If the contents of a (?{...}) clause contain braces, they
-must balance for Perl to detect the end of the clause properly.
-The &lt;&ndash; HERE shows in the regular expression about where the
-problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+<dt>Sequence (?{...}) not terminated with &rsquo;)&rsquo;</dt>
+<dd><a name="perldiag-Sequence-_0028_003f_007b_002e_002e_002e_007d_0029-not-terminated-with-_0027_0029_0027"></a>
+<p>(F) The end of the perl code contained within the {...} must be
+followed immediately by a &rsquo;)&rsquo;.
 </p>
 </dd>
 <dt>500 Server error</dt>
@@ -5154,7 +5463,7 @@ didn&rsquo;t think so.
 <dd><a name="perldiag-setsockopt_0028_0029-on-closed-socket-_0025s"></a>
 <p>(W closed) You tried to set a socket option on a closed socket.  Did you
 forget to check the return value of your socket() call?  See
-<a href="../perlfunc/setsockopt.html#setsockopt">(perlfunc)setsockopt</a>.
+&lsquo;perlfunc setsockopt&rsquo;.
 </p>
 </dd>
 <dt>shm%s not implemented</dt>
@@ -5195,6 +5504,30 @@ superfluous.
 Perhaps you put it into the wrong package?
 </p>
 </dd>
+<dt>Slab leaked from cv %p</dt>
+<dd><a name="perldiag-Slab-leaked-from-cv-_0025p"></a>
+<p>(S) If you see this message, then something is seriously wrong with the
+internal bookkeeping of op trees.  An op tree needed to be freed after
+a compilation error, but could not be found, so it was leaked instead.
+</p>
+</dd>
+<dt>sleep(%u) too large</dt>
+<dd><a name="perldiag-sleep_0028_0025u_0029-too-large"></a>
+<p>(W overflow) You called <code>sleep</code> with a number that was larger than
+it can reliably handle and <code>sleep</code> probably slept for less time than
+requested.
+</p>
+</dd>
+<dt>Smartmatch is experimental</dt>
+<dd><a name="perldiag-Smartmatch-is-experimental"></a>
+<p>(S experimental::smartmatch) This warning is emitted if you
+use the smartmatch (<code>~~</code>) operator.  This is currently an experimental
+feature, and its details are subject to change in future releases of
+Perl.  Particularly, its current behavior is noticed for being
+unnecessarily complex and unintuitive, and is very likely to be
+overhauled.
+</p>
+</dd>
 <dt>Smart matching a non-overloaded object breaks encapsulation</dt>
 <dd><a name="perldiag-Smart-matching-a-non_002doverloaded-object-breaks-encapsulation"></a>
 <p>(F) You should not use the <code>~~</code> operator on an object that does not
@@ -5210,8 +5543,8 @@ But before sort was a keyword, people sometimes used it as a filehandle.
 </dd>
 <dt>Sort subroutine didn&rsquo;t return single value</dt>
 <dd><a name="perldiag-Sort-subroutine-didn_0027t-return-single-value"></a>
-<p>(F) A sort comparison subroutine may not return a list value with more
-or less than one element.  See <a href="../perlfunc/sort.html#sort">(perlfunc)sort</a>.
+<p>(F) A sort comparison subroutine written in XS must return exactly one
+item.  See &lsquo;perlfunc sort&rsquo;.
 </p>
 </dd>
 <dt>Source filters apply only to byte streams</dt>
@@ -5228,14 +5561,14 @@ not permitted under the <code>unicode_eval</code> feature.  Consider using
 the array passed to splice().  Splicing will instead commence at the
 end of the array, rather than past it.  If this isn&rsquo;t what you want,
 try explicitly pre-extending the array by assigning $#array = $offset.
-See <a href="../perlfunc/splice.html#splice">(perlfunc)splice</a>.
+See &lsquo;perlfunc splice&rsquo;.
 </p>
 </dd>
 <dt>Split loop</dt>
 <dd><a name="perldiag-Split-loop"></a>
 <p>(P) The split was looping infinitely.  (Obviously, a split shouldn&rsquo;t
 iterate more times than there are characters of input, which is what
-happened.)  See <a href="../perlfunc/split.html#split">(perlfunc)split</a>.
+happened.)  See <a href="perlfunc.html#perlfunc-split">perlfunc split</a>.
 </p>
 </dd>
 <dt>Statement unlikely to be reached</dt>
@@ -5254,6 +5587,15 @@ sense to try to declare one with a package qualifier on the front.  Use
 local() if you want to localize a package variable.
 </p>
 </dd>
+<dt>&quot;state %s&quot; used in sort comparison</dt>
+<dd><a name="perldiag-_0022state-_0025s_0022-used-in-sort-comparison"></a>
+<p>(W syntax) The package variables $a and $b are used for sort comparisons.
+You used $a or $b in as an operand to the <code>&lt;=&gt;</code> or <code>cmp</code> operator inside a
+sort comparison block, and the variable had earlier been declared as a
+lexical variable.  Either qualify the sort variable with the package
+name, or rename the lexical variable.
+</p>
+</dd>
 <dt>stat() on unopened filehandle %s</dt>
 <dd><a name="perldiag-stat_0028_0029-on-unopened-filehandle-_0025s"></a>
 <p>(W unopened) You tried to use the stat() function on a filehandle that
@@ -5265,6 +5607,46 @@ was either never opened or has since been closed.
 <p>(P) Overloading resolution over @ISA tree may be broken by importation
 stubs.  Stubs should never be implicitly created, but explicit calls to
 <code>can</code> may break this.
+</p>
+</dd>
+<dt>Subroutine &quot;&amp;%s&quot; is not available</dt>
+<dd><a name="perldiag-Subroutine-_0022_0026_0025s_0022-is-not-available"></a>
+<p>(W closure) During compilation, an inner named subroutine or eval is
+attempting to capture an outer lexical subroutine that is not currently
+available.  This can happen for one of two reasons.  First, the lexical
+subroutine may be declared in an outer anonymous subroutine that has not
+yet been created.  (Remember that named subs are created at compile time,
+while anonymous subs are created at run-time.)  For example,
+</p>
+<pre class="verbatim">    sub { my sub a {...} sub f { \&amp;a } }
+</pre>
+<p>At the time that f is created, it can&rsquo;t capture the current the &quot;a&quot; sub,
+since the anonymous subroutine hasn&rsquo;t been created yet.  Conversely, the
+following won&rsquo;t give a warning since the anonymous subroutine has by now
+been created and is live:
+</p>
+<pre class="verbatim">    sub { my sub a {...} eval 'sub f { \&amp;a }' }-&gt;();
+</pre>
+<p>The second situation is caused by an eval accessing a variable that has
+gone out of scope, for example,
+</p>
+<pre class="verbatim">    sub f {
+        my sub a {...}
+        sub { eval '\&amp;a' }
+    }
+    f()-&gt;();
+</pre>
+<p>Here, when the &rsquo;\&amp;a&rsquo; in the eval is being compiled, f() is not currently
+being executed, so its &amp;a is not available for capture.
+</p>
+</dd>
+<dt>&quot;%s&quot; subroutine &amp;%s masks earlier declaration in same %s</dt>
+<dd><a name="perldiag-_0022_0025s_0022-subroutine-_0026_0025s-masks-earlier-declaration-in-same-_0025s"></a>
+<p>(W misc) A &quot;my&quot; or &quot;state&quot; subroutine has been redeclared in the
+current scope or statement, effectively eliminating all access to
+the previous instance.  This is almost always a typographical error.
+Note that the earlier subroutine will still exist until the end of
+the scope or until all closure references to it are destroyed.
 </p>
 </dd>
 <dt>Subroutine %s redefined</dt>
@@ -5282,7 +5664,7 @@ stubs.  Stubs should never be implicitly created, but explicit calls to
 <p>(P) The substitution was looping infinitely.  (Obviously, a substitution
 shouldn&rsquo;t iterate more times than there are characters of input, which
 is what happened.)  See the discussion of substitution in
-<a href="../perlop/Regexp-Quote_002dLike-Operators.html#Regexp-Quote_002dLike-Operators">(perlop)Regexp Quote-Like Operators</a>.
+<a href="perlop.html#perlop-Regexp-Quote_002dLike-Operators">perlop Regexp Quote-Like Operators</a>.
 </p>
 </dd>
 <dt>Substitution pattern not terminated</dt>
@@ -5303,7 +5685,7 @@ Missing the leading <code>$</code> from variable <code>$s</code> may cause this 
 <dd><a name="perldiag-substr-outside-of-string"></a>
 <p>(W substr)(F) You tried to reference a substr() that pointed outside of
 a string.  That is, the absolute value of the offset was larger than the
-length of the string.  See <a href="../perlfunc/substr.html#substr">(perlfunc)substr</a>.  This warning is fatal if
+length of the string.  See &lsquo;perlfunc substr&rsquo;.  This warning is fatal if
 substr is used in an lvalue context (as the left hand side of an
 assignment or as a subroutine argument for example).
 </p>
@@ -5314,7 +5696,7 @@ assignment or as a subroutine argument for example).
 inferior to its current type.
 </p>
 </dd>
-<dt>Switch (?(condition)... contains too many branches in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dt>Switch (?(condition)... contains too many branches in regex; marked by  &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-Switch-_0028_003f_0028condition_0029_002e_002e_002e-contains-too-many-branches-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) A (?(condition)if-clause|else-clause) construct can have at most
 two branches (the if-clause and the else-clause).  If you want one or
@@ -5323,15 +5705,15 @@ it in clustering parentheses:
 </p>
 <pre class="verbatim">    (?(condition)(?:this|that|other)|else-clause)
 </pre>
-<p>The &lt;&ndash; HERE shows in the regular expression about where the problem
-was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+<p>The &lt;&ndash; HERE shows whereabouts in the regular expression the problem
+was discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>Switch condition not recognized in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-Switch-condition-not-recognized-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) If the argument to the (?(...)if-clause|else-clause) construct is
-a number, it can be only a number.  The &lt;&ndash; HERE shows in the regular
-expression about where the problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+a number, it can be only a number.  The &lt;&ndash; HERE shows whereabouts in
+the regular expression the problem was discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>switching effective %s is not implemented</dt>
@@ -5391,6 +5773,13 @@ or &quot;my $var&quot; or &quot;our $var&quot;.
 <p>(W unopened) You tried to read from a filehandle that was never opened.
 </p>
 </dd>
+<dt>Syntax error in (?[...]) in regex m/%s/</dt>
+<dd><a name="perldiag-Syntax-error-in-_0028_003f_005b_002e_002e_002e_005d_0029-in-regex-m_002f_0025s_002f"></a>
+<p>(F)
+Perl could not figure out what you meant inside this construct; this
+notifies you that it is giving up trying.
+</p>
+</dd>
 <dt>System V %s is not implemented on this machine</dt>
 <dd><a name="perldiag-System-V-_0025s-is-not-implemented-on-this-machine"></a>
 <p>(F) You tried to do something with a function beginning with &quot;sem&quot;,
@@ -5445,14 +5834,52 @@ as a compiler directive.  You may say only one of
 from under another module inadvertently.  See <a href="perlvar.html#perlvar-_0024_005b">perlvar $[</a> and <a href="../arybase/index.html">(arybase)</a>.
 </p>
 </dd>
-<dt>The crypt() function is unimplemented due to excessive paranoia</dt>
-<dd><a name="perldiag-The-crypt_0028_0029-function-is-unimplemented-due-to-excessive-paranoia"></a>
+<dt>The crypt() function is unimplemented due to excessive paranoia.</dt>
+<dd><a name="perldiag-The-crypt_0028_0029-function-is-unimplemented-due-to-excessive-paranoia_002e"></a>
 <p>(F) Configure couldn&rsquo;t find the crypt() function on your machine,
 probably because your vendor didn&rsquo;t supply it, probably because they
 think the U.S. Government thinks it&rsquo;s a secret, or at least that they
 will continue to pretend that it is.  And if you quote me on that, I
 will deny it.
 </p>
+</dd>
+<dt>The lexical_subs feature is experimental</dt>
+<dd><a name="perldiag-The-lexical_005fsubs-feature-is-experimental"></a>
+<p>(S experimental::lexical_subs) This warning is emitted if you
+declare a sub with <code>my</code> or <code>state</code>.  Simply suppress the warning
+if you want to use the feature, but know that in doing so you
+are taking the risk of using an experimental feature which may
+change or be removed in a future Perl version:
+</p>
+<pre class="verbatim">    no warnings &quot;experimental::lexical_subs&quot;;
+    use feature &quot;lexical_subs&quot;;
+    my sub foo { ... }
+</pre>
+</dd>
+<dt>The regex_sets feature is experimental</dt>
+<dd><a name="perldiag-The-regex_005fsets-feature-is-experimental"></a>
+<p>(S experimental::regex_sets) This warning is emitted if you
+use the syntax <code>(?[&nbsp;&nbsp;&nbsp;])</code><!-- /@w --> in a regular expression.
+The details of this feature are subject to change.
+if you want to use it, but know that in doing so you
+are taking the risk of using an experimental feature which may
+change in a future Perl version, you can do this to silence the
+warning:
+</p>
+<pre class="verbatim">    no warnings &quot;experimental::regex_sets&quot;;
+</pre>
+</dd>
+<dt>The %s feature is experimental</dt>
+<dd><a name="perldiag-The-_0025s-feature-is-experimental"></a>
+<p>(S experimental) This warning is emitted if you enable an experimental
+feature via <code>use feature</code>.  Simply suppress the warning if you want
+to use the feature, but know that in doing so you are taking the risk
+of using an experimental feature which may change or be removed in a
+future Perl version:
+</p>
+<pre class="verbatim">    no warnings &quot;experimental::lexical_subs&quot;;
+    use feature &quot;lexical_subs&quot;;
+</pre>
 </dd>
 <dt>The %s function is unimplemented</dt>
 <dd><a name="perldiag-The-_0025s-function-is-unimplemented"></a>
@@ -5485,6 +5912,15 @@ need to rebuild Perl with a CRTL that does, or redefine
 <samp>PERL_ENV_TABLES</samp> (see <a href="perlvms.html#perlvms-NAME">perlvms NAME</a>) so that the environ array isn&rsquo;t the
 target of the change to
 %ENV which produced the warning.
+</p>
+</dd>
+<dt>This Perl has not been built with support for randomized hash key traversal but something called Perl_hv_rand_set().</dt>
+<dd><a name="perldiag-This-Perl-has-not-been-built-with-support-for-randomized-hash-key-traversal-but-something-called-Perl_005fhv_005frand_005fset_0028_0029_002e"></a>
+<p>(F) Something has attempted to use an internal API call which
+depends on Perl being compiled with the default support for randomized hash
+key traversal, but this Perl has been compiled without it. You should
+report this warning to the relevant upstream party, or recompile perl
+with default options.
 </p>
 </dd>
 <dt>thread failed to start: %s</dt>
@@ -5583,7 +6019,16 @@ Check the #! line, or manually feed your script into Perl yourself.
 <dt>Trailing \ in regex m/%s/</dt>
 <dd><a name="perldiag-Trailing-_005c-in-regex-m_002f_0025s_002f"></a>
 <p>(F) The regular expression ends with an unbackslashed backslash.
-Backslash it.   See <a href="../perlre/index.html">(perlre)</a>.
+Backslash it.   See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
+</p>
+</dd>
+<dt>Trailing white-space in a charnames alias definition is deprecated</dt>
+<dd><a name="perldiag-Trailing-white_002dspace-in-a-charnames-alias-definition-is-deprecated"></a>
+<p>(D) You defined a character name which ended in a space character.
+Remove the trailing space(s).  Usually these names are defined in the
+<code>:alias</code> import argument to <code>use charnames</code>, but they could be defined
+by a translator installed into <code>$^H{charnames}</code>.
+See <a href="../charnames/CUSTOM-ALIASES.html#CUSTOM-ALIASES">(charnames)CUSTOM ALIASES</a>.
 </p>
 </dd>
 <dt>Transliteration pattern not terminated</dt>
@@ -5624,7 +6069,7 @@ nonetheless has overloading to handle it, will still not be accepted.
 <p>(F) This function requires the argument in that position to be of a
 certain type.  Arrays must be @NAME or <code>@{EXPR}</code>.  Hashes must be
 %NAME or <code>%{EXPR}</code>.  No implicit dereferencing is allowed&ndash;use the
-{EXPR} forms as an explicit dereference.  See <a href="../perlref/index.html">(perlref)</a>.
+{EXPR} forms as an explicit dereference.  See <a href="perlref.html#perlref-NAME">perlref NAME</a>.
 </p>
 </dd>
 <dt>Type of argument to %s must be unblessed hashref or arrayref</dt>
@@ -5639,52 +6084,47 @@ was not a reference to an unblessed hash or array.
 use it to restrict permissions for yourself (EXPR &amp; 0700).
 </p>
 </dd>
-<dt>Unable to create sub named &quot;%s&quot;</dt>
-<dd><a name="perldiag-Unable-to-create-sub-named-_0022_0025s_0022"></a>
-<p>(F) You attempted to create or access a subroutine with an illegal name.
-</p>
-</dd>
 <dt>Unbalanced context: %d more PUSHes than POPs</dt>
 <dd><a name="perldiag-Unbalanced-context_003a-_0025d-more-PUSHes-than-POPs"></a>
-<p>(W internal) The exit code detected an internal inconsistency in how
+<p>(S internal) The exit code detected an internal inconsistency in how
 many execution contexts were entered and left.
 </p>
 </dd>
 <dt>Unbalanced saves: %d more saves than restores</dt>
 <dd><a name="perldiag-Unbalanced-saves_003a-_0025d-more-saves-than-restores"></a>
-<p>(W internal) The exit code detected an internal inconsistency in how
+<p>(S internal) The exit code detected an internal inconsistency in how
 many values were temporarily localized.
 </p>
 </dd>
 <dt>Unbalanced scopes: %d more ENTERs than LEAVEs</dt>
 <dd><a name="perldiag-Unbalanced-scopes_003a-_0025d-more-ENTERs-than-LEAVEs"></a>
-<p>(W internal) The exit code detected an internal inconsistency in how
+<p>(S internal) The exit code detected an internal inconsistency in how
 many blocks were entered and left.
 </p>
 </dd>
 <dt>Unbalanced string table refcount: (%d) for &quot;%s&quot;</dt>
 <dd><a name="perldiag-Unbalanced-string-table-refcount_003a-_0028_0025d_0029-for-_0022_0025s_0022"></a>
-<p>(W internal) On exit, Perl found some strings remaining in the shared
+<p>(S internal) On exit, Perl found some strings remaining in the shared
 string table used for copy on write and for hash keys.  The entries
 should have been freed, so this indicates a bug somewhere.
 </p>
 </dd>
 <dt>Unbalanced tmps: %d more allocs than frees</dt>
 <dd><a name="perldiag-Unbalanced-tmps_003a-_0025d-more-allocs-than-frees"></a>
-<p>(W internal) The exit code detected an internal inconsistency in how
+<p>(S internal) The exit code detected an internal inconsistency in how
 many mortal scalars were allocated and freed.
 </p>
 </dd>
 <dt>Undefined format &quot;%s&quot; called</dt>
 <dd><a name="perldiag-Undefined-format-_0022_0025s_0022-called"></a>
 <p>(F) The format indicated doesn&rsquo;t seem to exist.  Perhaps it&rsquo;s really in
-another package?  See <a href="../perlform/index.html">(perlform)</a>.
+another package?  See <a href="perlform.html#perlform-NAME">perlform NAME</a>.
 </p>
 </dd>
 <dt>Undefined sort subroutine &quot;%s&quot; called</dt>
 <dd><a name="perldiag-Undefined-sort-subroutine-_0022_0025s_0022-called"></a>
 <p>(F) The sort comparison routine specified doesn&rsquo;t seem to exist.
-Perhaps it&rsquo;s in a different package?  See <a href="../perlfunc/sort.html#sort">(perlfunc)sort</a>.
+Perhaps it&rsquo;s in a different package?  See &lsquo;perlfunc sort&rsquo;.
 </p>
 </dd>
 <dt>Undefined subroutine &amp;%s called</dt>
@@ -5702,13 +6142,13 @@ or if it was, it has since been undefined.
 <dt>Undefined subroutine in sort</dt>
 <dd><a name="perldiag-Undefined-subroutine-in-sort"></a>
 <p>(F) The sort comparison routine specified is declared but doesn&rsquo;t seem
-to have been defined yet.  See <a href="../perlfunc/sort.html#sort">(perlfunc)sort</a>.
+to have been defined yet.  See &lsquo;perlfunc sort&rsquo;.
 </p>
 </dd>
 <dt>Undefined top format &quot;%s&quot; called</dt>
 <dd><a name="perldiag-Undefined-top-format-_0022_0025s_0022-called"></a>
 <p>(F) The format indicated doesn&rsquo;t seem to exist.  Perhaps it&rsquo;s really in
-another package?  See <a href="../perlform/index.html">(perlform)</a>.
+another package?  See <a href="perlform.html#perlform-NAME">perlform NAME</a>.
 </p>
 </dd>
 <dt>Undefined value assigned to typeglob</dt>
@@ -5730,6 +6170,57 @@ Check the #! line, or manually feed your script into Perl yourself.
 representative, who probably put it there in the first place.
 </p>
 </dd>
+<dt>Unexpected &rsquo;(&rsquo; with no preceding operator in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Unexpected-_0027_0028_0027-with-no-preceding-operator-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+You had something like this:
+</p>
+<pre class="verbatim"> (?[ \p{Digit} ( \p{Lao} + \p{Thai} ) ])
+</pre>
+<p>There should be an operator before the <code>&quot;(&quot;</code>, as there&rsquo;s no indication
+as to how the digits are to be combined with the characters in the Lao
+and Thai scripts.
+</p>
+</dd>
+<dt>Unexpected &rsquo;)&rsquo; in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Unexpected-_0027_0029_0027-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+You had something like this:
+</p>
+<pre class="verbatim"> (?[ ( \p{Digit} + ) ])
+</pre>
+<p>The <code>&quot;)&quot;</code> is out-of-place.  Something apparently was supposed to be
+combined with the digits, or the <code>&quot;+&quot;</code> shouldn&rsquo;t be there, or something
+like that.  Perl can&rsquo;t figure out what was intended.
+</p>
+</dd>
+<dt>Unexpected binary operator &rsquo;%c&rsquo; with no preceding operand in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Unexpected-binary-operator-_0027_0025c_0027-with-no-preceding-operand-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+You had something like this:
+</p>
+<pre class="verbatim"> (?[ | \p{Digit} ])
+</pre>
+<p>where the <code>&quot;|&quot;</code> is a binary operator with an operand on the right, but
+no operand on the left.
+</p>
+</dd>
+<dt>Unexpected character in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Unexpected-character-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+You had something like this:
+</p>
+<pre class="verbatim"> (?[ z ])
+</pre>
+<p>Within <code>(?[ ])</code>, no literal characters are allowed unless they are
+within an inner pair of square brackets, like
+</p>
+<pre class="verbatim"> (?[ [ z ] ])
+</pre>
+<p>Another possibility is that you forgot a backslash.  Perl isn&rsquo;t smart
+enough to figure out what you really meant.
+</p>
+</dd>
 <dt>Unexpected constant lvalue entersub entry via type/targ %d:%d</dt>
 <dd><a name="perldiag-Unexpected-constant-lvalue-entersub-entry-via-type_002ftarg-_0025d_003a_0025d"></a>
 <p>(P) When compiling a subroutine call in lvalue context, Perl failed an
@@ -5738,7 +6229,7 @@ internal consistency check.  It encountered a malformed op tree.
 </dd>
 <dt>Unicode non-character U+%X is illegal for open interchange</dt>
 <dd><a name="perldiag-Unicode-non_002dcharacter-U_002b_0025X-is-illegal-for-open-interchange"></a>
-<p>(W utf8, nonchar) Certain codepoints, such as U+FFFE and U+FFFF, are
+<p>(S utf8, nonchar) Certain codepoints, such as U+FFFE and U+FFFF, are
 defined by the Unicode standard to be non-characters.  Those are
 legal codepoints, but are reserved for internal use; so, applications
 shouldn&rsquo;t attempt to exchange them.  If you know what you are doing
@@ -5747,7 +6238,7 @@ you can turn off this warning by <code>no warnings 'nonchar';</code>.
 </dd>
 <dt>Unicode surrogate U+%X is illegal in UTF-8</dt>
 <dd><a name="perldiag-Unicode-surrogate-U_002b_0025X-is-illegal-in-UTF_002d8"></a>
-<p>(W utf8, surrogate) You had a UTF-16 surrogate in a context where they are
+<p>(S utf8, surrogate) You had a UTF-16 surrogate in a context where they are
 not considered acceptable.  These code points, between U+D800 and
 U+DFFF (inclusive), are used by Unicode only for UTF-16.  However, Perl
 internally allows all unsigned integer code points (up to the size limit
@@ -5761,6 +6252,17 @@ off this warning by <code>no warnings 'surrogate';</code>.
 <dd><a name="perldiag-Unknown-BYTEORDER"></a>
 <p>(F) There are no byte-swapping functions for a machine with this byte
 order.
+</p>
+</dd>
+<dt>Unknown charname &rsquo;%s&rsquo;</dt>
+<dd><a name="perldiag-Unknown-charname-_0027_0025s_0027"></a>
+<p>(F) The name you used inside <code>\N{}</code> is unknown to Perl.  Check the
+spelling.  You can say <code>use charnames &quot;:loose&quot;</code> to not have to be
+so precise about spaces, hyphens, and capitalization on standard Unicode
+names.  (Any custom aliases that have been created must be specified
+exactly, regardless of whether <code>:loose</code> is used or not.)  This error may
+also happen if the <code>\N{}</code> is not in the scope of the corresponding
+<code>use&nbsp;charnames<!-- /@w --></code>.
 </p>
 </dd>
 <dt>Unknown error</dt>
@@ -5799,6 +6301,22 @@ subvert Perl&rsquo;s population of %ENV for nefarious purposes.
 <p>(W) You tried to use an unknown subpragma of the &quot;re&quot; pragma.
 </p>
 </dd>
+<dt>Unknown regex modifier &quot;%s&quot;</dt>
+<dd><a name="perldiag-Unknown-regex-modifier-_0022_0025s_0022"></a>
+<p>(F) Alphanumerics immediately following the closing delimiter
+of a regular expression pattern are interpreted by Perl as modifier
+flags for the regex.  One of the ones you specified is invalid.  One way
+this can happen is if you didn&rsquo;t put in white space between the end of
+the regex and a following alphanumeric operator:
+</p>
+<pre class="verbatim"> if ($a =~ /foo/and $bar == 3) { ... }
+</pre>
+<p>The <code>&quot;a&quot;</code> is a valid modifier flag, but the <code>&quot;n&quot;</code> is not, and raises
+this error.  Likely what was meant instead was:
+</p>
+<pre class="verbatim"> if ($a =~ /foo/ and $bar == 3) { ... }
+</pre>
+</dd>
 <dt>Unknown switch condition (?(%s in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-Unknown-switch-condition-_0028_003f_0028_0025s-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) The condition part of a (?(condition)if-clause|else-clause) construct
@@ -5814,8 +6332,8 @@ is not known.  The condition must be one of the following:
  (R&amp;NAME)           true if directly inside named capture
  (DEFINE)           always false; for defining named subpatterns
 </pre>
-<p>The &lt;&ndash; HERE shows in the regular expression about where the problem was
-discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+<p>The &lt;&ndash; HERE shows whereabouts in the regular expression the problem was
+discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>Unknown Unicode option letter &rsquo;%c&rsquo;</dt>
@@ -5834,7 +6352,7 @@ of the <code>-C</code> switch for the list of known options.
 <dd><a name="perldiag-Unknown-verb-pattern-_0027_0025s_0027-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) You either made a typo or have incorrectly put a <code>*</code> quantifier
 after an open brace in your pattern.  Check the pattern and review
-<a href="../perlre/index.html">(perlre)</a> for details on legal verb patterns.
+<a href="perlre.html#perlre-NAME">perlre NAME</a> for details on legal verb patterns.
 </p>
 </dd>
 <dt>Unknown warnings category &rsquo;%s&rsquo;</dt>
@@ -5847,20 +6365,46 @@ module (e.g. <code>use warnings 'File::Find'</code>), you must have loaded this
 module first.
 </p>
 </dd>
-<dt>unmatched [ in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
-<dd><a name="perldiag-unmatched-_005b-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<dt>Unmatched &rsquo;%c&rsquo; in POSIX class in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Unmatched-_0027_0025c_0027-in-POSIX-class-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>You had something like this:
+</p>
+<pre class="verbatim"> (?[ [:alnum] ])
+</pre>
+<p>There should be a second <code>&quot;:&quot;</code>, like this:
+</p>
+<pre class="verbatim"> (?[ [:alnum:] ])
+</pre>
+</dd>
+<dt>Unmatched [ in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Unmatched-_005b-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) The brackets around a character class must match.  If you wish to
 include a closing bracket in a character class, backslash it or put it
-first.  The &lt;&ndash; HERE shows in the regular expression about where the
-problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+first.  The &lt;&ndash; HERE shows whereabouts in the regular expression the
+problem was discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
-<dt>unmatched ( in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
-<dd><a name="perldiag-unmatched-_0028-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<dt>Unmatched &rsquo;[&rsquo; in POSIX class in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Unmatched-_0027_005b_0027-in-POSIX-class-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+You had something like this:
+</p>
+<pre class="verbatim"> (?[ [:digit: ])
+</pre>
+<p>That should be written:
+</p>
+<pre class="verbatim"> (?[ [:digit:] ])
+</pre>
+</dd>
+<dt>Unmatched ( in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Unmatched-_0028-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+</dd>
+<dt>Unmatched ) in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Unmatched-_0029-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) Unbackslashed parentheses must always be balanced in regular
 expressions.  If you&rsquo;re a vi user, the % key is valuable for finding
-the matching parenthesis.  The &lt;&ndash; HERE shows in the regular expression
-about where the problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+the matching parenthesis.  The &lt;&ndash; HERE shows whereabouts in the
+regular expression the problem was discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>Unmatched right %s bracket</dt>
@@ -5886,12 +6430,20 @@ in your Perl script (or eval) near the specified column.  Perhaps you tried
 to run a compressed script, a binary program, or a directory as a Perl program.
 </p>
 </dd>
-<dt>Unrecognized escape \%c in character class passed through in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dt>Unrecognized escape \%c in character class in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Unrecognized-escape-_005c_0025c-in-character-class-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+You used a backslash-character combination which is not recognized by
+Perl inside character classes.  This is a fatal error when the character
+class is used within <code>(?[ ])</code>.
+</p>
+</dd>
+<dt>Unrecognized escape \%c in character class passed through in regex;  marked by &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-Unrecognized-escape-_005c_0025c-in-character-class-passed-through-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(W regexp) You used a backslash-character combination which is not
 recognized by Perl inside character classes.  The character was
 understood literally, but this may change in a future version of Perl.
-The &lt;&ndash; HERE shows in the regular expression about where the
+The &lt;&ndash; HERE shows whereabouts in the regular expression the
 escape was discovered.
 </p>
 </dd>
@@ -5906,8 +6458,8 @@ change in a future version of Perl.
 <dd><a name="perldiag-Unrecognized-escape-_005c_0025s-passed-through-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(W regexp) You used a backslash-character combination which is not
 recognized by Perl.  The character(s) were understood literally, but
-this may change in a future version of Perl.  The &lt;&ndash; HERE shows in
-the regular expression about where the escape was discovered.
+this may change in a future version of Perl.  The &lt;&ndash; HERE shows
+whereabouts in the regular expression the escape was discovered.
 </p>
 </dd>
 <dt>Unrecognized signal name &quot;%s&quot;</dt>
@@ -5928,7 +6480,7 @@ bad switch on your behalf.)
 <dd><a name="perldiag-Unsuccessful-_0025s-on-filename-containing-newline"></a>
 <p>(W newline) A file operation was attempted on a filename, and that
 operation failed, PROBABLY because the filename contained a newline,
-PROBABLY because you forgot to chomp() it off.  See <a href="../perlfunc/chomp.html#chomp">(perlfunc)chomp</a>.
+PROBABLY because you forgot to chomp() it off.  See <a href="perlfunc.html#perlfunc-chomp">perlfunc chomp</a>.
 </p>
 </dd>
 <dt>Unsupported directory function &quot;%s&quot; called</dt>
@@ -5983,8 +6535,21 @@ character to get your parentheses to balance.  See <a href="../attributes/index.
 <dd><a name="perldiag-Unterminated-compressed-integer"></a>
 <p>(F) An argument to unpack(&quot;w&quot;,...) was incompatible with the BER
 compressed integer format and could not be converted to an integer.
-See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+See &lsquo;perlfunc pack&rsquo;.
 </p>
+</dd>
+<dt>Unterminated delimiter for here document</dt>
+<dd><a name="perldiag-Unterminated-delimiter-for-here-document"></a>
+<p>(F) This message occurs when a here document label has an initial
+quotation mark but the final quotation mark is missing.  Perhaps
+you wrote:
+</p>
+<pre class="verbatim">    &lt;&lt;&quot;foo
+</pre>
+<p>instead of:
+</p>
+<pre class="verbatim">    &lt;&lt;&quot;foo&quot;
+</pre>
 </dd>
 <dt>Unterminated \g{...} pattern in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
 <dd><a name="perldiag-Unterminated-_005cg_007b_002e_002e_002e_007d-pattern-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
@@ -6042,6 +6607,31 @@ See <a href="../Win32/index.html">(Win32)</a> for more information.
 arrays.  <code>$]</code> is the Perl version number in decimal.
 </p>
 </dd>
+<dt>Use \\x{...} for more than two hex characters in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Use-_005c_005cx_007b_002e_002e_002e_007d-for-more-than-two-hex-characters-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(F)
+In a regular expression, you said something like
+</p>
+<pre class="verbatim"> (?[ [ \xBEEF ] ])
+</pre>
+<p>Perl isn&rsquo;t sure if you meant this
+</p>
+<pre class="verbatim"> (?[ [ \x{BEEF} ] ])
+</pre>
+<p>or if you meant this
+</p>
+<pre class="verbatim"> (?[ [ \x{BE} E F ] ])
+</pre>
+<p>You need to add either braces or blanks to disambiguate.
+</p>
+</dd>
+<dt>Use of each() on hash after insertion without resetting hash iterator results in undefined behavior</dt>
+<dd><a name="perldiag-Use-of-each_0028_0029-on-hash-after-insertion-without-resetting-hash-iterator-results-in-undefined-behavior"></a>
+<p>(S internal) The behavior of <code>each()</code> after insertion is undefined, it may
+skip items, or visit items more than once. Consider using <code>keys()</code> instead
+of <code>each()</code>.
+</p>
+</dd>
 <dt>Useless assignment to a temporary</dt>
 <dd><a name="perldiag-Useless-assignment-to-a-temporary"></a>
 <p>(W misc) You assigned to an lvalue subroutine, but what
@@ -6049,7 +6639,7 @@ the subroutine returned was a temporary scalar about to
 be discarded, so the assignment had no effect.
 </p>
 </dd>
-<dt>Useless (?-%s) - don&rsquo;t use /%s modifier in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dt>Useless (?-%s) - don&rsquo;t use /%s modifier in regex; marked by &lt;&ndash; HERE in  m/%s/</dt>
 <dd><a name="perldiag-Useless-_0028_003f_002d_0025s_0029-_002d-don_0027t-use-_002f_0025s-modifier-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(W regexp) You have used an internal modifier such as (?-o) that has no
 meaning unless removed from the entire regexp:
@@ -6060,8 +6650,8 @@ meaning unless removed from the entire regexp:
 </p>
 <pre class="verbatim">    if ($string =~ /$pattern/) { ... }
 </pre>
-<p>The &lt;&ndash; HERE shows in the regular expression about
-where the problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+<p>The &lt;&ndash; HERE shows whereabouts in the regular expression the problem was
+discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>Useless localization of %s</dt>
@@ -6082,15 +6672,41 @@ meaning unless applied to the entire regexp:
 </p>
 <pre class="verbatim">    if ($string =~ /$pattern/o) { ... }
 </pre>
-<p>The &lt;&ndash; HERE shows in the regular expression about
-where the problem was discovered.  See <a href="../perlre/index.html">(perlre)</a>.
+<p>The &lt;&ndash; HERE shows whereabouts in the regular expression the problem was
+discovered.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>Useless use of /d modifier in transliteration operator</dt>
 <dd><a name="perldiag-Useless-use-of-_002fd-modifier-in-transliteration-operator"></a>
 <p>(W misc) You have used the /d modifier where the searchlist has the
-same length as the replacelist.  See <a href="../perlop/index.html">(perlop)</a> for more information
+same length as the replacelist.  See <a href="perlop.html#perlop-NAME">perlop NAME</a> for more information
 about the /d modifier.
+</p>
+</dd>
+<dt>Useless use of &rsquo;\&rsquo;; doesn&rsquo;t escape metacharacter &rsquo;%c&rsquo;</dt>
+<dd><a name="perldiag-Useless-use-of-_0027_005c_0027_003b-doesn_0027t-escape-metacharacter-_0027_0025c_0027"></a>
+<p>(D deprecated) You wrote a regular expression pattern something like
+one of these:
+</p>
+<pre class="verbatim"> m{ \x\{FF\} }x
+ m{foo\{1,3\}}
+ qr(foo\(bar\))
+ s[foo\[a-z\]bar][baz]
+</pre>
+<p>The interior braces, square brackets, and parentheses are treated as
+metacharacters even though they are backslashed; instead write:
+</p>
+<pre class="verbatim"> m{ \x{FF} }x
+ m{foo{1,3}}
+ qr(foo(bar))
+ s[foo[a-z]bar][baz]
+</pre>
+<p>The backslashes have no effect when a regular expression pattern is
+delimitted by <code>{}</code>, <code>[]</code>, or <code>()</code>, which ordinarily are
+metacharacters, and the delimiters are also used, paired, within the
+interior of the pattern.  It is planned that a future Perl release will
+change the meaning of constructs like these so that the backslashes
+will have an effect, so remove them from your code.
 </p>
 </dd>
 <dt>Useless use of \E</dt>
@@ -6129,7 +6745,7 @@ example, if you say
 while parentheses do not.  So when a parenthesized list is evaluated in
 a scalar context, the comma is treated like C&rsquo;s comma operator, which
 throws away the left argument, which is not what you want.  See
-<a href="../perlref/index.html">(perlref)</a> for more on this.
+<a href="perlref.html#perlref-NAME">perlref NAME</a> for more on this.
 </p>
 <p>This warning will not be issued for numerical constants equal to 0 or 1
 since they are often used in statements like
@@ -6154,6 +6770,13 @@ about.
 <p>This is not very useful, and perl currently optimizes this away.
 </p>
 </dd>
+<dt>Useless use of (?-p) in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Useless-use-of-_0028_003f_002dp_0029-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(W regexp)
+The <code>p</code> modifier cannot be turned off once set.  Trying to do so is
+futile.
+</p>
+</dd>
 <dt>Useless use of %s with no values</dt>
 <dd><a name="perldiag-Useless-use-of-_0025s-with-no-values"></a>
 <p>(W syntax) You used the push() or unshift() function with no arguments
@@ -6162,6 +6785,22 @@ usually have any effect on the array, so is completely useless.  It&rsquo;s
 possible in principle that push(@tied_array) could have some effect
 if the array is tied to a class which implements a PUSH method.  If so,
 you can write it as <code>push(@tied_array,())</code> to avoid this warning.
+</p>
+</dd>
+<dt>Useless (%s%c) - %suse /%c modifier in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Useless-_0028_0025s_0025c_0029-_002d-_0025suse-_002f_0025c-modifier-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(W regexp)
+The <code>/g</code> and <code>/o</code> regular expression modifiers are global and can&rsquo;t be
+turned off once set; hence things like <code>(?g)</code> or <code>(?-o:)</code> do nothing.
+</p>
+</dd>
+<dt>Useless (%sc) - %suse /gc modifier in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Useless-_0028_0025sc_0029-_002d-_0025suse-_002fgc-modifier-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(W regexp)
+The <code>/c</code> regular expression modifier is global, can&rsquo;t be turned off
+once set, and doesn&rsquo;t do anything without the <code>/g</code> modifier being
+specified as well; hence things like <code>(?c)</code> or <code>(?-c:)</code> do nothing,
+nor do thing like <code>(?gc)</code> nor <code>(?-gc:)</code> .
 </p>
 </dd>
 <dt>&quot;use&quot; not allowed in expression</dt>
@@ -6301,6 +6940,13 @@ it already went past any symlink you are presumably trying to look for.
 The operation returned <code>undef</code>.  Use a filename instead.
 </p>
 </dd>
+<dt>Use of my $_ is experimental</dt>
+<dd><a name="perldiag-Use-of-my-_0024_005f-is-experimental"></a>
+<p>(S experimental::lexical_topic) Lexical $_ is an experimental feature and
+its behavior may change or even be removed in any future release of perl.
+See the explanation under <a href="perlvar.html#perlvar-_0024_005f">perlvar $_</a>.
+</p>
+</dd>
 <dt>Use of %s on a handle without * is deprecated</dt>
 <dd><a name="perldiag-Use-of-_0025s-on-a-handle-without-_002a-is-deprecated"></a>
 <p>(D deprecated) You used <code>tie</code>, <code>tied</code> or <code>untie</code> on a scalar but that scalar
@@ -6323,18 +6969,6 @@ instead, explicitly using the <code>m</code> operator: the question mark delimit
 still invokes match-once behaviour.
 </p>
 </dd>
-<dt>Use of qw(...) as parentheses is deprecated</dt>
-<dd><a name="perldiag-Use-of-qw_0028_002e_002e_002e_0029-as-parentheses-is-deprecated"></a>
-<p>(D deprecated) You have something like <code>foreach $x qw(a b c) {...}</code>,
-using a <code>qw(...)</code> list literal where a parenthesised expression is
-expected.  Historically the parser fooled itself into thinking that
-<code>qw(...)</code> literals were always enclosed in parentheses, and as a result
-you could sometimes omit parentheses around them.  (You could never do
-the <code>foreach qw(a b c) {...}</code> that you might have expected, though.)
-The parser no longer lies to itself in this way.  Wrap the list literal
-in parentheses, like <code>foreach $x (qw(a b c)) {...}</code>.
-</p>
-</dd>
 <dt>Use of reference &quot;%s&quot; as array index</dt>
 <dd><a name="perldiag-Use-of-reference-_0022_0025s_0022-as-array-index"></a>
 <p>(W misc) You tried to use a reference as an array index; this probably
@@ -6347,14 +6981,11 @@ however, because you can overload the numification and stringification
 operators and then you presumably know what you are doing.
 </p>
 </dd>
-<dt>Use of reserved word &quot;%s&quot; is deprecated</dt>
-<dd><a name="perldiag-Use-of-reserved-word-_0022_0025s_0022-is-deprecated"></a>
-<p>(D deprecated) The indicated bareword is a reserved word.  Future
-versions of perl may use it as a keyword, so you&rsquo;re better off either
-explicitly quoting the word in a manner appropriate for its context of
-use, or using a different name altogether.  The warning can be
-suppressed for subroutine names by either adding a <code>&amp;</code> prefix, or using
-a package qualifier, e.g. <code>&amp;our()</code>, or <code>Foo::our()</code>.
+<dt>Use of state $_ is experimental</dt>
+<dd><a name="perldiag-Use-of-state-_0024_005f-is-experimental"></a>
+<p>(S experimental::lexical_topic) Lexical $_ is an experimental feature and
+its behavior may change or even be removed in any future release of perl.
+See the explanation under <a href="perlvar.html#perlvar-_0024_005f">perlvar $_</a>.
 </p>
 </dd>
 <dt>Use of tainted arguments in %s is deprecated</dt>
@@ -6398,11 +7029,11 @@ allow this syntax, but shouldn&rsquo;t have.  It is now deprecated,
 and will be removed in a future version.
 </p>
 </dd>
-<dt>Using just the first character returned by \N{} in character class</dt>
-<dd><a name="perldiag-Using-just-the-first-character-returned-by-_005cN_007b_007d-in-character-class"></a>
-<p>(W) A charnames handler may return a sequence of more than one character.
-Currently all but the first one are discarded when used in a regular
-expression pattern bracketed character class.
+<dt>Using just the first character returned by \N{} in character class in  regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dd><a name="perldiag-Using-just-the-first-character-returned-by-_005cN_007b_007d-in-character-class-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
+<p>(W regexp) A charnames handler may return a sequence of more than one
+character.  Currently all but the first one are discarded when used in
+a regular expression pattern bracketed character class.
 </p>
 </dd>
 <dt>Using !~ with %s doesn&rsquo;t make sense</dt>
@@ -6415,7 +7046,7 @@ modified string is usually not particularly useful.)
 </dd>
 <dt>UTF-16 surrogate U+%X</dt>
 <dd><a name="perldiag-UTF_002d16-surrogate-U_002b_0025X"></a>
-<p>(W utf8, surrogate) You had a UTF-16 surrogate in a context where they are
+<p>(S utf8, surrogate) You had a UTF-16 surrogate in a context where they are
 not considered acceptable.  These code points, between U+D800 and
 U+DFFF (inclusive), are used by Unicode only for UTF-16.  However, Perl
 internally allows all unsigned integer code points (up to the size limit
@@ -6476,17 +7107,17 @@ executed, so its $a is not available for capture.
 </dd>
 <dt>Variable &quot;%s&quot; is not imported%s</dt>
 <dd><a name="perldiag-Variable-_0022_0025s_0022-is-not-imported_0025s"></a>
-<p>(W misc) With &quot;use strict&quot; in effect, you referred to a global variable
+<p>(S misc) With &quot;use strict&quot; in effect, you referred to a global variable
 that you apparently thought was imported from another module, because
 something else of the same name (usually a subroutine) is exported by
 that module.  It usually means you put the wrong funny character on the
 front of your variable.
 </p>
 </dd>
-<dt>Variable length lookbehind not implemented in m/%s/</dt>
-<dd><a name="perldiag-Variable-length-lookbehind-not-implemented-in-m_002f_0025s_002f"></a>
+<dt>Variable length lookbehind not implemented in regex m/%s/</dt>
+<dd><a name="perldiag-Variable-length-lookbehind-not-implemented-in-regex-m_002f_0025s_002f"></a>
 <p>(F) Lookbehind is allowed only for subexpressions whose length is fixed and
-known at compile time.  See <a href="../perlre/index.html">(perlre)</a>.
+known at compile time.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
 </p>
 </dd>
 <dt>&quot;%s&quot; variable %s masks earlier declaration in same %s</dt>
@@ -6495,7 +7126,7 @@ known at compile time.  See <a href="../perlre/index.html">(perlre)</a>.
 current scope or statement, effectively eliminating all access to the
 previous instance.  This is almost always a typographical error.  Note
 that the earlier variable will still exist until the end of the scope
-or until all closure referents to it are destroyed.
+or until all closure references to it are destroyed.
 </p>
 </dd>
 <dt>Variable syntax</dt>
@@ -6525,17 +7156,17 @@ are automatically rebound to the current values of such variables.
 </dd>
 <dt>vector argument not supported with alpha versions</dt>
 <dd><a name="perldiag-vector-argument-not-supported-with-alpha-versions"></a>
-<p>(W internal) The %vd (s)printf format does not support version objects
+<p>(S printf) The %vd (s)printf format does not support version objects
 with alpha parts.
 </p>
 </dd>
-<dt>Verb pattern &rsquo;%s&rsquo; has a mandatory argument in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dt>Verb pattern &rsquo;%s&rsquo; has a mandatory argument in regex; marked by &lt;&ndash; HERE  in m/%s/</dt>
 <dd><a name="perldiag-Verb-pattern-_0027_0025s_0027-has-a-mandatory-argument-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) You used a verb pattern that requires an argument.  Supply an
 argument or check that you are using the right verb.
 </p>
 </dd>
-<dt>Verb pattern &rsquo;%s&rsquo; may not have an argument in regex; marked by &lt;&ndash; HERE in m/%s/</dt>
+<dt>Verb pattern &rsquo;%s&rsquo; may not have an argument in regex; marked by &lt;&ndash; HERE  in m/%s/</dt>
 <dd><a name="perldiag-Verb-pattern-_0027_0025s_0027-may-not-have-an-argument-in-regex_003b-marked-by-_003c_002d_002d-HERE-in-m_002f_0025s_002f"></a>
 <p>(F) You used a verb pattern that is not allowed an argument.  Remove the 
 argument or check that you are using the right verb.
@@ -6587,6 +7218,15 @@ function has a default argument of 1.0, and you write
 <p>So put in parentheses to say what you really mean.
 </p>
 </dd>
+<dt>when is experimental</dt>
+<dd><a name="perldiag-when-is-experimental"></a>
+<p>(S experimental::smartmatch) <code>when</code> depends on smartmatch, which is
+experimental.  Additionally, it has several special cases that may
+not be immediately obvious, and their behavior may change or
+even be removed in any future release of perl.
+See the explanation under <a href="perlsyn.html#perlsyn-Experimental-Details-on-given-and-when">perlsyn Experimental Details on given and when</a>.
+</p>
+</dd>
 <dt>Wide character in %s</dt>
 <dd><a name="perldiag-Wide-character-in-_0025s"></a>
 <p>(S utf8) Perl met a wide character (&gt;255) when it wasn&rsquo;t expecting
@@ -6595,7 +7235,7 @@ way to quiet this warning is simply to add the <code>:utf8</code> layer to the
 output, e.g. <code>binmode STDOUT, ':utf8'</code>.  Another way to turn off the
 warning is to add <code>no warnings 'utf8';</code> but that is often closer to
 cheating.  In general, you are supposed to explicitly mark the
-filehandle with an encoding, see <a href="../open/index.html">(open)</a> and <a href="../perlfunc/binmode.html#binmode">(perlfunc)binmode</a>.
+filehandle with an encoding, see <a href="../open/index.html">(open)</a> and &lsquo;perlfunc binmode&rsquo;.
 </p>
 </dd>
 <dt>Within []-length &rsquo;%c&rsquo; not allowed</dt>
@@ -6615,9 +7255,9 @@ before now.  Check your control flow.
 </dd>
 <dt>%s &quot;\x%X&quot; does not map to Unicode</dt>
 <dd><a name="perldiag-_0025s-_0022_005cx_0025X_0022-does-not-map-to-Unicode"></a>
-<p>(F) When reading in different encodings Perl tries to map everything
+<p>(F) When reading in different encodings, Perl tries to map everything
 into Unicode characters.  The bytes you read in are not legal in
-this encoding, for example
+this encoding.  For example
 </p>
 <pre class="verbatim">    utf8 &quot;\xE4&quot; does not map to Unicode
 </pre>
@@ -6627,13 +7267,13 @@ this encoding, for example
 <dt>&rsquo;X&rsquo; outside of string</dt>
 <dd><a name="perldiag-_0027X_0027-outside-of-string"></a>
 <p>(F) You had a (un)pack template that specified a relative position before
-the beginning of the string being (un)packed.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+the beginning of the string being (un)packed.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>&rsquo;x&rsquo; outside of string in unpack</dt>
 <dd><a name="perldiag-_0027x_0027-outside-of-string-in-unpack"></a>
 <p>(F) You had a pack template that specified a relative position after
-the end of the string being unpacked.  See <a href="../perlfunc/pack.html#pack">(perlfunc)pack</a>.
+the end of the string being unpacked.  See &lsquo;perlfunc pack&rsquo;.
 </p>
 </dd>
 <dt>YOU HAVEN&rsquo;T DISABLED SET-ID SCRIPTS IN THE KERNEL YET!</dt>
@@ -6666,17 +7306,17 @@ Something Very Wrong.
 <a name="perldiag-SEE-ALSO"></a>
 <div class="header">
 <p>
-Previous: <a href="#perldiag-DESCRIPTION" accesskey="p" rel="previous">perldiag DESCRIPTION</a>, Up: <a href="#perldiag" accesskey="u" rel="up">perldiag</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perldiag-DESCRIPTION" accesskey="p" rel="prev">perldiag DESCRIPTION</a>, Up: <a href="#perldiag" accesskey="u" rel="up">perldiag</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="SEE-ALSO-9"></a>
 <h3 class="section">16.3 SEE ALSO</h3>
 
-<p><a href="../warnings/index.html">(warnings)</a>, <a href="../perllexwarn/index.html">(perllexwarn)</a>, <a href="../diagnostics/index.html">(diagnostics)</a>.
+<p><a href="../warnings/index.html">(warnings)</a>, <a href="perllexwarn.html#perllexwarn-NAME">perllexwarn NAME</a>, <a href="../diagnostics/index.html">(diagnostics)</a>.
 </p>
 <hr>
 <div class="header">
 <p>
-Previous: <a href="#perldiag-DESCRIPTION" accesskey="p" rel="previous">perldiag DESCRIPTION</a>, Up: <a href="#perldiag" accesskey="u" rel="up">perldiag</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perldiag-DESCRIPTION" accesskey="p" rel="prev">perldiag DESCRIPTION</a>, Up: <a href="#perldiag" accesskey="u" rel="up">perldiag</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 
 

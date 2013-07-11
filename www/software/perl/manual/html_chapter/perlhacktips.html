@@ -14,7 +14,7 @@
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
 <link href="perlhacktut.html#perlhacktut" rel="next" title="perlhacktut">
-<link href="perlhack.html#perlhack-AUTHOR" rel="previous" title="perlhack AUTHOR">
+<link href="perlhack.html#perlhack-AUTHOR" rel="prev" title="perlhack AUTHOR">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -51,7 +51,7 @@ ul.no-bullet {list-style: none}
 <a name="perlhacktips"></a>
 <div class="header">
 <p>
-Next: <a href="perlhacktut.html#perlhacktut" accesskey="n" rel="next">perlhacktut</a>, Previous: <a href="perlhack.html#perlhack" accesskey="p" rel="previous">perlhack</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="perlhacktut.html#perlhacktut" accesskey="n" rel="next">perlhacktut</a>, Previous: <a href="perlhack.html#perlhack" accesskey="p" rel="prev">perlhack</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perlhacktips-1"></a>
 <h2 class="chapter">30 perlhacktips</h2>
@@ -92,7 +92,7 @@ Next: <a href="#perlhacktips-DESCRIPTION" accesskey="n" rel="next">perlhacktips 
 <a name="perlhacktips-DESCRIPTION"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-COMMON-PROBLEMS" accesskey="n" rel="next">perlhacktips COMMON PROBLEMS</a>, Previous: <a href="#perlhacktips-NAME" accesskey="p" rel="previous">perlhacktips NAME</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-COMMON-PROBLEMS" accesskey="n" rel="next">perlhacktips COMMON PROBLEMS</a>, Previous: <a href="#perlhacktips-NAME" accesskey="p" rel="prev">perlhacktips NAME</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DESCRIPTION-29"></a>
 <h3 class="section">30.2 DESCRIPTION</h3>
@@ -108,7 +108,7 @@ to do that first.
 <a name="perlhacktips-COMMON-PROBLEMS"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-DEBUGGING" accesskey="n" rel="next">perlhacktips DEBUGGING</a>, Previous: <a href="#perlhacktips-DESCRIPTION" accesskey="p" rel="previous">perlhacktips DESCRIPTION</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-DEBUGGING" accesskey="n" rel="next">perlhacktips DEBUGGING</a>, Previous: <a href="#perlhacktips-DESCRIPTION" accesskey="p" rel="prev">perlhacktips DESCRIPTION</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="COMMON-PROBLEMS"></a>
 <h3 class="section">30.3 COMMON PROBLEMS</h3>
@@ -220,7 +220,7 @@ it to the public API. See the discussion about <samp>embed.pl</samp> in
 <a name="perlhacktips-Portability-problems"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-Problematic-System-Interfaces" accesskey="n" rel="next">perlhacktips Problematic System Interfaces</a>, Previous: <a href="#perlhacktips-Perl-environment-problems" accesskey="p" rel="previous">perlhacktips Perl environment problems</a>, Up: <a href="#perlhacktips-COMMON-PROBLEMS" accesskey="u" rel="up">perlhacktips COMMON PROBLEMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-Problematic-System-Interfaces" accesskey="n" rel="next">perlhacktips Problematic System Interfaces</a>, Previous: <a href="#perlhacktips-Perl-environment-problems" accesskey="p" rel="prev">perlhacktips Perl environment problems</a>, Up: <a href="#perlhacktips-COMMON-PROBLEMS" accesskey="u" rel="up">perlhacktips COMMON PROBLEMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Portability-problems"></a>
 <h4 class="subsection">30.3.2 Portability problems</h4>
@@ -348,11 +348,9 @@ This is transparent for the most part, but because the character sets
 differ, you shouldn&rsquo;t use numeric (decimal, octal, nor hex) constants
 to refer to characters. You can safely say &rsquo;A&rsquo;, but not 0x41. You can
 safely say &rsquo;\n&rsquo;, but not \012. If a character doesn&rsquo;t have a trivial
-input form, you can create a #define for it in both <code>utfebcdic.h</code> and
-<code>utf8.h</code>, so that it resolves to different values depending on the
-character set being used. (There are three different EBCDIC character
-sets defined in <code>utfebcdic.h</code>, so it might be best to insert the
-#define three times in that file.)
+input form, you should add it to the list in
+<samp>regen/unicode_constants.pl</samp>, and have Perl create #defines for you,
+based on the current platform.
 </p>
 <p>Also, the range &rsquo;A&rsquo; - &rsquo;Z&rsquo; in ASCII is an unbroken sequence of 26 upper
 case alphabetic characters. That is not true in EBCDIC. Nor for &rsquo;a&rsquo; to
@@ -609,7 +607,7 @@ separate.
 <a name="perlhacktips-Problematic-System-Interfaces"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-Security-problems" accesskey="n" rel="next">perlhacktips Security problems</a>, Previous: <a href="#perlhacktips-Portability-problems" accesskey="p" rel="previous">perlhacktips Portability problems</a>, Up: <a href="#perlhacktips-COMMON-PROBLEMS" accesskey="u" rel="up">perlhacktips COMMON PROBLEMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-Security-problems" accesskey="n" rel="next">perlhacktips Security problems</a>, Previous: <a href="#perlhacktips-Portability-problems" accesskey="p" rel="prev">perlhacktips Portability problems</a>, Up: <a href="#perlhacktips-COMMON-PROBLEMS" accesskey="u" rel="up">perlhacktips COMMON PROBLEMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Problematic-System-Interfaces"></a>
 <h4 class="subsection">30.3.3 Problematic System Interfaces</h4>
@@ -627,7 +625,7 @@ at this low level, but instead use the various malloc wrappers.)
 <a name="perlhacktips-Security-problems"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlhacktips-Problematic-System-Interfaces" accesskey="p" rel="previous">perlhacktips Problematic System Interfaces</a>, Up: <a href="#perlhacktips-COMMON-PROBLEMS" accesskey="u" rel="up">perlhacktips COMMON PROBLEMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlhacktips-Problematic-System-Interfaces" accesskey="p" rel="prev">perlhacktips Problematic System Interfaces</a>, Up: <a href="#perlhacktips-COMMON-PROBLEMS" accesskey="u" rel="up">perlhacktips COMMON PROBLEMS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Security-problems"></a>
 <h4 class="subsection">30.3.4 Security problems</h4>
@@ -658,7 +656,7 @@ fancier than a plain byte string, use SVs and Perl_sv_catpvf().
 <a name="perlhacktips-DEBUGGING"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-SOURCE-CODE-STATIC-ANALYSIS" accesskey="n" rel="next">perlhacktips SOURCE CODE STATIC ANALYSIS</a>, Previous: <a href="#perlhacktips-COMMON-PROBLEMS" accesskey="p" rel="previous">perlhacktips COMMON PROBLEMS</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-SOURCE-CODE-STATIC-ANALYSIS" accesskey="n" rel="next">perlhacktips SOURCE CODE STATIC ANALYSIS</a>, Previous: <a href="#perlhacktips-COMMON-PROBLEMS" accesskey="p" rel="prev">perlhacktips COMMON PROBLEMS</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DEBUGGING-1"></a>
 <h3 class="section">30.4 DEBUGGING</h3>
@@ -723,7 +721,7 @@ XS modules.
 <a name="perlhacktips-Using-a-source_002dlevel-debugger"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-gdb-macro-support" accesskey="n" rel="next">perlhacktips gdb macro support</a>, Previous: <a href="#perlhacktips-Poking-at-Perl" accesskey="p" rel="previous">perlhacktips Poking at Perl</a>, Up: <a href="#perlhacktips-DEBUGGING" accesskey="u" rel="up">perlhacktips DEBUGGING</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-gdb-macro-support" accesskey="n" rel="next">perlhacktips gdb macro support</a>, Previous: <a href="#perlhacktips-Poking-at-Perl" accesskey="p" rel="prev">perlhacktips Poking at Perl</a>, Up: <a href="#perlhacktips-DEBUGGING" accesskey="u" rel="up">perlhacktips DEBUGGING</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Using-a-source_002dlevel-debugger"></a>
 <h4 class="subsection">30.4.2 Using a source-level debugger</h4>
@@ -814,7 +812,7 @@ recursively apply those macros for you.
 <a name="perlhacktips-gdb-macro-support"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-Dumping-Perl-Data-Structures" accesskey="n" rel="next">perlhacktips Dumping Perl Data Structures</a>, Previous: <a href="#perlhacktips-Using-a-source_002dlevel-debugger" accesskey="p" rel="previous">perlhacktips Using a source-level debugger</a>, Up: <a href="#perlhacktips-DEBUGGING" accesskey="u" rel="up">perlhacktips DEBUGGING</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-Dumping-Perl-Data-Structures" accesskey="n" rel="next">perlhacktips Dumping Perl Data Structures</a>, Previous: <a href="#perlhacktips-Using-a-source_002dlevel-debugger" accesskey="p" rel="prev">perlhacktips Using a source-level debugger</a>, Up: <a href="#perlhacktips-DEBUGGING" accesskey="u" rel="up">perlhacktips DEBUGGING</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="gdb-macro-support"></a>
 <h4 class="subsection">30.4.3 gdb macro support</h4>
@@ -829,7 +827,7 @@ different switch (if they support debugging macros at all).
 <a name="perlhacktips-Dumping-Perl-Data-Structures"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlhacktips-gdb-macro-support" accesskey="p" rel="previous">perlhacktips gdb macro support</a>, Up: <a href="#perlhacktips-DEBUGGING" accesskey="u" rel="up">perlhacktips DEBUGGING</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlhacktips-gdb-macro-support" accesskey="p" rel="prev">perlhacktips gdb macro support</a>, Up: <a href="#perlhacktips-DEBUGGING" accesskey="u" rel="up">perlhacktips DEBUGGING</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Dumping-Perl-Data-Structures"></a>
 <h4 class="subsection">30.4.4 Dumping Perl Data Structures</h4>
@@ -928,7 +926,7 @@ similar output to <a href="../B-Debug/index.html">(B-Debug)B::Debug</a>.
 <a name="perlhacktips-SOURCE-CODE-STATIC-ANALYSIS"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-MEMORY-DEBUGGERS" accesskey="n" rel="next">perlhacktips MEMORY DEBUGGERS</a>, Previous: <a href="#perlhacktips-DEBUGGING" accesskey="p" rel="previous">perlhacktips DEBUGGING</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-MEMORY-DEBUGGERS" accesskey="n" rel="next">perlhacktips MEMORY DEBUGGERS</a>, Previous: <a href="#perlhacktips-DEBUGGING" accesskey="p" rel="prev">perlhacktips DEBUGGING</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="SOURCE-CODE-STATIC-ANALYSIS"></a>
 <h3 class="section">30.5 SOURCE CODE STATIC ANALYSIS</h3>
@@ -980,7 +978,7 @@ diddle with the flags (see above).
 <a name="perlhacktips-Coverity"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-cpd-_0028cut_002dand_002dpaste-detector_0029" accesskey="n" rel="next">perlhacktips cpd (cut-and-paste detector)</a>, Previous: <a href="#perlhacktips-lint_002c-splint" accesskey="p" rel="previous">perlhacktips lint, splint</a>, Up: <a href="#perlhacktips-SOURCE-CODE-STATIC-ANALYSIS" accesskey="u" rel="up">perlhacktips SOURCE CODE STATIC ANALYSIS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-cpd-_0028cut_002dand_002dpaste-detector_0029" accesskey="n" rel="next">perlhacktips cpd (cut-and-paste detector)</a>, Previous: <a href="#perlhacktips-lint_002c-splint" accesskey="p" rel="prev">perlhacktips lint, splint</a>, Up: <a href="#perlhacktips-SOURCE-CODE-STATIC-ANALYSIS" accesskey="u" rel="up">perlhacktips SOURCE CODE STATIC ANALYSIS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Coverity"></a>
 <h4 class="subsection">30.5.2 Coverity</h4>
@@ -994,7 +992,7 @@ defect databases.
 <a name="perlhacktips-cpd-_0028cut_002dand_002dpaste-detector_0029"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-gcc-warnings" accesskey="n" rel="next">perlhacktips gcc warnings</a>, Previous: <a href="#perlhacktips-Coverity" accesskey="p" rel="previous">perlhacktips Coverity</a>, Up: <a href="#perlhacktips-SOURCE-CODE-STATIC-ANALYSIS" accesskey="u" rel="up">perlhacktips SOURCE CODE STATIC ANALYSIS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-gcc-warnings" accesskey="n" rel="next">perlhacktips gcc warnings</a>, Previous: <a href="#perlhacktips-Coverity" accesskey="p" rel="prev">perlhacktips Coverity</a>, Up: <a href="#perlhacktips-SOURCE-CODE-STATIC-ANALYSIS" accesskey="u" rel="up">perlhacktips SOURCE CODE STATIC ANALYSIS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="cpd-_0028cut_002dand_002dpaste-detector_0029"></a>
 <h4 class="subsection">30.5.3 cpd (cut-and-paste detector)</h4>
@@ -1012,7 +1010,8 @@ parse also C and C++.
 <p>Download the pmd-bin-X.Y.zip () from the SourceForge site, extract the
 pmd-X.Y.jar from it, and then run that on source code thusly:
 </p>
-<pre class="verbatim">  java -cp pmd-X.Y.jar net.sourceforge.pmd.cpd.CPD --minimum-tokens 100 --files /some/where/src --language c &gt; cpd.txt
+<pre class="verbatim">  java -cp pmd-X.Y.jar net.sourceforge.pmd.cpd.CPD \
+   --minimum-tokens 100 --files /some/where/src --language c &gt; cpd.txt
 </pre>
 <p>You may run into memory limits, in which case you should use the -Xmx
 option:
@@ -1023,7 +1022,7 @@ option:
 <a name="perlhacktips-gcc-warnings"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-Warnings-of-other-C-compilers" accesskey="n" rel="next">perlhacktips Warnings of other C compilers</a>, Previous: <a href="#perlhacktips-cpd-_0028cut_002dand_002dpaste-detector_0029" accesskey="p" rel="previous">perlhacktips cpd (cut-and-paste detector)</a>, Up: <a href="#perlhacktips-SOURCE-CODE-STATIC-ANALYSIS" accesskey="u" rel="up">perlhacktips SOURCE CODE STATIC ANALYSIS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-Warnings-of-other-C-compilers" accesskey="n" rel="next">perlhacktips Warnings of other C compilers</a>, Previous: <a href="#perlhacktips-cpd-_0028cut_002dand_002dpaste-detector_0029" accesskey="p" rel="prev">perlhacktips cpd (cut-and-paste detector)</a>, Up: <a href="#perlhacktips-SOURCE-CODE-STATIC-ANALYSIS" accesskey="u" rel="up">perlhacktips SOURCE CODE STATIC ANALYSIS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="gcc-warnings"></a>
 <h4 class="subsection">30.5.4 gcc warnings</h4>
@@ -1080,7 +1079,7 @@ example.
 <a name="perlhacktips-Warnings-of-other-C-compilers"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlhacktips-gcc-warnings" accesskey="p" rel="previous">perlhacktips gcc warnings</a>, Up: <a href="#perlhacktips-SOURCE-CODE-STATIC-ANALYSIS" accesskey="u" rel="up">perlhacktips SOURCE CODE STATIC ANALYSIS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlhacktips-gcc-warnings" accesskey="p" rel="prev">perlhacktips gcc warnings</a>, Up: <a href="#perlhacktips-SOURCE-CODE-STATIC-ANALYSIS" accesskey="u" rel="up">perlhacktips SOURCE CODE STATIC ANALYSIS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Warnings-of-other-C-compilers"></a>
 <h4 class="subsection">30.5.5 Warnings of other C compilers</h4>
@@ -1095,19 +1094,21 @@ mode on (though implicitly), or the DEC (these days, HP...) has its
 <a name="perlhacktips-MEMORY-DEBUGGERS"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-PROFILING" accesskey="n" rel="next">perlhacktips PROFILING</a>, Previous: <a href="#perlhacktips-SOURCE-CODE-STATIC-ANALYSIS" accesskey="p" rel="previous">perlhacktips SOURCE CODE STATIC ANALYSIS</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-PROFILING" accesskey="n" rel="next">perlhacktips PROFILING</a>, Previous: <a href="#perlhacktips-SOURCE-CODE-STATIC-ANALYSIS" accesskey="p" rel="prev">perlhacktips SOURCE CODE STATIC ANALYSIS</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="MEMORY-DEBUGGERS"></a>
 <h3 class="section">30.6 MEMORY DEBUGGERS</h3>
 
-<p><strong>NOTE 1</strong>: Running under memory debuggers such as Purify, valgrind, or
-Third Degree greatly slows down the execution: seconds become minutes,
-minutes become hours. For example as of Perl 5.8.1, the
+<p><strong>NOTE 1</strong>: Running under older memory debuggers such as Purify,
+valgrind or Third Degree greatly slows down the execution: seconds
+become minutes, minutes become hours. For example as of Perl 5.8.1, the
 ext/Encode/t/Unicode.t takes extraordinarily long to complete under
 e.g. Purify, Third Degree, and valgrind. Under valgrind it takes more
 than six hours, even on a snappy computer. The said test must be doing
 something that is quite unfriendly for memory debuggers. If you don&rsquo;t
 feel like waiting, that you can simply kill away the perl process.
+Roughly valgrind slows down execution by factor 10, AddressSanitizer by
+factor 2.
 </p>
 <p><strong>NOTE 2</strong>: To minimize the number of memory leak false alarms (see
 <a href="#perlhacktips-PERL_005fDESTRUCT_005fLEVEL">PERL_DESTRUCT_LEVEL</a> for more information), you have to set the
@@ -1139,6 +1140,8 @@ unless Perl is built with the Configure option
 <tr><td align="left" valign="top">&bull; <a href="#perlhacktips-Rational-Software_0027s-Purify" accesskey="1">perlhacktips Rational Software's Purify</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlhacktips-valgrind" accesskey="2">perlhacktips valgrind</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlhacktips-AddressSanitizer" accesskey="3">perlhacktips AddressSanitizer</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 </table>
 
@@ -1249,7 +1252,7 @@ option:
 <a name="perlhacktips-Purify-on-NT"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlhacktips-Purify-on-Unix" accesskey="p" rel="previous">perlhacktips Purify on Unix</a>, Up: <a href="#perlhacktips-Rational-Software_0027s-Purify" accesskey="u" rel="up">perlhacktips Rational Software's Purify</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlhacktips-Purify-on-Unix" accesskey="p" rel="prev">perlhacktips Purify on Unix</a>, Up: <a href="#perlhacktips-Rational-Software_0027s-Purify" accesskey="u" rel="up">perlhacktips Rational Software's Purify</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Purify-on-NT"></a>
 <h4 class="subsubsection">30.6.1.2 Purify on NT</h4>
@@ -1305,17 +1308,17 @@ finally report any memory problems.
 <a name="perlhacktips-valgrind"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlhacktips-Rational-Software_0027s-Purify" accesskey="p" rel="previous">perlhacktips Rational Software's Purify</a>, Up: <a href="#perlhacktips-MEMORY-DEBUGGERS" accesskey="u" rel="up">perlhacktips MEMORY DEBUGGERS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-AddressSanitizer" accesskey="n" rel="next">perlhacktips AddressSanitizer</a>, Previous: <a href="#perlhacktips-Rational-Software_0027s-Purify" accesskey="p" rel="prev">perlhacktips Rational Software's Purify</a>, Up: <a href="#perlhacktips-MEMORY-DEBUGGERS" accesskey="u" rel="up">perlhacktips MEMORY DEBUGGERS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="valgrind"></a>
 <h4 class="subsection">30.6.2 valgrind</h4>
 
-<p>The excellent valgrind tool can be used to find out both memory leaks
-and illegal memory accesses. As of version 3.3.0, Valgrind only
-supports Linux on x86, x86-64 and PowerPC and Darwin (OS X) on x86 and
-x86-64). The special &quot;test.valgrind&quot; target can be used to run the
-tests under valgrind. Found errors and memory leaks are logged in
-files named <samp>testfile.valgrind</samp>.
+<p>The valgrind tool can be used to find out both memory leaks and illegal
+heap memory accesses. As of version 3.3.0, Valgrind only supports Linux
+on x86, x86-64 and PowerPC and Darwin (OS X) on x86 and x86-64). The
+special &quot;test.valgrind&quot; target can be used to run the tests under
+valgrind. Found errors and memory leaks are logged in files named
+<samp>testfile.valgrind</samp>.
 </p>
 <p>Valgrind also provides a cachegrind tool, invoked on perl as:
 </p>
@@ -1331,10 +1334,61 @@ of them. Some additional suppressions are defined in <samp>t/perl.supp</samp>.
 <pre class="verbatim">    http://valgrind.org/
 </pre>
 <hr>
+<a name="perlhacktips-AddressSanitizer"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlhacktips-valgrind" accesskey="p" rel="prev">perlhacktips valgrind</a>, Up: <a href="#perlhacktips-MEMORY-DEBUGGERS" accesskey="u" rel="up">perlhacktips MEMORY DEBUGGERS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="AddressSanitizer"></a>
+<h4 class="subsection">30.6.3 AddressSanitizer</h4>
+
+<p>AddressSanitizer is a clang extension, included in clang since v3.1. It
+checks illegal heap pointers, global pointers, stack pointers and use
+after free errors, and is fast enough that you can easily compile your
+debugging or optimized perl with it. It does not check memory leaks
+though. AddressSanitizer is available for linux, Mac OS X and soon on
+Windows.
+</p>
+<p>To build perl with AddressSanitizer, your Configure invocation should
+look like:
+</p>
+<pre class="verbatim">    sh Configure -des -Dcc=clang \
+       -Accflags=-faddress-sanitizer -Aldflags=-faddress-sanitizer \
+       -Alddlflags=-shared\ -faddress-sanitizer
+</pre>
+<p>where these arguments mean:
+</p>
+<ul>
+<li> -Dcc=clang
+
+<p>This should be replaced by the full path to your clang executable if it
+is not in your path.
+</p>
+</li><li> -Accflags=-faddress-sanitizer
+
+<p>Compile perl and extensions sources with AddressSanitizer.
+</p>
+</li><li> -Aldflags=-faddress-sanitizer
+
+<p>Link the perl executable with AddressSanitizer.
+</p>
+</li><li> -Alddlflags=-shared\ -faddress-sanitizer
+
+<p>Link dynamic extensions with AddressSanitizer. You must manually
+specify <code>-shared</code> because using <code>-Alddlflags=-shared</code> will prevent
+Configure from setting a default value for <code>lddlflags</code>, which usually
+contains <code>-shared</code> (at least on linux).
+</p>
+</li></ul>
+
+<p>See also
+<a href="http://code.google.com/p/address-sanitizer/wiki/AddressSanitizer">http://code.google.com/p/address-sanitizer/wiki/AddressSanitizer</a>.
+</p>
+<hr>
 <a name="perlhacktips-PROFILING"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="n" rel="next">perlhacktips MISCELLANEOUS TRICKS</a>, Previous: <a href="#perlhacktips-MEMORY-DEBUGGERS" accesskey="p" rel="previous">perlhacktips MEMORY DEBUGGERS</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="n" rel="next">perlhacktips MISCELLANEOUS TRICKS</a>, Previous: <a href="#perlhacktips-MEMORY-DEBUGGERS" accesskey="p" rel="prev">perlhacktips MEMORY DEBUGGERS</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="PROFILING"></a>
 <h3 class="section">30.7 PROFILING</h3>
@@ -1438,7 +1492,7 @@ formats, see your own local documentation of gprof.
 <a name="perlhacktips-GCC-gcov-Profiling"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlhacktips-Gprof-Profiling" accesskey="p" rel="previous">perlhacktips Gprof Profiling</a>, Up: <a href="#perlhacktips-PROFILING" accesskey="u" rel="up">perlhacktips PROFILING</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlhacktips-Gprof-Profiling" accesskey="p" rel="prev">perlhacktips Gprof Profiling</a>, Up: <a href="#perlhacktips-PROFILING" accesskey="u" rel="up">perlhacktips PROFILING</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="GCC-gcov-Profiling"></a>
 <h4 class="subsection">30.7.2 GCC gcov Profiling</h4>
@@ -1491,7 +1545,7 @@ latest GNU CC manual, as of GCC 3.0 see
 <a name="perlhacktips-MISCELLANEOUS-TRICKS"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-AUTHOR" accesskey="n" rel="next">perlhacktips AUTHOR</a>, Previous: <a href="#perlhacktips-PROFILING" accesskey="p" rel="previous">perlhacktips PROFILING</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-AUTHOR" accesskey="n" rel="next">perlhacktips AUTHOR</a>, Previous: <a href="#perlhacktips-PROFILING" accesskey="p" rel="prev">perlhacktips PROFILING</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="MISCELLANEOUS-TRICKS"></a>
 <h3 class="section">30.8 MISCELLANEOUS TRICKS</h3>
@@ -1574,7 +1628,7 @@ can bypass the PerlIO layer if you use the SV logging provided by
 <a name="perlhacktips-PERL_005fMEM_005fLOG"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-DDD-over-gdb" accesskey="n" rel="next">perlhacktips DDD over gdb</a>, Previous: <a href="#perlhacktips-PERL_005fDESTRUCT_005fLEVEL" accesskey="p" rel="previous">perlhacktips PERL_DESTRUCT_LEVEL</a>, Up: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="u" rel="up">perlhacktips MISCELLANEOUS TRICKS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-DDD-over-gdb" accesskey="n" rel="next">perlhacktips DDD over gdb</a>, Previous: <a href="#perlhacktips-PERL_005fDESTRUCT_005fLEVEL" accesskey="p" rel="prev">perlhacktips PERL_DESTRUCT_LEVEL</a>, Up: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="u" rel="up">perlhacktips MISCELLANEOUS TRICKS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="PERL_005fMEM_005fLOG"></a>
 <h4 class="subsection">30.8.2 PERL_MEM_LOG</h4>
@@ -1607,7 +1661,7 @@ allocation is also logged.
 <a name="perlhacktips-DDD-over-gdb"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-Poison" accesskey="n" rel="next">perlhacktips Poison</a>, Previous: <a href="#perlhacktips-PERL_005fMEM_005fLOG" accesskey="p" rel="previous">perlhacktips PERL_MEM_LOG</a>, Up: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="u" rel="up">perlhacktips MISCELLANEOUS TRICKS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-Poison" accesskey="n" rel="next">perlhacktips Poison</a>, Previous: <a href="#perlhacktips-PERL_005fMEM_005fLOG" accesskey="p" rel="prev">perlhacktips PERL_MEM_LOG</a>, Up: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="u" rel="up">perlhacktips MISCELLANEOUS TRICKS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="DDD-over-gdb"></a>
 <h4 class="subsection">30.8.3 DDD over gdb</h4>
@@ -1648,7 +1702,7 @@ New Display -&gt; Edit Menu
 <a name="perlhacktips-Poison"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-Read_002donly-optrees" accesskey="n" rel="next">perlhacktips Read-only optrees</a>, Previous: <a href="#perlhacktips-DDD-over-gdb" accesskey="p" rel="previous">perlhacktips DDD over gdb</a>, Up: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="u" rel="up">perlhacktips MISCELLANEOUS TRICKS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-Read_002donly-optrees" accesskey="n" rel="next">perlhacktips Read-only optrees</a>, Previous: <a href="#perlhacktips-DDD-over-gdb" accesskey="p" rel="prev">perlhacktips DDD over gdb</a>, Up: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="u" rel="up">perlhacktips MISCELLANEOUS TRICKS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Poison"></a>
 <h4 class="subsection">30.8.4 Poison</h4>
@@ -1661,53 +1715,30 @@ or 0xEFEFEFEF, you may be seeing the effect of the Poison() macros, see
 <a name="perlhacktips-Read_002donly-optrees"></a>
 <div class="header">
 <p>
-Next: <a href="#perlhacktips-The-_002ei-Targets" accesskey="n" rel="next">perlhacktips The .i Targets</a>, Previous: <a href="#perlhacktips-Poison" accesskey="p" rel="previous">perlhacktips Poison</a>, Up: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="u" rel="up">perlhacktips MISCELLANEOUS TRICKS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlhacktips-The-_002ei-Targets" accesskey="n" rel="next">perlhacktips The .i Targets</a>, Previous: <a href="#perlhacktips-Poison" accesskey="p" rel="prev">perlhacktips Poison</a>, Up: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="u" rel="up">perlhacktips MISCELLANEOUS TRICKS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Read_002donly-optrees"></a>
 <h4 class="subsection">30.8.5 Read-only optrees</h4>
 
 <p>Under ithreads the optree is read only. If you want to enforce this, to
 check for write accesses from buggy code, compile with
-<code>-DPL_OP_SLAB_ALLOC</code> to enable the OP slab allocator and
 <code>-DPERL_DEBUG_READONLY_OPS</code> to enable code that allocates op memory
-via <code>mmap</code>, and sets it read-only at run time. Any write access to an
-op results in a <code>SIGBUS</code> and abort.
+via <code>mmap</code>, and sets it read-only when it is attached to a subroutine. Any
+write access to an op results in a <code>SIGBUS</code> and abort.
 </p>
 <p>This code is intended for development only, and may not be portable
 even to all Unix variants. Also, it is an 80% solution, in that it
-isn&rsquo;t able to make all ops read only. Specifically it
+isn&rsquo;t able to make all ops read only. Specifically it does not apply to op
+slabs belonging to <code>BEGIN</code> blocks.
 </p>
-<ul>
-<li> 1
-
-<p>Only sets read-only on all slabs of ops at <code>CHECK</code> time, hence ops
-allocated later via <code>require</code> or <code>eval</code> will be re-write
-</p>
-</li><li> 2
-
-<p>Turns an entire slab of ops read-write if the refcount of any op in the
-slab needs to be decreased.
-</p>
-</li><li> 3
-
-<p>Turns an entire slab of ops read-write if any op from the slab is
-freed.
-</p>
-</li></ul>
-
-<p>It&rsquo;s not possible to turn the slabs to read-only after an action
-requiring read-write access, as either can happen during op tree
-building time, so there may still be legitimate write access.
-</p>
-<p>However, as an 80% solution it is still effective, as currently it
-catches a write access during the generation of <samp>Config.pm</samp>, which
-means that we can&rsquo;t yet build <samp>perl</samp> with this enabled.
+<p>However, as an 80% solution it is still effective, as it has caught bugs in
+the past.
 </p>
 <hr>
 <a name="perlhacktips-The-_002ei-Targets"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlhacktips-Read_002donly-optrees" accesskey="p" rel="previous">perlhacktips Read-only optrees</a>, Up: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="u" rel="up">perlhacktips MISCELLANEOUS TRICKS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlhacktips-Read_002donly-optrees" accesskey="p" rel="prev">perlhacktips Read-only optrees</a>, Up: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="u" rel="up">perlhacktips MISCELLANEOUS TRICKS</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="The-_002ei-Targets"></a>
 <h4 class="subsection">30.8.6 The .i Targets</h4>
@@ -1716,13 +1747,14 @@ Previous: <a href="#perlhacktips-Read_002donly-optrees" accesskey="p" rel="previ
 </p>
 <pre class="verbatim">    make foo.i
 </pre>
-<p>which will expand the macros using cpp.  Don&rsquo;t be scared by the results.
+<p>which will expand the macros using cpp.  Don&rsquo;t be scared by the
+results.
 </p>
 <hr>
 <a name="perlhacktips-AUTHOR"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="p" rel="previous">perlhacktips MISCELLANEOUS TRICKS</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="p" rel="prev">perlhacktips MISCELLANEOUS TRICKS</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="AUTHOR-12"></a>
 <h3 class="section">30.9 AUTHOR</h3>
@@ -1733,7 +1765,7 @@ maintained by the perl5-porters mailing list.
 <hr>
 <div class="header">
 <p>
-Previous: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="p" rel="previous">perlhacktips MISCELLANEOUS TRICKS</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlhacktips-MISCELLANEOUS-TRICKS" accesskey="p" rel="prev">perlhacktips MISCELLANEOUS TRICKS</a>, Up: <a href="#perlhacktips" accesskey="u" rel="up">perlhacktips</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 
 
