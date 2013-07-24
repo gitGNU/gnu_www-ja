@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- The GNU coding standards, last updated April 27, 2013.
+<!-- The GNU coding standards, last updated July 20, 2013.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -27,7 +27,7 @@ Texts.  A copy of the license is included in the section entitled
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="Design-Advice.html#Design-Advice" rel="up" title="Design Advice">
 <link href="Compatibility.html#Compatibility" rel="next" title="Compatibility">
-<link href="Design-Advice.html#Design-Advice" rel="previous" title="Design Advice">
+<link href="Design-Advice.html#Design-Advice" rel="prev" title="Design Advice">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -72,33 +72,14 @@ Next: <a href="Compatibility.html#Compatibility" accesskey="n" rel="next">Compat
 <a name="index-programming-languages"></a>
 
 <p>When you want to use a language that gets compiled and runs at high
-speed, the best language to use is C.  Using another language is like
-using a non-standard feature: it will cause trouble for users.  Even if
-GCC supports the other language, users may find it inconvenient to have
-to install the compiler for that other language in order to build your
-program.  For example, if you write your program in C++, people will
-have to install the GNU C++ compiler in order to compile your program.
+speed, the best language to use is C.  C++ is ok too, but please don&rsquo;t
+make heavy use of templates.  So is Java, if you compile it.
 </p>
-<p>C has one other advantage over C++ and other compiled languages: more
-people know C, so more people will find it easy to read and modify the
-program if it is written in C.
+<p>When highest efficiency is not required, other languages commonly used
+in the free software community, such as Python and Ruby, are ok too.
+We encourage use of Lisp and Scheme as well.  Please implement the GNU
+configure and make interface no matter which language you use.
 </p>
-<p>So in general it is much better to use C, rather than the
-comparable alternatives.
-</p>
-<p>But there are two exceptions to that conclusion:
-</p>
-<ul>
-<li> It is no problem to use another language to write a tool specifically
-intended for use with that language.  That is because the only people
-who want to build the tool will be those who have installed the other
-language anyway.
-
-</li><li> If an application is of interest only to a narrow part of the community,
-then the question of which language it is written in has less effect on
-other people, so you may as well please yourself.
-</li></ul>
-
 <p>Many programs are designed to be extensible: they include an interpreter
 for a language that is higher level than C.  Often much of the program
 is written in that language, too.  The Emacs editor pioneered this
@@ -112,15 +93,10 @@ language Scheme (an especially clean and simple dialect of Lisp).
 Guile also includes bindings for GTK+/GNOME, making it practical to
 write modern GUI functionality within Guile.  We don&rsquo;t reject programs
 written in other &ldquo;scripting languages&rdquo; such as Perl and Python, but
-using Guile is very important for the overall consistency of the GNU
-system.
+using Guile is the path that will lead to overall consistency of the
+GNU system.
 </p>
 
-<hr>
-<div class="header">
-<p>
-Next: <a href="Compatibility.html#Compatibility" accesskey="n" rel="next">Compatibility</a>, Up: <a href="Design-Advice.html#Design-Advice" accesskey="u" rel="up">Design Advice</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Index.html#Index" title="Index" rel="index">Index</a>]</p>
-</div>
 
 
 

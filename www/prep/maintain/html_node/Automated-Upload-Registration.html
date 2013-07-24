@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Information for maintainers of GNU software, last updated May 7, 2013.
+<!-- Information for maintainers of GNU software, last updated July 19, 2013.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
@@ -27,7 +27,7 @@ Texts.  A copy of the license is included in the section entitled
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" rel="up" title="Automated FTP Uploads">
 <link href="Automated-Upload-Procedure.html#Automated-Upload-Procedure" rel="next" title="Automated Upload Procedure">
-<link href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" rel="previous" title="Automated FTP Uploads">
+<link href="Automated-FTP-Uploads.html#Automated-FTP-Uploads" rel="prev" title="Automated FTP Uploads">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -83,9 +83,11 @@ maintain the web pages at <a href="http://www.gnu.org">http://www.gnu.org</a> fo
 (see <a href="Web-Pages.html#Web-Pages">Web Pages</a>).
 
 </li><li> In the &lsquo;<samp>My Account Conf</samp>&rsquo; page on <code>savannah</code>, upload the GPG
-key you will use to sign your packages.  If you haven&rsquo;t created one
-before, you can do so with the command <code>gpg --gen-key</code> (you can
-accept and/or confirm the default answers to its questions).
+key (in ASCII-armored format) that you will use to sign your packages.
+If you haven&rsquo;t created one before, you can do so with the command
+<code>gpg --gen-key</code> (you can accept and/or confirm the default
+answers to its questions).  Then, to get the ASCII-armored version,
+run &lsquo;<samp>gpg --export --armor <var>your_key_id</var></samp>&rsquo;.
 
 <p>Optional but recommended: Send your key to a GPG public key server:
 <code>gpg --keyserver keys.gnupg.net --send-keys <var>keyid</var></code>, where
@@ -102,8 +104,7 @@ finally email the resulting <samp><var>msgfile</var>.asc</samp> to
 <li> Name of package(s) that you are the maintainer for, your
 preferred email address, and your Savannah username.
 
-</li><li> An ASCII armored copy of your GPG key, as an attachment.  (&lsquo;<samp>gpg
---export -a <var>your_key_id</var> &gt;mykey.asc</samp>&rsquo; should give you this.)
+</li><li> The ASCII armored copy of your GPG key, as an attachment.
 
 </li><li> A list of names and preferred email addresses of other individuals you
 authorize to make releases for which packages, if any (in the case that you
