@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-LINC_VERSION = 'LINC 0.14'
+LINC_VERSION = 'LINC 0.15'
 USAGE = \
 '''Usage: %prog [options] [BASE_DIRECTORY]
 Check links in HTML files from BASE_DIRECTORY.'''
@@ -432,10 +432,10 @@ def socket_create():
 
 def socket_read (socketfd):
 	output = ''
-	max_header_len = 2048
+	max_header_len = 83521
 	while output.find('\r\n\r\n') == -1:
 		try:
-			buf = socketfd.recv (max_header_len)
+			buf = socketfd.recv (2048)
 			output += buf
 			if len (buf) == 0 or len (output) >= max_header_len:
 				break
