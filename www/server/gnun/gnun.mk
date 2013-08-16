@@ -305,6 +305,7 @@ graphics :=	3dbabygnutux \
 		slickgnu \
 		spiritoffreedom \
 		supergnu-ascii \
+		trans-pacific-partnership \
 		usegnu \
 		wallpapers \
 		whatsgnu \
@@ -544,6 +545,7 @@ philosophy := 	15-years-of-free-software \
 		ucita \
 		udi \
 		university \
+		uruguay \
 		use-free-software \
 		using-gfdl \
 		vaccination \
