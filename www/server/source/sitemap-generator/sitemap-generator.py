@@ -104,7 +104,7 @@ def get_sitemap_linguas():
 	linguas = []
 	for f in os.listdir(os.path.join(TOP_DIRECTORY, SITEMAP_DIR)):
 		match = re.search(SITEMAP_REGEXP, f)
-		if match:
+		if match and not (match.group('langcode') in linguas):
 			linguas.append(match.group('langcode'))
 	line = 'Found sitemap translations:'
 	for l in sorted(linguas):

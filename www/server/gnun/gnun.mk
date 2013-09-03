@@ -33,6 +33,17 @@ no-grace-articles := home server/sitemap server/takeaction
 # GNUN uses compendia automatically generated for this file when available.
 sitemap := server/sitemap
 
+# List of templates whose URLs are localized, but their "translations"
+# are maintained without PO files.
+# NOTE: footer-short and footer-min are remnants from the old-new
+# design; they should go at some point.
+localized-ssis := server/header server/head-include-1 \
+		  server/head-include-2 server/banner \
+		  server/html5-header server/html5-head-include-1 \
+		  server/body-include-1 server/body-include-2 \
+		  server/footer server/generic \
+		  server/footer-short server/footer-min
+
 # List of mandatory templates (all %.$lang.po files are generated).
 extra-templates := philosophy/philosophy-menu \
 		   server/body-include-1 \
