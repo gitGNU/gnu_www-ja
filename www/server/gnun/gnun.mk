@@ -52,7 +52,6 @@ extra-templates := philosophy/philosophy-menu \
 		   server/footer-text \
 		   server/head-include-2 \
 		   server/outdated \
-		   server/skip-translations \
 		   server/top-addendum
 
 # List of templates that are translated or not on the discretion
