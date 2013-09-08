@@ -516,6 +516,7 @@ philosophy := 	15-years-of-free-software \
 		programs-must-not-limit-freedom-to-run \
 		proprietary \
 		proprietary-back-doors \
+		proprietary-insecurity \
 		proprietary-sabotage \
 		proprietary-surveillance \
 		protecting \
