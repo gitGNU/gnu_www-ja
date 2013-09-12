@@ -248,7 +248,8 @@ fun/jokes :=	10-kinds-of-people \
                 long-options \
                 merry-xmas \
                 nobody-owns \
-		purchase.agreement
+		purchase.agreement \
+		users-lightbulb
 
 gnu :=		about-gnu \
 		byte-interview \
