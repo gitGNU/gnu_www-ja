@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- The GNU coding standards, last updated August 15, 2013.
+<!-- The GNU coding standards, last updated September 13, 2013.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -240,6 +240,20 @@ in <samp>$(datadir)</samp> or <samp>$(sysconfdir)</samp>.  <samp>$(localstatedir
 should normally be <samp>/usr/local/var</samp>, but write it as
 <samp>$(prefix)/var</samp>.
 (If you are using Autoconf, write it as &lsquo;<samp>@localstatedir@</samp>&rsquo;.)
+</p>
+</dd>
+<dt>&lsquo;<samp>runstatedir</samp>&rsquo;</dt>
+<dd><p>The directory for installing data files which the programs modify
+while they run, that pertain to one specific machine, and which need
+not persist longer than the execution of the program&mdash;which is
+generally long-lived, for example, until the next reboot.  PID files
+for system daemons are a typical use.  In addition, this directory
+should not be cleaned except perhaps at reboot, while the general
+<samp>/tmp</samp> (<code>TMPDIR</code>) may be cleaned arbitrarily.  This should
+normally be <samp>/var/run</samp>, but write it as
+<samp>$(localstatedir)/run</samp>.  Having it as a separate variable allows
+the use of <samp>/run</samp> if desired, for example.  (If you are using
+Autoconf 2.70 or later, write it as &lsquo;<samp>@runstatedir@</samp>&rsquo;.)
 </p></dd>
 </dl>
 

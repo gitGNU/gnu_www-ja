@@ -70,7 +70,7 @@ Index
 GNU Coding Standards
 ********************
 
-The GNU coding standards, last updated August 15, 2013.
+The GNU coding standards, last updated September 13, 2013.
 
    Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012,
@@ -135,8 +135,8 @@ maintainable by others.
 coding standards for a trivial program.
 <http://www.gnu.org/software/hello/hello.html>.
 
-   This release of the GNU Coding Standards was last updated August 15,
-2013.
+   This release of the GNU Coding Standards was last updated September
+13, 2013.
 
 2 Keeping Free Software Free
 ****************************
@@ -3448,7 +3448,8 @@ to most of the standard directory variables (*note Directory
 Variables::).  Here is the list:
 
      --prefix --exec-prefix --bindir --sbindir --libexecdir --sysconfdir
-     --sharedstatedir --localstatedir --libdir --includedir --oldincludedir
+     --sharedstatedir --localstatedir --runstatedir
+     --libdir --includedir --oldincludedir
      --datarootdir --datadir --infodir --localedir --mandir --docdir
      --htmldir --dvidir --pdfdir --psdir
 
@@ -3963,6 +3964,19 @@ put these various kinds of files in:
      '$(localstatedir)' should normally be '/usr/local/var', but write
      it as '$(prefix)/var'.  (If you are using Autoconf, write it as
      '@localstatedir@'.)
+
+'runstatedir'
+     The directory for installing data files which the programs modify
+     while they run, that pertain to one specific machine, and which
+     need not persist longer than the execution of the program--which is
+     generally long-lived, for example, until the next reboot.  PID
+     files for system daemons are a typical use.  In addition, this
+     directory should not be cleaned except perhaps at reboot, while the
+     general '/tmp' ('TMPDIR') may be cleaned arbitrarily.  This should
+     normally be '/var/run', but write it as '$(localstatedir)/run'.
+     Having it as a separate variable allows the use of '/run' if
+     desired, for example.  (If you are using Autoconf 2.70 or later,
+     write it as '@runstatedir@'.)
 
    These variables specify the directory for installing certain specific
 types of files, if your program has them.  Every GNU package should have
@@ -5235,9 +5249,9 @@ Index
                                                              (line 3116)
 * behavior, dependent on program's name: User Interfaces.    (line  708)
 * binary packages:                       Install Command Categories.
-                                                             (line 4523)
+                                                             (line 4537)
 * bindir:                                Directory Variables.
-                                                             (line 3870)
+                                                             (line 3871)
 * braces, in C source:                   Formatting.         (line 2178)
 * bug reports:                           --help.             (line  945)
 * 'bug-standards@gnu.org' email address: Preface.            (line  112)
@@ -5270,7 +5284,7 @@ Index
 * configure:                             Configuration.      (line 3388)
 * control-L:                             Formatting.         (line 2300)
 * conventions for makefiles:             Makefile Conventions.
-                                                             (line 3565)
+                                                             (line 3566)
 * CORBA:                                 Graphical Interfaces.
                                                              (line  749)
 * credits for manuals:                   Manual Credits.     (line 3070)
@@ -5280,9 +5294,9 @@ Index
 * data types, and portability:           CPU Portability.    (line 2610)
 * description, change log entry:         Change Log Concepts.
                                                              (line 3122)
-* DESTDIR:                               DESTDIR.            (line 3775)
+* DESTDIR:                               DESTDIR.            (line 3776)
 * directories, creating installation:    Directory Variables.
-                                                             (line 3833)
+                                                             (line 3834)
 * documentation:                         Documentation.      (line 2881)
 * doschk:                                Names.              (line 2541)
 * double quote:                          Quote Characters.   (line 2832)
@@ -5295,10 +5309,10 @@ Index
 * error messages, formatting:            Errors.             (line  643)
 * error messages, in Gnulib:             System Functions.   (line 2703)
 * exec_prefix:                           Directory Variables.
-                                                             (line 3852)
+                                                             (line 3853)
 * expressions, splitting:                Formatting.         (line 2263)
 * FDL, GNU Free Documentation License:   GNU Free Documentation License.
-                                                             (line 4740)
+                                                             (line 4754)
 * file usage:                            File Usage.         (line 2156)
 * file-name limitations:                 Names.              (line 2541)
 * formatting error messages:             Errors.             (line  643)
@@ -5328,8 +5342,8 @@ Index
                                                              (line 2391)
 * impossible conditions:                 Semantics.          (line  580)
 * installation directories, creating:    Directory Variables.
-                                                             (line 3833)
-* installations, staged:                 DESTDIR.            (line 3775)
+                                                             (line 3834)
+* installations, staged:                 DESTDIR.            (line 3776)
 * interface styles:                      Graphical Interfaces.
                                                              (line  739)
 * internationalization:                  Internationalization.
@@ -5341,7 +5355,7 @@ Index
 * legal aspects:                         Legal Issues.       (line  143)
 * legal papers:                          Contributions.      (line  183)
 * libexecdir:                            Directory Variables.
-                                                             (line 3883)
+                                                             (line 3884)
 * libiconv:                              Semantics.          (line  520)
 * libraries:                             Libraries.          (line  615)
 * library functions, and portability:    System Functions.   (line 2665)
@@ -5356,7 +5370,7 @@ Index
 * long-named options:                    Command-Line Interfaces.
                                                              (line  766)
 * makefile, conventions for:             Makefile Conventions.
-                                                             (line 3565)
+                                                             (line 3566)
 * 'malloc' return value:                 Semantics.          (line  535)
 * man pages:                             Man Pages.          (line 3318)
 * manual structure:                      Manual Structure Details.
@@ -5378,12 +5392,12 @@ Index
 * OID allocations for GNU:               OID Allocations.    (line 2079)
 * open brace:                            Formatting.         (line 2178)
 * opening quote:                         Quote Characters.   (line 2832)
-* optional features, configure-time:     Configuration.      (line 3479)
+* optional features, configure-time:     Configuration.      (line 3480)
 * options for compatibility:             Compatibility.      (line  301)
 * options, standard command-line:        Command-Line Interfaces.
                                                              (line  785)
 * output device and program's behavior:  User Interfaces.    (line  715)
-* packaging:                             Releases.           (line 4550)
+* packaging:                             Releases.           (line 4564)
 * PATH_INFO, specifying standard options as: Command-Line Interfaces.
                                                              (line  785)
 * plug-ins:                              Dynamic Plug-In Interfaces.
@@ -5397,11 +5411,11 @@ Index
 * POSIX functions, and portability:      System Functions.   (line 2665)
 * 'POSIXLY_CORRECT', environment variable: Compatibility.    (line  308)
 * post-installation commands:            Install Command Categories.
-                                                             (line 4449)
+                                                             (line 4463)
 * pre-installation commands:             Install Command Categories.
-                                                             (line 4449)
+                                                             (line 4463)
 * prefix:                                Directory Variables.
-                                                             (line 3842)
+                                                             (line 3843)
 * program configuration:                 Configuration.      (line 3388)
 * program design:                        Design Advice.      (line  257)
 * program name and its behavior:         User Interfaces.    (line  708)
@@ -5410,22 +5424,22 @@ Index
 * proprietary programs:                  Reading Non-Free Code.
                                                              (line  149)
 * quote characters:                      Quote Characters.   (line 2832)
-* 'README' file:                         Releases.           (line 4565)
-* references to non-free material:       References.         (line 4634)
+* 'README' file:                         Releases.           (line 4579)
+* references to non-free material:       References.         (line 4648)
 * releasing:                             Managing Releases.  (line 3377)
 * right quote:                           Quote Characters.   (line 2832)
 * Savannah repository for gnustandards:  Preface.            (line  112)
 * sbindir:                               Directory Variables.
-                                                             (line 3876)
+                                                             (line 3877)
 * signal handling:                       Semantics.          (line  569)
 * single quote:                          Quote Characters.   (line 2832)
 * SNMP:                                  OID Allocations.    (line 2079)
 * spaces before open-paren:              Formatting.         (line 2257)
-* staged installs:                       DESTDIR.            (line 3775)
+* staged installs:                       DESTDIR.            (line 3776)
 * standard command-line options:         Command-Line Interfaces.
                                                              (line  785)
 * standards for makefiles:               Makefile Conventions.
-                                                             (line 3565)
+                                                             (line 3566)
 * 'struct' types, formatting:            Formatting.         (line 2217)
 * syntactic conventions:                 Syntactic Conventions.
                                                              (line 2391)
@@ -5433,7 +5447,7 @@ Index
 * temporary files:                       Semantics.          (line  594)
 * temporary variables:                   Syntactic Conventions.
                                                              (line 2416)
-* 'texinfo.tex', in a distribution:      Releases.           (line 4622)
+* 'texinfo.tex', in a distribution:      Releases.           (line 4636)
 * title, change log entry:               Change Log Concepts.
                                                              (line 3122)
 * 'TMPDIR' environment variable:         Semantics.          (line  594)
@@ -5441,7 +5455,7 @@ Index
 * user interface styles:                 Graphical Interfaces.
                                                              (line  739)
 * valgrind:                              Memory Usage.       (line 2148)
-* version numbers, for releases:         Releases.           (line 4550)
+* version numbers, for releases:         Releases.           (line 4564)
 * where to obtain 'standards.texi':      Preface.            (line   96)
 * X.509:                                 OID Allocations.    (line 2079)
 * xmalloc, in Gnulib:                    System Functions.   (line 2703)
