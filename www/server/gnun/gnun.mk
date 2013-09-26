@@ -58,6 +58,7 @@ extra-templates := philosophy/philosophy-menu \
 # of the respective team (the PO files are merged, but are not created).
 optional-templates := planetfeeds \
 		      manual/allgnupkgs \
+		      server/home-pkgdescs \
 		      software/recent-releases-include
 
 # List of articles for which VALIDATE has no full effect; i.e. the
@@ -567,6 +568,7 @@ philosophy := 	15-years-of-free-software \
 		when_free_software_isnt_practically_better \
 		who-does-that-server-really-serve \
 		why-audio-format-matters \
+		why-call-it-the-swindle \
 		why-copyleft \
 		why-free \
 		wipo-PublicAwarenessOfCopyright-2002 \
