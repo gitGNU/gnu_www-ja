@@ -1,4 +1,4 @@
-# Copyright (C) 2012 Free Software Foundation, Inc.
+# Copyright (C) 2013 Free Software Foundation, Inc.
 
 # This file is part of GNUnited Nations.
 
@@ -29,6 +29,7 @@ priority-articles :=	philosophy/free-sw \
 			philosophy/open-source-misses-the-point \
 			philosophy/not-ipr \
 			philosophy/compromise \
+			philosophy/surveillance-vs-democracy \
 			distros/distros \
 			distros/free-system-distribution-guidelines \
 			distros/common-distros

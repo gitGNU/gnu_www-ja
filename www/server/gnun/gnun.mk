@@ -58,7 +58,7 @@ extra-templates := philosophy/philosophy-menu \
 # of the respective team (the PO files are merged, but are not created).
 optional-templates := planetfeeds \
 		      manual/allgnupkgs \
-		      server/home-pkgdescs \
+		      server/home-pkgblurbs \
 		      software/recent-releases-include
 
 # List of articles for which VALIDATE has no full effect; i.e. the
@@ -550,6 +550,7 @@ philosophy := 	15-years-of-free-software \
 		stallmans-law \
 		stophr3028 \
 		sun-in-night-time \
+                surveillance-vs-democracy \
 		the-danger-of-ebooks \
 		the-law-of-success-2 \
 		the-root-of-this-problem \
