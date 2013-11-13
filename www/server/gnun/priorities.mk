@@ -26,6 +26,7 @@ priority-articles :=	philosophy/free-sw \
 			education/edu-cases-india-irimpanam \
 			education/edu-software-tuxpaint \
 			gnu/thegnuproject \
+			philosophy/free-software-even-more-important \
 			philosophy/open-source-misses-the-point \
 			philosophy/not-ipr \
 			philosophy/compromise \

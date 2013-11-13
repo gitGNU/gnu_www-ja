@@ -317,7 +317,6 @@ graphics :=	3dbabygnutux \
 		slickgnu \
 		spiritoffreedom \
 		supergnu-ascii \
-		trans-pacific-partnership \
 		usegnu \
 		wallpapers \
 		whatsgnu \
@@ -448,6 +447,7 @@ philosophy := 	15-years-of-free-software \
 		freedom-or-copyright-old \
 		freedom-or-power \
 		free-open-overlap \
+		free-software-even-more-important \
 		free-software-for-freedom \
 		free-software-intro \
 		free-sw \
