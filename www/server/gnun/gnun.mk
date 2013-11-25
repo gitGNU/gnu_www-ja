@@ -391,7 +391,8 @@ licenses/old-licenses :=	fdl-1.1 \
 links :=	companies \
 		links
 
-manual :=	manual
+manual :=	blurbs \
+		manual
 
 music :=	blues-song \
 		emacsvsvi \
@@ -441,6 +442,7 @@ philosophy := 	15-years-of-free-software \
 		europes-unitary-patent \
 		fighting-software-patents \
 		fire \
+		floss-and-foss \
 		free-digital-society \
 		free-doc \
 		freedom-or-copyright \
