@@ -280,6 +280,7 @@ graphics :=	3dbabygnutux \
 		babygnu \
 		bokma-gnu \
 		bwcartoon \
+		copyleft-sticker \
 		digital-restrictions-management \
 		emacs-ref \
 		freedom \
