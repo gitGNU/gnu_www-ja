@@ -659,4 +659,5 @@ thankgnus :=	1997supporters \
 		2011supporters \
 		2012supporters \
 		2013supporters \
+		2014supporters \
 		thankgnus

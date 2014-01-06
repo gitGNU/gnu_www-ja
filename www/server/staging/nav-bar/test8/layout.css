@@ -24,33 +24,64 @@ than commit changes directly. */
 /*** GENERAL SETTINGS ***/
 
 /* colors
-   #111, #333, #555, #666666, #ddd, #eee, #ededed
-            shades of pure gray: special items
-   #f1f2f3, very light bluish gray: button, footer
-   #e7e9eb, light bluish gray: translations, edu-nav bar
+   white    background for inner, searcher, text nav bar & listing
+   blue     urgent links
+   black    gpl-compat-matrix, takeactionhomepage (unused?)
+   #111, #222, #333, #555, #666666, #ddd, #eee, #ededed
+            shades of pure gray: text, listing, special items
+   #f5f6f7  emph-box, footer
+   #e7e9eb  light bluish gray: translations, edu-nav bar, button
    #c9cccf  bluish gray: top links, searcher, nav bars (main and fsf links)
-   #971611  red from GNU banner
-   #8c1410  almost the same, a bit darker: special, active and visited links
-   #b11107  red from FSF logo: button link, navbar li background
-   #ee0800  brighter red: hover normal links
-   #171d33  dark blue (from screenshot), edu-cases ridges, shade behind button
-   #334683  blue from banner: h2, normal links
-   #44536b  dull blue: screen background
+   #810606  red from join-fsf button: special links
+   #971611  red from GNU banner: button link, navigation li background, active
+            links in nav bars, normal visited links border around highlighted
+            boxes, join-fsf link
+   red      hover
+   #44536b  dull blue: background for body
+   #334683  blue from GNU banner: h2, normal links
+   #3465a4  blue: edu-cases ridges
+   #171d33  dark blue (from screenshot): shade behind button
    #ffc     pale yellow: highlight background
    #ff3     yellow: urgent
    #ccffcc  light green: gpl-compat-matrix
    #e4ffcc  light yellowish green: gpl-compat-matrix
-   standard blue, red: urgent
 */
 
+/* Luminosity contrast ratio
+   source: http://springmeier.org/www/contrastcalculator/index.php
+   #000 (black) vs. #fff (white) 21.3
+   #000         vs. #ff3         19.6
+   #00f (blue)  vs. #ff3          8.02
+   #333         vs. white        12.63
+   #333         vs. #e7e9eb      10.38
+   #333         vs. #c9cccf       7.83
+   #222         vs. #c9cccf       9.87
+   #971611      vs. white         8.61
+   #971611      vs. #e7e9eb       7.07
+   #971611      vs. #c9cccf       5.34
+   #750000      vs. #c9cccf       7.41
+   #334683      vs. white         8.96
+   #334683      vs. #e7e9eb       7.36
+   #334683      vs. black         2.34
+   #f00 (red)   vs. #334683       2.24
+   #f00         vs. 971611        2.15
+   #f00         vs. #750000       2.99
+   #f00         vs. #333          3.16
+   #f00         vs. #222          3.98
+   #f00         vs. #c9cccf       2.48
+   #f00         vs. #e7e9eb       3.29
+   #f00         vs. white         4.00
+*/
+
+
 html, body {
+   font-size: 1em;
+   text-align: inherit;
    padding: 0;
    margin: 0;
-   background-color: #44536b;
-   color: #333;
-   text-align: inherit;
-   font-size: 1em;
    text-decoration: none;
+   color: #333;
+   background-color: #44536b;
 }
 
 /* This specifies the basic width of our web pages.  Don't change it
@@ -60,21 +91,18 @@ html, body {
    position: relative;
    margin: auto; width: 99%; max-width:74.92em; overflow: hidden;
    background-color: white;
-   margin-top: .27em; margin-bottom: .27em;
-
 }
 
 a[href] { color: #334683; }
-a[href]:visited { color: #b11107; }
-a[href]:active, a[href]:hover { color: #ee0800; }
-a:hover { color: #ee0800; }
+a[href]:visited { color: #971611 !important; }
+a[href]:active, a[href]:hover { color: red; }
+a:hover { color: red; }
 
 blockquote { margin: 1em; font-style: italic; }
 
 acronym, abbr { border-bottom: 1px dotted #111; }
 
 img { border: 0; }
-
 
 .center, .c { text-align: center; }
 .nocenter{ text-align: left; }
@@ -104,131 +132,148 @@ img { border: 0; }
 
 #toplinks {
    font-size: .9em;
+   line-height: 2.4em;
    font-weight: bold;
-   min-width: 50em;
-   line-height: 2.6em; padding-left: 1em; 
+   padding: 0 1em;
    margin-bottom: .2em;
    background-color: #c9cccf;
 }
-#toplinks a { color: #222; text-decoration: none; }
-#toplinks a:hover { text-decoration: underline; }
+#toplinks a, #toplinks a:visited {
+   color: #222 !important; text-decoration: none;
+}
+#toplinks a:hover { color: red !important; }
 /* Highlight the link to the FSF mission statement */
 #toplinks span.fsf {
    font-size: 1.1em;
    padding-top: .3em;
 }
-#toplinks span.fsf a { color: #8c1410 !important; }
+#toplinks span.fsf a, #toplinks span.fsf a:visited { color: #750000 !important; }
 #toplinks span.fsf a:hover {
-   color: #222 !important;  text-decoration: underline;
+   color: red !important;
 }
+#toplinks div.links { float: left; }
+
+#searcher {
+   text-align: right;
+   color: white;
+}
+#searcher, #searcher input { color: #555; }
 
 #translations {
+   clear: both;
    font-size: .9em;
-   line-height: 1.4em; padding-left:.6em; padding-bottom: .3em;
+   line-height: 1.3em;
+   padding-left:.6em; padding-bottom: .2em;
    background-color: #e7e9eb;
 }
 #translations span {
    display: inline-block;
    margin-left: .3em; margin-right: .3em;
 }
-#translations a { color: #333; text-decoration: none; }
-#translations a:hover { text-decoration: underline; }
+#translations a, #translations a:visited {
+   color: #222 !important; text-decoration: none;
+}
+#translations a:hover { color: red !important; }
 #translations p { margin-bottom: 0.3em; }
 /* Highlight the link to the original page */
 #translations span.original {
    font-size: 1.1em; font-weight: bold;
    padding-top: .3em;
 }
-#translations span.original a { color: #8c1410 !important; }
+#translations span.original a, #translations span.original a:visited { color: #750000 !important; }
 #translations span.original a:hover {
-   color: #333 !important;  text-decoration: underline;
+   color: red !important;
 }
 
-#searcher {
-   float: right; width: 20em;
-   text-align: right;
-   font-weight: bold;
-   line-height: 2.6em; padding-right: 1em;
-   background-color: #c9cccf; color: white;
-}
-#searcher, #searcher input { font-size: 1em; color: #555; }
-
-
-/*** HEADER ***/
-
-#header { min-width: 72em; }
-#header:after {
-   clear: both; content: ""; display: block; 
-   height: 0px; visibility: hidden; width: 0px;
-}
-#logo {
-   font-size: 2em;
-   font: sans-serif; 
-   font-weight: bold; line-height: normal;
-   padding-left: 1em;
-   margin-bottom: .7em;
-}
-#logo img {
-   height: 4.054em; margin: 0; padding: 0;
-   position: relative; top: .86em;
-}
-#logo a strong {
-  color: #971611; font-size: 1.89em; font-style: normal;
-}
-#logo a {
-  color: #334683; cursor: pointer; text-decoration: none;
-  font-style: italic; font-size: .74em;
-}
 
 /*** SPECIAL BANNER ***/
 
 /* Begin fundraising banner */
 #fundraiserbanner2013-14 {
-   clear:both;
-   float: right; width: 43em;
+   max-width: 64em;
+   margin: auto; margin-top: .5em; margin-bottom: 2em;
 }
 #fundraiserbanner2013-14 .right {
-   float: right; height: 8em;
-   padding-top: 1.3em; padding-right: .5em;
+   float: right;
+   height: 6.7em;
+   margin: 0em;
 }
-#fundraiserbanner2013-14 .text { 
-   text-align: left;
-   font: 1.1em sans-serif;
-   line-height: 1.2em; padding: 0 .6em;
-   margin: 1.4em 0;
-   border-left: .2em solid #334683;
+#fundraiserbanner2013-14 .text {
+   text-align: center;
+   font: 1em sans-serif;
+   line-height: 1.2em;
+   padding-top: 1em;
 }
+#fundraiserbanner2013-14 .text a:visited { color: #334683 !important }
+#fundraiserbanner2013-14 .text a:hover { color: red !important }
 #fundraiserbanner2013-14 p { margin: .3em; }
 /* End fundraising banner */
 
 
+/*** HEADER ***/
+
+#header:after {
+   clear: both; content: ""; display: block;
+   height: 0px; visibility: hidden; width: 0px;
+}
+#logo {
+   font-size: 2.3em;
+   font-family: sans-serif !important;
+   font-weight: bold;
+   padding: .6em;
+   margin-top: .4em; margin-left: .4em;
+}
+#logo img {
+   height: 1.8em;
+   position: relative; bottom: .5em;
+   padding: 0; margin: 0;
+}
+#logo p { margin: 0; }
+#logo a strong {
+   font-size: 1em;
+   color: #334683;
+}
+#logo a, #logo a:visited {
+   font-size: 1em;
+   color: #971611 !important; text-decoration: none;
+   cursor: pointer;
+}
+
 /*** NAVIGATION BAR ***/
 
 #navigation { clear: both; }
+
 #navigation:after {
-   clear: both; content: ""; display: block; 
+   clear: both; content: ""; display: block;
    height: 0px; visibility: hidden; width: 0px;
 }
 #navigation ul {
    text-align: center;
-   font-size: 0.95em;
-   line-height: 2.6em;
+   font-size: 0.9em;
+   line-height: 2.4em;
    margin: 0em;
    background-color: #c9cccf;
 }
-#navigation li { display: inline; }
-#navigation li a {
+#navigation li {
+   display: inline;
+   padding: 0;
+}
+#navigation li a, #navigation li a:visited {
    font-weight: bold;
-   padding: .3em .9em;
-   color: white; text-decoration: none;
-   background-color: #b11107;
+   padding: .3em .5em;
+   color: white !important; text-decoration: none;
+   background-color: #971611;
+   border: .2em solid #971611;
 }
 #navigation li.active a {
-   color: #8c1410; background-color: transparent;
+   color: #333 !important;
+   background-color: white;
+   border: .2em solid #971611;
 }
 #navigation li a:hover {
-   text-decoration: underline;
-   color: #222 !important; background-color: transparent;
+   color: black !important;
+   background-color: #ff3;
+   border: .2em solid #ff3;
 }
 
 
@@ -237,16 +282,17 @@ img { border: 0; }
 #content {
    text-align: left;
    padding: 1em; padding-top: 0;
-   margin-top: 0.2em;
+   margin-top: .18em;
 }
 #content h2 {
-   text-align: center;
+   text-align: left;
+   line-height: 1em;
    font-size: 2em; font-weight:bold;
-   margin: .8em 0;
-   color: #334683; 
+   margin: .9em 0 .7em 0;
+   color: #334683;
 }
 #content:lang(ar), #content:lang(fa), #content:lang(he) { text-align: right; }
-#content h2 a { color: #8c1410 !important; }
+#content h2 a { color: #971611 !important; }
 #content h3, #content h4, #content h5, #content h6 { line-height: 1.5em; }
 #content h3 { font-size: 1.6em; }
 #content h4 { font-size: 1.3em; }
@@ -260,70 +306,91 @@ img { border: 0; }
 #content li, #fsf-campaigns li, #content dd, #content p, #content pre,
    #content dt, #content code, #content address { line-height: 1.3em; }
 
+#transnotes { font-size: .9em; }
 
-/*** EXTERNAL LINKS ***/
+
+/*** ADDITIONAL LINKS ***/
 
 #fsf-links ul {
    text-align: center;
-   font-size: .9em; font-weight: bold;
+   font-size: .9em;
    line-height: 2.4em;
    margin: 0;
    background-color: #c9cccf;
 }
-#fsf-links ul li { 
+#fsf-links li {
    display: inline-block;
    list-style: none;
-   padding: 0 .6em;
+   padding: 0;
 }
-#fsf-links li a { color: #222; text-decoration: none; }
-#fsf-links li a:hover { text-decoration: underline; }
+#fsf-links li a, #fsf-links li a:visited {
+   font-weight: bold;
+   padding: .5em .6em;
+   color: #333 !important; text-decoration: none;
+}
+#fsf-links li a:hover {
+   color: black !important;
+   background-color: #ff3 !important;
+}
 
 
 /*** FSF STUFF ***/
 
 #mission-statement {
-   font-size: 0.9em;
+   font-size: .9em;
    line-height: 1.3em;
-   padding: 2.2em 1em 0 1em;
+   margin: 2.2em 1.1em 0 1.1em;
 }
-#mission-statement .fsf-join {
-   float: right;
-   width: 10em;
-   margin: 3em 1em 2em 2em;
-}
-#mission-statement .fsf-join img { width: 100%; }
 
+#join-fsf {
+   font-size: 1.2em;
+   line-height: 2.2em;
+   text-align: center;
+}
+#join-fsf a, #join-fsf a:visited {
+   font-weight: bold;
+   color: #971611 !important; text-decoration: none;
+}
+#join-fsf a:hover {
+   color: red !important; text-decoration: underline;
+}
+#join-fsf img {
+   height: 1.8em;
+   position: relative; top: .5em;
+}
 #fssbox {
    float: left;
    text-align: center;
    font-size: 1em;
-   width: 25em;
+   width: 18.5em;
    line-height: 1.2em;
-   padding: .7em .5em 0 .5em;
-   margin: .2em 1em 1.8em 1em;
-   border: .23em solid #b11107;
+   padding: 1em .5em .5em .5em;
+   margin: .2em 1em 1em 0;
+   border: .23em solid #971611;
 }
 
 #backtotop {
    text-align: right;
    font-size: 1.1em; font-weight: bold;
-   margin-top: 2em; margin-right: 1em;
+   margin: 1em 0 2em 0;
 }
+#backtotop a, #backtotop a:visited { color: #334683 !important; }
+#backtotop a:hover { color: red !important; }
 
 
 /*** FOOTER ***/
 
 #footer {
    font-size: .9em;
-   padding: 2em;
-   background-color: #f1f2f3;
+   padding: 1em;
+   background-color: #f5f6f7;
    border-top: 1px solid #c9cccf;
 }
-#footer p { margin-bottom: 0.25em; }
+#footer p { margin-bottom: 0; }
+
+#footer .footer-unit { margin-bottom: 1em !important; }
 
 #bottom-notes { float: right; }
-
-#translators-credits { margin: 1.3em 0 .5em 0; }
 
 
 /*** HOME PAGE ***/
@@ -337,21 +404,21 @@ img { border: 0; }
    text-align: center;
    font-weight: bold;
    padding-bottom: 0;
-   margin: .8em 0 .6em 0;
+   margin: .4em 0 .6em 0;
    border: .4em solid #c9cccf;
    box-shadow: .2em .2em #171d33;
 /*   -moz-border-radius: 0.4em;
    -khtml-border-radius: 0.4em;*/
 }
-.button a { color: #b11107; text-decoration: none; }
-.button a:hover { color: #ee0800; }
+.button a { color: #971611; text-decoration: none; }
+.button a:hover { color: red; }
 
 .large { font-size: 2em; background-color: #e7e9eb }
 .small { font-size: 1.6em; background-color: #e7e9eb }
 
 .emph-box {
    padding: 1em;
-   background-color: #f1f2f3;
+   background-color: #f5f6f7;
    border: 1px solid #c9cccf;
 }
 .emph-box p { font-size: .9em }
@@ -368,7 +435,7 @@ img { border: 0; }
 .highlight, .highlight-para {
    margin-top: 1em; margin-bottom: 1em;
    background: #ffc;
-   border: .2em solid #b11107;
+   border: .2em solid #971611;
 }
 .highlight-para { padding: 1em; padding-bottom: .2em; }
 
@@ -384,36 +451,45 @@ appear on every page - these typically come from johns, peterb or rms
 at the fsf */
 #urgent {
    text-align: center;
-   font-size: 0.9em;
-   line-height: 3em;
-   background-color:#ff3;
-   border-bottom: .5em solid #333;
+   font-size: .9em; font-weight: bold;
+   line-height: 2.6em;
+   color: black;
+   background-color: #ff3;
+   border-bottom: .3em solid #333;
 }
 #urgent a, #urgent a:visited {
-   color: blue; text-decoration: underline !important;
+   color: blue; text-decoration: underline;
 }
-#urgent a:hover { background-color: red; }
+#urgent a:hover { color: red; }
 
 
 /*** TRANSLATED PAGES ***/
 
 /* For the note saying the page is a translation. */
 #trans-disclaimer {
-   text-align: center;
-   font-size: 1.1em;
+   float: right;
+   font-size: .9em;
+   line-height: 2.4em;
    font-weight: bold;
-   padding-bottom: 0.5em;
-   margin: 0; margin-top: 1em;
+   margin: 0;
+   padding-top: .2em;
 }
-#trans-disclaimer a { color: #333 }
-#trans-disclaimer a:hover { color: #ee0800; text-decoration: underline;}
+#trans-disclaimer a, #trans-disclaimer a:visited {
+   text-decoration: none;
+   padding: .5em .65em;
+   color: white !important;
+   background-color: #334683 !important;
+}
+#trans-disclaimer a:hover { 
+   color: black !important;
+   background-color: #ff3 !important;
+}
 
 /* For outdated translations  */
 #outdated {
    padding: .5em;
-   margin: 1em 0 2em 0;
-   background: #ffc;
-   border: .2em solid #b11107;
+   margin: 1em 0 0 0;
+   border: .2em solid #971611;
 }
 #outdated p { margin: 0.2em; }
 /* In the out-of-date notice, we use <br> elements to separate
@@ -426,38 +502,54 @@ at the fsf */
 /* definitions for /education-specific navigation bar
    and breadcrumbs for education */
 ul#edu-navigation {
-   text-align: center; 
-   font-size: .95em; font-weight: bold;
+   text-align: center;
+   font-size: .9em; font-weight: bold;
    line-height: 2.4em;
+   padding: 0;
    margin: 0em -1.15em;
    background-color: #e7e9eb;
 }
 #edu-navigation li {
    display: inline-block;
    list-style-type: none;
+   padding: 0;
 }
-#edu-navigation li a {
-   padding: 0 .6em;
-   color: #333; text-decoration: none;
+#edu-navigation li a, #edu-navigation li a:visited {
+   padding: .3em .45em;
+   color: #333 !important; text-decoration: none;
+   border: .2em solid #e7e9eb;
 }
-p.edu-breadcrumb { text-align: center; padding: .5em; }
-p.edu-breadcrumb a { color: #8c1410 !important; text-decoration: none }
+#edu-navigation li a:hover, #edu-navigation li.active a:hover {
+   color: black !important;
+   background-color: #ff3 !important;
+   border: .2em solid #ff3;
+}
+#edu-navigation li.active a {
+   background-color: white !important;
+   border: .2em solid #971611;
+}
 
-#edu-navigation li.active a, #edu-navigation li a:hover {
-   color: #8c1410 !important;
+p.edu-breadcrumb {
+   text-align: left;
+   padding: .5em 0;
+   margin-bottom: 0em;
 }
-#edu-navigation li a:hover, p.edu-breadcrumb a:hover {
-   color: #333 !important;
+p.edu-breadcrumb a {
+   font-weight: bold;
+   color: #971611 !important; text-decoration: none
+}
+p.edu-breadcrumb a:hover {
+   color: #ee0800 !important;
    text-decoration: underline;
 }
 
 /* styles for subsections of /education "Case Studies" */
 div.edu-cases {
-   border-top: .5em ridge #171d33;
-   border-bottom: .5em ridge #171d33;
-   margin: 0 4em 1em 4em;
+   border-top: 5px ridge #3465a4;
+   border-bottom: 5px ridge #3465a4;
+   margin: 0 3em 1em 3em;
 }
-   
+
 /* make h3 for edu-cases look like h4 for other pages */
 div.edu-cases h3 {
    font-size: 1.3em !important;
@@ -468,6 +560,16 @@ div.edu-cases ul, div.edu-cases ol {
    padding-left: 3em;
    margin-right: 3em;
 }
+
+img.ambedkar {
+   float: right;
+   width: 26em; max-width: 100%;
+   margin: 2.4em 0 2.4em 2.4em;
+}
+
+#back { text-align: right; font-weight: bold; }
+#back a, #back a:visited { color: #334683 !important; }
+#back a:hover { color: #ee0800 !important; }
 
 /* End items specific to education */
 
@@ -618,11 +720,11 @@ dd p { margin-top: 1em; }
    margin-right: 1em; font-size: 0.9em;
 }
 #fpnav li a { display: block; padding-top: .5em; padding-bottom: .5em; }
-#fpnav li a:hover { background-color: #ee0800; }
+#fpnav li a:hover { background-color: red; }
 
-#takeactionhomepage { 
+#takeactionhomepage {
    background-color: #fb4;
-   color: black; 
+   color: black;
    margin-bottom: 0.5em;
    font-size: 90%;
    padding: 1em;
