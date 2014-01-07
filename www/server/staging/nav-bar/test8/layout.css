@@ -37,7 +37,6 @@ than commit changes directly. */
             links in nav bars, normal visited links border around highlighted
             boxes, join-fsf link
    red      hover
-   #44536b  dull blue: background for body
    #334683  blue from GNU banner: h2, normal links
    #3465a4  blue: edu-cases ridges
    #171d33  dark blue (from screenshot): shade behind button
@@ -81,7 +80,14 @@ html, body {
    margin: 0;
    text-decoration: none;
    color: #333;
-   background-color: #44536b;
+   /* Source: http://www.impressivewebs.com/css3-linear-gradient-syntax/ */
+   background: -moz-linear-gradient(#5b6a96, #c9cccf); /* FF 3.6+ */  
+   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5b6a96), color-stop(100%, #c9cccf)); /* Safari 4+, Chrome 2+ */  
+   background: -webkit-linear-gradient(#5b6a96, #c9cccf); /* Safari 5.1+, Chrome 10+ */  
+   background: -o-linear-gradient(#5b6a96, #c9cccf); /* Opera 11.10 */  
+   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5b6a96', endColorstr='#c9cccf'); /* IE6 & IE7 */  
+   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5b6a96', endColorstr='#c9cccf')"; /* IE8+ */  
+   background: linear-gradient(#5b6a96, #c9cccf); /* the standard */
 }
 
 /* This specifies the basic width of our web pages.  Don't change it
@@ -260,7 +266,7 @@ img { border: 0; }
 }
 #navigation li a, #navigation li a:visited {
    font-weight: bold;
-   padding: .3em .5em;
+   padding: .1em .5em;
    color: white !important; text-decoration: none;
    background-color: #971611;
    border: .2em solid #971611;
@@ -325,7 +331,7 @@ img { border: 0; }
 }
 #fsf-links li a, #fsf-links li a:visited {
    font-weight: bold;
-   padding: .5em .6em;
+   padding: .3em .6em;
    color: #333 !important; text-decoration: none;
 }
 #fsf-links li a:hover {
@@ -395,8 +401,6 @@ img { border: 0; }
 
 /*** HOME PAGE ***/
 
-#content .yui-u h2 { text-align: left; }
-
 .home img { width: 90%; }
 .home img.feed { height: .75em; width: .75em; }
 
@@ -407,8 +411,15 @@ img { border: 0; }
    margin: .4em 0 .6em 0;
    border: .4em solid #c9cccf;
    box-shadow: .2em .2em #171d33;
-/*   -moz-border-radius: 0.4em;
-   -khtml-border-radius: 0.4em;*/
+   -moz-box-shadow: .6em .6em #171d33;
+   -webkit-box-shadow: .6em .6em #171d33;
+   -icab-box-shadow: .6em .6em #171d33;
+   -o-box-shadow: .6em .6em #171d33;
+/*   border-radius: .4em;
+   -moz-border-radius: .4em;
+   -khtml-border-radius: .4em;
+   -webkit-border-radius: .4em;
+   -opera-border-radius: .4em; */
 }
 .button a { color: #971611; text-decoration: none; }
 .button a:hover { color: red; }
@@ -476,7 +487,7 @@ at the fsf */
 }
 #trans-disclaimer a, #trans-disclaimer a:visited {
    text-decoration: none;
-   padding: .5em .65em;
+   padding: .3em .65em;
    color: white !important;
    background-color: #334683 !important;
 }
@@ -515,7 +526,7 @@ ul#edu-navigation {
    padding: 0;
 }
 #edu-navigation li a, #edu-navigation li a:visited {
-   padding: .3em .45em;
+   padding: .1em .45em;
    color: #333 !important; text-decoration: none;
    border: .2em solid #e7e9eb;
 }
@@ -539,7 +550,7 @@ p.edu-breadcrumb a {
    color: #971611 !important; text-decoration: none
 }
 p.edu-breadcrumb a:hover {
-   color: #ee0800 !important;
+   color: red !important;
    text-decoration: underline;
 }
 
@@ -569,7 +580,7 @@ img.ambedkar {
 
 #back { text-align: right; font-weight: bold; }
 #back a, #back a:visited { color: #334683 !important; }
-#back a:hover { color: #ee0800 !important; }
+#back a:hover { color: red !important; }
 
 /* End items specific to education */
 
