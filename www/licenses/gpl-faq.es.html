@@ -114,20 +114,23 @@ modificada bajo un acuerdo de no divulgación?</a></li>
 
     <li><a href="#WhyMustIInclude">¿Por qué exige la GPL que en toda copia del
 programa se incluya una copia de la GPL?</a></li>
-  
+
     <li><a href="#WhatIfWorkIsShort">¿Y si la obra no es muy extensa?</a></li>
-  
+
     <li><a href="#RequiredToClaimCopyright">¿Es preciso que reclame el copyright de
 mis modificaciones de un programa cubierto por la GPL?</a></li>
-  
+
+    <li><a href="#TranslateCode">¿Qué estipula la GPL respecto a la traducción del
+código a un lenguaje de programación diferente?</a></li>
+
     <li><a href="#CombinePublicDomainWithGPL">Si un programa combina código de
 dominio público con código cubierto por la GPL, ¿puedo tomar la parte que es
 de dominio público y utilizarla como código de dominio público?</a></li>
-  
+
     <li><a href="#IWantCredit">Quiero obtener reconocimiento por mi trabajo. Quiero
 que la gente conozca lo que he escrito. ¿Puedo obtener reconocimiento si uso
 la GPL?</a></li>
-  
+
     <li><a href="#GPLOmitPreamble">¿Puedo omitir el preámbulo de la GPL, o las
 instrucciones acerca de la manera de utilizarla en los programas propios,
 para ahorrar espacio?</a></li>
@@ -241,7 +244,13 @@ licencias de software libre?</a></li>
 
     <li><a href="#WhyMustIInclude">¿Por qué exige la GPL que en toda copia del
 programa se incluya una copia de la GPL?</a></li>
+
+    <li><a href="#LicenseCopyOnly">Para aplicar la GPL de GNU, ¿es suficiente
+incluir una copia de la licencia en mi repositorio?</a></li>
   
+    <li><a href="#NoticeInSourceFile">¿Por qué tengo que incluir una nota de
+licencia en cada uno de los archivos fuente?</a></li>
+
     <li><a href="#WhatIfWorkIsShort">¿Y si la obra no es muy extensa?</a></li>
   
     <li><a href="#GPLOmitPreamble">¿Puedo omitir el preámbulo de la GPL, o las
@@ -829,6 +838,15 @@ la versión modificada, en su conjunto, bajo la GPL (<a href=
 modificada</a>).</p></dd>
 
 
+<dt id="TranslateCode">¿Qué estipula la GPL respecto a la traducción del código a un lenguaje de
+programación diferente? <span class="anchor-reference-id">(<a
+href="#TranslateCode" >#TranslateCode</a>)</span></dt>
+<dd><p> Bajo la ley de copyright, la traducción de una obra se considera un tipo de
+modificación. Así, lo que estipula la GPL para las versiones modificadas se
+aplica también a las versiones traducidas.
+</p></dd>
+
+
 <dt id="CombinePublicDomainWithGPL">Si un programa combina código de dominio público con código cubierto por la
 GPL, ¿puedo tomar la parte que es de dominio público y utilizarla como
 código de dominio público? <span class="anchor-reference-id">(<a
@@ -966,15 +984,61 @@ gente que tiene copias del programa continuará teniendo la posibilidad de
 ver la licencia consiste en incluir una copia de la licencia en el programa.</p></dd>
 
 
+<dt id="LicenseCopyOnly">¿Es suficiente incluir una copia de la licencia en mi repositorio? <span
+class="anchor-reference-id">(<a href="#LicenseCopyOnly"
+>#LicenseCopyOnly</a>)</span></dt>
+
+<dd><p>Con el solo hecho de incluir una copia de la GPL de GNU en el repositorio
+usted no declara explícitamente que el código que se encuentra en ese mismo
+repositorio puede ser utilizado bajo los términos de la GPL de GNU. En
+ausencia de tal declaración, no resulta del todo claro si los permisos que
+otorga la licencia se aplican realmente a cualquier archivo fuente en
+particular. Una declaración específica que lo indique elimina todas las
+dudas.</p>
+
+<p>Un archivo que contiene una licencia y nada más, sin ninguna declaración que
+indique que existen otros archivos que están cubiertos por esa licencia, se
+asemeja a un archivo que contiene solo una subrutina que no recibe
+llamadas. La similitud no es perfecta: los abogados y los tribunales podrían
+usar el sentido común y llegar a la conclusión de que usted muy
+probablemente incluyó allí una copia de la GPL de GNU porque su intención
+era poner el código bajo esa licencia. Pero, ¿por qué dar lugar a
+incertidumbres?</p>
+
+<p>Esto no se aplica exclusivamente a la GPL de GNU, lo mismo vale para todas
+las licencias libres.</p></dd>
+
+
+<dt id="NoticeInSourceFile">¿Por qué tengo que incluir una nota de licencia en cada uno de los archivos
+fuente? <span class="anchor-reference-id">(<a href="#NoticeInSourceFile"
+>#NoticeInSourceFile</a>)</span></dt>
+
+<dd><p>Para evitar el riesgo de que el código quede desconectado de la licencia, al
+inicio de cada archivo fuente usted debe incluir una nota que especifique la
+licencia bajo la cual se encuentra el código. Si en el LÉEME del repositorio
+se dice que el archivo fuente está bajo la GPL de GNU, ¿qué sucede si
+alguien copia ese archivo para incluirlo en otro programa? Puede que el otro
+entorno no muestre la licencia del código. Existe la posibilidad de que
+aparente estar bajo alguna otra licencia o <a
+href="/licenses/license-list.html#NoLicense">no tener ninguna licencia</a>
+(con lo cual ese código no sería libre).</p>
+
+<p>Es muy fácil añadir una nota al inicio de cada archivo fuente, y así se
+reduce la posibilidad de que se produzca una confusión.</p>
+
+<p>Esto no se aplica exclusivamente a la GPL de GNU, lo mismo vale para todas
+las licencias libres.</p></dd>
+
+
 <dt id="WhatIfWorkIsShort">¿Y si la obra no es muy extensa? <span class="anchor-reference-id">(<a
 href="#WhatIfWorkIsShort" >#WhatIfWorkIsShort</a>)</span></dt>
 
-<dd><p>Si el paquete de software en conjunto contiene poco código &mdash;tomamos un
-límite de 300 líneas como referencia&mdash; puede utilizar un licencia
-sencilla, menos estricta, en lugar de una licencia copyleft como la GPL de
-GNU. Para tales casos <a
+<dd><p>Si el paquete de software en conjunto contiene poco código (tomamos un
+límite de 300 líneas como referencia), y siempre que el código no sea
+particularmente importante, en lugar de una licencia con copyleft como la
+GPL de GNU puede utilizar una licencia laxa, permisiva. Para tales casos <a
 href="/licenses/license-recommendations.html#software">recomendamos la
-<cite>Apache License</cite> 2.0</a></p></dd>
+Licencia Apache 2.0</a>.</p></dd>
 
 
 <dt id="GPLOmitPreamble">¿Puedo omitir el preámbulo de la GPL, o las instrucciones acerca de la
@@ -3793,14 +3857,14 @@ Creative Commons Atribución-SinDerivadas 3.0 Estados Unidos de América</a>.</p
 <div class="translators-credits">
 
 <!--TRANSLATORS: Use space (SPC) as msgstr if you don't want credits.-->
-<strong>Traducción, actualización y formateo: Javier
-Fdez. Retenaga.</strong> 2006, 2012.</div>
+<strong>Traducción, actualización y formateo: Javier Fdez. Retenaga, 2006,
+2012.</strong> Revisiones: Sergi Ruiz Trepat.</div>
 
 
  <p><!-- timestamp start -->
 Última actualización:
 
-$Date: 2013/12/23 23:34:41 $
+$Date: 2014/01/27 13:28:44 $
 
 <!-- timestamp end -->
 </p>

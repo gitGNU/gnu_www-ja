@@ -117,21 +117,24 @@ version modifiée sous accord de non-divulgation ?</a></li>
 
     <li><a href="#WhyMustIInclude">Pourquoi la GPL exige-t-elle d'inclure une copie
 de la GPL avec chaque copie du programme ?</a></li>
-  
+
     <li><a href="#WhatIfWorkIsShort">Et si mon programme n'est pas très long ?</a></li>
-  
+
     <li><a href="#RequiredToClaimCopyright">Suis-je obligé de revendiquer un
 copyright sur les modifications que j'apporte à un programme régi par la
 GPL ?</a></li>
-  
+
+    <li><a href="#TranslateCode">Que dit la GPL sur la traduction d'un morceau de
+code dans un autre langage de programmation?</a></li>
+
     <li><a href="#CombinePublicDomainWithGPL">Si un programme combine du code du
 domaine public et du code régi par la GPL, puis-je prendre le code
 appartenant au domaine public et l'utiliser comme tel ?</a></li>
-  
+
     <li><a href="#IWantCredit">Je veux que mon travail soit reconnu. Je veux que les
 gens sachent ce que j'ai écrit. Puis-je encore être reconnu si j'utilise la
 GPL ?</a></li>
-  
+
     <li><a href="#GPLOmitPreamble">Puis-je ôter le préambule de la GPL, ou la
 section « Comment appliquer ces stipulations à vos nouveaux programmes »,
 pour économiser de l'espace ?</a></li>
@@ -243,7 +246,13 @@ d'autres licences de logiciel libre ?</a></li>
 
     <li><a href="#WhyMustIInclude">Pourquoi la GPL exige-t-elle d'inclure une copie
 de la GPL avec chaque copie du programme ?</a></li>
+
+    <li><a href="#LicenseCopyOnly">Est-ce qu'il suffit de mettre une copie de la GNU
+GPL dans mon dépôt pour appliquer la GPL ?</a></li>
   
+    <li><a href="#NoticeInSourceFile">Pourquoi dois-je mettre un avis de licence
+dans chaque fichier source ?</a></li>
+
     <li><a href="#WhatIfWorkIsShort">Et si mon programme n'est pas très long ?</a></li>
   
     <li><a href="#GPLOmitPreamble">Puis-je ôter le préambule de la GPL, ou la
@@ -836,6 +845,15 @@ publier la version modifiée, en entier, sous la GPL (<a
 href="#GPLRequireSourcePostedPublic">si vous la publiez</a>).</p></dd>
 
 
+<dt id="TranslateCode">Que dit la GPL sur la traduction d'un morceau de code dans un autre langage
+de programmation ? <span class="anchor-reference-id">(<a
+href="#TranslateCode" >#TranslateCode</a>)</span></dt>
+<dd><p> D'après le droit du copyright, la traduction d'une œuvre constitue un type
+de modification. Donc ce que dit la GPL des versions modifiées s'applique
+aussi aux versions traduites.
+</p></dd>
+
+
 <dt id="CombinePublicDomainWithGPL">Si un programme combine du code du domaine public et du code régi par la
 GPL, puis-je prendre le code appartenant au domaine public et l'utiliser
 comme tel ? <span class="anchor-reference-id">(<a
@@ -976,14 +994,59 @@ apparaîtront dans le réseau, est d'inclure une copie de la licence dans le
 programme.</p></dd>
 
 
+<dt id="LicenseCopyOnly">Puis-je me contenter de mettre une copie de la GNU GPL dans mon dépôt ?
+<span class="anchor-reference-id">(<a href="#LicenseCopyOnly"
+>#LicenseCopyOnly</a>)</span></dt>
+
+<dd><p>Se contenter de mettre un fichier avec une copie de la GNU GPL dans votre
+dépôt ne revient pas à déclarer explicitement que le code de ce dépôt peut
+être utilisé sous les conditions de la GNU GPL. Sans cette déclaration, il
+n'est pas complètement évident que les permissions données par la licence
+s'appliquent vraiment à tel ou tel fichier source. Il n'y aura plus aucun
+doute avec une déclaration explicite qui le dit.</p>
+
+<p>Un fichier ne contenant que la licence, sans une déclaration disant que
+certains autres fichiers sont couverts par cette licence, ressemble à un
+fichier ne contenant qu'un sous-programme qui n'est jamais appelé de nulle
+part. La ressemblance n'est pas parfaite : les avocats et les tribunaux
+pourraient se servir de leur sens commun et conclure que si vous avez mis
+une copie de la GNU GPL à cet endroit, c'est que vous deviez avoir
+l'intention de mettre le code sous cette licence. Mais pourquoi laisser
+planer une incertitude ?</p>
+
+<p>Ceci n'a rien à voir avec les particularités de la GNU GPL. C'est vrai de
+n'importe quelle licence.</p></dd>
+
+
+<dt id="NoticeInSourceFile">Pourquoi dois-je mettre un avis de licence dans chaque fichier source ?
+<span class="anchor-reference-id">(<a href="#NoticeInSourceFile"
+>#NoticeInSourceFile</a>)</span></dt>
+
+<dd><p>Vous devez mettre un avis de licence au début de chaque fichier source,
+déclarant par quelle licence il est régi, de manière à éviter le risque de
+voir le code déconnecté de sa licence. Si le fichier LISEZ-MOI de votre
+dépôt dit que le fichier source est sous la GNU GPL, qu'est-ce qui se
+passera si quelqu'un copie le fichier dans un autre programme ? Dans cet
+autre contexte, la licence du fichier ne sera peut-être pas apparente. Il
+pourrait avoir l'air de porter une autre licence, ou <a
+href="/licenses/license-list.html#NoLicense">pas de licence du tout</a>, ce
+qui le rendrait non libre. </p>
+
+<p>Il est facile d'ajouter un avis de copyright et un avis de licence au début
+de chaque fichier source, et cela rend improbable qu'il y ait confusion.</p>
+
+<p>Ceci n'a rien à voir avec les particularités de la GNU GPL. C'est vrai de
+n'importe quelle licence.</p></dd>
+
+
 <dt id="WhatIfWorkIsShort">Et si mon programme n'est pas très long ? <span
 class="anchor-reference-id">(<a href="#WhatIfWorkIsShort"
 >#WhatIfWorkIsShort</a>)</span></dt>
 
 <dd><p>Si un paquet logiciel complet contient très peu de code – moins de
 300 lignes selon notre critère – vous pouvez aussi bien le mettre sous une
-simple licence permissive (laxiste) plutôt que sous une licence à copyleft
-comme la GNU GPL. Nous <a
+licence permissive (laxiste) plutôt que sous une licence à copyleft comme la
+GNU GPL (sauf, bien sûr, si le code est particulièrement important). Nous <a
 href="/licenses/license-recommendations.html#software">recommandons la
 licence Apache 2.0</a> pour ce genre de cas.</p></dd>
 
@@ -3688,9 +3751,9 @@ telle que publiée par la <cite>Free Software Foundation</cite> ; soit la
 version 3 de la licence, soit (à votre gré) toute version
 ultérieure.<br/><br/>
 Ce programme est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE
-GARANTIE ; pas même la garantie implicite de COMMERCIABILISABILITÉ ni
-d'ADÉQUATION à UN OBJECTIF PARTICULIER. Consultez la <cite>GNU General
-Public License</cite> pour plus de détails.<br/><br/>
+GARANTIE ; sans même la garantie tacite de QUALITÉ MARCHANDE ou d'ADÉQUATION
+à UN BUT PARTICULIER. Consultez la <cite>GNU General Public License</cite>
+pour plus de détails.<br/><br/>
 Vous devez avoir reçu une copie de la <cite>GNU General Public
 License</cite> en même temps que ce programme ; si ce n'est pas le cas,
 consultez &lt;http://www.gnu.org/licenses&gt;.<br/><br/>
@@ -3864,7 +3927,7 @@ href="mailto:trad-gnu@april.org">trad-gnu@april.org</a></div>
  <p><!-- timestamp start -->
 Dernière mise à jour :
 
-$Date: 2013/12/17 10:59:14 $
+$Date: 2014/01/29 20:00:14 $
 
 <!-- timestamp end -->
 </p>

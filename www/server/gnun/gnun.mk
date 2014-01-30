@@ -292,6 +292,7 @@ graphics :=	3dbabygnutux \
 		gnu-ascii \
 		gnu-ascii-liberty \
 		gnu-ascii2 \
+		gnu-inside \
 		gnu-jacket \
 		gnu-slash-linux \
 		gnubanner \
@@ -311,10 +312,12 @@ graphics :=	3dbabygnutux \
 		listen \
 		meditate \
 		nandakumar-gnu \
+		navaneeth-gnu \
 		package-logos \
 		philosophicalgnu \
 		philosoputer \
 		reiss-gnuhead \
+		scowcroft \
 		slickgnu \
 		spiritoffreedom \
 		supergnu-ascii \
@@ -344,6 +347,7 @@ help :=		evaluation \
 licenses :=	200104_seminar \
 		210104_seminar \
 		agpl-3.0 \
+		autoconf-exception-3.0 \
 		exceptions \
 		fdl-1.3 \
 		fdl-1.3-faq \
