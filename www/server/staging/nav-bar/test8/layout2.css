@@ -44,7 +44,7 @@ than commit changes directly. */
    #171d33  dark blue (from screenshot): shade behind button
    #ffc     pale yellow: highlight background
    #fff888  yellow: table headers in distros/free-distros.html,
-   #ff3     yellow: urgent
+   #ff3     yellow: urgent, hover background
    #ccffcc  light green: gpl-compat-matrix
    #e4ffcc  light yellowish green: gpl-compat-matrix
 */
@@ -141,42 +141,36 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
 
 #toplinks {
    font-size: .9em;
-   line-height: 2.6em;
+   line-height: 2.4em;
    font-weight: bold;
-   padding: 0 1.11em;
+   padding: 0 1em;
    background-color: #c9cccf;
+   border-bottom: .1em solid #c9cccf;
 }
-#toplinks a, #toplinks a:visited {
+#toplinks a, a:visited {
    color: #222; text-decoration: none;
 }
 #toplinks a:hover { color: red; }
 /* Highlight the link to the FSF mission statement */
-
-#toplinks div.links { float: left; margin-top: 0; }
-
-#toplinks div.fsf { text-align: center; }
-#toplinks div.fsf img { height: 1.2em; position: relative; top: .17em; }
-#toplinks div.fsf a, #toplinks div.fsf a:visited {
+#toplinks span.fsf {
    font-size: 1.1em;
-   line-height: 1em;
-   padding: .2em .5em .15em .5em;
+}
+#toplinks span.fsf a, a:visited {
+   padding: .15em .4em .2em .4em;
    color: #971611;
    background-color: white;
 }
-#toplinks div.fsf a:hover {
+#toplinks span.fsf a:hover {
    color: black;
    background-color: #ff3;
 }
+#toplinks div.links { float: left; }
 
 #searcher {
-   float: right;
-   font-size: 1em;
-   color: white;
-   line-height: 1em;
-   margin-top: .3em;
-   background-color: #c9cccf;
+   text-align: right;
+   color: white; padding-top: 0.05em;
 }
-#searcher input { color: #666; }
+#searcher, #searcher input { color: #555; }
 
 #translations {
    clear: both;
@@ -189,7 +183,7 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
    display: inline-block;
    margin-left: .3em; margin-right: .3em;
 }
-#translations a, #translations a:visited {
+#translations a, a:visited {
    color: #222; text-decoration: none;
 }
 #translations p { margin-bottom: 0.3em; }
@@ -198,7 +192,7 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
    font-size: 1.1em; font-weight: bold;
    padding-top: .3em;
 }
-#translations span.original a, #translations span.original a:visited {
+#translations span.original a, a:visited {
    color: #750000;
 }
 #translations a:hover, #translations span.original a:hover {
@@ -244,25 +238,42 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
    clear: both; content: ""; display: block;
    height: 0px; visibility: hidden; width: 0px;
 }
+#fssbox {
+   float: right;
+   width: auto;
+   font-size: .9em;
+   font-weight: bold;
+   text-align: center;
+   line-height: 1.2em;
+   padding: .5em .5em .2em .5em;
+   margin: 1.11em;
+   border: 1px dashed #971611;
+}
+#fssbox p { margin-top: 0; margin-bottom: .5em; }
+
 #logo {
    font-size: 2.3em;
    font-family: sans-serif;
    font-weight: bold;
    margin-left: .7em;
-   padding-top: 1.1em;
+   padding-top: .85em;
 }
 #logo img {
    float: left;
    height: 1.8em;
-   position: relative; bottom: .45em;
+   position: relative; bottom: .4em;
    padding: 0; margin: 0;
 }
-#logo p { font-size: 1em; line-height: 1em; margin: 0; }
-#logo a strong { color: #334683; }
-#logo a, #logo a:visited {
+#logo p {
+   font-size: 1em;
+   line-height: 1em;
+   margin-bottom: 0.2em;
+}
+#logo a, a:visited {
    color: #971611; text-decoration: none;
    cursor: pointer;
 }
+#logo a strong { color: #334683; }
 
 
 /*** NAVIGATION BAR ***/
@@ -348,7 +359,7 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
    list-style: none;
    padding: 0;
 }
-#fsf-links li a, #fsf-links li a:visited {
+#fsf-links li a, a:visited {
    font-weight: bold;
    padding: .25em .6em;
    color: #222; text-decoration: none;
@@ -359,71 +370,35 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
 }
 
 
-/*** FSF STUFF ***/
-
-#mission-statement:after {
-   clear: both; content: ""; display: block;
-   height: 0px; visibility: hidden; width: 0px;
-}
+ /*** FSF STUFF ***/
+ 
 #mission-statement {
-   line-height: 1.3em;
-   margin: 1em; margin-bottom: .5em;
-}
-#mission-statement img {
-   max-height: 4em; max-width: 100%;
-   margin-top: 1em; margin-bottom: .5em;
+   font-size: 0.9em;
+   margin: 2em 1.11em 1em 1.11em;
 }
 #mission-statement blockquote {
-   width: 70%;
-   text-align: center;
-   margin: auto; margin-bottom: .5em;
+   margin: 1em  0;
 }
-#mission-statement .first-column {
-   width: 47%;
+#mission-statement img {
    float: left;
-   text-align: center;
-   margin: 1em 1% 0 2%;
+   height: 2em;
+   margin: .5em 1em 1em 0;
 }
-#mission-statement .first-column p { line-height: 1.6em; }
-
-#mission-statement .second-column {
-   width: 47%;
+ 
+#join-fsf {
    float: right;
-   text-align: center;
-   margin: 1em 2% 0 1%;
+   margin: 1em; margin-right: 0;
 }
-#join {
-   text-align: center;
-   line-height: 2.2em;
-   font-weight: bold;
-   margin-top: .3em;
-}
-#join a, #join a:visited {
-   padding: .3em 0;
-   color: #971611;
+#join-fsf a, a:visited {
+   font-size: 1em;
+   padding: .25em;
    background-color: #e7e9eb;
 }
-#join a:hover { color: black; background-color: #ff3; }
-#join-fsf { font-size: 1.2em; margin-bottom: .5em; }
+#join-fsf a:hover {
+   color: black;
+   background-color: #ff3;
+}
 #sisters { line-height: 2em; }
-
-#fssbox {
-   text-align: center;
-   width: auto;
-   font-size: 1em;
-   font-weight: bold;
-   line-height: 1.2em;
-   padding: .5em .5em .2em .5em;
-   margin: 2em 0 0 0;
-   border: 1px dashed #971611;
-}
-#fssbox p { margin-top: 0; margin-bottom: .5em; }
-#fssbox input { color: #666; }
-#header #fssbox {
-   float: right;
-   font-size: .9em;
-   margin: 1em 1.11em 1em .8em;
-}
 
 #backtotop {
    clear: both;
@@ -431,12 +406,12 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
    font-weight: bold;
    margin: 0 1em 1.5em 0;
 }
-#backtotop a, #backtotop a:visited { color: #334683; }
+#backtotop a, a:visited { color: #334683; }
 #backtotop a:hover { color: red; }
 
 #fs-gang {
-   height: 10.16em;
-   background-color: #a50606;
+   margin: 0;
+   background-color: #a50606; /* Fallback from gradient */
    background: -moz-linear-gradient(#820202, #f71111); /* FF 3.6+ */  
    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #820202), color-stop(100%, #f71111)); /* Safari 4+, Chrome 2+ */  
    background: -webkit-linear-gradient(#820202, #f71111); /* Safari 5.1+, Chrome 10+ */  
@@ -445,7 +420,16 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#820202', endColorstr='#f71111')"; /* IE8+ */  
    background: linear-gradient(#820202, #f71111); /* the standard */
 }
-#fs-gang img { max-height: 10.16em; max-width: 100%; }
+#fs-gang .img-container {  height: 100%; max-width: 40em; margin: auto; }
+#fs-gang .img-container a {
+   font-size: 1.3em;
+   font-weight: bold;
+   line-height: 1.6em;
+   margin-left: .5em; 
+   color: white; text-decoration: none;
+   cursor: pointer;
+}
+#fs-gang .img-container img { width: 100%; padding: 0; margin: 0; }
 
 
 /*** FOOTER ***/
@@ -568,7 +552,7 @@ at the fsf */
    background-color: #ff3;
    border-bottom: .3em solid #333;
 }
-#urgent a, #urgent a:visited {
+#urgent a, a:visited {
    color: blue; text-decoration: underline;
 }
 #urgent a:hover { color: red; }
@@ -594,16 +578,17 @@ at the fsf */
 #trans-disclaimer {
    float: right;
    font-size: 1em;
-   margin: 1em 0 0 1em;
-}
-
-#trans-disclaimer a, #trans-disclaimer a:visited {
    font-weight: bold;
+   margin: 1em 0 0.3em 1em;
+   border: .2em solid #b9bcbf;
+   text-align: center;
+}
+#trans-disclaimer a, #trans-disclaimer  a:visited {
+   display: block;
    text-decoration: none;
    color: #971611; 
    padding: .2em .5em;
    background-color: white;
-   border: .2em solid #b9bcbf;
 }
 #trans-disclaimer a:hover { 
    color: black;
@@ -640,7 +625,7 @@ ul#edu-navigation {
    list-style-type: none;
    padding: 0; margin: 0;
 }
-#edu-navigation li a, #edu-navigation li a:visited {
+#edu-navigation li a, a:visited {
    padding: .1em .45em;
    color: #222; text-decoration: none;
 }
@@ -694,7 +679,7 @@ img.ambedkar {
 }
 
 #back { text-align: right; font-weight: bold; }
-#back a, #back a:visited { color: #334683; }
+#back a, a:visited { color: #334683; }
 #back a:hover { color: red; }
 
 /* End items specific to education */

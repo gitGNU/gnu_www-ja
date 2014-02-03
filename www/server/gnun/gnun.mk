@@ -93,6 +93,7 @@ ALL_DIRS :=	accessibility \
 		graphics/bahlon \
 		graphics/behroze \
 		graphics/fsfsociety \
+		graphics/gnu-and-freedo \
 		graphics/gnu-post \
 		help \
 		licenses \
@@ -334,6 +335,8 @@ graphics/behroze :=	index
 
 graphics/fsfsociety :=	fsfsociety
 
+graphics/gnu-and-freedo :=	gnu-and-freedo
+
 graphics/gnu-post :=	index
 
 help :=		evaluation \
@@ -526,8 +529,10 @@ philosophy := 	15-years-of-free-software \
 		proprietary \
 		proprietary-back-doors \
 		proprietary-insecurity \
+                proprietary-jails \
 		proprietary-sabotage \
 		proprietary-surveillance \
+                proprietary-tyrants \
 		protecting \
 		public-domain-manifesto \
 		push-copyright-aside \
