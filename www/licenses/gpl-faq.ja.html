@@ -98,18 +98,21 @@ href="#DoesTheGPLAllowModNDA">GPLは、改変されたバージョン、ある�
 href="#DevelopChangesUnderNDA">GPLは、わたしが機密保持契約(NDA)のもとで改変されたバージョンを開発することを許可していますか?</a></li>
 
     <li><a href="#WhyMustIInclude">GPLが、プログラムの複製すべてにGPLの複製を含めることを要求するのはなぜですか?</a></li>
-  
+
     <li><a href="#WhatIfWorkIsShort">著作物がライセンス自身よりもそんなに長くない場合はどうしたらよいですか?</a></li>
-  
+
     <li><a
 href="#TOCRequiredToClaimCopyright">GPLの及ぶプログラムに改変を加えた場合、自分が改変した点に関して著作権を主張する必要はありますか?</a></li>
-  
+
+    <li><a href="#TranslateCode">あるコードを異なるプログラミング言語に翻訳することについてGPLはどう言ってますか?</a><a
+href="#GPLTranslations">GPLを他の言語に翻訳したものはありますか?</a></li>
+
     <li><a
 href="#CombinePublicDomainWithGPL">あるプログラムがパブリックドメインに置かれたコードとGPLの及ぶコードから構成されていたとして、パブリックドメインな部分を取り出してパブリックドメインなコードとして利用することができますか?</a></li>
-  
+
     <li><a
 href="#IWantCredit">わたしは、自分の著作物によって名声を得たいし、人々に自分が書いたもののことを知って欲しいのです。GPLを適用しても、わたしはそのような名声を得ることができますか?</a></li>
-  
+
     <li><a href="#GPLOmitPreamble">スペース節約のため、GPLの前文か自分のプログラムへの適用方法の説明を省いても良いですか?</a></li>
   
     <li><a href="#WhatIsCompatible">二つのライセンスが「両立する」とはどういう意味ですか?</a></li>
@@ -192,7 +195,12 @@ href="#CouldYouHelpApplyGPL">GPLをわたしのプログラムに適用するに
     <li><a href="#WhyUseGPL">他の自由ソフトウェア・ライセンスではなく、GNU GPLを使ったほうが良いのはなぜですか?</a></li>
 
     <li><a href="#WhyMustIInclude">GPLが、プログラムの複製すべてにGPLの複製を含めることを要求するのはなぜですか?</a></li>
+
+    <li><a href="#LicenseCopyOnly">GNU
+GPLのコピーをわたしのリポジトリに入れておくだけでGPLを適用するに充分でしょうか?</a></li>
   
+    <li><a href="#NoticeInSourceFile">なぜ、個々のソースファイルそれぞれにライセンス告知を置くべきなのでしょう?</a></li>
+
     <li><a href="#WhatIfWorkIsShort">著作物がライセンス自身よりもそんなに長くない場合はどうしたらよいですか?</a></li>
   
     <li><a href="#GPLOmitPreamble">スペース節約のため、GPLの前文か自分のプログラムへの適用方法の説明を省いても良いですか?</a></li>
@@ -607,6 +615,13 @@ class="anchor-reference-id">(<a href="#RequiredToClaimCopyright"
 href="#GPLRequireSourcePostedPublic">もし、あなたの改変したバージョンをリリースするならば</a>)</p></dd>
 
 
+<dt id="TranslateCode">あるコードを異なるプログラミング言語に翻訳することについてGPLはどう言ってますか? <span
+class="anchor-reference-id">(<a href="#TranslateCode"
+>#TranslateCode</a>)</span></dt>
+<dd><p> 著作権法では、作品の翻訳は改変の一種であると考えられています。ですから、GPLが改変版について言っていることが翻訳版にも当てはまります。
+</p></dd>
+
+
 <dt id="CombinePublicDomainWithGPL">あるプログラムがパブリックドメインに置かれたコードとGPLの及ぶコードから構成されていたとして、パブリックドメインな部分を取り出してパブリックドメインなコードとして利用することができますか?
 <span class="anchor-reference-id">(<a href="#CombinePublicDomainWithGPL"
 >#CombinePublicDomainWithGPL</a>)</span></dt>
@@ -692,11 +707,40 @@ class="anchor-reference-id">(<a href="#WhyMustIInclude"
 <p>ネットワークの世界で将来起こる全ての変化にもかかわらず、プログラムの複製を持つ人々がずっとライセンスを見ることができることを保証する唯一の方法は、ライセンスの複製をプログラムの中に含めることです。</p></dd>
 
 
+<dt id="LicenseCopyOnly">GNU GPLのコピーをわたしのリポジトリに入れておくだけでGPLを適用するに充分でしょうか? <span
+class="anchor-reference-id">(<a href="#LicenseCopyOnly"
+>#LicenseCopyOnly</a>)</span></dt>
+
+<dd><p>単にGNU GPLの入ったファイルのコピーをリポジトリに置くだけでは、同一のリポジトリにあるコードがGNU
+GPLで使えるか明示的に述べるわけではありません。明言がなければ、ライセンスの許可がどの具体的なソースファイルに実際に適用されるのか、まったく明確であるわけではありません。明示された文章で述べることがすべての疑念を除去します。</p>
+
+<p>ライセンスだけが入ったファイルが、そのライセンスでカバーされる特定のほかのファイルについて述べた文章なしである、という状況は、どこからも決して呼ばれないサブルーチンが入っているファイルに似ています。この相似は完全ではありません:
+弁護士と法廷は、常識を適用し、GNU
+GPLのコピーを置いたのは、そのコードをそれでライセンスしたかったからに違いないと結論づけるかもしれません。しかし、不確実性をそのままにしておく理由があるでしょうか?</p>
+
+<p>これはGNU GPL特有のことでは、まったくありません。どんな自由なライセンスにも当てはまります。</p></dd>
+
+
+<dt id="NoticeInSourceFile">なぜ、個々のソースファイルそれぞれにライセンス告知を置くべきなのでしょう? <span class="anchor-reference-id">(<a
+href="#NoticeInSourceFile" >#NoticeInSourceFile</a>)</span></dt>
+
+<dd><p>ライセンス告知をそれぞれのソースファイルの最初に置き、どのライセンスを運んでいるか述べるべきです。そのライセンスと切り離されてしまうリスクを避けるためです。リポジトリのREADMEがソースファイルがGNU
+GPLの元にあると言っている場合、そのソースファイルを他のプログラムに誰かがコピーした場合どうなるでしょうか?
+そういった他の文脈では、そのファイルのライセンスが何か示せないかもしれません。なにか他のライセンスであるか、あるいは<a
+href="/licenses/license-list.html#NoLicense">ライセンスが全くないか</a>
+と見えてしまうかもしれません(そうするとコードを不自由にしてしまうでしょう)。</p>
+
+<p>それぞれのソースファイルの最初に著作権表示とライセンス告知を加えることは、容易であり、こういった混乱を起こりにくくします。</p>
+
+<p>これはGNU GPL特有のことでは、まったくありません。どんな自由なライセンスにも当てはまります。</p></dd>
+
+
 <dt id="WhatIfWorkIsShort">著作物がライセンス自身よりもそんなに長くない場合はどうしたらよいですか? <span class="anchor-reference-id">(<a
 href="#WhatIfWorkIsShort" >#WhatIfWorkIsShort</a>)</span></dt>
 
 <dd><p>もし全体のソフトウェアパッケージがそんなに小さいコードしかない(300行がわたしたちの使う基準です)短いならば、GNU
-GPLのようなコピーレフトのライセンスではなく、より単純で寛容なライセンスを適用したほうが良いでしょう。わたしたちは、そのような場合、<a
+GPLのようなコピーレフトのライセンスではなく、より緩い寛容なライセンスを適用したほうが良いでしょう。(そのコードが特に重要でなければ。)
+わたしたちは、そのような場合、<a
 href="/licenses/license-recommendations.html#software">Apache
 ライセンス2.0を推奨します</a>。</p></dd>
 
@@ -2300,7 +2344,7 @@ Attribution-NoDerivs 3.0 United States License</a>の条件で許諾されます
  <p><!-- timestamp start -->
 最終更新:
 
-$Date: 2013/12/24 08:15:06 $
+$Date: 2014/02/03 02:58:38 $
 
 <!-- timestamp end -->
 </p>
