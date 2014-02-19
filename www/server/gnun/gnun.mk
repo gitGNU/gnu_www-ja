@@ -280,11 +280,13 @@ graphics :=	3dbabygnutux \
 		avatars \
 		babygnu \
 		bokma-gnu \
+		BVBN \
 		bwcartoon \
 		copyleft-sticker \
 		digital-restrictions-management \
 		emacs-ref \
 		freedom \
+		french-motto \
 		fromagnulinux \
 		fsf-logo \
 		FSFS-logo \
@@ -293,10 +295,13 @@ graphics :=	3dbabygnutux \
 		gnu-ascii \
 		gnu-ascii-liberty \
 		gnu-ascii2 \
+		gnu-head-shadow \
 		gnu-inside \
 		gnu-jacket \
 		gnu-slash-linux \
 		gnubanner \
+		gnuhornedlogo \
+		gnulove \
 		gnuolantern \
 		gnupascal \
 		gnupumpkin \
