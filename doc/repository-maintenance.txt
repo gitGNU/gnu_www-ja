@@ -94,9 +94,9 @@ $ git checkout master
 $ cvs update -d -P
 # -d (create new directory), -P (prune empty directory), -C (overwrite local)
 # review files to be added
-$ git add -n .
+$ git add -n -A .
 # ... and add them now
-$ git add .
+$ git add -A .
 # review changes in upstream
 $ git status
 # Check deleted files and do 'git rm' for them
@@ -107,7 +107,7 @@ $ git commit -m "Sync with CVS"
 # move tag forward
 $ git tag -f cvssync
 # reflect changes onto server
-$ git push; git push --tag
+$ git push; git push --tag --force
 # Possibly, remove old files overwritten (back-uped)
 $ find . -type f -name ".#*" -print | xargs rm -f
 
@@ -131,7 +131,7 @@ $ cvs commit -m "added www/distro/po/free-distros.ja.po"
 $ git commit -am "Sync with CVS"
 $ git tag -f cvssync
 
-$ git push; git push --tag
+$ git push; git push --tag --force
 
 
 GNUN validater: running GNUN
