@@ -6,6 +6,7 @@ Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011, 2013 Free Software Foundation
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
 files (the "Software"), to deal in the Software without
+</div><!-- /toplinks -->
 restriction, including without limitation the rights to use,
 copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the
@@ -99,9 +100,11 @@ html, body {
    without discussion on www-discuss.  The magic 74.92 is for
    consistency with fsf.org.  */
 .inner {
-   position: relative;
-   margin: auto; width: 99%; max-width:74.92em; overflow: hidden;
+   margin: auto; max-width:74.92em; overflow: hidden;
    background-color: white;
+}
+div#null-wrapper {
+   margin: auto; max-width:74.92em;
 }
 
 a[href] { color: #334683; }
@@ -142,11 +145,9 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
 
 #toplinks {
    font-size: .9em;
-   line-height: 2.0em;
+   line-height: 2.2em;
    font-weight: bold;
    padding: 0 1%;
-   background-color: #c9cccf;
-   border-bottom: .1em solid #c9cccf; border-top: .1em solid #c9cccf;
 }
 #toplinks a, a:visited {
    color: #222; text-decoration: none;
@@ -157,17 +158,21 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
    font-size: 1.1em;
 }
 #toplinks span.fsf a, a:visited {
-   padding: .2em .5em;
    color: #971611;
 }
 #toplinks span.fsf a:hover {
    color: red;
 }
-#toplinks div.links { float: left; }
+#toplinks { float: left; }
 
 #searcher {
+   font-size: .9em;
    text-align: right;
-   color: white; padding-top: 0.05em;
+   line-height: 2.2em;
+   color: white;
+   background-color: #c9cccf;
+   font-weight: bold;
+   padding-right: 1%;
 }
 #searcher, #searcher input { color: #555; }
 
@@ -209,8 +214,6 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
 
 /*** HEADER ***/
 
-#header { margin: .8em 1% 0 2%; }
-
 #header:after {
    clear: both; content: ""; display: block;
    height: 0px; visibility: hidden; width: 0px;
@@ -223,43 +226,63 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
    line-height: 1.2em;
    padding: .5em .5em .2em .5em;
    border: 1px dashed #971611;
-   margin-bottom: 1em;
+   margin: 0 1% .75em 0;
 }
 #fssbox p { margin-top: 0; margin-bottom: .5em; }
 
-#fsf-support {
-   font-size: 1em;
-   font-weight: bold;
-   font-style: italic;
-   margin-top: 1em; margin-bottom: .9em;
-}
-#fsf-support a, a:visited { color: #971611; }
-#fsf-support a:hover { color: red; }
-
-#logo img {
-   float: left;
-   height: 2.4em;
-   margin-right: .4em; margin-left: 0;
-   position: relative; bottom: .5em;
-}
-#logo {
+/* For "normal" pages */
+#gnu-banner {
    font-size: 1.8em;
    font-family: sans-serif;
    font-weight: bold;
    line-height: 1.1em;
-   padding-top: .5em;
+   padding-top: .8em;
+   margin-top: .35em;
 }
-#logo strong {
-   font-size: 1.6em;
+#gnu-banner img {
+   float: left;
+   height: 2.4em;
+   margin: 0 .15em 0 1.5%;
+   position: relative; bottom: .8em;
 }
-#logo a {
+#gnu-banner a {
    color: #334683; text-decoration: none;
    cursor: pointer;
 }
-#logo a strong {
-   font-size: 1.6em;
+#gnu-banner a strong {
+   font-size: 1.4em;
+   position: relative; left: -.05em;
    color: #971611;
 }
+#fsf-support {
+   font-size: 1em;
+   font-weight: bold;
+   font-style: italic;
+   margin: .8em 0 .6em 1%;
+}
+#fsf-support a, a:visited { color: #971611; }
+#fsf-support a:hover { color: red; }
+
+/* For the pages still using style.css */
+#logo {
+   background:url(/graphics/topbanner.png) no-repeat;
+   float: left;
+   padding:0; margin:0; border:0;
+}
+#logo:lang(ar) {
+   background:url(/graphics/topbanner.ar.png) no-repeat;
+   float: right;
+}
+#logo a {
+   display:block; overflow:hidden;
+   width:550px;
+   height:0px !important;
+   text-decoration:none;
+   padding:0; padding-top:101px;
+   margin:0; border:0;
+   cursor:pointer;
+}
+
 
 /*** NAVIGATION BAR ***/
 
@@ -402,9 +425,16 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
 #backtotop {
    clear: both;
    float: right;
-   font-size: 1.1em; margin-bottom: 1.5em;
+   font-size: 1.1em;
    font-weight: bold;
-   margin-left: 1.5em;
+   margin: 0 0 1.5em 0;
+}
+div#backtotop {
+/* For older versions of layout. */
+   float: none;
+   text-align: right;
+   padding: 1em 1%;
+   margin: 0;
 }
 #backtotop a, a:visited { color: #334683; }
 #backtotop a:hover { color: red; }
@@ -443,7 +473,7 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
    background-color: #f5f6f7;
    border-top: 1px solid #c9cccf;
 }
-#footer p { margin-bottom: 0; }
+#footer p { margin-bottom: .3em; }
 
 #footer .footer-unit, #footer .translators-credits {
    margin: .5em 0;

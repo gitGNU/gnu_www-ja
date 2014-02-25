@@ -99,9 +99,11 @@ html, body {
    without discussion on www-discuss.  The magic 74.92 is for
    consistency with fsf.org.  */
 .inner {
-   position: relative;
-   margin: auto; width: 99%; max-width:74.92em; overflow: hidden;
+   margin: auto; max-width:74.92em; overflow: hidden;
    background-color: white;
+}
+div#null-wrapper {
+   margin: auto; max-width:74.92em;
 }
 
 a[href] { color: #334683; }
@@ -142,11 +144,9 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
 
 #toplinks {
    font-size: .9em;
-   line-height: 2.0em;
+   line-height: 2.2em;
    font-weight: bold;
    padding: 0 1%;
-   background-color: #c9cccf;
-   border-bottom: .1em solid #c9cccf; border-top: .1em solid #c9cccf;
 }
 #toplinks a, a:visited {
    color: #222; text-decoration: none;
@@ -157,17 +157,21 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
    font-size: 1.1em;
 }
 #toplinks span.fsf a, a:visited {
-   padding: .2em .5em;
    color: #971611;
 }
 #toplinks span.fsf a:hover {
    color: red;
 }
-#toplinks div.links { float: left; }
+#toplinks { float: left; }
 
 #searcher {
+   font-size: .9em;
    text-align: right;
-   color: white; padding-top: 0.05em;
+   line-height: 2.2em;
+   color: white;
+   background-color: #c9cccf;
+   font-weight: bold;
+   padding-right: 1%;
 }
 #searcher, #searcher input { color: #555; }
 
@@ -209,58 +213,69 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
 
 /*** HEADER ***/
 
-#header { margin: .5em 1%; }
-
 #header:after {
    clear: both; content: ""; display: block;
    height: 0px; visibility: hidden; width: 0px;
 }
 #fssbox {
+   clear: right;
    float: right;
-   width: 15em; max-width: 100%;
+   width: auto;
    font-size: .9em;
    text-align: center;
    line-height: 1.2em;
    padding: .5em .5em .2em .5em;
-   margin: 0;
    border: 1px dashed #971611;
+   margin: 0 1% .7em 0;
 }
 #fssbox p { margin-top: 0; margin-bottom: .5em; }
 
+#gnu-banner img {
+   float: left;
+   height: 6em;
+   margin: .7em .5em .7em 2%;
+}
+#gnu-banner p {
+   float: left;
+   font-size: 1.6em;
+   font-family: sans-serif;
+   font-weight: bold;
+   line-height: 1.1em;
+   margin: 1.2em 0 .7em 0;
+}
+#gnu-banner a {
+   color: #334683;
+   text-decoration: none;
+   cursor: pointer;
+}
 
-#logo-container {background: yellow;}
-#fsf-support { font-size: 1em; font-weight: bold; font-style: italic; }
+#fsf-support {
+   float: right;
+   font-size: 1em;
+   font-style: italic;
+   margin: .5em 1% .7em; 0;
+}
 #fsf-support a, a:visited { color: #971611; }
 #fsf-support a:hover { color: red; }
 
+/* For the pages outside www.gnu.org still using style.css */
 #logo {
-   font-size: 1em;
-   font-family: sans-serif;
-   font-weight: bold;
-   line-height: 1em;
-   padding: 0 0 .8em 0 ;
-}
-#logo img {
+   background:url(/graphics/topbanner.png) no-repeat;
    float: left;
-   height: 3.8em;
-   padding: 0 0 .8em 0;
-   border-bottom: .9em solid #d1d4d7;
-   margin-right: .8em;
+   padding:0; margin:0; border:0;
 }
-#logo span {
-   font-size: 1.3em;
-   margin-bottom: 0;
+#logo:lang(ar) {
+   background:url(/graphics/topbanner.ar.png) no-repeat;
+   float: right;
 }
-#logo strong {
-   font-size: 1.9em;
-   line-height: 1em;
-   color: #971611;
-   position: relative; top: .1em;
-}
-
-#logo a, #logo a:visited {
-   color: #334683; text-decoration: none;
-   cursor: pointer;
+#logo a {
+   display:block; overflow:hidden;
+   width:550px;
+   height:0px !important;
+   text-decoration:none;
+   padding:0; padding-top:101px;
+   margin:0; border:0;
+   cursor:pointer;
 }
 
 
@@ -315,7 +330,7 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
 #content h2 {
    font-size: 2em; font-weight:bold;
    padding: .7em 0 0 0; margin: 0 0 .9em 0;
-   color: #334683; text-shadow: black 1px 1px 0;
+   color: #334683; text-shadow: #999 1px 1px 0;
 }
 
 #content h2 a { color: #971611; }
@@ -334,7 +349,7 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
    #content dt, #content code, #content address { line-height: 1.3em; }
 
 /* For column headers in education.html, but could apply elsewhere. */
-#content h2.yui-gc {
+#content .yui-gc h2 {
    text-shadow: none;
    margin-bottom: .7em;
 }
@@ -394,7 +409,7 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
 }
 #join-fsf a, a:visited {
    font-size: 1em;
-   padding: .25em;
+   padding: .25em; padding-top: .3em;
    background-color: #e7e9eb;
 }
 #join-fsf a:hover {
@@ -404,14 +419,21 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
 
 #backtotop {
    clear: both;
-   text-align: right;
+   float: right;
+   font-size: 1.1em;
    font-weight: bold;
-   margin-bottom: 1.5em;
+   margin: 0 0 1.5em 1.5em;
+}
+div#backtotop {
+/* For older versions of layout. */
+   margin-left: 0; margin-bottom: 0; float: none;
+   text-align: right; padding: 1em;
 }
 #backtotop a, a:visited { color: #334683; }
 #backtotop a:hover { color: red; }
 
 #fs-gang {
+   clear: both;
    margin: 0;
    background-color: #a50606; /* Fallback from gradient */
    background: -moz-linear-gradient(#820202, #f71111); /* FF 3.6+ */  
@@ -433,10 +455,12 @@ div.spacer { height: .1em; width: 100%; background-color: transparent; }
 }
 #fs-gang .img-container img { width: 100%; padding: 0; margin: 0; }
 
+#sisters { font-size: .9em; margin: 1%; }
 
 /*** FOOTER ***/
 
 #footer {
+   clear: both;
    font-size: .9em;
    padding: 1.11em 1%;
    background-color: #f5f6f7;
@@ -670,9 +694,9 @@ img.ambedkar {
    margin: 2.4em 0 2.4em 2.4em;
 }
 
-#back { text-align: right; font-weight: bold; }
-#back a, a:visited { color: #334683; }
-#back a:hover { color: red; }
+.back { text-align: right; font-weight: bold; }
+.back a, a:visited { color: #334683; }
+.back a:hover { color: red; }
 
 /* End items specific to education */
 
@@ -745,6 +769,10 @@ img.ambedkar {
 
 
 /*** LICENSING ***/
+
+/* For licenses/license-list.html. */
+span.anchor-reference-id a { color: #333 !important; text-shadow: none; }
+span.anchor-reference-id a:hover { color: red !important; }
 
 /* This is for licenses/gpl-faq.html. */
 
