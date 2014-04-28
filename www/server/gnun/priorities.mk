@@ -1,4 +1,4 @@
-# Copyright (C) 2013 Free Software Foundation, Inc.
+# Copyright (C) 2014 Free Software Foundation, Inc.
 
 # This file is part of GNUnited Nations.
 
@@ -24,6 +24,7 @@ priority-articles :=	philosophy/free-sw \
 			philosophy/why-free \
 			education/education \
 			education/edu-cases-india-irimpanam \
+			education/edu-schools \
 			education/edu-software-tuxpaint \
 			gnu/thegnuproject \
 			philosophy/free-software-even-more-important \

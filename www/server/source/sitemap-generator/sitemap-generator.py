@@ -2,7 +2,7 @@
 #
 # Sitemap generator
 # Copyright © 2011-2012 Wacław Jacek
-# Copyright © 2013 Free Software Foundation, Inc.
+# Copyright © 2014 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -233,8 +233,17 @@ def get_title(path):
 	if match:
 		return replacement_titles[match.re.pattern]
 	text = read_file(os.path.join(TOP_DIRECTORY, path))
-	title = extract_tags(text, ['h1', 'h2', 'h3'])
 	encoding = determine_file_encoding(text, path)
+	idx = text.find('<!--')
+	while idx >= 0:
+		head = text[:idx]
+		tail = text[idx:]
+		idx = tail.find('-->')
+		if idx >= 0:
+			tail = tail[idx + 3:]
+			text = head + tail
+			idx = text.find('<!--')
+	title = extract_tags(text, ['h1', 'h2', 'h3'])
 	if title:
 		title = re.sub('<CODE>', '<code>', title)
 		title = re.sub('</CODE>', '</code>', title)

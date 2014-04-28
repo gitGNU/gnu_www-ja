@@ -1,17 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
-<head>
-<!-- start of server/head-include-1.html -->
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rev="made" href="mailto:webmasters@gnu.org" />
-<link rel="icon" type="image/png" href="/graphics/gnu-head-mini.png" />
-<meta name="ICBM" content="42.355469,-71.058627" />
-<meta name="DC.title" content="gnu.org" />
-<!-- end of server/head-include-1.html -->
-<!-- end of server/header.html -->
-<!-- Parent-Version: 1.75 -->
+<!--#include virtual="/server/header.html" -->
+<!-- Parent-Version: 1.77 -->
 
 <title>The GNU Operating System</title>
 
@@ -19,30 +7,95 @@
 <meta http-equiv="Description" content="Since 1983, developing the free Unix style operating system GNU, so that computer users can have the freedom to share and improve the software they use." />
 <link rel="alternate" title="Planet GNU" href="http://planet.gnu.org/rss20.xml" type="application/rss+xml" />
 
+<!--#include virtual="/server/fs-gang-definitions.html" -->
 <!--#include virtual="/po/home.translist" -->
 <!-- start of server/banner.html -->
 <!-- start of head-include-2.html -->
 
-<link rel="stylesheet" href="/combo.css" media="screen" />
-<link rel="stylesheet" href="layout5.css" media="screen" />
+<link rel="stylesheet" href="combo.css" media="screen" />
+<link rel="stylesheet" href="layout7.css" media="screen" />
 
 <link rel="stylesheet" href="/mini.css" media="handheld" />
 
 <link rel="stylesheet" href="/print.css" media="print" />
 
-<!-- end of head-include-2.html -->
-</head>
+<!-- end of head-include-2.html --></head>
 <body>
 <div  class="inner">
 
-<!--#include virtual="/server/staging/nav-bar/test9/body-include-1.html" -->
+<!-- start of server/body-include-1.html -->
+<!--#set var="HTML_BODY" value="yes" -->
 
-<!--#include virtual="/server/staging/nav-bar/test9/body-include-2-5.html" -->
+<div id="toplinks">
+ <a href="#content">Skip to main text</a>
+</div> <!-- /toplinks -->
+
+<div id="searcher" class="imgright">
+ <form method="get" action="//www.gnu.org/cgi-bin/estseek.cgi">
+  <div>
+  <input name="phrase" id="phrase" type="text" size="20" accesskey="s"
+         value="Why GNU/Linux?" onfocus="this.value=''" /><input
+         type="submit" value="Search" />
+  </div>
+ </form>
+</div><!-- /searcher -->
+
+<!--#if expr="$TRANSLATION_LIST" -->
+<!--#echo encoding="none" var="TRANSLATION_LIST" -->
+<!--#elif expr="$INITIAL_TRANSLATIONS_LIST = included" -->
+<!-- if initial translation list isn't included before banner.html,
+     then the file may use an old boilerplate that contains
+     div#translations in its body, and we mustn't duplicate it here. -->
+<!--#include virtual="/server/gnun/initial-translations-list.html" -->
+<!--#endif -->
+<!-- end of server/body-include-1.html -->
+<!-- start of server/body-include-2.html -->
+
+<div id="header">
+<div id="fsf-frame">
+<p id="join-fsf"><a href="https://www.fsf.org/associate/support_freedom?referrer=4052">JOIN&nbsp;THE&nbsp;FSF</a></p>
+<div id="fssbox">
+<p><a href="http://www.fsf.org/fss">GNU/FSF Newsletter</a></p>
+<form action="https://crm.fsf.org/civicrm/profile/create&amp;reset=1&amp;gid=31" method="post">
+ <div>
+  <input name="postURL" type="hidden" value="" />
+  <input type="hidden" name="group[25]" value="1" />
+  <input name="cancelURL" type="hidden" value="https://crm.fsf.org/civicrm/profile?reset=1&amp;gid=31" />
+  <input name="_qf_default" type="hidden" value="Edit:cancel" />
+ </div>
+ <p>
+  <input type="text" id="frmEmail" name="email-Primary" size="18" maxlength="80" value="email address"
+         onfocus="this.value=''" /><input type="submit" name="_qf_Edit_next" value="Sign up" />
+ </p>
+</form>
+</div><!-- /fssbox -->
+</div><!-- /fsf-frame -->
+
+<div id="gnu-banner">
+ <a href="/">
+ <img src="/graphics/heckert_gnu.small.png" alt=" [A GNU head] " /><strong>GNU</strong> Operating System</a>
+</div><!-- /gnu-banner -->
+<p id="fsf-support">Sponsored by the <a href="#mission-statement">Free Software Foundation</a></p>
+
+</div><!-- /header -->
+
+<div id="navigation">
+ <ul>
+  <li id="tabAboutGNU"><a href="/gnu/gnu.html">About&nbsp;GNU</a></li>
+  <li id="tabPhilosophy"><a href="/philosophy/philosophy.html">Philosophy</a></li>
+  <li id="tabLicenses"><a href="/licenses/licenses.html">Licenses</a></li>
+  <li id="tabEducation"><a href="/education/education.html">Education</a></li>
+  <li id="tabSoftware"><a href="/software/software.html">Software</a></li>
+  <li id="tabDoc"><a href="/doc/doc.html">Documentation</a></li>
+  <li id="tabHelp"><a href="/help/help.html">Help&nbsp;GNU</a></li>
+ </ul>
+</div><!--  /navigation -->
+
+<!-- end of server/body-include-2.html -->
 
 <div id="content">
 
 <!-- end of server/banner.html -->
-
 <p class="netscape4">Richard Stallman announced in September 1983 the plan to develop a free software Unix-like operating system called GNU. GNU is the only operating system developed specifically for the sake of users' freedom.</p>
 
 <div id="home">
@@ -57,8 +110,9 @@ respects your freedom.  You can install
 versions of GNU</a> (more precisely, GNU/Linux systems) which are
 entirely free software. <a href="/provide.html">What we provide</a>.</p>
 
-<p class="c" ><a href="/distros/screenshot.html">
-<img src="t-desktop-4-medium.jpg" alt="Screenshot of GNU" /></a></p>
+<p class="c"><a href="/distros/screenshot.html"><img
+   src="/graphics/t-desktop-4-small.jpg" alt="Screenshot of GNU"
+   /></a></p>
 
 <p>The <a href="/gnu/gnu.html">GNU Project</a> was launched in 1984 to
 develop the GNU system.  The name &ldquo;GNU&rdquo; is a recursive
@@ -99,22 +153,24 @@ software:</p>
 <li>The freedom to redistribute copies so you can help your neighbor
     (freedom 2).</li>
 <li>The freedom to improve the program, and release your improvements
-    to the public, so that the whole community benefits
+   to the public, so that the whole community benefits
     (freedom 3).   Access to the source code is a precondition for this.</li>
 </ul>
+
 
 </div><!-- /first-column -->
 
 <div class="second-column">
 
 <p class="button c large"><a
-href="/distros/free-distros.html">Download GNU now</a></p>
+      href="/distros/free-distros.html">Download GNU now</a></p>
 
 <div class="emph-box">
 
 <h4 id="Flashes"><a href="http://planet.gnu.org/">Planet GNU</a> <a href="http://planet.gnu.org/rss20.xml"><img src="/feed-icon-10x10.png" alt="RSS Feed" /></a></h4>
 
 <!--#include virtual="/planetfeeds.html" -->
+
 <p>For more news, see <a href="http://planet.gnu.org/">Planet GNU</a>
 and the list of <a href="/software/recent-releases.html">recent GNU
 releases</a>.</p>
@@ -152,17 +208,28 @@ Canada">in Canada</a>.</li>
 <a href="http://www.endsoftpatents.org">worldwide</a>,
 <a href="/server/takeaction.html#swpat">and Europe</a>.</li>
 
+<li><strong>Watch and share this movie:</strong> <a
+href="http://patentabsurdity.com">Patent Absurdity</a>&mdash;made
+possible by <a href="http://www.fsf.org/associate/">FSF associate
+members</a> like <a href="http://fsf.org/jfb">you</a>.</li>
+
+<li><strong><a href="/server/takeaction.html#wipochange">Call
+on WIPO</a></strong> to change its name and mission.</li>
+
+<li>Students! <a href="http://www.aful.org/communiques/univ-offers-me-windows">
+Claim a refund on your unused Microsoft Windows licences</a>.</li>
+
 <li><a href="/server/takeaction.html#directory">Add to the Free Software
 Directory</a>.</li>
 
-<li><strong><a href="/server/takeaction.html">More action items.</a></strong></li>
+<li><a href="/server/takeaction.html">More action items.</a></li>
 
 </ul>
-<!-- END TakeAction -->
 
+<!-- END TakeAction -->
 </div><!-- /Action -->
 </div><!-- /second-column -->
-</div> <!-- /home -->
+</div><!-- /home -->
 
 <div class="highlight-para">
 
@@ -178,20 +245,16 @@ Forms.</p>
 href="/server/takeaction.html#unmaint">unmaintained GNU
 package</a>?</strong>
 <span class="gnun-split"></span>
-  <a href="/software/dap/">dap</a>,
   <a href="/software/gleem/">gleem</a>,
-  <a href="/software/gnatsweb/">gnatsweb</a>,
   <a href="/software/gnukart/">gnukart</a>,
   <a href="/software/groff/">groff</a>,
   <a href="/software/halifax/">halifax</a>,
-  <a href="/software/indent/">indent</a>,
   <a href="/software/jwhois/">jwhois</a>,
   <a href="/software/metahtml/">metahtml</a>,
   <a href="/software/orgadoc/">orgadoc</a>,
   <a href="/software/polyxmass/">polyxmass</a>,
   <a href="/software/superopt/">superopt</a>,
-  <a href="/software/teximpatient/">teximpatient</a>,
-  <a href="/software/trueprint/">trueprint</a><span class="gnun-split"></span>,
+  <a href="/software/teximpatient/">teximpatient</a><span class="gnun-split"></span>,
 are all <a href="/server/takeaction.html#unmaint">looking for
 maintainers</a>.  Also, these packages are looking for co-maintainers:
 <span class="gnun-split"></span>
@@ -204,18 +267,14 @@ See the package web pages for more information.</p>
 </div><!-- /highlight-para -->
 
 </div><!-- for id="content", starts in the include above -->
+<!--#include virtual="/server/footer.html" -->
 
-<!--#include virtual="/server/staging/nav-bar/test9/footer-text.html" -->
-
-<p id="sisters">The FSF also has sister organizations in <a href="http://www.fsfe.org">Europe</a>, <a
+<p id="sisters">The <a href="http://www.fsf.org/">FSF</a> also has sister
+organizations in <a href="http://www.fsfe.org">Europe</a>, <a
 href="http://www.fsfla.org/">Latin America</a> and <a
 href="http://fsf.org.in/">India</a>.</p>
 
-<div id="fs-gang">
-<div class="img-container">
-<a href="http://www.fsf.org/working-together/gang">meet the free software gang<img src="charac-more-notext-transp.png" alt=" [FS gang] "/></a> 
-</div> <!-- /img-container -->
-</div> <!-- /fs-gang -->
+<!--#include virtual="/server/fs-gang.html" -->
 
 <div id="footer">
 
@@ -236,7 +295,8 @@ href="http://fsf.org.in/">India</a>.</p>
      There is more detail about copyright years in the GNU Maintainers
      Information document, www.gnu.org/prep/maintain. -->
 
-<p>Copyright &copy; 1996-2013 <a
+<p>Copyright &copy; 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
+2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014 <a
 href="http://www.fsf.org">Free Software Foundation</a>, Inc.</p>
 
 <p>This page is licensed under a <a rel="license"
@@ -245,9 +305,9 @@ Commons Attribution-NoDerivs 3.0 United States License</a>.</p>
 
 <!--#include virtual="/server/bottom-notes.html" -->
 
-<p>Updated:
+<p class="unprintable">Updated:
 <!-- timestamp start -->
-$Date: 2014/02/14 12:50:01 $
+$Date: 2014/04/27 17:49:24 $
 <!-- timestamp end -->
 </p>
 </div>

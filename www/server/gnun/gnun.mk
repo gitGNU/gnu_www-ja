@@ -23,11 +23,11 @@ TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he hr id it ja ko ml nb nl \
 
 # TRANSLATORS: Add here your language code if you want PO files with wdiffs
 # to previous msgids.
-FUZZY_DIFF_LINGUAS := de es fr hr it nl pl ru
+FUZZY_DIFF_LINGUAS := de es fr hr it ml nl pl ru
 
 # List of articles for which GRACE do not apply; i.e. they are
 # regenerated even if there are fuzzy strings.
-no-grace-articles := home server/sitemap server/takeaction
+no-grace-articles := home prep/ftp server/sitemap server/takeaction
 
 # The English sitemap HTML file is generated automatically outside of GNUN.
 # GNUN uses compendia automatically generated for this file when available.
@@ -58,6 +58,7 @@ extra-templates := philosophy/philosophy-menu \
 # of the respective team (the PO files are merged, but are not created).
 optional-templates := planetfeeds \
 		      manual/allgnupkgs \
+		      server/fs-gang \
 		      server/home-pkgblurbs \
 		      software/recent-releases-include
 
@@ -105,6 +106,7 @@ ALL_DIRS :=	accessibility \
 		philosophy \
 		philosophy/economics_frank \
 		philosophy/sco \
+		prep \
 		press \
 		pronunciation \
 		server \
@@ -409,6 +411,7 @@ manual :=	blurbs \
 
 music :=	blues-song \
 		emacsvsvi \
+                free-birthday-song \
 		free-software-song \
 		gdb-song \
 		music \
@@ -497,6 +500,10 @@ philosophy := 	15-years-of-free-software \
 		limit-patent-effect \
 		linux-gnu-freedom \
 		luispo-rms-interview \
+		malware-apple \
+		malware-kindle-swindle \
+		malware-microsoft \
+		malware-mobiles \
 		mcvoy \
 		microsoft \
 		microsoft-antitrust \
@@ -533,6 +540,7 @@ philosophy := 	15-years-of-free-software \
 		programs-must-not-limit-freedom-to-run \
 		proprietary \
 		proprietary-back-doors \
+		proprietary-drm \
 		proprietary-insecurity \
                 proprietary-jails \
 		proprietary-sabotage \
@@ -605,6 +613,9 @@ philosophy/sco :=	questioning-sco \
 			sco-v-ibm \
 			sco-without-fear \
 			subpoena
+
+prep :=			ftp \
+			index
 
 press :=		2001-07-09-DotGNU-Mono \
 			2001-07-20-FSF-India \

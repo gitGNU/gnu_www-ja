@@ -1,45 +1,126 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
-<head>
-<!-- start of server/head-include-1.html -->
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rev="made" href="mailto:webmasters@gnu.org" />
-<link rel="icon" type="image/png" href="/graphics/gnu-head-mini.png" />
-<meta name="ICBM" content="42.355469,-71.058627" />
-<meta name="DC.title" content="gnu.org" />
-<!-- end of server/head-include-1.html --><!-- end of server/header.html -->
-<!-- Parent-Version: 1.75 -->
-
+<!--#include virtual="/server/header.html" -->
+<!-- Parent-Version: 1.76 -->
 <title>Various Licenses and Comments about Them
 - GNU Project - Free Software Foundation</title>
-
 <!--#include virtual="/licenses/po/license-list.translist" -->
+
+<style type="text/css" media="print,screen">
+<!--
+/* These statements are commented out in HTML to
+   make them untranslatable.  */
+/* Definitions for color-coded border */
+#content dl.green, #content dl.orange,
+ #content dl.red, #content dl.blue {
+   padding-left: 1em;
+   margin-left: 0;
+   margin-top: 2em;
+}
+
+#content dl.green { border-left: .4em solid green; }
+#content dl.orange { border-left: .4em dashed orange; }
+#content dl.red { border-left: .4em dotted red; }
+#content dl.blue { border-left: .4em double  blue; }
+
+/* Disable legend for CSS1-only browsers:
+   they don't support :before and :after */
+#content div#legend { display: none; }
+/* Enable legend for CSS2+ browsers. */
+@media print,screen {
+#content div#legend { display: block; }
+}
+#content div#legend {
+   float: right;
+   width: auto; max-width: 100%;
+   font-style: normal;
+   padding: 0 1em 1em 1em;
+   margin: 2.5em 1.5em 1.5em 1.5em;
+   background: #f0f2f4;
+   border: 1px solid #c9cccf;
+}
+
+#content div#legend dl { margin: 1em 0 0 0; }
+#content div#legend dt { padding: 1em 0; margin: 0; }
+#content div#legend dd { margin: 0; }
+
+#legend blockquote { font-size: 1.3em; font-style: normal; text-align: center; font-weight: bold; }
+#legend dl.green dt:after, #legend dl.orange dt:after,
+#legend dl.red dt:after, #legend dl.blue dt:after { font-weight: normal; }
+-->
+</style>
+<!-- These statements are split between different <style> elements,
+     and their contents aren't commented out on purpose:
+     they should be translated, preferably as separate strings.  -->
+<style type="text/css" media="print,screen">
+#legend blockquote:before { content: "Code for the left border"; }
+</style>
+<style type="text/css" media="print,screen">
+#legend dl.green dt:after {
+   content: "Free licenses, compatible with the GNU GPL or FDL";
+}
+</style>
+<style type="text/css" media="print,screen">
+#legend dl.orange dt:after {
+   content: "Free licenses, incompatible with the GNU GPL and FDL";
+}
+</style>
+<style type="text/css" media="print,screen">
+#legend dl.red dt:after { content: "Nonfree licenses"; }
+</style>
+<style type="text/css" media="print,screen">
+#legend dl.blue dt:after { content: "Licenses for works stating a viewpoint"; }
+</style>
+
 <!-- start of server/banner.html -->
 <!-- start of head-include-2.html -->
 
-<link rel="stylesheet" href="combo.css" media="screen" />
-<link rel="stylesheet" href="layout5.css" media="screen" />
+<link rel="stylesheet" href="/combo.css" media="screen" />
+<link rel="stylesheet" href="layout7.css" media="screen" />
 
 <link rel="stylesheet" href="/mini.css" media="handheld" />
 
 <link rel="stylesheet" href="/print.css" media="print" />
 
 <!-- end of head-include-2.html -->
+</head>
 <body>
 <div  class="inner">
 
-<!--#include virtual="body-include-1.html" -->
+<!-- start of server/body-include-1.html -->
+<!--#set var="HTML_BODY" value="yes" -->
 
-<!--#include virtual="body-include-2.html" -->
+<div id="toplinks">
+ <a href="#content">Skip to main text</a>
+</div> <!-- /toplinks -->
+
+<div id="searcher">
+ <form method="get" action="http://www.gnu.org/cgi-bin/estseek.cgi">
+  <div>
+  <input name="phrase" id="phrase" type="text" size="18" accesskey="s"
+         value="Why GNU/Linux?" onfocus="this.value=''" />
+  <input type="submit" value="Search" />
+  </div><!-- unnamed label -->
+ </form>
+</div><!-- /searcher -->
+
+<!--#if expr="$TRANSLATION_LIST" -->
+<!--#echo encoding="none" var="TRANSLATION_LIST" -->
+<!--#elif expr="$INITIAL_TRANSLATIONS_LIST = included" -->
+<!-- if initial translation list isn't included before banner.html,
+     then the file may use an old boilerplate that contains
+     div#translations in its body, and we mustn't duplicate it here. -->
+<!--#include virtual="/server/gnun/initial-translations-list.html" -->
+<!--#endif -->
+<!-- end of server/body-include-1.html -->
+<!--#include virtual="/server/body-include-2.html" -->
 
 <div id="content">
 
-<!-- end of server/banner.html -->
-<h2>Various Licenses and Comments about Them</h2>
+<!-- end of server/banner.html --><h2>Various Licenses and Comments about Them</h2>
 
-<h3><a id="TableOfContents">Table of Contents</a></h3>
+
+<div class="toc">
+
+<h3 id="TableOfContents">Table of Contents</h3>
 
 <ul>
 <li><a href="#Introduction">Introduction</a></li>
@@ -62,16 +143,24 @@
   </ul>
 </li>
 
-<li><a href="#OtherLicenses">
-    Licenses for Works of Practical Use Besides Software and Documentation</a>
-    <ul><li><a href="#Fonts">Licenses for Fonts</a></li></ul>
-    </li>
-<li><a href="#OpinionLicenses">
-    Licenses for Works stating a Viewpoint (e.g., Opinion or Testimony)</a></li>
+<li><a href="#OtherLicenses">Licenses for Other Works</a>
+  <ul>
+  <li><a href="#OtherLicenses">Licenses for Works of Practical Use
+      besides Software and Documentation</a></li>
+  <li><a href="#Fonts">Licenses for Fonts</a></li>
+  <li><a href="#OpinionLicenses">Licenses for Works stating a Viewpoint
+      (e.g., Opinion or Testimony)</a></li>
+  </ul>
+</li>
 </ul>
 
+</div> <!-- /class="toc" -->
 
-<h2><a id="Introduction">Introduction</a></h2>
+<div class="big-section">
+<h3  id="Introduction">
+    Introduction</h3>
+</div>
+<div style="clear: left;"></div>
 
 <p>We classify a license according to certain key criteria:</p>
 
@@ -131,14 +220,27 @@ The Free Software Directory catalogues over 6000 free software packages and
 their licensing information.</p>
 
 
-<h2><a id="SoftwareLicenses">Software Licenses</a></h2>
+<div id="legend">
+<blockquote></blockquote>
+<dl class="green"><dt></dt><dd></dd></dl>
+<dl class="orange"><dt></dt><dd></dd></dl>
+<dl class="red"><dt></dt><dd></dd></dl>
+<dl class="blue"><dt></dt><dd></dd></dl>
+</div>
 
-<h3><a id="FreeLicenses"></a>
-    <a id="GPLCompatibleLicenses">
-    GPL-Compatible Free Software Licenses</a>
-    <span class="anchor-reference-id">
-     (<a href="#GPLCompatibleLicenses">#GPLCompatibleLicenses</a>)</span>
-</h3>
+<div class="big-section">
+<h3 id="SoftwareLicenses">
+     Software Licenses</h3>
+</div>
+<div style="clear: left;"></div>
+
+<div class="big-subsection">
+<h4 id="GPLCompatibleLicenses">
+    <span id="FreeLicenses"></span>
+    GPL-Compatible Free Software Licenses</h4>
+<span class="anchor-reference-id">
+    (<a href="#GPLCompatibleLicenses">#GPLCompatibleLicenses</a>)</span>
+</div>
 
 <p><strong>The following licenses qualify as <a
 href="/philosophy/free-sw.html">free software</a>
@@ -146,7 +248,8 @@ licenses, and are compatible with the <a href="#GNUGPL">GNU
 GPL</a>.</strong></p>
 
 
-<dl>
+<dl class="green">
+
 <dt><a id="GNUGPL"></a>  <!-- both generic and version-specific anchors -->
     <a id="GNUGPLv3" href="/licenses/gpl.html">
     GNU General Public License (GPL) version 3</a>
@@ -937,23 +1040,24 @@ href="#X11License">X11 license</a>.</p></dd>
 <p>This is a lax, permissive non-copyleft free software license
 which is compatible with the GNU GPL.</p></dd>
 
-</dl>
+</dl> <!-- end class="green" -->
 
+<hr class="separator" />
 
-<hr />
-<h3><a id="GPLIncompatibleLicenses">
-    GPL-Incompatible Free Software Licenses</a>
-    <span class="anchor-reference-id">
-     (<a href="#GPLIncompatibleLicenses">#GPLIncompatibleLicenses</a>)</span>
-</h3>
+<div class="big-subsection">
+<h4 id="GPLIncompatibleLicenses">
+    GPL-Incompatible Free Software Licenses</h4>
+<span class="anchor-reference-id">
+    (<a href="#GPLIncompatibleLicenses">#GPLIncompatibleLicenses</a>)</span>
+</div>
 
 <p><strong>The following licenses
 are <a href="/philosophy/free-sw.html">free software</a> licenses, but
 are <a href="/licenses/gpl-faq.html#WhatIsCompatible"><em>not
 compatible</em></a> with the <a href="#GNUGPL">GNU GPL</a>.</strong></p>
 
+<dl class="orange">
 
-<dl>
 <dt><a id="AGPLv1.0" href="http://directory.fsf.org/wiki/License:AGPLv1">
     Affero General Public License version 1</a>
     <span class="anchor-reference-id">
@@ -1546,16 +1650,17 @@ released under this license, such as previous versions of Zope.</p>
 <p><a href="#Zope20">Version 2.0 of the Zope Public License</a> is
 GPL-compatible.</p></dd>
 
-</dl>
+</dl> <!-- end class="orange" -->
 
+<hr class="separator" />
 
-<hr />    <!-- first id is singular, leave for compatibility: -->
-<h3><a id="NonFreeSoftwareLicense"></a>
-    <a id="NonFreeSoftwareLicenses">
-    Nonfree Software Licenses</a>
-    <span class="anchor-reference-id">
-     (<a href="#NonFreeSoftwareLicenses">#NonFreeSoftwareLicenses</a>)</span>
-</h3>
+<div class="big-subsection">
+<span id="NonFreeSoftwareLicense"></span>
+<h4><a id="NonFreeSoftwareLicenses">
+    Nonfree Software Licenses</a></h4>
+<span class="anchor-reference-id">
+    (<a href="#NonFreeSoftwareLicenses">#NonFreeSoftwareLicenses</a>)</span>
+</div>
 
 <p><strong>The following licenses <em>do not qualify</em> as <a
 href="/philosophy/free-sw.html">free software</a>
@@ -1580,7 +1685,8 @@ reason, we have avoided naming the programs for which a license is used,
 unless we think that for specific reasons it won't backfire.</p>
 
 
-<dl>
+<dl class="red">
+
 <dt><a id="NoLicense">No license</a>
     <span class="anchor-reference-id">
        (<a href="#NoLicense">#NoLicense</a>)</span></dt>
@@ -1588,17 +1694,25 @@ unless we think that for specific reasons it won't backfire.</p>
 <p>If source code does not carry a license to give users the
 four essential freedoms, it is not free software.</p>
 
-<p>Some developers think that code with no license is in the public
-domain.  That is not true under today's copyright law; rather, all
-copyrightable works are nonfree by default.  This includes programs.
-In some countries, users that download code with no license may
-infringe copyright merely by compiling it or running it.</p>
+<p>Some developers think that code with no license
+is <a href="#PublicDomain">in the public domain</a>.  That is not true
+under today's copyright law; rather, all copyrightable works are
+copyrighted by default.  This includes programs.  Absent a license to
+grant users freedom, they don't have any.  In some countries, users
+that download code with no license may infringe copyright merely by
+compiling it or running it.</p>
 
 <p>In order for a program to be free, its copyright holders must
 explicitly grant users the <a href="/philosophy/free-sw.html"> four
 essential freedoms</a>.  The document with which they do so is called
 a <em>free software license</em>.  This is what free software
 licenses are for.</p>
+
+<p>Code written by employees of the US government is a special
+exception, since US copyright law explicitly puts that in the public
+domain; but this does not apply to works that the US pays a company to
+write.  It also does not apply to other countries, many of which do
+allow the state to have a copyright on government writings.</p>
 
 <p>Some countries allow authors to put code in the public domain, but
 that requires explicit action.  If you wish to do that, the method we
@@ -1700,6 +1814,16 @@ problematic.</p>
 <p>Today <a href="#eCos20">eCos is available</a> under the GNU GPL with
 additional permission for linking with nonfree programs.</p></dd>
 
+
+<dt><a id="DOR"
+ href="http://dorepository.org/download.html">
+   CNRI Digital Object Repository License Agreement</a>
+    <span class="anchor-reference-id">
+       (<a href="#DOR">#DOR</a>)</span></dt>
+<dd>
+<p>This license is non-free because of Article 3, which arguably
+includes a requirement not to violate the license of <em>any</em>
+program that the user runs&mdash;even proprietary programs.</p></dd>
 
 <dt><a id="GPL-PA"
  href="http://directory.fsf.org/wiki/License:GPL-PA">
@@ -1984,22 +2108,29 @@ intended.</p>
 <p>(The YaST software itself no longer uses this nonfree YaST license;
 happily, it is now free software, released under the GNU GPL.)</p></dd>
 
-</dl>
+</dl> <!-- end class="red" -->
 
-<h2><a id="DocumentationLicenses">Licenses For Documentation</a></h2>
+<div class="big-section">
+<h3 id="DocumentationLicenses">
+    Licenses For Documentation</h3>
+</div>
+<div style="clear: left;"></div>
 
-<h3><a id="FreeDocumentationLicenses">Free Documentation Licenses</a>
-    <span class="anchor-reference-id">
-     (<a href="#FreeDocumentationLicenses">#FreeDocumentationLicenses</a>)
+<div class="big-subsection">
+<h4 id="FreeDocumentationLicenses">
+    Free Documentation Licenses</h4>
+<span class="anchor-reference-id">
+    (<a href="#FreeDocumentationLicenses">#FreeDocumentationLicenses</a>)
     </span>
-</h3>
+</div>
 
 <p><strong>The following licenses qualify as <a
 href="/philosophy/free-doc.html">free
 documentation</a> licenses.</strong></p>
 
 
-<dl>
+<dl class="green">
+
 <dt><a id="FDL" href="/licenses/fdl.html">
     GNU Free Documentation License</a>
     <span class="anchor-reference-id">(<a href="#FDL">#FDL</a>)</span></dt>
@@ -2009,6 +2140,19 @@ We plan to adopt it for all GNU manuals.  It is also suitable for other
 kinds of useful works (such as textbooks and dictionaries, for
 instance).  Its applicability is not limited to textual works
 (&ldquo;books&rdquo;).</p></dd>
+
+
+<dt><a id="FreeBSDDL"
+       href="http://directory.fsf.org/wiki?title=License:FreeBSD">
+    FreeBSD Documentation License</a>
+    <span class="anchor-reference-id">
+       (<a href="#FreeBSDDL">#FreeBSDDL</a>)</span></dt>
+<dd>
+<p>This is a permissive non-copyleft free documentation license that is
+compatible with the GNU FDL.</p></dd>
+
+</dl> <!-- end class="green" -->
+<dl class="orange">
 
 
 <dt><a id="ACDL"
@@ -2021,16 +2165,6 @@ GNU FDL.  It is incompatible because Section&nbsp;(2c) says &ldquo;You
 add no other terms or conditions to those of this License&rdquo;, and
 the GNU FDL has additional terms not accounted for in the Common
 Documentation License.</p></dd>
-
-
-<dt><a id="FreeBSDDL"
-       href="http://directory.fsf.org/wiki?title=License:FreeBSD">
-    FreeBSD Documentation License</a>
-    <span class="anchor-reference-id">
-       (<a href="#FreeBSDDL">#FreeBSDDL</a>)</span></dt>
-<dd>
-<p>This is a permissive non-copyleft free documentation license that is
-compatible with the GNU FDL.</p></dd>
 
 
 <dt><a id="RealOPL"></a>  <!-- old id, leave for compatibility -->
@@ -2070,22 +2204,24 @@ confused, as the Open Content License is often referred to as the
 abbreviation &ldquo;OPL&rdquo; for either license.  It is worth spelling
 their names in full to make sure people understand what you say.</p></dd>
 
-</dl>
+</dl> <!-- end class="orange" -->
 
+<hr class="separator" />
 
-<hr />
-<h3><a id="NonFreeDocumentationLicenses">
-    Nonfree Documentation Licenses</a>
-    <span class="anchor-reference-id">
+<div class="big-subsection">
+<h4 id="NonFreeDocumentationLicenses">
+    Nonfree Documentation Licenses</h4>
+<span class="anchor-reference-id">
     (<a href="#NonFreeDocumentationLicenses">#NonFreeDocumentationLicenses</a>)
     </span>
-</h3>
+</div>
 
 <p><strong>The following licenses <em>do not qualify</em>
 as free documentation licenses:</strong></p>
 
 
-<dl>
+<dl class="red">
+
 <dt><a id="OCL"></a> <!-- brief id, leave for compatibility -->
     <a id="OpenContentL" href="http://opencontent.org/opl.shtml">
     Open Content License, Version 1.0</a>
@@ -2102,16 +2238,22 @@ the abbreviation &ldquo;OPL&rdquo; for either license.  It is worth
 spelling their names in full to make sure people understand what you
 say.</p></dd>
 
-</dl>
+</dl> <!-- end class="red" -->
 
-<h2><a id="OtherLicenses">
-    Licenses for Works of Practical Use Besides Software and Documentation</a>
-    <span class="anchor-reference-id">
-       (<a href="#OtherLicenses">#OtherLicenses</a>)</span>
-</h2>
+<div class="big-section">
+<h3 id="OtherLicenses">Licenses for Other Works</h3>
+</div>
+<div style="clear: left;"></div>
 
+<div class="big-subsection">
+<h4>Licenses for Works of Practical Use
+    besides Software and Documentation</h4>
+<span class="anchor-reference-id">
+    (<a href="#OtherLicenses">#OtherLicenses</a>)</span>
+</div>
 
-<dl>
+<dl class="green">
+
 <dt><a id="GPLOther" href="/licenses/gpl.html">
     GNU General Public License</a>
     <span class="anchor-reference-id">
@@ -2135,6 +2277,9 @@ all topics.  (&ldquo;Documentation&rdquo; simply means textbooks and
 other teaching materials for using equipment or software.)  We also
 recommend the GNU FDL for dictionaries, encyclopedias, and any other
 works that provide information for practical use.</p></dd>
+
+</dl> <!-- end class="green" -->
+<dl  class="orange">
 
 
 <dt><a id="ccby" href="http://creativecommons.org/licenses/by/2.0/legalcode">
@@ -2206,19 +2351,21 @@ which try to create an effect like copyleft for data that is not
 copyrightable, so we don't recommend using it; however, there is no
 reason to avoid using data released this way.</p></dd>
 
-</dl>
+</dl> <!-- end class="orange" -->
 
-
-<h3><a id="Fonts">Licenses for Fonts</a>
-    <span class="anchor-reference-id">(<a href="#Fonts">#Fonts</a>)</span>
-</h3>
+<div class="big-subsection">
+<h4 id="Fonts">
+    Licenses for Fonts</h4>
+<span class="anchor-reference-id">
+    (<a href="#Fonts">#Fonts</a>)</span>
+</div>
 
 <p>The licenses below apply to an instantiation of a design in a computer
 file, not the artistic design.  As far as we know, an implementation of
 a design is always copyrightable.  The legal status of the artistic
 design is complex, and varies by jurisdiction.</p>
 
-<dl>
+<dl class="green">
 
 <dt><a id="GPLFonts" href="/licenses/gpl.html">
     GNU General Public License</a>
@@ -2234,6 +2381,8 @@ exception</a>.  See also this <a
 href="http://www.fsf.org/blogs/licensing/20050425novalis">explanatory
 essay about the GPL Font Exception</a>.</p></dd>
 
+</dl> <!-- end class="green" -->
+<dl  class="orange">
 
 <dt><a id="Arphic"
        href="http://ftp.gnu.org/gnu/non-gnu/chinese-fonts-truetype/LICENSE">
@@ -2258,12 +2407,14 @@ Since a simple Hello World program will satisfy the requirement, it is
 harmless.  Neither we nor SIL recommend the use of this license for
 anything other than fonts.</p></dd>
 
-</dl>
+</dl> <!-- end class="orange" -->
 
-<h2><a id="OpinionLicenses"> Licenses for Works stating a Viewpoint (e.g., Opinion or Testimony)</a>
-    <span class="anchor-reference-id">
-       (<a href="#OpinionLicenses">#OpinionLicenses</a>)</span>
-</h2>
+<div class="big-subsection">
+<h4 id="OpinionLicenses">
+    Licenses for Works stating a Viewpoint (e.g., Opinion or Testimony)</h4>
+<span class="anchor-reference-id">
+    (<a href="#OpinionLicenses">#OpinionLicenses</a>)</span>
+</div>
 
 <p>Works that express someone's opinion&mdash;memoirs, editorials, and
 so on&mdash;serve a fundamentally different purpose than works for
@@ -2280,7 +2431,8 @@ all.  If you are looking for one to use yourself, however, there are
 two that we recommend:</p>
 
 
-<dl>
+<dl class="blue">
+
 <dt><a id="GNUVerbatim" href="/licenses/licenses.html#VerbatimCopying">
     GNU Verbatim Copying License</a>
     <span class="anchor-reference-id">
@@ -2305,14 +2457,16 @@ it for audio and/or video works of opinion.
 Please <a href="#which-cc">be specific about which Creative
 Commons license is being used</a>.</p></dd>
 
-</dl>
+</dl> <!-- end class="blue" -->
+
+<hr class="separator" />
 
 
-<hr />
-<strong><a href="/licenses/licenses.html">More about licenses.</a></strong>
+<p class="back"><strong><a href="/licenses/licenses.html">More about licenses</a></strong></p>
 </div><!-- for id="content", starts in the include above -->
-<!--#include virtual="footer-text.html" -->
+<!--#include virtual="/server/footer.html" -->
 <div id="footer">
+<div class="unprintable">
 
 <p>Please send general FSF &amp; GNU inquiries to <a
 href="mailto:gnu@gnu.org">&lt;gnu@gnu.org&gt;</a>.  There are also <a
@@ -2336,8 +2490,9 @@ href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a>.</p>
 Please see the <a
 href="/server/standards/README.translations.html">Translations README</a> for
 information on coordinating and submitting translations of this article.</p>
+</div>
 
-<p>Copyright &copy; 2012 Free Software Foundation, Inc.</p>
+<p>Copyright &copy; 2014 Free Software Foundation, Inc.</p>
 
 <p>This page is licensed under a <a rel="license"
 href="http://creativecommons.org/licenses/by-nd/3.0/us/">Creative
@@ -2345,9 +2500,9 @@ Commons Attribution-NoDerivs 3.0 United States License</a>.</p>
 
 <!--#include virtual="/server/bottom-notes.html" -->
 
-<p>Updated:
+<p></p><p class="unprintable">Updated:
 <!-- timestamp start -->
-$Date: 2014/02/16 14:59:57 $
+$Date: 2014/04/17 21:24:36 $
 <!-- timestamp end -->
 </p>
 </div>

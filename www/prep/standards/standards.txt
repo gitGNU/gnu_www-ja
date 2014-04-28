@@ -70,11 +70,11 @@ Index
 GNU Coding Standards
 ********************
 
-The GNU coding standards, last updated December 17, 2013.
+The GNU coding standards, last updated March 31, 2014.
 
    Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012,
-2013 Free Software Foundation, Inc.
+2013, 2014 Free Software Foundation, Inc.
 
    Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -135,8 +135,8 @@ maintainable by others.
 coding standards for a trivial program.
 <http://www.gnu.org/software/hello/hello.html>.
 
-   This release of the GNU Coding Standards was last updated December
-17, 2013.
+   This release of the GNU Coding Standards was last updated March 31,
+2014.
 
 2 Keeping Free Software Free
 ****************************
@@ -725,6 +725,13 @@ pipe, then it is usually best to make the default behavior the one that
 is useful with output to a terminal, and have an option for the other
 behavior.
 
+   There is an exception for programs whose output in certain cases is
+binary data.  Sending such output to a terminal is useless and can cause
+trouble.  If such a program normally sends its output to stdout, it
+should detect, in these cases, when the output is a terminal and give an
+error message instead.  The '-f' option should override this exception,
+thus permitting the output to go to the terminal.
+
    Compatibility requires certain programs to depend on the type of
 output device.  It would be disastrous if 'ls' or 'sh' did not do so in
 the way all users expect.  In some of these cases, we supplement the
@@ -785,7 +792,7 @@ among GNU utilities, and fewer idiosyncrasies for users to remember.
    All programs should support two standard options: '--version' and
 '--help'.  CGI programs should accept these as command-line options, and
 also if given as the 'PATH_INFO'; for instance, visiting
-<http://example.org/p.cgi/--help> in a browser should output the same
+'http://example.org/p.cgi/--help' in a browser should output the same
 information as invoking 'p.cgi --help' from the command line.
 
 4.7.1 '--version'
@@ -5242,233 +5249,233 @@ Index
 
 * Menu:
 
-* '#endif', commenting:                  Comments.           (line 2372)
-* '--help' output:                       --help.             (line  940)
-* '--version' output:                    --version.          (line  794)
+* '#endif', commenting:                  Comments.           (line 2379)
+* '--help' output:                       --help.             (line  947)
+* '--version' output:                    --version.          (line  801)
 * '-Wall' compiler option:               Syntactic Conventions.
-                                                             (line 2405)
+                                                             (line 2412)
 * accepting contributions:               Contributions.      (line  183)
-* address for bug reports:               --help.             (line  945)
+* address for bug reports:               --help.             (line  952)
 * ANSI C standard:                       Standard C.         (line  356)
 * arbitrary limits on data:              Semantics.          (line  515)
-* ASCII characters:                      Character Set.      (line 2826)
-* autoconf:                              System Portability. (line 2582)
+* ASCII characters:                      Character Set.      (line 2833)
+* autoconf:                              System Portability. (line 2589)
 * avoiding proprietary code:             Reading Non-Free Code.
                                                              (line  149)
 * batch of changes:                      Change Log Concepts.
-                                                             (line 3126)
+                                                             (line 3133)
 * behavior, dependent on program's name: User Interfaces.    (line  708)
 * binary packages:                       Install Command Categories.
-                                                             (line 4547)
+                                                             (line 4554)
 * bindir:                                Directory Variables.
-                                                             (line 3881)
-* braces, in C source:                   Formatting.         (line 2188)
-* bug reports:                           --help.             (line  945)
+                                                             (line 3888)
+* braces, in C source:                   Formatting.         (line 2195)
+* bug reports:                           --help.             (line  952)
 * 'bug-standards@gnu.org' email address: Preface.            (line  112)
 * C compatibility:                       Compatibility.      (line  293)
-* C library functions, and portability:  System Functions.   (line 2675)
-* canonical name of a program:           --version.          (line  800)
-* casting pointers to integers:          CPU Portability.    (line 2663)
+* C library functions, and portability:  System Functions.   (line 2682)
+* canonical name of a program:           --version.          (line  807)
+* casting pointers to integers:          CPU Portability.    (line 2670)
 * CGI programs, standard options for:    Command-Line Interfaces.
-                                                             (line  785)
-* change logs:                           Change Logs.        (line 3115)
+                                                             (line  792)
+* change logs:                           Change Logs.        (line 3122)
 * change logs, conditional changes:      Conditional Changes.
-                                                             (line 3266)
+                                                             (line 3273)
 * change logs, style:                    Style of Change Logs.
-                                                             (line 3173)
+                                                             (line 3180)
 * change set:                            Change Log Concepts.
-                                                             (line 3126)
-* character set:                         Character Set.      (line 2826)
+                                                             (line 3133)
+* character set:                         Character Set.      (line 2833)
 * clang:                                 Syntactic Conventions.
-                                                             (line 2412)
+                                                             (line 2419)
 * command-line arguments, decoding:      Semantics.          (line  556)
 * command-line interface:                Command-Line Interfaces.
-                                                             (line  760)
-* commenting:                            Comments.           (line 2318)
+                                                             (line  767)
+* commenting:                            Comments.           (line 2325)
 * compatibility with C and POSIX standards: Compatibility.   (line  293)
 * compiler warnings:                     Syntactic Conventions.
-                                                             (line 2405)
+                                                             (line 2412)
 * conditional changes, and change logs:  Conditional Changes.
-                                                             (line 3266)
-* conditionals, comments for:            Comments.           (line 2372)
-* configure:                             Configuration.      (line 3398)
-* control-L:                             Formatting.         (line 2310)
+                                                             (line 3273)
+* conditionals, comments for:            Comments.           (line 2379)
+* configure:                             Configuration.      (line 3405)
+* control-L:                             Formatting.         (line 2317)
 * conventions for makefiles:             Makefile Conventions.
-                                                             (line 3576)
+                                                             (line 3583)
 * CORBA:                                 Graphical Interfaces.
-                                                             (line  749)
-* credits for manuals:                   Manual Credits.     (line 3080)
+                                                             (line  756)
+* credits for manuals:                   Manual Credits.     (line 3087)
 * D-bus:                                 Graphical Interfaces.
-                                                             (line  749)
-* data structures, in Gnulib:            System Functions.   (line 2713)
-* data types, and portability:           CPU Portability.    (line 2620)
+                                                             (line  756)
+* data structures, in Gnulib:            System Functions.   (line 2720)
+* data types, and portability:           CPU Portability.    (line 2627)
 * description, change log entry:         Change Log Concepts.
-                                                             (line 3132)
-* DESTDIR:                               DESTDIR.            (line 3786)
+                                                             (line 3139)
+* DESTDIR:                               DESTDIR.            (line 3793)
 * directories, creating installation:    Directory Variables.
-                                                             (line 3844)
-* documentation:                         Documentation.      (line 2891)
-* doschk:                                Names.              (line 2551)
-* double quote:                          Quote Characters.   (line 2842)
+                                                             (line 3851)
+* documentation:                         Documentation.      (line 2898)
+* doschk:                                Names.              (line 2558)
+* double quote:                          Quote Characters.   (line 2849)
 * downloading this manual:               Preface.            (line   96)
 * dynamic plug-ins:                      Dynamic Plug-In Interfaces.
-                                                             (line  959)
-* encodings:                             Character Set.      (line 2826)
-* 'enum' types, formatting:              Formatting.         (line 2227)
+                                                             (line  966)
+* encodings:                             Character Set.      (line 2833)
+* 'enum' types, formatting:              Formatting.         (line 2234)
 * error messages:                        Semantics.          (line  528)
 * error messages, formatting:            Errors.             (line  643)
-* error messages, in Gnulib:             System Functions.   (line 2713)
+* error messages, in Gnulib:             System Functions.   (line 2720)
 * exec_prefix:                           Directory Variables.
-                                                             (line 3863)
-* expressions, splitting:                Formatting.         (line 2273)
+                                                             (line 3870)
+* expressions, splitting:                Formatting.         (line 2280)
 * FDL, GNU Free Documentation License:   GNU Free Documentation License.
-                                                             (line 4764)
-* file usage:                            File Usage.         (line 2163)
-* file-name limitations:                 Names.              (line 2551)
+                                                             (line 4771)
+* file usage:                            File Usage.         (line 2170)
+* file-name limitations:                 Names.              (line 2558)
 * formatting error messages:             Errors.             (line  643)
-* formatting source code:                Formatting.         (line 2185)
-* formfeed:                              Formatting.         (line 2310)
+* formatting source code:                Formatting.         (line 2192)
+* formfeed:                              Formatting.         (line 2317)
 * function argument, declaring:          Syntactic Conventions.
-                                                             (line 2401)
-* function definitions, formatting:      Formatting.         (line 2188)
+                                                             (line 2408)
+* function definitions, formatting:      Formatting.         (line 2195)
 * function prototypes:                   Standard C.         (line  372)
 * getopt:                                Command-Line Interfaces.
-                                                             (line  760)
+                                                             (line  767)
 * gettext:                               Internationalization.
-                                                             (line 2731)
+                                                             (line 2738)
 * GNOME:                                 Graphical Interfaces.
-                                                             (line  749)
+                                                             (line  756)
 * GNOME and Guile:                       Source Language.    (line  282)
-* Gnulib:                                System Functions.   (line 2706)
+* Gnulib:                                System Functions.   (line 2713)
 * gnustandards project repository:       Preface.            (line  112)
 * 'gnustandards-commit@gnu.org' mailing list: Preface.       (line  106)
 * graphical user interface:              Graphical Interfaces.
-                                                             (line  739)
-* grave accent:                          Quote Characters.   (line 2842)
+                                                             (line  746)
+* grave accent:                          Quote Characters.   (line 2849)
 * GTK+:                                  Graphical Interfaces.
-                                                             (line  739)
+                                                             (line  746)
 * Guile:                                 Source Language.    (line  282)
 * implicit 'int':                        Syntactic Conventions.
-                                                             (line 2401)
+                                                             (line 2408)
 * impossible conditions:                 Semantics.          (line  580)
 * installation directories, creating:    Directory Variables.
-                                                             (line 3844)
-* installations, staged:                 DESTDIR.            (line 3786)
+                                                             (line 3851)
+* installations, staged:                 DESTDIR.            (line 3793)
 * interface styles:                      Graphical Interfaces.
-                                                             (line  739)
+                                                             (line  746)
 * internationalization:                  Internationalization.
-                                                             (line 2731)
+                                                             (line 2738)
 * keyboard interface:                    Graphical Interfaces.
-                                                             (line  749)
-* LDAP:                                  OID Allocations.    (line 2079)
-* left quote:                            Quote Characters.   (line 2842)
+                                                             (line  756)
+* LDAP:                                  OID Allocations.    (line 2086)
+* left quote:                            Quote Characters.   (line 2849)
 * legal aspects:                         Legal Issues.       (line  143)
 * legal papers:                          Contributions.      (line  183)
-* length of source lines:                Formatting.         (line 2185)
+* length of source lines:                Formatting.         (line 2192)
 * libexecdir:                            Directory Variables.
-                                                             (line 3894)
+                                                             (line 3901)
 * libiconv:                              Semantics.          (line  520)
 * libraries:                             Libraries.          (line  615)
-* library functions, and portability:    System Functions.   (line 2675)
+* library functions, and portability:    System Functions.   (line 2682)
 * library interface:                     Graphical Interfaces.
-                                                             (line  749)
+                                                             (line  756)
 * license for manuals:                   License for Manuals.
-                                                             (line 3061)
-* line length:                           Formatting.         (line 2185)
+                                                             (line 3068)
+* line length:                           Formatting.         (line 2192)
 * lint:                                  Syntactic Conventions.
-                                                             (line 2412)
-* locale-specific quote characters:      Quote Characters.   (line 2842)
-* long option names:                     Option Table.       (line  991)
+                                                             (line 2419)
+* locale-specific quote characters:      Quote Characters.   (line 2849)
+* long option names:                     Option Table.       (line  998)
 * long-named options:                    Command-Line Interfaces.
-                                                             (line  766)
+                                                             (line  773)
 * makefile, conventions for:             Makefile Conventions.
-                                                             (line 3576)
+                                                             (line 3583)
 * 'malloc' return value:                 Semantics.          (line  535)
-* man pages:                             Man Pages.          (line 3328)
+* man pages:                             Man Pages.          (line 3335)
 * manual structure:                      Manual Structure Details.
-                                                             (line 3034)
+                                                             (line 3041)
 * memory allocation failure:             Semantics.          (line  535)
-* memory leak:                           Memory Usage.       (line 2155)
-* memory usage:                          Memory Usage.       (line 2138)
+* memory leak:                           Memory Usage.       (line 2162)
+* memory usage:                          Memory Usage.       (line 2145)
 * message text, and internationalization: Internationalization.
-                                                             (line 2754)
-* mmap:                                  Mmap.               (line 2874)
+                                                             (line 2761)
+* mmap:                                  Mmap.               (line 2881)
 * multiple variables in a line:          Syntactic Conventions.
-                                                             (line 2438)
-* names of variables, functions, and files: Names.           (line 2519)
-* 'NEWS' file:                           NEWS File.          (line 3101)
-* non-ASCII characters:                  Character Set.      (line 2826)
-* non-POSIX systems, and portability:    System Portability. (line 2591)
+                                                             (line 2445)
+* names of variables, functions, and files: Names.           (line 2526)
+* 'NEWS' file:                           NEWS File.          (line 3108)
+* non-ASCII characters:                  Character Set.      (line 2833)
+* non-POSIX systems, and portability:    System Portability. (line 2598)
 * non-standard extensions:               Using Extensions.   (line  325)
 * 'NUL' characters:                      Semantics.          (line  520)
-* OID allocations for GNU:               OID Allocations.    (line 2079)
-* open brace:                            Formatting.         (line 2188)
-* opening quote:                         Quote Characters.   (line 2842)
-* optional features, configure-time:     Configuration.      (line 3490)
+* OID allocations for GNU:               OID Allocations.    (line 2086)
+* open brace:                            Formatting.         (line 2195)
+* opening quote:                         Quote Characters.   (line 2849)
+* optional features, configure-time:     Configuration.      (line 3497)
 * options for compatibility:             Compatibility.      (line  301)
 * options, standard command-line:        Command-Line Interfaces.
-                                                             (line  785)
+                                                             (line  792)
 * output device and program's behavior:  User Interfaces.    (line  715)
-* packaging:                             Releases.           (line 4574)
+* packaging:                             Releases.           (line 4581)
 * PATH_INFO, specifying standard options as: Command-Line Interfaces.
-                                                             (line  785)
+                                                             (line  792)
 * plug-ins:                              Dynamic Plug-In Interfaces.
-                                                             (line  959)
+                                                             (line  966)
 * plugin_is_GPL_compatible:              Dynamic Plug-In Interfaces.
-                                                             (line  970)
-* portability, and data types:           CPU Portability.    (line 2620)
-* portability, and library functions:    System Functions.   (line 2675)
-* portability, between system types:     System Portability. (line 2565)
+                                                             (line  977)
+* portability, and data types:           CPU Portability.    (line 2627)
+* portability, and library functions:    System Functions.   (line 2682)
+* portability, between system types:     System Portability. (line 2572)
 * POSIX compatibility:                   Compatibility.      (line  293)
-* POSIX functions, and portability:      System Functions.   (line 2675)
+* POSIX functions, and portability:      System Functions.   (line 2682)
 * 'POSIXLY_CORRECT', environment variable: Compatibility.    (line  308)
 * post-installation commands:            Install Command Categories.
-                                                             (line 4473)
+                                                             (line 4480)
 * pre-installation commands:             Install Command Categories.
-                                                             (line 4473)
+                                                             (line 4480)
 * prefix:                                Directory Variables.
-                                                             (line 3853)
-* program configuration:                 Configuration.      (line 3398)
+                                                             (line 3860)
+* program configuration:                 Configuration.      (line 3405)
 * program design:                        Design Advice.      (line  257)
 * program name and its behavior:         User Interfaces.    (line  708)
-* program's canonical name:              --version.          (line  800)
+* program's canonical name:              --version.          (line  807)
 * programming languages:                 Source Language.    (line  263)
 * proprietary programs:                  Reading Non-Free Code.
                                                              (line  149)
-* quote characters:                      Quote Characters.   (line 2842)
-* 'README' file:                         Releases.           (line 4589)
-* references to non-free material:       References.         (line 4658)
-* releasing:                             Managing Releases.  (line 3387)
-* right quote:                           Quote Characters.   (line 2842)
+* quote characters:                      Quote Characters.   (line 2849)
+* 'README' file:                         Releases.           (line 4596)
+* references to non-free material:       References.         (line 4665)
+* releasing:                             Managing Releases.  (line 3394)
+* right quote:                           Quote Characters.   (line 2849)
 * Savannah repository for gnustandards:  Preface.            (line  112)
 * sbindir:                               Directory Variables.
-                                                             (line 3887)
+                                                             (line 3894)
 * signal handling:                       Semantics.          (line  569)
-* single quote:                          Quote Characters.   (line 2842)
-* SNMP:                                  OID Allocations.    (line 2079)
-* spaces before open-paren:              Formatting.         (line 2267)
-* staged installs:                       DESTDIR.            (line 3786)
+* single quote:                          Quote Characters.   (line 2849)
+* SNMP:                                  OID Allocations.    (line 2086)
+* spaces before open-paren:              Formatting.         (line 2274)
+* staged installs:                       DESTDIR.            (line 3793)
 * standard command-line options:         Command-Line Interfaces.
-                                                             (line  785)
+                                                             (line  792)
 * standards for makefiles:               Makefile Conventions.
-                                                             (line 3576)
-* 'struct' types, formatting:            Formatting.         (line 2227)
+                                                             (line 3583)
+* 'struct' types, formatting:            Formatting.         (line 2234)
 * syntactic conventions:                 Syntactic Conventions.
-                                                             (line 2401)
-* table of long options:                 Option Table.       (line  991)
+                                                             (line 2408)
+* table of long options:                 Option Table.       (line  998)
 * temporary files:                       Semantics.          (line  594)
 * temporary variables:                   Syntactic Conventions.
-                                                             (line 2426)
-* 'texinfo.tex', in a distribution:      Releases.           (line 4646)
+                                                             (line 2433)
+* 'texinfo.tex', in a distribution:      Releases.           (line 4653)
 * title, change log entry:               Change Log Concepts.
-                                                             (line 3132)
+                                                             (line 3139)
 * 'TMPDIR' environment variable:         Semantics.          (line  594)
 * trademarks:                            Trademarks.         (line  227)
 * user interface styles:                 Graphical Interfaces.
-                                                             (line  739)
-* valgrind:                              Memory Usage.       (line 2155)
-* version numbers, for releases:         Releases.           (line 4574)
+                                                             (line  746)
+* valgrind:                              Memory Usage.       (line 2162)
+* version numbers, for releases:         Releases.           (line 4581)
 * where to obtain 'standards.texi':      Preface.            (line   96)
-* X.509:                                 OID Allocations.    (line 2079)
-* xmalloc, in Gnulib:                    System Functions.   (line 2713)
+* X.509:                                 OID Allocations.    (line 2086)
+* xmalloc, in Gnulib:                    System Functions.   (line 2720)
 
