@@ -36,20 +36,20 @@ Text
    #004780  greenish blue: normal links
    #100070  purplish blue: normal visited links
    blue     #urgent links
-   #171d33  dark blue: #Action h2
-   #971611  red from GNU banner: .button link
+   #171d33  dark blue (from screenshot): #Action h2
+   #971611  red from GNU banner: .button link, #join-fsf
 
 Backgrounds
    white    #inner, navbar li.active
    #f0f2f4  light bluish gray: #translations p, .emph-box, #outdated,
             .listing, #footer, .toc
-   #e7e9eb  .button, .lyrics
+   #e7e9eb  html, .button, .lyrics, #join-fsf, submit
    #d1d4d7  #edu-navbar, #fsf-links, #searcher + #translations
    #ddd     gray (looks purplish): #gpl-compat-matrix 
    #ccffcc  light green: #gpl-compat-matrix
    #e4ffcc  light yellowish green: #gpl-compat-matrix
    #ffc     very pale yellow: .highlight-para
-   #fff898  pale yellow: table headers, #fsf-frame, .highlight, nav-bar hover
+   #fff898  pale yellow: table headers, .highlight, nav-bar hover
    #ff3     yellow: #urgent
    #a50606  intermediate red from #fs-gang gradient: #navigation
             [#fs-gang gradient: #820202-#f71111]
@@ -59,14 +59,12 @@ Backgrounds
 
 Borders
    black, #111, #333, #666: tables
-   #b9bcbf  bluish gray: #fsf-frame, #Action, .highlight-para, .announcement
-   #c9cccf  bluish gray: .button, .toc
+   #b9bcbf  bluish gray: body, #Action, .highlight-para, .announcement
+   #c9cccf  bluish gray: .button, .toc, submit
    #d1d4d7  bluish gray: #translations, #outdated
    #3465a4  blue (slightly lighter than GNU banner): edu-cases ridges, .note
-   #334683  #join-fsf
-   #171d33  dark blue (from screenshot): shade behind .button.large
+   #171d33  dark blue: box-shadow behind buttons, focused inputs
    #6989b6  light blue: border for h3 (license-list.html)
-   #cdc66e  greenish yellow: submit buttons and focused text input
 */
 
 /*** Luminosity contrast ratio and color difference ***
@@ -126,24 +124,13 @@ Purple links
 
 html, body {
    font-size: 1em;
-   text-align: inherit;
+   text-align: left;
    padding: 0;
    margin: 0;
    text-decoration: none;
    color: #000;
 }
-html {
-   background-color: #5b6a96;
-   /* Source: http://www.impressivewebs.com/css3-linear-gradient-syntax/ */
-   background: -moz-linear-gradient(#5b6a96, #c9cccf); /* FF 3.6+ */  
-   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5b6a96), color-stop(100%, #c9cccf)); /* Safari 4+, Chrome 2+ */  
-   background: -webkit-linear-gradient(#5b6a96, #c9cccf); /* Safari 5.1+, Chrome 10+ */  
-   background: -o-linear-gradient(#5b6a96, #c9cccf); /* Opera 11.10 */  
-   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5b6a96', endColorstr='#c9cccf'); /* IE6 & IE7 */  
-   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5b6a96', endColorstr='#c9cccf')"; /* IE8+ */  
-   background: linear-gradient(#5b6a96, #c9cccf); /* the standard */
-   background-attachment: fixed;
-}
+html { background: #e7e9eb; }
 
 /* This specifies the basic width of our web pages.  Don't change it
    without discussion on www-discuss.  The magic 74.92 is for
@@ -152,6 +139,13 @@ body {
    max-width: 74.92em;
    margin: auto;
    background-color: white;
+   border-left: .2em solid #b9bcbf;
+   border-right: .2em solid #b9bcbf;
+   -moz-box-shadow: 0 0 10px 10px #b9bcbf;
+   -webkit-box-shadow: 0 0 10px 10px #b9bcbf;
+   -icab-box-shadow: 0 0 10px 10px #b9bcbf;
+   -o-box-shadow: 0 0 10px 10px #b9bcbf;
+   box-shadow: 0 0 10px 10px #b9bcbf;
 }
 .inner { overflow: hidden; }
 
@@ -205,9 +199,8 @@ dd p { margin-top: 1em; }
    font-size: .9em;
    font-family: "FreeSans", sans-serif;
    font-weight: bold;
-   padding: .5em 1.5em 0 1.5em;
+   padding: .6em 1.5em 0 1.5em;
    margin: 0;
-   background-color: #d1d4d7;
 }
 #toplinks a, #toplinks a:visited {
    color: #404040; text-decoration: none;
@@ -218,7 +211,7 @@ dd p { margin-top: 1em; }
    display: block;
    text-align: right;
    font-weight: bold;
-   padding: .2em 1.5%;
+   padding: .3em 1.5%;
    background-color: #d1d4d7;
 }
 #searcher input {
@@ -227,23 +220,38 @@ dd p { margin-top: 1em; }
    margin: 0;
 }
 #searcher input[type="text"] {
+   padding: .2em;
+   margin: 0;
    color: #555;
    background: white;
-   padding: .1em .2em;
-   margin: 0;
-   border: .2em solid #b9bcbf;
+   border: .1em solid #c9cccf;
+   border-radius: .3em;
+   -moz-border-radius: .3em;
+   -khtml-border-radius: .3em;
+   -webkit-border-radius: .3em;
+   -opera-border-radius: .3em;
 }
 #searcher input[type="submit"] {
-   padding: .1em .2em;
-   color: #404040;
+   padding: .2em .4em;
+   margin: 0;
+   color: #333;
    background: #e7e9eb;
-   border: .2em solid #cdc66e;
+   border: .1em solid #c9cccf;
+   border-radius: .3em;
+   -moz-border-radius: .3em;
+   -khtml-border-radius: .3em;
+   -webkit-border-radius: .3em;
+   -opera-border-radius: .3em;
+   
 }
 #searcher input[type="text"]:focus {
-   border: .2em solid #cdc66e;
+   color: #333;
+   border: .1em solid #334683;
+}
+#searcher input[type="text"]:focus + input[type="submit"] {
+   border: .1em solid #334683;
 }
 #searcher input[type="submit"]:hover {
-   background-color: white;
    cursor: pointer;
 }
 
@@ -256,15 +264,11 @@ dd p { margin-top: 1em; }
    padding-bottom: .5em;
    background-color: #d1d4d7;
 }
-
 #translations p {
    padding: .1em .5em .2em .5em;
    margin: 0 1.5%;
    background-color: #f0f2f4;
-   border-left: .2em solid #d1d4d7; 
-   border-right: .2em solid #d1d4d7; 
 }
-
 #translations span {
    white-space: nowrap;
    margin-right: .5em;
@@ -323,74 +327,108 @@ dd p { margin-top: 1em; }
    clear: both; content: ""; display: block;
    height: 0px; visibility: hidden; width: 0px;
 }
+
 #fsf-frame {
    float: right;
    font-size: .9em;
    text-align: center;
    line-height: 1.3em;
    width: auto;
+   padding: 0;
    margin: 1em 0;
-   padding: .7em .5em .5em .5em;
-   background: #fff898;
-   border: .2em solid #c9cccf;
 }
-#fsf-frame #join-fsf { padding: 0; }
-#fsf-frame hr {
-   border: 1px #b9bcbf;
-   width: .5em; height: .5em;
-   margin: .4em auto;
-   background-color: #b9bcbf;
-}
-#fsf-frame p { color: #222; margin: 0; padding: .3em; }
 #fsf-frame a, #fsf-frame a:visited {
    font-size: 1.1em;
    font-weight: bold;
    text-decoration: none;
+}
+#fsf-frame p { padding: 0; margin: 0; }
+#fsf-frame hr { display: none; }
+
+#join-fsf {
+   padding: .4em 0;
+}
+#join-fsf a, #join-fsf a:visited {
+   padding: .3em 1em;
+   color: #971611;
+   background: #e7e9eb;
+   border-radius: 1em;
+   -moz-border-radius: 1em;
+   -khtml-border-radius: 1em;
+   -webkit-border-radius: 1em;
+   -opera-border-radius: 1em;
+   box-shadow: .15em .15em #171d33;
+   -moz-box-shadow: .15em .15em #171d33;
+   -webkit-box-shadow: .15em .15em #171d33;
+   -icab-box-shadow: .15em .15em #171d33;
+   -o-box-shadow: .15em .15em #171d33;
+}
+
+#fssbox {
+   padding: 0;
+   margin-top: 1.3em;
+}
+#fssbox a, #fssbox a:visited {
    color: #334683;
 }
-#fsf-frame a:hover { color: #777; }
-
-#fssbox { padding: 0; }
-#fssbox p, input { margin: 0; }
-#fssbox p { padding: .2em 0 0 0; }
+#fssbox form p { margin-top: .2em; }
 #fssbox input {
    font-family: "FreeSans", sans-serif;
    font-weight: bold;
 }
 #fssbox input[type="text"] {
-   padding: .1em .2em;
+   padding: .2em;
    margin: 0;
    color: #555;
    background: white;
-   border: .2em solid #b9bcbf;
+   border: .1em solid #999;
+   border-radius: .3em;
+   -moz-border-radius: .3em;
+   -khtml-border-radius: .3em;
+   -webkit-border-radius: .3em;
+   -opera-border-radius: .3em;
 }
 #fssbox input[type="submit"] {
-   padding: .1em .2em;
+   padding: .2em .4em;
    margin: 0;
-   color: #404040;
+   color: #333;
    background: #e7e9eb;
-   border: .2em solid #cdc66e;
+   border: .1em solid #e7e9eb;
+   border-radius: 1em;
+   -moz-border-radius: 1em;
+   -khtml-border-radius: 1em;
+   -webkit-border-radius: 1em;
+   -opera-border-radius: 1em;
+   box-shadow: .15em .15em #171d33;
+   -moz-box-shadow: .15em .15em #171d33;
+   -webkit-box-shadow: .15em .15em #171d33;
+   -icab-box-shadow: .15em .15em #171d33;
+   -o-box-shadow: .15em .15em #171d33;
 }
 #fssbox input[type="text"]:focus {
-   border: .2em solid #cdc66e;
+   color: #333;
+   border: .1em solid #334683;
 }
 #fssbox input[type="submit"]:hover {
-   background-color: white;
    cursor: pointer;
 }
+#fssbox input[type="text"]:focus + input[type="submit"] {
+   border: .1em solid #334683;
+}
+#fsf-frame a:hover { color: #777; }
 
 /* For "normal" pages */
 #gnu-banner {
    font-size: 1.8em;
    font-weight: bold;
    line-height: 1.3em;
-   padding-top: 1.3em;
+   padding-top: 1.1em;
 }
 #gnu-banner img {
    float: left;
    height: 2.4em;
    margin: 0 .15em;
-   position: relative; bottom: .5em;
+   position: relative; bottom: .4em;
 }
 #gnu-banner a {
    color: #334683; text-decoration: none;
@@ -432,6 +470,7 @@ dd p { margin-top: 1em; }
 
 #navigation {
    clear: both;
+   font-family: "FreeSans", sans-serif;
    padding: .3em;
    background-color: #a50606;
 }
@@ -454,7 +493,7 @@ dd p { margin-top: 1em; }
 }
 #navigation li a, #navigation li a:visited {
    font-weight: bold;
-   padding: .25em .5em;
+   padding: .3em .5em;
    color: white; text-decoration: none;
 }
 #navigation li.active a {
@@ -462,8 +501,7 @@ dd p { margin-top: 1em; }
    background-color: white;
 }
 #navigation li a:hover {
-   color: black;
-   background-color: #fff898;
+   text-decoration: underline;
 }
 
 
@@ -482,7 +520,7 @@ dd p { margin-top: 1em; }
 #content h2 { font-size: 2em; }
 
 #content h3, #content h4, #content h5, #content h6, #content p {
-   margin-top: 1em;
+   margin-top: 1em ;
 }
 #content h3 { font-size: 1.6em; color: #333; }
 #content h4 { font-size: 1.3em; color: #333; }
@@ -522,6 +560,7 @@ dd p { margin-top: 1em; }
 
 #fsf-links {
    clear: both;
+   font-family: "FreeSans", sans-serif;
    padding: .3em;
    background-color: #d1d4d7;
 }
@@ -539,12 +578,11 @@ dd p { margin-top: 1em; }
 }
 #fsf-links li a, #fsf-links li a:visited {
    font-weight: bold;
-   padding: .25em .5em;
+   padding: .3em .5em;
    color: #222; text-decoration: none;
 }
 #fsf-links li a:hover {
-   color: black;
-   background-color: #fff898;
+   text-decoration: underline;
 }
 
 
@@ -635,11 +673,11 @@ div#backtotop {
    -webkit-box-shadow: .15em .15em #171d33;
    -icab-box-shadow: .15em .15em #171d33;
    -o-box-shadow: .15em .15em #171d33;
-/*   border-radius: .4em;
-   -moz-border-radius: .4em;
-   -khtml-border-radius: .4em;
-   -webkit-border-radius: .4em;
-   -opera-border-radius: .4em; */
+   border-radius: 1em;
+   -moz-border-radius: 1em;
+   -khtml-border-radius: 1em;
+   -webkit-border-radius: 1em;
+   -opera-border-radius: 1em;
 }
 .button a, .button a:visited {
    color: #971611;
@@ -802,12 +840,14 @@ h2#Action {
    and breadcrumbs for education */
 #edu-navigation {
    clear: both;
+   font-family: "FreeSans", sans-serif;
    background-color: #d1d4d7;
 }
 ul#edu-navigation {
    text-align: center;
    font-size: .9em; font-weight: bold;
    line-height: 1.8em;
+   padding: 0;
    margin: 0 -1.6%;
 }
 #edu-navigation li {
@@ -816,7 +856,7 @@ ul#edu-navigation {
    padding: 0;
 }
 #edu-navigation li a, #edu-navigation li a:visited {
-   padding: .2em .45em;
+   padding: .3em .45em .35em .45em;
    color: #222; text-decoration: none;
 }
 #edu-navigation li.active a {
@@ -824,8 +864,7 @@ ul#edu-navigation {
 }
 #edu-navigation li a:hover,
 #edu-navigation li.active a:hover {
-   color: black;
-   background-color: #fff898;
+   text-decoration: underline;
 }
 
 #content .edu-breadcrumb {
@@ -850,7 +889,7 @@ div.edu-cases {
    border-top: 5px ridge #3465a4;
    border-bottom: 5px ridge #3465a4;
    padding: 1.5em 0;
-   margin: 2em 3em;
+   margin: 2em 4%;
 }
 
 /* make h3 for edu-cases look like h4 for other pages */
@@ -859,7 +898,7 @@ div.edu-cases {
    margin: 0; margin-bottom: 1em;
 }
 div.edu-cases ul, div.edu-cases ol {
-   padding: 0 3em;
+   padding: 0 4%;
 }
 
 /* For images in the Education section (and elsewhere?) */

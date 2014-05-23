@@ -108,7 +108,6 @@ ALL_DIRS :=	accessibility \
 		philosophy/sco \
 		prep \
 		press \
-		pronunciation \
 		server \
 		server/source \
 		server/standards \
@@ -264,6 +263,7 @@ gnu :=		about-gnu \
 		initial-announcement \
 		linux-and-gnu \
 		manifesto \
+		pronunciation \
 		rms-lisp \
 		thegnuproject \
 		why-gnu-linux
@@ -591,6 +591,7 @@ philosophy := 	15-years-of-free-software \
 		vaccination \
 		w3c-patent \
 		wassenaar \
+		whats-wrong-with-youtube \
 		when_free_software_isnt_practically_better \
 		who-does-that-server-really-serve \
 		why-audio-format-matters \
@@ -630,8 +631,6 @@ press :=		2001-07-09-DotGNU-Mono \
 			2002-03-18-digitalspeech \
 			2002-03-19-Affero \
 			press
-
-pronunciation :=	pronunciation
 
 server :=	08whatsnew \
 		fsf-html-style-sheet \

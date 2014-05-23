@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 #
 # LINC - LINC Is Not Checklink
-# Copyright © 2011-2012 Wacław Jacek
-# Copyright © 2013 Free Software Foundation, Inc.
+# Copyright © 2011, 2012 Wacław Jacek
+# Copyright © 2013, 2014 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,13 +18,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-LINC_VERSION = 'LINC 0.15'
+LINC_VERSION = 'LINC 0.16'
 USAGE = \
 '''Usage: %prog [options] [BASE_DIRECTORY]
 Check links in HTML files from BASE_DIRECTORY.'''
 COPYRIGHT= \
-'''Copyright (C) 2011-2012 Waclaw Jacek
-Copyright (C) 2013 Free Software Foundation, Inc.
+'''Copyright 2011, 2012 Waclaw Jacek
+Copyright 2013, 2014 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
@@ -279,6 +279,9 @@ def classify_link(filename, link, symlink = None):
 		link_type = 'unsupported'
 	elif link.find('http://') == 0:
 		link_type = 'http'
+	elif link.find('//') == 0:
+		link_type = 'http'
+		link = 'http:' + link
 	elif link.find('ftp://') == 0:
 		link_type = 'ftp'
 	elif link[0] == '/':
