@@ -175,3 +175,11 @@ $ git tag cvssync
 
 $ git push --all gniibe@git.sv.gnu.org:/srv/git/www-ja.git
 $ git push --tag gniibe@git.sv.gnu.org:/srv/git/www-ja.git
+
+
+Verify edited files are good
+=============================
+
+FILES=$(git status --porcelain | sed -n -e '/ M /s/^ M //p')
+
+$ for f in $FILES; do msgfmt -v -o /dev/null -c $f; done
