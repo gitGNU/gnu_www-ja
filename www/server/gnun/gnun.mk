@@ -486,6 +486,7 @@ philosophy := 	15-years-of-free-software \
 		hague \
 		historical-apsl \
 		ICT-for-prosperity \
+		imperfection-isnt-oppression \
 		ipjustice \
 		is-ever-good-use-nonfree-program \
 		java-trap \
