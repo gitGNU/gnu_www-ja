@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlguts</title>
 
@@ -65,15 +65,19 @@ Next: <a href="perlhack.html#perlhack" accesskey="n" rel="next">perlhack</a>, Pr
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlguts-Subroutines" accesskey="4">perlguts Subroutines</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlguts-Compiled-code" accesskey="5">perlguts Compiled code</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-Memory-Allocation" accesskey="5">perlguts Memory Allocation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlguts-Examining-internal-data-structures-with-the-dump-functions" accesskey="6">perlguts Examining internal data structures with the <code>dump</code> functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-PerlIO" accesskey="6">perlguts PerlIO</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlguts-How-multiple-interpreters-and-concurrency-are-supported" accesskey="7">perlguts How multiple interpreters and concurrency are supported</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-Compiled-code" accesskey="7">perlguts Compiled code</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlguts-Internal-Functions" accesskey="8">perlguts Internal Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-Examining-internal-data-structures-with-the-dump-functions" accesskey="8">perlguts Examining internal data structures with the <code>dump</code> functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlguts-Unicode-Support" accesskey="9">perlguts Unicode Support</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-How-multiple-interpreters-and-concurrency-are-supported" accesskey="9">perlguts How multiple interpreters and concurrency are supported</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-Internal-Functions">perlguts Internal Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-Unicode-Support">perlguts Unicode Support</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlguts-Custom-Operators">perlguts Custom Operators</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
@@ -104,8 +108,8 @@ Next: <a href="#perlguts-Variables" accesskey="n" rel="next">perlguts Variables<
 <h3 class="section">28.2 DESCRIPTION</h3>
 
 <p>This document attempts to describe how to use the Perl API, as well as
-to provide some info on the basic workings of the Perl core. It is far
-from complete and probably contains many errors. Please refer any
+to provide some info on the basic workings of the Perl core.  It is far
+from complete and probably contains many errors.  Please refer any
 questions or comments to the author below.
 </p>
 <hr>
@@ -147,6 +151,10 @@ Next: <a href="#perlguts-Subroutines" accesskey="n" rel="next">perlguts Subrouti
 <tr><td align="left" valign="top">&bull; <a href="#perlguts-Stashes-and-Globs">perlguts Stashes and Globs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlguts-Double_002dTyped-SVs">perlguts Double-Typed SVs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-Read_002dOnly-Values">perlguts Read-Only Values</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-Copy-on-Write">perlguts Copy on Write</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlguts-Magic-Variables">perlguts Magic Variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
@@ -193,7 +201,7 @@ guaranteed to be large enough to hold a pointer (as well as an integer).
 Additionally, there is the UV, which is simply an unsigned IV.
 </p>
 <p>Perl also uses two special typedefs, I32 and I16, which will always be at
-least 32-bits and 16-bits long, respectively. (Again, there are U32 and U16,
+least 32-bits and 16-bits long, respectively.  (Again, there are U32 and U16,
 as well.)  They will usually be exactly 32 and 16 bits long, but on Crays
 they will both be 64 bits.
 </p>
@@ -211,9 +219,8 @@ values that can be loaded: an integer value (IV), an unsigned integer
 value (UV), a double (NV), a string (PV), and another scalar (SV).
 (&quot;PV&quot; stands for &quot;Pointer Value&quot;.  You might think that it is misnamed
 because it is described as pointing only to strings.  However, it is
-possible to have it point to other things.  For example, inversion
-lists, used in regular expression data structures, are scalars, each
-consisting of an array of UVs which are accessed through PVs.  But,
+possible to have it point to other things  For example, it could point
+to an array of UVs.  But,
 using it for non-strings requires care, as the underlying assumption of
 much of the internals is that PVs are just for strings.  Often, for
 example, a trailing NUL is tacked on automatically.  The non-string use
@@ -233,7 +240,7 @@ is documented only in this paragraph.)
 <samp>config.h</samp>) guaranteed to be large enough to represent the size of
 any string that perl can handle.
 </p>
-<p>In the unlikely case of a SV requiring more complex initialisation, you
+<p>In the unlikely case of a SV requiring more complex initialization, you
 can create an empty SV with newSV(len).  If <code>len</code> is 0 an empty SV of
 type NULL is returned, else an SV of type PV is returned with len + 1 (for
 the NUL) bytes of storage allocated, accessible via SvPVX.  In both cases
@@ -307,7 +314,8 @@ that Perl allows arbitrary strings of data that may both contain NULs and
 might not be terminated by a NUL.
 </p>
 <p>Also remember that C doesn&rsquo;t allow you to safely say <code>foo(SvPV(s, len),
-len);</code>. It might work with your compiler, but it won&rsquo;t work for everyone.
+len);</code>.  It might work with your
+compiler, but it won&rsquo;t work for everyone.
 Break this sort of statement up into separate assignments:
 </p>
 <pre class="verbatim">    SV *s;
@@ -366,7 +374,8 @@ using <code>strlen</code>.  In the second, you specify the length of the string
 yourself.  The third function processes its arguments like <code>sprintf</code> and
 appends the formatted output.  The fourth function works like <code>vsprintf</code>.
 You can specify the address and length of an array of SVs instead of the
-va_list argument. The fifth function extends the string stored in the first
+va_list argument.  The fifth function
+extends the string stored in the first
 SV with the string stored in the second SV.  It also forces the second SV
 to be interpreted as a string.
 </p>
@@ -387,8 +396,8 @@ you can call:
 </pre>
 <p>The scalar <code>undef</code> value is stored in an SV instance called <code>PL_sv_undef</code>.
 </p>
-<p>Its address can be used whenever an <code>SV*</code> is needed. Make sure that
-you don&rsquo;t try to compare a random sv with <code>&amp;PL_sv_undef</code>. For example
+<p>Its address can be used whenever an <code>SV*</code> is needed.  Make sure that
+you don&rsquo;t try to compare a random sv with <code>&amp;PL_sv_undef</code>.  For example
 when interfacing Perl code, it&rsquo;ll work correctly for:
 </p>
 <pre class="verbatim">  foo(undef);
@@ -437,12 +446,13 @@ Next: <a href="#perlguts-What_0027s-Really-Stored-in-an-SV_003f" accesskey="n" r
 <p>Perl provides the function <code>sv_chop</code> to efficiently remove characters
 from the beginning of a string; you give it an SV and a pointer to
 somewhere inside the PV, and it discards everything before the
-pointer. The efficiency comes by means of a little hack: instead of
+pointer.  The efficiency comes by means of a little hack: instead of
 actually removing the characters, <code>sv_chop</code> sets the flag <code>OOK</code>
 (offset OK) to signal to other functions that the offset hack is in
-effect, and it puts the number of bytes chopped off into the IV field
-of the SV. It then moves the PV pointer (called <code>SvPVX</code>) forward that
-many bytes, and adjusts <code>SvCUR</code> and <code>SvLEN</code>.
+effect, and it moves the PV pointer (called <code>SvPVX</code>) forward
+by the number of bytes chopped off, and adjusts <code>SvCUR</code> and <code>SvLEN</code>
+accordingly.  (A portion of the space between the old and new PV
+pointers is used to store the count of chopped bytes.)
 </p>
 <p>Hence, at this point, the start of the buffer that we allocated lives
 at <code>SvPVX(sv) - SvIV(sv)</code> in memory and the PV pointer is pointing
@@ -460,7 +470,7 @@ into the middle of this allocated storage.
     LEN = 5
 </pre>
 <p>Here the number of bytes chopped off (1) is put into IV, and
-<code>Devel::Peek::Dump</code> helpfully reminds us that this is an offset. The
+<code>Devel::Peek::Dump</code> helpfully reminds us that this is an offset.  The
 portion of the string between the &quot;real&quot; and the &quot;fake&quot; beginnings is
 shown in parentheses, and the values of <code>SvCUR</code> and <code>SvLEN</code> reflect
 the fake beginning, not the real one.
@@ -468,11 +478,11 @@ the fake beginning, not the real one.
 <p>Something similar to the offset hack is performed on AVs to enable
 efficient shifting and splicing off the beginning of the array; while
 <code>AvARRAY</code> points to the first element in the array that is visible from
-Perl, <code>AvALLOC</code> points to the real start of the C array. These are
+Perl, <code>AvALLOC</code> points to the real start of the C array.  These are
 usually the same, but a <code>shift</code> operation can be carried out by
 increasing <code>AvARRAY</code> by one and decreasing <code>AvFILL</code> and <code>AvMAX</code>.
 Again, the location of the real start of the C array only comes into
-play when freeing the array. See <code>av_shift</code> in <samp>av.c</samp>.
+play when freeing the array.  See <code>av_shift</code> in <samp>av.c</samp>.
 </p>
 <hr>
 <a name="perlguts-What_0027s-Really-Stored-in-an-SV_003f"></a>
@@ -500,11 +510,13 @@ pointer in an SV, you can use the following three macros instead:
 stored in your SV.  The &quot;p&quot; stands for private.
 </p>
 <p>There are various ways in which the private and public flags may differ.
-For example, a tied SV may have a valid underlying value in the IV slot
-(so SvIOKp is true), but the data should be accessed via the FETCH
-routine rather than directly, so SvIOK is false. Another is when
+For example, in perl 5.16 and earlier a tied SV may have a valid
+underlying value in the IV slot (so SvIOKp is true), but the data
+should be accessed via the FETCH routine rather than directly,
+so SvIOK is false.  (In perl 5.18 onwards, tied scalars use
+the flags the same way as untied scalars.)  Another is when
 numeric conversion has occurred and precision has been lost: only the
-private flag is set on &rsquo;lossy&rsquo; values. So when an NV is converted to an
+private flag is set on &rsquo;lossy&rsquo; values.  So when an NV is converted to an
 IV with loss, SvIOKp, SvNOKp and SvNOK will be set, while SvIOK wont be.
 </p>
 <p>In general, though, it&rsquo;s best to use the <code>Sv*V</code> macros.
@@ -525,7 +537,7 @@ empty AV:
 </pre>
 <p>The second method both creates the AV and initially populates it with SVs:
 </p>
-<pre class="verbatim">    AV*  av_make(I32 num, SV **ptr);
+<pre class="verbatim">    AV*  av_make(SSize_t num, SV **ptr);
 </pre>
 <p>The second argument points to an array containing <code>num</code> <code>SV*</code>&rsquo;s.  Once the
 AV has been created, the SVs can be destroyed, if so desired.
@@ -535,7 +547,7 @@ AV has been created, the SVs can be destroyed, if so desired.
 <pre class="verbatim">    void  av_push(AV*, SV*);
     SV*   av_pop(AV*);
     SV*   av_shift(AV*);
-    void  av_unshift(AV*, I32 num);
+    void  av_unshift(AV*, SSize_t num);
 </pre>
 <p>These should be familiar operations, with the exception of <code>av_unshift</code>.
 This routine adds <code>num</code> elements at the front of the array with the <code>undef</code>
@@ -544,9 +556,9 @@ to these new elements.
 </p>
 <p>Here are some other functions:
 </p>
-<pre class="verbatim">    I32   av_top_index(AV*);
-    SV**  av_fetch(AV*, I32 key, I32 lval);
-    SV**  av_store(AV*, I32 key, SV* val);
+<pre class="verbatim">    SSize_t av_top_index(AV*);
+    SV**    av_fetch(AV*, SSize_t key, I32 lval);
+    SV**    av_store(AV*, SSize_t key, SV* val);
 </pre>
 <p>The <code>av_top_index</code> function returns the highest index value in an array (just
 like $#array in Perl).  If the array is empty, -1 is returned.  The
@@ -563,7 +575,7 @@ return value.
 </p>
 <pre class="verbatim">    void  av_clear(AV*);
     void  av_undef(AV*);
-    void  av_extend(AV*, I32 key);
+    void  av_extend(AV*, SSize_t key);
 </pre>
 <p>The <code>av_clear</code> function deletes all the elements in the AV* array, but
 does not actually delete the array itself.  The <code>av_undef</code> function will
@@ -734,8 +746,8 @@ Next: <a href="#perlguts-References" accesskey="n" rel="next">perlguts Reference
 <a name="AVs_002c-HVs-and-undefined-values"></a>
 <h4 class="subsection">28.3.9 AVs, HVs and undefined values</h4>
 
-<p>Sometimes you have to store undefined values in AVs or HVs. Although
-this may be a rare case, it can be tricky. That&rsquo;s because you&rsquo;re
+<p>Sometimes you have to store undefined values in AVs or HVs.  Although
+this may be a rare case, it can be tricky.  That&rsquo;s because you&rsquo;re
 used to using <code>&amp;PL_sv_undef</code> if you need an undefined SV.
 </p>
 <p>For example, intuition tells you that this XS code:
@@ -748,12 +760,14 @@ used to using <code>&amp;PL_sv_undef</code> if you need an undefined SV.
 <pre class="verbatim">    my @av;
     $av[0] = undef;
 </pre>
-<p>Unfortunately, this isn&rsquo;t true. AVs use <code>&amp;PL_sv_undef</code> as a marker
+<p>Unfortunately, this isn&rsquo;t true.  In perl 5.18 and earlier, AVs use <code>&amp;PL_sv_undef</code> as a marker
 for indicating that an array element has not yet been initialized.
 Thus, <code>exists $av[0]</code> would be true for the above Perl code, but
-false for the array generated by the XS code.
+false for the array generated by the XS code.  In perl 5.20, storing
+&amp;PL_sv_undef will create a read-only element, because the scalar
+&amp;PL_sv_undef itself is stored, not a copy.
 </p>
-<p>Other problems can occur when storing <code>&amp;PL_sv_undef</code> in HVs:
+<p>Similar problems can occur when storing <code>&amp;PL_sv_undef</code> in HVs:
 </p>
 <pre class="verbatim">    hv_store( hv, &quot;key&quot;, 3, &amp;PL_sv_undef, 0 );
 </pre>
@@ -763,12 +777,12 @@ the value of <code>key</code>, you&rsquo;ll get the following error:
 <pre class="verbatim">    Modification of non-creatable hash value attempted
 </pre>
 <p>In perl 5.8.0, <code>&amp;PL_sv_undef</code> was also used to mark placeholders
-in restricted hashes. This caused such hash entries not to appear
+in restricted hashes.  This caused such hash entries not to appear
 when iterating over the hash or when checking for the keys
 with the <code>hv_exists</code> function.
 </p>
 <p>You can run into similar problems when you store <code>&amp;PL_sv_yes</code> or
-<code>&amp;PL_sv_no</code> into AVs or HVs. Trying to modify such elements
+<code>&amp;PL_sv_no</code> into AVs or HVs.  Trying to modify such elements
 will give you the following error:
 </p>
 <pre class="verbatim">    Modification of a read-only value attempted
@@ -894,8 +908,8 @@ class.  It does not check inheritance relationships.
 <pre class="verbatim">        int  sv_isobject(SV* sv);
 </pre>
 <p>The following function tests whether the SV is derived from the specified
-class. SV can be either a reference to a blessed object or a string
-containing a class name. This is the function implementing the
+class.  SV can be either a reference to a blessed object or a string
+containing a class name.  This is the function implementing the
 <code>UNIVERSAL::isa</code> functionality.
 </p>
 <pre class="verbatim">        bool sv_derived_from(SV* sv, const char* name);
@@ -960,7 +974,7 @@ Next: <a href="#perlguts-Stashes-and-Globs" accesskey="n" rel="next">perlguts St
 <a name="Reference-Counts-and-Mortality"></a>
 <h4 class="subsection">28.3.13 Reference Counts and Mortality</h4>
 
-<p>Perl uses a reference count-driven garbage collection mechanism. SVs,
+<p>Perl uses a reference count-driven garbage collection mechanism.  SVs,
 AVs, or HVs (xV for short in the following) start their life with a
 reference count of 1.  If the reference count of an xV ever drops to 0,
 then it will be destroyed and its memory made available for reuse.
@@ -1012,7 +1026,7 @@ later be decremented twice.
 <p>&quot;Mortal&quot; SVs are mainly used for SVs that are placed on perl&rsquo;s stack.
 For example an SV which is created just to pass a number to a called sub
 is made mortal to have it cleaned up automatically when it&rsquo;s popped off
-the stack. Similarly, results returned by XSUBs (which are pushed on the
+the stack.  Similarly, results returned by XSUBs (which are pushed on the
 stack) are often made mortal.
 </p>
 <p>To create a mortal variable, use the functions:
@@ -1036,7 +1050,8 @@ via <code>sv_setpv</code>, <code>sv_setiv</code>, etc. :
 </pre>
 <p>You should be careful about creating mortal variables.  Strange things
 can happen if you make the same value mortal within multiple contexts,
-or if you make a variable mortal multiple times. Thinking of &quot;Mortalization&quot;
+or if you make a variable mortal multiple
+times.  Thinking of &quot;Mortalization&quot;
 as deferred <code>SvREFCNT_dec</code> should help to minimize such problems.
 For example if you are passing an SV which you <em>know</em> has a high enough REFCNT
 to survive its use on the stack you need not do any mortalization.
@@ -1114,7 +1129,7 @@ as any other SV.
 <a name="perlguts-Double_002dTyped-SVs"></a>
 <div class="header">
 <p>
-Next: <a href="#perlguts-Magic-Variables" accesskey="n" rel="next">perlguts Magic Variables</a>, Previous: <a href="#perlguts-Stashes-and-Globs" accesskey="p" rel="prev">perlguts Stashes and Globs</a>, Up: <a href="#perlguts-Variables" accesskey="u" rel="up">perlguts Variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlguts-Read_002dOnly-Values" accesskey="n" rel="next">perlguts Read-Only Values</a>, Previous: <a href="#perlguts-Stashes-and-Globs" accesskey="p" rel="prev">perlguts Stashes and Globs</a>, Up: <a href="#perlguts-Variables" accesskey="u" rel="up">perlguts Variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Double_002dTyped-SVs"></a>
 <h4 class="subsection">28.3.15 Double-Typed SVs</h4>
@@ -1158,13 +1173,75 @@ following code:
 macro <code>SvPOK_on</code> would need to be called instead of <code>SvIOK_on</code>.
 </p>
 <hr>
+<a name="perlguts-Read_002dOnly-Values"></a>
+<div class="header">
+<p>
+Next: <a href="#perlguts-Copy-on-Write" accesskey="n" rel="next">perlguts Copy on Write</a>, Previous: <a href="#perlguts-Double_002dTyped-SVs" accesskey="p" rel="prev">perlguts Double-Typed SVs</a>, Up: <a href="#perlguts-Variables" accesskey="u" rel="up">perlguts Variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Read_002dOnly-Values"></a>
+<h4 class="subsection">28.3.16 Read-Only Values</h4>
+
+<p>In Perl 5.16 and earlier, copy-on-write (see the next section) shared a
+flag bit with read-only scalars.  So the only way to test whether
+<code>sv_setsv</code>, etc., will raise a &quot;Modification of a read-only value&quot; error
+in those versions is:
+</p>
+<pre class="verbatim">    SvREADONLY(sv) &amp;&amp; !SvIsCOW(sv)
+</pre>
+<p>Under Perl 5.18 and later, SvREADONLY only applies to read-only variables,
+and, under 5.20, copy-on-write scalars can also be read-only, so the above
+check is incorrect.  You just want:
+</p>
+<pre class="verbatim">    SvREADONLY(sv)
+</pre>
+<p>If you need to do this check often, define your own macro like this:
+</p>
+<pre class="verbatim">    #if PERL_VERSION &gt;= 18
+    # define SvTRULYREADONLY(sv) SvREADONLY(sv)
+    #else
+    # define SvTRULYREADONLY(sv) (SvREADONLY(sv) &amp;&amp; !SvIsCOW(sv))
+    #endif
+</pre>
+<hr>
+<a name="perlguts-Copy-on-Write"></a>
+<div class="header">
+<p>
+Next: <a href="#perlguts-Magic-Variables" accesskey="n" rel="next">perlguts Magic Variables</a>, Previous: <a href="#perlguts-Read_002dOnly-Values" accesskey="p" rel="prev">perlguts Read-Only Values</a>, Up: <a href="#perlguts-Variables" accesskey="u" rel="up">perlguts Variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Copy-on-Write"></a>
+<h4 class="subsection">28.3.17 Copy on Write</h4>
+
+<p>Perl implements a copy-on-write (COW) mechanism for scalars, in which
+string copies are not immediately made when requested, but are deferred
+until made necessary by one or the other scalar changing.  This is mostly
+transparent, but one must take care not to modify string buffers that are
+shared by multiple SVs.
+</p>
+<p>You can test whether an SV is using copy-on-write with <code>SvIsCOW(sv)</code>.
+</p>
+<p>You can force an SV to make its own copy of its string buffer by calling <code>sv_force_normal(sv)</code> or SvPV_force_nolen(sv).
+</p>
+<p>If you want to make the SV drop its string buffer, use
+<code>sv_force_normal_flags(sv, SV_COW_DROP_PV)</code> or simply
+<code>sv_setsv(sv, NULL)</code>.
+</p>
+<p>All of these functions will croak on read-only scalars (see the previous
+section for more on those).
+</p>
+<p>To test that your code is behaving correctly and not modifying COW buffers,
+on systems that support <a href="http://man.he.net/man2/mmap">mmap(2)</a> (i.e., Unix) you can configure perl with
+<code>-Accflags=-DPERL_DEBUG_READONLY_COW</code> and it will turn buffer violations
+into crashes.  You will find it to be marvellously slow, so you may want to
+skip perl&rsquo;s own tests.
+</p>
+<hr>
 <a name="perlguts-Magic-Variables"></a>
 <div class="header">
 <p>
-Next: <a href="#perlguts-Assigning-Magic" accesskey="n" rel="next">perlguts Assigning Magic</a>, Previous: <a href="#perlguts-Double_002dTyped-SVs" accesskey="p" rel="prev">perlguts Double-Typed SVs</a>, Up: <a href="#perlguts-Variables" accesskey="u" rel="up">perlguts Variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlguts-Assigning-Magic" accesskey="n" rel="next">perlguts Assigning Magic</a>, Previous: <a href="#perlguts-Copy-on-Write" accesskey="p" rel="prev">perlguts Copy on Write</a>, Up: <a href="#perlguts-Variables" accesskey="u" rel="up">perlguts Variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Magic-Variables"></a>
-<h4 class="subsection">28.3.16 Magic Variables</h4>
+<h4 class="subsection">28.3.18 Magic Variables</h4>
 
 <p>[This section still under construction.  Ignore everything here.  Post no
 bills.  Everything not permitted is forbidden.]
@@ -1193,7 +1270,7 @@ linked list of <code>struct magic</code>&rsquo;s, typedef&rsquo;ed to <code>MAGI
 Next: <a href="#perlguts-Magic-Virtual-Tables" accesskey="n" rel="next">perlguts Magic Virtual Tables</a>, Previous: <a href="#perlguts-Magic-Variables" accesskey="p" rel="prev">perlguts Magic Variables</a>, Up: <a href="#perlguts-Variables" accesskey="u" rel="up">perlguts Variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Assigning-Magic"></a>
-<h4 class="subsection">28.3.17 Assigning Magic</h4>
+<h4 class="subsection">28.3.19 Assigning Magic</h4>
 
 <p>Perl adds magic to an SV using the sv_magic function:
 </p>
@@ -1203,14 +1280,15 @@ Next: <a href="#perlguts-Magic-Virtual-Tables" accesskey="n" rel="next">perlguts
 feature.
 </p>
 <p>If <code>sv</code> is not already magical, Perl uses the <code>SvUPGRADE</code> macro to
-convert <code>sv</code> to type <code>SVt_PVMG</code>. Perl then continues by adding new magic
+convert <code>sv</code> to type <code>SVt_PVMG</code>.
+Perl then continues by adding new magic
 to the beginning of the linked list of magical features.  Any prior entry
 of the same type of magic is deleted.  Note that this can be overridden,
 and multiple instances of the same type of magic can be associated with an
 SV.
 </p>
 <p>The <code>name</code> and <code>namlen</code> arguments are used to associate a string with
-the magic, typically the name of a variable. <code>namlen</code> is stored in the
+the magic, typically the name of a variable.  <code>namlen</code> is stored in the
 <code>mg_len</code> field and if <code>name</code> is non-null then either a <code>savepvn</code> copy of
 <code>name</code> or <code>name</code> itself is stored in the <code>mg_ptr</code> field, depending on
 whether <code>namlen</code> is greater than zero or equal to zero respectively.  As a
@@ -1220,8 +1298,9 @@ to contain an <code>SV*</code> and is stored as-is with its REFCNT incremented.
 <p>The sv_magic function uses <code>how</code> to determine which, if any, predefined
 &quot;Magic Virtual Table&quot; should be assigned to the <code>mg_virtual</code> field.
 See the <a href="#perlguts-Magic-Virtual-Tables">Magic Virtual Tables</a> section below.  The <code>how</code> argument is also
-stored in the <code>mg_type</code> field. The value of <code>how</code> should be chosen
-from the set of macros <code>PERL_MAGIC_foo</code> found in <samp>perl.h</samp>. Note that before
+stored in the <code>mg_type</code> field.  The value of
+<code>how</code> should be chosen from the set of macros
+<code>PERL_MAGIC_foo</code> found in <samp>perl.h</samp>.  Note that before
 these macros were added, Perl internals used to directly use character
 literals, so you may occasionally come across old code or documentation
 referring to &rsquo;U&rsquo; magic rather than <code>PERL_MAGIC_uvar</code> for example.
@@ -1249,7 +1328,8 @@ to an SV.
 was initially made magical.
 </p>
 <p>However, note that <code>sv_unmagic</code> removes all magic of a certain <code>type</code> from the
-<code>SV</code>. If you want to remove only certain magic of a <code>type</code> based on the magic
+<code>SV</code>.  If you want to remove only certain
+magic of a <code>type</code> based on the magic
 virtual table, use <code>sv_unmagicext</code> instead:
 </p>
 <pre class="verbatim">    int sv_unmagicext(SV *sv, int type, MGVTBL *vtbl);
@@ -1261,7 +1341,7 @@ virtual table, use <code>sv_unmagicext</code> instead:
 Next: <a href="#perlguts-Finding-Magic" accesskey="n" rel="next">perlguts Finding Magic</a>, Previous: <a href="#perlguts-Assigning-Magic" accesskey="p" rel="prev">perlguts Assigning Magic</a>, Up: <a href="#perlguts-Variables" accesskey="u" rel="up">perlguts Variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Magic-Virtual-Tables"></a>
-<h4 class="subsection">28.3.18 Magic Virtual Tables</h4>
+<h4 class="subsection">28.3.20 Magic Virtual Tables</h4>
 
 <p>The <code>mg_virtual</code> field in the <code>MAGIC</code> structure is a pointer to an
 <code>MGVTBL</code>, which is a structure of function pointers and stands for
@@ -1313,8 +1393,9 @@ the Perl API, and may not be exported by the Perl library.
 </p>
 <p>The last three slots are a recent addition, and for source code
 compatibility they are only checked for if one of the three flags
-MGf_COPY, MGf_DUP or MGf_LOCAL is set in mg_flags. This means that most
-code can continue declaring a vtable as a 5-element value. These three are
+MGf_COPY, MGf_DUP or MGf_LOCAL is set in mg_flags.
+This means that most code can continue declaring
+a vtable as a 5-element value.  These three are
 currently used exclusively by the threading code, and are highly subject
 to change.
 </p>
@@ -1383,7 +1464,7 @@ to change.
 <p>When an uppercase and lowercase letter both exist in the table, then the
 uppercase letter is typically used to represent some kind of composite type
 (a list or a hash), and the lowercase letter is used to represent an element
-of that composite type. Some internals code makes use of this case
+of that composite type.  Some internals code makes use of this case
 relationship.  However, &rsquo;v&rsquo; and &rsquo;V&rsquo; (vec and v-string) are in no way related.
 </p>
 <p>The <code>PERL_MAGIC_ext</code> and <code>PERL_MAGIC_uvar</code> magic types are defined
@@ -1438,7 +1519,7 @@ objects blessed into the same class as the extension is sufficient.
 For <code>PERL_MAGIC_ext</code> magic, it is usually a good idea to define an
 <code>MGVTBL</code>, even if all its fields will be <code>0</code>, so that individual
 <code>MAGIC</code> pointers can be identified as a particular kind of magic
-using their magic virtual table. <code>mg_findext</code> provides an easy way
+using their magic virtual table.  <code>mg_findext</code> provides an easy way
 to do that:
 </p>
 <pre class="verbatim">    STATIC MGVTBL my_vtbl = { 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -1469,15 +1550,17 @@ since their implementation handles &rsquo;get&rsquo; magic.
 Next: <a href="#perlguts-Understanding-the-Magic-of-Tied-Hashes-and-Arrays" accesskey="n" rel="next">perlguts Understanding the Magic of Tied Hashes and Arrays</a>, Previous: <a href="#perlguts-Magic-Virtual-Tables" accesskey="p" rel="prev">perlguts Magic Virtual Tables</a>, Up: <a href="#perlguts-Variables" accesskey="u" rel="up">perlguts Variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Finding-Magic"></a>
-<h4 class="subsection">28.3.19 Finding Magic</h4>
+<h4 class="subsection">28.3.21 Finding Magic</h4>
 
 <pre class="verbatim">    MAGIC *mg_find(SV *sv, int type); /* Finds the magic pointer of that
                                        * type */
 </pre>
 <p>This routine returns a pointer to a <code>MAGIC</code> structure stored in the SV.
-If the SV does not have that magical feature, <code>NULL</code> is returned. If the
+If the SV does not have that magical
+feature, <code>NULL</code> is returned.  If the
 SV has multiple instances of that magical feature, the first one will be
-returned. <code>mg_findext</code> can be used to find a <code>MAGIC</code> structure of an SV
+returned.  <code>mg_findext</code> can be used
+to find a <code>MAGIC</code> structure of an SV
 based on both its magic type and its magic virtual table:
 </p>
 <pre class="verbatim">    MAGIC *mg_findext(SV *sv, int type, MGVTBL *vtbl);
@@ -1498,7 +1581,7 @@ the mg_type field is changed to be the lowercase letter.
 Next: <a href="#perlguts-Localizing-changes" accesskey="n" rel="next">perlguts Localizing changes</a>, Previous: <a href="#perlguts-Finding-Magic" accesskey="p" rel="prev">perlguts Finding Magic</a>, Up: <a href="#perlguts-Variables" accesskey="u" rel="up">perlguts Variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Understanding-the-Magic-of-Tied-Hashes-and-Arrays"></a>
-<h4 class="subsection">28.3.20 Understanding the Magic of Tied Hashes and Arrays</h4>
+<h4 class="subsection">28.3.22 Understanding the Magic of Tied Hashes and Arrays</h4>
 
 <p>Tied hashes and arrays are magical beasts of the <code>PERL_MAGIC_tied</code>
 magic type.
@@ -1506,7 +1589,7 @@ magic type.
 <p>WARNING: As of the 5.004 release, proper usage of the array and hash
 access functions requires understanding a few caveats.  Some
 of these caveats are actually considered bugs in the API, to be fixed
-in later releases, and are bracketed with [MAYCHANGE] below. If
+in later releases, and are bracketed with [MAYCHANGE] below.  If
 you find yourself actually applying such information in this section, be
 aware that the behavior may change in the future, umm, without warning.
 </p>
@@ -1515,7 +1598,7 @@ the various GET, SET, etc methods.  To perform the equivalent of the perl
 tie function from an XSUB, you must mimic this behaviour.  The code below
 carries out the necessary steps - firstly it creates a new hash, and then
 creates a second hash which it blesses into the class which will implement
-the tie methods. Lastly it ties the two hashes together, and returns a
+the tie methods.  Lastly it ties the two hashes together, and returns a
 reference to the new tied hash.  Note that the code below does NOT call the
 TIEHASH method in the MyTie class -
 see <a href="#perlguts-Calling-Perl-Routines-from-within-C-Programs">Calling Perl Routines from within C Programs</a> for details on how
@@ -1592,7 +1675,7 @@ will not be insignificant.
 Previous: <a href="#perlguts-Understanding-the-Magic-of-Tied-Hashes-and-Arrays" accesskey="p" rel="prev">perlguts Understanding the Magic of Tied Hashes and Arrays</a>, Up: <a href="#perlguts-Variables" accesskey="u" rel="up">perlguts Variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Localizing-changes"></a>
-<h4 class="subsection">28.3.21 Localizing changes</h4>
+<h4 class="subsection">28.3.23 Localizing changes</h4>
 
 <p>Perl has a very handy construction
 </p>
@@ -1612,19 +1695,19 @@ Previous: <a href="#perlguts-Understanding-the-Magic-of-Tied-Hashes-and-Arrays" 
 </pre>
 <p>The biggest difference is that the first construction would
 reinstate the initial value of $var, irrespective of how control exits
-the block: <code>goto</code>, <code>return</code>, <code>die</code>/<code>eval</code>, etc. It is a little bit
+the block: <code>goto</code>, <code>return</code>, <code>die</code>/<code>eval</code>, etc.  It is a little bit
 more efficient as well.
 </p>
 <p>There is a way to achieve a similar task from C via Perl API: create a
 <em>pseudo-block</em>, and arrange for some changes to be automatically
 undone at the end of it, either explicit, or via a non-local exit (via
-die()). A <em>block</em>-like construct is created by a pair of
+die()).  A <em>block</em>-like construct is created by a pair of
 <code>ENTER</code>/<code>LEAVE</code> macros (see <a href="perlcall.html#perlcall-Returning-a-Scalar">perlcall Returning a Scalar</a>).
 Such a construct may be created specially for some important localized
 task, or an existing one (like boundaries of enclosing Perl
 subroutine/block, or an existing pair for freeing TMPs) may be
-used. (In the second case the overhead of additional localization must
-be almost negligible.) Note that any XSUB is automatically enclosed in
+used.  (In the second case the overhead of additional localization must
+be almost negligible.)  Note that any XSUB is automatically enclosed in
 an <code>ENTER</code>/<code>LEAVE</code> pair.
 </p>
 <p>Inside such a <em>pseudo-block</em> the following service is available:
@@ -1651,7 +1734,7 @@ an <code>ENTER</code>/<code>LEAVE</code> pair.
 <dt><code>SAVEPPTR(p)</code></dt>
 <dd><a name="perlguts-SAVEPPTR_0028p_0029"></a>
 <p>These macros arrange things to restore the value of pointers <code>s</code> and
-<code>p</code>. <code>s</code> must be a pointer of a type which survives conversion to
+<code>p</code>.  <code>s</code> must be a pointer of a type which survives conversion to
 <code>SV*</code> and back, <code>p</code> should be able to survive conversion to <code>char*</code>
 and back.
 </p>
@@ -1695,7 +1778,7 @@ the end of <em>pseudo-block</em>.
 </dd>
 <dt><code>SAVEDELETE(HV *hv, char *key, I32 length)</code></dt>
 <dd><a name="perlguts-SAVEDELETE_0028HV-_002ahv_002c-char-_002akey_002c-I32-length_0029"></a>
-<p>The key <code>key</code> of <code>hv</code> is deleted at the end of <em>pseudo-block</em>. The
+<p>The key <code>key</code> of <code>hv</code> is deleted at the end of <em>pseudo-block</em>.  The
 string pointed to by <code>key</code> is Safefree()ed.  If one has a <em>key</em> in
 short-lived storage, the corresponding string may be reallocated like
 this:
@@ -1746,7 +1829,7 @@ function takes <code>int *</code>.
 <dd><a name="perlguts-void-save_005fitem_0028SV-_002aitem_0029"></a>
 <p>Duplicates the current value of <code>SV</code>, on the exit from the current
 <code>ENTER</code>/<code>LEAVE</code> <em>pseudo-block</em> will restore the value of <code>SV</code>
-using the stored value. It doesn&rsquo;t handle magic. Use <code>save_scalar</code> if
+using the stored value.  It doesn&rsquo;t handle magic.  Use <code>save_scalar</code> if
 magic is affected.
 </p>
 </dd>
@@ -1779,7 +1862,7 @@ the containing scope should take a look there too.
 <a name="perlguts-Subroutines"></a>
 <div class="header">
 <p>
-Next: <a href="#perlguts-Compiled-code" accesskey="n" rel="next">perlguts Compiled code</a>, Previous: <a href="#perlguts-Variables" accesskey="p" rel="prev">perlguts Variables</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlguts-Memory-Allocation" accesskey="n" rel="next">perlguts Memory Allocation</a>, Previous: <a href="#perlguts-Variables" accesskey="p" rel="prev">perlguts Variables</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Subroutines"></a>
 <h3 class="section">28.4 Subroutines</h3>
@@ -1791,15 +1874,11 @@ Next: <a href="#perlguts-Compiled-code" accesskey="n" rel="next">perlguts Compil
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlguts-Calling-Perl-Routines-from-within-C-Programs" accesskey="3">perlguts Calling Perl Routines from within C Programs</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlguts-Memory-Allocation" accesskey="4">perlguts Memory Allocation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-Putting-a-C-value-on-Perl-stack" accesskey="4">perlguts Putting a C value on Perl stack</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlguts-PerlIO" accesskey="5">perlguts PerlIO</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-Scratchpads" accesskey="5">perlguts Scratchpads</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlguts-Putting-a-C-value-on-Perl-stack" accesskey="6">perlguts Putting a C value on Perl stack</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlguts-Scratchpads" accesskey="7">perlguts Scratchpads</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlguts-Scratchpads-and-recursion" accesskey="8">perlguts Scratchpads and recursion</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-Scratchpads-and-recursion" accesskey="6">perlguts Scratchpads and recursion</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 </table>
 
@@ -1836,7 +1915,7 @@ extended using the macro:
 and <code>num</code> is the number of elements the stack should be extended by.
 </p>
 <p>Now that there is room on the stack, values can be pushed on it using <code>PUSHs</code>
-macro. The pushed values will often need to be &quot;mortal&quot; (See
+macro.  The pushed values will often need to be &quot;mortal&quot; (See
 <a href="#perlguts-Reference-Counts-and-Mortality">Reference Counts and Mortality</a>):
 </p>
 <pre class="verbatim">    PUSHs(sv_2mortal(newSViv(an_integer)))
@@ -1900,7 +1979,7 @@ to support 5.8-5.14, use the XSUB&rsquo;s fields.
 <a name="perlguts-Calling-Perl-Routines-from-within-C-Programs"></a>
 <div class="header">
 <p>
-Next: <a href="#perlguts-Memory-Allocation" accesskey="n" rel="next">perlguts Memory Allocation</a>, Previous: <a href="#perlguts-Autoloading-with-XSUBs" accesskey="p" rel="prev">perlguts Autoloading with XSUBs</a>, Up: <a href="#perlguts-Subroutines" accesskey="u" rel="up">perlguts Subroutines</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlguts-Putting-a-C-value-on-Perl-stack" accesskey="n" rel="next">perlguts Putting a C value on Perl stack</a>, Previous: <a href="#perlguts-Autoloading-with-XSUBs" accesskey="p" rel="prev">perlguts Autoloading with XSUBs</a>, Up: <a href="#perlguts-Subroutines" accesskey="u" rel="up">perlguts Subroutines</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Calling-Perl-Routines-from-within-C-Programs"></a>
 <h4 class="subsection">28.4.3 Calling Perl Routines from within C Programs</h4>
@@ -1947,128 +2026,17 @@ functions:
 consult <a href="perlcall.html#perlcall-NAME">perlcall NAME</a>.
 </p>
 <hr>
-<a name="perlguts-Memory-Allocation"></a>
-<div class="header">
-<p>
-Next: <a href="#perlguts-PerlIO" accesskey="n" rel="next">perlguts PerlIO</a>, Previous: <a href="#perlguts-Calling-Perl-Routines-from-within-C-Programs" accesskey="p" rel="prev">perlguts Calling Perl Routines from within C Programs</a>, Up: <a href="#perlguts-Subroutines" accesskey="u" rel="up">perlguts Subroutines</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
-</div>
-<a name="Memory-Allocation"></a>
-<h4 class="subsection">28.4.4 Memory Allocation</h4>
-
-<table class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#perlguts-Allocation" accesskey="1">perlguts Allocation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlguts-Reallocation" accesskey="2">perlguts Reallocation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlguts-Moving" accesskey="3">perlguts Moving</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-</table>
-
-<hr>
-<a name="perlguts-Allocation"></a>
-<div class="header">
-<p>
-Next: <a href="#perlguts-Reallocation" accesskey="n" rel="next">perlguts Reallocation</a>, Up: <a href="#perlguts-Memory-Allocation" accesskey="u" rel="up">perlguts Memory Allocation</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
-</div>
-<a name="Allocation"></a>
-<h4 class="subsubsection">28.4.4.1 Allocation</h4>
-
-<p>All memory meant to be used with the Perl API functions should be manipulated
-using the macros described in this section.  The macros provide the necessary
-transparency between differences in the actual malloc implementation that is
-used within perl.
-</p>
-<p>It is suggested that you enable the version of malloc that is distributed
-with Perl.  It keeps pools of various sizes of unallocated memory in
-order to satisfy allocation requests more quickly.  However, on some
-platforms, it may cause spurious malloc or free errors.
-</p>
-<p>The following three macros are used to initially allocate memory :
-</p>
-<pre class="verbatim">    Newx(pointer, number, type);
-    Newxc(pointer, number, type, cast);
-    Newxz(pointer, number, type);
-</pre>
-<p>The first argument <code>pointer</code> should be the name of a variable that will
-point to the newly allocated memory.
-</p>
-<p>The second and third arguments <code>number</code> and <code>type</code> specify how many of
-the specified type of data structure should be allocated.  The argument
-<code>type</code> is passed to <code>sizeof</code>.  The final argument to <code>Newxc</code>, <code>cast</code>,
-should be used if the <code>pointer</code> argument is different from the <code>type</code>
-argument.
-</p>
-<p>Unlike the <code>Newx</code> and <code>Newxc</code> macros, the <code>Newxz</code> macro calls <code>memzero</code>
-to zero out all the newly allocated memory.
-</p>
-<hr>
-<a name="perlguts-Reallocation"></a>
-<div class="header">
-<p>
-Next: <a href="#perlguts-Moving" accesskey="n" rel="next">perlguts Moving</a>, Previous: <a href="#perlguts-Allocation" accesskey="p" rel="prev">perlguts Allocation</a>, Up: <a href="#perlguts-Memory-Allocation" accesskey="u" rel="up">perlguts Memory Allocation</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
-</div>
-<a name="Reallocation"></a>
-<h4 class="subsubsection">28.4.4.2 Reallocation</h4>
-
-<pre class="verbatim">    Renew(pointer, number, type);
-    Renewc(pointer, number, type, cast);
-    Safefree(pointer)
-</pre>
-<p>These three macros are used to change a memory buffer size or to free a
-piece of memory no longer needed.  The arguments to <code>Renew</code> and <code>Renewc</code>
-match those of <code>New</code> and <code>Newc</code> with the exception of not needing the
-&quot;magic cookie&quot; argument.
-</p>
-<hr>
-<a name="perlguts-Moving"></a>
-<div class="header">
-<p>
-Previous: <a href="#perlguts-Reallocation" accesskey="p" rel="prev">perlguts Reallocation</a>, Up: <a href="#perlguts-Memory-Allocation" accesskey="u" rel="up">perlguts Memory Allocation</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
-</div>
-<a name="Moving"></a>
-<h4 class="subsubsection">28.4.4.3 Moving</h4>
-
-<pre class="verbatim">    Move(source, dest, number, type);
-    Copy(source, dest, number, type);
-    Zero(dest, number, type);
-</pre>
-<p>These three macros are used to move, copy, or zero out previously allocated
-memory.  The <code>source</code> and <code>dest</code> arguments point to the source and
-destination starting points.  Perl will move, copy, or zero out <code>number</code>
-instances of the size of the <code>type</code> data structure (using the <code>sizeof</code>
-function).
-</p>
-<hr>
-<a name="perlguts-PerlIO"></a>
-<div class="header">
-<p>
-Next: <a href="#perlguts-Putting-a-C-value-on-Perl-stack" accesskey="n" rel="next">perlguts Putting a C value on Perl stack</a>, Previous: <a href="#perlguts-Memory-Allocation" accesskey="p" rel="prev">perlguts Memory Allocation</a>, Up: <a href="#perlguts-Subroutines" accesskey="u" rel="up">perlguts Subroutines</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
-</div>
-<a name="PerlIO"></a>
-<h4 class="subsection">28.4.5 PerlIO</h4>
-
-<p>The most recent development releases of Perl have been experimenting with
-removing Perl&rsquo;s dependency on the &quot;normal&quot; standard I/O suite and allowing
-other stdio implementations to be used.  This involves creating a new
-abstraction layer that then calls whichever implementation of stdio Perl
-was compiled with.  All XSUBs should now use the functions in the PerlIO
-abstraction layer and not make any assumptions about what kind of stdio
-is being used.
-</p>
-<p>For a complete description of the PerlIO abstraction, consult <a href="perlapio.html#perlapio-NAME">perlapio NAME</a>.
-</p>
-<hr>
 <a name="perlguts-Putting-a-C-value-on-Perl-stack"></a>
 <div class="header">
 <p>
-Next: <a href="#perlguts-Scratchpads" accesskey="n" rel="next">perlguts Scratchpads</a>, Previous: <a href="#perlguts-PerlIO" accesskey="p" rel="prev">perlguts PerlIO</a>, Up: <a href="#perlguts-Subroutines" accesskey="u" rel="up">perlguts Subroutines</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlguts-Scratchpads" accesskey="n" rel="next">perlguts Scratchpads</a>, Previous: <a href="#perlguts-Calling-Perl-Routines-from-within-C-Programs" accesskey="p" rel="prev">perlguts Calling Perl Routines from within C Programs</a>, Up: <a href="#perlguts-Subroutines" accesskey="u" rel="up">perlguts Subroutines</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Putting-a-C-value-on-Perl-stack"></a>
-<h4 class="subsection">28.4.6 Putting a C value on Perl stack</h4>
+<h4 class="subsection">28.4.4 Putting a C value on Perl stack</h4>
 
 <p>A lot of opcodes (this is an elementary operation in the internal perl
-stack machine) put an SV* on the stack. However, as an optimization
-the corresponding SV is (usually) not recreated each time. The opcodes
+stack machine) put an SV* on the stack.  However, as an optimization
+the corresponding SV is (usually) not recreated each time.  The opcodes
 reuse specially assigned SVs (<em>target</em>s) which are (as a corollary)
 not constantly freed/created.
 </p>
@@ -2082,7 +2050,7 @@ directly used in some opcodes, as well as indirectly in zillions of
 others, which use it via <code>(X)PUSH[iunp]</code>.
 </p>
 <p>Because the target is reused, you must be careful when pushing multiple
-values on the stack. The following code will not do what you think:
+values on the stack.  The following code will not do what you think:
 </p>
 <pre class="verbatim">    XPUSHi(10);
     XPUSHi(20);
@@ -2123,20 +2091,24 @@ and <code>dXSTARG</code>.
 Next: <a href="#perlguts-Scratchpads-and-recursion" accesskey="n" rel="next">perlguts Scratchpads and recursion</a>, Previous: <a href="#perlguts-Putting-a-C-value-on-Perl-stack" accesskey="p" rel="prev">perlguts Putting a C value on Perl stack</a>, Up: <a href="#perlguts-Subroutines" accesskey="u" rel="up">perlguts Subroutines</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Scratchpads"></a>
-<h4 class="subsection">28.4.7 Scratchpads</h4>
+<h4 class="subsection">28.4.5 Scratchpads</h4>
 
 <p>The question remains on when the SVs which are <em>target</em>s for opcodes
-are created. The answer is that they are created when the current
+are created.  The answer is that they are created when the current
 unit&ndash;a subroutine or a file (for opcodes for statements outside of
-subroutines)&ndash;is compiled. During this time a special anonymous Perl
+subroutines)&ndash;is compiled.  During this time a special anonymous Perl
 array is created, which is called a scratchpad for the current unit.
 </p>
 <p>A scratchpad keeps SVs which are lexicals for the current unit and are
-targets for opcodes. One can deduce that an SV lives on a scratchpad
+targets for opcodes.  A previous version of this document
+stated that one can deduce that an SV lives on a scratchpad
 by looking on its flags: lexicals have <code>SVs_PADMY</code> set, and
-<em>target</em>s have <code>SVs_PADTMP</code> set.
+<em>target</em>s have <code>SVs_PADTMP</code> set.  But this have never been fully true.
+<code>SVs_PADMY</code> could be set on a variable that no longer resides in any pad.
+While <em>target</em>s do have <code>SVs_PADTMP</code> set, it can also be set on variables
+that have never resided in a pad, but nonetheless act like <em>target</em>s.
 </p>
-<p>The correspondence between OPs and <em>target</em>s is not 1-to-1. Different
+<p>The correspondence between OPs and <em>target</em>s is not 1-to-1.  Different
 OPs in the compile tree of the unit can use the same target, if this
 would not conflict with the expected life of the temporary.
 </p>
@@ -2147,19 +2119,19 @@ would not conflict with the expected life of the temporary.
 Previous: <a href="#perlguts-Scratchpads" accesskey="p" rel="prev">perlguts Scratchpads</a>, Up: <a href="#perlguts-Subroutines" accesskey="u" rel="up">perlguts Subroutines</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Scratchpads-and-recursion"></a>
-<h4 class="subsection">28.4.8 Scratchpads and recursion</h4>
+<h4 class="subsection">28.4.6 Scratchpads and recursion</h4>
 
 <p>In fact it is not 100% true that a compiled unit contains a pointer to
-the scratchpad AV. In fact it contains a pointer to an AV of
-(initially) one element, and this element is the scratchpad AV. Why do
+the scratchpad AV.  In fact it contains a pointer to an AV of
+(initially) one element, and this element is the scratchpad AV.  Why do
 we need an extra level of indirection?
 </p>
-<p>The answer is <strong>recursion</strong>, and maybe <strong>threads</strong>. Both
+<p>The answer is <strong>recursion</strong>, and maybe <strong>threads</strong>.  Both
 these can create several execution pointers going into the same
-subroutine. For the subroutine-child not write over the temporaries
+subroutine.  For the subroutine-child not write over the temporaries
 for the subroutine-parent (lifespan of which covers the call to the
 child), the parent and the child should have different
-scratchpads. (<em>And</em> the lexicals should be separate anyway!)
+scratchpads.  (<em>And</em> the lexicals should be separate anyway!)
 </p>
 <p>So each subroutine is born with an array of scratchpads (of length 1).
 On each entry to the subroutine it is checked that the current
@@ -2170,13 +2142,124 @@ if it is, new scratchpad is created and pushed into the array.
 marked with correct flags.
 </p>
 <hr>
+<a name="perlguts-Memory-Allocation"></a>
+<div class="header">
+<p>
+Next: <a href="#perlguts-PerlIO" accesskey="n" rel="next">perlguts PerlIO</a>, Previous: <a href="#perlguts-Subroutines" accesskey="p" rel="prev">perlguts Subroutines</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Memory-Allocation"></a>
+<h3 class="section">28.5 Memory Allocation</h3>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-Allocation" accesskey="1">perlguts Allocation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-Reallocation" accesskey="2">perlguts Reallocation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlguts-Moving" accesskey="3">perlguts Moving</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlguts-Allocation"></a>
+<div class="header">
+<p>
+Next: <a href="#perlguts-Reallocation" accesskey="n" rel="next">perlguts Reallocation</a>, Up: <a href="#perlguts-Memory-Allocation" accesskey="u" rel="up">perlguts Memory Allocation</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Allocation"></a>
+<h4 class="subsection">28.5.1 Allocation</h4>
+
+<p>All memory meant to be used with the Perl API functions should be manipulated
+using the macros described in this section.  The macros provide the necessary
+transparency between differences in the actual malloc implementation that is
+used within perl.
+</p>
+<p>It is suggested that you enable the version of malloc that is distributed
+with Perl.  It keeps pools of various sizes of unallocated memory in
+order to satisfy allocation requests more quickly.  However, on some
+platforms, it may cause spurious malloc or free errors.
+</p>
+<p>The following three macros are used to initially allocate memory :
+</p>
+<pre class="verbatim">    Newx(pointer, number, type);
+    Newxc(pointer, number, type, cast);
+    Newxz(pointer, number, type);
+</pre>
+<p>The first argument <code>pointer</code> should be the name of a variable that will
+point to the newly allocated memory.
+</p>
+<p>The second and third arguments <code>number</code> and <code>type</code> specify how many of
+the specified type of data structure should be allocated.  The argument
+<code>type</code> is passed to <code>sizeof</code>.  The final argument to <code>Newxc</code>, <code>cast</code>,
+should be used if the <code>pointer</code> argument is different from the <code>type</code>
+argument.
+</p>
+<p>Unlike the <code>Newx</code> and <code>Newxc</code> macros, the <code>Newxz</code> macro calls <code>memzero</code>
+to zero out all the newly allocated memory.
+</p>
+<hr>
+<a name="perlguts-Reallocation"></a>
+<div class="header">
+<p>
+Next: <a href="#perlguts-Moving" accesskey="n" rel="next">perlguts Moving</a>, Previous: <a href="#perlguts-Allocation" accesskey="p" rel="prev">perlguts Allocation</a>, Up: <a href="#perlguts-Memory-Allocation" accesskey="u" rel="up">perlguts Memory Allocation</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Reallocation"></a>
+<h4 class="subsection">28.5.2 Reallocation</h4>
+
+<pre class="verbatim">    Renew(pointer, number, type);
+    Renewc(pointer, number, type, cast);
+    Safefree(pointer)
+</pre>
+<p>These three macros are used to change a memory buffer size or to free a
+piece of memory no longer needed.  The arguments to <code>Renew</code> and <code>Renewc</code>
+match those of <code>New</code> and <code>Newc</code> with the exception of not needing the
+&quot;magic cookie&quot; argument.
+</p>
+<hr>
+<a name="perlguts-Moving"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlguts-Reallocation" accesskey="p" rel="prev">perlguts Reallocation</a>, Up: <a href="#perlguts-Memory-Allocation" accesskey="u" rel="up">perlguts Memory Allocation</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Moving"></a>
+<h4 class="subsection">28.5.3 Moving</h4>
+
+<pre class="verbatim">    Move(source, dest, number, type);
+    Copy(source, dest, number, type);
+    Zero(dest, number, type);
+</pre>
+<p>These three macros are used to move, copy, or zero out previously allocated
+memory.  The <code>source</code> and <code>dest</code> arguments point to the source and
+destination starting points.  Perl will move, copy, or zero out <code>number</code>
+instances of the size of the <code>type</code> data structure (using the <code>sizeof</code>
+function).
+</p>
+<hr>
+<a name="perlguts-PerlIO"></a>
+<div class="header">
+<p>
+Next: <a href="#perlguts-Compiled-code" accesskey="n" rel="next">perlguts Compiled code</a>, Previous: <a href="#perlguts-Memory-Allocation" accesskey="p" rel="prev">perlguts Memory Allocation</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="PerlIO"></a>
+<h3 class="section">28.6 PerlIO</h3>
+
+<p>The most recent development releases of Perl have been experimenting with
+removing Perl&rsquo;s dependency on the &quot;normal&quot; standard I/O suite and allowing
+other stdio implementations to be used.  This involves creating a new
+abstraction layer that then calls whichever implementation of stdio Perl
+was compiled with.  All XSUBs should now use the functions in the PerlIO
+abstraction layer and not make any assumptions about what kind of stdio
+is being used.
+</p>
+<p>For a complete description of the PerlIO abstraction, consult <a href="perlapio.html#perlapio-NAME">perlapio NAME</a>.
+</p>
+<hr>
 <a name="perlguts-Compiled-code"></a>
 <div class="header">
 <p>
-Next: <a href="#perlguts-Examining-internal-data-structures-with-the-dump-functions" accesskey="n" rel="next">perlguts Examining internal data structures with the <code>dump</code> functions</a>, Previous: <a href="#perlguts-Subroutines" accesskey="p" rel="prev">perlguts Subroutines</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlguts-Examining-internal-data-structures-with-the-dump-functions" accesskey="n" rel="next">perlguts Examining internal data structures with the <code>dump</code> functions</a>, Previous: <a href="#perlguts-PerlIO" accesskey="p" rel="prev">perlguts PerlIO</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Compiled-code"></a>
-<h3 class="section">28.5 Compiled code</h3>
+<h3 class="section">28.7 Compiled code</h3>
 
 <table class="menu" border="0" cellspacing="0">
 <tr><td align="left" valign="top">&bull; <a href="#perlguts-Code-tree" accesskey="1">perlguts Code tree</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
@@ -2204,10 +2287,10 @@ Next: <a href="#perlguts-Examining-internal-data-structures-with-the-dump-functi
 Next: <a href="#perlguts-Examining-the-tree" accesskey="n" rel="next">perlguts Examining the tree</a>, Up: <a href="#perlguts-Compiled-code" accesskey="u" rel="up">perlguts Compiled code</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Code-tree"></a>
-<h4 class="subsection">28.5.1 Code tree</h4>
+<h4 class="subsection">28.7.1 Code tree</h4>
 
 <p>Here we describe the internal form your code is converted to by
-Perl. Start with a simple example:
+Perl.  Start with a simple example:
 </p>
 <pre class="verbatim">  $a = $b + $c;
 </pre>
@@ -2239,7 +2322,7 @@ is the same as in our example.
 Next: <a href="#perlguts-Compile-pass-1_003a-check-routines" accesskey="n" rel="next">perlguts Compile pass 1: check routines</a>, Previous: <a href="#perlguts-Code-tree" accesskey="p" rel="prev">perlguts Code tree</a>, Up: <a href="#perlguts-Compiled-code" accesskey="u" rel="up">perlguts Compiled code</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Examining-the-tree"></a>
-<h4 class="subsection">28.5.2 Examining the tree</h4>
+<h4 class="subsection">28.7.2 Examining the tree</h4>
 
 <p>If you have your perl compiled for debugging (usually done with
 <code>-DDEBUGGING</code> on the <code>Configure</code> command line), you may examine the
@@ -2287,26 +2370,26 @@ of indentation, thus this listing corresponds to the tree:
 <code>gvsv gvsv add whatever</code>.
 </p>
 <p>Each of these nodes represents an op, a fundamental operation inside the
-Perl core. The code which implements each operation can be found in the
+Perl core.  The code which implements each operation can be found in the
 <samp>pp*.c</samp> files; the function which implements the op with type <code>gvsv</code>
-is <code>pp_gvsv</code>, and so on. As the tree above shows, different ops have
+is <code>pp_gvsv</code>, and so on.  As the tree above shows, different ops have
 different numbers of children: <code>add</code> is a binary operator, as one would
-expect, and so has two children. To accommodate the various different
+expect, and so has two children.  To accommodate the various different
 numbers of children, there are various types of op data structure, and
 they link together in different ways.
 </p>
-<p>The simplest type of op structure is <code>OP</code>: this has no children. Unary
+<p>The simplest type of op structure is <code>OP</code>: this has no children.  Unary
 operators, <code>UNOP</code>s, have one child, and this is pointed to by the
-<code>op_first</code> field. Binary operators (<code>BINOP</code>s) have not only an
-<code>op_first</code> field but also an <code>op_last</code> field. The most complex type of
-op is a <code>LISTOP</code>, which has any number of children. In this case, the
+<code>op_first</code> field.  Binary operators (<code>BINOP</code>s) have not only an
+<code>op_first</code> field but also an <code>op_last</code> field.  The most complex type of
+op is a <code>LISTOP</code>, which has any number of children.  In this case, the
 first child is pointed to by <code>op_first</code> and the last child by
-<code>op_last</code>. The children in between can be found by iteratively
+<code>op_last</code>.  The children in between can be found by iteratively
 following the <code>op_sibling</code> pointer from the first child to the last.
 </p>
 <p>There are also two other op types: a <code>PMOP</code> holds a regular expression,
-and has no children, and a <code>LOOP</code> may or may not have children. If the
-<code>op_children</code> field is non-zero, it behaves like a <code>LISTOP</code>. To
+and has no children, and a <code>LOOP</code> may or may not have children.  If the
+<code>op_children</code> field is non-zero, it behaves like a <code>LISTOP</code>.  To
 complicate matters, if a <code>UNOP</code> is actually a <code>null</code> op after
 optimization (see <a href="#perlguts-Compile-pass-2_003a-context-propagation">Compile pass 2: context propagation</a>) it will still
 have children in accordance with its former type.
@@ -2321,10 +2404,10 @@ as <a href="../B-Concise/index.html">(B-Concise)</a>.
 Next: <a href="#perlguts-Compile-pass-1a_003a-constant-folding" accesskey="n" rel="next">perlguts Compile pass 1a: constant folding</a>, Previous: <a href="#perlguts-Examining-the-tree" accesskey="p" rel="prev">perlguts Examining the tree</a>, Up: <a href="#perlguts-Compiled-code" accesskey="u" rel="up">perlguts Compiled code</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Compile-pass-1_003a-check-routines"></a>
-<h4 class="subsection">28.5.3 Compile pass 1: check routines</h4>
+<h4 class="subsection">28.7.3 Compile pass 1: check routines</h4>
 
 <p>The tree is created by the compiler while <em>yacc</em> code feeds it
-the constructions it recognizes. Since <em>yacc</em> works bottom-up, so does
+the constructions it recognizes.  Since <em>yacc</em> works bottom-up, so does
 the first pass of perl compilation.
 </p>
 <p>What makes this pass interesting for perl developers is that some
@@ -2343,7 +2426,7 @@ new nodes above/below it.
 tree (if the top-level node was not modified, check routine returns
 its argument).
 </p>
-<p>By convention, check routines have names <code>ck_*</code>. They are usually
+<p>By convention, check routines have names <code>ck_*</code>.  They are usually
 called from <code>new*OP</code> subroutines (or <code>convert</code>) (which in turn are
 called from <samp>perly.y</samp>).
 </p>
@@ -2354,7 +2437,7 @@ called from <samp>perly.y</samp>).
 Next: <a href="#perlguts-Compile-pass-2_003a-context-propagation" accesskey="n" rel="next">perlguts Compile pass 2: context propagation</a>, Previous: <a href="#perlguts-Compile-pass-1_003a-check-routines" accesskey="p" rel="prev">perlguts Compile pass 1: check routines</a>, Up: <a href="#perlguts-Compiled-code" accesskey="u" rel="up">perlguts Compiled code</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Compile-pass-1a_003a-constant-folding"></a>
-<h4 class="subsection">28.5.4 Compile pass 1a: constant folding</h4>
+<h4 class="subsection">28.7.4 Compile pass 1a: constant folding</h4>
 
 <p>Immediately after the check routine is called the returned node is
 checked for being compile-time executable.  If it is (the value is
@@ -2372,7 +2455,7 @@ created.
 Next: <a href="#perlguts-Compile-pass-3_003a-peephole-optimization" accesskey="n" rel="next">perlguts Compile pass 3: peephole optimization</a>, Previous: <a href="#perlguts-Compile-pass-1a_003a-constant-folding" accesskey="p" rel="prev">perlguts Compile pass 1a: constant folding</a>, Up: <a href="#perlguts-Compiled-code" accesskey="u" rel="up">perlguts Compiled code</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Compile-pass-2_003a-context-propagation"></a>
-<h4 class="subsection">28.5.5 Compile pass 2: context propagation</h4>
+<h4 class="subsection">28.7.5 Compile pass 2: context propagation</h4>
 
 <p>When a context for a part of compile tree is known, it is propagated
 down through the tree.  At this time the context can have 5 values
@@ -2393,10 +2476,10 @@ of free()ing (i.e. their type is changed to OP_NULL).
 Next: <a href="#perlguts-Pluggable-runops" accesskey="n" rel="next">perlguts Pluggable runops</a>, Previous: <a href="#perlguts-Compile-pass-2_003a-context-propagation" accesskey="p" rel="prev">perlguts Compile pass 2: context propagation</a>, Up: <a href="#perlguts-Compiled-code" accesskey="u" rel="up">perlguts Compiled code</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Compile-pass-3_003a-peephole-optimization"></a>
-<h4 class="subsection">28.5.6 Compile pass 3: peephole optimization</h4>
+<h4 class="subsection">28.7.6 Compile pass 3: peephole optimization</h4>
 
 <p>After the compile tree for a subroutine (or for an <code>eval</code> or a file)
-is created, an additional pass over the code is performed. This pass
+is created, an additional pass over the code is performed.  This pass
 is neither top-down or bottom-up, but in the execution order (with
 additional complications for conditionals).  Optimizations performed
 at this stage are subject to the same restrictions as in the pass 2.
@@ -2441,7 +2524,7 @@ per-subroutine or recursive stage, like this:
 Next: <a href="#perlguts-Compile_002dtime-scope-hooks" accesskey="n" rel="next">perlguts Compile-time scope hooks</a>, Previous: <a href="#perlguts-Compile-pass-3_003a-peephole-optimization" accesskey="p" rel="prev">perlguts Compile pass 3: peephole optimization</a>, Up: <a href="#perlguts-Compiled-code" accesskey="u" rel="up">perlguts Compiled code</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Pluggable-runops"></a>
-<h4 class="subsection">28.5.7 Pluggable runops</h4>
+<h4 class="subsection">28.7.7 Pluggable runops</h4>
 
 <p>The compile tree is executed in a runops function.  There are two runops
 functions, in <samp>run.c</samp> and in <samp>dump.c</samp>.  <code>Perl_runops_debug</code> is used
@@ -2465,10 +2548,10 @@ running as fast as possible.
 Previous: <a href="#perlguts-Pluggable-runops" accesskey="p" rel="prev">perlguts Pluggable runops</a>, Up: <a href="#perlguts-Compiled-code" accesskey="u" rel="up">perlguts Compiled code</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Compile_002dtime-scope-hooks"></a>
-<h4 class="subsection">28.5.8 Compile-time scope hooks</h4>
+<h4 class="subsection">28.7.8 Compile-time scope hooks</h4>
 
 <p>As of perl 5.14 it is possible to hook into the compile-time lexical
-scope mechanism using <code>Perl_blockhook_register</code>. This is used like
+scope mechanism using <code>Perl_blockhook_register</code>.  This is used like
 this:
 </p>
 <pre class="verbatim">    STATIC void my_start_hook(pTHX_ int full);
@@ -2479,19 +2562,19 @@ this:
         Perl_blockhook_register(aTHX_ &amp;my_hooks);
 </pre>
 <p>This will arrange to have <code>my_start_hook</code> called at the start of
-compiling every lexical scope. The available hooks are:
+compiling every lexical scope.  The available hooks are:
 </p>
 <dl compact="compact">
 <dt><code>void bhk_start(pTHX_ int full)</code></dt>
 <dd><a name="perlguts-void-bhk_005fstart_0028pTHX_005f-int-full_0029"></a>
-<p>This is called just after starting a new lexical scope. Note that Perl
+<p>This is called just after starting a new lexical scope.  Note that Perl
 code like
 </p>
 <pre class="verbatim">    if ($x) { ... }
 </pre>
 <p>creates two scopes: the first starts at the <code>(</code> and has <code>full == 1</code>,
-the second starts at the <code>{</code> and has <code>full == 0</code>. Both end at the
-<code>}</code>, so calls to <code>start</code> and <code>pre/post_end</code> will match. Anything
+the second starts at the <code>{</code> and has <code>full == 0</code>.  Both end at the
+<code>}</code>, so calls to <code>start</code> and <code>pre/post_end</code> will match.  Anything
 pushed onto the save stack by this hook will be popped just before the
 scope ends (between the <code>pre_</code> and <code>post_end</code> hooks, in fact).
 </p>
@@ -2499,14 +2582,14 @@ scope ends (between the <code>pre_</code> and <code>post_end</code> hooks, in fa
 <dt><code>void bhk_pre_end(pTHX_ OP **o)</code></dt>
 <dd><a name="perlguts-void-bhk_005fpre_005fend_0028pTHX_005f-OP-_002a_002ao_0029"></a>
 <p>This is called at the end of a lexical scope, just before unwinding the
-stack. <em>o</em> is the root of the optree representing the scope; it is a
+stack.  <em>o</em> is the root of the optree representing the scope; it is a
 double pointer so you can replace the OP if you need to.
 </p>
 </dd>
 <dt><code>void bhk_post_end(pTHX_ OP **o)</code></dt>
 <dd><a name="perlguts-void-bhk_005fpost_005fend_0028pTHX_005f-OP-_002a_002ao_0029"></a>
 <p>This is called at the end of a lexical scope, just after unwinding the
-stack. <em>o</em> is as above. Note that it is possible for calls to <code>pre_</code>
+stack.  <em>o</em> is as above.  Note that it is possible for calls to <code>pre_</code>
 and <code>post_end</code> to nest, if there is something on the save stack that
 calls string eval.
 </p>
@@ -2514,7 +2597,7 @@ calls string eval.
 <dt><code>void bhk_eval(pTHX_ OP *const o)</code></dt>
 <dd><a name="perlguts-void-bhk_005feval_0028pTHX_005f-OP-_002aconst-o_0029"></a>
 <p>This is called just before starting to compile an <code>eval STRING</code>, <code>do
-FILE</code>, <code>require</code> or <code>use</code>, after the eval has been set up. <em>o</em> is the
+FILE</code>, <code>require</code> or <code>use</code>, after the eval has been set up.  <em>o</em> is the
 OP that requested the eval, and will normally be an <code>OP_ENTEREVAL</code>,
 <code>OP_DOFILE</code> or <code>OP_REQUIRE</code>.
 </p>
@@ -2522,18 +2605,18 @@ OP that requested the eval, and will normally be an <code>OP_ENTEREVAL</code>,
 </dl>
 
 <p>Once you have your hook functions, you need a <code>BHK</code> structure to put
-them in. It&rsquo;s best to allocate it statically, since there is no way to
-free it once it&rsquo;s registered. The function pointers should be inserted
+them in.  It&rsquo;s best to allocate it statically, since there is no way to
+free it once it&rsquo;s registered.  The function pointers should be inserted
 into this structure using the <code>BhkENTRY_set</code> macro, which will also set
-flags indicating which entries are valid. If you do need to allocate
+flags indicating which entries are valid.  If you do need to allocate
 your <code>BHK</code> dynamically for some reason, be sure to zero it before you
 start.
 </p>
 <p>Once registered, there is no mechanism to switch these hooks off, so if
-that is necessary you will need to do this yourself. An entry in <code>%^H</code>
+that is necessary you will need to do this yourself.  An entry in <code>%^H</code>
 is probably the best way, so the effect is lexically scoped; however it
 is also possible to use the <code>BhkDISABLE</code> and <code>BhkENABLE</code> macros to
-temporarily switch entries on and off. You should also be aware that
+temporarily switch entries on and off.  You should also be aware that
 generally speaking at least one scope will have opened before your
 extension is loaded, so you will see some <code>pre/post_end</code> pairs that
 didn&rsquo;t have a matching <code>start</code>.
@@ -2545,13 +2628,13 @@ didn&rsquo;t have a matching <code>start</code>.
 Next: <a href="#perlguts-How-multiple-interpreters-and-concurrency-are-supported" accesskey="n" rel="next">perlguts How multiple interpreters and concurrency are supported</a>, Previous: <a href="#perlguts-Compiled-code" accesskey="p" rel="prev">perlguts Compiled code</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Examining-internal-data-structures-with-the-dump-functions"></a>
-<h3 class="section">28.6 Examining internal data structures with the <code>dump</code> functions</h3>
+<h3 class="section">28.8 Examining internal data structures with the <code>dump</code> functions</h3>
 
 <p>To aid debugging, the source file <samp>dump.c</samp> contains a number of
 functions which produce formatted output of internal data structures.
 </p>
 <p>The most commonly used of these functions is <code>Perl_sv_dump</code>; it&rsquo;s used
-for dumping SVs, AVs, HVs, and CVs. The <code>Devel::Peek</code> module calls
+for dumping SVs, AVs, HVs, and CVs.  The <code>Devel::Peek</code> module calls
 <code>sv_dump</code> to produce debugging output from Perl-space, so users of that
 module should already be familiar with its format.
 </p>
@@ -2587,7 +2670,7 @@ the op tree of the main root.
 Next: <a href="#perlguts-Internal-Functions" accesskey="n" rel="next">perlguts Internal Functions</a>, Previous: <a href="#perlguts-Examining-internal-data-structures-with-the-dump-functions" accesskey="p" rel="prev">perlguts Examining internal data structures with the <code>dump</code> functions</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="How-multiple-interpreters-and-concurrency-are-supported"></a>
-<h3 class="section">28.7 How multiple interpreters and concurrency are supported</h3>
+<h3 class="section">28.9 How multiple interpreters and concurrency are supported</h3>
 
 <table class="menu" border="0" cellspacing="0">
 <tr><td align="left" valign="top">&bull; <a href="#perlguts-Background-and-PERL_005fIMPLICIT_005fCONTEXT" accesskey="1">perlguts Background and PERL_IMPLICIT_CONTEXT</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
@@ -2609,7 +2692,7 @@ Next: <a href="#perlguts-Internal-Functions" accesskey="n" rel="next">perlguts I
 Next: <a href="#perlguts-So-what-happened-to-dTHR_003f" accesskey="n" rel="next">perlguts So what happened to dTHR?</a>, Up: <a href="#perlguts-How-multiple-interpreters-and-concurrency-are-supported" accesskey="u" rel="up">perlguts How multiple interpreters and concurrency are supported</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Background-and-PERL_005fIMPLICIT_005fCONTEXT"></a>
-<h4 class="subsection">28.7.1 Background and PERL_IMPLICIT_CONTEXT</h4>
+<h4 class="subsection">28.9.1 Background and PERL_IMPLICIT_CONTEXT</h4>
 
 <p>The Perl interpreter can be regarded as a closed box: it has an API
 for feeding it code or otherwise making it do things, but it also has
@@ -2619,11 +2702,11 @@ interpreters, with one interpreter represented either as a C structure,
 or inside a thread-specific structure.  These structures contain all
 the context, the state of that interpreter.
 </p>
-<p>One macro controls the major Perl build flavor: MULTIPLICITY. The
+<p>One macro controls the major Perl build flavor: MULTIPLICITY.  The
 MULTIPLICITY build has a C structure that packages all the interpreter
-state. With multiplicity-enabled perls, PERL_IMPLICIT_CONTEXT is also
+state.  With multiplicity-enabled perls, PERL_IMPLICIT_CONTEXT is also
 normally defined, and enables the support for passing in a &quot;hidden&quot; first
-argument that represents all three data structures. MULTIPLICITY makes
+argument that represents all three data structures.  MULTIPLICITY makes
 multi-threaded perls possible (with the ithreads threading model, related
 to the macro USE_ITHREADS.)
 </p>
@@ -2635,7 +2718,7 @@ struct perl_vars, accessible as (globals) &amp;PL_Vars or PL_VarsPtr or
 the function  Perl_GetVars().  The PERL_GLOBAL_STRUCT_PRIVATE goes
 one step further, there is still a single struct (allocated in main()
 either from heap or from stack) but there are no global data symbols
-pointing to it.  In either case the global struct should be initialised
+pointing to it.  In either case the global struct should be initialized
 as the very first thing in main() using Perl_init_global_struct() and
 correspondingly tear it down after perl_free() using Perl_free_global_struct(),
 please see <samp>miniperlmain.c</samp> for usage details.  You may also need
@@ -2664,7 +2747,8 @@ use of macros and subroutine naming conventions.
 which will be private.  All functions whose names begin <code>S_</code> are private
 (think &quot;S&quot; for &quot;secret&quot; or &quot;static&quot;).  All other functions begin with
 &quot;Perl_&quot;, but just because a function begins with &quot;Perl_&quot; does not mean it is
-part of the API. (See <a href="#perlguts-Internal-Functions">Internal Functions</a>.) The easiest way to be <strong>sure</strong> a
+part of the API.  (See <a href="#perlguts-Internal-Functions">Internal
+Functions</a>.)  The easiest way to be <strong>sure</strong> a
 function is part of the API is to find its entry in <a href="../perlapi/index.html">(perlapi)</a>.
 If it exists in <a href="../perlapi/index.html">(perlapi)</a>, it&rsquo;s part of the API.  If it doesn&rsquo;t, and you
 think it should be (i.e., you need it for your extension), send mail via
@@ -2746,7 +2830,7 @@ need only be aware of [pad]THX.
 Next: <a href="#perlguts-How-do-I-use-all-this-in-extensions_003f" accesskey="n" rel="next">perlguts How do I use all this in extensions?</a>, Previous: <a href="#perlguts-Background-and-PERL_005fIMPLICIT_005fCONTEXT" accesskey="p" rel="prev">perlguts Background and PERL_IMPLICIT_CONTEXT</a>, Up: <a href="#perlguts-How-multiple-interpreters-and-concurrency-are-supported" accesskey="u" rel="up">perlguts How multiple interpreters and concurrency are supported</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="So-what-happened-to-dTHR_003f"></a>
-<h4 class="subsection">28.7.2 So what happened to dTHR?</h4>
+<h4 class="subsection">28.9.2 So what happened to dTHR?</h4>
 
 <p><code>dTHR</code> was introduced in perl 5.005 to support the older thread model.
 The older thread model now uses the <code>THX</code> mechanism to pass context
@@ -2761,7 +2845,7 @@ to be a no-op.
 Next: <a href="#perlguts-Should-I-do-anything-special-if-I-call-perl-from-multiple-threads_003f" accesskey="n" rel="next">perlguts Should I do anything special if I call perl from multiple threads?</a>, Previous: <a href="#perlguts-So-what-happened-to-dTHR_003f" accesskey="p" rel="prev">perlguts So what happened to dTHR?</a>, Up: <a href="#perlguts-How-multiple-interpreters-and-concurrency-are-supported" accesskey="u" rel="up">perlguts How multiple interpreters and concurrency are supported</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="How-do-I-use-all-this-in-extensions_003f"></a>
-<h4 class="subsection">28.7.3 How do I use all this in extensions?</h4>
+<h4 class="subsection">28.9.3 How do I use all this in extensions?</h4>
 
 <p>When Perl is built with PERL_IMPLICIT_CONTEXT, extensions that call
 any functions in the Perl API will need to pass the initial context
@@ -2881,7 +2965,7 @@ otherwise the Perl global variables are visible as-is.
 Next: <a href="#perlguts-Future-Plans-and-PERL_005fIMPLICIT_005fSYS" accesskey="n" rel="next">perlguts Future Plans and PERL_IMPLICIT_SYS</a>, Previous: <a href="#perlguts-How-do-I-use-all-this-in-extensions_003f" accesskey="p" rel="prev">perlguts How do I use all this in extensions?</a>, Up: <a href="#perlguts-How-multiple-interpreters-and-concurrency-are-supported" accesskey="u" rel="up">perlguts How multiple interpreters and concurrency are supported</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Should-I-do-anything-special-if-I-call-perl-from-multiple-threads_003f"></a>
-<h4 class="subsection">28.7.4 Should I do anything special if I call perl from multiple threads?</h4>
+<h4 class="subsection">28.9.4 Should I do anything special if I call perl from multiple threads?</h4>
 
 <p>If you create interpreters in one thread and then proceed to call them in
 another, you need to make sure perl&rsquo;s own Thread Local Storage (TLS) slot is
@@ -2908,7 +2992,7 @@ thread as the first thing you do:
 Previous: <a href="#perlguts-Should-I-do-anything-special-if-I-call-perl-from-multiple-threads_003f" accesskey="p" rel="prev">perlguts Should I do anything special if I call perl from multiple threads?</a>, Up: <a href="#perlguts-How-multiple-interpreters-and-concurrency-are-supported" accesskey="u" rel="up">perlguts How multiple interpreters and concurrency are supported</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Future-Plans-and-PERL_005fIMPLICIT_005fSYS"></a>
-<h4 class="subsection">28.7.5 Future Plans and PERL_IMPLICIT_SYS</h4>
+<h4 class="subsection">28.9.5 Future Plans and PERL_IMPLICIT_SYS</h4>
 
 <p>Just as PERL_IMPLICIT_CONTEXT provides a way to bundle up everything
 that the interpreter knows about itself and pass it around, so too are
@@ -2937,37 +3021,38 @@ more &quot;hosts&quot;, with free association between them.
 Next: <a href="#perlguts-Unicode-Support" accesskey="n" rel="next">perlguts Unicode Support</a>, Previous: <a href="#perlguts-How-multiple-interpreters-and-concurrency-are-supported" accesskey="p" rel="prev">perlguts How multiple interpreters and concurrency are supported</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Internal-Functions"></a>
-<h3 class="section">28.8 Internal Functions</h3>
+<h3 class="section">28.10 Internal Functions</h3>
 
 <p>All of Perl&rsquo;s internal functions which will be exposed to the outside
 world are prefixed by <code>Perl_</code> so that they will not conflict with XS
 functions or functions used in a program in which Perl is embedded.
-Similarly, all global variables begin with <code>PL_</code>. (By convention,
+Similarly, all global variables begin with <code>PL_</code>.  (By convention,
 static functions start with <code>S_</code>.)
 </p>
 <p>Inside the Perl core (<code>PERL_CORE</code> defined), you can get at the functions
 either with or without the <code>Perl_</code> prefix, thanks to a bunch of defines
-that live in <samp>embed.h</samp>. Note that extension code should <em>not</em> set
+that live in <samp>embed.h</samp>.  Note that extension code should <em>not</em> set
 <code>PERL_CORE</code>; this exposes the full perl internals, and is likely to cause
 breakage of the XS in each new perl release.
 </p>
 <p>The file <samp>embed.h</samp> is generated automatically from
-<samp>embed.pl</samp> and <samp>embed.fnc</samp>. <samp>embed.pl</samp> also creates the prototyping
+<samp>embed.pl</samp> and <samp>embed.fnc</samp>.  <samp>embed.pl</samp> also creates the prototyping
 header files for the internal functions, generates the documentation
-and a lot of other bits and pieces. It&rsquo;s important that when you add
+and a lot of other bits and pieces.  It&rsquo;s important that when you add
 a new function to the core or change an existing one, you change the
-data in the table in <samp>embed.fnc</samp> as well. Here&rsquo;s a sample entry from
+data in the table in <samp>embed.fnc</samp> as well.  Here&rsquo;s a sample entry from
 that table:
 </p>
 <pre class="verbatim">    Apd |SV**   |av_fetch   |AV* ar|I32 key|I32 lval
 </pre>
-<p>The second column is the return type, the third column the name. Columns
-after that are the arguments. The first column is a set of flags:
+<p>The second column is the return type, the third column the name.  Columns
+after that are the arguments.  The first column is a set of flags:
 </p>
 <dl compact="compact">
 <dt>A</dt>
 <dd><a name="perlguts-A"></a>
-<p>This function is a part of the public API. All such functions should also
+<p>This function is a part of the public
+API.  All such functions should also
 have &rsquo;d&rsquo;, very few do not.
 </p>
 </dd>
@@ -3023,7 +3108,7 @@ or disappear without notice.
 <dt>o</dt>
 <dd><a name="perlguts-o"></a>
 <p>This function should not have a compatibility macro to define, say,
-<code>Perl_parse</code> to <code>parse</code>. It must be called as <code>Perl_parse</code>.
+<code>Perl_parse</code> to <code>parse</code>.  It must be called as <code>Perl_parse</code>.
 </p>
 </dd>
 <dt>x</dt>
@@ -3083,7 +3168,7 @@ auto-generated files.
 Next: <a href="#perlguts-Pointer_002dTo_002dInteger-and-Integer_002dTo_002dPointer" accesskey="n" rel="next">perlguts Pointer-To-Integer and Integer-To-Pointer</a>, Up: <a href="#perlguts-Internal-Functions" accesskey="u" rel="up">perlguts Internal Functions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Formatted-Printing-of-IVs_002c-UVs_002c-and-NVs"></a>
-<h4 class="subsection">28.8.1 Formatted Printing of IVs, UVs, and NVs</h4>
+<h4 class="subsection">28.10.1 Formatted Printing of IVs, UVs, and NVs</h4>
 
 <p>If you are printing IVs, UVs, or NVS instead of the stdio(3) style
 formatting codes like <code>%d</code>, <code>%ld</code>, <code>%f</code>, you should use the
@@ -3114,7 +3199,7 @@ with PTR2UV(), do not use %lx or %p.
 Next: <a href="#perlguts-Exception-Handling" accesskey="n" rel="next">perlguts Exception Handling</a>, Previous: <a href="#perlguts-Formatted-Printing-of-IVs_002c-UVs_002c-and-NVs" accesskey="p" rel="prev">perlguts Formatted Printing of IVs, UVs, and NVs</a>, Up: <a href="#perlguts-Internal-Functions" accesskey="u" rel="up">perlguts Internal Functions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Pointer_002dTo_002dInteger-and-Integer_002dTo_002dPointer"></a>
-<h4 class="subsection">28.8.2 Pointer-To-Integer and Integer-To-Pointer</h4>
+<h4 class="subsection">28.10.2 Pointer-To-Integer and Integer-To-Pointer</h4>
 
 <p>Because pointer size does not necessarily equal integer size,
 use the follow macros to do it right.
@@ -3141,17 +3226,17 @@ use the follow macros to do it right.
 Next: <a href="#perlguts-Source-Documentation" accesskey="n" rel="next">perlguts Source Documentation</a>, Previous: <a href="#perlguts-Pointer_002dTo_002dInteger-and-Integer_002dTo_002dPointer" accesskey="p" rel="prev">perlguts Pointer-To-Integer and Integer-To-Pointer</a>, Up: <a href="#perlguts-Internal-Functions" accesskey="u" rel="up">perlguts Internal Functions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Exception-Handling"></a>
-<h4 class="subsection">28.8.3 Exception Handling</h4>
+<h4 class="subsection">28.10.3 Exception Handling</h4>
 
 <p>There are a couple of macros to do very basic exception handling in XS
-modules. You have to define <code>NO_XSLOCKS</code> before including <samp>XSUB.h</samp> to
+modules.  You have to define <code>NO_XSLOCKS</code> before including <samp>XSUB.h</samp> to
 be able to use these macros:
 </p>
 <pre class="verbatim">        #define NO_XSLOCKS
         #include &quot;XSUB.h&quot;
 </pre>
 <p>You can use these macros if you call code that may croak, but you need
-to do some cleanup before giving control back to Perl. For example:
+to do some cleanup before giving control back to Perl.  For example:
 </p>
 <pre class="verbatim">        dXCPT;    /* set up necessary variables */
 
@@ -3166,8 +3251,8 @@ to do some cleanup before giving control back to Perl. For example:
         }
 </pre>
 <p>Note that you always have to rethrow an exception that has been
-caught. Using these macros, it is not possible to just catch the
-exception and ignore it. If you have to ignore the exception, you
+caught.  Using these macros, it is not possible to just catch the
+exception and ignore it.  If you have to ignore the exception, you
 have to use the <code>call_*</code> function.
 </p>
 <p>The advantage of using the above macros is that you don&rsquo;t have
@@ -3181,12 +3266,12 @@ macros is faster than using <code>call_*</code>.
 Next: <a href="#perlguts-Backwards-compatibility" accesskey="n" rel="next">perlguts Backwards compatibility</a>, Previous: <a href="#perlguts-Exception-Handling" accesskey="p" rel="prev">perlguts Exception Handling</a>, Up: <a href="#perlguts-Internal-Functions" accesskey="u" rel="up">perlguts Internal Functions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Source-Documentation"></a>
-<h4 class="subsection">28.8.4 Source Documentation</h4>
+<h4 class="subsection">28.10.4 Source Documentation</h4>
 
 <p>There&rsquo;s an effort going on to document the internal functions and
 automatically produce reference manuals from them - <a href="../perlapi/index.html">(perlapi)</a> is one
 such manual which details all the functions which are available to XS
-writers. <a href="../perlintern/index.html">(perlintern)</a> is the autogenerated manual for the functions
+writers.  <a href="../perlintern/index.html">(perlintern)</a> is the autogenerated manual for the functions
 which are not part of the API and are supposedly for internal use only.
 </p>
 <p>Source documentation is created by putting POD comments into the C
@@ -3211,21 +3296,22 @@ Perl core.
 Previous: <a href="#perlguts-Source-Documentation" accesskey="p" rel="prev">perlguts Source Documentation</a>, Up: <a href="#perlguts-Internal-Functions" accesskey="u" rel="up">perlguts Internal Functions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Backwards-compatibility"></a>
-<h4 class="subsection">28.8.5 Backwards compatibility</h4>
+<h4 class="subsection">28.10.5 Backwards compatibility</h4>
 
-<p>The Perl API changes over time. New functions are added or the interfaces
-of existing functions are changed. The <code>Devel::PPPort</code> module tries to
+<p>The Perl API changes over time.  New functions are
+added or the interfaces of existing functions are
+changed.  The <code>Devel::PPPort</code> module tries to
 provide compatibility code for some of these changes, so XS writers don&rsquo;t
 have to code it themselves when supporting multiple versions of Perl.
 </p>
 <p><code>Devel::PPPort</code> generates a C header file <samp>ppport.h</samp> that can also
-be run as a Perl script. To generate <samp>ppport.h</samp>, run:
+be run as a Perl script.  To generate <samp>ppport.h</samp>, run:
 </p>
 <pre class="verbatim">    perl -MDevel::PPPort -eDevel::PPPort::WriteFile
 </pre>
 <p>Besides checking existing XS code, the script can also be used to retrieve
 compatibility information for various API calls using the <code>--api-info</code>
-command line switch. For example:
+command line switch.  For example:
 </p>
 <pre class="verbatim">  % perl ppport.h --api-info=sv_magicext
 </pre>
@@ -3238,9 +3324,9 @@ command line switch. For example:
 Next: <a href="#perlguts-Custom-Operators" accesskey="n" rel="next">perlguts Custom Operators</a>, Previous: <a href="#perlguts-Internal-Functions" accesskey="p" rel="prev">perlguts Internal Functions</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Unicode-Support"></a>
-<h3 class="section">28.9 Unicode Support</h3>
+<h3 class="section">28.11 Unicode Support</h3>
 
-<p>Perl 5.6.0 introduced Unicode support. It&rsquo;s important for porters and XS
+<p>Perl 5.6.0 introduced Unicode support.  It&rsquo;s important for porters and XS
 writers to understand this support and make sure that the code they
 write does not corrupt Unicode data.
 </p>
@@ -3266,14 +3352,14 @@ write does not corrupt Unicode data.
 Next: <a href="#perlguts-How-can-I-recognise-a-UTF_002d8-string_003f" accesskey="n" rel="next">perlguts How can I recognise a UTF-8 string?</a>, Up: <a href="#perlguts-Unicode-Support" accesskey="u" rel="up">perlguts Unicode Support</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="What-is-Unicode_002c-anyway_003f"></a>
-<h4 class="subsection">28.9.1 What <strong>is</strong> Unicode, anyway?</h4>
+<h4 class="subsection">28.11.1 What <strong>is</strong> Unicode, anyway?</h4>
 
-<p>In the olden, less enlightened times, we all used to use ASCII. Most of
-us did, anyway. The big problem with ASCII is that it&rsquo;s American. Well,
+<p>In the olden, less enlightened times, we all used to use ASCII.  Most of
+us did, anyway.  The big problem with ASCII is that it&rsquo;s American.  Well,
 no, that&rsquo;s not actually the problem; the problem is that it&rsquo;s not
-particularly useful for people who don&rsquo;t use the Roman alphabet. What
+particularly useful for people who don&rsquo;t use the Roman alphabet.  What
 used to happen was that particular languages would stick their own
-alphabet in the upper range of the sequence, between 128 and 255. Of
+alphabet in the upper range of the sequence, between 128 and 255.  Of
 course, we then ended up with plenty of variants that weren&rsquo;t quite
 ASCII, and the whole point of it being a standard was lost.
 </p>
@@ -3285,9 +3371,9 @@ to one character.
 </p>
 <p>To fix this, some people formed Unicode, Inc. and
 produced a new character set containing all the characters you can
-possibly think of and more. There are several ways of representing these
-characters, and the one Perl uses is called UTF-8. UTF-8 uses
-a variable number of bytes to represent a character. You can learn more
+possibly think of and more.  There are several ways of representing these
+characters, and the one Perl uses is called UTF-8.  UTF-8 uses
+a variable number of bytes to represent a character.  You can learn more
 about Unicode and Perl&rsquo;s Unicode model in <a href="perlunicode.html#perlunicode-NAME">perlunicode NAME</a>.
 </p>
 <hr>
@@ -3297,19 +3383,19 @@ about Unicode and Perl&rsquo;s Unicode model in <a href="perlunicode.html#perlun
 Next: <a href="#perlguts-How-does-UTF_002d8-represent-Unicode-characters_003f" accesskey="n" rel="next">perlguts How does UTF-8 represent Unicode characters?</a>, Previous: <a href="#perlguts-What-is-Unicode_002c-anyway_003f" accesskey="p" rel="prev">perlguts What <strong>is</strong> Unicode, anyway?</a>, Up: <a href="#perlguts-Unicode-Support" accesskey="u" rel="up">perlguts Unicode Support</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="How-can-I-recognise-a-UTF_002d8-string_003f"></a>
-<h4 class="subsection">28.9.2 How can I recognise a UTF-8 string?</h4>
+<h4 class="subsection">28.11.2 How can I recognise a UTF-8 string?</h4>
 
-<p>You can&rsquo;t. This is because UTF-8 data is stored in bytes just like
-non-UTF-8 data. The Unicode character 200, (<code>0xC8</code> for you hex types)
+<p>You can&rsquo;t.  This is because UTF-8 data is stored in bytes just like
+non-UTF-8 data.  The Unicode character 200, (<code>0xC8</code> for you hex types)
 capital E with a grave accent, is represented by the two bytes
-<code>v196.172</code>. Unfortunately, the non-Unicode string <code>chr(196).chr(172)</code>
-has that byte sequence as well. So you can&rsquo;t tell just by looking - this
+<code>v196.172</code>.  Unfortunately, the non-Unicode string <code>chr(196).chr(172)</code>
+has that byte sequence as well.  So you can&rsquo;t tell just by looking - this
 is what makes Unicode input an interesting problem.
 </p>
 <p>In general, you either have to know what you&rsquo;re dealing with, or you
 have to guess.  The API function <code>is_utf8_string</code> can help; it&rsquo;ll tell
-you if a string contains only valid UTF-8 characters. However, it can&rsquo;t
-do the work for you. On a character-by-character basis,
+you if a string contains only valid UTF-8 characters.  However, it can&rsquo;t
+do the work for you.  On a character-by-character basis,
 <code>is_utf8_char_buf</code>
 will tell you whether the current character in a string is valid UTF-8. 
 </p>
@@ -3320,13 +3406,14 @@ will tell you whether the current character in a string is valid UTF-8.
 Next: <a href="#perlguts-How-does-Perl-store-UTF_002d8-strings_003f" accesskey="n" rel="next">perlguts How does Perl store UTF-8 strings?</a>, Previous: <a href="#perlguts-How-can-I-recognise-a-UTF_002d8-string_003f" accesskey="p" rel="prev">perlguts How can I recognise a UTF-8 string?</a>, Up: <a href="#perlguts-Unicode-Support" accesskey="u" rel="up">perlguts Unicode Support</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="How-does-UTF_002d8-represent-Unicode-characters_003f"></a>
-<h4 class="subsection">28.9.3 How does UTF-8 represent Unicode characters?</h4>
+<h4 class="subsection">28.11.3 How does UTF-8 represent Unicode characters?</h4>
 
 <p>As mentioned above, UTF-8 uses a variable number of bytes to store a
-character. Characters with values 0...127 are stored in one byte, just
-like good ol&rsquo; ASCII. Character 128 is stored as <code>v194.128</code>; this
-continues up to character 191, which is <code>v194.191</code>. Now we&rsquo;ve run out of
-bits (191 is binary <code>10111111</code>) so we move on; 192 is <code>v195.128</code>. And
+character.  Characters with values 0...127 are stored in one
+byte, just like good ol&rsquo; ASCII.  Character 128 is stored as
+<code>v194.128</code>; this continues up to character 191, which is
+<code>v194.191</code>.  Now we&rsquo;ve run out of bits (191 is binary
+<code>10111111</code>) so we move on; 192 is <code>v195.128</code>.  And
 so it goes on, moving to three bytes at character 2048.
 </p>
 <p>Assuming you know you&rsquo;re dealing with a UTF-8 string, you can find out
@@ -3341,13 +3428,13 @@ how long the first character in it is with the <code>UTF8SKIP</code> macro:
 </pre>
 <p>Another way to skip over characters in a UTF-8 string is to use
 <code>utf8_hop</code>, which takes a string and a number of characters to skip
-over. You&rsquo;re on your own about bounds checking, though, so don&rsquo;t use it
+over.  You&rsquo;re on your own about bounds checking, though, so don&rsquo;t use it
 lightly.
 </p>
 <p>All bytes in a multi-byte UTF-8 character will have the high bit set,
 so you can test if you need to do something special with this
 character like this (the UTF8_IS_INVARIANT() is a macro that tests
-whether the byte can be encoded as a single byte even in UTF-8):
+whether the byte is encoded as a single byte even in UTF-8):
 </p>
 <pre class="verbatim">    U8 *utf;
     U8 *utf_end; /* 1 beyond buffer pointed to by utf */
@@ -3374,7 +3461,7 @@ for putting a UV into UTF-8:
 </pre>
 <p>You <strong>must</strong> convert characters to UVs using the above functions if
 you&rsquo;re ever in a situation where you have to match UTF-8 and non-UTF-8
-characters. You may not skip over UTF-8 characters in this case. If you
+characters.  You may not skip over UTF-8 characters in this case.  If you
 do this, you&rsquo;ll lose the ability to match hi-bit non-UTF-8 characters;
 for instance, if your UTF-8 string contains <code>v196.172</code>, and you skip
 that character, you can never match a <code>chr(200)</code> in a non-UTF-8 string.
@@ -3387,14 +3474,16 @@ So don&rsquo;t do that!
 Next: <a href="#perlguts-How-do-I-convert-a-string-to-UTF_002d8_003f" accesskey="n" rel="next">perlguts How do I convert a string to UTF-8?</a>, Previous: <a href="#perlguts-How-does-UTF_002d8-represent-Unicode-characters_003f" accesskey="p" rel="prev">perlguts How does UTF-8 represent Unicode characters?</a>, Up: <a href="#perlguts-Unicode-Support" accesskey="u" rel="up">perlguts Unicode Support</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="How-does-Perl-store-UTF_002d8-strings_003f"></a>
-<h4 class="subsection">28.9.4 How does Perl store UTF-8 strings?</h4>
+<h4 class="subsection">28.11.4 How does Perl store UTF-8 strings?</h4>
 
 <p>Currently, Perl deals with Unicode strings and non-Unicode strings
-slightly differently. A flag in the SV, <code>SVf_UTF8</code>, indicates that the
-string is internally encoded as UTF-8. Without it, the byte value is the
+slightly differently.  A flag in the SV, <code>SVf_UTF8</code>, indicates that the
+string is internally encoded as UTF-8.  Without it, the byte value is the
 codepoint number and vice versa (in other words, the string is encoded
 as iso-8859-1, but <code>use feature 'unicode_strings'</code> is needed to get iso-8859-1
-semantics). You can check and manipulate this flag with the
+semantics).  This flag is only meaningful if the SV is <code>SvPOK</code>
+or immediately after stringification via <code>SvPV</code> or a similar
+macro.  You can check and manipulate this flag with the
 following macros:
 </p>
 <pre class="verbatim">    SvUTF8(sv)
@@ -3412,7 +3501,7 @@ especially when combining non-UTF-8 and UTF-8 strings.
 </p>
 <p>Never forget that the <code>SVf_UTF8</code> flag is separate to the PV value; you
 need be sure you don&rsquo;t accidentally knock it off while you&rsquo;re
-manipulating SVs. More specifically, you cannot expect to do this:
+manipulating SVs.  More specifically, you cannot expect to do this:
 </p>
 <pre class="verbatim">    SV *sv;
     SV *nsv;
@@ -3424,8 +3513,9 @@ manipulating SVs. More specifically, you cannot expect to do this:
     nsv = newSVpvn(p, len);
 </pre>
 <p>The <code>char*</code> string does not tell you the whole story, and you can&rsquo;t
-copy or reconstruct an SV just by copying the string value. Check if the
-old SV has the UTF8 flag set, and act accordingly:
+copy or reconstruct an SV just by copying the string value.  Check if the
+old SV has the UTF8 flag set (<em>after</em> the <code>SvPV</code> call), and act
+accordingly:
 </p>
 <pre class="verbatim">    p = SvPV(sv, len);
     frobnicate(p);
@@ -3448,10 +3538,10 @@ passing a <code>char *</code> to an XS function.
 Next: <a href="#perlguts-Is-there-anything-else-I-need-to-know_003f" accesskey="n" rel="next">perlguts Is there anything else I need to know?</a>, Previous: <a href="#perlguts-How-does-Perl-store-UTF_002d8-strings_003f" accesskey="p" rel="prev">perlguts How does Perl store UTF-8 strings?</a>, Up: <a href="#perlguts-Unicode-Support" accesskey="u" rel="up">perlguts Unicode Support</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="How-do-I-convert-a-string-to-UTF_002d8_003f"></a>
-<h4 class="subsection">28.9.5 How do I convert a string to UTF-8?</h4>
+<h4 class="subsection">28.11.5 How do I convert a string to UTF-8?</h4>
 
 <p>If you&rsquo;re mixing UTF-8 and non-UTF-8 strings, it is necessary to upgrade
-one of the strings to UTF-8. If you&rsquo;ve got an SV, the easiest way to do
+one of the strings to UTF-8.  If you&rsquo;ve got an SV, the easiest way to do
 this is:
 </p>
 <pre class="verbatim">    sv_utf8_upgrade(sv);
@@ -3466,8 +3556,8 @@ strings that came into the operator, and, while it shouldn&rsquo;t be noticeable
 by the end user, it can cause problems in deficient code.
 </p>
 <p>Instead, <code>bytes_to_utf8</code> will give you a UTF-8-encoded <strong>copy</strong> of its
-string argument. This is useful for having the data available for
-comparisons and so on, without harming the original SV. There&rsquo;s also
+string argument.  This is useful for having the data available for
+comparisons and so on, without harming the original SV.  There&rsquo;s also
 <code>utf8_to_bytes</code> to go the other way, but naturally, this will fail if
 the string contains any characters above 255 that can&rsquo;t be represented
 in a single byte.
@@ -3479,14 +3569,15 @@ in a single byte.
 Previous: <a href="#perlguts-How-do-I-convert-a-string-to-UTF_002d8_003f" accesskey="p" rel="prev">perlguts How do I convert a string to UTF-8?</a>, Up: <a href="#perlguts-Unicode-Support" accesskey="u" rel="up">perlguts Unicode Support</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Is-there-anything-else-I-need-to-know_003f"></a>
-<h4 class="subsection">28.9.6 Is there anything else I need to know?</h4>
+<h4 class="subsection">28.11.6 Is there anything else I need to know?</h4>
 
-<p>Not really. Just remember these things:
+<p>Not really.  Just remember these things:
 </p>
 <ul>
-<li> There&rsquo;s no way to tell if a string is UTF-8 or not. You can tell if an SV
-is UTF-8 by looking at its <code>SvUTF8</code> flag. Don&rsquo;t forget to set the flag if
-something should be UTF-8. Treat the flag as part of the PV, even though
+<li> There&rsquo;s no way to tell if a string is UTF-8 or not.  You can tell if an SV
+is UTF-8 by looking at its <code>SvUTF8</code> flag after stringifying it
+with <code>SvPV</code> or a similar macro.  Don&rsquo;t forget to set the flag if
+something should be UTF-8.  Treat the flag as part of the PV, even though
 it&rsquo;s not - if you pass on the PV to somewhere, pass on the flag too.
 
 </li><li> If a string is UTF-8, <strong>always</strong> use <code>utf8_to_uvchr_buf</code> to get at the value,
@@ -3496,7 +3587,8 @@ unless <code>UTF8_IS_INVARIANT(*s)</code> in which case you can use <code>*s</co
 <code>uvchr_to_utf8</code>, unless <code>UTF8_IS_INVARIANT(uv))</code> in which case
 you can use <code>*s = uv</code>.
 
-</li><li> Mixing UTF-8 and non-UTF-8 strings is tricky. Use <code>bytes_to_utf8</code> to get
+</li><li> Mixing UTF-8 and non-UTF-8 strings is
+tricky.  Use <code>bytes_to_utf8</code> to get
 a new string which is UTF-8 encoded, and then combine them.
 
 </li></ul>
@@ -3508,44 +3600,44 @@ a new string which is UTF-8 encoded, and then combine them.
 Next: <a href="#perlguts-AUTHORS" accesskey="n" rel="next">perlguts AUTHORS</a>, Previous: <a href="#perlguts-Unicode-Support" accesskey="p" rel="prev">perlguts Unicode Support</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Custom-Operators"></a>
-<h3 class="section">28.10 Custom Operators</h3>
+<h3 class="section">28.12 Custom Operators</h3>
 
 <p>Custom operator support is an experimental feature that allows you to
-define your own ops. This is primarily to allow the building of
+define your own ops.  This is primarily to allow the building of
 interpreters for other languages in the Perl core, but it also allows
 optimizations through the creation of &quot;macro-ops&quot; (ops which perform the
 functions of multiple ops which are usually executed together, such as
 <code>gvsv, gvsv, add</code>.)
 </p>
-<p>This feature is implemented as a new op type, <code>OP_CUSTOM</code>. The Perl
+<p>This feature is implemented as a new op type, <code>OP_CUSTOM</code>.  The Perl
 core does not &quot;know&quot; anything special about this op type, and so it will
-not be involved in any optimizations. This also means that you can
+not be involved in any optimizations.  This also means that you can
 define your custom ops to be any op structure - unary, binary, list and
 so on - you like.
 </p>
-<p>It&rsquo;s important to know what custom operators won&rsquo;t do for you. They
-won&rsquo;t let you add new syntax to Perl, directly. They won&rsquo;t even let you
-add new keywords, directly. In fact, they won&rsquo;t change the way Perl
-compiles a program at all. You have to do those changes yourself, after
-Perl has compiled the program. You do this either by manipulating the op
+<p>It&rsquo;s important to know what custom operators won&rsquo;t do for you.  They
+won&rsquo;t let you add new syntax to Perl, directly.  They won&rsquo;t even let you
+add new keywords, directly.  In fact, they won&rsquo;t change the way Perl
+compiles a program at all.  You have to do those changes yourself, after
+Perl has compiled the program.  You do this either by manipulating the op
 tree using a <code>CHECK</code> block and the <code>B::Generate</code> module, or by adding
 a custom peephole optimizer with the <code>optimize</code> module.
 </p>
 <p>When you do this, you replace ordinary Perl ops with custom ops by
 creating ops with the type <code>OP_CUSTOM</code> and the <code>op_ppaddr</code> of your own
-PP function. This should be defined in XS code, and should look like
-the PP ops in <code>pp_*.c</code>. You are responsible for ensuring that your op
+PP function.  This should be defined in XS code, and should look like
+the PP ops in <code>pp_*.c</code>.  You are responsible for ensuring that your op
 takes the appropriate number of values from the stack, and you are
 responsible for adding stack marks if necessary.
 </p>
 <p>You should also &quot;register&quot; your op with the Perl interpreter so that it
-can produce sensible error and warning messages. Since it is possible to
+can produce sensible error and warning messages.  Since it is possible to
 have multiple custom ops within the one &quot;logical&quot; op type <code>OP_CUSTOM</code>,
 Perl uses the value of <code>o-&gt;op_ppaddr</code> to determine which custom op
-it is dealing with. You should create an <code>XOP</code> structure for each
+it is dealing with.  You should create an <code>XOP</code> structure for each
 ppaddr you use, set the properties of the custom op with
 <code>XopENTRY_set</code>, and register the structure against the ppaddr using
-<code>Perl_custom_op_register</code>. A trivial example might look like:
+<code>Perl_custom_op_register</code>.  A trivial example might look like:
 </p>
 <pre class="verbatim">    static XOP my_xop;
     static OP *my_pp(pTHX);
@@ -3560,7 +3652,7 @@ ppaddr you use, set the properties of the custom op with
 <dl compact="compact">
 <dt>xop_name</dt>
 <dd><a name="perlguts-xop_005fname"></a>
-<p>A short name for your op. This will be included in some error messages,
+<p>A short name for your op.  This will be included in some error messages,
 and will also be returned as <code>$op-&gt;name</code> by the <a href="../B/index.html">(B)B</a> module, so
 it will appear in the output of module like <a href="../B-Concise/index.html">(B-Concise)B::Concise</a>.
 </p>
@@ -3572,7 +3664,7 @@ it will appear in the output of module like <a href="../B-Concise/index.html">(B
 </dd>
 <dt>xop_class</dt>
 <dd><a name="perlguts-xop_005fclass"></a>
-<p>Which of the various <code>*OP</code> structures this op uses. This should be one of
+<p>Which of the various <code>*OP</code> structures this op uses.  This should be one of
 the <code>OA_*</code> constants from <samp>op.h</samp>, namely
 </p>
 <dl compact="compact">
@@ -3602,7 +3694,7 @@ the <code>OA_*</code> constants from <samp>op.h</samp>, namely
 </dd>
 <dt>OA_PVOP_OR_SVOP</dt>
 <dd><a name="perlguts-OA_005fPVOP_005fOR_005fSVOP"></a>
-<p>This should be interpreted as &rsquo;<code>PVOP</code>&rsquo; only. The <code>_OR_SVOP</code> is because
+<p>This should be interpreted as &rsquo;<code>PVOP</code>&rsquo; only.  The <code>_OR_SVOP</code> is because
 the only core <code>PVOP</code>, <code>OP_TRANS</code>, can sometimes be a <code>SVOP</code> instead.
 </p>
 </dd>
@@ -3620,9 +3712,9 @@ the only core <code>PVOP</code>, <code>OP_TRANS</code>, can sometimes be a <code
 <dt>xop_peep</dt>
 <dd><a name="perlguts-xop_005fpeep"></a>
 <p>This member is of type <code>Perl_cpeep_t</code>, which expands to <code>void
-(*Perl_cpeep_t)(aTHX_ OP *o, OP *oldop)</code>. If it is set, this function
+(*Perl_cpeep_t)(aTHX_ OP *o, OP *oldop)</code>.  If it is set, this function
 will be called from <code>Perl_rpeep</code> when ops of this type are encountered
-by the peephole optimizer. <em>o</em> is the OP that needs optimizing;
+by the peephole optimizer.  <em>o</em> is the OP that needs optimizing;
 <em>oldop</em> is the previous OP optimized, whose <code>op_next</code> points to <em>o</em>.
 </p>
 </dd>
@@ -3637,7 +3729,7 @@ by the peephole optimizer. <em>o</em> is the OP that needs optimizing;
 Next: <a href="#perlguts-SEE-ALSO" accesskey="n" rel="next">perlguts SEE ALSO</a>, Previous: <a href="#perlguts-Custom-Operators" accesskey="p" rel="prev">perlguts Custom Operators</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="AUTHORS-2"></a>
-<h3 class="section">28.11 AUTHORS</h3>
+<h3 class="section">28.13 AUTHORS</h3>
 
 <p>Until May 1997, this document was maintained by Jeff Okamoto
 &lt;okamoto@corp.hp.com&gt;.  It is now maintained as part of Perl
@@ -3655,7 +3747,7 @@ Stephen McCamant, and Gurusamy Sarathy.
 Previous: <a href="#perlguts-AUTHORS" accesskey="p" rel="prev">perlguts AUTHORS</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="SEE-ALSO-14"></a>
-<h3 class="section">28.12 SEE ALSO</h3>
+<h3 class="section">28.14 SEE ALSO</h3>
 
 <p><a href="../perlapi/index.html">(perlapi)</a>, <a href="../perlintern/index.html">(perlintern)</a>, <a href="../perlxs/index.html">(perlxs)</a>, <a href="perlembed.html#perlembed-NAME">perlembed NAME</a>
 </p>

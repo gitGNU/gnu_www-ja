@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perldata</title>
 
@@ -228,8 +228,14 @@ restrictions.
 If working under the effect of the <code>use utf8;</code> pragma, the following
 rules apply:
 </p>
-<pre class="verbatim">    / (?[ ( \p{Word} &amp; \p{XID_Start} ) + [_] ]) \p{XID_Continue}* /x
+<pre class="verbatim">    / (?[ ( \p{Word} &amp; \p{XID_Start} ) + [_] ])
+      (?[ ( \p{Word} &amp; \p{XID_Continue} ) ]) *    /x
 </pre>
+<p>That is, a &quot;start&quot; character followed by any number of &quot;continue&quot;
+characters.  Perl requires every character in an identifier to also
+match <code>\w</code> (this prevents some problematic cases); and Perl
+additionally accepts identfier names beginning with an underscore.
+</p>
 <p>If not under <code>use utf8</code>, the source is treated as ASCII + 128 extra
 controls, and identifiers should match
 </p>
@@ -243,13 +249,9 @@ quote (<code>'</code>).  Normal identifiers can start or end with a double colon
 can contain several parts delimited by double colons.
 Single quotes have similar rules, but with the exception that they are not
 legal at the end of an identifier: That is, <code>$'foo</code> and <code>$foo'bar</code> are
-legal, but <code>$foo'bar'</code> are not.
+legal, but <code>$foo'bar'</code> is not.
 </p>
-<p>Finally, if the identifier is preceded by a sigil &ndash;
-More so, normal identifiers can start or end with any number
-of double colons (::), and can contain several parts delimited
-by double colons.
-And additionally, if the identifier is preceded by a sigil &ndash;
+<p>Additionally, if the identifier is preceded by a sigil &ndash;
 that is, if the identifier is part of a variable name &ndash; it
 may optionally be enclosed in braces.
 </p>
@@ -277,12 +279,13 @@ and <code>$foo'::bar</code> are not.
       (?&lt;basic_identifier&gt;
         # is use utf8 on?
           (?(?{ (caller(0))[8] &amp; $utf8::hint_bits })
-              (?&amp;Perl_XIDS) \p{XID_Continue}*
+              (?&amp;Perl_XIDS) (?&amp;Perl_XIDC)*
             | (?aa) (?!\d) \w+
           )
       )
       (?&lt;sigil&gt; [&amp;*\$\@\%])
       (?&lt;Perl_XIDS&gt; (?[ ( \p{Word} &amp; \p{XID_Start} ) + [_] ]) )
+      (?&lt;Perl_XIDC&gt; (?[ \p{Word} &amp; \p{XID_Continue} ]) )
   )
  /x
 </pre>
@@ -295,17 +298,20 @@ fully-qualified.  They come in four forms:
 <dt>A sigil, followed solely by digits matching \p{POSIX_Digit}, like <code>$0</code>, <code>$1</code>, or <code>$10000</code>.</dt>
 <dd><a name="perldata-A-sigil_002c-followed-solely-by-digits-matching-_005cp_007bPOSIX_005fDigit_007d_002c-like-_00240_002c-_00241_002c-or-_002410000_002e"></a>
 </dd>
-<dt>A sigil, followed by either a caret and a single POSIX uppercase letter, like <code>$^V</code> or <code>$^W</code>, or a sigil followed by a literal control character matching the <code>\p{POSIX_Cntrl}</code> property. Due to a historical oddity, if not running under <code>use utf8</code>, the 128 extra controls in the <code>[0x80-0xff]</code> range may also be used in length one variables.</dt>
-<dd><a name="perldata-A-sigil_002c-followed-by-either-a-caret-and-a-single-POSIX-uppercase-letter_002c-like-_0024_005eV-or-_0024_005eW_002c-or-a-sigil-followed-by-a-literal-control-character-matching-the-_005cp_007bPOSIX_005fCntrl_007d-property_002e-Due-to-a-historical-oddity_002c-if-not-running-under-use-utf8_002c-the-128-extra-controls-in-the-_005b0x80_002d0xff_005d-range-may-also-be-used-in-length-one-variables_002e"></a>
+<dt>A sigil, followed by either a caret and a single POSIX uppercase letter, like <code>$^V</code> or <code>$^W</code>, or a sigil followed by a literal control character matching the <code>\p{POSIX_Cntrl}</code> property. Due to a historical oddity, if not running under <code>use utf8</code>, the 128 extra controls in the <code>[0x80-0xff]</code> range may also be used in length one variables.  The use of a literal control character is deprecated.  Support for this form will be removed in a future version of perl.</dt>
+<dd><a name="perldata-A-sigil_002c-followed-by-either-a-caret-and-a-single-POSIX-uppercase-letter_002c-like-_0024_005eV-or-_0024_005eW_002c-or-a-sigil-followed-by-a-literal-control-character-matching-the-_005cp_007bPOSIX_005fCntrl_007d-property_002e-Due-to-a-historical-oddity_002c-if-not-running-under-use-utf8_002c-the-128-extra-controls-in-the-_005b0x80_002d0xff_005d-range-may-also-be-used-in-length-one-variables_002e-The-use-of-a-literal-control-character-is-deprecated_002e-Support-for-this-form-will-be-removed-in-a-future-version-of-perl_002e"></a>
 </dd>
-<dt>Similar to the above, a sigil, followed by bareword text in brackets, where the first character is either a caret followed by an uppercase letter, or a literal control, like <code>${^GLOBAL_PHASE}</code> or <code>${\7LOBAL_PHASE}</code>.</dt>
-<dd><a name="perldata-Similar-to-the-above_002c-a-sigil_002c-followed-by-bareword-text-in-brackets_002c-where-the-first-character-is-either-a-caret-followed-by-an-uppercase-letter_002c-or-a-literal-control_002c-like-_0024_007b_005eGLOBAL_005fPHASE_007d-or-_0024_007b_005c7LOBAL_005fPHASE_007d_002e"></a>
+<dt>Similar to the above, a sigil, followed by bareword text in brackets, where the first character is either a caret followed by an uppercase letter, or a literal control, like <code>${^GLOBAL_PHASE}</code> or <code>${\7LOBAL_PHASE}</code>.  The use of a literal control character is deprecated.  Support for this form will be removed in a future version of perl.</dt>
+<dd><a name="perldata-Similar-to-the-above_002c-a-sigil_002c-followed-by-bareword-text-in-brackets_002c-where-the-first-character-is-either-a-caret-followed-by-an-uppercase-letter_002c-or-a-literal-control_002c-like-_0024_007b_005eGLOBAL_005fPHASE_007d-or-_0024_007b_005c7LOBAL_005fPHASE_007d_002e-The-use-of-a-literal-control-character-is-deprecated_002e-Support-for-this-form-will-be-removed-in-a-future-version-of-perl_002e"></a>
 </dd>
 <dt>A sigil followed by a single character matching the <code>\p{POSIX_Punct}</code> property, like <code>$!</code> or <code>%+</code>.</dt>
 <dd><a name="perldata-A-sigil-followed-by-a-single-character-matching-the-_005cp_007bPOSIX_005fPunct_007d-property_002c-like-_0024_0021-or-_0025_002b_002e"></a>
 </dd>
 </dl>
 
+<p>Note that as of Perl 5.20, literal control characters in variable names
+are deprecated.
+</p>
 <hr>
 <a name="perldata-Context"></a>
 <div class="header">
@@ -566,7 +572,7 @@ $0 and the $s variables in the (presumably) non-existent package
 <code>who</code>.
 </p>
 <p>In fact, a simple identifier within such curlies is forced to be
-a string, and likewise within a hash subscript. Neither need
+a string, and likewise within a hash subscript.  Neither need
 quoting.  Our earlier example, <code>$days{'Feb'}</code> can be written as
 <code>$days{Feb}</code> and the quotes will be assumed automatically.  But
 anything more complicated in the subscript will be interpreted as an
@@ -1084,6 +1090,51 @@ On the other hand, the leading symbol (&rsquo;$&rsquo; or &rsquo;@&rsquo;) on th
 hash indicates whether you are getting back a singular value (a
 scalar) or a plural one (a list).
 </p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perldata-Key_002fValue-Hash-Slices" accesskey="1">perldata Key/Value Hash Slices</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perldata-Index_002fValue-Array-Slices" accesskey="2">perldata Index/Value Array Slices</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perldata-Key_002fValue-Hash-Slices"></a>
+<div class="header">
+<p>
+Next: <a href="#perldata-Index_002fValue-Array-Slices" accesskey="n" rel="next">perldata Index/Value Array Slices</a>, Up: <a href="#perldata-Slices" accesskey="u" rel="up">perldata Slices</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Key_002fValue-Hash-Slices"></a>
+<h4 class="subsubsection">11.2.9.1 Key/Value Hash Slices</h4>
+
+<p>Starting in Perl 5.20, a hash slice operation
+with the % symbol is a variant of slice operation
+returning a list of key/value pairs rather than just values:
+</p>
+<pre class="verbatim">    %h = (blonk =&gt; 2, foo =&gt; 3, squink =&gt; 5, bar =&gt; 8);
+    %subset = %h{'foo', 'bar'}; # key/value hash slice
+    # %subset is now (foo =&gt; 3, bar =&gt; 8)
+</pre>
+<p>However, the result of such a slice cannot be localized, deleted or used
+in assignment.  These are otherwise very much consistent with hash slices
+using the @ symbol.
+</p>
+<hr>
+<a name="perldata-Index_002fValue-Array-Slices"></a>
+<div class="header">
+<p>
+Previous: <a href="#perldata-Key_002fValue-Hash-Slices" accesskey="p" rel="prev">perldata Key/Value Hash Slices</a>, Up: <a href="#perldata-Slices" accesskey="u" rel="up">perldata Slices</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Index_002fValue-Array-Slices"></a>
+<h4 class="subsubsection">11.2.9.2 Index/Value Array Slices</h4>
+
+<p>Similar to key/value hash slices (and also introduced
+in Perl 5.20), the % array slice syntax returns a list
+of index/value pairs:
+</p>
+<pre class="verbatim">    @a = &quot;a&quot;..&quot;z&quot;;
+    @list = %a[3,4,6];
+    # @list is now (3, &quot;d&quot;, 4, &quot;e&quot;, 6, &quot;g&quot;)
+</pre>
 <hr>
 <a name="perldata-Typeglobs-and-Filehandles"></a>
 <div class="header">

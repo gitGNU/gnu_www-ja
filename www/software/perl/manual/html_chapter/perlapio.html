@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlapio</title>
 
@@ -100,7 +100,7 @@ Next: <a href="#perlapio-DESCRIPTION" accesskey="n" rel="next">perlapio DESCRIPT
     int     PerlIO_stdoutf(const char *fmt,...)
     int     PerlIO_puts(PerlIO *f,const char *string);
     int     PerlIO_putc(PerlIO *f,int ch);
-    int     PerlIO_write(PerlIO *f,const void *buf,size_t numbytes);
+    SSize_t PerlIO_write(PerlIO *f,const void *buf,size_t numbytes);
     int     PerlIO_printf(PerlIO *f, const char *fmt,...);
     int     PerlIO_vprintf(PerlIO *f, const char *fmt, va_list args);
     int     PerlIO_flush(PerlIO *f);
@@ -111,7 +111,7 @@ Next: <a href="#perlapio-DESCRIPTION" accesskey="n" rel="next">perlapio DESCRIPT
 
     int     PerlIO_getc(PerlIO *d);
     int     PerlIO_ungetc(PerlIO *f,int ch);
-    int     PerlIO_read(PerlIO *f, void *buf, size_t numbytes);
+    SSize_t PerlIO_read(PerlIO *f, void *buf, size_t numbytes);
 
     int     PerlIO_fileno(PerlIO *f);
 
@@ -126,16 +126,16 @@ Next: <a href="#perlapio-DESCRIPTION" accesskey="n" rel="next">perlapio DESCRIPT
 
     int     PerlIO_fast_gets(PerlIO *f);
     int     PerlIO_has_cntptr(PerlIO *f);
-    int     PerlIO_get_cnt(PerlIO *f);
+    SSize_t PerlIO_get_cnt(PerlIO *f);
     char   *PerlIO_get_ptr(PerlIO *f);
-    void    PerlIO_set_ptrcnt(PerlIO *f, char *ptr, int count);
+    void    PerlIO_set_ptrcnt(PerlIO *f, char *ptr, SSize_t count);
 
     int     PerlIO_canset_cnt(PerlIO *f);              /* deprecated */
     void    PerlIO_set_cnt(PerlIO *f, int count);      /* deprecated */
 
     int     PerlIO_has_base(PerlIO *f);
     char   *PerlIO_get_base(PerlIO *f);
-    int     PerlIO_get_bufsiz(PerlIO *f);
+    SSize_t PerlIO_get_bufsiz(PerlIO *f);
 
     PerlIO *PerlIO_importFILE(FILE *stdio, const char *mode);
     FILE   *PerlIO_exportFILE(PerlIO *f, int flags);
@@ -178,16 +178,8 @@ This has been the default implementation since the abstraction was
 introduced in perl5.003_02.
 </p>
 </dd>
-<dt>2. USE_SFIO</dt>
-<dd><a name="perlapio-2_002e-USE_005fSFIO"></a>
-<p>A &quot;legacy&quot; implementation in terms of the &quot;sfio&quot; library. Used for
-some specialist applications on Unix machines (&quot;sfio&quot; is not widely
-ported away from Unix).  Most of above are #define&rsquo;d to the sfio
-functions. PerlIO * is in this case Sfio_t *.
-</p>
-</dd>
-<dt>3. USE_PERLIO</dt>
-<dd><a name="perlapio-3_002e-USE_005fPERLIO"></a>
+<dt>2. USE_PERLIO</dt>
+<dd><a name="perlapio-2_002e-USE_005fPERLIO"></a>
 <p>Introduced just after perl5.7.0, this is a re-implementation of the
 above abstraction which allows perl more control over how IO is done
 as it decouples IO from the way the operating system and C library

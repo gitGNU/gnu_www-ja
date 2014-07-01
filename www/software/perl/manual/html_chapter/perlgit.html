@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlgit</title>
 
@@ -195,7 +195,7 @@ repository.
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlgit-Committing-your-changes" accesskey="3">perlgit Committing your changes</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlgit-Using-git-to-send-patch-emails" accesskey="4">perlgit Using git to send patch emails</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlgit-Sending-patch-emails" accesskey="4">perlgit Sending patch emails</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlgit-A-note-on-derived-files" accesskey="5">perlgit A note on derived files</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
@@ -385,6 +385,10 @@ itself you can fix it up by editing the files once more and then issue:
 <pre class="verbatim">  % git format-patch -M origin..
   0001-Rename-Leon-Brocard-to-Orange-Brocard.patch
 </pre>
+<p>Or for a lot of changes, e.g. from a topic branch:
+</p>
+<pre class="verbatim">  % git format-patch --stdout -M origin.. &gt; topic-branch-changes.patch
+</pre>
 <p>You should now send an email to
 <a href="mailto:perlbug@perl.org">perlbug@perl.org</a> with a description of your
 changes, and include this patch file as an attachment. In addition to
@@ -410,7 +414,7 @@ emails for you.
 <a name="perlgit-Committing-your-changes"></a>
 <div class="header">
 <p>
-Next: <a href="#perlgit-Using-git-to-send-patch-emails" accesskey="n" rel="next">perlgit Using git to send patch emails</a>, Previous: <a href="#perlgit-Patch-workflow" accesskey="p" rel="prev">perlgit Patch workflow</a>, Up: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="u" rel="up">perlgit WORKING WITH THE REPOSITORY</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlgit-Sending-patch-emails" accesskey="n" rel="next">perlgit Sending patch emails</a>, Previous: <a href="#perlgit-Patch-workflow" accesskey="p" rel="prev">perlgit Patch workflow</a>, Up: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="u" rel="up">perlgit WORKING WITH THE REPOSITORY</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Committing-your-changes"></a>
 <h4 class="subsection">26.4.3 Committing your changes</h4>
@@ -453,48 +457,37 @@ it carefully, many questions are answered directly by the git status
 output.
 </p>
 <hr>
-<a name="perlgit-Using-git-to-send-patch-emails"></a>
+<a name="perlgit-Sending-patch-emails"></a>
 <div class="header">
 <p>
 Next: <a href="#perlgit-A-note-on-derived-files" accesskey="n" rel="next">perlgit A note on derived files</a>, Previous: <a href="#perlgit-Committing-your-changes" accesskey="p" rel="prev">perlgit Committing your changes</a>, Up: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="u" rel="up">perlgit WORKING WITH THE REPOSITORY</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="Using-git-to-send-patch-emails"></a>
-<h4 class="subsection">26.4.4 Using git to send patch emails</h4>
+<a name="Sending-patch-emails"></a>
+<h4 class="subsection">26.4.4 Sending patch emails</h4>
 
-<p>Please read <a href="perlhack.html#perlhack-NAME">perlhack NAME</a> first in order to figure out where your patches
-should be sent.
+<p>After you&rsquo;ve generated your patch you should sent it
+to perlbug@perl.org (as discussed <a href="#perlgit-Patch-workflow">in the previous
+section</a> with a normal mail client as an
+attachment, along with a description of the patch.
 </p>
-<p>In your ~/git/perl repository, set the destination email to perl&rsquo;s bug
-tracker:
+<p>You <strong>must not</strong> use git-send-email(1) to send patches generated with
+git-format-patch(1). The RT ticketing system living behind
+perlbug@perl.org does not respect the inline contents of E-Mails,
+sending an inline patch to RT guarantees that your patch will be
+destroyed.
 </p>
-<pre class="verbatim">  $ git config sendemail.to perlbug@perl.org
-</pre>
-<p>Or maybe perl5-porters:
-</p>
-<pre class="verbatim">  $ git config sendemail.to perl5-porters@perl.org
-</pre>
-<p>Then you can use git directly to send your patch emails:
-</p>
-<pre class="verbatim">  $ git send-email 0001-Rename-Leon-Brocard-to-Orange-Brocard.patch
-</pre>
-<p>You may need to set some configuration variables for your particular
-email service provider. For example, to set your global git config to
-send email via a gmail account:
-</p>
-<pre class="verbatim">  $ git config --global sendemail.smtpserver smtp.gmail.com
-  $ git config --global sendemail.smtpssl 1
-  $ git config --global sendemail.smtpuser YOURUSERNAME@gmail.com
-</pre>
-<p>With this configuration, you will be prompted for your gmail password
-when you run &rsquo;git send-email&rsquo;. You can also configure
-<code>sendemail.smtppass</code> with your password if you don&rsquo;t care about having
-your password in the .gitconfig file.
+<p>Someone may download your patch from RT, which will result in the
+subject (the first line of the commit message) being omitted.  See RT
+#74192 and commit a4583001 for an example. Alternatively someone may
+apply your patch from RT after it arrived in their mailbox, by which
+time RT will have modified the inline content of the message.  See RT
+#74532 and commit f9bcfeac for a bad example of this failure mode.
 </p>
 <hr>
 <a name="perlgit-A-note-on-derived-files"></a>
 <div class="header">
 <p>
-Next: <a href="#perlgit-Cleaning-a-working-directory" accesskey="n" rel="next">perlgit Cleaning a working directory</a>, Previous: <a href="#perlgit-Using-git-to-send-patch-emails" accesskey="p" rel="prev">perlgit Using git to send patch emails</a>, Up: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="u" rel="up">perlgit WORKING WITH THE REPOSITORY</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlgit-Cleaning-a-working-directory" accesskey="n" rel="next">perlgit Cleaning a working directory</a>, Previous: <a href="#perlgit-Sending-patch-emails" accesskey="p" rel="prev">perlgit Sending patch emails</a>, Up: <a href="#perlgit-WORKING-WITH-THE-REPOSITORY" accesskey="u" rel="up">perlgit WORKING WITH THE REPOSITORY</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="A-note-on-derived-files"></a>
 <h4 class="subsection">26.4.5 A note on derived files</h4>
@@ -1111,7 +1104,8 @@ command above:
 </pre>
 <p>(which is likely to produce a warning like this, which can be ignored:
 </p>
-<pre class="verbatim">  remote: fatal: ambiguous argument 'refs/heads/smoke-me/tonyc/win32stat': unknown revision or path not in the working tree.
+<pre class="verbatim">  remote: fatal: ambiguous argument 'refs/heads/smoke-me/tonyc/win32stat':
+  unknown revision or path not in the working tree.
   remote: Use '--' to separate paths from revisions
 </pre>
 <p>) and then delete your local branch:

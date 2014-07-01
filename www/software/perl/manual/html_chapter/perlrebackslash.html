@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlrebackslash</title>
 
@@ -180,6 +180,7 @@ as <code>Not in [].</code>
  \B                Not a word/non-word boundary.  Not in [].
  \cX               Control-X.
  \C                Single octet, even under UTF-8.  Not in [].
+                   (Deprecated)
  \d                Character class for digits.
  \D                Character class for non-digits.
  \e                Escape character.
@@ -913,10 +914,13 @@ categories above. These are:
 <dl compact="compact">
 <dt>\C</dt>
 <dd><a name="perlrebackslash-_005cC"></a>
-<p><code>\C</code> always matches a single octet, even if the source string is encoded
+<p>(Deprecated.) <code>\C</code> always matches a single octet, even if the source
+string is encoded
 in UTF-8 format, and the character to be matched is a multi-octet character.
 This is very dangerous, because it violates
 the logical character abstraction and can cause UTF-8 sequences to become malformed.
+</p>
+<p>Use <code>utf8::encode()</code> instead.
 </p>
 <p>Mnemonic: o<em>C</em>tet.
 </p>
@@ -982,6 +986,9 @@ Unicode, but one can be composed by using a G followed by a Unicode &quot;COMBIN
 UPWARDS ARROW BELOW&quot;, and would be displayed by Unicode-aware software as if it
 were a single character.
 </p>
+<p>The match is greedy and non-backtracking, so that the cluster is never
+broken up into smaller components.
+</p>
 <p>Mnemonic: e<em>X</em>tended Unicode character.
 </p>
 </dd>
@@ -1001,10 +1008,7 @@ Up: <a href="#perlrebackslash-Misc" accesskey="u" rel="up">perlrebackslash Misc<
 <a name="Examples-7"></a>
 <h4 class="subsubsection">60.2.8.1 Examples</h4>
 
-<pre class="verbatim"> &quot;\x{256}&quot; =~ /^\C\C$/;    # Match as chr (0x256) takes 
-                           # 2 octets in UTF-8.
-
- $str =~ s/foo\Kbar/baz/g; # Change any 'bar' following a 'foo' to 'baz'
+<pre class="verbatim"> $str =~ s/foo\Kbar/baz/g; # Change any 'bar' following a 'foo' to 'baz'
  $str =~ s/(.)\K\g1//g;    # Delete duplicated characters.
 
  &quot;\n&quot;   =~ /^\R$/;         # Match, \n   is a generic newline.

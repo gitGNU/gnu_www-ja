@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlipc</title>
 
@@ -234,11 +234,10 @@ example:
     $SIG{CHLD} = sub {
         # don't change $! and $? outside handler
         local ($!, $?);
-        my $pid = waitpid(-1, WNOHANG);
-        return if $pid == -1;
-        return unless defined $children{$pid};
-        delete $children{$pid};
-        cleanup_child($pid, $?);
+        while ( (my $pid = waitpid(-1, WNOHANG)) &gt; 0 ) {
+            delete $children{$pid};
+            cleanup_child($pid, $?);
+        }
     };
 
     while (1) {
@@ -738,7 +737,7 @@ write to the filehandle you opened and your kid will find it in <em>his</em>
 STDIN.  If you open a pipe <em>from</em> minus, you can read from the filehandle
 you opened whatever your kid writes to <em>his</em> STDOUT.
 </p>
-<pre class="verbatim">    use English qw[ -no_match_vars ];
+<pre class="verbatim">    use English;
     my $PRECIOUS = &quot;/path/to/some/safe/file&quot;;
     my $sleep_count;
     my $pid;
@@ -915,9 +914,7 @@ metacharacters, the fancier form of open() should be used.  For example:
 pattern and indeed even the filenames themselves might hold metacharacters.
 </p>
 <p>Be aware that these operations are full Unix forks, which means they may
-not be correctly implemented on all alien systems.  Additionally, these are
-not true multithreading.  To learn more about threading, see the <samp>modules</samp>
-file mentioned below in the SEE ALSO section.
+not be correctly implemented on all alien systems.
 </p>
 <hr>
 <a name="perlipc-Avoiding-Pipe-Deadlocks"></a>
@@ -1230,7 +1227,7 @@ or firewall machine), fill this in with your real address instead.
                         scalar localtime(), $EOL;
     }
 </pre>
-<p>And here&rsquo;s a multithreaded version.  It&rsquo;s multithreaded in that
+<p>And here&rsquo;s a multitasking version.  It&rsquo;s multitasked in that
 like most typical servers, it spawns (fork()s) a slave server to
 handle the client request so that the master server can quickly
 go back to service a new client.
@@ -1246,7 +1243,7 @@ go back to service a new client.
     sub logmsg { print &quot;$0 $$: @_ at &quot;, scalar localtime(), &quot;\n&quot; }
 
     my $port  = shift || 2345;
-    die &quot;invalid port&quot; unless if $port =~ /^ \d+ $/x;
+    die &quot;invalid port&quot; unless $port =~ /^ \d+ $/x;
 
     my $proto = getprotobyname(&quot;tcp&quot;);
 
@@ -1842,7 +1839,7 @@ you&rsquo;ll have to use the <code>sysread</code> variant of the interactive cli
 </p>
 <p>This server accepts one of five different commands, sending output back to
 the client.  Unlike most network servers, this one handles only one
-incoming client at a time.  Multithreaded servers are covered in 
+incoming client at a time.  Multitasking servers are covered in
 Chapter 16 of the Camel.
 </p>
 <p>Here&rsquo;s the code.  We&rsquo;ll

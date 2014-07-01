@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlref</title>
 
@@ -65,7 +65,9 @@ Next: <a href="perlreftut.html#perlreftut" accesskey="n" rel="next">perlreftut</
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlref-WARNING" accesskey="4">perlref WARNING</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlref-SEE-ALSO" accesskey="5">perlref SEE ALSO</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlref-Postfix-Dereference-Syntax" accesskey="5">perlref Postfix Dereference Syntax</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlref-SEE-ALSO" accesskey="6">perlref SEE ALSO</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 </table>
 
@@ -248,7 +250,8 @@ reference to it, you have these options:
 </pre>
 <p>On the other hand, if you want the other meaning, you can do this:
 </p>
-<pre class="verbatim">    sub showem {        { @_ } }   # ambiguous (currently ok, but may change)
+<pre class="verbatim">    sub showem {        { @_ } }   # ambiguous (currently ok,
+                                   # but may change)
     sub showem {       {; @_ } }   # ok
     sub showem { { return @_ } }   # ok
 </pre>
@@ -837,7 +840,7 @@ function, something not normally supported in Perl.
 <a name="perlref-WARNING"></a>
 <div class="header">
 <p>
-Next: <a href="#perlref-SEE-ALSO" accesskey="n" rel="next">perlref SEE ALSO</a>, Previous: <a href="#perlref-DESCRIPTION" accesskey="p" rel="prev">perlref DESCRIPTION</a>, Up: <a href="#perlref" accesskey="u" rel="up">perlref</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlref-Postfix-Dereference-Syntax" accesskey="n" rel="next">perlref Postfix Dereference Syntax</a>, Previous: <a href="#perlref-DESCRIPTION" accesskey="p" rel="prev">perlref DESCRIPTION</a>, Up: <a href="#perlref" accesskey="u" rel="up">perlref</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="WARNING"></a>
 <h3 class="section">62.4 WARNING</h3>
@@ -860,13 +863,90 @@ real refs, instead of the keys(), which won&rsquo;t.
 <p>The standard Tie::RefHash module provides a convenient workaround to this.
 </p>
 <hr>
+<a name="perlref-Postfix-Dereference-Syntax"></a>
+<div class="header">
+<p>
+Next: <a href="#perlref-SEE-ALSO" accesskey="n" rel="next">perlref SEE ALSO</a>, Previous: <a href="#perlref-WARNING" accesskey="p" rel="prev">perlref WARNING</a>, Up: <a href="#perlref" accesskey="u" rel="up">perlref</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Postfix-Dereference-Syntax"></a>
+<h3 class="section">62.5 Postfix Dereference Syntax</h3>
+
+<p>Beginning in v5.20.0, a postfix syntax for using references is
+available.  It behaves as described in <a href="#perlref-Using-References">Using References</a>, but instead
+of a prefixed sigil, a postfixed sigil-and-star is used.
+</p>
+<p>For example:
+</p>
+<pre class="verbatim">    $r = \@a;
+    @b = $r-&gt;@*; # equivalent to @$r or @{ $r }
+
+    $r = [ 1, [ 2, 3 ], 4 ];
+    $r-&gt;[1]-&gt;@*;  # equivalent to @{ $r-&gt;[1] }
+</pre>
+<p>This syntax must be enabled with <code>use feature 'postderef'</code>.  It is
+experimental, and will warn by default unless <code>no warnings
+'experimental::postderef'</code> is in effect.
+</p>
+<p>Postfix dereference should work in all circumstances where block
+(circumfix) dereference worked, and should be entirely equivalent.  This
+syntax allows dereferencing to be written and read entirely
+left-to-right.  The following equivalencies are defined:
+</p>
+<pre class="verbatim">  $sref-&gt;$*;  # same as  ${ $sref }
+  $aref-&gt;@*;  # same as  @{ $aref }
+  $aref-&gt;$#*; # same as $#{ $aref }
+  $href-&gt;%*;  # same as  %{ $href }
+  $cref-&gt;&amp;*;  # same as  &amp;{ $cref }
+  $gref-&gt;**;  # same as  *{ $gref }
+</pre>
+<p>Note especially that <code>$cref-&gt;&amp;*</code> is <em>not</em> equivalent to <code>$cref-&gt;()</code>, and can serve different purposes.
+</p>
+<p>Glob elements can be extracted through the postfix dereferencing feature:
+</p>
+<pre class="verbatim">  $gref-&gt;*{SCALAR}; # same as *{ $gref }{SCALAR}
+</pre>
+<p>Postfix array and scalar dereferencing <em>can</em> be used in interpolating
+strings (double quotes or the <code>qq</code> operator), but only if the
+additional <code>postderef_qq</code> feature is enabled.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlref-Postfix-Reference-Slicing" accesskey="1">perlref Postfix Reference Slicing</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlref-Postfix-Reference-Slicing"></a>
+<div class="header">
+<p>
+Up: <a href="#perlref-Postfix-Dereference-Syntax" accesskey="u" rel="up">perlref Postfix Dereference Syntax</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Postfix-Reference-Slicing"></a>
+<h4 class="subsection">62.5.1 Postfix Reference Slicing</h4>
+
+<p>Value slices of arrays and hashes may also be taken with postfix
+dereferencing notation, with the following equivalencies:
+</p>
+<pre class="verbatim">  $aref-&gt;@[ ... ];  # same as @$aref[ ... ]
+  $href-&gt;@{ ... };  # same as @$href{ ... }
+</pre>
+<p>Postfix key/value pair slicing, added in 5.20.0 and documented in
+<a href="perldata.html#perldata-Key_002fValue-Hash-Slices">the Key/Value Hash Slices section of perldata</a>, also behaves as expected:
+</p>
+<pre class="verbatim">  $aref-&gt;%[ ... ];  # same as %$aref[ ... ]
+  $href-&gt;%{ ... };  # same as %$href{ ... }
+</pre>
+<p>As with postfix array, postfix value slice dereferencing <em>can</em> be used
+in interpolating strings (double quotes or the <code>qq</code> operator), but only
+if the additional <code>postderef_qq</code> <a href="../feature/index.html">(feature)</a> is enabled.
+</p>
+<hr>
 <a name="perlref-SEE-ALSO"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlref-WARNING" accesskey="p" rel="prev">perlref WARNING</a>, Up: <a href="#perlref" accesskey="u" rel="up">perlref</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlref-Postfix-Dereference-Syntax" accesskey="p" rel="prev">perlref Postfix Dereference Syntax</a>, Up: <a href="#perlref" accesskey="u" rel="up">perlref</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="SEE-ALSO-31"></a>
-<h3 class="section">62.5 SEE ALSO</h3>
+<a name="SEE-ALSO-30"></a>
+<h3 class="section">62.6 SEE ALSO</h3>
 
 <p>Besides the obvious documents, source code can be instructive.
 Some pathological examples of the use of references can be found
@@ -879,7 +959,7 @@ for how to use them to create objects.
 <hr>
 <div class="header">
 <p>
-Previous: <a href="#perlref-WARNING" accesskey="p" rel="prev">perlref WARNING</a>, Up: <a href="#perlref" accesskey="u" rel="up">perlref</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlref-Postfix-Dereference-Syntax" accesskey="p" rel="prev">perlref Postfix Dereference Syntax</a>, Up: <a href="#perlref" accesskey="u" rel="up">perlref</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 
 

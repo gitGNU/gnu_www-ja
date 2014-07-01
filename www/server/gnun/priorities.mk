@@ -50,7 +50,6 @@ important-articles :=	copyleft/copyleft \
 			education/edu-faq \
 			education/edu-team \
 			gnu/linux-and-gnu \
-			provide \
 			philosophy/right-to-read \
 			philosophy/free-doc
 

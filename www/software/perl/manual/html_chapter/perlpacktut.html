@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlpacktut</title>
 
@@ -14,7 +14,7 @@
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="index.html#Top" rel="up" title="Top">
 <link href="perlperf.html#perlperf" rel="next" title="perlperf">
-<link href="perlopentut.html#perlopentut-HISTORY" rel="prev" title="perlopentut HISTORY">
+<link href="perlopentut.html#perlopentut-AUTHOR-and-COPYRIGHT" rel="prev" title="perlopentut AUTHOR and COPYRIGHT">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -284,7 +284,8 @@ template doesn&rsquo;t match the incoming data, Perl will scream and die.
 
 <p>Hence, putting it all together:
 </p>
-<pre class="verbatim">    my($date,$description,$income,$expend) = unpack(&quot;A10xA27xA7xA*&quot;, $_);
+<pre class="verbatim">    my ($date, $description, $income, $expend) =
+        unpack(&quot;A10xA27xA7xA*&quot;, $_);
 </pre>
 <p>Now, that&rsquo;s our data parsed. I suppose what we might want to do now is
 total up our income and expenditure, and add another line to the end of
@@ -292,7 +293,8 @@ our ledger - in the same format - saying how much we&rsquo;ve brought in and
 how much we&rsquo;ve spent:
 </p>
 <pre class="verbatim">    while (&lt;&gt;) {
-        my($date, $desc, $income, $expend) = unpack(&quot;A10xA27xA7xA*&quot;, $_);
+        my ($date, $desc, $income, $expend) =
+            unpack(&quot;A10xA27xA7xA*&quot;, $_);
         $tot_income += $income;
         $tot_expend += $expend;
     }
@@ -304,7 +306,8 @@ how much we&rsquo;ve spent:
 
     # OK, let's go:
 
-    print pack(&quot;A10xA27xA7xA*&quot;, $date, &quot;Totals&quot;, $tot_income, $tot_expend);
+    print pack(&quot;A10xA27xA7xA*&quot;, $date, &quot;Totals&quot;,
+        $tot_income, $tot_expend);
 </pre>
 <p>Oh, hmm. That didn&rsquo;t quite work. Let&rsquo;s see what happened:
 </p>
@@ -327,7 +330,8 @@ it!
 format pads any non-existent characters with spaces, so we can use the
 additional spaces to line up our fields, like this:
 </p>
-<pre class="verbatim">    print pack(&quot;A11 A28 A8 A*&quot;, $date, &quot;Totals&quot;, $tot_income, $tot_expend);
+<pre class="verbatim">    print pack(&quot;A11 A28 A8 A*&quot;, $date, &quot;Totals&quot;,
+        $tot_income, $tot_expend);
 </pre>
 <p>(Note that you can put spaces in the template to make it more readable,
 but they don&rsquo;t translate to spaces in the output.) Here&rsquo;s what we got
@@ -346,7 +350,8 @@ can get <code>sprintf</code> to do it:
 <pre class="verbatim">    $tot_income = sprintf(&quot;%.2f&quot;, $tot_income); 
     $tot_expend = sprintf(&quot;%12.2f&quot;, $tot_expend);
     $date = POSIX::strftime(&quot;%m/%d/%Y&quot;, localtime); 
-    print pack(&quot;A11 A28 A8 A*&quot;, $date, &quot;Totals&quot;, $tot_income, $tot_expend);
+    print pack(&quot;A11 A28 A8 A*&quot;, $date, &quot;Totals&quot;,
+        $tot_income, $tot_expend);
 </pre>
 <p>This time we get the right answer:
 </p>
@@ -730,7 +735,7 @@ Next: <a href="#perlpacktut-Doing-Sums" accesskey="n" rel="next">perlpacktut Doi
 <a name="Uuencoding"></a>
 <h4 class="subsection">50.6.2 Uuencoding</h4>
 
-<p>Another odd-man-out in the template alphabet is <code>u</code>, which packs an
+<p>Another odd-man-out in the template alphabet is <code>u</code>, which packs a
 &quot;uuencoded string&quot;. (&quot;uu&quot; is short for Unix-to-Unix.) Chances are that
 you won&rsquo;t ever need this encoding technique which was invented to overcome
 the shortcomings of old-fashioned transmission mediums that do not support
@@ -1008,7 +1013,8 @@ number: All the numeric binary pack codes, and even text codes such as
 work on older Perls you&rsquo;ll need to <code>unpack( 'Z* Z* C')</code> to get the length,
 then use it to make a new unpack string. For example
 </p>
-<pre class="verbatim">   # pack a message: ASCIIZ, ASCIIZ, length, string, byte (5.005 compatible)
+<pre class="verbatim">   # pack a message: ASCIIZ, ASCIIZ, length, string, byte
+   # (5.005 compatible)
    my $msg = pack( 'Z* Z* C A* C', $src, $dst, length $sm, $sm, $prio );
 
    # unpack
@@ -1423,7 +1429,7 @@ where a pointer is expected. The read(2) system call comes to mind:
 <p>After reading <a href="perlfunc.html#perlfunc-NAME">perlfunc NAME</a> explaining how to use <code>syscall</code> we can write
 this Perl function copying a file to standard output:
 </p>
-<pre class="verbatim">    require 'syscall.ph';
+<pre class="verbatim">    require 'syscall.ph'; # run h2ph to generate this file
     sub cat($){
         my $path = shift();
         my $size = -s $path;

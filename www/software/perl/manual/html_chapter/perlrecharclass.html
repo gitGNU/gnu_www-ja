@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlrecharclass</title>
 
@@ -123,7 +123,7 @@ the most well-known character class. By default, a dot matches any
 character, except for the newline. That default can be changed to
 add matching the newline by using the <em>single line</em> modifier: either
 for the entire regular expression with the <code>/s</code> modifier, or
-locally with <code>(?s)</code>.  (The <code>\N</code> backslash sequence, described
+locally with <code>(?s)</code>.  (The <code><a href="#perlrecharclass-_005cN">\N</a></code> backslash sequence, described
 below, matches any character except newline without regard to the
 <em>single line</em> modifier.)
 </p>
@@ -220,10 +220,12 @@ If the <code>/a</code> regular expression modifier is in effect, it matches [0-9
 Otherwise, it
 matches anything that is matched by <code>\p{Digit}</code>, which includes [0-9].
 (An unlikely possible exception is that under locale matching rules, the
-current locale might not have [0-9] matched by <code>\d</code>, and/or might match
-other characters whose code point is less than 256.  Such a locale
-definition would be in violation of the C language standard, but Perl
-doesn&rsquo;t currently assume anything in regard to this.)
+current locale might not have <code>[0-9]</code> matched by <code>\d</code>, and/or might match
+other characters whose code point is less than 256.  The only such locale
+definitions that are legal would be to match <code>[0-9]</code> plus another set of
+10 consecutive digit characters;  anything else would be in violation of
+the C language standard, but Perl doesn&rsquo;t currently assume anything in
+regard to this.)
 </p>
 <p>What this means is that unless the <code>/a</code> modifier is in effect <code>\d</code> not
 only matches the digits &rsquo;0&rsquo; - &rsquo;9&rsquo;, but also Arabic, Devanagari, and
@@ -385,7 +387,7 @@ table below.
 </dd>
 <dt>otherwise ...</dt>
 <dd><a name="perlrecharclass-otherwise-_002e_002e_002e-3"></a>
-<p><code>\s</code> matches [\t\n\f\r\cK ] and, starting, experimentally in Perl
+<p><code>\s</code> matches [\t\n\f\r ] and, starting, experimentally in Perl
 v5.18, the vertical tab, <code>\cK</code>.
 (See note <code>[1]</code> below for a discussion of this.)
 Note that this list doesn&rsquo;t include the non-breaking space.
@@ -434,7 +436,7 @@ starting in Perl v5.18, but prior to that, the sole difference was that the
 vertical tab (<code>&quot;\cK&quot;</code>) was not matched by <code>\s</code>.
 </p>
 <p>The following table is a complete listing of characters matched by
-<code>\s</code>, <code>\h</code> and <code>\v</code> as of Unicode 6.0.
+<code>\s</code>, <code>\h</code> and <code>\v</code> as of Unicode 6.3.
 </p>
 <p>The first column gives the Unicode code point of the character (in hex format),
 the second column gives the (Unicode) name. The third column indicates
@@ -450,7 +452,6 @@ effect that changes the <code>\s</code> matching).
  0x0085             NEXT LINE (NEL)    vs  [2]
  0x00a0              NO-BREAK SPACE   h s  [2]
  0x1680            OGHAM SPACE MARK   h s
- 0x180e   MONGOLIAN VOWEL SEPARATOR   h s
  0x2000                     EN QUAD   h s
  0x2001                     EM QUAD   h s
  0x2002                    EN SPACE   h s
@@ -473,7 +474,7 @@ effect that changes the <code>\s</code> matching).
 <dd><a name="perlrecharclass-_005b1_005d"></a>
 <p>Prior to Perl v5.18, <code>\s</code> did not match the vertical tab.  The change
 in v5.18 is considered an experiment, which means it could be backed out
-in v5.20 or v5.22 if experience indicates that it breaks too much
+in v5.22 if experience indicates that it breaks too much
 existing code.  If this change adversely affects you, send email to
 <code>perlbug@perl.org</code>; if it affects you positively, email
 <code>perlthanks@perl.org</code>.  In the meantime, <code>[^\S\cK]</code> (obscurely)
@@ -546,15 +547,19 @@ It is also possible to define your own properties. This is discussed in
 <a href="perlunicode.html#perlunicode-User_002dDefined-Character-Properties">perlunicode User-Defined Character Properties</a>.
 </p>
 <p>Unicode properties are defined (surprise!) only on Unicode code points.
-A warning is raised and all matches fail on non-Unicode code points
-(those above the legal Unicode maximum of 0x10FFFF).  This can be
-somewhat surprising,
+Starting in v5.20, when matching against <code>\p</code> and <code>\P</code>, Perl treats
+non-Unicode code points (those above the legal Unicode maximum of
+0x10FFFF) as if they were typical unassigned Unicode code points.
 </p>
-<pre class="verbatim"> chr(0x110000) =~ \p{ASCII_Hex_Digit=True}      # Fails.
- chr(0x110000) =~ \p{ASCII_Hex_Digit=False}     # Also fails!
+<p>Prior to v5.20, Perl raised a warning and made all matches fail on
+non-Unicode code points.  This could be somewhat surprising:
+</p>
+<pre class="verbatim"> chr(0x110000) =~ \p{ASCII_Hex_Digit=True}     # Fails on Perls &lt; v5.20.
+ chr(0x110000) =~ \p{ASCII_Hex_Digit=False}    # Also fails on Perls
+                                               # &lt; v5.20
 </pre>
-<p>Even though these two matches might be thought of as complements, they
-are so only on Unicode code points.
+<p>Even though these two matches might be thought of as complements, until
+v5.20 they were so only on Unicode code points.
 </p>
 <hr>
 <a name="perlrecharclass-Examples"></a>
@@ -865,7 +870,7 @@ Next: <a href="#perlrecharclass-Negation-of-POSIX-character-classes" accesskey="
 <a name="POSIX-Character-Classes"></a>
 <h4 class="subsubsection">61.2.3.5 POSIX Character Classes</h4>
 
-<p>POSIX character classes have the form <code>[:class:]</code>, where <em>class</em> is
+<p>POSIX character classes have the form <code>[:class:]</code>, where <em>class</em> is the
 name, and the <code>[:</code> and <code>:]</code> delimiters. POSIX character classes only appear
 <em>inside</em> bracketed character classes, and are a convenient and descriptive
 way of listing a group of characters.
@@ -880,7 +885,8 @@ way of listing a group of characters.
 </pre>
 <p>The latter pattern would be a character class consisting of a colon,
 and the letters <code>a</code>, <code>l</code>, <code>p</code> and <code>h</code>.
-POSIX character classes can be part of a larger bracketed character class.
+</p>
+<p>POSIX character classes can be part of a larger bracketed character class.
 For example,
 </p>
 <pre class="verbatim"> [01[:alpha:]%]
@@ -1002,8 +1008,7 @@ Same for the two ASCII-only range forms.
 <p>There are various other synonyms that can be used besides the names
 listed in the table.  For example, <code>\p{PosixAlpha}</code> can be written as
 <code>\p{Alpha}</code>.  All are listed in
-<a href="../perluniprops/Properties-accessible-through-_005cp_007b_007d-and-_005cP_007b_007d.html#Properties-accessible-through-_005cp_007b_007d-and-_005cP_007b_007d">(perluniprops)Properties accessible through \p{} and \P{}</a>,
-plus all characters matched by each ASCII-range property.
+<a href="../perluniprops/Properties-accessible-through-_005cp_007b_007d-and-_005cP_007b_007d.html#Properties-accessible-through-_005cp_007b_007d-and-_005cP_007b_007d">(perluniprops)Properties accessible through \p{} and \P{}</a>.
 </p>
 <p>Both the <code>\p</code> counterparts always assume Unicode rules are in effect.
 On ASCII platforms, this means they assume that the code points from 128
@@ -1032,10 +1037,29 @@ counterparts.
 <dl compact="compact">
 <dt>if locale rules are in effect ...</dt>
 <dd><a name="perlrecharclass-if-locale-rules-are-in-effect-_002e_002e_002e-2"></a>
-<p>The POSIX class matches according to the locale, except that
-<code>word</code> uses the platform&rsquo;s native underscore character, no matter what
+<p>The POSIX class matches according to the locale, except:
+</p>
+<dl compact="compact">
+<dt><code>word</code></dt>
+<dd><a name="perlrecharclass-word"></a>
+<p>also includes the platform&rsquo;s native underscore character, no matter what
 the locale is.
 </p>
+</dd>
+<dt><code>ascii</code></dt>
+<dd><a name="perlrecharclass-ascii"></a>
+<p>on platforms that don&rsquo;t have the POSIX <code>ascii</code> extension, this matches
+just the platform&rsquo;s native ASCII-range characters.
+</p>
+</dd>
+<dt><code>blank</code></dt>
+<dd><a name="perlrecharclass-blank"></a>
+<p>on platforms that don&rsquo;t have the POSIX <code>blank</code> extension, this matches
+just the platform&rsquo;s native tab and space characters.
+</p>
+</dd>
+</dl>
+
 </dd>
 <dt>if Unicode rules are in effect ...</dt>
 <dd><a name="perlrecharclass-if-Unicode-rules-are-in-effect-_002e_002e_002e-2"></a>
@@ -1156,7 +1180,7 @@ use it will raise a warning, unless disabled via
 <p>This matches digits that are in either the Thai or Laotian scripts.
 </p>
 <p>Notice the white space in these examples.  This construct always has
-the <code>/x</code> modifier turned on.
+the <code>/x</code> modifier turned on within it.
 </p>
 <p>The available binary operators are:
 </p>
@@ -1199,8 +1223,8 @@ equivalent:
 </p>
 <pre class="verbatim"> /(?[[ a b ]])/
 </pre>
-<p>(You can, of course, specify single characters by using, <code>\x{ }</code>,
-<code>\N{ }</code>, etc.)
+<p>(You can, of course, specify single characters by using, <code>\x{...}</code>,
+<code>\N{...}</code>, etc.)
 </p>
 <p>This last example shows the use of this construct to specify an ordinary
 bracketed character class without additional set operations.  Note the
@@ -1228,6 +1252,11 @@ practices that don&rsquo;t currently warn.  For example you cannot say
 zero to make two).  These restrictions are to lower the incidence of
 typos causing the class to not match what you thought it would.
 </p>
+<p>If a regular bracketed character class contains a <code>\p{}</code> or <code>\P{}</code> and
+is matched against a non-Unicode code point, a warning may be
+raised, as the result is not Unicode-defined.  No such warning will come
+when using this extended form.
+</p>
 <p>The final difference between regular bracketed character classes and
 these, is that it is not possible to get these to match a
 multi-character fold.  Thus,
@@ -1248,7 +1277,7 @@ respect the <code>/a</code> (and <code>/aa</code>) modifiers.
 <p><code>(?[ ])</code> is a regex-compile-time construct.  Any attempt to use
 something which isn&rsquo;t knowable at the time the containing regular
 expression is compiled is a fatal error.  In practice, this means
-just three limitiations:
+just three limitations:
 </p>
 <ol>
 <li> This construct cannot be used within the scope of
@@ -1282,7 +1311,7 @@ construct.  There must not be any space between any of the characters
 that form the initial <code>(?[</code>.  Nor may there be space between the
 closing <code>])</code> characters.
 </p>
-<p>Just as in all regular expressions, the pattern can can be built up by
+<p>Just as in all regular expressions, the pattern can be built up by
 including variables that are interpolated at regex compilation time.
 Care must be taken to ensure that you are getting what you expect.  For
 example:

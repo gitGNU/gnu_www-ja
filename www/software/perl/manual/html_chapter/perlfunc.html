@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlfunc</title>
 
@@ -269,16 +269,16 @@ with a <code>use v5.10</code> (or higher) declaration in the current scope.
 <code>redo</code>, <code>return</code>, <code>sub</code>, <code>__SUB__</code>, <code>wantarray</code>
 </p>
 <p><code>break</code> is available only if you enable the experimental <code>&quot;switch&quot;</code>
-feature or use the <code>CORE::</code> prefix. The <code>&quot;switch&quot;</code> feature also enables
+feature or use the <code>CORE::</code> prefix.  The <code>&quot;switch&quot;</code> feature also enables
 the <code>default</code>, <code>given</code> and <code>when</code> statements, which are documented in
-<a href="perlsyn.html#perlsyn-Switch-Statements">perlsyn Switch Statements</a>. The <code>&quot;switch&quot;</code> feature is enabled
+<a href="perlsyn.html#perlsyn-Switch-Statements">perlsyn Switch Statements</a>.  The <code>&quot;switch&quot;</code> feature is enabled
 automatically with a <code>use v5.10</code> (or higher) declaration in the current
-scope. In Perl v5.14 and earlier, <code>continue</code> required the <code>&quot;switch&quot;</code>
+scope.  In Perl v5.14 and earlier, <code>continue</code> required the <code>&quot;switch&quot;</code>
 feature, like the other keywords.
 </p>
 <p><code>evalbytes</code> is only available with the <code>&quot;evalbytes&quot;</code> feature (see
 <a href="../feature/index.html">(feature)</a>) or if prefixed with <code>CORE::</code>.  <code>__SUB__</code> is only available
-with the <code>&quot;current_sub&quot;</code> feature or if prefixed with <code>CORE::</code>. Both
+with the <code>&quot;current_sub&quot;</code> feature or if prefixed with <code>CORE::</code>.  Both
 the <code>&quot;evalbytes&quot;</code> and <code>&quot;current_sub&quot;</code> features are enabled automatically
 with a <code>use v5.16</code> (or higher) declaration in the current scope.
 </p>
@@ -422,10 +422,10 @@ Next: <a href="#perlfunc-Non_002dfunction-Keywords-by-Cross_002dreference" acces
 operator takes one argument, either a filename, a filehandle, or a dirhandle, 
 and tests the associated file to see if something is true about it.  If the
 argument is omitted, tests <code>$_</code>, except for <code>-t</code>, which tests STDIN.
-Unless otherwise documented, it returns <code>1</code> for true and <code>''</code> for false, or
-the undefined value if the file doesn&rsquo;t exist.  Despite the funny
-names, precedence is the same as any other named unary operator.  The
-operator may be any of:
+Unless otherwise documented, it returns <code>1</code> for true and <code>''</code> for false.
+If the file doesn&rsquo;t exist or can&rsquo;t be examined, it returns <code>undef</code> and
+sets <code>$!</code> (errno).  Despite the funny names, precedence is the same as any
+other named unary operator.  The operator may be any of:
 </p>
 <pre class="verbatim">    -r  File is readable by effective uid/gid.
     -w  File is writable by effective uid/gid.
@@ -547,7 +547,7 @@ Example:
 </pre>
 <p>As of Perl 5.10.0, as a form of purely syntactic sugar, you can stack file
 test operators, in a way that <code>-f -w -x $file</code> is equivalent to
-<code>-x $file &amp;&amp; -w _ &amp;&amp; -f _</code>.  (This is only fancy fancy: if you use
+<code>-x $file &amp;&amp; -w _ &amp;&amp; -f _</code>.  (This is only fancy syntax: if you use
 the return value of <code>-f $file</code> as an argument to another filetest
 operator, no special magic will happen.)
 </p>
@@ -784,10 +784,12 @@ current scope.
 </dd>
 <dt>caller</dt>
 <dd><a name="perlfunc-caller"></a>
-<p>Returns the context of the current subroutine call.  In scalar context,
-returns the caller&rsquo;s package name if there <em>is</em> a caller (that is, if
+<p>Returns the context of the current pure perl subroutine call.  In scalar
+context, returns the caller&rsquo;s package name if there <em>is</em> a caller (that is, if
 we&rsquo;re in a subroutine or <code>eval</code> or <code>require</code>) and the undefined value
-otherwise.  In list context, returns
+otherwise.  caller never returns XS subs and they are skipped.  The next pure
+perl sub will appear instead of the XS sub in caller&rsquo;s return values. In list
+context, caller returns
 </p>
 <pre class="verbatim">    # 0         1          2
     ($package, $filename, $line) = caller;
@@ -803,8 +805,10 @@ to go back before the current one.
     $wantarray, $evaltext, $is_require, $hints, $bitmask, $hinthash)
      = caller($i);
 </pre>
-<p>Here $subroutine may be <code>(eval)</code> if the frame is not a subroutine
-call, but an <code>eval</code>.  In such a case additional elements $evaltext and
+<p>Here, $subroutine is the function that the caller called (rather than the
+function containing the caller). Note that $subroutine may be <code>(eval)</code> if
+the frame is not a subroutine call, but an <code>eval</code>.  In such a case
+additional elements $evaltext and
 <code>$is_require</code> are set: <code>$is_require</code> is true if the frame is created by a
 <code>require</code> or <code>use</code> statement, $evaltext contains the text of the
 <code>eval EXPR</code> statement.  In particular, for an <code>eval BLOCK</code> statement,
@@ -932,7 +936,8 @@ If VARIABLE is omitted, it chomps <code>$_</code>.  Example:
         # ...
     }
 </pre>
-<p>If VARIABLE is a hash, it chomps the hash&rsquo;s values, but not its keys.
+<p>If VARIABLE is a hash, it chomps the hash&rsquo;s values, but not its keys,
+resetting the <code>each</code> iterator in the process.
 </p>
 <p>You can actually chomp anything that&rsquo;s an lvalue, including an assignment:
 </p>
@@ -961,7 +966,8 @@ as <code>chomp($a, $b)</code>.
 <p>Chops off the last character of a string and returns the character
 chopped.  It is much more efficient than <code>s/.$//s</code> because it neither
 scans nor copies the string.  If VARIABLE is omitted, chops <code>$_</code>.
-If VARIABLE is a hash, it chops the hash&rsquo;s values, but not its keys.
+If VARIABLE is a hash, it chops the hash&rsquo;s values, but not its keys,
+resetting the <code>each</code> iterator in the process.
 </p>
 <p>You can actually chop anything that&rsquo;s an lvalue, including an assignment.
 </p>
@@ -1012,7 +1018,7 @@ On POSIX systems, you can detect this condition this way:
 <pre class="verbatim">    use POSIX qw(sysconf _PC_CHOWN_RESTRICTED);
     $can_chown_giveaway = not sysconf(_PC_CHOWN_RESTRICTED);
 </pre>
-<p>Portability issues: <a href="perlport.html#perlport-chmod">perlport chmod</a>.
+<p>Portability issues: <a href="perlport.html#perlport-chown">perlport chown</a>.
 </p>
 </dd>
 <dt>chr NUMBER</dt>
@@ -1049,6 +1055,9 @@ begin with a <code>/</code> by your process and all its children.  (It doesn&rsq
 change your current working directory, which is unaffected.)  For security
 reasons, this call is restricted to the superuser.  If FILENAME is
 omitted, does a <code>chroot</code> to <code>$_</code>.
+</p>
+<p><strong>NOTE:</strong>  It is good security practice to do <code>chdir(&quot;/&quot;)</code> (to the root
+directory) immediately after a <code>chroot()</code>.
 </p>
 <p>Portability issues: <a href="perlport.html#perlport-chroot">perlport chroot</a>.
 </p>
@@ -1389,9 +1398,10 @@ in their corresponding positions.
 <p>delete() may also be used on arrays and array slices, but its behavior is less
 straightforward.  Although exists() will return false for deleted entries,
 deleting array elements never changes indices of existing values; use shift()
-or splice() for that.  However, if all deleted elements fall at the end of an
+or splice() for that.  However, if any deleted elements fall at the end of an
 array, the array&rsquo;s size shrinks to the position of the highest element that
-still tests true for exists(), or to 0 if none do.
+still tests true for exists(), or to 0 if none do. In other words, an
+array won&rsquo;t have trailing nonexistent elements after a delete.
 </p>
 <p><strong>WARNING:</strong> Calling delete on array values is deprecated and likely to
 be removed in a future version of Perl.
@@ -1567,12 +1577,6 @@ first.)
 See <a href="perlsyn.html#perlsyn-NAME">perlsyn NAME</a> for alternative strategies.
 </p>
 </dd>
-<dt>do SUBROUTINE(LIST)</dt>
-<dd><a name="perlfunc-do-SUBROUTINE_0028LIST_0029"></a>
-<p>This form of subroutine call is deprecated.  SUBROUTINE can be a bareword
-or scalar variable.
-</p>
-</dd>
 <dt>do EXPR</dt>
 <dd><a name="perlfunc-do-EXPR"></a>
 <p>Uses the value of EXPR as a filename and executes the contents of the
@@ -1672,13 +1676,13 @@ this a syntax error.  When called in scalar context, returns only the key
 </p>
 <p>Hash entries are returned in an apparently random order.  The actual random
 order is specific to a given hash; the exact same series of operations
-on two hashes may result in a different order for each hash. Any insertion
+on two hashes may result in a different order for each hash.  Any insertion
 into the hash may change the order, as will any deletion, with the exception
 that the most recent key returned by <code>each</code> or <code>keys</code> may be deleted
-without changing the order. So long as a given hash is unmodified you may
+without changing the order.  So long as a given hash is unmodified you may
 rely on <code>keys</code>, <code>values</code> and <code>each</code> to repeatedly return the same order
-as each other. See <a href="perlsec.html#perlsec-Algorithmic-Complexity-Attacks">perlsec Algorithmic Complexity Attacks</a> for
-details on why hash order is randomized. Aside from the guarantees
+as each other.  See <a href="perlsec.html#perlsec-Algorithmic-Complexity-Attacks">perlsec Algorithmic Complexity Attacks</a> for
+details on why hash order is randomized.  Aside from the guarantees
 provided here the exact details of Perl&rsquo;s hash algorithm and the hash
 traversal order are subject to change in any release of Perl.
 </p>
@@ -1689,10 +1693,10 @@ Each hash or array has its own internal iterator, accessed by <code>each</code>,
 <code>keys</code>, and <code>values</code>.  The iterator is implicitly reset when <code>each</code> has
 reached the end as just described; it can be explicitly reset by calling
 <code>keys</code> or <code>values</code> on the hash or array.  If you add or delete a hash&rsquo;s
-elements while iterating over it, entries may be skipped or duplicated&ndash;so
-don&rsquo;t do that.  Exception: In the current implementation, it is always safe
-to delete the item most recently returned by <code>each()</code>, so the following
-code works properly:
+elements while iterating over it, the effect on the iterator is
+unspecified; for example, entries may be skipped or duplicated&ndash;so don&rsquo;t
+do that.  Exception: It is always safe to delete the item most recently
+returned by <code>each()</code>, so the following code works properly:
 </p>
 <pre class="verbatim">        while (($key, $value) = each %hash) {
           print $key, &quot;\n&quot;;
@@ -1793,7 +1797,8 @@ encounter an error.
 </dd>
 <dt>eval</dt>
 <dd><a name="perlfunc-eval"></a>
-<p>In the first form, the return value of EXPR is parsed and executed as if it
+<p>In the first form, often referred to as a &quot;string eval&quot;, the return
+value of EXPR is parsed and executed as if it
 were a little Perl program.  The value of the expression (which is itself
 determined within scalar context) is first parsed, and if there were no
 errors, executed as a block within the lexical context of the current Perl
@@ -1815,6 +1820,12 @@ exhibit the erratic, but historical, behaviour of affecting some outer file
 scope that is still compiling.  See also the <a href="#perlfunc-evalbytes">evalbytes</a> keyword, which
 always treats its input as a byte stream and works properly with source
 filters, and the <a href="../feature/index.html">(feature)</a> pragma.
+</p>
+<p>Problems can arise if the string expands a scalar containing a floating
+point number.  That scalar can expand to letters, such as <code>&quot;NaN&quot;</code> or
+<code>&quot;Infinity&quot;</code>; or, within the scope of a <code>use locale</code>, the decimal
+point character may be something other than a dot (such as a comma).
+None of these are likely to parse as you are likely expecting.
 </p>
 <p>In the second form, the code within the BLOCK is parsed only once&ndash;at the
 same time the code surrounding the <code>eval</code> itself was parsed&ndash;and executed
@@ -1844,7 +1855,7 @@ control flow operator like <code>last</code> or <code>goto</code> can bypass the
 warnings to STDERR, nor does it stuff the text of warning messages into <code>$@</code>.
 To do either of those, you have to use the <code>$SIG{__WARN__}</code> facility, or
 turn off warnings inside the BLOCK or EXPR using <code>no&nbsp;warnings&nbsp;'all'</code><!-- /@w -->.
-See &lsquo;warn&rsquo;, <a href="perlvar.html#perlvar-NAME">perlvar NAME</a>, <a href="../warnings/index.html">(warnings)</a> and <a href="perllexwarn.html#perllexwarn-NAME">perllexwarn NAME</a>.
+See &lsquo;warn&rsquo;, <a href="perlvar.html#perlvar-NAME">perlvar NAME</a>, and <a href="../warnings/index.html">(warnings)</a>.
 </p>
 <p>Note that, because <code>eval</code> traps otherwise-fatal errors, it is useful for
 determining whether a particular feature (such as <code>socket</code> or <code>symlink</code>)
@@ -1981,15 +1992,13 @@ with some other statement, you can use one of these styles to avoid the warning:
 <pre class="verbatim">    exec ('foo')   or print STDERR &quot;couldn't exec foo: $!&quot;;
     { exec ('foo') }; print STDERR &quot;couldn't exec foo: $!&quot;;
 </pre>
-<p>If there is more than one argument in LIST, or if LIST is an array
-with more than one value, calls execvp(3) with the arguments in LIST.
-If there is only one scalar argument or an array with one element in it,
-the argument is checked for shell metacharacters, and if there are any,
-the entire argument is passed to the system&rsquo;s command shell for parsing
-(this is <code>/bin/sh -c</code> on Unix platforms, but varies on other platforms).
-If there are no shell metacharacters in the argument, it is split into
-words and passed directly to <code>execvp</code>, which is more efficient.
-Examples:
+<p>If there is more than one argument in LIST, this calls execvp(3) with the
+arguments in LIST.  If there is only one element in LIST, the argument is
+checked for shell metacharacters, and if there are any, the entire
+argument is passed to the system&rsquo;s command shell for parsing (this is
+<code>/bin/sh -c</code> on Unix platforms, but varies on other platforms).  If
+there are no shell metacharacters in the argument, it is split into words
+and passed directly to <code>execvp</code>, which is more efficient.  Examples:
 </p>
 <pre class="verbatim">    exec '/bin/echo', 'Your arguments are: ', @ARGV;
     exec &quot;sort $outfile | uniq&quot;;
@@ -2185,8 +2194,16 @@ Case Charts available at <a href="http://www.unicode.org/charts/case/">http://ww
 </p>
 <p>If EXPR is omitted, uses <code>$_</code>.
 </p>
-<p>This function behaves the same way under various pragma, such as in a locale,
-as <a href="#perlfunc-lc">lc</a> does.
+<p>This function behaves the same way under various pragma, such as within
+<code>&quot;use&nbsp;feature&nbsp;<span class="nolinebreak">'unicode_strings&quot;</span></code><!-- /@w -->, as <a href="#perlfunc-lc">lc</a> does, with the single
+exception of <code>fc</code> of LATIN CAPITAL LETTER SHARP S (U+1E9E) within the
+scope of <code>use&nbsp;locale</code><!-- /@w -->.  The foldcase of this character would
+normally be <code>&quot;ss&quot;</code>, but as explained in the <a href="#perlfunc-lc">lc</a> section, case
+changes that cross the 255/256 boundary are problematic under locales,
+and are hence prohibited.  Therefore, this function under locale returns
+instead the string <code>&quot;\x{17F}\x{17F}&quot;</code>, which is the LATIN SMALL LETTER
+LONG S.  Since that character itself folds to <code>&quot;s&quot;</code>, the string of two
+of them together should be equivalent to a single U+1E9E when foldcased.
 </p>
 <p>While the Unicode Standard defines two additional forms of casefolding,
 one for Turkic languages and one that never maps one character into multiple
@@ -2194,7 +2211,7 @@ characters, these are not provided by the Perl core; However, the CPAN module
 <code>Unicode::Casing</code> may be used to provide an implementation.
 </p>
 <p>This keyword is available only when the <code>&quot;fc&quot;</code> feature is enabled,
-or when prefixed with <code>CORE::</code>; See <a href="../feature/index.html">(feature)</a>. Alternately,
+or when prefixed with <code>CORE::</code>; See <a href="../feature/index.html">(feature)</a>.  Alternately,
 include a <code>use v5.16</code> or later to the current scope.
 </p>
 </dd>
@@ -2257,8 +2274,14 @@ filehandle, generally its name.
 <p>You can use this to find out whether two handles refer to the
 same underlying descriptor:
 </p>
-<pre class="verbatim">    if (fileno(THIS) == fileno(THAT)) {
+<pre class="verbatim">    if (fileno(THIS) != -1 &amp;&amp; fileno(THIS) == fileno(THAT)) {
         print &quot;THIS and THAT are dups\n&quot;;
+    } elsif (fileno(THIS) != -1 &amp;&amp; fileno(THAT) != -1) {
+        print &quot;THIS and THAT have different &quot; .
+            &quot;underlying file descriptors\n&quot;;
+    } else {
+        print &quot;At least one of THIS and THAT does &quot; .
+            &quot;not have a real file descriptor\n&quot;;
     }
 </pre>
 </dd>
@@ -2459,8 +2482,7 @@ is left as an exercise to the reader.
 </p>
 <p>The <code>POSIX::getattr</code> function can do this more portably on
 systems purporting POSIX compliance.  See also the <code>Term::ReadKey</code>
-module from your nearest CPAN site; details on CPAN can be found under
-<a href="../perlmodlib/CPAN.html#CPAN">(perlmodlib)CPAN</a>.
+module from your nearest <a href="http://www.cpan.org">CPAN</a> site.
 </p>
 </dd>
 <dt>getlogin</dt>
@@ -2508,7 +2530,7 @@ does not accept a PID argument, so only <code>PID==0</code> is truly portable.
 <p>Note for Linux users: Between v5.8.1 and v5.16.0 Perl would work
 around non-POSIX thread semantics the minority of Linux systems (and
 Debian GNU/kFreeBSD systems) that used LinuxThreads, this emulation
-has since been removed. See the documentation for <a href="perlvar.html#perlvar-_0024_0024">$$</a> for
+has since been removed.  See the documentation for <a href="perlvar.html#perlvar-_0024_0024">$$</a> for
 details.
 </p>
 <p>Portability issues: <a href="perlport.html#perlport-getppid">perlport getppid</a>.
@@ -2616,13 +2638,15 @@ machine that doesn&rsquo;t implement getpriority(2).
 system C library.  In list context, the return values from the
 various get routines are as follows:
 </p>
-<pre class="verbatim">    ($name,$passwd,$uid,$gid,
-       $quota,$comment,$gcos,$dir,$shell,$expire) = getpw*
-    ($name,$passwd,$gid,$members) = getgr*
-    ($name,$aliases,$addrtype,$length,@addrs) = gethost*
-    ($name,$aliases,$addrtype,$net) = getnet*
-    ($name,$aliases,$proto) = getproto*
-    ($name,$aliases,$port,$proto) = getserv*
+<pre class="verbatim"> # 0        1          2           3         4
+ ( $name,   $passwd,   $gid,       $members  ) = getgr*
+ ( $name,   $aliases,  $addrtype,  $net      ) = getnet*
+ ( $name,   $aliases,  $port,      $proto    ) = getserv*
+ ( $name,   $aliases,  $proto                ) = getproto*
+ ( $name,   $aliases,  $addrtype,  $length,  @addrs ) = gethost*
+ ( $name,   $passwd,   $uid,       $gid,     $quota,
+ $comment,  $gcos,     $dir,       $shell,   $expire ) = getpw*
+ # 5        6          7           8         9
 </pre>
 <p>(If the entry doesn&rsquo;t exist you get an empty list.)
 </p>
@@ -2843,7 +2867,7 @@ Daylight Saving Time in GMT.
 </dd>
 <dt>goto &amp;NAME</dt>
 <dd><a name="perlfunc-goto-_0026NAME"></a>
-<p>The <code>goto-LABEL</code> form finds the statement labeled with LABEL and
+<p>The <code>goto LABEL</code> form finds the statement labeled with LABEL and
 resumes execution there.  It can&rsquo;t be used to get out of a block or
 subroutine given to <code>sort</code>.  It can be used to go almost anywhere
 else within the dynamic scope, including out of subroutines, but it&rsquo;s
@@ -2853,25 +2877,30 @@ The author of Perl has never felt the need to use this form of <code>goto</code>
 does not offer named loops combined with loop control.  Perl does, and
 this replaces most structured uses of <code>goto</code> in other languages.)
 </p>
-<p>The <code>goto-EXPR</code> form expects a label name, whose scope will be resolved
+<p>The <code>goto EXPR</code> form expects to evaluate <code>EXPR</code> to a code reference or
+a label name.  If it evaluates to a code reference, it will be handled
+like <code>goto &amp;NAME</code>, below.  This is especially useful for implementing
+tail recursion via <code>goto __SUB__</code>.
+</p>
+<p>If the expression evaluates to a label name, its scope will be resolved
 dynamically.  This allows for computed <code>goto</code>s per FORTRAN, but isn&rsquo;t
 necessarily recommended if you&rsquo;re optimizing for maintainability:
 </p>
 <pre class="verbatim">    goto (&quot;FOO&quot;, &quot;BAR&quot;, &quot;GLARCH&quot;)[$i];
 </pre>
-<p>As shown in this example, <code>goto-EXPR</code> is exempt from the &quot;looks like a
+<p>As shown in this example, <code>goto EXPR</code> is exempt from the &quot;looks like a
 function&quot; rule.  A pair of parentheses following it does not (necessarily)
 delimit its argument.  <code>goto(&quot;NE&quot;).&quot;XT&quot;</code> is equivalent to <code>goto NEXT</code>.
 Also, unlike most named operators, this has the same precedence as
 assignment.
 </p>
-<p>Use of <code>goto-LABEL</code> or <code>goto-EXPR</code> to jump into a construct is
+<p>Use of <code>goto LABEL</code> or <code>goto EXPR</code> to jump into a construct is
 deprecated and will issue a warning.  Even then, it may not be used to
 go into any construct that requires initialization, such as a
 subroutine or a <code>foreach</code> loop.  It also can&rsquo;t be used to go into a
 construct that is optimized away.
 </p>
-<p>The <code>goto-&amp;NAME</code> form is quite different from the other forms of
+<p>The <code>goto &amp;NAME</code> form is quite different from the other forms of
 <code>goto</code>.  In fact, it isn&rsquo;t a goto in the normal sense at all, and
 doesn&rsquo;t have the stigma associated with other gotos.  Instead, it
 exits the current subroutine (losing any changes set by local()) and
@@ -3047,13 +3076,13 @@ array argument.  In scalar context, returns the number of keys or indices.
 </p>
 <p>Hash entries are returned in an apparently random order.  The actual random
 order is specific to a given hash; the exact same series of operations
-on two hashes may result in a different order for each hash. Any insertion
+on two hashes may result in a different order for each hash.  Any insertion
 into the hash may change the order, as will any deletion, with the exception
 that the most recent key returned by <code>each</code> or <code>keys</code> may be deleted
-without changing the order. So long as a given hash is unmodified you may
+without changing the order.  So long as a given hash is unmodified you may
 rely on <code>keys</code>, <code>values</code> and <code>each</code> to repeatedly return the same order
-as each other. See <a href="perlsec.html#perlsec-Algorithmic-Complexity-Attacks">perlsec Algorithmic Complexity Attacks</a> for
-details on why hash order is randomized. Aside from the guarantees
+as each other.  See <a href="perlsec.html#perlsec-Algorithmic-Complexity-Attacks">perlsec Algorithmic Complexity Attacks</a> for
+details on why hash order is randomized.  Aside from the guarantees
 provided here the exact details of Perl&rsquo;s hash algorithm and the hash
 traversal order are subject to change in any release of Perl.
 </p>
@@ -3125,9 +3154,10 @@ a recent vintage:
 </dd>
 <dt>kill SIGNAL</dt>
 <dd><a name="perlfunc-kill-SIGNAL"></a>
-<p>Sends a signal to a list of processes.  Returns the number of
-processes successfully signaled (which is not necessarily the
-same as the number actually killed).
+<p>Sends a signal to a list of processes.  Returns the number of arguments
+that were successfully used to signal (which is not necessarily the same
+as the number of processes actually killed, e.g. where a process group is
+killed).
 </p>
 <pre class="verbatim">    $cnt = kill 'HUP', $child1, $child2;
     kill 'KILL', @goners;
@@ -3138,15 +3168,16 @@ same signal.  The string form of SIGNAL is recommended for portability because
 the same signal may have different numbers in different operating systems.
 </p>
 <p>A list of signal names supported by the current platform can be found in
-<code>$Config{sig_name}</code>, which is provided by the <code>Config</code> module. See <a href="../Config/index.html">(Config)</a>
+<code>$Config{sig_name}</code>, which is provided by the <code>Config</code> module.  See <a href="../Config/index.html">(Config)</a>
 for more details.
 </p>
 <p>A negative signal name is the same as a negative signal number, killing process
 groups instead of processes.  For example, <code>kill '-KILL', $pgrp</code> and
-<code>kill -9, $pgrp</code> will send <code>SIGKILL</code> to the entire process group specified. That
+<code>kill -9, $pgrp</code> will send <code>SIGKILL</code> to
+the entire process group specified.  That
 means you usually want to use positive not negative signals.
 </p>
-<p>If SIGNAL is either the number 0 or the string <code>ZERO</code> (or <code>SIGZZERO</code>),
+<p>If SIGNAL is either the number 0 or the string <code>ZERO</code> (or <code>SIGZERO</code>),
 no signal is sent to
 the process, but <code>kill</code> checks whether it&rsquo;s <em>possible</em> to send a signal to it
 (that means, to be brief, that the process is owned by the same user, or we are
@@ -3165,8 +3196,8 @@ A warning may be produced in a future version.
 </p>
 <p>See <a href="perlipc.html#perlipc-Signals">perlipc Signals</a> for more details.
 </p>
-<p>On some platforms such as Windows where the fork() system call is not available.
-Perl can be built to emulate fork() at the interpreter level.
+<p>On some platforms such as Windows where the fork() system call is not
+available, Perl can be built to emulate fork() at the interpreter level.
 This emulation has limitations related to kill that have to be considered,
 for code running on Windows and in code intended to be portable.
 </p>
@@ -3233,20 +3264,23 @@ implementing the <code>\L</code> escape in double-quoted strings.
 <dl compact="compact">
 <dt>If <code>use bytes</code> is in effect:</dt>
 <dd><a name="perlfunc-If-use-bytes-is-in-effect_003a"></a>
-<p>The results follow ASCII semantics.  Only characters <code>A-Z</code> change, to <code>a-z</code>
-respectively.
+<p>The results follow ASCII rules.  Only the characters <code>A-Z</code> change,
+to <code>a-z</code> respectively.
 </p>
 </dd>
 <dt>Otherwise, if <code>use locale</code> (but not <code>use locale ':not_characters'</code>) is in effect:</dt>
 <dd><a name="perlfunc-Otherwise_002c-if-use-locale-_0028but-not-use-locale-_0027_003anot_005fcharacters_0027_0029-is-in-effect_003a"></a>
 <p>Respects current LC_CTYPE locale for code points &lt; 256; and uses Unicode
-semantics for the remaining code points (this last can only happen if
+rules for the remaining code points (this last can only happen if
 the UTF8 flag is also set).  See <a href="perllocale.html#perllocale-NAME">perllocale NAME</a>.
 </p>
-<p>A deficiency in this is that case changes that cross the 255/256
+<p>Starting in v5.20, Perl wil use full Unicode rules if the locale is
+UTF-8.  Otherwise, there is a deficiency in this scheme, which is that
+case changes that cross the 255/256
 boundary are not well-defined.  For example, the lower case of LATIN CAPITAL
-LETTER SHARP S (U+1E9E) in Unicode semantics is U+00DF (on ASCII
-platforms).   But under <code>use locale</code>, the lower case of U+1E9E is
+LETTER SHARP S (U+1E9E) in Unicode rules is U+00DF (on ASCII
+platforms).   But under <code>use locale</code> (prior to v5.20 or not a UTF-8
+locale), the lower case of U+1E9E is
 itself, because 0xDF may not be LATIN SMALL LETTER SHARP S in the
 current locale, and Perl has no way of knowing if that character even
 exists in the locale, much less what code point it is.  Perl returns
@@ -3256,17 +3290,17 @@ many) where the 255/256 boundary would otherwise be crossed.
 </dd>
 <dt>Otherwise, If EXPR has the UTF8 flag set:</dt>
 <dd><a name="perlfunc-Otherwise_002c-If-EXPR-has-the-UTF8-flag-set_003a"></a>
-<p>Unicode semantics are used for the case change.
+<p>Unicode rules are used for the case change.
 </p>
 </dd>
 <dt>Otherwise, if <code>use feature 'unicode_strings'</code> or <code>use locale ':not_characters'</code> is in effect:</dt>
 <dd><a name="perlfunc-Otherwise_002c-if-use-feature-_0027unicode_005fstrings_0027-or-use-locale-_0027_003anot_005fcharacters_0027-is-in-effect_003a"></a>
-<p>Unicode semantics are used for the case change.
+<p>Unicode rules are used for the case change.
 </p>
 </dd>
 <dt>Otherwise:</dt>
 <dd><a name="perlfunc-Otherwise_003a"></a>
-<p>ASCII semantics are used for the case change.  The lowercase of any character
+<p>ASCII rules are used for the case change.  The lowercase of any character
 outside the ASCII range is the character itself.
 </p>
 </dd>
@@ -3589,7 +3623,7 @@ this right, so Perl automatically removes all trailing slashes to keep
 everyone happy.
 </p>
 <p>To recursively create a directory structure, look at
-the <code>mkpath</code> function of the <a href="../File-Path/index.html">(File-Path)</a> module.
+the <code>make_path</code> function of the <a href="../File-Path/index.html">(File-Path)</a> module.
 </p>
 </dd>
 <dt>msgctl ID,CMD,ARG</dt>
@@ -3645,28 +3679,35 @@ and <code>IPC::SysV::Msg</code> documentation.
 <p>Portability issues: <a href="perlport.html#perlport-msgsnd">perlport msgsnd</a>.
 </p>
 </dd>
-<dt>my EXPR</dt>
-<dd><a name="perlfunc-my-EXPR"></a>
+<dt>my VARLIST</dt>
+<dd><a name="perlfunc-my-VARLIST"></a>
 </dd>
-<dt>my TYPE EXPR</dt>
-<dd><a name="perlfunc-my-TYPE-EXPR"></a>
+<dt>my TYPE VARLIST</dt>
+<dd><a name="perlfunc-my-TYPE-VARLIST"></a>
 </dd>
-<dt>my EXPR : ATTRS</dt>
-<dd><a name="perlfunc-my-EXPR-_003a-ATTRS"></a>
+<dt>my VARLIST : ATTRS</dt>
+<dd><a name="perlfunc-my-VARLIST-_003a-ATTRS"></a>
 </dd>
-<dt>my TYPE EXPR : ATTRS</dt>
-<dd><a name="perlfunc-my-TYPE-EXPR-_003a-ATTRS"></a>
+<dt>my TYPE VARLIST : ATTRS</dt>
+<dd><a name="perlfunc-my-TYPE-VARLIST-_003a-ATTRS"></a>
 <p>A <code>my</code> declares the listed variables to be local (lexically) to the
-enclosing block, file, or <code>eval</code>.  If more than one value is listed,
+enclosing block, file, or <code>eval</code>.  If more than one variable is listed,
 the list must be placed in parentheses.
 </p>
 <p>The exact semantics and interface of TYPE and ATTRS are still
-evolving.  TYPE is currently bound to the use of the <code>fields</code> pragma,
+evolving.  TYPE may be a bareword, a constant declared
+with <code>use constant</code>, or <code>__PACKAGE__</code>.  It is
+currently bound to the use of the <code>fields</code> pragma,
 and attributes are handled using the <code>attributes</code> pragma, or starting
 from Perl 5.8.0 also via the <code>Attribute::Handlers</code> module.  See
 <a href="perlsub.html#perlsub-Private-Variables-via-my_0028_0029">perlsub Private Variables via my()</a> for details, and <a href="../fields/index.html">(fields)</a>,
 <a href="../attributes/index.html">(attributes)</a>, and <a href="../Attribute-Handlers/index.html">(Attribute-Handlers)</a>.
 </p>
+<p>Note that with a parenthesised list, <code>undef</code> can be used as a dummy
+placeholder, for example to skip assignment of initial values:
+</p>
+<pre class="verbatim">    my ( undef, $min, $hour ) = localtime;
+</pre>
 </dd>
 <dt>next LABEL</dt>
 <dd><a name="perlfunc-next-LABEL"></a>
@@ -3790,12 +3831,6 @@ FILEHANDLE is an expression, its value is the real filehandle.  (This is
 considered a symbolic reference, so <code>use strict &quot;refs&quot;</code> should <em>not</em> be
 in effect.)
 </p>
-<p>If EXPR is omitted, the global (package) scalar variable of the same
-name as the FILEHANDLE contains the filename.  (Note that lexical 
-variables&ndash;those declared with <code>my</code> or <code>state</code>&ndash;will not work for this
-purpose; so if you&rsquo;re using <code>my</code> or <code>state</code>, specify EXPR in your
-call to open.)
-</p>
 <p>If three (or more) arguments are specified, the open mode (including
 optional encoding) in the second argument are distinct from the filename in
 the third.  If MODE is <code>&lt;</code> or nothing, the file is opened for input.
@@ -3878,6 +3913,32 @@ where you want to format a suitable error message (but there are
 modules that can help with that problem)) always check
 the return value from opening a file.  
 </p>
+<p>The filehandle will be closed when its reference count reaches zero.
+If it is a lexically scoped variable declared with <code>my</code>, that usually
+means the end of the enclosing scope.  However, this automatic close
+does not check for errors, so it is better to explicitly close
+filehandles, especially those used for writing:
+</p>
+<pre class="verbatim">    close($handle)
+       || warn &quot;close failed: $!&quot;;
+</pre>
+<p>An older style is to use a bareword as the filehandle, as
+</p>
+<pre class="verbatim">    open(FH, &quot;&lt;&quot;, &quot;input.txt&quot;)
+       or die &quot;cannot open &lt; input.txt: $!&quot;;
+</pre>
+<p>Then you can use <code>FH</code> as the filehandle, in <code>close FH</code> and <code>&lt;FH&gt;</code> and so on.  Note that it&rsquo;s a global variable, so this form is
+not recommended in new code.
+</p>
+<p>As a shortcut a one-argument call takes the filename from the global
+scalar variable of the same name as the filehandle:
+</p>
+<pre class="verbatim">    $ARTICLE = 100;
+    open(ARTICLE) or die &quot;Can't find article $ARTICLE: $!\n&quot;;
+</pre>
+<p>Here <code>$ARTICLE</code> must be a global (package) scalar variable - not one
+declared with <code>my</code> or <code>state</code>.
+</p>
 <p>As a special case the three-argument form with a read/write mode and the third
 argument being <code>undef</code>:
 </p>
@@ -3902,11 +3963,7 @@ open filehandles directly to Perl scalars via:
 </pre>
 <p>General examples:
 </p>
-<pre class="verbatim">    $ARTICLE = 100;
-    open(ARTICLE) or die &quot;Can't find article $ARTICLE: $!\n&quot;;
-    while (&lt;ARTICLE&gt;) {...
-
-    open(LOG, &quot;&gt;&gt;/usr/spool/news/twitlog&quot;);  # (log is reserved)
+<pre class="verbatim">    open(LOG, &quot;&gt;&gt;/usr/spool/news/twitlog&quot;);  # (log is reserved)
     # if the open fails, output is discarded
 
     open(my $dbase, &quot;+&lt;&quot;, &quot;dbase.mine&quot;)      # open for update
@@ -4150,34 +4207,6 @@ interpretation.  For example:
     seek(HANDLE, 0, 0);
     print &quot;File contains: &quot;, &lt;HANDLE&gt;;
 </pre>
-<p>Using the constructor from the <code>IO::Handle</code> package (or one of its
-subclasses, such as <code>IO::File</code> or <code>IO::Socket</code>), you can generate anonymous
-filehandles that have the scope of the variables used to hold them, then
-automatically (but silently) close once their reference counts become
-zero, typically at scope exit:
-</p>
-<pre class="verbatim">    use IO::File;
-    #...
-    sub read_myfile_munged {
-        my $ALL = shift;
-        # or just leave it undef to autoviv
-        my $handle = IO::File-&gt;new;
-        open($handle, &quot;&lt;&quot;, &quot;myfile&quot;) or die &quot;myfile: $!&quot;;
-        $first = &lt;$handle&gt;
-            or return ();     # Automatically closed here.
-        mung($first) or die &quot;mung failed&quot;;  # Or here.
-        return (first, &lt;$handle&gt;) if $ALL;  # Or here.
-        return $first;                      # Or here.
-    }
-</pre>
-<p><strong>WARNING:</strong> The previous example has a bug because the automatic
-close that happens when the refcount on <code>handle</code> reaches zero does not
-properly detect and report failures.  <em>Always</em> close the handle
-yourself and inspect the return value.
-</p>
-<pre class="verbatim">    close($handle) 
-        || warn &quot;close failed: $!&quot;;
-</pre>
 <p>See &lsquo;seek&rsquo; for some details about mixing reading and writing.
 </p>
 <p>Portability issues: <a href="perlport.html#perlport-open">perlport open</a>.
@@ -4209,17 +4238,17 @@ If EXPR is an empty string, returns 0.  If EXPR is omitted, uses <code>$_</code>
 See <a href="perlunicode.html#perlunicode-NAME">perlunicode NAME</a> for more about Unicode.
 </p>
 </dd>
-<dt>our EXPR</dt>
-<dd><a name="perlfunc-our-EXPR"></a>
+<dt>our VARLIST</dt>
+<dd><a name="perlfunc-our-VARLIST"></a>
 </dd>
-<dt>our TYPE EXPR</dt>
-<dd><a name="perlfunc-our-TYPE-EXPR"></a>
+<dt>our TYPE VARLIST</dt>
+<dd><a name="perlfunc-our-TYPE-VARLIST"></a>
 </dd>
-<dt>our EXPR : ATTRS</dt>
-<dd><a name="perlfunc-our-EXPR-_003a-ATTRS"></a>
+<dt>our VARLIST : ATTRS</dt>
+<dd><a name="perlfunc-our-VARLIST-_003a-ATTRS"></a>
 </dd>
-<dt>our TYPE EXPR : ATTRS</dt>
-<dd><a name="perlfunc-our-TYPE-EXPR-_003a-ATTRS"></a>
+<dt>our TYPE VARLIST : ATTRS</dt>
+<dd><a name="perlfunc-our-TYPE-VARLIST-_003a-ATTRS"></a>
 <p><code>our</code> makes a lexical alias to a package variable of the same name in the current
 package for use within the current lexical scope.
 </p>
@@ -4233,7 +4262,7 @@ the lexical scope of the <code>our</code> declaration.  In this way, <code>our</
 <code>use vars</code>, which allows use of an unqualified name <em>only</em> within the
 affected package, but across scopes.
 </p>
-<p>If more than one value is listed, the list must be placed
+<p>If more than one variable is listed, the list must be placed
 in parentheses.
 </p>
 <pre class="verbatim">    our $foo;
@@ -4282,6 +4311,11 @@ from Perl 5.8.0, also via the <code>Attribute::Handlers</code> module.  See
 <a href="perlsub.html#perlsub-Private-Variables-via-my_0028_0029">perlsub Private Variables via my()</a> for details, and <a href="../fields/index.html">(fields)</a>,
 <a href="../attributes/index.html">(attributes)</a>, and <a href="../Attribute-Handlers/index.html">(Attribute-Handlers)</a>.
 </p>
+<p>Note that with a parenthesised list, <code>undef</code> can be used as a dummy
+placeholder, for example to skip assignment of initial values:
+</p>
+<pre class="verbatim">    our ( undef, $min, $hour ) = localtime;
+</pre>
 </dd>
 <dt>pack TEMPLATE,LIST</dt>
 <dd><a name="perlfunc-pack-TEMPLATE_002cLIST"></a>
@@ -4373,11 +4407,11 @@ TEMPLATE (the second column lists letters for which the modifier is valid):
 <pre class="verbatim">    !   sSlLiI     Forces native (short, long, int) sizes instead
                    of fixed (16-/32-bit) sizes.
 
-        xX         Make x and X act as alignment commands.
+    !   xX         Make x and X act as alignment commands.
 
-        nNvV       Treat integers as signed instead of unsigned.
+    !   nNvV       Treat integers as signed instead of unsigned.
 
-        @.         Specify position as byte offset in the internal
+    !   @.         Specify position as byte offset in the internal
                    representation of the packed string.  Efficient
                    but dangerous.
 
@@ -5460,10 +5494,10 @@ It is also exempt from the looks-like-a-function rule, so
 <dt>ref</dt>
 <dd><a name="perlfunc-ref"></a>
 <p>Returns a non-empty string if EXPR is a reference, the empty
-string otherwise.  If EXPR
-is not specified, <code>$_</code> will be used.  The value returned depends on the
-type of thing the reference is a reference to.
-Builtin types include:
+string otherwise.  If EXPR is not specified, <code>$_</code> will be used.  The
+value returned depends on the type of thing the reference is a reference to.
+</p>
+<p>Builtin types include:
 </p>
 <pre class="verbatim">    SCALAR
     ARRAY
@@ -5477,8 +5511,7 @@ Builtin types include:
     VSTRING
     Regexp
 </pre>
-<p>If the referenced object has been blessed into a package, then that package
-name is returned instead.  You can think of <code>ref</code> as a <code>typeof</code> operator.
+<p>You can think of <code>ref</code> as a <code>typeof</code> operator.
 </p>
 <pre class="verbatim">    if (ref($r) eq &quot;HASH&quot;) {
         print &quot;r is a reference to a hash.\n&quot;;
@@ -5494,6 +5527,17 @@ to a <a href="perldata.html#perldata-Version-Strings">version string</a>.
 </p>
 <p>The result <code>Regexp</code> indicates that the argument is a regular expression
 resulting from <code>qr//</code>.
+</p>
+<p>If the referenced object has been blessed into a package, then that package
+name is returned instead.  But don&rsquo;t use that, as it&rsquo;s now considered
+&quot;bad practice&quot;.  For one reason, an object could be using a class called
+<code>Regexp</code> or <code>IO</code>, or even <code>HASH</code>.  Also, <code>ref</code> doesn&rsquo;t take into account
+subclasses, like <code>isa</code> does.
+</p>
+<p>Instead, use <code>blessed</code> (in the <a href="../Scalar-Util/index.html">(Scalar-Util)</a> module) for boolean
+checks, <code>isa</code> for specific class checks and <code>reftype</code> (also from
+<a href="../Scalar-Util/index.html">(Scalar-Util)</a>) for type checks.  (See <a href="perlobj.html#perlobj-NAME">perlobj NAME</a> for details and a
+<code>blessed/isa</code> example.)
 </p>
 <p>See also <a href="perlref.html#perlref-NAME">perlref NAME</a>.
 </p>
@@ -5547,35 +5591,52 @@ version should be used instead.
 hasn&rsquo;t already been included.  The file is included via the do-FILE
 mechanism, which is essentially just a variety of <code>eval</code> with the
 caveat that lexical variables in the invoking script will be invisible
-to the included code.  Has semantics similar to the following subroutine:
+to the included code.  If it were implemented in pure Perl, it
+would have semantics similar to the following:
 </p>
-<pre class="verbatim">    sub require {
-       my ($filename) = @_;
-       if (exists $INC{$filename}) {
-           return 1 if $INC{$filename};
-           die &quot;Compilation failed in require&quot;;
-       }
-       my ($realfilename,$result);
-       ITER: {
-           foreach $prefix (@INC) {
-               $realfilename = &quot;$prefix/$filename&quot;;
-               if (-f $realfilename) {
-                   $INC{$filename} = $realfilename;
-                   $result = do $realfilename;
-                   last ITER;
-               }
-           }
-           die &quot;Can't find $filename in \@INC&quot;;
-       }
-       if ($@) {
-           $INC{$filename} = undef;
-           die $@;
-       } elsif (!$result) {
-           delete $INC{$filename};
-           die &quot;$filename did not return true value&quot;;
-       } else {
-           return $result;
-       }
+<pre class="verbatim">    use Carp 'croak';
+    use version;
+
+    sub require {
+        my ($filename) = @_;
+        if ( my $version = eval { version-&gt;parse($filename) } ) {
+            if ( $version &gt; $^V ) {
+               my $vn = $version-&gt;normal;
+               croak &quot;Perl $vn required--this is only $^V, stopped&quot;;
+            }
+            return 1;
+        }
+
+        if (exists $INC{$filename}) {
+            return 1 if $INC{$filename};
+            croak &quot;Compilation failed in require&quot;;
+        }
+
+        foreach $prefix (@INC) {
+            if (ref($prefix)) {
+                #... do other stuff - see text below ....
+            }
+            # (see text below about possible appending of .pmc
+            # suffix to $filename)
+            my $realfilename = &quot;$prefix/$filename&quot;;
+            next if ! -e $realfilename || -d _ || -b _;
+            $INC{$filename} = $realfilename;
+            my $result = do($realfilename);
+                         # but run in caller's namespace
+
+            if (!defined $result) {
+                $INC{$filename} = undef;
+                croak $@ ? &quot;$@Compilation failed in require&quot;
+                         : &quot;Can't locate $filename: $!\n&quot;;
+            }
+            if (!$result) {
+                delete $INC{$filename};
+                croak &quot;$filename did not return true value&quot;;
+            }
+            $! = 0;
+            return $result;
+        }
+        croak &quot;Can't locate $filename in \@INC ...&quot;;
     }
 </pre>
 <p>Note that the file will not be included twice under the same specified
@@ -5626,11 +5687,14 @@ references, array references, and blessed objects.
 walks through @INC and encounters a subroutine, this subroutine gets
 called with two parameters, the first a reference to itself, and the
 second the name of the file to be included (e.g., &quot;<samp>Foo/Bar.pm</samp>&quot;).  The
-subroutine should return either nothing or else a list of up to three 
+subroutine should return either nothing or else a list of up to four 
 values in the following order:
 </p>
 <ol>
-<li> A filehandle, from which the file will be read.  
+<li> A reference to a scalar, containing any initial source code to prepend to
+the file or generator output.
+
+</li><li> A filehandle, from which the file will be read.  
 
 </li><li> A reference to a subroutine.  If there is no filehandle (previous item),
 then this subroutine is expected to generate one line of source code per
@@ -6516,8 +6580,8 @@ If LENGTH is omitted, removes everything from OFFSET onward.
 If LENGTH is negative, removes the elements from OFFSET onward
 except for -LENGTH elements at the end of the array.
 If both OFFSET and LENGTH are omitted, removes everything.  If OFFSET is
-past the end of the array, Perl issues a warning, and splices at the
-end of the array.
+past the end of the array and a LENGTH was provided, Perl issues a warning,
+and splices at the end of the array.
 </p>
 <p>The following equivalences hold (assuming <code>$#a &gt;= $i</code> )
 </p>
@@ -6527,18 +6591,20 @@ end of the array.
     unshift(@a,$x,$y)   splice(@a,0,0,$x,$y)
     $a[$i] = $y         splice(@a,$i,1,$y)
 </pre>
-<p>Example, assuming array lengths are passed before arrays:
+<p><code>splice</code> can be used, for example, to implement n-ary queue processing:
 </p>
-<pre class="verbatim">    sub aeq {  # compare two list values
-        my(@a) = splice(@_,0,shift);
-        my(@b) = splice(@_,0,shift);
-        return 0 unless @a == @b;  # same len?
-        while (@a) {
-            return 0 if pop(@a) ne pop(@b);
-        }
-        return 1;
+<pre class="verbatim">    sub nary_print {
+      my $n = shift;
+      while (my @next_n = splice @_, 0, $n) {
+        say join q{ -- }, @next_n;
+      }
     }
-    if (&amp;aeq($len,@foo[1..$len],0+@bar,@bar)) { ... }
+
+    nary_print(3, qw(a b c d e f g h));
+    # prints:
+    #   a -- b -- c
+    #   d -- e -- f
+    #   g -- h
 </pre>
 <p>Starting with Perl 5.14, <code>splice</code> can take scalar EXPR, which must hold a
 reference to an unblessed array.  The argument will be dereferenced
@@ -6609,7 +6675,7 @@ instead treated as if it were <code>/\s+/</code>; in particular, this means that
 <em>any</em> contiguous whitespace (not just a single space character) is used as
 a separator.  However, this special treatment can be avoided by specifying
 the pattern <code>/&nbsp;/</code><!-- /@w --> instead of the string <code>&quot;&nbsp;&quot;</code><!-- /@w -->, thereby allowing
-only a single space character to be a separator. In earlier Perl&rsquo;s this
+only a single space character to be a separator.  In earlier Perls this
 special case was restricted to the use of a plain <code>&quot;&nbsp;&quot;</code><!-- /@w --> as the
 pattern argument to split, in Perl 5.18.0 and later this special case is
 triggered by any expression which evaluates as the simple string <code>&quot;&nbsp;&quot;</code><!-- /@w -->.
@@ -7272,22 +7338,27 @@ instead of the target file behind the link, use the <code>lstat</code> function.
 <p>Portability issues: <a href="perlport.html#perlport-stat">perlport stat</a>.
 </p>
 </dd>
-<dt>state EXPR</dt>
-<dd><a name="perlfunc-state-EXPR"></a>
+<dt>state VARLIST</dt>
+<dd><a name="perlfunc-state-VARLIST"></a>
 </dd>
-<dt>state TYPE EXPR</dt>
-<dd><a name="perlfunc-state-TYPE-EXPR"></a>
+<dt>state TYPE VARLIST</dt>
+<dd><a name="perlfunc-state-TYPE-VARLIST"></a>
 </dd>
-<dt>state EXPR : ATTRS</dt>
-<dd><a name="perlfunc-state-EXPR-_003a-ATTRS"></a>
+<dt>state VARLIST : ATTRS</dt>
+<dd><a name="perlfunc-state-VARLIST-_003a-ATTRS"></a>
 </dd>
-<dt>state TYPE EXPR : ATTRS</dt>
-<dd><a name="perlfunc-state-TYPE-EXPR-_003a-ATTRS"></a>
+<dt>state TYPE VARLIST : ATTRS</dt>
+<dd><a name="perlfunc-state-TYPE-VARLIST-_003a-ATTRS"></a>
 <p><code>state</code> declares a lexically scoped variable, just like <code>my</code>.
 However, those variables will never be reinitialized, contrary to
 lexical variables that are reinitialized each time their enclosing block
 is entered.
 See <a href="perlsub.html#perlsub-Persistent-Private-Variables">perlsub Persistent Private Variables</a> for details.
+</p>
+<p>If more than one variable is listed, the list must be placed in
+parentheses.  With a parenthesised list, <code>undef</code> can be used as a
+dummy placeholder.  However, since initialization of state variables in
+list context is currently not possible this would serve no purpose.
 </p>
 <p><code>state</code> variables are enabled only when the <code>use feature &quot;state&quot;</code> pragma 
 is in effect, unless the keyword is written as <code>CORE::state</code>.
@@ -7566,8 +7637,7 @@ on this.
 <p>Note that <code>sysopen</code> depends on the fdopen() C library function.
 On many Unix systems, fdopen() is known to fail when file descriptors
 exceed a certain value, typically 255.  If you need more file
-descriptors than that, consider rebuilding Perl to use the <code>sfio</code>
-library, or perhaps using the POSIX::open() function.
+descriptors than that, consider using the POSIX::open() function.
 </p>
 <p>See <a href="perlopentut.html#perlopentut-NAME">perlopentut NAME</a> for a kinder, gentler explanation of opening files.
 </p>
@@ -7918,7 +7988,7 @@ seconds for this process and any exited children of this process.
 <dt>tr///</dt>
 <dd><a name="perlfunc-tr_002f_002f_002f"></a>
 <p>The transliteration operator.  Same as <code>y///</code>.  See
-<a href="perlop.html#perlop-Quote-and-Quote_002dlike-Operators">perlop Quote and Quote-like Operators</a>.
+<a href="perlop.html#perlop-Quote_002dLike-Operators">perlop Quote-Like Operators</a>.
 </p>
 </dd>
 <dt>truncate FILEHANDLE,LENGTH</dt>
@@ -8357,13 +8427,13 @@ produce a syntax error.  In scalar context, returns the number of values.
 </p>
 <p>Hash entries are returned in an apparently random order.  The actual random
 order is specific to a given hash; the exact same series of operations
-on two hashes may result in a different order for each hash. Any insertion
+on two hashes may result in a different order for each hash.  Any insertion
 into the hash may change the order, as will any deletion, with the exception
 that the most recent key returned by <code>each</code> or <code>keys</code> may be deleted
-without changing the order. So long as a given hash is unmodified you may
+without changing the order.  So long as a given hash is unmodified you may
 rely on <code>keys</code>, <code>values</code> and <code>each</code> to repeatedly return the same order
-as each other. See <a href="perlsec.html#perlsec-Algorithmic-Complexity-Attacks">perlsec Algorithmic Complexity Attacks</a> for
-details on why hash order is randomized. Aside from the guarantees
+as each other.  See <a href="perlsec.html#perlsec-Algorithmic-Complexity-Attacks">perlsec Algorithmic Complexity Attacks</a> for
+details on why hash order is randomized.  Aside from the guarantees
 provided here the exact details of Perl&rsquo;s hash algorithm and the hash
 traversal order are subject to change in any release of Perl.
 </p>
@@ -8759,9 +8829,11 @@ explicitly by assigning the name of the format to the <code>$~</code> variable.
 </p>
 <p>Top of form processing is handled automatically:  if there is insufficient
 room on the current page for the formatted record, the page is advanced by
-writing a form feed, a special top-of-page format is used to format the new
+writing a form feed and a special top-of-page
+format is used to format the new
 page header before the record is written.  By default, the top-of-page
-format is the name of the filehandle with &quot;_TOP&quot; appended.  This would be a
+format is the name of the filehandle with &quot;_TOP&quot; appended, or &quot;top&quot;
+in the current package if the former does not exist.  This would be a
 problem with autovivified filehandles, but it may be dynamically set to the
 format of your choice by assigning the name to the <code>$^</code> variable while
 that filehandle is selected.  The number of lines remaining on the current
@@ -8779,7 +8851,7 @@ the FILEHANDLE at run time.  For more on formats, see <a href="perlform.html#per
 <dt>y///</dt>
 <dd><a name="perlfunc-y_002f_002f_002f"></a>
 <p>The transliteration operator.  Same as <code>tr///</code>.  See
-<a href="perlop.html#perlop-Quote-and-Quote_002dlike-Operators">perlop Quote and Quote-like Operators</a>.
+<a href="perlop.html#perlop-Quote_002dLike-Operators">perlop Quote-Like Operators</a>.
 </p>
 </dd>
 </dl>
@@ -8899,9 +8971,6 @@ Next: <a href="#perlfunc-perlsub" accesskey="n" rel="next">perlfunc perlsub</a>,
 <dt>gt</dt>
 <dd><a name="perlfunc-gt"></a>
 </dd>
-<dt>if</dt>
-<dd><a name="perlfunc-if"></a>
-</dd>
 <dt>le</dt>
 <dd><a name="perlfunc-le"></a>
 </dd>
@@ -8969,6 +9038,9 @@ Previous: <a href="#perlfunc-perlsub" accesskey="p" rel="prev">perlfunc perlsub<
 <dt>foreach</dt>
 <dd><a name="perlfunc-foreach"></a>
 </dd>
+<dt>if</dt>
+<dd><a name="perlfunc-if"></a>
+</dd>
 <dt>unless</dt>
 <dd><a name="perlfunc-unless"></a>
 </dd>
@@ -8992,7 +9064,7 @@ Previous: <a href="#perlfunc-perlsub" accesskey="p" rel="prev">perlfunc perlsub<
 <dt>when</dt>
 <dd><a name="perlfunc-when"></a>
 <p>These flow-control keywords related to the experimental switch feature are
-documented in <a href="perlsyn.html#perlsyn-Switch-Statements">perlsyn Switch Statements</a> .
+documented in <a href="perlsyn.html#perlsyn-Switch-Statements">perlsyn Switch Statements</a>.
 </p>
 </dd>
 </dl>

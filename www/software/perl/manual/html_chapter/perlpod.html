@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlpod</title>
 
@@ -400,15 +400,17 @@ module.  Examples:
 
   =encoding big5
 </pre>
+<p><code>=encoding</code> affects the whole document, and must occur only once.
+</p>
 </dd>
 </dl>
 
-<p><code>=encoding</code> affects the whole document, and must occur only once.
-</p>
-<p>And don&rsquo;t forget, when using any other command, that the command lasts up
+<p>And don&rsquo;t forget, all commands but <code>=encoding</code> last up
 until the end of its <em>paragraph</em>, not its line.  So in the
 examples below, you can see that every command needs the blank
-line after it, to end its paragraph.
+line after it, to end its paragraph.  (And some older
+Pod translators may require the <code>=encoding</code> line to be similarly
+separated.)
 </p>
 <p>Some examples of lists include:
 </p>
@@ -704,13 +706,17 @@ Next: <a href="#perlpod-Hints-for-Writing-Pod" accesskey="n" rel="next">perlpod 
 <a name="Embedding-Pods-in-Perl-Modules"></a>
 <h4 class="subsection">52.2.6 Embedding Pods in Perl Modules</h4>
 
-<p>You can embed Pod documentation in your Perl modules and scripts.
-Start your documentation with an empty line, a &quot;=head1&quot; command at the
-beginning, and end it with a &quot;=cut&quot; command and an empty line.  Perl
-will ignore the Pod text.  See any of the supplied library modules for
-examples.  If you&rsquo;re going to put your Pod at the end of the file, and
-you&rsquo;re using an __END__ or __DATA__ cut mark, make sure to put an
-empty line there before the first Pod command.
+<p>You can embed Pod documentation in your Perl modules and scripts.  Start
+your documentation with an empty line, a &quot;=head1&quot; command at the
+beginning, and end it with a &quot;=cut&quot; command and an empty line.  The
+<strong>perl</strong> executable will ignore the Pod text.  You can place a Pod
+statement where <strong>perl</strong> expects the beginning of a new statement, but
+not within a statement, as that would result in an error.  See any of
+the supplied library modules for examples.
+</p>
+<p>If you&rsquo;re going to put your Pod at the end of the file, and you&rsquo;re using
+an <code>__END__</code> or <code>__DATA__</code> cut mark, make sure to put an empty line there
+before the first Pod command.
 </p>
 <pre class="verbatim">  __END__
 
@@ -798,7 +804,7 @@ wrapped by some formatters.
 <p>
 Next: <a href="#perlpod-AUTHOR" accesskey="n" rel="next">perlpod AUTHOR</a>, Previous: <a href="#perlpod-DESCRIPTION" accesskey="p" rel="prev">perlpod DESCRIPTION</a>, Up: <a href="#perlpod" accesskey="u" rel="up">perlpod</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="SEE-ALSO-26"></a>
+<a name="SEE-ALSO-25"></a>
 <h3 class="section">52.3 SEE ALSO</h3>
 
 <p><a href="perlpodspec.html#perlpodspec-NAME">perlpodspec NAME</a>, <a href="perlsyn.html#perlsyn-PODs_003a-Embedded-Documentation">perlsyn PODs: Embedded Documentation</a>,
@@ -810,7 +816,7 @@ Next: <a href="#perlpod-AUTHOR" accesskey="n" rel="next">perlpod AUTHOR</a>, Pre
 <p>
 Previous: <a href="#perlpod-SEE-ALSO" accesskey="p" rel="prev">perlpod SEE ALSO</a>, Up: <a href="#perlpod" accesskey="u" rel="up">perlpod</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="AUTHOR-23"></a>
+<a name="AUTHOR-22"></a>
 <h3 class="section">52.4 AUTHOR</h3>
 
 <p>Larry Wall, Sean M. Burke

@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlre</title>
 
@@ -120,6 +120,8 @@ operations, plus various examples of the same, see discussions of
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlre-Creating-Custom-RE-Engines">perlre Creating Custom RE Engines</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlre-Embedded-Code-Execution-Frequency">perlre Embedded Code Execution Frequency</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlre-PCRE_002fPython-Support">perlre PCRE/Python Support</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 </table>
@@ -143,8 +145,8 @@ is used by Perl are detailed in <a href="perlop.html#perlop-Regexp-Quote_002dLik
 <dt>m</dt>
 <dd><a name="perlre-m"></a>
 <p>Treat string as multiple lines.  That is, change &quot;^&quot; and &quot;$&quot; from matching
-the start or end of line only at the left and right ends of the string to
-matching them anywhere within the string.
+the start of the string&rsquo;s first line and the end of its last line to
+matching the start and end of each line within the string.
 </p>
 </dd>
 <dt>s</dt>
@@ -201,22 +203,40 @@ Details in <a href="#perlre-_002fx">/x</a>
 <p>Preserve the string matched such that ${^PREMATCH}, ${^MATCH}, and
 ${^POSTMATCH} are available for use after matching.
 </p>
-</dd>
-<dt>g and c</dt>
-<dd><a name="perlre-g-and-c"></a>
-<p>Global matching, and keep the Current position after failed matching.
-Unlike i, m, s and x, these two flags affect the way the regex is used
-rather than the regex itself. See
-<a href="perlretut.html#perlretut-Using-regular-expressions-in-Perl">perlretut Using regular expressions in Perl</a> for further explanation
-of the g and c modifiers.
+<p>In Perl 5.20 and higher this is ignored. Due to a new copy-on-write
+mechanism, ${^PREMATCH}, ${^MATCH}, and ${^POSTMATCH} will be available
+after the match regardless of the modifier.
 </p>
 </dd>
 <dt>a, d, l and u</dt>
 <dd><a name="perlre-a_002c-d_002c-l-and-u"></a>
-<p>These modifiers, all new in 5.14, affect which character-set semantics
+<p>These modifiers, all new in 5.14, affect which character-set rules
 (Unicode, etc.) are used, as described below in
 <a href="#perlre-Character-set-modifiers">Character set modifiers</a>.
 </p>
+</dd>
+<dt>Other Modifiers</dt>
+<dd><a name="perlre-Other-Modifiers"></a>
+<p>There are a number of flags that can be found at the end of regular
+expression constructs that are <em>not</em> generic regular expression flags, but
+apply to the operation being performed, like matching or substitution (<code>m//</code>
+or <code>s///</code> respectively).
+</p>
+<p>Flags described further in
+<a href="perlretut.html#perlretut-Using-regular-expressions-in-Perl">perlretut Using regular expressions in Perl</a> are:
+</p>
+<pre class="verbatim">  c  - keep the current position during repeated matching
+  g  - globally match the pattern repeatedly in the string
+</pre>
+<p>Substitution-specific modifiers described in
+</p>
+<p><a href="perlop.html#perlop-s_002fPATTERN_002fREPLACEMENT_002fmsixpodualgcer">perlop s/PATTERN/REPLACEMENT/msixpodualgcer</a> are:
+</p>
+<pre class="verbatim">  e  - evaluate the right-hand side as an expression
+  ee - evaluate the right side as a string then eval the result
+  o  - pretend to optimize your code, but actually introduce bugs
+  r  - perform non-destructive substitution and return the new value
+</pre>
 </dd>
 </dl>
 
@@ -256,18 +276,36 @@ Next: <a href="#perlre-Character-set-modifiers" accesskey="n" rel="next">perlre 
 
 <p><code>/x</code> tells
 the regular expression parser to ignore most whitespace that is neither
-backslashed nor within a character class.  You can use this to break up
-your regular expression into (slightly) more readable parts.  The <code>#</code>
-character is also treated as a metacharacter introducing a comment,
-just as in ordinary Perl code.  This also means that if you want real
-whitespace or <code>#</code> characters in the pattern (outside a character
-class, where they are unaffected by <code>/x</code>), then you&rsquo;ll either have to
+backslashed nor within a bracketed character class.  You can use this to
+break up your regular expression into (slightly) more readable parts.
+Also, the <code>#</code> character is treated as a metacharacter introducing a
+comment that runs up to the pattern&rsquo;s closing delimiter, or to the end
+of the current line if the pattern extends onto the next line.  Hence,
+this is very much like an ordinary Perl code comment.  (You can include
+the closing delimiter within the comment only if you precede it with a
+backslash, so be careful!)
+</p>
+<p>Use of <code>/x</code> means that if you want real
+whitespace or <code>#</code> characters in the pattern (outside a bracketed character
+class, which is unaffected by <code>/x</code>), then you&rsquo;ll either have to
 escape them (using backslashes or <code>\Q...\E</code>) or encode them using octal,
-hex, or <code>\N{}</code> escapes.  Taken together, these features go a long way towards
-making Perl&rsquo;s regular expressions more readable.  Note that you have to
-be careful not to include the pattern delimiter in the comment&ndash;perl has
-no way of knowing you did not intend to close the pattern early.  See
-the C-comment deletion code in <a href="perlop.html#perlop-NAME">perlop NAME</a>.  Also note that anything inside
+hex, or <code>\N{}</code> escapes.
+</p>
+<p>You can use <a href="#perlre-_0028_003f_0023text_0029">(?#text)</a> to create a comment that ends earlier than the
+end of the current line, but <code>text</code> also can&rsquo;t contain the closing
+delimiter unless escaped with a backslash.
+</p>
+<p>Taken together, these features go a long way towards
+making Perl&rsquo;s regular expressions more readable.  Here&rsquo;s an example:
+</p>
+<pre class="verbatim">    # Delete (most) C comments.
+    $program =~ s {
+        /\*     # Match the opening delimiter.
+        .*?     # Match a minimal number of characters.
+        \*/     # Match the closing delimiter.
+    } []gsx;
+</pre>
+<p>Note that anything inside
 a <code>\Q...\E</code> stays unaffected by <code>/x</code>.  And note that <code>/x</code> doesn&rsquo;t affect
 space interpretation within a single multi-character construct.  For
 example in <code>\x{...}</code>, regardless of the <code>/x</code> modifier, there can be no
@@ -290,7 +328,7 @@ Next: <a href="#perlre-_002fl" accesskey="n" rel="next">perlre /l</a>, Previous:
 <h4 class="subsubsection">58.2.1.2 Character set modifiers</h4>
 
 <p><code>/d</code>, <code>/u</code>, <code>/a</code>, and <code>/l</code>, available starting in 5.14, are called
-the character set modifiers; they affect the character set semantics
+the character set modifiers; they affect the character set rules
 used for the regular expression.
 </p>
 <p>The <code>/d</code>, <code>/u</code>, and <code>/l</code> modifiers are not likely to be of much use
@@ -369,15 +407,22 @@ the same as the compilation-time locale, and can differ from one match
 to another if there is an intervening call of the
 <a href="perllocale.html#perllocale-The-setlocale-function">setlocale() function</a>.
 </p>
-<p>Perl only supports single-byte locales.  This means that code points
-above 255 are treated as Unicode no matter what locale is in effect.
-Under Unicode rules, there are a few case-insensitive matches that cross
-the 255/256 boundary.  These are disallowed under <code>/l</code>.  For example,
-0xFF (on ASCII platforms) does not caselessly match the character at
-0x178, <code>LATIN CAPITAL LETTER Y WITH DIAERESIS</code>, because 0xFF may not be
-<code>LATIN SMALL LETTER Y WITH DIAERESIS</code> in the current locale, and Perl
-has no way of knowing if that character even exists in the locale, much
-less what code point it is.
+<p>The only non-single-byte locale Perl supports is (starting in v5.20)
+UTF-8.  This means that code points above 255 are treated as Unicode no
+matter what locale is in effect (since UTF-8 implies Unicode).
+</p>
+<p>Under Unicode rules, there are a few case-insensitive matches that cross
+the 255/256 boundary.  Except for UTF-8 locales in Perls v5.20 and
+later, these are disallowed under <code>/l</code>.  For example, 0xFF (on ASCII
+platforms) does not caselessly match the character at 0x178, <code>LATIN
+CAPITAL LETTER Y WITH DIAERESIS</code>, because 0xFF may not be <code>LATIN SMALL
+LETTER Y WITH DIAERESIS</code> in the current locale, and Perl has no way of
+knowing if that character even exists in the locale, much less what code
+point it is.
+</p>
+<p>In a UTF-8 locale in v5.20 and later, the only visible difference
+between locale and non-locale in regular expressions should be tainting
+(see <a href="perlsec.html#perlsec-NAME">perlsec NAME</a>).
 </p>
 <p>This modifier may be specified to be the default by <code>use locale</code>, but
 see <a href="#perlre-Which-character-set-modifier-is-in-effect_003f">Which character set modifier is in effect?</a>.
@@ -524,7 +569,7 @@ between <code>\w</code> and <code>\W</code>, using the <code>/a</code> definitio
 for <code>\B</code>).
 </p>
 <p>Otherwise, <code>/a</code> behaves like the <code>/u</code> modifier, in that
-case-insensitive matching uses Unicode semantics; for example, &quot;k&quot; will
+case-insensitive matching uses Unicode rules; for example, &quot;k&quot; will
 match the Unicode <code>\N{KELVIN SIGN}</code> under <code>/i</code> matching, and code
 points in the Latin1 range, above ASCII will have Unicode rules when it
 comes to case-insensitive matching.
@@ -543,7 +588,7 @@ gives added protection.
 </p>
 <p>This modifier may be specified to be the default by <code>use re '/a'</code>
 or <code>use re '/aa'</code>.  If you do so, you may actually have occasion to use
-the <code>/u</code> modifier explictly if there are a few regular expressions
+the <code>/u</code> modifier explicitly if there are a few regular expressions
 where you do want full Unicode rules (but even here, it&rsquo;s best if
 everything were under feature <code>&quot;unicode_strings&quot;</code>, along with the
 <code>use re '/aa'</code>).  Also see <a href="#perlre-Which-character-set-modifier-is-in-effect_003f">Which character set modifier is in
@@ -653,7 +698,8 @@ meanings:
 <pre class="verbatim">    \        Quote the next metacharacter
     ^        Match the beginning of the line
     .        Match any character (except newline)
-    $        Match the end of the line (or before newline at the end)
+    $        Match the end of the string (or before newline at the end
+             of the string)
     |        Alternation
     ()       Grouping
     []       Bracketed Character class
@@ -698,11 +744,10 @@ character.  In particular, the lower quantifier bound is not optional,
 and a typo in a quantifier silently causes it to be treated as the
 literal characters.  For example,
 </p>
-<pre class="verbatim">    /o{4,3}/
+<pre class="verbatim">    /o{4,a}/
 </pre>
-<p>looks like a quantifier that matches 0 times, since 4 is greater than 3,
-but it really means to match the sequence of six characters
-<code>&quot;o&nbsp;{&nbsp;4&nbsp;,&nbsp;3&nbsp;}&quot;</code><!-- /@w -->.  It is planned to eventually require literal uses
+<p>compiles to match the sequence of six characters
+<code>&quot;o&nbsp;{&nbsp;4&nbsp;,&nbsp;a&nbsp;}&quot;</code><!-- /@w -->.  It is planned to eventually require literal uses
 of curly brackets to be escaped, say by preceding them with a backslash
 or enclosing them within square brackets, (<code>&quot;\{&quot;</code> or <code>&quot;[{]&quot;</code>).  This
 change will allow for future syntax extensions (like making the lower
@@ -731,7 +776,7 @@ that the meanings don&rsquo;t change, just the &quot;greediness&quot;:
     {n,}?     Match at least n times, not greedily
     {n,m}?    Match at least n but not more than m times, not greedily
 </pre>
-<p>By default, when a quantified subpattern does not allow the rest of the
+<p>Normally when a quantified subpattern does not allow the rest of the
 overall pattern to match, Perl will backtrack. However, this behaviour is
 sometimes undesirable. Thus Perl provides the &quot;possessive&quot; quantifier form
 as well.
@@ -762,6 +807,16 @@ possessive quantifiers are just syntactic sugar for that construct. For
 instance the above example could also be written as follows:
 </p>
 <pre class="verbatim">   /&quot;(?&gt;(?:(?&gt;[^&quot;\\]+)|\\.)*)&quot;/
+</pre>
+<p>Note that the possessive quantifier modifier can not be be combined
+with the non-greedy modifier. This is because it would make no sense.
+Consider the follow equivalency table:
+</p>
+<pre class="verbatim">    Illegal         Legal
+    ------------    ------
+    X??+            X{0}
+    X+?+            X{1}
+    X{min,max}?+    X{min}
 </pre>
 <hr>
 <a name="perlre-Escape-sequences"></a>
@@ -830,7 +885,7 @@ Next: <a href="#perlre-Assertions" accesskey="n" rel="next">perlre Assertions</a
                    part of a larger UTF-8 character.  Thus it breaks up
                    characters into their UTF-8 bytes, so you may end up
                    with malformed pieces of UTF-8.  Unsupported in
-                   lookbehind.
+                   lookbehind. (Deprecated.)
   \1        [5]  Backreference to a specific capture group or buffer.
                    '1' may actually be any positive integer.
   \g1       [5]  Backreference to a specific or previous group,
@@ -949,6 +1004,16 @@ row.
 <p>It is worth noting that <code>\G</code> improperly used can result in an infinite
 loop. Take care when using patterns that include <code>\G</code> in an alternation.
 </p>
+<p>Note also that <code>s///</code> will refuse to overwrite part of a substitution
+that has already been replaced; so for example this will stop after the
+first iteration, rather than iterating its way backwards through the
+string:
+</p>
+<pre class="verbatim">    $_ = &quot;123456789&quot;;
+    pos = 6;
+    s/.(?=.\G)/X/g;
+    print;      # prints 1234X6789, not XXXXX6789
+</pre>
 <hr>
 <a name="perlre-Capture-groups"></a>
 <div class="header">
@@ -1087,29 +1152,34 @@ match, whichever comes first.  (See <a href="perlsyn.html#perlsyn-Compound-State
 which makes it easier to write code that tests for a series of more
 specific cases and remembers the best match.
 </p>
-<p><strong>WARNING</strong>: Once Perl sees that you need one of <code>$&amp;</code>, <code>$`</code>, or
+<p><strong>WARNING</strong>: If your code is to run on Perl 5.16 or earlier,
+beware that once Perl sees that you need one of <code>$&amp;</code>, <code>$`</code>, or
 <code>$'</code> anywhere in the program, it has to provide them for every
-pattern match.  This may substantially slow your program.  Perl
-uses the same mechanism to produce <code>$1</code>, <code>$2</code>, etc, so you also pay a
-price for each pattern that contains capturing parentheses.  (To
-avoid this cost while retaining the grouping behaviour, use the
+pattern match.  This may substantially slow your program.
+</p>
+<p>Perl uses the same mechanism to produce <code>$1</code>, <code>$2</code>, etc, so you also
+pay a price for each pattern that contains capturing parentheses.
+(To avoid this cost while retaining the grouping behaviour, use the
 extended regular expression <code>(?: ... )</code> instead.)  But if you never
 use <code>$&amp;</code>, <code>$`</code> or <code>$'</code>, then patterns <em>without</em> capturing
 parentheses will not be penalized.  So avoid <code>$&amp;</code>, <code>$'</code>, and <code>$`</code>
 if you can, but if you can&rsquo;t (and some algorithms really appreciate
 them), once you&rsquo;ve used them once, use them at will, because you&rsquo;ve
-already paid the price.  As of 5.17.4, the presence of each of the three
-variables in a program is recorded separately, and depending on
-circumstances, perl may be able be more efficient knowing that only <code>$&amp;</code>
-rather than all three have been seen, for example.
+already paid the price.
 </p>
-<p>As a workaround for this problem, Perl 5.10.0 introduces <code>${^PREMATCH}</code>,
+<p>Perl 5.16 introduced a slightly more efficient mechanism that notes
+separately whether each of <code>$`</code>, <code>$&amp;</code>, and <code>$'</code> have been seen, and
+thus may only need to copy part of the string.  Perl 5.20 introduced a
+much more efficient copy-on-write mechanism which eliminates any slowdown.
+</p>
+<p>As another workaround for this problem, Perl 5.10.0 introduced <code>${^PREMATCH}</code>,
 <code>${^MATCH}</code> and <code>${^POSTMATCH}</code>, which are equivalent to <code>$`</code>, <code>$&amp;</code>
 and <code>$'</code>, <strong>except</strong> that they are only guaranteed to be defined after a
 successful match that was executed with the <code>/p</code> (preserve) modifier.
 The use of these variables incurs no global performance penalty, unlike
 their punctuation char equivalents, however at the trade-off that you
-have to tell perl when you want to use them.
+have to tell perl when you want to use them.  As of Perl 5.20, these three
+variables are equivalent to <code>$`</code>, <code>$&amp;</code> and <code>$'</code>, and <code>/p</code> is ignored.
 </p>
 <hr>
 <a name="perlre-Quoting-metacharacters"></a>
@@ -1176,10 +1246,13 @@ expressions, and 2) whenever you see one, you should stop and
 <dl compact="compact">
 <dt><code>(?#text)</code></dt>
 <dd><a name="perlre-_0028_003f_0023text_0029"></a>
-<p>A comment.  The text is ignored.  If the <code>/x</code> modifier enables
-whitespace formatting, a simple <code>#</code> will suffice.  Note that Perl closes
+<p>A comment.  The text is ignored.
+Note that Perl closes
 the comment as soon as it sees a <code>)</code>, so there is no way to put a literal
-<code>)</code> in the comment.
+<code>)</code> in the comment.  The pattern&rsquo;s closing delimiter must be escaped by
+a backslash if it appears in the comment.
+</p>
+<p>See <a href="#perlre-_002fx">/x</a> for another way to have comments in patterns.
 </p>
 </dd>
 <dt><code>(?adlupimsx-imsx)</code></dt>
@@ -1465,14 +1538,11 @@ may be used instead of <code>\k&lt;NAME&gt;</code>.
 </dd>
 <dt><code>(?{ code })</code></dt>
 <dd><a name="perlre-_0028_003f_007b-code-_007d_0029"></a>
-<p><strong>WARNING</strong>: This extended regular expression feature is considered
-experimental, and may be changed without notice. Code executed that
-has side effects may not perform identically from version to version
-due to the effect of future optimisations in the regex engine. The
-implementation of this feature was radically overhauled for the 5.18.0
-release, and its behaviour in earlier versions of perl was much buggier,
-especially in relation to parsing, lexical vars, scoping, recursion and
-reentrancy.
+<p><strong>WARNING</strong>: Using this feature safely requires that you understand its
+limitations.  Code executed that has side effects may not perform identically
+from version to version due to the effect of future optimisations in the regex
+engine.  For more information on this, see <a href="#perlre-Embedded-Code-Execution-Frequency">Embedded Code Execution
+Frequency</a>.
 </p>
 <p>This zero-width assertion executes any embedded Perl code.  It always
 succeeds, and its return value is set as <code>$^R</code>.
@@ -1589,10 +1659,11 @@ keep track of the number of nested parentheses. For example:
 </dd>
 <dt><code>(??{ code })</code></dt>
 <dd><a name="perlre-_0028_003f_003f_007b-code-_007d_0029"></a>
-<p><strong>WARNING</strong>: This extended regular expression feature is considered
-experimental, and may be changed without notice. Code executed that
-has side effects may not perform identically from version to version
-due to the effect of future optimisations in the regex engine.
+<p><strong>WARNING</strong>: Using this feature safely requires that you understand its
+limitations.  Code executed that has side effects may not perform
+identically from version to version due to the effect of future
+optimisations in the regex engine.  For more information on this, see
+<a href="#perlre-Embedded-Code-Execution-Frequency">Embedded Code Execution Frequency</a>.
 </p>
 <p>This is a &quot;postponed&quot; regular subexpression.  It behaves in <em>exactly</em> the
 same way as a <code>(?{ code })</code> code block as described above, except that
@@ -1642,12 +1713,19 @@ into perl, so changing it requires a custom build.
 </dd>
 <dt><code>(?<em>PARNO</em>)</code> <code>(?-<em>PARNO</em>)</code> <code>(?+<em>PARNO</em>)</code> <code>(?R)</code> <code>(?0)</code></dt>
 <dd><a name="perlre-_0028_003fPARNO_0029-_0028_003f_002dPARNO_0029-_0028_003f_002bPARNO_0029-_0028_003fR_0029-_0028_003f0_0029"></a>
+<p>Recursive subpattern. Treat the contents of a given capture buffer in the
+current pattern as an independent subpattern and attempt to match it at
+the current position in the string. Information about capture state from
+the caller for things like backreferences is available to the subpattern,
+but capture buffers set by the subpattern are not visible to the caller.
+</p>
 <p>Similar to <code>(??{ code })</code> except that it does not involve executing any
 code or potentially compiling a returned pattern string; instead it treats
 the part of the current pattern contained within a specified capture group
-as an independent pattern that must match at the current position.
-Capture groups contained by the pattern will have the value as determined
-by the outermost recursion.
+as an independent pattern that must match at the current position. Also
+different is the treatment of capture buffers, unlike <code>(??{ code })</code>
+recursive patterns have access to their callers match state, so one can
+use backreferences safely.
 </p>
 <p><em>PARNO</em> is a sequence of digits (not starting with 0) whose value reflects
 the paren-number of the capture group to recurse to. <code>(?R)</code> recurses to
@@ -1823,7 +1901,7 @@ bundled into any pattern you choose.
 end of the pattern, and that you name any subpatterns defined within it.
 </p>
 <p>Also, it&rsquo;s worth noting that patterns defined this way probably will
-not be as efficient, as the optimiser is not very clever about
+not be as efficient, as the optimizer is not very clever about
 handling them.
 </p>
 <p>An example of how this might be used is as follows:
@@ -1978,10 +2056,6 @@ Next: <a href="#perlre-Backtracking" accesskey="n" rel="next">perlre Backtrackin
 <a name="Special-Backtracking-Control-Verbs"></a>
 <h4 class="subsection">58.2.5 Special Backtracking Control Verbs</h4>
 
-<p><strong>WARNING:</strong> These patterns are experimental and subject to change or
-removal in a future version of Perl. Their usage in production code should
-be noted to avoid problems during upgrades.
-</p>
 <p>These special patterns are generally of the form <code>(*VERB:ARG)</code>. Unless
 otherwise stated the ARG argument is optional; in some cases, it is
 forbidden.
@@ -2205,9 +2279,6 @@ fact, <code>(?!)</code> gets optimised into <code>(*FAIL)</code> internally.
 </dd>
 <dt><code>(*ACCEPT)</code></dt>
 <dd><a name="perlre-_0028_002aACCEPT_0029"></a>
-<p><strong>WARNING:</strong> This feature is highly experimental. It is not recommended
-for production code.
-</p>
 <p>This pattern matches nothing and causes the end of successful matching at
 the point at which the <code>(*ACCEPT)</code> pattern was encountered, regardless of
 whether there is actually more to match in the string. When inside of a
@@ -2791,7 +2862,7 @@ than a match at a later position.
 <a name="perlre-Creating-Custom-RE-Engines"></a>
 <div class="header">
 <p>
-Next: <a href="#perlre-PCRE_002fPython-Support" accesskey="n" rel="next">perlre PCRE/Python Support</a>, Previous: <a href="#perlre-Combining-RE-Pieces" accesskey="p" rel="prev">perlre Combining RE Pieces</a>, Up: <a href="#perlre-DESCRIPTION" accesskey="u" rel="up">perlre DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlre-Embedded-Code-Execution-Frequency" accesskey="n" rel="next">perlre Embedded Code Execution Frequency</a>, Previous: <a href="#perlre-Combining-RE-Pieces" accesskey="p" rel="prev">perlre Combining RE Pieces</a>, Up: <a href="#perlre-DESCRIPTION" accesskey="u" rel="up">perlre DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Creating-Custom-RE-Engines"></a>
 <h4 class="subsection">58.2.11 Creating Custom RE Engines</h4>
@@ -2849,13 +2920,55 @@ part of this regular expression needs to be converted explicitly
     /\Y|$re\Y|/;
 </pre>
 <hr>
+<a name="perlre-Embedded-Code-Execution-Frequency"></a>
+<div class="header">
+<p>
+Next: <a href="#perlre-PCRE_002fPython-Support" accesskey="n" rel="next">perlre PCRE/Python Support</a>, Previous: <a href="#perlre-Creating-Custom-RE-Engines" accesskey="p" rel="prev">perlre Creating Custom RE Engines</a>, Up: <a href="#perlre-DESCRIPTION" accesskey="u" rel="up">perlre DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Embedded-Code-Execution-Frequency"></a>
+<h4 class="subsection">58.2.12 Embedded Code Execution Frequency</h4>
+
+<p>The exact rules for how often (??{}) and (?{}) are executed in a pattern
+are unspecified.  In the case of a successful match you can assume that
+they DWIM and will be executed in left to right order the appropriate
+number of times in the accepting path of the pattern as would any other
+meta-pattern.  How non-accepting pathways and match failures affect the
+number of times a pattern is executed is specifically unspecified and
+may vary depending on what optimizations can be applied to the pattern
+and is likely to change from version to version.
+</p>
+<p>For instance in
+</p>
+<pre class="verbatim">  &quot;aaabcdeeeee&quot;=~/a(?{print &quot;a&quot;})b(?{print &quot;b&quot;})cde/;
+</pre>
+<p>the exact number of times &quot;a&quot; or &quot;b&quot; are printed out is unspecified for
+failure, but you may assume they will be printed at least once during
+a successful match, additionally you may assume that if &quot;b&quot; is printed,
+it will be preceded by at least one &quot;a&quot;.
+</p>
+<p>In the case of branching constructs like the following:
+</p>
+<pre class="verbatim">  /a(b|(?{ print &quot;a&quot; }))c(?{ print &quot;c&quot; })/;
+</pre>
+<p>you can assume that the input &quot;ac&quot; will output &quot;ac&quot;, and that &quot;abc&quot;
+will output only &quot;c&quot;.
+</p>
+<p>When embedded code is quantified, successful matches will call the
+code once for each matched iteration of the quantifier.  For
+example:
+</p>
+<pre class="verbatim">  &quot;good&quot; =~ /g(?:o(?{print &quot;o&quot;}))*d/;
+</pre>
+<p>will output &quot;o&quot; twice.
+</p>
+<hr>
 <a name="perlre-PCRE_002fPython-Support"></a>
 <div class="header">
 <p>
-Previous: <a href="#perlre-Creating-Custom-RE-Engines" accesskey="p" rel="prev">perlre Creating Custom RE Engines</a>, Up: <a href="#perlre-DESCRIPTION" accesskey="u" rel="up">perlre DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perlre-Embedded-Code-Execution-Frequency" accesskey="p" rel="prev">perlre Embedded Code Execution Frequency</a>, Up: <a href="#perlre-DESCRIPTION" accesskey="u" rel="up">perlre DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="PCRE_002fPython-Support"></a>
-<h4 class="subsection">58.2.12 PCRE/Python Support</h4>
+<h4 class="subsection">58.2.13 PCRE/Python Support</h4>
 
 <p>As of Perl 5.10.0, Perl supports several Python/PCRE-specific extensions
 to the regex syntax. While Perl programmers are encouraged to use the
@@ -2906,7 +3019,7 @@ from the reference content.
 <p>
 Previous: <a href="#perlre-BUGS" accesskey="p" rel="prev">perlre BUGS</a>, Up: <a href="#perlre" accesskey="u" rel="up">perlre</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="SEE-ALSO-30"></a>
+<a name="SEE-ALSO-29"></a>
 <h3 class="section">58.4 SEE ALSO</h3>
 
 <p><a href="perlrequick.html#perlrequick-NAME">perlrequick NAME</a>.

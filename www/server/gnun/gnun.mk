@@ -56,8 +56,9 @@ extra-templates := philosophy/philosophy-menu \
 
 # List of templates that are translated or not on the discretion
 # of the respective team (the PO files are merged, but are not created).
-optional-templates := planetfeeds \
+optional-templates := licenses/fsf-licensing \
 		      manual/allgnupkgs \
+		      planetfeeds \
 		      server/fs-gang \
 		      server/home-pkgblurbs \
 		      software/recent-releases-include
@@ -105,6 +106,7 @@ ALL_DIRS :=	accessibility \
 		people \
 		philosophy \
 		philosophy/economics_frank \
+                philosophy/proprietary \
 		philosophy/sco \
 		prep \
 		press \
@@ -117,8 +119,7 @@ ALL_DIRS :=	accessibility \
 
 ROOT := gnu-404 \
 		home \
-		keepingup \
-		provide
+		keepingup
 
 accessibility :=	accessibility
 
@@ -151,6 +152,7 @@ copyleft :=	copyleft
 distros :=	common-distros \
 		distros \
 		free-distros \
+		free-non-gnu-distros \
 		free-system-distribution-guidelines \
 		optionally-free-not-enough \
 		screenshot
@@ -501,10 +503,6 @@ philosophy := 	15-years-of-free-software \
 		limit-patent-effect \
 		linux-gnu-freedom \
 		luispo-rms-interview \
-		malware-apple \
-		malware-kindle-swindle \
-		malware-microsoft \
-		malware-mobiles \
 		mcvoy \
 		microsoft \
 		microsoft-antitrust \
@@ -539,14 +537,6 @@ philosophy := 	15-years-of-free-software \
 		pragmatic \
 		privacyaction \
 		programs-must-not-limit-freedom-to-run \
-		proprietary \
-		proprietary-back-doors \
-		proprietary-drm \
-		proprietary-insecurity \
-                proprietary-jails \
-		proprietary-sabotage \
-		proprietary-surveillance \
-                proprietary-tyrants \
 		protecting \
 		public-domain-manifesto \
 		push-copyright-aside \
@@ -607,6 +597,19 @@ philosophy := 	15-years-of-free-software \
 		your-freedom-needs-free-software
 
 philosophy/economics_frank :=	frank
+
+philosophy/proprietary :=       malware-apple \
+                                malware-kindle-swindle \
+                                malware-microsoft \
+                                malware-mobiles \
+                                proprietary \
+                                proprietary-back-doors \
+                                proprietary-drm \
+                                proprietary-insecurity \
+                                proprietary-jails \
+                                proprietary-sabotage \
+                                proprietary-surveillance \
+                                proprietary-tyrants
 
 philosophy/sco :=	questioning-sco \
 			sco \

@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perldbmfilter</title>
 
@@ -264,8 +264,8 @@ when reading.
     unlink $filename;
 
 
-    my $db = tie %hash, 'DB_File', $filename, O_CREAT|O_RDWR, 0666, $DB_HASH 
-      or die &quot;Cannot open $filename: $!\n&quot;;
+    my $db = tie %hash, 'DB_File', $filename, O_CREAT|O_RDWR, 0666,
+        $DB_HASH or die &quot;Cannot open $filename: $!\n&quot;;
 
     $db-&gt;filter_fetch_key  ( sub { $_ = unpack(&quot;i&quot;, $_) } );
     $db-&gt;filter_store_key  ( sub { $_ = pack (&quot;i&quot;, $_) } );

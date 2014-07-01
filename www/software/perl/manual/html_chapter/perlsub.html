@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlsub</title>
 
@@ -54,7 +54,7 @@ ul.no-bullet {list-style: none}
 Next: <a href="perlsyn.html#perlsyn" accesskey="n" rel="next">perlsyn</a>, Previous: <a href="perlstyle.html#perlstyle" accesskey="p" rel="prev">perlstyle</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perlsub-2"></a>
-<h2 class="chapter">72 perlsub</h2>
+<h2 class="chapter">73 perlsub</h2>
 
 <table class="menu" border="0" cellspacing="0">
 <tr><td align="left" valign="top">&bull; <a href="#perlsub-NAME" accesskey="1">perlsub NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
@@ -73,8 +73,8 @@ Next: <a href="perlsyn.html#perlsyn" accesskey="n" rel="next">perlsyn</a>, Previ
 <p>
 Next: <a href="#perlsub-SYNOPSIS" accesskey="n" rel="next">perlsub SYNOPSIS</a>, Up: <a href="#perlsub" accesskey="u" rel="up">perlsub</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="NAME-71"></a>
-<h3 class="section">72.1 NAME</h3>
+<a name="NAME-72"></a>
+<h3 class="section">73.1 NAME</h3>
 
 <p>perlsub - Perl subroutines
 </p>
@@ -85,7 +85,7 @@ Next: <a href="#perlsub-SYNOPSIS" accesskey="n" rel="next">perlsub SYNOPSIS</a>,
 Next: <a href="#perlsub-DESCRIPTION" accesskey="n" rel="next">perlsub DESCRIPTION</a>, Previous: <a href="#perlsub-NAME" accesskey="p" rel="prev">perlsub NAME</a>, Up: <a href="#perlsub" accesskey="u" rel="up">perlsub</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="SYNOPSIS-10"></a>
-<h3 class="section">72.2 SYNOPSIS</h3>
+<h3 class="section">73.2 SYNOPSIS</h3>
 
 <p>To declare subroutines:
 </p>
@@ -96,15 +96,19 @@ Next: <a href="#perlsub-DESCRIPTION" accesskey="n" rel="next">perlsub DESCRIPTIO
 
     sub NAME BLOCK                # A declaration and a definition.
     sub NAME(PROTO) BLOCK         #  ditto, but with prototypes
+    sub NAME SIG BLOCK            #  with signature
     sub NAME : ATTRS BLOCK        #  with attributes
     sub NAME(PROTO) : ATTRS BLOCK #  with prototypes and attributes
+    sub NAME : ATTRS SIG BLOCK    #  with attributes and signature
 </pre>
 <p>To define an anonymous subroutine at runtime:
 </p>
 <pre class="verbatim">    $subref = sub BLOCK;                 # no proto
     $subref = sub (PROTO) BLOCK;         # with proto
+    $subref = sub SIG BLOCK;             # with signature
     $subref = sub : ATTRS BLOCK;         # with attributes
     $subref = sub (PROTO) : ATTRS BLOCK; # with proto and attributes
+    $subref = sub : ATTRS SIG BLOCK;     # with attribs and signature
 </pre>
 <p>To import subroutines:
 </p>
@@ -123,8 +127,8 @@ Next: <a href="#perlsub-DESCRIPTION" accesskey="n" rel="next">perlsub DESCRIPTIO
 <p>
 Next: <a href="#perlsub-SEE-ALSO" accesskey="n" rel="next">perlsub SEE ALSO</a>, Previous: <a href="#perlsub-SYNOPSIS" accesskey="p" rel="prev">perlsub SYNOPSIS</a>, Up: <a href="#perlsub" accesskey="u" rel="up">perlsub</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="DESCRIPTION-70"></a>
-<h3 class="section">72.3 DESCRIPTION</h3>
+<a name="DESCRIPTION-71"></a>
+<h3 class="section">73.3 DESCRIPTION</h3>
 
 <p>Like many languages, Perl provides for user-defined subroutines.
 These may be located anywhere in the main program, loaded in from
@@ -143,7 +147,9 @@ contain as many or as few scalar elements as you&rsquo;d like.  (Often a
 function without an explicit return statement is called a subroutine, but
 there&rsquo;s really no difference from Perl&rsquo;s perspective.)
 </p>
-<p>Any arguments passed in show up in the array <code>@_</code>.  Therefore, if
+<p>Any arguments passed in show up in the array <code>@_</code>.
+(They may also show up in lexical variables introduced by a signature;
+see <a href="#perlsub-Signatures">Signatures</a> below.)  Therefore, if
 you called a function with two arguments, those would be stored in
 <code>$_[0]</code> and <code>$_[1]</code>.  The array <code>@_</code> is a local array, but its
 elements are aliases for the actual scalar parameters.  In particular,
@@ -170,7 +176,8 @@ value is returned. If the last statement is a loop control structure
 like a <code>foreach</code> or a <code>while</code>, the returned value is unspecified. The
 empty sub returns the empty list.
 </p>
-<p>Perl does not have named formal parameters.  In practice all you
+<p>Aside from an experimental facility (see <a href="#perlsub-Signatures">Signatures</a> below),
+Perl does not have named formal parameters.  In practice all you
 do is assign to a <code>my()</code> list of these.  Variables that aren&rsquo;t
 declared to be private are global variables.  For gory details
 on creating private variables, see <a href="#perlsub-Private-Variables-via-my_0028_0029">Private Variables via my()</a>
@@ -315,32 +322,91 @@ is subject to change.
 core, as are modules whose names are in all lower case.  A subroutine in
 all capitals is a loosely-held convention meaning it will be called
 indirectly by the run-time system itself, usually due to a triggered event.
-Subroutines that do special, pre-defined things include <code>AUTOLOAD</code>, <code>CLONE</code>,
-<code>DESTROY</code> plus all functions mentioned in <a href="perltie.html#perltie-NAME">perltie NAME</a> and <a href="../PerlIO-via/index.html">(PerlIO-via)</a>.
+Subroutines whose name start with a left parenthesis are also reserved the 
+same way. The following is a list of some subroutines that currently do 
+special, pre-defined things.
 </p>
+<dl compact="compact">
+<dt>documented later in this document</dt>
+<dd><a name="perlsub-documented-later-in-this-document"></a>
+<p><code>AUTOLOAD</code>
+</p>
+</dd>
+<dt>documented in <a href="perlmod.html#perlmod-NAME">perlmod NAME</a></dt>
+<dd><a name="perlsub-documented-in-perlmod-NAME"></a>
+<p><code>CLONE</code>, <code>CLONE_SKIP</code>, 
+</p>
+</dd>
+<dt>documented in <a href="perlobj.html#perlobj-NAME">perlobj NAME</a></dt>
+<dd><a name="perlsub-documented-in-perlobj-NAME"></a>
+<p><code>DESTROY</code>
+</p>
+</dd>
+<dt>documented in <a href="perltie.html#perltie-NAME">perltie NAME</a></dt>
+<dd><a name="perlsub-documented-in-perltie-NAME"></a>
+<p><code>BINMODE</code>, <code>CLEAR</code>, <code>CLOSE</code>, <code>DELETE</code>, <code>DESTROY</code>, <code>EOF</code>, <code>EXISTS</code>, 
+<code>EXTEND</code>, <code>FETCH</code>, <code>FETCHSIZE</code>, <code>FILENO</code>, <code>FIRSTKEY</code>, <code>GETC</code>, 
+<code>NEXTKEY</code>, <code>OPEN</code>, <code>POP</code>, <code>PRINT</code>, <code>PRINTF</code>, <code>PUSH</code>, <code>READ</code>, 
+<code>READLINE</code>, <code>SCALAR</code>, <code>SEEK</code>, <code>SHIFT</code>, <code>SPLICE</code>, <code>STORE</code>, 
+<code>STORESIZE</code>, <code>TELL</code>, <code>TIEARRAY</code>, <code>TIEHANDLE</code>, <code>TIEHASH</code>, 
+<code>TIESCALAR</code>, <code>UNSHIFT</code>, <code>UNTIE</code>, <code>WRITE</code>
+</p>
+</dd>
+<dt>documented in <a href="../PerlIO-via/index.html">(PerlIO-via)</a></dt>
+<dd><a name="perlsub-documented-in-PerlIO_002dvia"></a>
+<p><code>BINMODE</code>, <code>CLEARERR</code>, <code>CLOSE</code>, <code>EOF</code>, <code>ERROR</code>, <code>FDOPEN</code>, <code>FILENO</code>, 
+<code>FILL</code>, <code>FLUSH</code>, <code>OPEN</code>, <code>POPPED</code>, <code>PUSHED</code>, <code>READ</code>, <code>SEEK</code>, 
+<code>SETLINEBUF</code>, <code>SYSOPEN</code>, <code>TELL</code>, <code>UNREAD</code>, <code>UTF8</code>, <code>WRITE</code>
+</p>
+</dd>
+<dt>documented in <a href="perlfunc.html#perlfunc-NAME">perlfunc NAME</a></dt>
+<dd><a name="perlsub-documented-in-perlfunc-NAME"></a>
+<p><a href="../_perlfunc/use.html#use">(_perlfunc)<code>import</code></a>, <a href="../_perlfunc/use.html#use">(_perlfunc)<code>unimport</code></a>,
+<a href="../_perlfunc/require.html#require">(_perlfunc)<code>INC</code></a>
+</p>
+</dd>
+<dt>documented in <a href="../UNIVERSAL/index.html">(UNIVERSAL)</a></dt>
+<dd><a name="perlsub-documented-in-UNIVERSAL"></a>
+<p><code>VERSION</code>
+</p>
+</dd>
+<dt>documented in <a href="perldebguts.html#perldebguts-NAME">perldebguts NAME</a></dt>
+<dd><a name="perlsub-documented-in-perldebguts-NAME"></a>
+<p><code>DB::DB</code>, <code>DB::sub</code>, <code>DB::lsub</code>, <code>DB::goto</code>, <code>DB::postponed</code>
+</p>
+</dd>
+<dt>undocumented, used internally by the <a href="../overload/index.html">(overload)</a> feature</dt>
+<dd><a name="perlsub-undocumented_002c-used-internally-by-the-overload-feature"></a>
+<p>any starting with <code>(</code>
+</p>
+</dd>
+</dl>
+
 <p>The <code>BEGIN</code>, <code>UNITCHECK</code>, <code>CHECK</code>, <code>INIT</code> and <code>END</code> subroutines
 are not so much subroutines as named special code blocks, of which you
 can have more than one in a package, and which you can <strong>not</strong> call
 explicitly.  See <a href="perlmod.html#perlmod-BEGIN_002c-UNITCHECK_002c-CHECK_002c-INIT-and-END">perlmod BEGIN, UNITCHECK, CHECK, INIT and END</a>
 </p>
 <table class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#perlsub-Private-Variables-via-my_0028_0029" accesskey="1">perlsub Private Variables via my()</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlsub-Signatures" accesskey="1">perlsub Signatures</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlsub-Persistent-Private-Variables" accesskey="2">perlsub Persistent Private Variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlsub-Private-Variables-via-my_0028_0029" accesskey="2">perlsub Private Variables via my()</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlsub-Temporary-Values-via-local_0028_0029" accesskey="3">perlsub Temporary Values via local()</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlsub-Persistent-Private-Variables" accesskey="3">perlsub Persistent Private Variables</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlsub-Lvalue-subroutines" accesskey="4">perlsub Lvalue subroutines</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlsub-Temporary-Values-via-local_0028_0029" accesskey="4">perlsub Temporary Values via local()</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlsub-Lexical-Subroutines" accesskey="5">perlsub Lexical Subroutines</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlsub-Lvalue-subroutines" accesskey="5">perlsub Lvalue subroutines</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlsub-Passing-Symbol-Table-Entries-_0028typeglobs_0029" accesskey="6">perlsub Passing Symbol Table Entries (typeglobs)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlsub-Lexical-Subroutines" accesskey="6">perlsub Lexical Subroutines</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlsub-When-to-Still-Use-local_0028_0029" accesskey="7">perlsub When to Still Use local()</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlsub-Passing-Symbol-Table-Entries-_0028typeglobs_0029" accesskey="7">perlsub Passing Symbol Table Entries (typeglobs)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlsub-Pass-by-Reference" accesskey="8">perlsub Pass by Reference</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlsub-When-to-Still-Use-local_0028_0029" accesskey="8">perlsub When to Still Use local()</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlsub-Prototypes" accesskey="9">perlsub Prototypes</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlsub-Pass-by-Reference" accesskey="9">perlsub Pass by Reference</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlsub-Prototypes">perlsub Prototypes</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlsub-Constant-Functions">perlsub Constant Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
@@ -353,13 +419,214 @@ explicitly.  See <a href="perlmod.html#perlmod-BEGIN_002c-UNITCHECK_002c-CHECK_0
 </table>
 
 <hr>
+<a name="perlsub-Signatures"></a>
+<div class="header">
+<p>
+Next: <a href="#perlsub-Private-Variables-via-my_0028_0029" accesskey="n" rel="next">perlsub Private Variables via my()</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="Signatures"></a>
+<h4 class="subsection">73.3.1 Signatures</h4>
+
+<p><strong>WARNING</strong>: Subroutine signatures are experimental.  The feature may be
+modified or removed in future versions of Perl.
+</p>
+<p>Perl has an experimental facility to allow a subroutine&rsquo;s formal
+parameters to be introduced by special syntax, separate from the
+procedural code of the subroutine body.  The formal parameter list
+is known as a <em>signature</em>.  The facility must be enabled first by a
+pragmatic declaration, <code>use feature 'signatures'</code>, and it will produce
+a warning unless the &quot;experimental::signatures&quot; warnings category is
+disabled.
+</p>
+<p>The signature is part of a subroutine&rsquo;s body.  Normally the body of a
+subroutine is simply a braced block of code.  When using a signature,
+the signature is a parenthesised list that goes immediately before
+the braced block.  The signature declares lexical variables that are
+in scope for the block.  When the subroutine is called, the signature
+takes control first.  It populates the signature variables from the
+list of arguments that were passed.  If the argument list doesn&rsquo;t meet
+the requirements of the signature, then it will throw an exception.
+When the signature processing is complete, control passes to the block.
+</p>
+<p>Positional parameters are handled by simply naming scalar variables in
+the signature.  For example,
+</p>
+<pre class="verbatim">    sub foo ($left, $right) {
+        return $left + $right;
+    }
+</pre>
+<p>takes two positional parameters, which must be filled at runtime by
+two arguments.  By default the parameters are mandatory, and it is
+not permitted to pass more arguments than expected.  So the above is
+equivalent to
+</p>
+<pre class="verbatim">    sub foo {
+        die &quot;Too many arguments for subroutine&quot; unless @_ &lt;= 2;
+        die &quot;Too few arguments for subroutine&quot; unless @_ &gt;= 2;
+        my $left = $_[0];
+        my $right = $_[1];
+        return $left + $right;
+    }
+</pre>
+<p>An argument can be ignored by omitting the main part of the name from
+a parameter declaration, leaving just a bare <code>$</code> sigil.  For example,
+</p>
+<pre class="verbatim">    sub foo ($first, $, $third) {
+        return &quot;first=$first, third=$third&quot;;
+    }
+</pre>
+<p>Although the ignored argument doesn&rsquo;t go into a variable, it is still
+mandatory for the caller to pass it.
+</p>
+<p>A positional parameter is made optional by giving a default value,
+separated from the parameter name by <code>=</code>:
+</p>
+<pre class="verbatim">    sub foo ($left, $right = 0) {
+        return $left + $right;
+    }
+</pre>
+<p>The above subroutine may be called with either one or two arguments.
+The default value expression is evaluated when the subroutine is called,
+so it may provide different default values for different calls.  It is
+only evaluated if the argument was actually omitted from the call.
+For example,
+</p>
+<pre class="verbatim">    my $auto_id = 0;
+    sub foo ($thing, $id = $auto_id++) {
+        print &quot;$thing has ID $id&quot;;
+    }
+</pre>
+<p>automatically assigns distinct sequential IDs to things for which no
+ID was supplied by the caller.  A default value expression may also
+refer to parameters earlier in the signature, making the default for
+one parameter vary according to the earlier parameters.  For example,
+</p>
+<pre class="verbatim">    sub foo ($first_name, $surname, $nickname = $first_name) {
+        print &quot;$first_name $surname is known as \&quot;$nickname\&quot;&quot;;
+    }
+</pre>
+<p>An optional parameter can be nameless just like a mandatory parameter.
+For example,
+</p>
+<pre class="verbatim">    sub foo ($thing, $ = 1) {
+        print $thing;
+    }
+</pre>
+<p>The parameter&rsquo;s default value will still be evaluated if the corresponding
+argument isn&rsquo;t supplied, even though the value won&rsquo;t be stored anywhere.
+This is in case evaluating it has important side effects.  However, it
+will be evaluated in void context, so if it doesn&rsquo;t have side effects
+and is not trivial it will generate a warning if the &quot;void&quot; warning
+category is enabled.  If a nameless optional parameter&rsquo;s default value
+is not important, it may be omitted just as the parameter&rsquo;s name was:
+</p>
+<pre class="verbatim">    sub foo ($thing, $=) {
+        print $thing;
+    }
+</pre>
+<p>Optional positional parameters must come after all mandatory positional
+parameters.  (If there are no mandatory positional parameters then an
+optional positional parameters can be the first thing in the signature.)
+If there are multiple optional positional parameters and not enough
+arguments are supplied to fill them all, they will be filled from left
+to right.
+</p>
+<p>After positional parameters, additional arguments may be captured in a
+slurpy parameter.  The simplest form of this is just an array variable:
+</p>
+<pre class="verbatim">    sub foo ($filter, @inputs) {
+        print $filter-&gt;($_) foreach @inputs;
+    }
+</pre>
+<p>With a slurpy parameter in the signature, there is no upper limit on how
+many arguments may be passed.  A slurpy array parameter may be nameless
+just like a positional parameter, in which case its only effect is to
+turn off the argument limit that would otherwise apply:
+</p>
+<pre class="verbatim">    sub foo ($thing, @) {
+        print $thing;
+    }
+</pre>
+<p>A slurpy parameter may instead be a hash, in which case the arguments
+available to it are interpreted as alternating keys and values.
+There must be as many keys as values: if there is an odd argument then
+an exception will be thrown.  Keys will be stringified, and if there are
+duplicates then the later instance takes precedence over the earlier,
+as with standard hash construction.
+</p>
+<pre class="verbatim">    sub foo ($filter, %inputs) {
+        print $filter-&gt;($_, $inputs{$_}) foreach sort keys %inputs;
+    }
+</pre>
+<p>A slurpy hash parameter may be nameless just like other kinds of
+parameter.  It still insists that the number of arguments available to
+it be even, even though they&rsquo;re not being put into a variable.
+</p>
+<pre class="verbatim">    sub foo ($thing, %) {
+        print $thing;
+    }
+</pre>
+<p>A slurpy parameter, either array or hash, must be the last thing in the
+signature.  It may follow mandatory and optional positional parameters;
+it may also be the only thing in the signature.  Slurpy parameters cannot
+have default values: if no arguments are supplied for them then you get
+an empty array or empty hash.
+</p>
+<p>A signature may be entirely empty, in which case all it does is check
+that the caller passed no arguments:
+</p>
+<pre class="verbatim">    sub foo () {
+        return 123;
+    }
+</pre>
+<p>When using a signature, the arguments are still available in the special
+array variable <code>@_</code>, in addition to the lexical variables of the
+signature.  There is a difference between the two ways of accessing the
+arguments: <code>@_</code> <em>aliases</em> the arguments, but the signature variables
+get <em>copies</em> of the arguments.  So writing to a signature variable
+only changes that variable, and has no effect on the caller&rsquo;s variables,
+but writing to an element of <code>@_</code> modifies whatever the caller used to
+supply that argument.
+</p>
+<p>There is a potential syntactic ambiguity between signatures and prototypes
+(see <a href="#perlsub-Prototypes">Prototypes</a>), because both start with an opening parenthesis and
+both can appear in some of the same places, such as just after the name
+in a subroutine declaration.  For historical reasons, when signatures
+are not enabled, any opening parenthesis in such a context will trigger
+very forgiving prototype parsing.  Most signatures will be interpreted
+as prototypes in those circumstances, but won&rsquo;t be valid prototypes.
+(A valid prototype cannot contain any alphabetic character.)  This will
+lead to somewhat confusing error messages.
+</p>
+<p>To avoid ambiguity, when signatures are enabled the special syntax
+for prototypes is disabled.  There is no attempt to guess whether a
+parenthesised group was intended to be a prototype or a signature.
+To give a subroutine a prototype under these circumstances, use a
+<a href="../attributes/Built_002din-Attributes.html#Built_002din-Attributes">(attributes)prototype attribute</a>.  For example,
+</p>
+<pre class="verbatim">    sub foo :prototype($) { $_[0] }
+</pre>
+<p>It is entirely possible for a subroutine to have both a prototype and
+a signature.  They do different jobs: the prototype affects compilation
+of calls to the subroutine, and the signature puts argument values into
+lexical variables at runtime.  You can therefore write
+</p>
+<pre class="verbatim">    sub foo :prototype($$) ($left, $right) {
+        return $left + $right;
+    }
+</pre>
+<p>The prototype attribute, and any other attributes, must come before
+the signature.  The signature always immediately precedes the block of
+the subroutine&rsquo;s body.
+</p>
+<hr>
 <a name="perlsub-Private-Variables-via-my_0028_0029"></a>
 <div class="header">
 <p>
-Next: <a href="#perlsub-Persistent-Private-Variables" accesskey="n" rel="next">perlsub Persistent Private Variables</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlsub-Persistent-Private-Variables" accesskey="n" rel="next">perlsub Persistent Private Variables</a>, Previous: <a href="#perlsub-Signatures" accesskey="p" rel="prev">perlsub Signatures</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Private-Variables-via-my_0028_0029"></a>
-<h4 class="subsection">72.3.1 Private Variables via my()</h4>
+<h4 class="subsection">73.3.2 Private Variables via my()</h4>
 
 <p>Synopsis:
 </p>
@@ -558,7 +825,7 @@ this.
 Next: <a href="#perlsub-Temporary-Values-via-local_0028_0029" accesskey="n" rel="next">perlsub Temporary Values via local()</a>, Previous: <a href="#perlsub-Private-Variables-via-my_0028_0029" accesskey="p" rel="prev">perlsub Private Variables via my()</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Persistent-Private-Variables"></a>
-<h4 class="subsection">72.3.2 Persistent Private Variables</h4>
+<h4 class="subsection">73.3.3 Persistent Private Variables</h4>
 
 <p>There are two ways to build persistent private variables in Perl 5.10.
 First, you can simply use the <code>state</code> feature. Or, you can use closures,
@@ -578,7 +845,7 @@ if you want to stay compatible with releases older than 5.10.
 Next: <a href="#perlsub-Persistent-variables-with-closures" accesskey="n" rel="next">perlsub Persistent variables with closures</a>, Up: <a href="#perlsub-Persistent-Private-Variables" accesskey="u" rel="up">perlsub Persistent Private Variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Persistent-variables-via-state_0028_0029"></a>
-<h4 class="subsubsection">72.3.2.1 Persistent variables via state()</h4>
+<h4 class="subsubsection">73.3.3.1 Persistent variables via state()</h4>
 
 <p>Beginning with Perl 5.10.0, you can declare variables with the <code>state</code>
 keyword in place of <code>my</code>.  For that to work, though, you must have
@@ -623,7 +890,7 @@ behavior of this sort of assignment to non-scalar variables is undefined.
 Previous: <a href="#perlsub-Persistent-variables-via-state_0028_0029" accesskey="p" rel="prev">perlsub Persistent variables via state()</a>, Up: <a href="#perlsub-Persistent-Private-Variables" accesskey="u" rel="up">perlsub Persistent Private Variables</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Persistent-variables-with-closures"></a>
-<h4 class="subsubsection">72.3.2.2 Persistent variables with closures</h4>
+<h4 class="subsubsection">73.3.3.2 Persistent variables with closures</h4>
 
 <p>Just because a lexical variable is lexically (also called statically)
 scoped to its enclosing block, <code>eval</code>, or <code>do</code> FILE, this doesn&rsquo;t mean that
@@ -687,7 +954,7 @@ to create private variables that the whole module can see.
 Next: <a href="#perlsub-Lvalue-subroutines" accesskey="n" rel="next">perlsub Lvalue subroutines</a>, Previous: <a href="#perlsub-Persistent-Private-Variables" accesskey="p" rel="prev">perlsub Persistent Private Variables</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Temporary-Values-via-local_0028_0029"></a>
-<h4 class="subsection">72.3.3 Temporary Values via local()</h4>
+<h4 class="subsection">73.3.4 Temporary Values via local()</h4>
 
 <p><strong>WARNING</strong>: In general, you should be using <code>my</code> instead of <code>local</code>, because
 it&rsquo;s faster and safer.  Exceptions to this include the global punctuation
@@ -699,23 +966,23 @@ of a variable must be visible to called subroutines.
 </p>
 <pre class="verbatim">    # localization of values
 
-    local $foo;                 # make $foo dynamically local
-    local (@wid, %get);         # make list of variables local
-    local $foo = &quot;flurp&quot;;       # make $foo dynamic, and init it
-    local @oof = @bar;          # make @oof dynamic, and init it
+    local $foo;                # make $foo dynamically local
+    local (@wid, %get);        # make list of variables local
+    local $foo = &quot;flurp&quot;;      # make $foo dynamic, and init it
+    local @oof = @bar;         # make @oof dynamic, and init it
 
-    local $hash{key} = &quot;val&quot;;   # sets a local value for this hash entry
-    delete local $hash{key};    # delete this entry for the current block
-    local ($cond ? $v1 : $v2);  # several types of lvalues support
-                                # localization
+    local $hash{key} = &quot;val&quot;;  # sets a local value for this hash entry
+    delete local $hash{key};   # delete this entry for the current block
+    local ($cond ? $v1 : $v2); # several types of lvalues support
+                               # localization
 
     # localization of symbols
 
-    local *FH;                  # localize $FH, @FH, %FH, &amp;FH  ...
-    local *merlyn = *randal;    # now $merlyn is really $randal, plus
-                                #     @merlyn is really @randal, etc
-    local *merlyn = 'randal';   # SAME THING: promote 'randal' to *randal
-    local *merlyn = \$randal;   # just alias $merlyn, not @merlyn etc
+    local *FH;                 # localize $FH, @FH, %FH, &amp;FH  ...
+    local *merlyn = *randal;   # now $merlyn is really $randal, plus
+                               #     @merlyn is really @randal, etc
+    local *merlyn = 'randal';  # SAME THING: promote 'randal' to *randal
+    local *merlyn = \$randal;  # just alias $merlyn, not @merlyn etc
 </pre>
 <p>A <code>local</code> modifies its listed variables to be &quot;local&quot; to the
 enclosing block, <code>eval</code>, or <code>do FILE</code>&ndash;and to <em>any subroutine
@@ -763,7 +1030,7 @@ variables outside the loop.
 Next: <a href="#perlsub-Localization-of-special-variables" accesskey="n" rel="next">perlsub Localization of special variables</a>, Up: <a href="#perlsub-Temporary-Values-via-local_0028_0029" accesskey="u" rel="up">perlsub Temporary Values via local()</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Grammatical-note-on-local_0028_0029"></a>
-<h4 class="subsubsection">72.3.3.1 Grammatical note on local()</h4>
+<h4 class="subsubsection">73.3.4.1 Grammatical note on local()</h4>
 
 <p>A <code>local</code> is simply a modifier on an lvalue expression.  When you assign to
 a <code>local</code>ized variable, the <code>local</code> doesn&rsquo;t change whether its list is viewed
@@ -785,7 +1052,7 @@ as a scalar or an array.  So
 Next: <a href="#perlsub-Localization-of-globs" accesskey="n" rel="next">perlsub Localization of globs</a>, Previous: <a href="#perlsub-Grammatical-note-on-local_0028_0029" accesskey="p" rel="prev">perlsub Grammatical note on local()</a>, Up: <a href="#perlsub-Temporary-Values-via-local_0028_0029" accesskey="u" rel="up">perlsub Temporary Values via local()</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Localization-of-special-variables"></a>
-<h4 class="subsubsection">72.3.3.2 Localization of special variables</h4>
+<h4 class="subsubsection">73.3.4.2 Localization of special variables</h4>
 
 <p>If you localize a special variable, you&rsquo;ll be giving a new value to it,
 but its magic won&rsquo;t go away.  That means that all side-effects related
@@ -822,7 +1089,7 @@ details.
 Next: <a href="#perlsub-Localization-of-elements-of-composite-types" accesskey="n" rel="next">perlsub Localization of elements of composite types</a>, Previous: <a href="#perlsub-Localization-of-special-variables" accesskey="p" rel="prev">perlsub Localization of special variables</a>, Up: <a href="#perlsub-Temporary-Values-via-local_0028_0029" accesskey="u" rel="up">perlsub Temporary Values via local()</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Localization-of-globs"></a>
-<h4 class="subsubsection">72.3.3.3 Localization of globs</h4>
+<h4 class="subsubsection">73.3.4.3 Localization of globs</h4>
 
 <p>The construct
 </p>
@@ -844,7 +1111,7 @@ separator.
 Next: <a href="#perlsub-Localized-deletion-of-elements-of-composite-types" accesskey="n" rel="next">perlsub Localized deletion of elements of composite types</a>, Previous: <a href="#perlsub-Localization-of-globs" accesskey="p" rel="prev">perlsub Localization of globs</a>, Up: <a href="#perlsub-Temporary-Values-via-local_0028_0029" accesskey="u" rel="up">perlsub Temporary Values via local()</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Localization-of-elements-of-composite-types"></a>
-<h4 class="subsubsection">72.3.3.4 Localization of elements of composite types</h4>
+<h4 class="subsubsection">73.3.4.4 Localization of elements of composite types</h4>
 
 <p>It&rsquo;s also worth taking a moment to explain what happens when you
 <code>local</code>ize a member of a composite type (i.e. an array or hash element).
@@ -893,7 +1160,7 @@ types is subject to change in future.
 Previous: <a href="#perlsub-Localization-of-elements-of-composite-types" accesskey="p" rel="prev">perlsub Localization of elements of composite types</a>, Up: <a href="#perlsub-Temporary-Values-via-local_0028_0029" accesskey="u" rel="up">perlsub Temporary Values via local()</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Localized-deletion-of-elements-of-composite-types"></a>
-<h4 class="subsubsection">72.3.3.5 Localized deletion of elements of composite types</h4>
+<h4 class="subsubsection">73.3.4.5 Localized deletion of elements of composite types</h4>
 
 <p>You can use the <code>delete local $array[$idx]</code> and <code>delete local $hash{key}</code>
 constructs to delete a composite type entry for the current block and restore
@@ -948,11 +1215,8 @@ also accepted.
 Next: <a href="#perlsub-Lexical-Subroutines" accesskey="n" rel="next">perlsub Lexical Subroutines</a>, Previous: <a href="#perlsub-Temporary-Values-via-local_0028_0029" accesskey="p" rel="prev">perlsub Temporary Values via local()</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Lvalue-subroutines"></a>
-<h4 class="subsection">72.3.4 Lvalue subroutines</h4>
+<h4 class="subsection">73.3.5 Lvalue subroutines</h4>
 
-<p><strong>WARNING</strong>: Lvalue subroutines are still experimental and the
-implementation may change in future versions of Perl.
-</p>
 <p>It is possible to return a modifiable value from a subroutine.
 To do this, you have to declare the subroutine to return an lvalue.
 </p>
@@ -983,34 +1247,13 @@ by a scalar. For example, consider:
 </pre>
 <p>all the subroutines are called in a list context.
 </p>
-<dl compact="compact">
-<dt>Lvalue subroutines are EXPERIMENTAL</dt>
-<dd><a name="perlsub-Lvalue-subroutines-are-EXPERIMENTAL"></a>
-<p>They appear to be convenient, but there is at least one reason to be
-circumspect.
+<p>Lvalue subroutines are convenient, but you have to keep in mind that,
+when used with objects, they may violate encapsulation. A normal
+mutator can check the supplied argument before setting the attribute
+it is protecting, an lvalue subroutine cannot. If you require any
+special processing when storing and retrieving the values, consider
+using the CPAN module Sentinel or something similar.
 </p>
-<p>They violate encapsulation.  A normal mutator can check the supplied
-argument before setting the attribute it is protecting, an lvalue
-subroutine never gets that chance.  Consider;
-</p>
-<pre class="verbatim">    my $some_array_ref = [];    # protected by mutators ??
-
-    sub set_arr {               # normal mutator
-        my $val = shift;
-        die(&quot;expected array, you supplied &quot;, ref $val)
-           unless ref $val eq 'ARRAY';
-        $some_array_ref = $val;
-    }
-    sub set_arr_lv : lvalue {   # lvalue mutator
-        $some_array_ref;
-    }
-
-    # set_arr_lv cannot stop this !
-    set_arr_lv() = { a =&gt; 1 };
-</pre>
-</dd>
-</dl>
-
 <hr>
 <a name="perlsub-Lexical-Subroutines"></a>
 <div class="header">
@@ -1018,7 +1261,7 @@ subroutine never gets that chance.  Consider;
 Next: <a href="#perlsub-Passing-Symbol-Table-Entries-_0028typeglobs_0029" accesskey="n" rel="next">perlsub Passing Symbol Table Entries (typeglobs)</a>, Previous: <a href="#perlsub-Lvalue-subroutines" accesskey="p" rel="prev">perlsub Lvalue subroutines</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Lexical-Subroutines"></a>
-<h4 class="subsection">72.3.5 Lexical Subroutines</h4>
+<h4 class="subsection">73.3.6 Lexical Subroutines</h4>
 
 <p><strong>WARNING</strong>: Lexical subroutines are still experimental.  The feature may be
 modified or removed in future versions of Perl.
@@ -1070,7 +1313,7 @@ any previous <code>my sub;</code> or <code>state sub;</code> declaration.
 Next: <a href="#perlsub-our-subroutines" accesskey="n" rel="next">perlsub <code>our</code> subroutines</a>, Up: <a href="#perlsub-Lexical-Subroutines" accesskey="u" rel="up">perlsub Lexical Subroutines</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="state-sub-vs-my-sub"></a>
-<h4 class="subsubsection">72.3.5.1 <code>state sub</code> vs <code>my sub</code></h4>
+<h4 class="subsubsection">73.3.6.1 <code>state sub</code> vs <code>my sub</code></h4>
 
 <p>What is the difference between &quot;state&quot; subs and &quot;my&quot; subs?  Each time that
 execution enters a block when &quot;my&quot; subs are declared, a new copy of each
@@ -1102,7 +1345,7 @@ see the <code>$x</code> from the first call to <code>whatever</code>.
 Previous: <a href="#perlsub-state-sub-vs-my-sub" accesskey="p" rel="prev">perlsub <code>state sub</code> vs <code>my sub</code></a>, Up: <a href="#perlsub-Lexical-Subroutines" accesskey="u" rel="up">perlsub Lexical Subroutines</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="our-subroutines"></a>
-<h4 class="subsubsection">72.3.5.2 <code>our</code> subroutines</h4>
+<h4 class="subsubsection">73.3.6.2 <code>our</code> subroutines</h4>
 
 <p>Like <code>our $variable</code>, <code>our sub</code> creates a lexical alias to the package
 subroutine of the same name.
@@ -1146,7 +1389,7 @@ inside an inner scope:
 Next: <a href="#perlsub-When-to-Still-Use-local_0028_0029" accesskey="n" rel="next">perlsub When to Still Use local()</a>, Previous: <a href="#perlsub-Lexical-Subroutines" accesskey="p" rel="prev">perlsub Lexical Subroutines</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Passing-Symbol-Table-Entries-_0028typeglobs_0029"></a>
-<h4 class="subsection">72.3.6 Passing Symbol Table Entries (typeglobs)</h4>
+<h4 class="subsection">73.3.7 Passing Symbol Table Entries (typeglobs)</h4>
 
 <p><strong>WARNING</strong>: The mechanism described in this section was originally
 the only way to simulate pass-by-reference in older versions of
@@ -1195,7 +1438,7 @@ the individual arrays.  For more on typeglobs, see
 Next: <a href="#perlsub-Pass-by-Reference" accesskey="n" rel="next">perlsub Pass by Reference</a>, Previous: <a href="#perlsub-Passing-Symbol-Table-Entries-_0028typeglobs_0029" accesskey="p" rel="prev">perlsub Passing Symbol Table Entries (typeglobs)</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="When-to-Still-Use-local_0028_0029"></a>
-<h4 class="subsection">72.3.7 When to Still Use local()</h4>
+<h4 class="subsection">73.3.8 When to Still Use local()</h4>
 
 <p>Despite the existence of <code>my</code>, there are still three places where the
 <code>local</code> operator still shines.  In fact, in these three places, you
@@ -1241,10 +1484,10 @@ a local alias.
 </p>
 <pre class="verbatim">    {
         local *grow = \&amp;shrink; # only until this block exits
-        grow();                 # really calls shrink()
-        move();                 # if move() grow()s, it shrink()s too
+        grow();                # really calls shrink()
+        move();                # if move() grow()s, it shrink()s too
     }
-    grow();                     # get the real grow() again
+    grow();                    # get the real grow() again
 </pre>
 <p>See <a href="perlref.html#perlref-Function-Templates">perlref Function Templates</a> for more about manipulating
 functions by name in this way.
@@ -1271,7 +1514,7 @@ is done on dynamics:
 Next: <a href="#perlsub-Prototypes" accesskey="n" rel="next">perlsub Prototypes</a>, Previous: <a href="#perlsub-When-to-Still-Use-local_0028_0029" accesskey="p" rel="prev">perlsub When to Still Use local()</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Pass-by-Reference"></a>
-<h4 class="subsection">72.3.8 Pass by Reference</h4>
+<h4 class="subsection">73.3.9 Pass by Reference</h4>
 
 <p>If you want to pass more than one array or hash into a function&ndash;or
 return them from it&ndash;and have them maintain their integrity, then
@@ -1391,14 +1634,24 @@ Notice to pass back just the bare *FH, not its reference.
 Next: <a href="#perlsub-Constant-Functions" accesskey="n" rel="next">perlsub Constant Functions</a>, Previous: <a href="#perlsub-Pass-by-Reference" accesskey="p" rel="prev">perlsub Pass by Reference</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Prototypes"></a>
-<h4 class="subsection">72.3.9 Prototypes</h4>
+<h4 class="subsection">73.3.10 Prototypes</h4>
 
 <p>Perl supports a very limited kind of compile-time argument checking
-using function prototyping.  If you declare
+using function prototyping.  This can be declared in either the PROTO
+section or with a <a href="../attributes/Built_002din-Attributes.html#Built_002din-Attributes">(attributes)prototype attribute</a>.
+If you declare either of
 </p>
 <pre class="verbatim">    sub mypush (+@)
+    sub mypush :prototype(+@)
 </pre>
-<p>then <code>mypush()</code> takes arguments exactly like <code>push()</code> does.  The
+<p>then <code>mypush()</code> takes arguments exactly like <code>push()</code> does.
+</p>
+<p>If subroutine signatures are enabled (see <a href="#perlsub-Signatures">Signatures</a>), then
+the shorter PROTO syntax is unavailable, because it would clash with
+signatures.  In that case, a prototype can only be declared in the form
+of an attribute.
+</p>
+<p>The
 function declaration must be visible at compile time.  The prototype
 affects only interpretation of new-style calls to the function,
 where new-style is defined as not using the <code>&amp;</code> character.  In
@@ -1418,22 +1671,22 @@ subroutines that work like built-in functions, here are prototypes
 for some other functions that parse almost exactly like the
 corresponding built-in.
 </p>
-<pre class="verbatim">    Declared as                 Called as
+<pre class="verbatim">   Declared as             Called as
 
-    sub mylink ($$)          mylink $old, $new
-    sub myvec ($$$)          myvec $var, $offset, 1
-    sub myindex ($$;$)       myindex &amp;getstring, &quot;substr&quot;
-    sub mysyswrite ($$$;$)   mysyswrite $buf, 0, length($buf) - $off, $off
-    sub myreverse (@)        myreverse $a, $b, $c
-    sub myjoin ($@)          myjoin &quot;:&quot;, $a, $b, $c
-    sub mypop (+)            mypop @array
-    sub mysplice (+$$@)      mysplice @array, 0, 2, @pushme
-    sub mykeys (+)           mykeys %{$hashref}
-    sub myopen (*;$)         myopen HANDLE, $name
-    sub mypipe (**)          mypipe READHANDLE, WRITEHANDLE
-    sub mygrep (&amp;@)          mygrep { /foo/ } $a, $b, $c
-    sub myrand (;$)          myrand 42
-    sub mytime ()            mytime
+   sub mylink ($$)         mylink $old, $new
+   sub myvec ($$$)         myvec $var, $offset, 1
+   sub myindex ($$;$)      myindex &amp;getstring, &quot;substr&quot;
+   sub mysyswrite ($$$;$)  mysyswrite $buf, 0, length($buf) - $off, $off
+   sub myreverse (@)       myreverse $a, $b, $c
+   sub myjoin ($@)         myjoin &quot;:&quot;, $a, $b, $c
+   sub mypop (+)           mypop @array
+   sub mysplice (+$$@)     mysplice @array, 0, 2, @pushme
+   sub mykeys (+)          mykeys %{$hashref}
+   sub myopen (*;$)        myopen HANDLE, $name
+   sub mypipe (**)         mypipe READHANDLE, WRITEHANDLE
+   sub mygrep (&amp;@)         mygrep { /foo/ } $a, $b, $c
+   sub myrand (;$)         myrand 42
+   sub mytime ()           mytime
 </pre>
 <p>Any backslashed prototype character represents an actual argument
 that must start with that character (optionally preceded by <code>my</code>,
@@ -1590,6 +1843,16 @@ which used to hold one thing doesn&rsquo;t get passed in.  Instead,
 in <code>@foo</code>.  And the <code>split</code> gets called in scalar context so it
 starts scribbling on your <code>@_</code> parameter list.  Ouch!
 </p>
+<p>If a sub has both a PROTO and a BLOCK, the prototype is not applied
+until after the BLOCK is completely defined.  This means that a recursive
+function with a prototype has to be predeclared for the prototype to take
+effect, like so:
+</p>
+<pre class="verbatim">        sub foo($$);
+        sub foo($$) {
+                foo 1, 2;
+        }
+</pre>
 <p>This is all very powerful, of course, and should be used only in moderation
 to make the world a better place.
 </p>
@@ -1600,7 +1863,7 @@ to make the world a better place.
 Next: <a href="#perlsub-Overriding-Built_002din-Functions" accesskey="n" rel="next">perlsub Overriding Built-in Functions</a>, Previous: <a href="#perlsub-Prototypes" accesskey="p" rel="prev">perlsub Prototypes</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Constant-Functions"></a>
-<h4 class="subsection">72.3.10 Constant Functions</h4>
+<h4 class="subsection">73.3.11 Constant Functions</h4>
 
 <p>Functions with a prototype of <code>()</code> are potential candidates for
 inlining.  If the result after optimization and constant folding
@@ -1641,20 +1904,82 @@ the constant folding doesn&rsquo;t reduce them to a single constant:
         }
     }
 </pre>
-<p>If you redefine a subroutine that was eligible for inlining, you&rsquo;ll get
-a warning by default.  (You can use this warning to tell whether or not a
-particular subroutine is considered constant.)  The warning is
-considered severe enough not to be affected by the <strong>-w</strong>
-switch (or its absence) because previously compiled
-invocations of the function will still be using the old value of the
-function.  If you need to be able to redefine the subroutine, you need to
-ensure that it isn&rsquo;t inlined, either by dropping the <code>()</code> prototype
-(which changes calling semantics, so beware) or by thwarting the
-inlining mechanism in some other way, such as
+<p>As alluded to earlier you can also declare inlined subs dynamically at
+BEGIN time if their body consists of a lexically-scoped scalar which
+has no other references. Only the first example here will be inlined:
 </p>
-<pre class="verbatim">    sub not_inlined () {
-        23 if $];
+<pre class="verbatim">    BEGIN {
+        my $var = 1;
+        no strict 'refs';
+        *INLINED = sub () { $var };
     }
+
+    BEGIN {
+        my $var = 1;
+        my $ref = \$var;
+        no strict 'refs';
+        *NOT_INLINED = sub () { $var };
+    }
+</pre>
+<p>A not so obvious caveat with this (see [RT #79908]) is that the
+variable will be immediately inlined, and will stop behaving like a
+normal lexical variable, e.g. this will print <code>79907</code>, not <code>79908</code>:
+</p>
+<pre class="verbatim">    BEGIN {
+        my $x = 79907;
+        *RT_79908 = sub () { $x };
+        $x++;
+    }
+    print RT_79908(); # prints 79907
+</pre>
+<p>If you really want a subroutine with a <code>()</code> prototype that returns a
+lexical variable you can easily force it to not be inlined by adding
+an explicit <code>return</code>:
+</p>
+<pre class="verbatim">    BEGIN {
+        my $x = 79907;
+        *RT_79908 = sub () { return $x };
+        $x++;
+    }
+    print RT_79908(); # prints 79908
+</pre>
+<p>The easiest way to tell if a subroutine was inlined is by using
+<a href="../B-Deparse/index.html">(B-Deparse)</a>, consider this example of two subroutines returning
+<code>1</code>, one with a <code>()</code> prototype causing it to be inlined, and one
+without (with deparse output truncated for clarity):
+</p>
+<pre class="verbatim"> $ perl -MO=Deparse -le 'sub ONE { 1 } if (ONE) { print ONE if ONE }'
+ sub ONE {
+     1;
+ }
+ if (ONE ) {
+     print ONE() if ONE ;
+ }
+ $ perl -MO=Deparse -le 'sub ONE () { 1 } if (ONE) { print ONE if ONE }'
+ sub ONE () { 1 }
+ do {
+     print 1
+ };
+</pre>
+<p>If you redefine a subroutine that was eligible for inlining, you&rsquo;ll
+get a warning by default. You can use this warning to tell whether or
+not a particular subroutine is considered inlinable, since it&rsquo;s
+different than the warning for overriding non-inlined subroutines:
+</p>
+<pre class="verbatim">    $ perl -e 'sub one () {1} sub one () {2}'
+    Constant subroutine one redefined at -e line 1.
+    $ perl -we 'sub one {1} sub one {2}'
+    Subroutine one redefined at -e line 1.
+</pre>
+<p>The warning is considered severe enough not to be affected by the
+<strong>-w</strong> switch (or its absence) because previously compiled invocations
+of the function will still be using the old value of the function.  If
+you need to be able to redefine the subroutine, you need to ensure
+that it isn&rsquo;t inlined, either by dropping the <code>()</code> prototype (which
+changes calling semantics, so beware) or by thwarting the inlining
+mechanism in some other way, e.g. by adding an explicit <code>return</code>:
+</p>
+<pre class="verbatim">    sub not_inlined () { return 23 }
 </pre>
 <hr>
 <a name="perlsub-Overriding-Built_002din-Functions"></a>
@@ -1663,7 +1988,7 @@ inlining mechanism in some other way, such as
 Next: <a href="#perlsub-Autoloading" accesskey="n" rel="next">perlsub Autoloading</a>, Previous: <a href="#perlsub-Constant-Functions" accesskey="p" rel="prev">perlsub Constant Functions</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Overriding-Built_002din-Functions"></a>
-<h4 class="subsection">72.3.11 Overriding Built-in Functions</h4>
+<h4 class="subsection">73.3.12 Overriding Built-in Functions</h4>
 
 <p>Many built-in functions may be overridden, though this should be tried
 only occasionally and for good reason.  Typically this might be
@@ -1794,7 +2119,7 @@ the equivalent I/O operator <code>&lt;FILEHANDLE&gt;</code>. Also, overriding
 Next: <a href="#perlsub-Subroutine-Attributes" accesskey="n" rel="next">perlsub Subroutine Attributes</a>, Previous: <a href="#perlsub-Overriding-Built_002din-Functions" accesskey="p" rel="prev">perlsub Overriding Built-in Functions</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Autoloading"></a>
-<h4 class="subsection">72.3.12 Autoloading</h4>
+<h4 class="subsection">73.3.13 Autoloading</h4>
 
 <p>If you call a subroutine that is undefined, you would ordinarily
 get an immediate, fatal error complaining that the subroutine doesn&rsquo;t
@@ -1854,7 +2179,7 @@ functions to Perl code in <a href="../perlxs/index.html">(perlxs)</a>.
 Previous: <a href="#perlsub-Autoloading" accesskey="p" rel="prev">perlsub Autoloading</a>, Up: <a href="#perlsub-DESCRIPTION" accesskey="u" rel="up">perlsub DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Subroutine-Attributes"></a>
-<h4 class="subsection">72.3.13 Subroutine Attributes</h4>
+<h4 class="subsection">73.3.14 Subroutine Attributes</h4>
 
 <p>A subroutine declaration or definition may have a list of attributes
 associated with it.  If such an attribute list is present, it is
@@ -1900,8 +2225,8 @@ see <a href="../attributes/index.html">(attributes)</a> and <a href="../Attribut
 <p>
 Previous: <a href="#perlsub-DESCRIPTION" accesskey="p" rel="prev">perlsub DESCRIPTION</a>, Up: <a href="#perlsub" accesskey="u" rel="up">perlsub</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="SEE-ALSO-37"></a>
-<h3 class="section">72.4 SEE ALSO</h3>
+<a name="SEE-ALSO-36"></a>
+<h3 class="section">73.4 SEE ALSO</h3>
 
 <p>See <a href="perlref.html#perlref-Function-Templates">perlref Function Templates</a> for more about references and closures.
 See <a href="../perlxs/index.html">(perlxs)</a> if you&rsquo;d like to learn about calling C subroutines from Perl.  

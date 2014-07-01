@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlop</title>
 
@@ -83,6 +83,22 @@ Previous: <a href="#perlop-NAME" accesskey="p" rel="prev">perlop NAME</a>, Up: <
 <a name="DESCRIPTION-46"></a>
 <h3 class="section">48.2 DESCRIPTION</h3>
 
+<p>In Perl, the operator determines what operation is performed,
+independent of the type of the operands. For example <code>$a + $b</code>
+is always a numeric addition, and if <code>$a</code> or <code>$b</code> do not contain
+numbers, an attempt is made to convert them to numbers first.
+</p>
+<p>This is in contrast to many other dynamic languages, where the
+operation is determined by the type of the first argument. It also
+means that Perl has two versions of some operators, one for numeric
+and one for string comparison. For example <code>$a == $b</code> compares
+two numbers for equality, and <code>$a eq $b</code> compares two strings.
+</p>
+<p>There are a few exceptions though: <code>x</code> can be either string
+repetition or list repetition, depending on the type of the left
+operand, and <code>&amp;</code>, <code>|</code> and <code>^</code> can be either string or numeric bit
+operations.
+</p>
 <table class="menu" border="0" cellspacing="0">
 <tr><td align="left" valign="top">&bull; <a href="#perlop-Operator-Precedence-and-Associativity" accesskey="1">perlop Operator Precedence and Associativity</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
@@ -102,7 +118,7 @@ Previous: <a href="#perlop-NAME" accesskey="p" rel="prev">perlop NAME</a>, Up: <
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlop-Additive-Operators" accesskey="9">perlop Additive Operators</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlop-Shift-Operators-_003e_003e-_003e-_003e_003e_003e">perlop Shift Operators   &gt;&gt; &gt; &gt;&gt;&gt;</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlop-Shift-Operators-_003e-_003e_003e_003e">perlop Shift Operators   &gt;  &gt;&gt;&gt;</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlop-Named-Unary-Operators">perlop Named Unary Operators</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
@@ -314,6 +330,10 @@ variable containing either the method name or a subroutine reference,
 and the left side must be either an object (a blessed reference)
 or a class name (that is, a package name).  See <a href="perlobj.html#perlobj-NAME">perlobj NAME</a>.
 </p>
+<p>The dereferencing cases (as opposed to method-calling cases) are
+somewhat extended by the experimental <code>postderef</code> feature.  For the
+details of that feature, consult <a href="perlref.html#perlref-Postfix-Dereference-Syntax">perlref Postfix Dereference Syntax</a>.
+</p>
 <hr>
 <a name="perlop-Auto_002dincrement-and-Auto_002ddecrement"></a>
 <div class="header">
@@ -515,7 +535,7 @@ or an empty list, depending on the context.
 <a name="perlop-Additive-Operators"></a>
 <div class="header">
 <p>
-Next: <a href="#perlop-Shift-Operators-_003e_003e-_003e-_003e_003e_003e" accesskey="n" rel="next">perlop Shift Operators   &gt;&gt; &gt; &gt;&gt;&gt;</a>, Previous: <a href="#perlop-Multiplicative-Operators" accesskey="p" rel="prev">perlop Multiplicative Operators</a>, Up: <a href="#perlop-DESCRIPTION" accesskey="u" rel="up">perlop DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlop-Shift-Operators-_003e-_003e_003e_003e" accesskey="n" rel="next">perlop Shift Operators   &gt;  &gt;&gt;&gt;</a>, Previous: <a href="#perlop-Multiplicative-Operators" accesskey="p" rel="prev">perlop Multiplicative Operators</a>, Up: <a href="#perlop-DESCRIPTION" accesskey="u" rel="up">perlop DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Additive-Operators"></a>
 <h4 class="subsection">48.2.9 Additive Operators</h4>
@@ -527,13 +547,13 @@ Next: <a href="#perlop-Shift-Operators-_003e_003e-_003e-_003e_003e_003e" accessk
 <p>Binary <code>.</code> concatenates two strings.
 </p>
 <hr>
-<a name="perlop-Shift-Operators-_003e_003e-_003e-_003e_003e_003e"></a>
+<a name="perlop-Shift-Operators-_003e-_003e_003e_003e"></a>
 <div class="header">
 <p>
 Next: <a href="#perlop-Named-Unary-Operators" accesskey="n" rel="next">perlop Named Unary Operators</a>, Previous: <a href="#perlop-Additive-Operators" accesskey="p" rel="prev">perlop Additive Operators</a>, Up: <a href="#perlop-DESCRIPTION" accesskey="u" rel="up">perlop DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="Shift-Operators-_003e_003e-_003e-_003e_003e_003e"></a>
-<h4 class="subsection">48.2.10 Shift Operators   &gt;&gt; &gt; &gt;&gt;&gt;</h4>
+<a name="Shift-Operators-_003e-_003e_003e_003e"></a>
+<h4 class="subsection">48.2.10 Shift Operators   &gt;  &gt;&gt;&gt;</h4>
 
 <p>Binary <code>&lt;&lt;</code> returns the value of its left argument shifted left by the
 number of bits specified by the right argument.  Arguments should be
@@ -568,7 +588,7 @@ the <code>use bigint</code> pragma neatly sidesteps the issue altogether:
 <a name="perlop-Named-Unary-Operators"></a>
 <div class="header">
 <p>
-Next: <a href="#perlop-Relational-Operators" accesskey="n" rel="next">perlop Relational Operators</a>, Previous: <a href="#perlop-Shift-Operators-_003e_003e-_003e-_003e_003e_003e" accesskey="p" rel="prev">perlop Shift Operators   &gt;&gt; &gt; &gt;&gt;&gt;</a>, Up: <a href="#perlop-DESCRIPTION" accesskey="u" rel="up">perlop DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlop-Relational-Operators" accesskey="n" rel="next">perlop Relational Operators</a>, Previous: <a href="#perlop-Shift-Operators-_003e-_003e_003e_003e" accesskey="p" rel="prev">perlop Shift Operators   &gt;  &gt;&gt;&gt;</a>, Up: <a href="#perlop-DESCRIPTION" accesskey="u" rel="up">perlop DESCRIPTION</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Named-Unary-Operators"></a>
 <h4 class="subsection">48.2.11 Named Unary Operators</h4>
@@ -624,7 +644,6 @@ about improper numeric conversions, just as <code>&quot;0 but true&quot;</code> 
 </p>
 <p>Binary &quot;&lt;&quot; returns true if the left argument is numerically less than
 the right argument.
-&gt;
 </p>
 <p>Binary &quot;&gt;&quot; returns true if the left argument is numerically greater
 than the right argument.
@@ -632,7 +651,6 @@ than the right argument.
 </p>
 <p>Binary &quot;&lt;=&quot; returns true if the left argument is numerically less than
 or equal to the right argument.
-&gt;
 </p>
 <p>Binary &quot;&gt;=&quot; returns true if the left argument is numerically greater
 than or equal to the right argument.
@@ -640,19 +658,15 @@ than or equal to the right argument.
 </p>
 <p>Binary &quot;lt&quot; returns true if the left argument is stringwise less than
 the right argument.
-&gt;
 </p>
 <p>Binary &quot;gt&quot; returns true if the left argument is stringwise greater
 than the right argument.
-&gt;
 </p>
 <p>Binary &quot;le&quot; returns true if the left argument is stringwise less than
 or equal to the right argument.
-&gt;
 </p>
 <p>Binary &quot;ge&quot; returns true if the left argument is stringwise greater
 than or equal to the right argument.
-&gt;
 </p>
 <hr>
 <a name="perlop-Equality-Operators"></a>
@@ -718,7 +732,9 @@ Next: <a href="#perlop-Bitwise-And" accesskey="n" rel="next">perlop Bitwise And<
 binary <code>~~</code> does a &quot;smartmatch&quot; between its arguments.  This is mostly
 used implicitly in the <code>when</code> construct described in <a href="perlsyn.html#perlsyn-NAME">perlsyn NAME</a>, although
 not all <code>when</code> clauses call the smartmatch operator.  Unique among all of
-Perl&rsquo;s operators, the smartmatch operator can recurse.
+Perl&rsquo;s operators, the smartmatch operator can recurse.  The smartmatch
+operator is <a href="perlpolicy.html#perlpolicy-experimental">experimental</a> and its behavior is
+subject to change.
 </p>
 <p>It is also unique in that all other Perl operators impose a context
 (usually string or numeric context) on their operands, autoconverting
@@ -1020,8 +1036,10 @@ Next: <a href="#perlop-Bitwise-Or-and-Exclusive-Or" accesskey="n" rel="next">per
 <a name="Bitwise-And"></a>
 <h4 class="subsection">48.2.15 Bitwise And</h4>
 
-<p>Binary &quot;&amp;&quot; returns its operands ANDed together bit by bit.
-(See also <a href="#perlop-Integer-Arithmetic">Integer Arithmetic</a> and <a href="#perlop-Bitwise-String-Operators">Bitwise String Operators</a>.)
+<p>Binary &quot;&amp;&quot; returns its operands ANDed together bit by bit.  Although no
+warning is currently raised, the result is not well defined when this operation
+is performed on operands that aren&rsquo;t either numbers (see
+<a href="#perlop-Integer-Arithmetic">Integer Arithmetic</a>) or bitstrings (see <a href="#perlop-Bitwise-String-Operators">Bitwise String Operators</a>).
 </p>
 <p>Note that &quot;&amp;&quot; has lower priority than relational operators, so for example
 the parentheses are essential in a test like
@@ -1038,10 +1056,13 @@ Next: <a href="#perlop-C_002dstyle-Logical-And" accesskey="n" rel="next">perlop 
 <h4 class="subsection">48.2.16 Bitwise Or and Exclusive Or</h4>
 
 <p>Binary &quot;|&quot; returns its operands ORed together bit by bit.
-(See also <a href="#perlop-Integer-Arithmetic">Integer Arithmetic</a> and <a href="#perlop-Bitwise-String-Operators">Bitwise String Operators</a>.)
 </p>
 <p>Binary &quot;^&quot; returns its operands XORed together bit by bit.
-(See also <a href="#perlop-Integer-Arithmetic">Integer Arithmetic</a> and <a href="#perlop-Bitwise-String-Operators">Bitwise String Operators</a>.)
+</p>
+<p>Although no warning is currently raised, the results are not well
+defined when these operations are performed on operands that aren&rsquo;t either
+numbers (see <a href="#perlop-Integer-Arithmetic">Integer Arithmetic</a>) or bitstrings (see <a href="#perlop-Bitwise-String-Operators">Bitwise String
+Operators</a>).
 </p>
 <p>Note that &quot;|&quot; and &quot;^&quot; have lower priority than relational operators, so
 for example the brackets are essential in a test like
@@ -1291,7 +1312,8 @@ you could use this instead:
 </pre>
 <p>However, because there are <em>many</em> other lowercase Greek characters than
 just those, to match lowercase Greek characters in a regular expression,
-you would use the pattern <code>/(?:(?=\p{Greek})\p{Lower})+/</code>.
+you could use the pattern <code>/(?:(?=\p{Greek})\p{Lower})+/</code> (or the
+<a href="perlrecharclass.html#perlrecharclass-Extended-Bracketed-Character-Classes">experimental feature</a> <code>/(?[&nbsp;\p{Greek}&nbsp;&amp;&nbsp;\p{Lower}&nbsp;])+/<!-- /@w --></code>).
 </p>
 <p>Because each operand is evaluated in integer form, <code>2.18 .. 3.14</code> will
 return two elements in list context.
@@ -1353,7 +1375,7 @@ Next: <a href="#perlop-Comma-Operator" accesskey="n" rel="next">perlop Comma Ope
 <a name="Assignment-Operators"></a>
 <h4 class="subsection">48.2.22 Assignment Operators</h4>
 
-<p>&gt;&gt;     &gt;= &gt;&gt;&gt;   
+<p>&gt;     = &gt;&gt;&gt;   
 </p>
 <p>&quot;=&quot; is the ordinary assignment operator.
 </p>
@@ -1590,7 +1612,7 @@ Next: <a href="#perlop-Regexp-Quote_002dLike-Operators" accesskey="n" rel="next"
 <a name="Quote-and-Quote_002dlike-Operators"></a>
 <h4 class="subsection">48.2.29 Quote and Quote-like Operators</h4>
 
-<pre class="verbatim">          &gt;&gt;
+<pre class="verbatim">          &gt;
  
 </pre>
 <p>While we usually think of quotes as literal values, in Perl they
@@ -1847,7 +1869,9 @@ If Unicode (for example, <code>\N{}</code> or code points of 0x100 or
 beyond) is being used, the case map used by <code>\l</code>, <code>\L</code>, <code>\u</code>, and
 <code>\U</code> is as defined by Unicode.  That means that case-mapping
 a single character can sometimes produce several characters.
-Under <code>use locale</code>, <code>\F</code> produces the same results as <code>\L</code>.
+Under <code>use locale</code>, <code>\F</code> produces the same results as <code>\L</code>
+for all locales but a UTF-8 one, where it instead uses the Unicode
+definition.
 </p>
 <p>All systems use the virtual <code>&quot;\n&quot;</code> to represent a line terminator,
 called a &quot;newline&quot;.  There is no such thing as an unvarying, physical
@@ -1994,7 +2018,7 @@ modifier has is not propagated, being restricted to those patterns
 explicitly using it.
 </p>
 <p>The last four modifiers listed above, added in Perl 5.14,
-control the character set semantics, but <code>/a</code> is the only one you are likely
+control the character set rules, but <code>/a</code> is the only one you are likely
 to want to specify explicitly; the other three are selected
 automatically by various pragmas.
 </p>
@@ -2028,8 +2052,8 @@ you can use any pair of non-whitespace (ASCII) characters
 as delimiters.  This is particularly useful for matching path names
 that contain &quot;/&quot;, to avoid LTS (leaning toothpick syndrome).  If &quot;?&quot; is
 the delimiter, then a match-only-once rule applies,
-described in <code>m?PATTERN?</code> below.
-If &quot;&rsquo;&quot; is the delimiter, no interpolation is performed on the PATTERN.
+described in <code>m?PATTERN?</code> below. If &quot;&rsquo;&quot; (single quote) is the delimiter,
+no interpolation is performed on the PATTERN.
 When using a character valid in an identifier, whitespace is required
 after the <code>m</code>.
 </p>
@@ -2692,8 +2716,8 @@ must use an eval():
     eval &quot;tr/$oldlist/$newlist/, 1&quot; or die $@;
 </pre>
 </dd>
-<dt>&lt;&lt;EOF    &gt;&gt;</dt>
-<dd><a name="perlop-_003c_003cEOF-_003e_003e"></a>
+<dt>&lt;&lt;EOF    &gt;</dt>
+<dd><a name="perlop-_003c_003cEOF-_003e"></a>
 <p>A line-oriented form of quoting is based on the shell &quot;here-document&quot;
 syntax.  Following a <code>&lt;&lt;</code> you specify a string to terminate
 the quoted material, and all lines following the current line down to

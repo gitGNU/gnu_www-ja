@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlport</title>
 
@@ -71,7 +71,7 @@ Next: <a href="perlpragma.html#perlpragma" accesskey="n" rel="next">perlpragma</
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlport-Supported-Platforms" accesskey="7">perlport Supported Platforms</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perlport-EOL-Platforms-_0028Perl-5_002e14_0029" accesskey="8">perlport EOL Platforms (Perl 5.14)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perlport-EOL-Platforms" accesskey="8">perlport EOL Platforms</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perlport-Supported-Platforms-_0028Perl-5_002e8_0029" accesskey="9">perlport Supported Platforms (Perl 5.8)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
@@ -1080,11 +1080,11 @@ are a few of the more popular Unix flavors:
     AIX           aix        aix
     BSD/OS        bsdos      i386-bsdos
     Darwin        darwin     darwin
-    dgux          dgux       AViiON-dgux
     DYNIX/ptx     dynixptx   i386-dynixptx
     FreeBSD       freebsd    freebsd-i386    
     Haiku         haiku      BePC-haiku
     Linux         linux      arm-linux
+    Linux         linux      armv5tel-linux
     Linux         linux      i386-linux
     Linux         linux      i586-linux
     Linux         linux      ppc-linux
@@ -1858,6 +1858,9 @@ bits are meaningless. (Win32)
 <p>The actual permissions set depend on the value of the <code>CYGWIN</code>
 in the SYSTEM environment settings.  (Cygwin)
 </p>
+<p>Setting the exec bit on some locations (generally /sdcard) will return true
+but not actually set the bit. (Android)
+</p>
 </dd>
 <dt>chown</dt>
 <dd><a name="perlport-chown"></a>
@@ -1877,6 +1880,8 @@ in the SYSTEM environment settings.  (Cygwin)
 <dd><a name="perlport-crypt"></a>
 <p>May not be available if library or source was not provided when building
 perl. (Win32)
+</p>
+<p>Not implemented. (Android)
 </p>
 </dd>
 <dt>dbmclose</dt>
@@ -1984,7 +1989,7 @@ A workaround is to use <code>POSIX::_exit</code>.  (Solaris)
 </dd>
 <dt>getnetbyname</dt>
 <dd><a name="perlport-getnetbyname"></a>
-<p>Not implemented. (Win32, Plan&nbsp;9<!-- /@w -->)
+<p>Not implemented. (Android, Win32, Plan&nbsp;9<!-- /@w -->)
 </p>
 </dd>
 <dt>getpwuid</dt>
@@ -2001,23 +2006,25 @@ A workaround is to use <code>POSIX::_exit</code>.  (Solaris)
 </dd>
 <dt>getnetbyaddr</dt>
 <dd><a name="perlport-getnetbyaddr"></a>
-<p>Not implemented. (Win32, Plan&nbsp;9<!-- /@w -->)
+<p>Not implemented. (Android, Win32, Plan&nbsp;9<!-- /@w -->)
 </p>
 </dd>
 <dt>getprotobynumber</dt>
 <dd><a name="perlport-getprotobynumber"></a>
+<p>Not implemented. (Android)
+</p>
 </dd>
 <dt>getservbyport</dt>
 <dd><a name="perlport-getservbyport"></a>
 </dd>
 <dt>getpwent</dt>
 <dd><a name="perlport-getpwent"></a>
-<p>Not implemented. (Win32)
+<p>Not implemented. (Android, Win32)
 </p>
 </dd>
 <dt>getgrent</dt>
 <dd><a name="perlport-getgrent"></a>
-<p>Not implemented. (Win32, VMS)
+<p>Not implemented. (Android, Win32, VMS)
 </p>
 </dd>
 <dt>gethostbyname</dt>
@@ -2033,12 +2040,12 @@ to use <code>gethostbyname('127.0.0.1')</code>. (Irix&nbsp;5<!-- /@w -->)
 </dd>
 <dt>getnetent</dt>
 <dd><a name="perlport-getnetent"></a>
-<p>Not implemented. (Win32, Plan&nbsp;9<!-- /@w -->)
+<p>Not implemented. (Android, Win32, Plan&nbsp;9<!-- /@w -->)
 </p>
 </dd>
 <dt>getprotoent</dt>
 <dd><a name="perlport-getprotoent"></a>
-<p>Not implemented. (Win32, Plan&nbsp;9<!-- /@w -->)
+<p>Not implemented. (Android, Win32, Plan&nbsp;9<!-- /@w -->)
 </p>
 </dd>
 <dt>getservent</dt>
@@ -2046,9 +2053,14 @@ to use <code>gethostbyname('127.0.0.1')</code>. (Irix&nbsp;5<!-- /@w -->)
 <p>Not implemented. (Win32, Plan&nbsp;9<!-- /@w -->)
 </p>
 </dd>
+<dt>seekdir</dt>
+<dd><a name="perlport-seekdir"></a>
+<p>Not implemented. (Android)
+</p>
+</dd>
 <dt>sethostent</dt>
 <dd><a name="perlport-sethostent"></a>
-<p>Not implemented. (Win32, Plan&nbsp;9<!-- /@w -->, RISC&nbsp;OS<!-- /@w -->)
+<p>Not implemented. (Android, Win32, Plan&nbsp;9<!-- /@w -->, RISC&nbsp;OS<!-- /@w -->)
 </p>
 </dd>
 <dt>setnetent</dt>
@@ -2058,7 +2070,7 @@ to use <code>gethostbyname('127.0.0.1')</code>. (Irix&nbsp;5<!-- /@w -->)
 </dd>
 <dt>setprotoent</dt>
 <dd><a name="perlport-setprotoent"></a>
-<p>Not implemented. (Win32, Plan&nbsp;9<!-- /@w -->, RISC&nbsp;OS<!-- /@w -->)
+<p>Not implemented. (Android, Win32, Plan&nbsp;9<!-- /@w -->, RISC&nbsp;OS<!-- /@w -->)
 </p>
 </dd>
 <dt>setservent</dt>
@@ -2070,25 +2082,27 @@ to use <code>gethostbyname('127.0.0.1')</code>. (Irix&nbsp;5<!-- /@w -->)
 <dd><a name="perlport-endpwent"></a>
 <p>Not implemented. (Win32)
 </p>
+<p>Either not implemented or a no-op. (Android)
+</p>
 </dd>
 <dt>endgrent</dt>
 <dd><a name="perlport-endgrent"></a>
-<p>Not implemented. (RISC&nbsp;OS<!-- /@w -->, VMS, Win32)
+<p>Not implemented. (Android, RISC&nbsp;OS<!-- /@w -->, VMS, Win32)
 </p>
 </dd>
 <dt>endhostent</dt>
 <dd><a name="perlport-endhostent"></a>
-<p>Not implemented. (Win32)
+<p>Not implemented. (Android, Win32)
 </p>
 </dd>
 <dt>endnetent</dt>
 <dd><a name="perlport-endnetent"></a>
-<p>Not implemented. (Win32, Plan&nbsp;9<!-- /@w -->)
+<p>Not implemented. (Android, Win32, Plan&nbsp;9<!-- /@w -->)
 </p>
 </dd>
 <dt>endprotoent</dt>
 <dd><a name="perlport-endprotoent"></a>
-<p>Not implemented. (Win32, Plan&nbsp;9<!-- /@w -->)
+<p>Not implemented. (Android, Win32, Plan&nbsp;9<!-- /@w -->)
 </p>
 </dd>
 <dt>endservent</dt>
@@ -2189,7 +2203,7 @@ but usually by no more than an hour.
 </dd>
 <dt>msgrcv</dt>
 <dd><a name="perlport-msgrcv"></a>
-<p>Not implemented. (Win32, VMS, Plan&nbsp;9<!-- /@w -->, RISC&nbsp;OS<!-- /@w -->, VOS)
+<p>Not implemented. (Android, Win32, VMS, Plan&nbsp;9<!-- /@w -->, RISC&nbsp;OS<!-- /@w -->, VOS)
 </p>
 </dd>
 <dt>open</dt>
@@ -2234,12 +2248,12 @@ from a cache buffer. (Win32)
 </dd>
 <dt>semop</dt>
 <dd><a name="perlport-semop"></a>
-<p>Not implemented. (Win32, VMS, RISC&nbsp;OS<!-- /@w -->)
+<p>Not implemented. (Android, Win32, VMS, RISC&nbsp;OS<!-- /@w -->)
 </p>
 </dd>
 <dt>setgrent</dt>
 <dd><a name="perlport-setgrent"></a>
-<p>Not implemented. (VMS, Win32, RISC&nbsp;OS<!-- /@w -->)
+<p>Not implemented. (Android, VMS, Win32, RISC&nbsp;OS<!-- /@w -->)
 </p>
 </dd>
 <dt>setpgrp</dt>
@@ -2254,7 +2268,7 @@ from a cache buffer. (Win32)
 </dd>
 <dt>setpwent</dt>
 <dd><a name="perlport-setpwent"></a>
-<p>Not implemented. (Win32, RISC&nbsp;OS<!-- /@w -->)
+<p>Not implemented. (Android, Win32, RISC&nbsp;OS<!-- /@w -->)
 </p>
 </dd>
 <dt>setsockopt</dt>
@@ -2273,7 +2287,7 @@ from a cache buffer. (Win32)
 </dd>
 <dt>shmwrite</dt>
 <dd><a name="perlport-shmwrite"></a>
-<p>Not implemented. (Win32, VMS, RISC&nbsp;OS<!-- /@w -->)
+<p>Not implemented. (Android, Win32, VMS, RISC&nbsp;OS<!-- /@w -->)
 </p>
 </dd>
 <dt>sleep</dt>
@@ -2377,6 +2391,11 @@ POSIX value will be decoded to extract the expected exit value.
 For more details see <a href="perlvms.html#perlvms-_0024_003f">perlvms $?</a>. (VMS)
 </p>
 </dd>
+<dt>telldir</dt>
+<dd><a name="perlport-telldir"></a>
+<p>Not implemented. (Android)
+</p>
+</dd>
 <dt>times</dt>
 <dd><a name="perlport-times"></a>
 <p>&quot;cumulative&quot; times will be bogus.  On anything other than Windows NT
@@ -2435,7 +2454,7 @@ using <code>system(1, ...)</code> or pseudo processes created with <code>fork()<
 <a name="perlport-Supported-Platforms"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-EOL-Platforms-_0028Perl-5_002e14_0029" accesskey="n" rel="next">perlport EOL Platforms (Perl 5.14)</a>, Previous: <a href="#perlport-FUNCTION-IMPLEMENTATIONS" accesskey="p" rel="prev">perlport FUNCTION IMPLEMENTATIONS</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-EOL-Platforms" accesskey="n" rel="next">perlport EOL Platforms</a>, Previous: <a href="#perlport-FUNCTION-IMPLEMENTATIONS" accesskey="p" rel="prev">perlport FUNCTION IMPLEMENTATIONS</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Supported-Platforms"></a>
 <h3 class="section">56.7 Supported Platforms</h3>
@@ -2480,6 +2499,18 @@ at <a href="http://www.cpan.org/src">http://www.cpan.org/src</a>
 </dd>
 <dt>Cygwin</dt>
 <dd><a name="perlport-Cygwin"></a>
+<p>Some tests are known to fail:
+</p>
+<ul>
+<li> <samp>ext/XS-APItes/t/call_checker.t</samp> - see
+<a href="https://rt.perl.org/Ticket/Display.html?id=78502">https://rt.perl.org/Ticket/Display.html?id=78502</a>
+
+</li><li> <samp>dist/I18N-Collate/t/I18N-Collate.t</samp>
+
+</li><li> <samp>ext/Win32CORE/t/win32core.t</samp> - may fail on recent cygwin installs.
+
+</li></ul>
+
 </dd>
 <dt>Solaris (x86, SPARC)</dt>
 <dd><a name="perlport-Solaris-_0028x86_002c-SPARC_0029"></a>
@@ -2549,35 +2580,65 @@ at <a href="http://www.cpan.org/src">http://www.cpan.org/src</a>
 <dt>AIX</dt>
 <dd><a name="perlport-AIX-1"></a>
 </dd>
+<dt>Android</dt>
+<dd><a name="perlport-Android"></a>
+</dd>
+<dt>FreeMINT</dt>
+<dd><a name="perlport-FreeMINT"></a>
+<p>Perl now builds with FreeMiNT/Atari. It fails a few tests, that needs
+some investigation.
+</p>
+<p>The FreeMiNT port uses GNU dld for loadable module capabilities. So
+ensure you have that library installed when building perl.
+</p>
+</dd>
 </dl>
 
 <hr>
-<a name="perlport-EOL-Platforms-_0028Perl-5_002e14_0029"></a>
+<a name="perlport-EOL-Platforms"></a>
 <div class="header">
 <p>
 Next: <a href="#perlport-Supported-Platforms-_0028Perl-5_002e8_0029" accesskey="n" rel="next">perlport Supported Platforms (Perl 5.8)</a>, Previous: <a href="#perlport-Supported-Platforms" accesskey="p" rel="prev">perlport Supported Platforms</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="EOL-Platforms-_0028Perl-5_002e14_0029"></a>
-<h3 class="section">56.8 EOL Platforms (Perl 5.14)</h3>
+<a name="EOL-Platforms"></a>
+<h3 class="section">56.8 EOL Platforms</h3>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="#perlport-_0028Perl-5_002e20_0029" accesskey="1">perlport (Perl 5.20)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlport-_0028Perl-5_002e14_0029" accesskey="2">perlport (Perl 5.14)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="#perlport-_0028Perl-5_002e12_0029" accesskey="3">perlport (Perl 5.12)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<a name="perlport-_0028Perl-5_002e20_0029"></a>
+<div class="header">
+<p>
+Next: <a href="#perlport-_0028Perl-5_002e14_0029" accesskey="n" rel="next">perlport (Perl 5.14)</a>, Up: <a href="#perlport-EOL-Platforms" accesskey="u" rel="up">perlport EOL Platforms</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="g_t_0028Perl-5_002e20_0029"></a>
+<h4 class="subsection">56.8.1 (Perl 5.20)</h4>
 
 <p>The following platforms were supported by a previous version of
 Perl but have been officially removed from Perl&rsquo;s source code
-as of 5.12:
+as of 5.20:
 </p>
 <dl compact="compact">
-<dt>Atari MiNT</dt>
-<dd><a name="perlport-Atari-MiNT"></a>
-</dd>
-<dt>Apollo Domain/OS</dt>
-<dd><a name="perlport-Apollo-Domain_002fOS"></a>
-</dd>
-<dt>Apple Mac OS 8/9</dt>
-<dd><a name="perlport-Apple-Mac-OS-8_002f9"></a>
-</dd>
-<dt>Tenon Machten</dt>
-<dd><a name="perlport-Tenon-Machten"></a>
+<dt>AT&amp;T 3b1</dt>
+<dd><a name="perlport-AT_0026T-3b1"></a>
 </dd>
 </dl>
+
+<hr>
+<a name="perlport-_0028Perl-5_002e14_0029"></a>
+<div class="header">
+<p>
+Next: <a href="#perlport-_0028Perl-5_002e12_0029" accesskey="n" rel="next">perlport (Perl 5.12)</a>, Previous: <a href="#perlport-_0028Perl-5_002e20_0029" accesskey="p" rel="prev">perlport (Perl 5.20)</a>, Up: <a href="#perlport-EOL-Platforms" accesskey="u" rel="up">perlport EOL Platforms</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="g_t_0028Perl-5_002e14_0029"></a>
+<h4 class="subsection">56.8.2 (Perl 5.14)</h4>
 
 <p>The following platforms were supported up to 5.10.  They may still
 have worked in 5.12, but supporting code has been removed for 5.14:
@@ -2598,10 +2659,38 @@ have worked in 5.12, but supporting code has been removed for 5.14:
 </dl>
 
 <hr>
+<a name="perlport-_0028Perl-5_002e12_0029"></a>
+<div class="header">
+<p>
+Previous: <a href="#perlport-_0028Perl-5_002e14_0029" accesskey="p" rel="prev">perlport (Perl 5.14)</a>, Up: <a href="#perlport-EOL-Platforms" accesskey="u" rel="up">perlport EOL Platforms</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<a name="g_t_0028Perl-5_002e12_0029"></a>
+<h4 class="subsection">56.8.3 (Perl 5.12)</h4>
+
+<p>The following platforms were supported by a previous version of
+Perl but have been officially removed from Perl&rsquo;s source code
+as of 5.12:
+</p>
+<dl compact="compact">
+<dt>Atari MiNT</dt>
+<dd><a name="perlport-Atari-MiNT"></a>
+</dd>
+<dt>Apollo Domain/OS</dt>
+<dd><a name="perlport-Apollo-Domain_002fOS"></a>
+</dd>
+<dt>Apple Mac OS 8/9</dt>
+<dd><a name="perlport-Apple-Mac-OS-8_002f9"></a>
+</dd>
+<dt>Tenon Machten</dt>
+<dd><a name="perlport-Tenon-Machten"></a>
+</dd>
+</dl>
+
+<hr>
 <a name="perlport-Supported-Platforms-_0028Perl-5_002e8_0029"></a>
 <div class="header">
 <p>
-Next: <a href="#perlport-SEE-ALSO" accesskey="n" rel="next">perlport SEE ALSO</a>, Previous: <a href="#perlport-EOL-Platforms-_0028Perl-5_002e14_0029" accesskey="p" rel="prev">perlport EOL Platforms (Perl 5.14)</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perlport-SEE-ALSO" accesskey="n" rel="next">perlport SEE ALSO</a>, Previous: <a href="#perlport-EOL-Platforms" accesskey="p" rel="prev">perlport EOL Platforms</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Supported-Platforms-_0028Perl-5_002e8_0029"></a>
 <h3 class="section">56.9 Supported Platforms (Perl 5.8)</h3>
@@ -2740,11 +2829,11 @@ in case you are in a hurry you can check
 <p>
 Next: <a href="#perlport-AUTHORS-_002f-CONTRIBUTORS" accesskey="n" rel="next">perlport AUTHORS / CONTRIBUTORS</a>, Previous: <a href="#perlport-Supported-Platforms-_0028Perl-5_002e8_0029" accesskey="p" rel="prev">perlport Supported Platforms (Perl 5.8)</a>, Up: <a href="#perlport" accesskey="u" rel="up">perlport</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="SEE-ALSO-29"></a>
+<a name="SEE-ALSO-28"></a>
 <h3 class="section">56.10 SEE ALSO</h3>
 
 <p><a href="../perlaix/index.html">(perlaix)</a>, <a href="../perlamiga/index.html">(perlamiga)</a>, <a href="../perlbs2000/index.html">(perlbs2000)</a>,
-<a href="../perlce/index.html">(perlce)</a>, <a href="../perlcygwin/index.html">(perlcygwin)</a>, <a href="../perldgux/index.html">(perldgux)</a>, <a href="../perldos/index.html">(perldos)</a>,
+<a href="../perlce/index.html">(perlce)</a>, <a href="../perlcygwin/index.html">(perlcygwin)</a>, <a href="../perldos/index.html">(perldos)</a>,
 <a href="perlebcdic.html#perlebcdic-NAME">perlebcdic NAME</a>, <a href="../perlfreebsd/index.html">(perlfreebsd)</a>, <a href="../perlhurd/index.html">(perlhurd)</a>, <a href="../perlhpux/index.html">(perlhpux)</a>, <a href="../perlirix/index.html">(perlirix)</a>,
 <a href="../perlmacos/index.html">(perlmacos)</a>, <a href="../perlmacosx/index.html">(perlmacosx)</a>,
 <a href="../perlnetware/index.html">(perlnetware)</a>, <a href="../perlos2/index.html">(perlos2)</a>, <a href="../perlos390/index.html">(perlos390)</a>, <a href="../perlos400/index.html">(perlos400)</a>,

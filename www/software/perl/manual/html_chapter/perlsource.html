@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by Texinfo 5.1.90+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by Texinfo 5.2dev+dev, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>Perl pod documentation: perlsource</title>
 
@@ -54,7 +54,7 @@ ul.no-bullet {list-style: none}
 Next: <a href="perlstyle.html#perlstyle" accesskey="n" rel="next">perlstyle</a>, Previous: <a href="perlsec.html#perlsec" accesskey="p" rel="prev">perlsec</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="perlsource-1"></a>
-<h2 class="chapter">70 perlsource</h2>
+<h2 class="chapter">71 perlsource</h2>
 
 <table class="menu" border="0" cellspacing="0">
 <tr><td align="left" valign="top">&bull; <a href="#perlsource-NAME" accesskey="1">perlsource NAME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
@@ -71,8 +71,8 @@ Next: <a href="perlstyle.html#perlstyle" accesskey="n" rel="next">perlstyle</a>,
 <p>
 Next: <a href="#perlsource-DESCRIPTION" accesskey="n" rel="next">perlsource DESCRIPTION</a>, Up: <a href="#perlsource" accesskey="u" rel="up">perlsource</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="NAME-69"></a>
-<h3 class="section">70.1 NAME</h3>
+<a name="NAME-70"></a>
+<h3 class="section">71.1 NAME</h3>
 
 <p>perlsource - A guide to the Perl source tree
 </p>
@@ -82,8 +82,8 @@ Next: <a href="#perlsource-DESCRIPTION" accesskey="n" rel="next">perlsource DESC
 <p>
 Next: <a href="#perlsource-FINDING-YOUR-WAY-AROUND" accesskey="n" rel="next">perlsource FINDING YOUR WAY AROUND</a>, Previous: <a href="#perlsource-NAME" accesskey="p" rel="prev">perlsource NAME</a>, Up: <a href="#perlsource" accesskey="u" rel="up">perlsource</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="DESCRIPTION-68"></a>
-<h3 class="section">70.2 DESCRIPTION</h3>
+<a name="DESCRIPTION-69"></a>
+<h3 class="section">71.2 DESCRIPTION</h3>
 
 <p>This document describes the layout of the Perl source tree. If you&rsquo;re
 hacking on the Perl core, this will help you find what you&rsquo;re looking
@@ -96,7 +96,7 @@ for.
 Previous: <a href="#perlsource-DESCRIPTION" accesskey="p" rel="prev">perlsource DESCRIPTION</a>, Up: <a href="#perlsource" accesskey="u" rel="up">perlsource</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="FINDING-YOUR-WAY-AROUND"></a>
-<h3 class="section">70.3 FINDING YOUR WAY AROUND</h3>
+<h3 class="section">71.3 FINDING YOUR WAY AROUND</h3>
 
 <p>The Perl source tree is big. Here&rsquo;s some of the thing you&rsquo;ll find in
 it:
@@ -127,7 +127,7 @@ it:
 Next: <a href="#perlsource-Core-modules" accesskey="n" rel="next">perlsource Core modules</a>, Up: <a href="#perlsource-FINDING-YOUR-WAY-AROUND" accesskey="u" rel="up">perlsource FINDING YOUR WAY AROUND</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="C-code"></a>
-<h4 class="subsection">70.3.1 C code</h4>
+<h4 class="subsection">71.3.1 C code</h4>
 
 <p>The C source code and header files mostly live in the root of the
 source tree. There are a few platform-specific directories which
@@ -144,7 +144,7 @@ interpreter, as well as details on how it works.
 Next: <a href="#perlsource-Tests" accesskey="n" rel="next">perlsource Tests</a>, Previous: <a href="#perlsource-C-code" accesskey="p" rel="prev">perlsource C code</a>, Up: <a href="#perlsource-FINDING-YOUR-WAY-AROUND" accesskey="u" rel="up">perlsource FINDING YOUR WAY AROUND</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Core-modules"></a>
-<h4 class="subsection">70.3.2 Core modules</h4>
+<h4 class="subsection">71.3.2 Core modules</h4>
 
 <p>Modules shipped as part of the Perl core live in four subdirectories.
 Two of these directories contain modules that live in the core, and two
@@ -160,15 +160,20 @@ their tests, unlike other core modules.
 </p>
 </li><li> <samp>ext/</samp>
 
-<p>This directory contains XS-using modules which are only released as
-part of the core. These modules generally have their <samp>Makefile.PL</samp> and
-are laid out more like a typical CPAN module.
+<p>Like <samp>lib/</samp>, this directory contains modules which are only released
+as part of the core.  Unlike <samp>lib/</samp>, however, a module under <samp>ext/</samp>
+generally has a CPAN-style directory- and file-layout and its own
+<samp>Makefile.PL</samp>.  There is no expectation that a module under <samp>ext/</samp>
+will work with earlier versions of Perl 5.  Hence, such a module may
+take full advantage of syntactical and other improvements in Perl 5
+blead.
 </p>
 </li><li> <samp>dist/</samp>
 
 <p>This directory is for dual-life modules where the blead source is
 canonical. Note that some modules in this directory may not yet have
-been released separately on CPAN.
+been released separately on CPAN.  Modules under <samp>dist/</samp> should make
+an effort to work with earlier versions of Perl 5.
 </p>
 </li><li> <samp>cpan/</samp>
 
@@ -191,7 +196,7 @@ modules should be in <samp>cpan/</samp>.
 Next: <a href="#perlsource-Documentation" accesskey="n" rel="next">perlsource Documentation</a>, Previous: <a href="#perlsource-Core-modules" accesskey="p" rel="prev">perlsource Core modules</a>, Up: <a href="#perlsource-FINDING-YOUR-WAY-AROUND" accesskey="u" rel="up">perlsource FINDING YOUR WAY AROUND</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Tests"></a>
-<h4 class="subsection">70.3.3 Tests</h4>
+<h4 class="subsection">71.3.3 Tests</h4>
 
 <p>The Perl core has an extensive test suite. If you add new tests (or new
 modules with tests), you may need to update the <samp>t/TEST</samp> file so that
@@ -238,10 +243,10 @@ other directories.
 </p>
 </li><li> <samp>t/opbasic/</samp>
 
-<p>Tests for perl&rsquo;s built in functions which, like those in <samp>t/op/</samp>, do not fit
-into any of the other directories, but which, in addition, cannot use
-<samp>t/test.pl</samp>,as that program depends on functionality which the
-test file itself is testing.
+<p>Tests for perl&rsquo;s built in functions which, like those in <samp>t/op/</samp>, do
+not fit into any of the other directories, but which, in addition,
+cannot use <samp>t/test.pl</samp>,as that program depends on functionality which
+the test file itself is testing.
 </p>
 </li><li> <samp>t/re/</samp>
 
@@ -286,7 +291,7 @@ need to be moved. Perhaps you could move them?  Thanks!
 Next: <a href="#perlsource-Hacking-tools-and-documentation" accesskey="n" rel="next">perlsource Hacking tools and documentation</a>, Previous: <a href="#perlsource-Tests" accesskey="p" rel="prev">perlsource Tests</a>, Up: <a href="#perlsource-FINDING-YOUR-WAY-AROUND" accesskey="u" rel="up">perlsource FINDING YOUR WAY AROUND</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Documentation-1"></a>
-<h4 class="subsection">70.3.4 Documentation</h4>
+<h4 class="subsection">71.3.4 Documentation</h4>
 
 <p>All of the core documentation intended for end users lives in <samp>pod/</samp>.
 Individual modules in <samp>lib/</samp>, <samp>ext/</samp>, <samp>dist/</samp>, and <samp>cpan/</samp> usually
@@ -303,7 +308,7 @@ accompanying <samp>Module.pod</samp> file.
 Next: <a href="#perlsource-Build-system" accesskey="n" rel="next">perlsource Build system</a>, Previous: <a href="#perlsource-Documentation" accesskey="p" rel="prev">perlsource Documentation</a>, Up: <a href="#perlsource-FINDING-YOUR-WAY-AROUND" accesskey="u" rel="up">perlsource FINDING YOUR WAY AROUND</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Hacking-tools-and-documentation"></a>
-<h4 class="subsection">70.3.5 Hacking tools and documentation</h4>
+<h4 class="subsection">71.3.5 Hacking tools and documentation</h4>
 
 <p>The <samp>Porting</samp> directory contains a grab bag of code and documentation
 intended to help porters work on Perl. Some of the highlights include:
@@ -334,7 +339,7 @@ patched.
 Next: <a href="#perlsource-AUTHORS" accesskey="n" rel="next">perlsource <samp>AUTHORS</samp></a>, Previous: <a href="#perlsource-Hacking-tools-and-documentation" accesskey="p" rel="prev">perlsource Hacking tools and documentation</a>, Up: <a href="#perlsource-FINDING-YOUR-WAY-AROUND" accesskey="u" rel="up">perlsource FINDING YOUR WAY AROUND</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Build-system"></a>
-<h4 class="subsection">70.3.6 Build system</h4>
+<h4 class="subsection">71.3.6 Build system</h4>
 
 <p>The Perl build system starts with the <samp>Configure</samp> script in the root
 directory.
@@ -361,7 +366,7 @@ cross-compiling Perl. See <samp>Cross/README</samp> for more details.
 Next: <a href="#perlsource-MANIFEST" accesskey="n" rel="next">perlsource <samp>MANIFEST</samp></a>, Previous: <a href="#perlsource-Build-system" accesskey="p" rel="prev">perlsource Build system</a>, Up: <a href="#perlsource-FINDING-YOUR-WAY-AROUND" accesskey="u" rel="up">perlsource FINDING YOUR WAY AROUND</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="AUTHORS-5"></a>
-<h4 class="subsection">70.3.7 <samp>AUTHORS</samp></h4>
+<h4 class="subsection">71.3.7 <samp>AUTHORS</samp></h4>
 
 <p>This file lists everyone who&rsquo;s contributed to Perl. If you submit a
 patch, you should add your name to this file as part of the patch.
@@ -373,7 +378,7 @@ patch, you should add your name to this file as part of the patch.
 Previous: <a href="#perlsource-AUTHORS" accesskey="p" rel="prev">perlsource <samp>AUTHORS</samp></a>, Up: <a href="#perlsource-FINDING-YOUR-WAY-AROUND" accesskey="u" rel="up">perlsource FINDING YOUR WAY AROUND</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="MANIFEST"></a>
-<h4 class="subsection">70.3.8 <samp>MANIFEST</samp></h4>
+<h4 class="subsection">71.3.8 <samp>MANIFEST</samp></h4>
 
 <p>The <samp>MANIFEST</samp> file in the root of the source tree contains a list of
 every file in the Perl core, as well as a brief description of each
