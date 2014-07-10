@@ -1,208 +1,198 @@
-(** Lattice automata and their operations *)
-
-(* T. Le Gall, 2007 *)
-
-(*  ********************************************************************** *)
-(** {2 Modules} *)
-(*  ********************************************************************** *)
-
-(** Same modules as in [LautomatonRep] *)
-
-module SetII : (Sette.S with type elt=int*int)
-module MapII : (Mappe.S with type key=int*int and module Setkey=SetII)
-module HashII : (Hashhe.S with type key=int*int and type 'a t='a LAutomatonRep.HashII.t)
-module Graph : (FGraph.S with type vertex = int
-			 and module SetV=MappeI.Setkey
-			 and module SetE=MapII.Setkey
-			 and module MapV=MappeI
-			 and module MapE=MapII
-			 and type ('a,'b,'c) t = ('a,'b,'c) LAutomatonRep.Graph.t)
-
-(*  ********************************************************************** *)
-(** {2 Types} *)
-(*  ********************************************************************** *)
-
-(** Same types as in [LautomatonRep] *)
-
-type ('a,'b) info = ('a,'b) LAutomatonRep.info = {
-  lattice : 'a;
-  partition : 'b;
-  initial : SetteI.t array;
-  final : SetteI.t array;
-  mutable det : bool;
-  mutable min : bool;
-  mutable counter : int;
-}
-val print_info :
-  (Format.formatter -> 'b -> unit) -> Format.formatter -> ('a,'b) info -> unit
-
-type pinfo = LAutomatonRep.pinfo = {
-  pinitial : SetteI.t array;
-  pfinal : SetteI.t array;
-  hashPI : (SetteI.t,int) Hashhe.t;
-  mutable pcounter : int;
-}
-val make_pinfo : int -> pinfo
-type partition = LAutomatonRep.partition = {
-  mutable map : int MappeI.t;
-  mutable classes : SetteI.t MappeI.t;
-}
-val partition_of_map : int MappeI.t -> partition
-val partition_of_classes : SetteI.t MappeI.t -> partition
-val partition_print : Format.formatter -> partition -> unit
-
-(*  ********************************************************************** *)
-(** {2 Module type for the generated module} *)
-(*  ********************************************************************** *)
-
-module type S = sig
-  include LAutomatonRep.S
-
-  (*  ==================================================================== *)
-  (** {3 Normalisation} *)
-  (*  ==================================================================== *)
-    
-  val minimise: 'a t -> 'a t
-  val canonicalise: 'a t -> 'a t
-      (** [minimise auto] returns the least minimal deterministic automaton (in
-	terms of language inclusion) recognizing all words accepted by
-	[auto]. *)
-    
-  (*  ==================================================================== *)
-  (** {3 Logical operations} *)
-  (*  ==================================================================== *)
-
-  val union: 'a t -> 'a t -> 'a t
-      (** [union auto1 auto2] returns an automaton corresponding to the union
-	of the two automata [auto1] and [auto2]. 
-	The result is neither deterministic nor minimal in general 
-      *)
-
-  module Inter : sig
-    val inter: 'a t -> 'a t -> 'a t * int HashII.t
-  end
-  val inter: 'a t -> 'a t -> 'a t
-      (** [inter auto1 auto2] returns an automaton corresponding to the
-	intersection of the two automata [auto1] and [auto2]. 
-	The result is deterministic but not minimal in general
-      *)
-
-  val union_list : 'a t list -> 'a t
-  val union_array : 'a t array -> 'a t
-  val inter_list : 'a t list -> 'a t
-  val inter_array : 'a t array -> 'a t
-    (** n-ary versions of previous operations *)
-
-  (*  ==================================================================== *)
-  (** {3 Language operations} *)
-  (*  ==================================================================== *)
-
-  val cons_right : 'a t -> int -> 'a PL.t -> 'a t
-  val deriv_right : ?cond:'a PL.t -> 'a t -> int -> 'a t
-  val look_right : ?cond:'a PL.t -> 'a t -> int -> 'a PL.t
-  val cons_left : 'a t -> int -> 'a PL.t -> 'a t
-  val deriv_left : ?cond:'a PL.t -> 'a t -> int -> 'a t
-  val look_left : ?cond:'a PL.t -> 'a t -> int -> 'a PL.t
-  val of_regexp : lattice:'a PL.lattice -> partition:'a PL.t -> int -> 'a PL.t Regexp.t -> 'a t
-
-  module Language : sig
-    val look_right : ?cond:'a PL.t -> 'a t -> 'a PL.t
-    (** [L -> X] such that [w.x in L <==> x in X] *)
-    val cons_right : 'a t -> 'a PL.t -> 'a t
-    (** [L -> X -> L.X].
-      Result is not deterministic in general. *)
-    val deriv_right : ?cond:'a PL.t -> 'a t -> 'a t
-    (** [L -> X -> L'] such that 
-        - [w in L' <==> w.x in L /\ x in X] if [cond=Some X]
-        - [w in L' <==> w.x in L] if [cond=None]
-      Result is deterministic if argument is. *)
-    val look_left : ?cond:'a PL.t -> 'a t -> 'a PL.t
-    (** [L -> X] such that [x.w in L <==> x in X] *)
-    val cons_left : 'a t -> 'a PL.t -> 'a t
-    (** [X -> L -> X.L].
-      Result is deterministic if argument is. *)
-    val deriv_left : ?cond:'a PL.t -> 'a t -> 'a t
-    (** [X -> L -> L'] such that 
-      - [w in L' <==> x.w in L /\ x in X] if [cond=Some X]
-      - [w in L' <==> x.w in L] if [cond=None]
-      Result is not deterministic in general. *)
-    val empty : lattice:'a PL.lattice -> partition:'a PL.t -> 'a t
-      (** Empty word *)
-    val letter : lattice:'a PL.lattice -> partition:'a PL.t -> 'a PL.t -> 'a t
-      (** Create a partitioned automaton recognizing a single letter.
-        The letter is supposed included in the partition.
-	Result is deterministic. *)
-    val word : lattice:'a PL.lattice -> partition:'a PL.t -> 'a PL.t list -> 'a t
-      (** Create a partitioned automaton recognizing a single word.
-        The letters are supposed included in the partition.
-	Result is deterministic. *)
-
-    val transpose : 'a t -> 'a t
-      (** Language transposition (reversal) *)
-    module Concat : sig
-      val merge_trans : 'a t -> Graph.vertex * Graph.vertex -> 'a PL.t -> 'a t
-      val merge_final_initial : 'a t -> SetteI.t -> SetteI.t -> 'a t
-    end
-    val concat : 'a t -> 'a t -> 'a t
-    val concat_list : 'a t list -> 'a t
-    val concat_array : 'a t array -> 'a t
-    (** Language concatenation.
-      Result is not deterministic in general. *)
-
-    val star : 'a t -> 'a t
-    val plus : 'a t -> 'a t
-    (** Standard and strict Kleene closure.
-      Result is not deterministic in general. *)
-      
-    val of_regexp : lattice:'a PL.lattice -> partition:'a PL.t -> 'a PL.t Regexp.t -> 'a t
-    (** Constructor from a regular expressions *)
-  end
-
-  (*  ==================================================================== *)
-  (** {3 Widening} *)
-  (*  ==================================================================== *)
-
-  val widening_shape : ('a t -> 'a t) -> 'a t -> 'a t -> 'a t
-    (** Widening parameterized by a partition.  Assumes inclusion of the first
-      automaton in the second one.
-
-      In [widening abstract auto1 auto2]:
-
-      - If shape1 and shape2 have twoway bisimilar shapes, 
-        then applies L.widening pairwise on labels;
-
-      - Otherwise, return [abstract auto2]
-
-      It is assumed that the set of image automata of the [abstract] function
-      has a finite set of shapes (this guarantess termination).  *)
-
-  module Abstract : sig
-     val partition_std : ?initial:bool -> ?final:bool -> 'a t -> partition
-      (** Standard partition, separating in each dimension initial,
-	  final, initial and final states from others. If [initial=false]
-	  (resp. [final=false]), then initial states (resp. final states)
-	  are not distinguished from others.  *)
-
-    val partition_refine : ?forward:bool -> ?backward:bool -> 'a t -> 
-      partition -> partition
-	(** Refines a partition by separating states according to the ingoing
-	  ([backward]) and/or outgoing ([forward]) letters. *) 
-
-    val standard : ?initial:bool ->  ?final:bool -> forward:int -> backward:int -> 'a t -> 'a t
-    (** Standard abstraction, based on an initial partition separating
-	in each dimension initial, final, initial and final states from
-	others (if [initial=false] (resp. [final=false]), then initial
-	states (resp. final states) are not distinguished from others),
-	further refined by a bounded bisimulation of depth [forward] in
-	forward direction, and depth [backward] in backward direction.  *)
-    end
-
-  end
-
-(*  ********************************************************************** *)
-(** {2 Functor} *)
-(*  ********************************************************************** *)
-
-module Make (PL:PLattice.S) : 
-  (S with module A = PL.A
-     and module PL = PL)
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml-strict.dtd">
+<html xmlns:html="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+  <head>
+    <title>Aktualności Projektu GNU - Projekt GNU - Fundacja Wolnego Oprogramowania (FSF)</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="/gnu.pl.css" />
+    <link rev="made" href="mailto:webmasters@gnu.org" />
+    <link rev="translated" href="mailto:web-translators-pl@gnu.org" />
+<!-- transl.: wkotwica-->
+<!--
+		    Webmasters: Do not Edit this file. Edit the news database instead.
+		    See the webmaster guide.
+		-->
+  </head>
+  <body>
+    <h3>Nowości Projektu GNU</h3>
+    <p>
+      <a href="/graphics/agnuhead.pl.html">
+        <img src="/graphics/gnu-head-sm.jpg" alt=" [rysunek g&#x142;owy GNU] " width="129" height="122" />
+      </a>
+    </p>
+    <p>
+[<a href="whatsnew.html">English</a> | <a href="whatsnew.pl.html">Polski</a>
+ | <a href="whatsnew.pt-br.html">Português</a> | <a href="whatsnew.it.html">Italiano</a>
+ | <a href="whatsnew.ca.html">Català</a> | <a href="whatsnew.sr.html">Српски</a>]
+		</p>
+    <p><a href="/events.tmp.html"><strong>Zbliżające się wydarzenia</strong></a>
+		    | <a href="/keepingup.html"><strong>Na bieżąco z GNU i FSF</strong></a>
+		    | <a href="/press/press.html"><strong>Informacje dla prasy</strong></a>
+		    | <a href="/press/press.html#releases"><strong>Komunikaty prasowe</strong></a></p>
+    <dl>
+      <dt>28 kwietnia 2006</dt>
+      <dd>Prosimy o <a href="http://www.eff.org/share/petition/">podpisanie petycji EFF</a> na rzecz dzielenia się muzyką.  W petycji użyto pewnego niedobrego określenia. Błędem jest mówienie o "kompensowaniu muzykom" kopiowania, gdyż takie sformułowanie podsyca niebezpieczne pretensje RIAA, jakoby muzycy "tracili" coś, kiedy ludzie kopiują. Właściwy cel to nie "kompensowanie" czegokolwiek muzykom, ale wspieranie muzyki i muzyków. Jednak ta usterka to nie powód, żeby nie podpisać petycji.</dd>
+    </dl>
+    <dl>
+      <dt>21 kwietnia 2006</dt>
+      <dd>Z Drugiej Międzynarodowej Konferencji na Temat GPLv3 udostępniono obraz i dźwięk, na żywo, w technologii strumieniowej; także inne części 7. Międzynarodowego Forum na Temat Wolnego Oprogramowania. Nagrania można odbierać spod adresu <a href="http://gplv3.fsf.org">http://gplv3.fsf.org/av</a>.</dd>
+    </dl>
+    <dl>
+      <dt>14 kwietnia 2006</dt>
+      <dd>Rząd Wielkiej Brytanii prosi o opinie na istotne dla zwolenników wolnego oprogramowania tamety. Prosimy o przesłanie pocztą elektroniczną swojej opinii. Więcej informacji <a href="http://www.fsf.org/news/uk-comment-042006">na stronach FSF (ang.)</a>. Termin ubiega 21 kwietnia.</dd>
+    </dl>
+    <dl>
+      <dt>28 lutego 2006</dt>
+      <dd>Subskrybenci list wysyłkowych GNU: serwer lists.gnu.org znów działa i dostarcza pocztę. Z powodu powstałych zaległości dadzą się odczuć pewne opóźnienia, ale nie powinny zginąć żadne przesyłki.</dd>
+    </dl>
+    <dl>
+      <dt>15 lutego 2006</dt>
+      <dd><a href="http://www.nyfairuse.org/action/wipo.xcast/">Pomóżcie zablokować</a> traktat WIPO o nadawaniu -- podobny do DMCA, ale jeszcze gorszy. Więcej informacji <a href="http://www.fsf.org/news/wipo-broadcast-treaty">na stronach FSF (ang.)</a>.</dd>
+    </dl>
+    <dl>
+      <dt>11 stycznia 2006</dt>
+      <dd>Prosimy o podpisanie <a href="http://www.pledgebank.com/boycottdrm">tej deklaracji</a> na PledgeBank, wyrażającej bojkot <a href="/philosophy/words-to-avoid.html#DigitalRightsManagement">DRM</a>.</dd>
+    </dl>
+    <dl>
+      <dt>3 stycznia 2006</dt>
+      <dd>Richard Stallman wystąpi w Nowym Jorku na spotkaniu prowadzonym przez Gnubies i LXNY, 4 stycznia o 18:30. Szczegóły na <a href="http://www.fsf.org/events/gnubies20060104.html">liście wydarzeń na fsf.org</a>. </dd>
+    </dl>
+    <dl>
+      <dt>9 grudnia 2005</dt>
+      <dd>Powstrzymajcie władze Francji przed zakazaniem wolnego oprogramowania! Więcej informacji w <a href="http://www.fsf.org/news/fs-france.html">wiadomościach FSF (ang.)</a>. <a href="http://eucd.info/petitions/index.php?petition=2">Podpiszcie  petycję</a>.</dd>
+    </dl>
+    <dl>
+      <dt>5 grudnia 2005</dt>
+      <dd>Richard Stallman wystąpi w programie radiowym Aleksa Jonesa, 2005-12-06, od 13:00 do 14:00 EST. Więcej informacji na <a href="http://www.prisonplanet.com">http://www.prisonplanet.com</a>.</dd>
+    </dl>
+    <dl>
+      <dt>30 listopada 2005</dt>
+      <dd>Prace nad GPL3 ruszyły pełną parą. FSF wydała <cite>GPL3 Process Definition</cite>, opisującą szczegóły i harmonogram prac nad opracowaniem projektu nowej licencji. Prosimy o przeczytanie tego dokumentu i zapisanie się na ogłoszeniową listę pocztową poświęconą GPLv3, prowadzoną na <a href="http://gplv3.fsf.org">gplv3.fsf.org</a>.</dd>
+    </dl>
+    <dl>
+      <dt>28 października 2005</dt>
+      <dd>Powstrzymajcie sabotowanie formatu OpenDocument! Prosimy o wzięcie udziału w przesłuchaniu publicznym w Bostonie, w poniedziałek 31 października od godziny 13 do 17 w Pokoju Przesłuchań A1 w Gmachu Stanowym. Przynieście kartki z symbolami pokazującymi wasze poparcie. Więcej informacji na <a href="http://www.fsf.org">www.fsf.org</a>.</dd>
+    </dl>
+    <dl>
+      <dt>14 października 2005</dt>
+      <dd>MPAA i RIAA próbują (znowu) przeforsować Broadcast Flag, bez procedury wysłuchania opinii publicznej. Prosimy o przeczytanie <a href="http://www.eff.org/deeplinks/archives/004047.php">raportu EFF</a> i podjęcie działań.</dd>
+    </dl>
+    <dl>
+      <dt>28 sierpnia 2005</dt>
+      <dd>Posłuchajcie <a href="http://www.thepodcastnetwork.com/audio/linuxuser/tpn_linuxuser_20050829_013.ogg">wywiadu udzielonego przez RMS-a</a> podczas GNU/Linux User Show. Nagranie w formacie OGG.</dd>
+    </dl>
+    <dl>
+      <dt>15 sierpnia 2005</dt>
+      <dd>Amerykański Urząd Praw Autorskich prosi o opinie na temat wymogu korzystania z  Internet Explorera w nowej usłudze wstępnej rejestracji utworów. FSF zbiera przekazuje i przekazuje komentarze sprzeciwiające się temu wymogowi. <a href="http://www.fsf.org/campaigns/copyright-comments.html">Prześlij nam swój komentarz</a> przed 18 sierpnia!</dd>
+    </dl>
+    <dl>
+      <dt>6 lipca 2005</dt>
+      <dd>Parlament Europejski zagłosował (648 do 14) przeciwko próbie wprowadzenia patentów na oprogramowanie w Europie!</dd>
+    </dl>
+    <dl>
+      <dt>21 czerwca 2005</dt>
+      <dd>FSF zatrudni <a href="http://www.fsf.org/resources/jobs/fsf-sysadmin.html">Programistę - Starszego Administratora Systemów GNU/Linux</a>.</dd>
+    </dl>
+    <dl>
+      <dt>21 czerwca 2005</dt>
+      <dd>Artykuł Richarda Stallmana <a href="http://www.guardian.co.uk/online/comment/story/0,12449,1510566,00.html">Patent Absurdity</a> (Patentowy absurd), wzywający Parlament Europejski do odrzucenia przepisów pozwalających na patentowanie oprogramowania, ukazał się w the Guardian.</dd>
+    </dl>
+    <dl>
+      <dt>13 maja 2005</dt>
+      <dd>Chrześcijan kochających Wolne Oprogramowanie może zainteresować przyjrzenie się pozycji <a href="http://www.lulu.com/dcparris/">Penguin in the Pew</a> (Pingwin w kościelnej ławce), książce napisanej przez Dona Parrisa, rozwijającego w niej filozofię wolnego oprogramowania z perspektywy chrześcijańskiej. (Prosimy o zwrócenie uwagi, że jest to dzieło osoby trzeciej i dlatego nie prezentuje oficjalnego stanowiska FSF).</dd>
+    </dl>
+    <dl>
+      <dt>10 maja 2005</dt>
+      <dd><a href="http://fsfs.hipatia.net/">Konferencja Free Software, Free Society (FSFS) </a>, zorganizowana przez rząd i organizacje społeczne z Brazylii, Włoch, Wenezueli i Indii, odbędzie się 28-30 maja 2005 w południowoindyjskim mieście Thiruvananthapuram (Triwandrum), stolicy stanu Kerala.</dd>
+    </dl>
+    <dl>
+      <dt>6 maja 2005</dt>
+      <dd>FSF poszukuje ochotników do budowania, testowania i pakietowania w pełni wolnych wersji pakietu OpenOffice.org 2.0, korzystających z GCJ jako zastępnika niewolnej Javy. Prosimy o zapoznanie się ze <a href="http://developer.classpath.org/mediation/OpenOffice2GCJ4">stroną zawierającą listę błędów, łat i pożądanych funkcji, a także instrukcje, jak testować i zgłaszać błędy</a> zespołom GCJ oraz OpenOffice.org.</dd>
+    </dl>
+    <dl>
+      <dt>4 kwietnia 2005</dt>
+      <dd>Koniecznie trzeba zwrócić uwagę społeczności Wolnego Oprogramowania na trwające prace nad stworzeniem Wolnej Javy i Wolnego Flasha. <a href="http://www.fsf.org/news/free-java-and-flash.html">Te przedsięwzięcia</a> są ważne, ponieważ użytkownicy komputerów wciąż wystawieni są na pokusę korzystania z niewolnego oprogramowania, bo nie ma odpowiednich wolnych zastępników.</dd>
+    </dl>
+    <dl>
+      <dt>8 marca 2005</dt>
+      <dd>Członkowie stwoarzyszeni FSF proszeni są o <a href="mailto:membership@fsf.org">potwierdzenie obecności</a> na najbliższym <a href="http://www.fsf.org/associate/meetings/2005">dorocznym zgromadzeniu</a>. Przemawiać będą Richard Stallman, Eben Moglen, Lawrence Lessig i inni.</dd>
+    </dl>
+    <dl>
+      <dt>18 lutego 2005</dt>
+      <dd>FSF zatrudni w Bostonie, na pełny etat, <a href="http://www.fsf.org/news/fsf-program-assistant-news.html">asystenta</a>.</dd>
+    </dl>
+    <dl>
+      <dt>16 lutego 2005</dt>
+      <dd>W Brukseli odbędzie się <a href="http://wiki.ffii.org/DemoBrussels050217En">demonstracja przeciwko patentom na oprogramowanie</a>.</dd>
+    </dl>
+    <h4>Aktualności z poprzednich lat</h4>
+    <ul>
+      <li>
+        <a href="/server/03whatsnew.html">
+          <strong>2003</strong>
+        </a>
+      </li>
+      <li>
+        <a href="/server/02whatsnew.html">
+          <strong>2002</strong>
+        </a>
+      </li>
+      <li>
+        <a href="/server/01whatsnew.html">
+          <strong>2001</strong>
+        </a>
+      </li>
+      <li>
+        <a href="/server/00whatsnew.html">
+          <strong>2000</strong>
+        </a>
+      </li>
+      <li>
+        <a href="/server/99whatsnew.html">
+          <strong>1999</strong>
+        </a>
+      </li>
+      <li>
+        <a href="/server/98whatsnew.html">
+          <strong>1998</strong>
+        </a>
+      </li>
+      <li>
+        <a href="/server/97whatsnew.html">
+          <strong>1997</strong>
+        </a>
+      </li>
+      <li>
+        <a href="/server/96whatsnew.html">
+          <strong>1996</strong>
+        </a>
+      </li>
+    </ul>
+    <br />
+    <div class="copyright">
+      <p>Powrót do <a href="/home.html">strony głównej Projektu GNU</a>.</p>
+      <p>Pytania dotyczące GNU i FSF prosimy kierować na adres
+			<a href="mailto:gnu@gnu.org"><em>gnu@gnu.org</em></a>.
+			Istnieją także
+			<a href="/contact/">inne sposoby skontaktowania się</a>
+			z FSF.
+			<br />
+			Informacje o niedziałających odnośnikach oraz inne poprawki
+			(lub propozycje) prosimy wysyłać na adres
+			<a href="mailto:webmasters@gnu.org"><em>webmasters@gnu.org</em></a>.
+		    </p>
+      <p>Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.,
+			51 Franklin St, Fifth Floor, Boston, MA  02110,  USA<br /><br />
+			Verbatim copying and distribution of this entire article is
+			permitted in any medium, provided this notice is preserved.
+			<br />
+			Zezwala się na wykonywanie i dystrybucję wiernych kopii tego tekstu,
+			niezależnie od nośnika, pod warunkiem zachowania niniejszego zezwolenia.
+		    </p>
+      <p>Atualizowane:
+			<!-- timestamp start -->
+			$Date: 2014/07/07 06:43:32 $ $Author: ineiev $
+			<!-- timestamp end --></p>
+    </div>
+  </body>
+</html>
