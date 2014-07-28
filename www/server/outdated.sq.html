@@ -1,36 +1,65 @@
 <div id="outdated">
+<p>
 
-<p>Që nga përditësimi i fundit i përkthimit të kësaj faqeje, origjinali në
-Anglisht ka ndryshuar. Faqja në Anglisht mund të gjendet te:<br />
+<!--#set var="ORIGINAL_LINK" value="<a href=\"${ORIGINAL_FILE}.en\">" -->
+<!--#if expr='${OUTDATED_SINCE}' -->
+<!-- TRANSLATORS: The date will follow this string. -->
+This translation may not reflect the changes made since
 
-<!--#set var="ORIGINAL_LINK"
-       value="<a href=\"${ORIGINAL_FILE}.en\">
-
-http://www.gnu.org${ORIGINAL_FILE}.en</a>" -->
-<!--#echo encoding="none" var="ORIGINAL_LINK" -->
-<!--#if expr='"${DIFF_FILE}" != ""' -->
-<br />
-Dallimet mes versionin të fundit të përkthyer dhe versionin të tanishëm
-Anglisht mund të gjenden te:<br />
-
-<!--#set var="DIFF_LINK"
-       value="<a href=\"${DIFF_FILE}\">
-
-http://www.gnu.org${DIFF_FILE}</a>" -->
-<!--#echo encoding="none" var="DIFF_LINK" -->
-<!--#endif -->
-<!--#if expr='"${OUTDATED_SINCE}" != ""' -->
-<br />
-Data e ndryshimit te faqja në Anglisht është:
-<br />
 
 <!--#echo encoding="none" var="OUTDATED_SINCE" -->
+<!--
+TRANSLATORS: The link to the English page will follow this string. -->
+in the
+
+
+<!--#echo encoding="none" var="ORIGINAL_LINK" -->
+<!--
+TRANSLATORS: The text of the link; the next string is the last part
+             of the sentence (just a period in English). -->
+English original</a>.
+
+<!--#else -->
+<!--
+TRANSLATORS: The link to the English page will follow this string. -->
+This translation may not reflect the latest changes to
+
+
+<!--#echo encoding="none" var="ORIGINAL_LINK" -->
+<!--
+TRANSLATORS: The text of the link; the next string is the last part
+             of the sentence (just a period in English). -->
+the English original</a><span>.</span>
+
+
 <!--#endif -->
+<!--#if expr='${DIFF_FILE}' -->
+<!--#set var="DIFF_LINK" value="<a href=\"${DIFF_FILE}\">" -->
+<!--
+TRANSLATORS: The link to the page with differences
+             will follow this string. -->
+You should take a look at 
+
+<!--#echo encoding="none" var="DIFF_LINK" -->
+<!--
+TRANSLATORS: The text of the link; the next string is the last part
+             of the sentence (just a period in English). -->
+those changes</a><span class="outdated-html-dummy-span">.</span>
+
+
+<!--#endif -->
+<!--#if expr='${LANGUAGE_SUFFIX} = /^[.](de|es|fr)$/' -->
+<!--
+TRANSLATORS: Please replace web-translators@gnu.org with the email address
+             of your translation team. -->
+If you wish to help us maintain this page, please contact <a
+href="mailto:web-translators@gnu.org">&lt;web-translators@gnu.org&gt;</a>.
 </p>
 
-<p>Ju lutemi, që të mësoni se si mund të ndihmoni në përditësimin e këtij
-përkthimi, shihni <a
-href="/server/standards/README.translations.html">README-n për
-Përkthimet</a>.
-</p>
+<!--#else -->
+Please see the <a
+href="/server/standards/README.translations.html">Translations README</a>
+for information on maintaining translations of this article.</p>
+
+<!--#endif -->
 </div>

@@ -1,5 +1,5 @@
 # Copyright (C) 2007, 2008, 2009, 2010, 2011,
-#   2012, 2013 Free Software Foundation, Inc.
+#   2012, 2013, 2014 Free Software Foundation, Inc.
 
 # This file is part of GNUnited Nations.
 
@@ -18,8 +18,8 @@
 
 # TRANSLATORS: Add here your language code.  Please keep the
 # alphabetical order.
-TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he hr id it ja ko ml nb nl \
-                    pl pt-br ro ru sk sq sr sv ta tr uk zh-cn zh-tw
+TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he hr id it ja ko lt ml \
+                    nb nl pl pt-br ro ru sk sq sr sv ta tr uk zh-cn zh-tw
 
 # TRANSLATORS: Add here your language code if you want PO files with wdiffs
 # to previous msgids.

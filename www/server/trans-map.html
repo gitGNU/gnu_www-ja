@@ -143,6 +143,11 @@ div#remove-from-selection:lang(fa), div#remove-from-selection:lang(he)
  --><!--#set var="qs" value="$qs,ko" --><!--#endif
  --><!--#elif expr="$q = /,ko[^a-z]/"
  --><!--#set var="qs" value="$qs,ko" --><!--#endif
+ --><!--#if expr="$q = /,-lt[^a-z]/"
+ --><!--#if expr="$q = /.*,-lt[^a-z].*,lt[^a-z]/"
+ --><!--#set var="qs" value="$qs,lt" --><!--#endif
+ --><!--#elif expr="$q = /,lt[^a-z]/"
+ --><!--#set var="qs" value="$qs,lt" --><!--#endif
  --><!--#if expr="$q = /,-mk[^a-z]/"
  --><!--#if expr="$q = /.*,-mk[^a-z].*,mk[^a-z]/"
  --><!--#set var="qs" value="$qs,mk" --><!--#endif
@@ -302,6 +307,8 @@ div#remove-from-selection:lang(fa), div#remove-from-selection:lang(he)
  --><!--#set var="qs" value="${qs}ja," --><!--#endif
  --><!--#if expr="$al = /[^-a-zA-Z](ko|KO)[^a-zA-Z]/"
  --><!--#set var="qs" value="${qs}ko," --><!--#endif
+ --><!--#if expr="$al = /[^-a-zA-Z](lt|LT)[^a-zA-Z]/"
+ --><!--#set var="qs" value="${qs}lt," --><!--#endif
  --><!--#if expr="$al = /[^-a-zA-Z](mk|MK)[^a-zA-Z]/"
  --><!--#set var="qs" value="${qs}mk," --><!--#endif
  --><!--#if expr="$al = /[^-a-zA-Z](ml|ML)[^a-zA-Z]/"
@@ -493,6 +500,12 @@ Japanese<span class="gnun-split"></span><!--#echo
  --><!--#set var="tail" value="</a>&nbsp;[${lang}]&nbsp;&nbsp; "
  --><!--#echo encoding="none" var="link" -->
 Korean<span class="gnun-split"></span><!--#echo
+ encoding="none" var="tail" --><!--#endif --><!--#set
+ var="lang" value="lt" --><!--#if expr="$qs = /,lt,/" -->
+<!--#set var="link" value="${base}$qs-${lang}\">"
+ --><!--#set var="tail" value="</a>&nbsp;[${lang}]&nbsp;&nbsp; "
+ --><!--#echo encoding="none" var="link" -->
+Lithuanian<span class="gnun-split"></span><!--#echo
  encoding="none" var="tail" --><!--#endif --><!--#set
  var="lang" value="mk" --><!--#if expr="$qs = /,mk,/" -->
 <!--#set var="link" value="${base}$qs-${lang}\">"
@@ -776,6 +789,12 @@ Japanese<span class="gnun-split"></span><!--#echo
 <!--#echo encoding="none" var="link" -->
 Korean<span class="gnun-split"></span><!--#echo
  encoding="none" var="tail" --><!--#endif
+ --><!--#set var="lang" value="lt" --><!--#if expr="$qs != /,lt,/"
+ --><!--#set var="link" value="${base}${lang}\">"
+ --><!--#set var="tail" value="</a>&nbsp;[${lang}]&nbsp;&nbsp; " -->
+<!--#echo encoding="none" var="link" -->
+Lithuanian<span class="gnun-split"></span><!--#echo
+ encoding="none" var="tail" --><!--#endif
  --><!--#set var="lang" value="mk" --><!--#if expr="$qs != /,mk,/"
  --><!--#set var="link" value="${base}${lang}\">"
  --><!--#set var="tail" value="</a>&nbsp;[${lang}]&nbsp;&nbsp; " -->
@@ -970,7 +989,7 @@ Commons Attribution-NoDerivs 3.0 United States License</a>.</p>
 
 <p class="unprintable">Updated:
 <!-- timestamp start -->
-$Date: 2014/04/12 12:40:54 $
+$Date: 2014/07/15 12:08:48 $
 <!-- timestamp end -->
 </p>
 </div>

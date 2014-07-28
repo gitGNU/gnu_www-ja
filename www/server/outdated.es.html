@@ -1,35 +1,65 @@
 <div id="outdated">
+<p>
 
-<p>Advertencia: la página original en inglés es más reciente que esta
-traducción y se encuentra en:<br />
+<!--#set var="ORIGINAL_LINK" value="<a href=\"${ORIGINAL_FILE}.en\">" -->
+<!--#if expr='${OUTDATED_SINCE}' -->
+<!-- TRANSLATORS: The date will follow this string. -->
+Esta traducción podría no reflejar los cambios introducidos después del 
 
-<!--#set var="ORIGINAL_LINK"
-       value="<a href=\"${ORIGINAL_FILE}.en\">
-
-http://www.gnu.org${ORIGINAL_FILE}.en</a>" -->
-<!--#echo encoding="none" var="ORIGINAL_LINK" -->
-<!--#if expr='"${DIFF_FILE}" != ""' -->
-<br />
-Las diferencias entre la versión original en inglés y la última versión
-traducida están en:<br />
-
-<!--#set var="DIFF_LINK"
-       value="<a href=\"${DIFF_FILE}\">
-
-http://www.gnu.org${DIFF_FILE}</a>" -->
-<!--#echo encoding="none" var="DIFF_LINK" -->
-<!--#endif -->
-<!--#if expr='"${OUTDATED_SINCE}" != ""' -->
-<br />
-Fecha de modificación de la página en inglés:
-<br />
 
 <!--#echo encoding="none" var="OUTDATED_SINCE" -->
+<!--
+TRANSLATORS: The link to the English page will follow this string. -->
+en la
+
+
+<!--#echo encoding="none" var="ORIGINAL_LINK" -->
+<!--
+TRANSLATORS: The text of the link; the next string is the last part
+             of the sentence (just a period in English). -->
+versión original en inglés</a>.
+
+<!--#else -->
+<!--
+TRANSLATORS: The link to the English page will follow this string. -->
+Esta traducción podría no reflejar los últimos cambios introducidos en la
+
+
+<!--#echo encoding="none" var="ORIGINAL_LINK" -->
+<!--
+TRANSLATORS: The text of the link; the next string is the last part
+             of the sentence (just a period in English). -->
+versión original en inglés</a><span>.</span>
+
+
 <!--#endif -->
+<!--#if expr='${DIFF_FILE}' -->
+<!--#set var="DIFF_LINK" value="<a href=\"${DIFF_FILE}\">" -->
+<!--
+TRANSLATORS: The link to the page with differences
+             will follow this string. -->
+Puede consultar 
+
+<!--#echo encoding="none" var="DIFF_LINK" -->
+<!--
+TRANSLATORS: The text of the link; the next string is the last part
+             of the sentence (just a period in English). -->
+los cambios</a><span class="outdated-html-dummy-span">.</span>
+
+
+<!--#endif -->
+<!--#if expr='${LANGUAGE_SUFFIX} = /^[.](de|es|fr)$/' -->
+<!--
+TRANSLATORS: Please replace web-translators@gnu.org with the email address
+             of your translation team. -->
+Si desea colaborar en el mantenimiento de esta página, escriba a <a
+href="mailto:www-es-general@gnu.org">&lt;www-es-general@gnu.org&gt;</a>.
 </p>
 
-<p>Para obtener información sobre cómo actualizar esta página, consulte la <a
-href="/server/standards/README.translations.html">Guía para las
-traducciones</a>.
-</p>
+<!--#else -->
+En la <a href="/server/standards//translations/es/index.html">Guía para la
+traducción al español</a> encontrará información sobre cómo colaborar para
+actualizar este artículo.</p>
+
+<!--#endif -->
 </div>

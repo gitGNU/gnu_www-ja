@@ -50,6 +50,7 @@ GNUN_SPLIT = '<span class="gnun-split"></span>\n'
 SITE_LINGUAS = \
 [ 'af', 'ar', 'az', 'bg', 'bn', 'bs', 'ca', 'cs', 'da', 'de', 'el', 'en', 'eo',
   'es', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'it', 'ja', 'kn', 'ko',
+  'lt',
   'mk', 'ml', 'nb', 'nl', 'nn', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'sh', 'sk', 'sl',
   'sq', 'sr', 'sv', 'sw', 'ta', 'th', 'tl', 'tr', 'uk', 'uz', 'vi', 'zh-cn',
   'zh-tw' ]
