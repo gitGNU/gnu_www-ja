@@ -186,22 +186,28 @@ doesn't require action on our part, click &lsquo;Resolve&rsquo;.</li>
 maintain, go ahead and fix it, using &lsquo;Reply&rsquo; to tell the
 submitter what you did, and then &lsquo;Resolve&rsquo; it.</li>
 
-<li id="thankgnu">If the message is a ThankGNU:
+<li id="thankgnu">If the message is a ThankGNU or a ThankCRM:
   <ul>
-  <li>For an individual, add it to the appropriate
-      <tt>/thankgnus/YYYYsupporters.html</tt> file in the correct place.</li>
-  <li>Do not quote the dollar amount in the commit message or anywhere
-      else, just the name, ticket number and category.</li>
-  <li>For a corporation, confirm with www-discuss first (they can end up
-      on separate pages).</li>
-  <li>Move the ticket into the 'campaigns' queue after you've updated the Thank GNUs page. If any of the donors were already on the list, then mention that in a comment as you move the ticket.</li>
-  <li>Do not &lsquo;Reply&rsquo; to sysadmin on these messages;
-      they are automatically generated.</li>
-  <li>If it is a duplicate of a previous donation, just resolve the
-      ticket without making any changes.  The script sending out the
-      msgs has bugs.  The occasional case of a person donating the same
-      amount twice is handled by FSF staff.</li>
-  <li>Don't post a ThankGNU for Google Matching Gifts.</li>
+  <li>For a corporation, confirm with www-discuss first (they can end
+  up on separate pages).</li>
+  <li>If any of the donors are already on the list, then mention that
+  in an RT comment. The script sending out the messages has bugs. The
+  occasional case of a person donating the same amount twice is
+  handled by FSF staff.</li>
+  <li>For an individual, add it to the
+  appropriate <tt>/thankgnus/YYYYsupporters.html</tt> file in the
+  correct place with a commit message such as "Add John Doe to YYYY >=
+  500$ ThankGNU list (RT #1234)" and comment the ticket with something
+  simple like "Done".</li>
+  <li>Finally, move the ticket into the 'campaigns' queue.</li>
+  <li>Things to watch out for:</li>
+    <ul>
+    <li>Do not quote the dollar amount in the commit message or
+    anywhere else, just the name, ticket number and category.</li>
+    <li>Do not &lsquo;Reply&rsquo; to sysadmin on these messages; they
+    are automatically generated.</li>
+    <li>Do not post a ThankGNU for Google Matching Gifts.</li>
+    </ul>
   </ul>
 </li>
 
@@ -286,14 +292,14 @@ we do things&mdash;in other words, if they're friends of the GNU
 project&mdash;the best way to do this is to mail them, and make that
 mail a comment to the ticket as well.</p>
 
-<p>So, say for example that you wanted to ask the chief webmaster whether
+<p>So, say for example that you wanted to ask rms whether
 a certain link on a page was permissible.  You can do this by using
 one of the "comments" links on the ticket page, and listing the other
-party (in this case, &lt;chief-webmaster@gnu.org&gt;) as a CC:.  You
+party (in this case, &lt;rms@gnu.org&gt;) as a CC:.  You
 could also do this by sending a mail with headers like this:</p>
 
 <pre>
-    To: &lt;chief-webmaster@gnu.org&gt;, &lt;webmasters-comment@gnu.org&gt;
+    To: &lt;rms@gnu.org&gt;, &lt;webmasters-comment@gnu.org&gt;
     Subject: [gnu.org #1234] Question about link policy
 </pre>
 
@@ -304,6 +310,13 @@ that the only address the other party sees is RT's, and any reply will be
 guaranteed to go into the ticket (also as comments).  The latter is fine if
 you're primarily doing work by e-mail, however.</p>
 
+<p>Note that this won't work with other RT-handled addresses.  So, if
+you add &lt;campaigns@fsf.org&rt; to the CC field of a comment on a
+ticket that already exists in webmasters, nothing will come to the
+campaigns queue.  In those situations, create a new ticket in the
+queue whose attention you want to get, and using the &ldquo;Refers
+to&rdquo; or similar relationship field to connect the two
+tickets.</p>
 
 <h4>RT - ticket status</h4>
 
@@ -424,10 +437,11 @@ menu item.</p>
 
 </ul>
 
-<p>It's nice to notify a queue's watchers when a ticket is moved; RT
-doesn't provide automatic notification.  You can do this by sending mail
-to QUEUENAME-comment@gnu.org with the original subject line.  Just a
-terse message "Moved ticket 1234 to your queue" suffices.</p>
+<p>It's nice to notify a queue's watchers when a misdirected ticket is
+moved; RT doesn't provide automatic notification.  You can do this by
+sending mail to QUEUENAME-comment@gnu.org with the original subject
+line.  Just a terse message "Moved ticket 1234 to your queue"
+suffices.</p>
 
 <p>If there isn't an appropriate RT queue, forward the mail to the
 appropriate party, and make a comment indicating that you did so
@@ -1255,7 +1269,7 @@ Commons Attribution-NoDerivs 3.0 United States License</a>.</p>
 
 <p class="unprintable">Updated:
 <!-- timestamp start -->
-$Date: 2014/06/13 08:17:29 $
+$Date: 2014/10/18 20:52:05 $
 <!-- timestamp end -->
 </p>
 </div>

@@ -443,7 +443,8 @@ other named unary operator.  The operator may be any of:
 
     -f  File is a plain file.
     -d  File is a directory.
-    -l  File is a symbolic link.
+    -l  File is a symbolic link (false if symlinks aren't
+        supported by the file system).
     -p  File is a named pipe (FIFO), or Filehandle is a pipe.
     -S  File is a socket.
     -b  File is a block special file.
@@ -454,7 +455,7 @@ other named unary operator.  The operator may be any of:
     -g  File has setgid bit set.
     -k  File has sticky bit set.
 
-    -T  File is an ASCII text file (heuristic guess).
+    -T  File is an ASCII or UTF-8 text file (heuristic guess).
     -B  File is a &quot;binary&quot; file (opposite of -T).
 
     -M  Script start time minus file modification time, in days.
@@ -513,12 +514,17 @@ filehandle won&rsquo;t cache the results of the file tests when this pragma is
 in effect.  Read the documentation for the <code>filetest</code> pragma for more
 information.
 </p>
-<p>The <code>-T</code> and <code>-B</code> switches work as follows.  The first block or so of the
-file is examined for odd characters such as strange control codes or
-characters with the high bit set.  If too many strange characters (&gt;30%)
-are found, it&rsquo;s a <code>-B</code> file; otherwise it&rsquo;s a <code>-T</code> file.  Also, any file
-containing a zero byte in the first block is considered a binary file.  If <code>-T</code>
-or <code>-B</code> is used on a filehandle, the current IO buffer is examined
+<p>The <code>-T</code> and <code>-B</code> switches work as follows.  The first block or so of
+the file is examined to see if it is valid UTF-8 that includes non-ASCII
+characters.  If, so it&rsquo;s a <code>-T</code> file.  Otherwise, that same portion of
+the file is examined for odd characters such as strange control codes or
+characters with the high bit set.  If more than a third of the
+characters are strange, it&rsquo;s a <code>-B</code> file; otherwise it&rsquo;s a <code>-T</code> file.
+Also, any file containing a zero byte in the examined portion is
+considered a binary file.  (If executed within the scope of a <a href="perllocale.html#perllocale-NAME">use&nbsp;locale<!-- /@w --></a> which includes <code>LC_CTYPE</code>, odd characters are
+anything that isn&rsquo;t a printable nor space in the current locale.) If
+<code>-T</code> or <code>-B</code> is used on a filehandle, the current IO buffer is
+examined
 rather than the first block.  Both <code>-T</code> and <code>-B</code> return true on an empty
 file, or a file at EOF when testing a filehandle.  Because you have to
 read a file to do the <code>-T</code> test, on most occasions you want to use a <code>-f</code>
@@ -1703,6 +1709,9 @@ returned by <code>each()</code>, so the following code works properly:
           delete $hash{$key};   # This is safe
         }
 </pre>
+<p>Tied hashes may have a different ordering behaviour to perl&rsquo;s hash
+implementation.
+</p>
 <p>This prints out your environment like the printenv(1) program,
 but in a different order:
 </p>
@@ -2006,9 +2015,9 @@ and passed directly to <code>execvp</code>, which is more efficient.  Examples:
 <p>If you don&rsquo;t really want to execute the first argument, but want to lie
 to the program you are executing about its own name, you can specify
 the program you actually want to run as an &quot;indirect object&quot; (without a
-comma) in front of the LIST.  (This always forces interpretation of the
-LIST as a multivalued list, even if there is only a single scalar in
-the list.)  Example:
+comma) in front of the LIST, as in <code>exec PROGRAM LIST</code>.  (This always
+forces interpretation of the LIST as a multivalued list, even if there
+is only a single scalar in the list.)  Example:
 </p>
 <pre class="verbatim">    $shell = '/bin/csh';
     exec $shell '-sh';    # pretend it's a login shell
@@ -2037,6 +2046,10 @@ expanding wildcards or splitting up words with whitespace in them.
 program, passing it <code>&quot;surprise&quot;</code> an argument.  The second version didn&rsquo;t;
 it tried to run a program named <em>&quot;echo surprise&quot;</em>, didn&rsquo;t find it, and set
 <code>$?</code> to a non-zero value indicating failure.
+</p>
+<p>On Windows, only the <code>exec PROGRAM LIST</code> indirect object syntax will
+reliably avoid using the shell; <code>exec LIST</code>, even with more than one
+element, will fall back to the shell if the first spawn fails.
 </p>
 <p>Perl attempts to flush all files opened for output before the exec,
 but this may not be supported on some platforms (see <a href="perlport.html#perlport-NAME">perlport NAME</a>).
@@ -3084,7 +3097,9 @@ rely on <code>keys</code>, <code>values</code> and <code>each</code> to repeated
 as each other.  See <a href="perlsec.html#perlsec-Algorithmic-Complexity-Attacks">perlsec Algorithmic Complexity Attacks</a> for
 details on why hash order is randomized.  Aside from the guarantees
 provided here the exact details of Perl&rsquo;s hash algorithm and the hash
-traversal order are subject to change in any release of Perl.
+traversal order are subject to change in any release of Perl.  Tied hashes
+may behave differently to Perl&rsquo;s hashes with respect to changes in order on
+insertion and deletion of items.
 </p>
 <p>As a side effect, calling keys() resets the internal iterator of the HASH or
 ARRAY (see &lsquo;each&rsquo;).  In particular, calling keys() in void context resets
@@ -4249,24 +4264,46 @@ See <a href="perlunicode.html#perlunicode-NAME">perlunicode NAME</a> for more ab
 </dd>
 <dt>our TYPE VARLIST : ATTRS</dt>
 <dd><a name="perlfunc-our-TYPE-VARLIST-_003a-ATTRS"></a>
-<p><code>our</code> makes a lexical alias to a package variable of the same name in the current
-package for use within the current lexical scope.
+<p><code>our</code> makes a lexical alias to a package (i.e. global) variable of the
+same name in the current package for use within the current lexical scope.
 </p>
-<p><code>our</code> has the same scoping rules as <code>my</code> or <code>state</code>, but <code>our</code> only
-declares an alias, whereas <code>my</code> or <code>state</code> both declare a variable name and
-allocate storage for that name within the current scope.
+<p><code>our</code> has the same scoping rules as <code>my</code> or <code>state</code>, meaning that it is
+only valid within a lexical scope.  Unlike <code>my</code> and <code>state</code>, which both
+declare new (lexical) variables, <code>our</code> only creates an alias to an
+existing variable: a package variable of the same name.
 </p>
 <p>This means that when <code>use strict 'vars'</code> is in effect, <code>our</code> lets you use
 a package variable without qualifying it with the package name, but only within
-the lexical scope of the <code>our</code> declaration.  In this way, <code>our</code> differs from
-<code>use vars</code>, which allows use of an unqualified name <em>only</em> within the
-affected package, but across scopes.
+the lexical scope of the <code>our</code> declaration.
 </p>
+<pre class="verbatim">    package Foo;
+    use strict;
+
+    $Foo::foo = 23;
+
+    {
+        our $foo;   # alias to $Foo::foo
+        print $foo; # prints 23
+    }
+
+    print $Foo::foo; # prints 23
+
+    print $foo; # ERROR: requires explicit package name
+</pre>
+<p>This works even if the package variable has not been used before, as
+package variables spring into existence when first used.
+</p>
+<pre class="verbatim">    package Foo;
+    use strict;
+
+    our $foo = 23;   # just like $Foo::foo = 23
+
+    print $Foo::foo; # prints 23
+</pre>
 <p>If more than one variable is listed, the list must be placed
 in parentheses.
 </p>
-<pre class="verbatim">    our $foo;
-    our($bar, $baz);
+<pre class="verbatim">    our($bar, $baz);
 </pre>
 <p>An <code>our</code> declaration declares an alias for a package variable that will be visible
 across its entire lexical scope, even across package boundaries.  The
@@ -4316,6 +4353,9 @@ placeholder, for example to skip assignment of initial values:
 </p>
 <pre class="verbatim">    our ( undef, $min, $hour ) = localtime;
 </pre>
+<p><code>our</code> differs from <code>use vars</code>, which allows use of an unqualified name
+<em>only</em> within the affected package, but across scopes.
+</p>
 </dd>
 <dt>pack TEMPLATE,LIST</dt>
 <dd><a name="perlfunc-pack-TEMPLATE_002cLIST"></a>
@@ -7725,7 +7765,9 @@ entire argument is passed to the system&rsquo;s command shell for parsing
 (this is <code>/bin/sh -c</code> on Unix platforms, but varies on other
 platforms).  If there are no shell metacharacters in the argument,
 it is split into words and passed directly to <code>execvp</code>, which is
-more efficient.
+more efficient.  On Windows, only the <code>system PROGRAM LIST</code> syntax will
+reliably avoid using the shell; <code>system LIST</code>, even with more than one
+element, will fall back to the shell if the first spawn fails.
 </p>
 <p>Perl will attempt to flush all files opened for
 output before any operation that may do a fork, but this may not be
@@ -8435,7 +8477,9 @@ rely on <code>keys</code>, <code>values</code> and <code>each</code> to repeated
 as each other.  See <a href="perlsec.html#perlsec-Algorithmic-Complexity-Attacks">perlsec Algorithmic Complexity Attacks</a> for
 details on why hash order is randomized.  Aside from the guarantees
 provided here the exact details of Perl&rsquo;s hash algorithm and the hash
-traversal order are subject to change in any release of Perl.
+traversal order are subject to change in any release of Perl.  Tied hashes
+may behave differently to Perl&rsquo;s hashes with respect to changes in order on
+insertion and deletion of items.
 </p>
 <p>As a side effect, calling values() resets the HASH or ARRAY&rsquo;s internal
 iterator, see &lsquo;each&rsquo;.  (In particular, calling values() in void context

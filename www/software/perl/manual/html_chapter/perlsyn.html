@@ -583,6 +583,21 @@ in the initialization section of the <code>for</code>, the lexical scope of
 those variables is exactly the <code>for</code> loop (the body of the loop
 and the control sections).
 </p>
+<p>As a special case, if the test in the <code>for</code> loop (or the corresponding
+<code>while</code> loop) is empty, it is treated as true.  That is, both
+</p>
+<pre class="verbatim">    for (;;) {
+        ...
+    }
+</pre>
+<p>and
+</p>
+<pre class="verbatim">    while () {
+        ...
+    }
+</pre>
+<p>are treated as infinite loops.
+</p>
 <p>Besides the normal array index looping, <code>for</code> can lend itself
 to many other interesting applications.  Here&rsquo;s one that avoids the
 problem you get into if you explicitly test for end-of-file on

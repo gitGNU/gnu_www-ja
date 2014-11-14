@@ -158,35 +158,35 @@ broken down into the following types (some of which include a brief
 note here):
 </p>
 <dl compact="compact">
-<dt>Category LC_NUMERIC: Numeric formatting</dt>
+<dt>Category <code>LC_NUMERIC</code>: Numeric formatting</dt>
 <dd><a name="perllocale-Category-LC_005fNUMERIC_003a-Numeric-formatting"></a>
 <p>This indicates how numbers should be formatted for human readability,
 for example the character used as the decimal point.
 </p>
 </dd>
-<dt>Category LC_MONETARY: Formatting of monetary amounts</dt>
+<dt>Category <code>LC_MONETARY</code>: Formatting of monetary amounts</dt>
 <dd><a name="perllocale-Category-LC_005fMONETARY_003a-Formatting-of-monetary-amounts"></a>
 <p>Â 
 </p>
 </dd>
-<dt>Category LC_TIME: Date/Time formatting</dt>
+<dt>Category <code>LC_TIME</code>: Date/Time formatting</dt>
 <dd><a name="perllocale-Category-LC_005fTIME_003a-Date_002fTime-formatting"></a>
 <p>Â 
 </p>
 </dd>
-<dt>Category LC_MESSAGES: Error and other messages</dt>
+<dt>Category <code>LC_MESSAGES</code>: Error and other messages</dt>
 <dd><a name="perllocale-Category-LC_005fMESSAGES_003a-Error-and-other-messages"></a>
 <p>This is used by Perl itself only for accessing operating system error
 messages via <a href="perlvar.html#perlvar-_0024ERRNO">$!</a> and <a href="perlvar.html#perlvar-_0024EXTENDED_005fOS_005fERROR">$^E</a>.
 </p>
 </dd>
-<dt>Category LC_COLLATE: Collation</dt>
+<dt>Category <code>LC_COLLATE</code>: Collation</dt>
 <dd><a name="perllocale-Category-LC_005fCOLLATE_003a-Collation"></a>
 <p>This indicates the ordering of letters for comparison and sorting.
 In Latin alphabets, for example, &quot;b&quot;, generally follows &quot;a&quot;.
 </p>
 </dd>
-<dt>Category LC_CTYPE: Character Types</dt>
+<dt>Category <code>LC_CTYPE</code>: Character Types</dt>
 <dd><a name="perllocale-Category-LC_005fCTYPE_003a-Character-Types"></a>
 <p>This indicates, for example if a character is an uppercase letter.
 </p>
@@ -360,19 +360,7 @@ locale isn&rsquo;t exposed to Perl space.
 
 </li><li> XS modules for all categories but <code>LC_NUMERIC</code> get the underlying
 locale, and hence any C library functions they call will use that
-underlying locale.  Perl always initializes <code>LC_NUMERIC</code> to <code>&quot;C&quot;</code>
-because too many modules are unable to cope with the decimal point in a
-floating point number not being a dot (it&rsquo;s a comma in many locales).
-But note that these modules are vulnerable because <code>LC_NUMERIC</code>
-currently can be changed at any time by a call to the C <code>set_locale()</code>
-by XS code or by something XS code calls, or by <code>POSIX::setlocale()</code> by
-Perl code.  This is true also for the Perl-provided lite wrappers for XS
-modules to use some C library <code>printf</code> functions:
-<code>Gconvert</code>,
-<a href="../perlapi/my_005fsprintf.html#my_005fsprintf">(perlapi)my_sprintf</a>,
-<a href="../perlapi/my_005fsnprintf.html#my_005fsnprintf">(perlapi)my_snprintf</a>,
-and
-<a href="../perlapi/my_005fvsnprintf.html#my_005fvsnprintf">(perlapi)my_vsnprintf</a>.
+underlying locale.  For more discussion, see <a href="../perlxs/CAVEATS.html#CAVEATS">(perlxs)CAVEATS</a>.
 
 </li></ul>
 
@@ -508,13 +496,13 @@ hints on the naming of locales: not all systems name locales as in the
 example.
 </p>
 <p>If no second argument is provided and the category is something other
-than LC_ALL, the function returns a string naming the current locale
+than <code>LC_ALL</code>, the function returns a string naming the current locale
 for the category.  You can use this value as the second argument in a
 subsequent call to <code>setlocale()</code>, <strong>but</strong> on some platforms the string
 is opaque, not something that most people would be able to decipher as
 to what locale it means.
 </p>
-<p>If no second argument is provided and the category is LC_ALL, the
+<p>If no second argument is provided and the category is <code>LC_ALL</code>, the
 result is implementation-dependent.  It may be a string of
 concatenated locale names (separator also implementation-dependent)
 or a single locale name.  Please consult your <a href="http://man.he.net/man3/setlocale">setlocale(3)</a> man page for
@@ -625,7 +613,7 @@ Next: <a href="#perllocale-Testing-for-broken-locales" accesskey="n" rel="next">
             are supported and installed on your system.
         perl: warning: Falling back to the standard locale (&quot;C&quot;).
 </pre>
-<p>This means that your locale settings had LC_ALL set to &quot;En_US&quot; and
+<p>This means that your locale settings had <code>LC_ALL</code> set to &quot;En_US&quot; and
 LANG exists but has no value.  Perl tried to believe you but could not.
 Instead, Perl gave up and fell back to the &quot;C&quot; locale, the default locale
 that is supposed to work no matter what.  (On Windows, it first tries
@@ -671,21 +659,21 @@ Next: <a href="#perllocale-Permanently-fixing-locale-problems" accesskey="n" rel
 locale inconsistencies or to run Perl under the default locale &quot;C&quot;.
 </p>
 <p>Perl&rsquo;s moaning about locale problems can be silenced by setting the
-environment variable PERL_BADLANG to a zero value, for example &quot;0&quot;.
+environment variable <code>PERL_BADLANG</code> to a zero value, for example &quot;0&quot;.
 This method really just sweeps the problem under the carpet: you tell
 Perl to shut up even when Perl sees that something is wrong.  Do not
 be surprised if later something locale-dependent misbehaves.
 </p>
 <p>Perl can be run under the &quot;C&quot; locale by setting the environment
-variable LC_ALL to &quot;C&quot;.  This method is perhaps a bit more civilized
-than the PERL_BADLANG approach, but setting LC_ALL (or
+variable <code>LC_ALL</code> to &quot;C&quot;.  This method is perhaps a bit more civilized
+than the <code>PERL_BADLANG</code> approach, but setting <code>LC_ALL</code> (or
 other locale variables) may affect other programs as well, not just
 Perl.  In particular, external programs run from within Perl will see
 these changes.  If you make the new settings permanent (read on), all
 programs you run see the changes.  See <a href="#perllocale-ENVIRONMENT">ENVIRONMENT</a> for
 the full list of relevant environment variables and <a href="#perllocale-USING-LOCALES">USING LOCALES</a>
 for their effects in Perl.  Effects in other programs are
-easily deducible.  For example, the variable LC_COLLATE may well affect
+easily deducible.  For example, the variable <code>LC_COLLATE</code> may well affect
 your <strong>sort</strong> program (or whatever the program that arranges &quot;records&quot;
 alphabetically in your system is called).
 </p>
@@ -897,15 +885,15 @@ some combination categories allow manipulation of more than one
 basic category at a time.  See <a href="#perllocale-ENVIRONMENT">ENVIRONMENT</a> for a discussion of these.
 </p>
 <table class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top">&bull; <a href="#perllocale-Category-LC_005fCOLLATE_003a-Collation-1" accesskey="1">perllocale Category LC_COLLATE: Collation 1</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perllocale-Category-LC_005fCOLLATE_003a-Collation-1" accesskey="1">perllocale Category <code>LC_COLLATE</code>: Collation 1</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perllocale-Category-LC_005fCTYPE_003a-Character-Types-1" accesskey="2">perllocale Category LC_CTYPE: Character Types 1</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perllocale-Category-LC_005fCTYPE_003a-Character-Types-1" accesskey="2">perllocale Category <code>LC_CTYPE</code>: Character Types 1</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perllocale-Category-LC_005fNUMERIC_003a-Numeric-Formatting" accesskey="3">perllocale Category LC_NUMERIC: Numeric Formatting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perllocale-Category-LC_005fNUMERIC_003a-Numeric-Formatting" accesskey="3">perllocale Category <code>LC_NUMERIC</code>: Numeric Formatting</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perllocale-Category-LC_005fMONETARY_003a-Formatting-of-monetary-amounts-1" accesskey="4">perllocale Category LC_MONETARY: Formatting of monetary amounts 1</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perllocale-Category-LC_005fMONETARY_003a-Formatting-of-monetary-amounts-1" accesskey="4">perllocale Category <code>LC_MONETARY</code>: Formatting of monetary amounts 1</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="#perllocale-LC_005fTIME" accesskey="5">perllocale LC_TIME</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="#perllocale-LC_005fTIME" accesskey="5">perllocale <code>LC_TIME</code></a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="#perllocale-Other-categories-1" accesskey="6">perllocale Other categories 1</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
@@ -915,10 +903,10 @@ basic category at a time.  See <a href="#perllocale-ENVIRONMENT">ENVIRONMENT</a>
 <a name="perllocale-Category-LC_005fCOLLATE_003a-Collation-1"></a>
 <div class="header">
 <p>
-Next: <a href="#perllocale-Category-LC_005fCTYPE_003a-Character-Types-1" accesskey="n" rel="next">perllocale Category LC_CTYPE: Character Types 1</a>, Up: <a href="#perllocale-LOCALE-CATEGORIES" accesskey="u" rel="up">perllocale LOCALE CATEGORIES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perllocale-Category-LC_005fCTYPE_003a-Character-Types-1" accesskey="n" rel="next">perllocale Category <code>LC_CTYPE</code>: Character Types 1</a>, Up: <a href="#perllocale-LOCALE-CATEGORIES" accesskey="u" rel="up">perllocale LOCALE CATEGORIES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Category-LC_005fCOLLATE_003a-Collation"></a>
-<h4 class="subsection">38.6.1 Category LC_COLLATE: Collation</h4>
+<h4 class="subsection">38.6.1 Category <code>LC_COLLATE</code>: Collation</h4>
 
 <p>In the scope of <code>use&nbsp;locale</code><!-- /@w --> (but not a
 <code>use locale ':not_characters'</code>), Perl looks to the <code>LC_COLLATE</code>
@@ -1008,10 +996,10 @@ always obey the current <code>LC_COLLATE</code> locale.
 <a name="perllocale-Category-LC_005fCTYPE_003a-Character-Types-1"></a>
 <div class="header">
 <p>
-Next: <a href="#perllocale-Category-LC_005fNUMERIC_003a-Numeric-Formatting" accesskey="n" rel="next">perllocale Category LC_NUMERIC: Numeric Formatting</a>, Previous: <a href="#perllocale-Category-LC_005fCOLLATE_003a-Collation-1" accesskey="p" rel="prev">perllocale Category LC_COLLATE: Collation 1</a>, Up: <a href="#perllocale-LOCALE-CATEGORIES" accesskey="u" rel="up">perllocale LOCALE CATEGORIES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perllocale-Category-LC_005fNUMERIC_003a-Numeric-Formatting" accesskey="n" rel="next">perllocale Category <code>LC_NUMERIC</code>: Numeric Formatting</a>, Previous: <a href="#perllocale-Category-LC_005fCOLLATE_003a-Collation-1" accesskey="p" rel="prev">perllocale Category <code>LC_COLLATE</code>: Collation 1</a>, Up: <a href="#perllocale-LOCALE-CATEGORIES" accesskey="u" rel="up">perllocale LOCALE CATEGORIES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Category-LC_005fCTYPE_003a-Character-Types"></a>
-<h4 class="subsection">38.6.2 Category LC_CTYPE: Character Types</h4>
+<h4 class="subsection">38.6.2 Category <code>LC_CTYPE</code>: Character Types</h4>
 
 <p>In the scope of <code>use&nbsp;locale</code><!-- /@w --> (but not a
 <code>use locale ':not_characters'</code>), Perl obeys the <code>LC_CTYPE</code> locale
@@ -1074,10 +1062,10 @@ should use <code>\w</code> with the <code>/a</code> regular expression modifier.
 <a name="perllocale-Category-LC_005fNUMERIC_003a-Numeric-Formatting"></a>
 <div class="header">
 <p>
-Next: <a href="#perllocale-Category-LC_005fMONETARY_003a-Formatting-of-monetary-amounts-1" accesskey="n" rel="next">perllocale Category LC_MONETARY: Formatting of monetary amounts 1</a>, Previous: <a href="#perllocale-Category-LC_005fCTYPE_003a-Character-Types-1" accesskey="p" rel="prev">perllocale Category LC_CTYPE: Character Types 1</a>, Up: <a href="#perllocale-LOCALE-CATEGORIES" accesskey="u" rel="up">perllocale LOCALE CATEGORIES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perllocale-Category-LC_005fMONETARY_003a-Formatting-of-monetary-amounts-1" accesskey="n" rel="next">perllocale Category <code>LC_MONETARY</code>: Formatting of monetary amounts 1</a>, Previous: <a href="#perllocale-Category-LC_005fCTYPE_003a-Character-Types-1" accesskey="p" rel="prev">perllocale Category <code>LC_CTYPE</code>: Character Types 1</a>, Up: <a href="#perllocale-LOCALE-CATEGORIES" accesskey="u" rel="up">perllocale LOCALE CATEGORIES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Category-LC_005fNUMERIC_003a-Numeric-Formatting"></a>
-<h4 class="subsection">38.6.3 Category LC_NUMERIC: Numeric Formatting</h4>
+<h4 class="subsection">38.6.3 Category <code>LC_NUMERIC</code>: Numeric Formatting</h4>
 
 <p>After a proper <code>POSIX::setlocale()</code> call, and within the scope of one
 of the <code>use locale</code> variants, Perl obeys the <code>LC_NUMERIC</code>
@@ -1110,10 +1098,10 @@ so on. (See <a href="#perllocale-The-localeconv-function">The localeconv functio
 <a name="perllocale-Category-LC_005fMONETARY_003a-Formatting-of-monetary-amounts-1"></a>
 <div class="header">
 <p>
-Next: <a href="#perllocale-LC_005fTIME" accesskey="n" rel="next">perllocale LC_TIME</a>, Previous: <a href="#perllocale-Category-LC_005fNUMERIC_003a-Numeric-Formatting" accesskey="p" rel="prev">perllocale Category LC_NUMERIC: Numeric Formatting</a>, Up: <a href="#perllocale-LOCALE-CATEGORIES" accesskey="u" rel="up">perllocale LOCALE CATEGORIES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perllocale-LC_005fTIME" accesskey="n" rel="next">perllocale <code>LC_TIME</code></a>, Previous: <a href="#perllocale-Category-LC_005fNUMERIC_003a-Numeric-Formatting" accesskey="p" rel="prev">perllocale Category <code>LC_NUMERIC</code>: Numeric Formatting</a>, Up: <a href="#perllocale-LOCALE-CATEGORIES" accesskey="u" rel="up">perllocale LOCALE CATEGORIES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Category-LC_005fMONETARY_003a-Formatting-of-monetary-amounts"></a>
-<h4 class="subsection">38.6.4 Category LC_MONETARY: Formatting of monetary amounts</h4>
+<h4 class="subsection">38.6.4 Category <code>LC_MONETARY</code>: Formatting of monetary amounts</h4>
 
 <p>The C standard defines the <code>LC_MONETARY</code> category, but not a function
 that is affected by its contents.  (Those with experience of standards
@@ -1132,10 +1120,10 @@ to crack.
 <a name="perllocale-LC_005fTIME"></a>
 <div class="header">
 <p>
-Next: <a href="#perllocale-Other-categories-1" accesskey="n" rel="next">perllocale Other categories 1</a>, Previous: <a href="#perllocale-Category-LC_005fMONETARY_003a-Formatting-of-monetary-amounts-1" accesskey="p" rel="prev">perllocale Category LC_MONETARY: Formatting of monetary amounts 1</a>, Up: <a href="#perllocale-LOCALE-CATEGORIES" accesskey="u" rel="up">perllocale LOCALE CATEGORIES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Next: <a href="#perllocale-Other-categories-1" accesskey="n" rel="next">perllocale Other categories 1</a>, Previous: <a href="#perllocale-Category-LC_005fMONETARY_003a-Formatting-of-monetary-amounts-1" accesskey="p" rel="prev">perllocale Category <code>LC_MONETARY</code>: Formatting of monetary amounts 1</a>, Up: <a href="#perllocale-LOCALE-CATEGORIES" accesskey="u" rel="up">perllocale LOCALE CATEGORIES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="LC_005fTIME"></a>
-<h4 class="subsection">38.6.5 LC_TIME</h4>
+<h4 class="subsection">38.6.5 <code>LC_TIME</code></h4>
 
 <p>Output produced by <code>POSIX::strftime()</code>, which builds a formatted
 human-readable date/time string, is affected by the current <code>LC_TIME</code>
@@ -1161,7 +1149,7 @@ always obeys the current <code>LC_TIME</code> locale.
 <a name="perllocale-Other-categories-1"></a>
 <div class="header">
 <p>
-Previous: <a href="#perllocale-LC_005fTIME" accesskey="p" rel="prev">perllocale LC_TIME</a>, Up: <a href="#perllocale-LOCALE-CATEGORIES" accesskey="u" rel="up">perllocale LOCALE CATEGORIES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+Previous: <a href="#perllocale-LC_005fTIME" accesskey="p" rel="prev">perllocale <code>LC_TIME</code></a>, Up: <a href="#perllocale-LOCALE-CATEGORIES" accesskey="u" rel="up">perllocale LOCALE CATEGORIES</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
 <a name="Other-categories"></a>
 <h4 class="subsection">38.6.6 Other categories</h4>
@@ -1197,7 +1185,7 @@ results.  Here are a few possibilities:
 characters such as &quot;&gt;&quot; and &quot;|&quot; are alphanumeric.
 
 </li><li> String interpolation with case-mapping, as in, say, <code>$dest =
-&quot;C:\U$name.$ext&quot;</code>, may produce dangerous results if a bogus LC_CTYPE
+&quot;C:\U$name.$ext&quot;</code>, may produce dangerous results if a bogus <code>LC_CTYPE</code>
 case-mapping table is in effect.
 
 </li><li> A sneaky <code>LC_COLLATE</code> locale could result in the names of students with
@@ -1371,7 +1359,7 @@ variable is absent, or has a value that does not evaluate to integer
 zero&ndash;that is, &quot;0&quot; or &quot;&quot;&ndash; Perl will complain about locale setting
 failures.
 </p>
-<p><strong>NOTE</strong>: PERL_BADLANG only gives you a way to hide the warning message.
+<p><strong>NOTE</strong>: <code>PERL_BADLANG</code> only gives you a way to hide the warning message.
 The message tells about some problem in your system&rsquo;s locale support,
 and you should investigate what the problem is.
 </p>
@@ -1386,17 +1374,17 @@ If the locale given by an environment variable is not valid, Perl tries
 the next lower one in priority.  If none are valid, on Windows, the
 system default locale is then tried.  If all else fails, the <code>&quot;C&quot;</code>
 locale is used.  If even that doesn&rsquo;t work, something is badly broken,
-but Perl tries to forge ahead with whatever the locale settinga might
+but Perl tries to forge ahead with whatever the locale settings might
 be.
 </p>
 <dl compact="compact">
-<dt>LC_ALL</dt>
+<dt><code>LC_ALL</code></dt>
 <dd><a name="perllocale-LC_005fALL"></a>
 <p><code>LC_ALL</code> is the &quot;override-all&quot; locale environment variable. If
 set, it overrides all the rest of the locale environment variables.
 </p>
 </dd>
-<dt>LANGUAGE</dt>
+<dt><code>LANGUAGE</code></dt>
 <dd><a name="perllocale-LANGUAGE"></a>
 <p><strong>NOTE</strong>: <code>LANGUAGE</code> is a GNU extension, it affects you only if you
 are using the GNU libc.  This is the case if you are using e.g. Linux.
@@ -1411,46 +1399,46 @@ instead a &quot;path&quot; (&quot;:&quot;-separated list) of <em>languages</em> 
 See the GNU <code>gettext</code> library documentation for more information.
 </p>
 </dd>
-<dt>LC_CTYPE</dt>
-<dd><a name="perllocale-LC_005fCTYPE"></a>
+<dt><code>LC_CTYPE</code>.</dt>
+<dd><a name="perllocale-LC_005fCTYPE_002e"></a>
 <p>In the absence of <code>LC_ALL</code>, <code>LC_CTYPE</code> chooses the character type
 locale.  In the absence of both <code>LC_ALL</code> and <code>LC_CTYPE</code>, <code>LANG</code>
 chooses the character type locale.
 </p>
 </dd>
-<dt>LC_COLLATE</dt>
+<dt><code>LC_COLLATE</code></dt>
 <dd><a name="perllocale-LC_005fCOLLATE"></a>
 <p>In the absence of <code>LC_ALL</code>, <code>LC_COLLATE</code> chooses the collation
 (sorting) locale.  In the absence of both <code>LC_ALL</code> and <code>LC_COLLATE</code>,
 <code>LANG</code> chooses the collation locale.
 </p>
 </dd>
-<dt>LC_MONETARY</dt>
+<dt><code>LC_MONETARY</code></dt>
 <dd><a name="perllocale-LC_005fMONETARY"></a>
 <p>In the absence of <code>LC_ALL</code>, <code>LC_MONETARY</code> chooses the monetary
 formatting locale.  In the absence of both <code>LC_ALL</code> and <code>LC_MONETARY</code>,
 <code>LANG</code> chooses the monetary formatting locale.
 </p>
 </dd>
-<dt>LC_NUMERIC</dt>
+<dt><code>LC_NUMERIC</code></dt>
 <dd><a name="perllocale-LC_005fNUMERIC"></a>
 <p>In the absence of <code>LC_ALL</code>, <code>LC_NUMERIC</code> chooses the numeric format
 locale.  In the absence of both <code>LC_ALL</code> and <code>LC_NUMERIC</code>, <code>LANG</code>
 chooses the numeric format.
 </p>
 </dd>
-<dt>LC_TIME</dt>
+<dt><code>LC_TIME</code></dt>
 <dd><a name="perllocale-LC_005fTIME-1"></a>
 <p>In the absence of <code>LC_ALL</code>, <code>LC_TIME</code> chooses the date and time
 formatting locale.  In the absence of both <code>LC_ALL</code> and <code>LC_TIME</code>,
 <code>LANG</code> chooses the date and time formatting locale.
 </p>
 </dd>
-<dt>LANG</dt>
+<dt><code>LANG</code></dt>
 <dd><a name="perllocale-LANG"></a>
 <p><code>LANG</code> is the &quot;catch-all&quot; locale environment variable. If it is set, it
 is used as the last resort after the overall <code>LC_ALL</code> and the
-category-specific <code>LC_...</code>.
+category-specific <code>LC_<em>foo</em></code>
 </p>
 </dd>
 </dl>
@@ -1469,7 +1457,7 @@ Up: <a href="#perllocale-ENVIRONMENT" accesskey="u" rel="up">perllocale ENVIRONM
 <a name="Examples"></a>
 <h4 class="subsection">38.8.1 Examples</h4>
 
-<p>The LC_NUMERIC controls the numeric output:
+<p>The <code>LC_NUMERIC</code> controls the numeric output:
 </p>
 <pre class="verbatim">   use locale;
    use POSIX qw(locale_h); # Imports setlocale() and the LC_ constants.
@@ -1729,7 +1717,7 @@ simply because both
 they and Perl store characters that take up multiple bytes the same way.
 However, some, if not most, C library implementations may not process
 the characters in the upper half of the Latin-1 range (128 - 255)
-properly under LC_CTYPE.  To see if a character is a particular type
+properly under <code>LC_CTYPE</code>.  To see if a character is a particular type
 under a locale, Perl uses the functions like <code>isalnum()</code>.  Your C
 library may not work for UTF-8 locales with those functions, instead
 only working under the newer wide library functions like <code>iswalnum()</code>.
@@ -1850,7 +1838,7 @@ for broken locales</a>.
 <p>
 Next: <a href="#perllocale-HISTORY" accesskey="n" rel="next">perllocale HISTORY</a>, Previous: <a href="#perllocale-BUGS" accesskey="p" rel="prev">perllocale BUGS</a>, Up: <a href="#perllocale" accesskey="u" rel="up">perllocale</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="SEE-ALSO-16"></a>
+<a name="SEE-ALSO-17"></a>
 <h3 class="section">38.12 SEE ALSO</h3>
 
 <p><a href="../I18N-Langinfo/index.html">(I18N-Langinfo)</a>, <a href="perluniintro.html#perluniintro-NAME">perluniintro NAME</a>, <a href="perlunicode.html#perlunicode-NAME">perlunicode NAME</a>, <a href="../open/index.html">(open)</a>,

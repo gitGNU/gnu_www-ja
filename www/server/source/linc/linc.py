@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-LINC_VERSION = 'LINC 0.16'
+LINC_VERSION = 'LINC 0.19'
 USAGE = \
 '''Usage: %prog [options] [BASE_DIRECTORY]
 Check links in HTML files from BASE_DIRECTORY.'''
@@ -94,11 +94,11 @@ SYMLINKS_FILENAME = '.symlinks'
 FTP_LINK_REGEXP = 'ftp://(?P<hostname>[^/:]+)(:(?P<port>[0-9]+))?'
 
 # What to treat as a HTTP error header.
-HTTP_ERROR_HEADER = '(^|\r\n)HTTP/1\.1 (?P<http_error_code>403|404) '
+HTTP_ERROR_HEADER = '(^|\r\n)HTTP/1\.1 (?P<http_error_code>[45][0-9][0-9]) '
 HTTP_FORWARD_HEADER = \
   '(^|\r\n)HTTP/1\.1 (301 Moved Permanently|302 Found)(\r\n|$)'
 HTTP_LINK_REGEXP = \
-  'http://(?P<hostname>[^/:]+)(:(?P<port>[0-9]+))?(?P<resource>/[^#]*)?'
+  'http(s?)://(?P<hostname>[^/:]+)(:(?P<port>[0-9]+))?(?P<resource>/[^#]*)?'
 HTTP_NEW_LOCATION_HEADER = '(^|\r\n)Location: (?P<new_location>.+)(\r\n|$)'
 LINK_BEGIN = '(?i)(<a\s[^<]*)'
 # We want to parse links like href="URL" as well as href='URL';
@@ -117,6 +117,12 @@ WICKED = 0
 import os
 import re
 import socket
+NO_SSL = False
+try:
+    import ssl
+except:
+    print("Note: No SSL library found.")
+    NO_SSL = True
 import sys
 import time
 from optparse import OptionParser
@@ -159,7 +165,7 @@ def get_ftp_link_error(link):
 	return None
 
 # forwarded_from is either None or a list
-def get_http_link_error(link, forwarded_from = None):
+def get_http_link_error(link, link_type, forwarded_from = None):
 	if forwarded_from == None:
 		forwarded_from = []
 
@@ -170,14 +176,26 @@ def get_http_link_error(link, forwarded_from = None):
 	port = connection_data.group( 'port' )
 	resource = connection_data.group( 'resource' )
 
-	if port == None:
-		port = 80
-
 	socketfd = socket_create()
 	# if a socket couldn't be created,
 	# just ignore this link this time.
 	if socketfd == None:
 		return None
+
+	if port == None:
+	    if link_type == 'http':
+		port = 80
+	    elif link_type == 'https':
+		port = 443
+	    else:
+		report(1, 'Unexpected link type `' + link_type + "' found.")
+		if WICKED > 0:
+		    print 'Aborting due to an unexpected link type.'
+		    exit(1)
+		return None
+
+	if link_type == 'https':
+	    socketfd = ssl.wrap_socket (socketfd)
 
 	if socket_connect( socketfd, hostname, port ) == False:
 		socketfd.close()
@@ -227,7 +245,7 @@ def get_http_link_error(link, forwarded_from = None):
 	new_location = match.group('new_location')
 	if new_location in forwarded_from:
 		return 'forward loop!'
-	return get_http_link_error(new_location, forwarded_from)
+	return get_http_link_error(new_location, link_type, forwarded_from)
 
 def is_inside_comment(head):
 	start = head.rfind('<!--')
@@ -275,7 +293,7 @@ def classify_link(filename, link, symlink = None):
 	# from which it is linked rather than the actual location
 	# of the file.
 	dir_name = symlink if (symlink != None) else filename
-	if re.search('^(mailto:|irc://|https://)', link):
+	if re.search('^(mailto:|irc://|rsync://)', link):
 		link_type = 'unsupported'
 	elif link.find('http://') == 0:
 		link_type = 'http'
@@ -284,6 +302,11 @@ def classify_link(filename, link, symlink = None):
 		link = 'http:' + link
 	elif link.find('ftp://') == 0:
 		link_type = 'ftp'
+	elif link.find('https://') == 0:
+		if NO_SSL:
+		    link_type = 'unsupported'
+		else:
+		    link_type = 'https'
 	elif link[0] == '/':
 		link = remote_site_root + link[1:]
 	else:
@@ -674,8 +697,8 @@ for j in range(NUMBER_OF_ATTEMPTS):
 		link_error = None
 	elif link_type == 'ftp':
 		link_error = get_ftp_link_error(url)
-	elif link_type == 'http':
-		link_error = get_http_link_error(url)
+	elif link_type == 'http' or link_type == 'https':
+		link_error = get_http_link_error(url, link_type)
 	else:
     		report(1, 'Unexpected link type `' + link_type + "' found.")
     		if WICKED > 0:

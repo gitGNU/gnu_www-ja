@@ -1747,10 +1747,12 @@ table:
    \c[      chr(27)
    \c]      chr(29)
    \c^      chr(30)
-   \c?      chr(127)
+   \c_      chr(31)
+   \c?      chr(127) # (on ASCII platforms)
 </pre>
 <p>In other words, it&rsquo;s the character whose code point has had 64 xor&rsquo;d with
-its uppercase.  <code>\c?</code> is DELETE because <code>ord(&quot;?&quot;) ^ 64</code> is 127, and
+its uppercase.  <code>\c?</code> is DELETE on ASCII platforms because
+<code>ord(&quot;?&quot;)&nbsp;^&nbsp;64</code><!-- /@w --> is 127, and
 <code>\c@</code> is NULL because the ord of &quot;@&quot; is 64, so xor&rsquo;ing 64 itself produces 0.
 </p>
 <p>Also, <code>\c\<em>X</em></code> yields <code> chr(28) . &quot;<em>X</em>&quot;</code> for any <em>X</em>, but cannot come at the
@@ -1759,10 +1761,10 @@ quote.
 </p>
 <p>On ASCII platforms, the resulting characters from the list above are the
 complete set of ASCII controls.  This isn&rsquo;t the case on EBCDIC platforms; see
-<a href="perlebcdic.html#perlebcdic-OPERATOR-DIFFERENCES">perlebcdic OPERATOR DIFFERENCES</a> for the complete list of what these
-sequences mean on both ASCII and EBCDIC platforms.
+<a href="perlebcdic.html#perlebcdic-OPERATOR-DIFFERENCES">perlebcdic OPERATOR DIFFERENCES</a> for a full discussion of the
+differences between these for ASCII versus EBCDIC platforms.
 </p>
-<p>Use of any other character following the &quot;c&quot; besides those listed above is
+<p>Use of any other character following the <code>&quot;c&quot;</code> besides those listed above is
 discouraged, and some are deprecated with the intention of removing
 those in a later Perl version.  What happens for any of these
 other characters currently though, is that the value is derived by xor&rsquo;ing
@@ -1797,12 +1799,6 @@ use this construct only for ordinals <code>\077</code> and below, remembering to
 the left with zeros to make three digits.  For larger ordinals, either use
 <code>\o{}</code>, or convert to something else, such as to hex and use <code>\x{}</code>
 instead.
-</p>
-<p>Having fewer than 3 digits may lead to a misleading warning message that says
-that what follows is ignored.  For example, <code>&quot;\128&quot;</code> in the ASCII character set
-is equivalent to the two characters <code>&quot;\n8&quot;</code>, but the warning <code>Illegal octal
-digit '8' ignored</code> will be thrown.  If <code>&quot;\n8&quot;</code> is what you want, you can
-avoid this warning by padding your octal number with <code>0</code>&rsquo;s: <code>&quot;\0128&quot;</code>.
 </p>
 </dd>
 <dt>[8]</dt>
@@ -2067,7 +2063,7 @@ test and never recompile by adding a <code>/o</code> (which stands for &quot;onc
 after the trailing delimiter.
 Once upon a time, Perl would recompile regular expressions
 unnecessarily, and this modifier was useful to tell it not to do so, in the
-interests of speed.  But now, the only reasons to use <code>/o</code> are either:
+interests of speed.  But now, the only reasons to use <code>/o</code> are one of:
 </p>
 <ol>
 <li> The variables are thousands of characters long and you know that they

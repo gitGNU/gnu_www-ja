@@ -223,7 +223,7 @@ possible to have it point to other things  For example, it could point
 to an array of UVs.  But,
 using it for non-strings requires care, as the underlying assumption of
 much of the internals is that PVs are just for strings.  Often, for
-example, a trailing NUL is tacked on automatically.  The non-string use
+example, a trailing <code>NUL</code> is tacked on automatically.  The non-string use
 is documented only in this paragraph.)
 </p>
 <p>The seven routines are:
@@ -243,7 +243,7 @@ any string that perl can handle.
 <p>In the unlikely case of a SV requiring more complex initialization, you
 can create an empty SV with newSV(len).  If <code>len</code> is 0 an empty SV of
 type NULL is returned, else an SV of type PV is returned with len + 1 (for
-the NUL) bytes of storage allocated, accessible via SvPVX.  In both cases
+the <code>NUL</code>) bytes of storage allocated, accessible via SvPVX.  In both cases
 the SV has the undef value.
 </p>
 <pre class="verbatim">    SV *sv = newSV(0);   /* no storage allocated  */
@@ -267,7 +267,7 @@ assigned by using <code>sv_setpvn</code>, <code>newSVpvn</code>, or <code>newSVp
 allow Perl to calculate the length by using <code>sv_setpv</code> or by specifying
 0 as the second argument to <code>newSVpv</code>.  Be warned, though, that Perl will
 determine the string&rsquo;s length by using <code>strlen</code>, which depends on the
-string terminating with a NUL character, and not otherwise containing
+string terminating with a <code>NUL</code> character, and not otherwise containing
 NULs.
 </p>
 <p>The arguments of <code>sv_setpvf</code> are processed like <code>sprintf</code>, and the
@@ -285,11 +285,11 @@ the format.
 <p>The <code>sv_set*()</code> functions are not generic enough to operate on values
 that have &quot;magic&quot;.  See <a href="#perlguts-Magic-Virtual-Tables">Magic Virtual Tables</a> later in this document.
 </p>
-<p>All SVs that contain strings should be terminated with a NUL character.
-If it is not NUL-terminated there is a risk of
+<p>All SVs that contain strings should be terminated with a <code>NUL</code> character.
+If it is not <code>NUL</code>-terminated there is a risk of
 core dumps and corruptions from code which passes the string to C
-functions or system calls which expect a NUL-terminated string.
-Perl&rsquo;s own functions typically add a trailing NUL for this reason.
+functions or system calls which expect a <code>NUL</code>-terminated string.
+Perl&rsquo;s own functions typically add a trailing <code>NUL</code> for this reason.
 Nevertheless, you should be very careful when you pass a string stored
 in an SV to a C function or system call.
 </p>
@@ -311,7 +311,7 @@ Historically the <code>SvPV</code> macro with the global variable <code>PL_na</c
 used in this case.  But that can be quite inefficient because <code>PL_na</code> must
 be accessed in thread-local storage in threaded Perl.  In any case, remember
 that Perl allows arbitrary strings of data that may both contain NULs and
-might not be terminated by a NUL.
+might not be terminated by a <code>NUL</code>.
 </p>
 <p>Also remember that C doesn&rsquo;t allow you to safely say <code>foo(SvPV(s, len),
 len);</code>.  It might work with your
@@ -336,9 +336,61 @@ Perl to allocate more memory for your SV, you can use the macro
 <p>which will determine if more memory needs to be allocated.  If so, it will
 call the function <code>sv_grow</code>.  Note that <code>SvGROW</code> can only increase, not
 decrease, the allocated memory of an SV and that it does not automatically
-add space for the trailing NUL byte (perl&rsquo;s own string functions typically do
+add space for the trailing <code>NUL</code> byte (perl&rsquo;s own string functions typically do
 <code>SvGROW(sv, len + 1)</code>).
 </p>
+<p>If you want to write to an existing SV&rsquo;s buffer and set its value to a
+string, use SvPV_force() or one of its variants to force the SV to be
+a PV.  This will remove any of various types of non-stringness from
+the SV while preserving the content of the SV in the PV.  This can be
+used, for example, to append data from an API function to a buffer
+without extra copying:
+</p>
+<pre class="verbatim">    (void)SvPVbyte_force(sv, len);
+    s = SvGROW(sv, len + needlen + 1);
+    /* something that modifies up to needlen bytes at s+len, but
+       modifies newlen bytes
+         eg. newlen = read(fd, s + len, needlen);
+       ignoring errors for these examples
+     */
+    s[len + newlen] = '\0';
+    SvCUR_set(sv, len + newlen);
+    SvUTF8_off(sv);
+    SvSETMAGIC(sv);
+</pre>
+<p>If you already have the data in memory or if you want to keep your
+code simple, you can use one of the sv_cat*() variants, such as
+sv_catpvn().  If you want to insert anywhere in the string you can use
+sv_insert() or sv_insert_flags().
+</p>
+<p>If you don&rsquo;t need the existing content of the SV, you can avoid some
+copying with:
+</p>
+<pre class="verbatim">    sv_setpvn(sv, &quot;&quot;, 0);
+    s = SvGROW(sv, needlen + 1);
+    /* something that modifies up to needlen bytes at s, but modifies
+       newlen bytes
+         eg. newlen = read(fd, s. needlen);
+     */
+    s[newlen] = '\0';
+    SvCUR_set(sv, newlen);
+    SvPOK_only(sv); /* also clears SVf_UTF8 */
+    SvSETMAGIC(sv);
+</pre>
+<p>Again, if you already have the data in memory or want to avoid the
+complexity of the above, you can use sv_setpvn().
+</p>
+<p>If you have a buffer allocated with Newx() and want to set that as the
+SV&rsquo;s value, you can use sv_usepvn_flags().  That has some requirements
+if you want to avoid perl re-allocating the buffer to fit the trailing
+NUL:
+</p>
+<pre class="verbatim">   Newx(buf, somesize+1, char);
+   /* ... fill in buf ... */
+   buf[somesize] = '\0';
+   sv_usepvn_flags(sv, buf, somesize, SV_SMAGIC | SV_HAS_TRAILING_NUL);
+   /* buf now belongs to perl, don't release it */
+</pre>
 <p>If you have an SV and want to know what kind of data Perl thinks is stored
 in it, you can use the following macros to check the type of SV you have.
 </p>
@@ -3746,7 +3798,7 @@ Stephen McCamant, and Gurusamy Sarathy.
 <p>
 Previous: <a href="#perlguts-AUTHORS" accesskey="p" rel="prev">perlguts AUTHORS</a>, Up: <a href="#perlguts" accesskey="u" rel="up">perlguts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="SEE-ALSO-14"></a>
+<a name="SEE-ALSO-15"></a>
 <h3 class="section">28.14 SEE ALSO</h3>
 
 <p><a href="../perlapi/index.html">(perlapi)</a>, <a href="../perlintern/index.html">(perlintern)</a>, <a href="../perlxs/index.html">(perlxs)</a>, <a href="perlembed.html#perlembed-NAME">perlembed NAME</a>

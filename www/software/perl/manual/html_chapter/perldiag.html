@@ -2490,6 +2490,12 @@ not finding it.  Chances are you left some needed parentheses out
 earlier in the line, and you really meant a &quot;less than&quot;.
 </p>
 </dd>
+<dt>gmtime(%f) failed</dt>
+<dd><a name="perldiag-gmtime_0028_0025f_0029-failed"></a>
+<p>(W overflow) You called <code>gmtime</code> with a number that it could not handle:
+too large, too small, or NaN.  The returned value is <code>undef</code>.
+</p>
+</dd>
 <dt>gmtime(%f) too large</dt>
 <dd><a name="perldiag-gmtime_0028_0025f_0029-too-large"></a>
 <p>(W overflow) You called <code>gmtime</code> with a number that was larger than
@@ -3235,6 +3241,12 @@ to check the return value of your socket() call?  See
 <p>(F) On some platforms, notably Windows, the three-or-more-arguments
 form of <code>open</code> does not support pipes, such as <code>open($pipe, '|-', @args)</code>.
 Use the two-argument <code>open($pipe, '|prog arg1 arg2...')</code> form instead.
+</p>
+</dd>
+<dt>localtime(%f) failed</dt>
+<dd><a name="perldiag-localtime_0028_0025f_0029-failed"></a>
+<p>(W overflow) You called <code>localtime</code> with a number that it could not handle:
+too large, too small, or NaN.  The returned value is <code>undef</code>.
 </p>
 </dd>
 <dt>localtime(%f) too large</dt>
@@ -7500,7 +7512,20 @@ front of your variable.
 <dt>Variable length lookbehind not implemented in regex m/%s/</dt>
 <dd><a name="perldiag-Variable-length-lookbehind-not-implemented-in-regex-m_002f_0025s_002f"></a>
 <p>(F) Lookbehind is allowed only for subexpressions whose length is fixed and
-known at compile time.  See <a href="perlre.html#perlre-NAME">perlre NAME</a>.
+known at compile time.  For positive lookbehind, you can use the <code>\K</code>
+regex construct as a way to get the equivalent functionality.  See
+<a href="perlre.html#perlre-_0028_003f_003c_003dpattern_0029-_005cK">perlre <code>(?&lt;=pattern)</code> <code>\K</code></a>.
+</p>
+<p>There are non-obvious Unicode rules under <code>/i</code> that can match variably,
+but which you might not think could.  For example, the substring <code>&quot;ss&quot;</code>
+can match the single character LATIN SMALL LETTER SHARP S.  There are
+other sequences of ASCII characters that can match single ligature
+characters, such as LATIN SMALL LIGATURE FFI matching <code>qr/ffi/i</code>.
+Starting in Perl v5.16, if you only care about ASCII matches, adding the
+<code>/aa</code> modifier to the regex will exclude all these non-obvious matches,
+thus getting rid of this message.  You can also say <code>use&nbsp;re&nbsp;qw(/aa)<!-- /@w --></code>
+to apply <code>/aa</code> to all regular expressions compiled within its scope.
+See <a href="../re/index.html">(re)</a>.
 </p>
 </dd>
 <dt>&quot;%s&quot; variable %s masks earlier declaration in same %s</dt>

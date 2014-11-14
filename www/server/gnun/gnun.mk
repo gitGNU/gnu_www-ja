@@ -97,6 +97,7 @@ ALL_DIRS :=	accessibility \
 		graphics/fsfsociety \
 		graphics/gnu-and-freedo \
 		graphics/gnu-post \
+		graphics/umsa \
 		help \
 		licenses \
 		licenses/old-licenses \
@@ -299,6 +300,7 @@ graphics :=	3dbabygnutux \
 		gnu-ascii \
 		gnu-ascii-liberty \
 		gnu-ascii2 \
+		gnu-head-luk \
 		gnu-head-shadow \
 		gnu-inside \
 		gnu-jacket \
@@ -347,6 +349,8 @@ graphics/fsfsociety :=	fsfsociety
 graphics/gnu-and-freedo :=	gnu-and-freedo
 
 graphics/gnu-post :=	index
+
+graphics/umsa :=	umsa
 
 help :=		evaluation \
 		gethelp \
@@ -566,7 +570,8 @@ philosophy := 	15-years-of-free-software \
 		stallmans-law \
 		stophr3028 \
 		sun-in-night-time \
-                surveillance-vs-democracy \
+		surveillance-vs-democracy \
+		technological-neutrality \
 		the-danger-of-ebooks \
 		the-law-of-success-2 \
 		the-root-of-this-problem \
@@ -653,6 +658,7 @@ server/standards :=	README.editors \
 
 software :=	devel \
 		for-windows \
+		maintainer-tips \
 		recent-releases \
 		reliability \
 		software \

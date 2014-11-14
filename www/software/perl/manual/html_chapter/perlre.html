@@ -290,6 +290,8 @@ whitespace or <code>#</code> characters in the pattern (outside a bracketed char
 class, which is unaffected by <code>/x</code>), then you&rsquo;ll either have to
 escape them (using backslashes or <code>\Q...\E</code>) or encode them using octal,
 hex, or <code>\N{}</code> escapes.
+It is ineffective to try to continue a comment onto the next line by
+escaping the <code>\n</code> with a backslash or <code>\Q</code>.
 </p>
 <p>You can use <a href="#perlre-_0028_003f_0023text_0029">(?#text)</a> to create a comment that ends earlier than the
 end of the current line, but <code>text</code> also can&rsquo;t contain the closing
@@ -843,9 +845,9 @@ also work:
  \o{}, \000  character whose ordinal is the given octal number
  \l          lowercase next char (think vi)
  \u          uppercase next char (think vi)
- \L          lowercase till \E (think vi)
- \U          uppercase till \E (think vi)
- \Q          quote (disable) pattern metacharacters till \E
+ \L          lowercase until \E (think vi)
+ \U          uppercase until \E (think vi)
+ \Q          quote (disable) pattern metacharacters until \E
  \E          end either case modification or quoted section, think vi
 </pre>
 <p>Details are in <a href="perlop.html#perlop-Quote-and-Quote_002dlike-Operators">perlop Quote and Quote-like Operators</a>.
@@ -1450,7 +1452,8 @@ match.  Use look-behind instead (see below).
 matches a word that follows a tab, without including the tab in <code>$&amp;</code>.
 Works only for fixed-width look-behind.
 </p>
-<p>There is a special form of this construct, called <code>\K</code>, which causes the
+<p>There is a special form of this construct, called <code>\K</code> (available since
+Perl 5.10.0), which causes the
 regex engine to &quot;keep&quot; everything it had matched prior to the <code>\K</code> and
 not include it in <code>$&amp;</code>. This effectively provides variable-length
 look-behind. The use of <code>\K</code> inside of another look-around assertion
@@ -1909,7 +1912,7 @@ handling them.
 <pre class="verbatim">  /(?&lt;NAME&gt;(?&amp;NAME_PAT))(?&lt;ADDR&gt;(?&amp;ADDRESS_PAT))
    (?(DEFINE)
      (?&lt;NAME_PAT&gt;....)
-     (?&lt;ADRESS_PAT&gt;....)
+     (?&lt;ADDRESS_PAT&gt;....)
    )/x
 </pre>
 <p>Note that capture groups matched inside of recursion are not accessible
@@ -3019,7 +3022,7 @@ from the reference content.
 <p>
 Previous: <a href="#perlre-BUGS" accesskey="p" rel="prev">perlre BUGS</a>, Up: <a href="#perlre" accesskey="u" rel="up">perlre</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
 </div>
-<a name="SEE-ALSO-29"></a>
+<a name="SEE-ALSO-30"></a>
 <h3 class="section">58.4 SEE ALSO</h3>
 
 <p><a href="perlrequick.html#perlrequick-NAME">perlrequick NAME</a>.
