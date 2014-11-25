@@ -609,6 +609,7 @@ philosophy/proprietary :=       malware-apple \
                                 malware-mobiles \
                                 proprietary \
                                 proprietary-back-doors \
+                                proprietary-censorship \
                                 proprietary-drm \
                                 proprietary-insecurity \
                                 proprietary-jails \
