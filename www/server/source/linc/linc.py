@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-LINC_VERSION = 'LINC 0.19'
+LINC_VERSION = 'LINC 0.20'
 USAGE = \
 '''Usage: %prog [options] [BASE_DIRECTORY]
 Check links in HTML files from BASE_DIRECTORY.'''
@@ -81,7 +81,7 @@ CACHE = None
 
 # Matching directories will not be entered to check their
 # files or subdirectories.
-EXCLUDED_DIRECTORIES_REGEXP = '^(japan|wwwin|education/fr|\
+EXCLUDED_DIRECTORIES_REGEXP = '^(wwwin|education/fr|\
 education/draft|press|screenshots|server/staging|software/[^/]+)$|(^|/)po$'
 EXCLUDED_FILENAMES_REGEXP = \
   '^(server/(standards/boilerplate\.html' + \
@@ -233,16 +233,25 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 	match = re.search(HTTP_FORWARD_HEADER, header)
 	if not match:
 		return None
-	# if we haven't been forwarded too many times yet...
 	if len(forwarded_from) >= FORWARDS_TO_FOLLOW:
-		# we've been forwarded too many times, sorry.
+		if VERBOSE > 2:
+		    print 'too many forwards:'
+		    print forwarded_from
 		return 'too many forwards (over ' \
 			+ str(FORWARDS_TO_FOLLOW) + ')'
 	match = re.search(HTTP_NEW_LOCATION_HEADER, header)
 	if not match:
+		report(-2, 'Forwarded location not found')
+		report(1, '- - - - -')
+		report(1, header)
+		report(1, '- - - - -')
+		if WICKED > 1:
+			print 'Aborting due to bad forward.'
+			exit(1)
 		return None
 	forwarded_from.append(link)
 	new_location = match.group('new_location')
+	[link_type, url] = classify_link("", new_location)
 	if new_location in forwarded_from:
 		return 'forward loop!'
 	return get_http_link_error(new_location, link_type, forwarded_from)
