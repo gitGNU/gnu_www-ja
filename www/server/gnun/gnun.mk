@@ -506,6 +506,7 @@ philosophy := 	15-years-of-free-software \
 		lest-codeplex-perplex \
 		limit-patent-effect \
 		linux-gnu-freedom \
+		loyal-computers \
 		luispo-rms-interview \
 		mcvoy \
 		microsoft \
