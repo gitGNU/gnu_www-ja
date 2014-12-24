@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-LINC_VERSION = 'LINC 0.20'
+LINC_VERSION = 'LINC 0.21'
 USAGE = \
 '''Usage: %prog [options] [BASE_DIRECTORY]
 Check links in HTML files from BASE_DIRECTORY.'''
@@ -76,6 +76,9 @@ SOCKET_TIMEOUT = 20
 
 # Don't download the files, assume no error.
 LOCAL = False
+
+# Don't process symlinks.
+NO_SYMLINKS = False
 
 CACHE = None
 
@@ -328,6 +331,7 @@ def classify_link(filename, link, symlink = None):
 
 def scan_file(root, file_to_check, symlink = None):
 	path = os.path.join(root, file_to_check)
+	report (3, 'scanning file ' + path)
 	fd = open(path, 'r')
 	text = fd.read()
 	fd.close()
@@ -364,6 +368,7 @@ def scan_file(root, file_to_check, symlink = None):
 				  	  'type': link_type}
 
 def scan_directory(root, directory):
+	report (3, 'scanning directory ' + directory)
 	for element_name in os.listdir(os.path.join(root, directory)):
 		relative_path = os.path.join(directory, element_name)
 		full_path = os.path.join(root, relative_path)
@@ -547,6 +552,8 @@ parser.add_option('-g', '--good', dest = 'good', action = 'count',
 parser.add_option('-l', '--local', dest = 'local', action = 'store_true',
 		  default = False,
 		  help = "don't download files, assume no error")
+parser.add_option('-n', '--no-symlinks', dest = 'no_symlinks', action = 'store_true',
+		  default = False, help = "don't process .symlinks")
 parser.add_option('-o', '--output', dest = 'dir_name', metavar = 'DIRECTORY',
 		  help = 'write reports to DIRECTORY [' \
 			 + REPORT_FILE_PREFIX + ']')
@@ -627,6 +634,8 @@ if options.exclude_dir != None:
 	EXCLUDED_DIRECTORIES_REGEXP = options.exclude_dir
 if options.local != None:
 	LOCAL = options.local
+if options.no_symlinks != None:
+	NO_SYMLINKS = options.no_symlinks
 CACHE = options.cache
 
 base_directory = BASE_DIRECTORY
@@ -658,6 +667,7 @@ report(0, "Base URL:             `" + REMOTE_BASE_DIRECTORY + "'")
 report(0, "Excluded files:       `" + EXCLUDED_FILENAMES_REGEXP + "'")
 report(0, "Excluded directories: `" + EXCLUDED_DIRECTORIES_REGEXP + "'")
 report(0, "Run locally:           " + str(LOCAL))
+report(0, "Skip .symlinks:        " + str(NO_SYMLINKS))
 report(0, "Verbosity:             " + str(VERBOSE))
 report(0, "Wickedness:            " + str(WICKED))
 
@@ -669,8 +679,11 @@ report(-1, 'Recursively listing all files in the selected directory...')
 links_to_check = []
 urls_to_check = {}
 scan_directory(base_directory, '')
-report(-1, 'Processing symlinks...')
-process_symlinks(base_directory)
+if NO_SYMLINKS:
+	report(-1, 'Skipping all .symlinks')
+else:
+	report(-1, 'Processing symlinks...')
+	process_symlinks(base_directory)
 checked_urls = load_cache(CACHE)
 unique_links = str(len(urls_to_check))
 cached_links = 0
