@@ -1,5 +1,5 @@
 # Copyright (C) 2007, 2008, 2009, 2010, 2011,
-#   2012, 2013, 2014 Free Software Foundation, Inc.
+#   2012, 2013, 2014, 2015 Free Software Foundation, Inc.
 
 # This file is part of GNUnited Nations.
 
@@ -696,4 +696,5 @@ thankgnus :=	1997supporters \
 		2012supporters \
 		2013supporters \
 		2014supporters \
+		2015supporters \
 		thankgnus
