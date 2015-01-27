@@ -296,6 +296,7 @@ graphics :=	3dbabygnutux \
 		fsf-logo \
 		FSFS-logo \
 		gleesons \
+                gnu-30 \
 		gnu-alternative \
 		gnu-ascii \
 		gnu-ascii-liberty \
