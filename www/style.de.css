@@ -1,7 +1,8 @@
 @charset "utf-8";
-/*  style.de.css -- German CSS (www-de)
+/*  style.de.css -- CSS for Germanized documents on www.gnu.org.
 
-    Copyright (C) 2011-2013 Free Software Foundation, Inc.
+    Copyright (C) 2011-2015 Free Software Foundation, Inc.
+    Author: Joerg Kohne <www-de-translators@gnu.org>, 2011-2015.
 
     Permission is hereby granted, free of charge, to any person
     obtaining a copy of this software and associated documentation
@@ -13,12 +14,9 @@
     conditions:
 
     The above copyright notice and this permission notice shall be
-    included in all copies or substantial portions of the Software.
+    included in all copies or substantial portions of the Software. */
 
-    German Translation Team for gnu.org 
-    <www-de-translators@gnu.org>, 2011, 2012, 2013. */
-
-#logo:lang(de) { /* Insert German background image */
+#logo:lang(de) {/* Insert German background image */
   background:url(/graphics/topbanner.de.png) no-repeat;
   border:0;
   float: left;
@@ -28,59 +26,76 @@
 
 /* Help the reader avoid wasted time linking to pages they can not read;
    saves the translator time and effort */
-#content a[href^="http://"]:after, 
-#content a[href^="https://"]:after { content: "\00a0\2197"; }
-#content a[hreflang = 'de']:after { content: " [deu.] "; } 
-#content a[hreflang = 'en']:after { content: " [engl.] "; } 
-#content a[hreflang = 'es']:after { content: " [span.] "; } 
-#content a[hreflang = 'fr']:after { content: " [franz.] "; } 
-#content a[hreflang = 'it']:after { content: " [ital.] "; } 
+#content a[href^="http://"]:after,#content a[href^="https://"]:after{content:"\00a0\2197";}
+#content a[hreflang = 'de']:after{content:" [deu.] ";}
+#content a[hreflang = 'en']:after{content:" [engl.] ";}
+#content a[hreflang = 'es']:after{content:" [span.] ";}
+#content a[hreflang = 'fr']:after{content:" [franz.] ";}
+#content a[hreflang = 'it']:after{content:" [ital.] ";}
 
 /* Specify pairs of quotes for two levels */
-/* Insert quotes before q element content */ 
-q { quotes: "\201e" "\201c" "\201a" "\2018" }
-q:before   { content: open-quote }
-q:after    { content: close-quote }
+/* Insert quotes before q element content */
+/*
+#content::lang(de)>q {quotes:'\201e' '\201c' '\201a' '\2018';}
+#content::lang(de-AT)>q {quotes:'\00bb' '\00ab' '\203a' '\2039';}
+#content::lang(de-DE)>q {quotes:'\201e' '\201c' '\201a' '\2018';}
+#content::lang(de-CH)>q {quotes:'\00ab' '\00bb' '\2039' '\203a';}
+#content:lang(en)>q {quotes:\201c \201d \2018 \2019;}
+#content:lang(fr)>q {quotes:'\00ab\00a0' '\00a0\00bb' '\2039\00a0' '\00a0\203a';}
+#content:lang(ru)>q {quotes:'0ab' '0bb' '\201e' '\201c';}
+q:before {content:open-quote;}
+q:after {content:close-quote;}
+q q:before { content:open-quote; color:#0a0; }
+q q:after { content:close-quote; color:#0a0; }
+*/
+
+:lang(de)>q {quotes:'\201e' '\201c' '\201a' '\2018';}
+:lang(de-at)>q {quotes:'\00bb' '\00ab' '\203a' '\2039';}
+:lang(de-de)>q {quotes:'\201e' '\201c' '\201a' '\2018';}
+:lang(de-ch)>q {quotes:'\00ab' '\00bb' '\2039' '\203a';}
+:lang(en)>q {quotes:'\201c' '\201d' '\2018' '\2019';}
+:lang(fr)>q {quotes:'\00ab\00a0' '\00a0\00bb' '\2039\00a0' '\00a0\203a';}
+:lang(ru)>q {quotes:'0ab' '0bb' '\201e' '\201c';}
+q:before  { content: open-quote;}
+q:after   { content: close-quote;}
+q q:before  { content: open-quote;}
+q q:after   { content: close-quote;}
 
 /* Insert quotes before and after blockquote element content
-== Citation blocks are not consistently markup'ed semantically, so unusable ==
-blockquote p:first-of-type::before { content: open-quote; }
-blockquote p::before               { content: no-open-quote; }
-blockquote p::after                { content: no-close-quote; }
-blockquote p:last-of-type::after   { content: close-quote; } */
+   !! Citation blocks are not consistently markup'ed  !!
+   !! semantically and faulty used on gnu.org, so     !!
+   !! unusable for www-de team                        !!
+blockquote p:first-of-type::before{content:open-quote;}
+blockquote p::before{content:no-open-quote;}
+blockquote p::after{content:no-close-quote;}
+blockquote p:last-of-type::after{content:close-quote;} */
 
 /* Note with reference back to referenced text  */
-.transnote {
+.transnote, .fnote {
   font-size: 85%;
   position:relative;
   top:-7px;
   margin-right:8px;
   text-decoration: none;
 }
-ol#transnote li {
-  list-style-type: none;
-  text-decoration: none;
-  margin-left:0.5cm;
-  text-indent:-0.4cm;
-}
-.fnote {
-  font-size: 85%;
-  position:relative;
-  top:-7px;
-  margin-right:8px;
-  text-decoration: none;
-}
-ol#fnote li {
+ol#transnote li, ol#fnote li {
   list-style-type: none;
   text-decoration: none;
   margin-left:0.5cm;
   text-indent:-0.4cm;
 }
 
-.teletype { /* instead of <tt> */
+/* custom www-de format here …  */
+.teletype { /* HTML5: replacement for <tt> */
   font-family: "Courier New", Courier, monospace;
 }
 
 .noteClass { /* Text in red */
   color:#db4329;
 }
+
+.phonetics {
+  color : #808080;
+  font-style : normal;
+  font-weight : normal;
+} 
