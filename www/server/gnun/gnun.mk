@@ -491,6 +491,7 @@ philosophy := 	15-years-of-free-software \
 		greve-clown \
 		guardian-article \
 		hague \
+		hardware-software-boundary \
 		historical-apsl \
 		ICT-for-prosperity \
 		imperfection-isnt-oppression \
