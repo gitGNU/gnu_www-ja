@@ -591,7 +591,7 @@ philosophy := 	15-years-of-free-software \
 		w3c-patent \
 		wassenaar \
 		whats-wrong-with-youtube \
-		when_free_software_isnt_practically_better \
+		when-free-software-isnt-practically-superior \
 		who-does-that-server-really-serve \
 		why-audio-format-matters \
 		why-call-it-the-swindle \
