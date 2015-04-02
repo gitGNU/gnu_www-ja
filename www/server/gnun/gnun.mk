@@ -649,6 +649,7 @@ server :=	08whatsnew \
 		fsf-html-style-sheet \
 		irc-rules \
 		mirror \
+		select-language \
 		server \
 		sitemap \
 		takeaction \
