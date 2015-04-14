@@ -471,6 +471,7 @@ philosophy := 	15-years-of-free-software \
 		freedom-or-copyright \
 		freedom-or-copyright-old \
 		freedom-or-power \
+		free-hardware-designs \
 		free-open-overlap \
 		free-software-even-more-important \
 		free-software-for-freedom \
@@ -491,7 +492,6 @@ philosophy := 	15-years-of-free-software \
 		greve-clown \
 		guardian-article \
 		hague \
-		hardware-software-boundary \
 		historical-apsl \
 		ICT-for-prosperity \
 		imperfection-isnt-oppression \
