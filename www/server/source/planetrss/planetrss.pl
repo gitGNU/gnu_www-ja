@@ -31,7 +31,7 @@ use LWP::Simple;
 # Provides argument handling.
 use Getopt::Long;
 
-my $Version = "1.10";
+my $Version = "1.11";
 my $default_lines = 3;
 my $default_length = 200;
 # GNU Remotecontrol Newsletter doesn't produce meaningful feeds;
@@ -199,7 +199,7 @@ for (my $i = 0; $i - $skipped < $FeedLines; $i++)
     $desc = strip_tag ($desc, "em") unless $em == 1;
     $desc = strip_tag ($desc, "i") unless $i == 1;
     $desc = strip_tag ($desc, "img") unless $img == 1;
-    $desc = strip_tag ($desc, "h\d") unless $h == 1;
+    $desc = strip_tag ($desc, 'h\d') unless $h == 1;
     $desc = strip_tag ($desc, "hr") unless $hr == 1;
     $desc = strip_tag ($desc, "p") unless $p == 1;
     $desc = strip_tag ($desc, "pre") unless $pre == 1;
