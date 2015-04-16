@@ -107,10 +107,10 @@ ALL_DIRS :=	accessibility \
 		people \
 		philosophy \
 		philosophy/economics_frank \
-                philosophy/proprietary \
 		philosophy/sco \
 		prep \
 		press \
+		proprietary \
 		server \
 		server/source \
 		server/standards \
@@ -606,20 +606,6 @@ philosophy := 	15-years-of-free-software \
 
 philosophy/economics_frank :=	frank
 
-philosophy/proprietary :=       malware-apple \
-                                malware-kindle-swindle \
-                                malware-microsoft \
-                                malware-mobiles \
-                                proprietary \
-                                proprietary-back-doors \
-                                proprietary-censorship \
-                                proprietary-drm \
-                                proprietary-insecurity \
-                                proprietary-jails \
-                                proprietary-sabotage \
-                                proprietary-surveillance \
-                                proprietary-tyrants
-
 philosophy/sco :=	questioning-sco \
 			sco \
 			sco-gnu-linux \
@@ -644,6 +630,20 @@ press :=		2001-07-09-DotGNU-Mono \
 			2002-03-18-digitalspeech \
 			2002-03-19-Affero \
 			press
+
+proprietary :=       malware-apple \
+                     malware-kindle-swindle \
+                     malware-microsoft \
+                     malware-mobiles \
+                     proprietary \
+                     proprietary-back-doors \
+                     proprietary-censorship \
+                     proprietary-drm \
+                     proprietary-insecurity \
+                     proprietary-jails \
+                     proprietary-sabotage \
+                     proprietary-surveillance \
+                     proprietary-tyrants
 
 server :=	08whatsnew \
 		fsf-html-style-sheet \

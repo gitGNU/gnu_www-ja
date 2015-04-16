@@ -59,4 +59,5 @@ important-directories :=	copyleft \
 				education \
 				gnu \
 				licenses \
-				philosophy
+				philosophy \
+				proprietary
