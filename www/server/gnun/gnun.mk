@@ -502,6 +502,7 @@ philosophy := 	15-years-of-free-software \
 		judge-internet-usage \
 		keep-control-of-your-computing \
 		kevin-cole-response \
+		komongistan \
 		kragen-software \
 		latest-articles \
 		lessig-fsfs-intro \
