@@ -40,6 +40,30 @@ OUTPUT_FILE_NAME = 'sitemap.html'
 # The expression for names of localized sitemap versions.
 SITEMAP_REGEXP = 'sitemap\.' + LANGCODE_REGEXP + '\.html'
 TOP_DIRECTORY = ''
+
+SITEMAP_MAX_URLS = 50000
+SITEMAP_MAX_LEN = 10485760
+
+URL_ROOT = 'http://www.gnu.org/'
+SITEMAP_BASE = 'sitemap'
+SITEMAP_IDX = ''
+SITEMAP_EXT = '.xml'
+SITEMAP_COMPRESSION = '.gz'
+SITEMAP_URL = URL_ROOT
+SITEMAP_ORG_HEADER = \
+"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+"""
+SITEMAP_ORG_FOOTER = '</urlset>\n'
+SITEMAP_ORG_BOILERPLATE_LEN = len (SITEMAP_ORG_HEADER) \
+                              + len (SITEMAP_ORG_FOOTER)
+SITEMAP_IDX_HEADER = \
+"""<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+"""
+SITEMAP_IDX_FOOTER = '</sitemapindex>\n'
+
 SITEMAP_DIR = 'server'
 TRANSLATION_REGEXP = '\.(?P<langcode>[a-z]{2}|[a-z]{2}-[a-z]{2})' \
 		     + FILENAMES_TO_LIST_REGEXP
@@ -60,6 +84,7 @@ print_always = None
 excluded_dirs = None
 excluded_files = None
 output_text = ''
+sitemap_text = ''
 translist = ''
 translation_linguas = []
 title_tails = None
@@ -416,17 +441,80 @@ def get_outdated_tag (directory, base, lang):
 		html.close()
 	return ''
 
+sitemap_urls = 0
+sitemap_no = 0
+
+def url_entry (base, languages):
+	local_urls = 0
+	entry = ''
+	if len(languages) == 2:
+		languages = ['']
+	for lang in languages:
+		local_urls += 1
+		entry += '<url>\n'
+		entry += '  <loc>' + URL_ROOT + base \
+			 + lang + '.html' + '</loc>\n'
+		if len(languages) > 1:
+			for l in languages:
+				hreflang = l
+				if hreflang == '':
+					hreflang = '.x-default'
+				hreflang = hreflang[1:]
+				entry += '  <xhtml:link ' \
+					 + 'rel="alternate" hreflang="' \
+					 + hreflang + '"\n'
+				entry += '    href="' + URL_ROOT + base \
+					 + l + '.html" />\n'
+		entry += '</url>\n'
+	return [ entry, local_urls ]
+
+def append_sitemap_org (directory, base, languages):
+	global sitemap_urls
+	global sitemap_no
+	global sitemap_text
+	len0 = len (sitemap_text)
+	if len(directory):
+		directory += '/'
+	[ entry, local_urls ] = url_entry (directory + base, languages)
+	if len0 + len (entry) \
+             + SITEMAP_ORG_BOILERPLATE_LEN >= SITEMAP_MAX_LEN \
+	  or sitemap_urls + local_urls >= SITEMAP_MAX_URLS:
+		sitemap_text = SITEMAP_ORG_HEADER + sitemap_text \
+				+ SITEMAP_ORG_FOOTER
+		print 'writing next sitemap (' + str(sitemap_no) + '): ' \
+		      + str(len(sitemap_text)) + ' bytes, ' \
+		      + str(sitemap_urls) + ' urls'
+		if len0 + len (entry) \
+	             + SITEMAP_ORG_BOILERPLATE_LEN >= SITEMAP_MAX_LEN:
+			print '  Maximum length (' \
+				+ str(SITEMAP_MAX_LEN) + ') reached'
+		if sitemap_urls >= SITEMAP_MAX_URLS:
+			print '  Maximum URL number (' \
+				+ str(SITEMAP_MAX_URLS) + ') reached'
+		out_file = open(SITEMAP_BASE + str(sitemap_no) \
+				   + SITEMAP_EXT, 'w')
+		out_file.write(sitemap_text.encode('utf-8'))
+		out_file.close()
+		sitemap_no += 1
+		sitemap_urls = local_urls
+		sitemap_text = entry
+	else:
+		sitemap_text += entry
+		sitemap_urls += local_urls
+
 def append_translist (directory, files, base, titles):
 	global translist
 	global translation_linguas
 	item = ''
 	langs = ''
+	languages = ['', '.en']
 	for lang in SITE_LINGUAS:
 		trans = base + '.' + lang + '.html'
 		if not trans in files:
 			continue
 		if not lang in translation_linguas:
 			translation_linguas.append(lang)
+		languages.append('.' + lang)
 		emph_open = ''
 		emph_close = ''
 		emph = get_outdated_tag (directory, base, lang)
@@ -445,6 +533,7 @@ def append_translist (directory, files, base, titles):
 		  + 'hreflang="' + lang + '" lang="' + lang + '" xml:lang="' \
 		  + lang + '" href="/' + path + '">\n' + name + '</a>' \
 		  + emph_close + '<br /><!--#endif -->'
+	append_sitemap_org(directory, base, languages)
 	if len(langs) == 0:
 		return
 	translist = translist + '<!--#if expr="$qs = /,(' \
@@ -492,12 +581,11 @@ def print_map(directory, depth_level):
 		if depth_level != 0:
 			index_file = get_index_filename(directory) \
 					if LINK_TO_INDEX_FILES else None
-			msgid = '<a' + title_class + ' href="/' \
-				+ directory + '/'
-			
+			loc = directory + '/'
 			if index_file:
-				msgid = msgid + index_file
-			msgid = msgid + '">' + directory + '</a>'
+				loc = loc + index_file
+			msgid = '<a' + title_class + ' href="/' \
+				+ loc + '">' + directory + '</a>'
 			write('\n<dl><dt>' + msgid + '</dt>\n    <dd>')
 			append_sitemap_pos(msgid)
 			if index_file:
@@ -649,6 +737,33 @@ output_file.write(output_text.encode('utf-8'))
 output_file.close()
 
 output_translations(OUTPUT_FILE_NAME)
+
+if len(sitemap_text):
+	print 'writing last sitemap (' + str(sitemap_no) + '): ' \
+	      + str(len(sitemap_text)) + ' bytes, ' \
+	      + str(sitemap_urls) + ' urls'
+	output_file = open(SITEMAP_BASE + str(sitemap_no) \
+			   + SITEMAP_EXT, 'w')
+	sitemap_text = SITEMAP_ORG_HEADER + sitemap_text \
+			+ SITEMAP_ORG_FOOTER
+	output_file.write(sitemap_text.encode('utf-8'))
+	output_file.close()
+	sitemap_no += 1
+
+if sitemap_no > 0:
+	print 'writing sitemap index'
+	sitemap_text = SITEMAP_IDX_HEADER
+	for i in range (sitemap_no):
+		sitemap_text += '<sitemap>\n'
+		sitemap_text += '  <loc>' + \
+			SITEMAP_URL + SITEMAP_BASE + str(i) \
+			+ SITEMAP_EXT + SITEMAP_COMPRESSION + '</loc>\n'
+		sitemap_text += '</sitemap>\n'
+	sitemap_text += SITEMAP_IDX_FOOTER
+	output_file = open(SITEMAP_BASE + SITEMAP_IDX \
+			   + SITEMAP_EXT, 'w')
+	output_file.write(sitemap_text.encode('utf-8'))
+	output_file.close()
 
 if len(translist):
 	linguas = ''
