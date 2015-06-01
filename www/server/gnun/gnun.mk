@@ -18,7 +18,7 @@
 
 # TRANSLATORS: Add here your language code.  Please keep the
 # alphabetical order.
-TEMPLATE_LINGUAS := af ar bg ca cs de el es fa fr he hr id it ja ko lt ml \
+TEMPLATE_LINGUAS := af ar bg ca cs da de el es fa fr he hr id it ja ko lt ml \
                     nb nl pl pt-br ro ru sk sq sr sv ta tr uk zh-cn zh-tw
 
 # TRANSLATORS: Add here your language code if you want PO files with wdiffs
