@@ -641,6 +641,7 @@ proprietary :=       malware-apple \
                      proprietary-censorship \
                      proprietary-drm \
                      proprietary-insecurity \
+                     proprietary-interference \
                      proprietary-jails \
                      proprietary-sabotage \
                      proprietary-surveillance \
