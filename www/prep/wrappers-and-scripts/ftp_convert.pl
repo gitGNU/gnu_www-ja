@@ -1,11 +1,11 @@
 #!/usr/local/bin/perl -w
-# $Id: ftp_convert.pl,v 1.19 2011/02/28 23:45:28 karl Exp $
+# $Id: ftp_convert.pl,v 1.20 2015/07/15 09:31:03 fabiop Exp $
 #
 # Converts the FTP file to a html file - just prints on the standard out
-# and it is the responsibility of who ever running this to redirect to a 
+# and it is the responsibility of who ever running this to redirect to a
 # flat_file. Also standard GNU HTML header and trailer needs to be added to
 # this page. See the Makefile.
-# 
+#
 # Original Script Written by joelh@gnu.org
 #
 # 01/02/1999 - Murali - Added support for http sites on the ftp list
@@ -54,7 +54,6 @@ die "Incorrect format, start with How to get." unless /^How to get/;
 
 $state = 0;
 
-
 while (<>) {
   # Take care of headers
   chomp;
@@ -94,7 +93,7 @@ while (<>) {
     $print_current_output = 0;
     next;
   }
-   
+
   # Is this a blank line?
   if (/^\s*$/) {
     print "</ul>\n" if $state == 2;
@@ -112,8 +111,8 @@ while (<>) {
     print "  <li>";
     s/^\t-//;
 
-    if (/http:\S+/) {
-      s/(\b\S*http:\S*\b)([\.\s]*)/&display_link($1)."$2"/eg;
+    if (/https?:\S+/) {
+      s/(\b\S*https?:\S*\b)([\.\s]*)/&display_link($1)."$2"/eg;
       next;
     }
     if (/ftp\.\S+/) {
@@ -125,8 +124,8 @@ while (<>) {
 
   # Is this a filename sitting on its own?
   if (/^\t/) {
-    if (/http:\S+/) {
-      s/(\b\S*http:\S*\b)([\.\s]*)/&display_link($1)."$2"/eg;
+    if (/https?:\S+/) {
+      s/(\b\S*https?:\S*\b)([\.\s]*)/&display_link($1)."$2"/eg;
       next;
     }
     if (/ftp\.\S+/) {
@@ -137,7 +136,6 @@ while (<>) {
     next;
   }
 
-
   if ($start_of_ftp_list == 1) {
     if (/^(.+?):\s?$/) {
       # Continent
@@ -175,7 +173,7 @@ while (<>) {
     foreach $ftpsite (@ftp_sites) {
       print "  <li>";
       ($actual_bits,$extra_bits) = ($ftpsite =~ /(\S+)(.*$)/);
-      if ($ftpsite =~ /((http|ftp):\S+)/) {
+      if ($ftpsite =~ /((https?|ftp):\S+)/) {
         print &display_link($1);
       } else {  # rsync or who-knows; not linkable
         my $val = $1;
@@ -187,7 +185,7 @@ while (<>) {
     $print_current_output = 0;
     next;
   }
-    
+
   # Well, we've covered everything else... I guess this is text.
   # Now we add in URLs as necessary and send it off.
   if ($state == 0) {
@@ -199,8 +197,8 @@ while (<>) {
     s/(\b\S+\@\S+\b)/&display_link("mailto:$1", "&lt;$1&gt;")/eg;
     next;
   }
-  if (/http:\S+/) {
-    s/(\b\S*http:\S*\b)([\.\s]*)/&display_link($1)."$2"/eg;
+  if (/https?:\S+/) {
+    s/(\b\S*https?:\S*\b)([\.\s]*)/&display_link($1)."$2"/eg;
     next;
   }
 
