@@ -8,14 +8,41 @@
 
 <!--#include virtual="/software/po/for-windows.translist" -->
 <style type="text/css" media="print,screen">
+<!--
+table#TOC {
+   width: 100%;
+   border-collapse: collapse;
+   margin: 2.5em auto 0em auto;
+}
+#TOC td, #TOC th {
+   border: 1px solid #6989b6;
+}
+#TOC thead {
+   background-color: #fff898;
+   border: 2px solid #6989b6;
+}
+#TOC tbody {
+   background-color: #f0f2f4;
+   border-left: 2px solid #6989b6;
+   border-right: 2px solid #6989b6;
+}
+div#notes {
+   border-top: 1px solid #6989b6;
+   border-left: 2px solid #6989b6;
+   border-right: 2px solid #6989b6;
+   border-bottom: 2px solid #6989b6;
+   margin-top: 0;
+}
 #windows7sins {
-   float: right;
-   width: 25em;
+   width: 25em; max-width: 40%;
    text-align: center;
    margin: 0 1em 1em 1em;
 }
 blockquote#windows7sins p { margin: .3em 0 0 0; }
 #windows7sins img { width: 100%; }
+dt { font-size: 1.6em; }
+-->
+
 </style>
 
 <!--#include virtual="/server/fs-gang-definitions.html" -->
@@ -28,11 +55,10 @@ proprietären Anwendungen, die sie ersetzen. Falls Sie noch immer ein
 Windows-Benutzer sein sollten, können Sie einen ersten Schritt in Richtung
 Freie&nbsp;Software durch die Installation folgender Anwendungen machen.</p>
 
-<blockquote id="windows7sins">
+<blockquote id="windows7sins" class="imgright">
 <p><a href="http://www.upgradefromwindows8.com"><img
 src="https://static.fsf.org/fsforg/graphics/windows-infographic_medium.png"
-alt="Schließe Windows, öffne Türen" /></a></p>
-<p>„Verbesserung“ von Windows 8</p>
+alt="Schließe Windows, öffne Türen" /></a></p> 
 </blockquote>
 
   <p>Wenn wir sagen, diese Anwendungsprogramme sind <a
@@ -53,12 +79,12 @@ Software. Der Quellcode ist ein Geheimnis, Programmierer können davon weder
 etwas erlernen noch Fehler beheben, an (Ihre) Kundenbedürfnisse anpassen
 oder auch nur überprüfen, was wirklich ausgeführt wird. Wenn man Kopien mit
 seinen Nächsten austauscht, wird man als <a
-href="/p/words-to-avoid#Piracy">„Softwarepirat“</a> tituliert, und Nutzern
-wurde dafür bereits mit Freiheitsstrafen gedroht. Unfreie Software wird
-vollständig von seinem Entwickler kontrolliert, der somit auch Macht über
-deren Nutzer ausübt. Aus diesem Grund riefen wir die Freie-Software-Bewegung
-ins Leben, denn diese <a href="/philosophy/freedom-or-power">Macht ist
-ungerecht</a>.</p>
+href="/p/words-to-avoid#Piracy"><em>„Softwarepirat“</em></a> tituliert, und
+Nutzern wurde dafür bereits mit Freiheitsstrafen gedroht. Unfreie Software
+wird vollständig von seinem Entwickler kontrolliert, der somit auch Macht
+über deren Nutzer ausübt. Aus diesem Grund riefen wir die
+Freie-Software-Bewegung ins Leben, denn diese <a
+href="/philosophy/freedom-or-power">Macht ist ungerecht</a>.</p>
 
   <p>Freie Software unter Microsoft Windows zu benutzen (oder einem anderen
 unfreien Betriebssystem), ist der erste Schritt in Richtung
@@ -69,201 +95,256 @@ benutzt, steht man noch immer unter der Macht von Microsoft.</p>
 href="/distros/free-distros">freien Betriebssystem wie <b>GNU/Linux</b></a>
 zu ersetzen.</p>
 
-  <p><strong>Allerdings befassen wir uns hier nur um den ersten Schritt.</strong></p>
+  <p><strong>Allerdings befassen wir uns hier nur mit dem ersten
+Schritt.</strong></p>
 
-  <h3><a href="http://directory.fsf.org/blender.html">Blender 3D</a></h3>
 
-  <p><i>Ersatz für:</i> <b>Maya</b>, <b>3DSMax</b></p>
+<table id="TOC">
+ <thead>
+  <tr><th>Kategorie</th>
+      <th>Freies Programm<a href="#f1" id="f1-ref" class="fnote">1</a></th>
+      <th>Ersatz für</th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr><td rowspan="3">Grafik- und Bildverarbeitung</td>
+      <td><a href="#Dia">Dia</a></td>
+      <td>Visio</td>
+  </tr>
+  <tr>
+      <td><a href="#GIMP">GIMP</a></td>
+      <td>Photoshop, PaintShop Pro</td>
+  </tr>
+  <tr>
+      <td><a href="#Inkscape">Inkscape</a></td>
+      <td>Illustrator, Macromedia Freehand, CorelDraw oder Xara Xtreme</td>
+  </tr>
+  <tr><td rowspan="5">Internet</td>
+      <td><a href="#ClawsMail">Claws Mail</a></td>
+      <td>Outlook, Outlook Express</td>
+  </tr>
+  <tr>
+      <td><a href="#GNUnet">GNUnet</a></td>
+      <td>Napster, usw.</td>
+  </tr>
+  <tr>
+      <td><a href="#Pidgin">Pidgin</a></td>
+      <td>Trillian, AOL Instant Messenger (AIM), MSN-Messenger, Yahoo!-Messenger und
+ICQ Chat-Klienten</td>
+  </tr>
+  <tr>
+      <td><a href="#QupZilla">QupZilla</a></td>
+      <td>Firefox<a href="#f2" id="f2-ref" class="fnote">2</a>, Chrome, Internet
+Explorer u.a.</td>
+  </tr>
+  <tr>
+      <td><a href="#Tribler">Tribler</a></td>
+      <td>BitTorrent</td>
+  </tr>
+  <tr><td rowspan="2">Multimedia</td>
+      <td><a href="#Blender3D">Blender3D</a></td>
+      <td>Maya, 3DSMax</td>
+  </tr>
+  <tr>
+      <td><a href="#VLC">VLC</a></td>
+      <td>Windows Media Player, PowerDVD</td>
+  </tr>
+  <tr><td>Büro und Produktivität</td>
+      <td><a href="#LibreOffice">LibreOffice</a></td>
+      <td>Microsoft Office</td>
+  </tr>
+  <tr><td>Desktoppublishing</td>
+      <td><a href="#Scribus">Scribus</a></td>
+      <td>PageMaker, InDesign, QuarkXPress</td>
+  </tr>
+  <tr><td>Programmierung</td>
+      <td><a href="#MinGW">MinGW</a></td>
+      <td>Visual C++</td>
+  </tr>
+ </tbody>
+</table>
+<div id="notes">
+  <ol>
+    <li id="f1">Dies ist eine kleine, nicht sehr umfassende Auswahl der häufigsten
+Freie-Software-Anwendungen für die Microsoft Windows-Plattform.</li>
 
-          <p><b>Blender</b>, das erste und einzige voll integrierte
-3D-Grafikerstellungspaket, ermöglicht Modellierung, Animation, Rendering,
-Nachbearbeitung, interaktive 3D-Echtzeit und -Spielerstellung und
--wiedergabe mit plattformübergreifender Kompatibilität.</p>
+    <li id="f2">Warum keine Empfehlung für Firefox? In unserer <cite><a
+href="/philosophy/free-sw">Freie-Software-Definition</a></cite> wird
+erläutert, warum alle vier Freiheiten auf sowohl kommerzieller und
+unkommerzieller Basis verfügbar sein müssen. Mozillas Markenrichtlinie dient
+dazu, <em>Freiheit 2</em> nur auf die kostenfreie Distribution zu
+beschränken&#160;&#8209;&#160;wodurch die Software unfrei wird.</li>
+  </ol>
+</div>
 
-	<h3><a href="http://directory.fsf.org/dia.html">Dia</a></h3>
+<dl>
 
-        <p><i>Ersatz für:</i> <b>Microsoft Visio</b></p>
-
-          <p><b>Dia</b> ist dem proprietären Microsoft-Programm Visio ähnlich. Es kann
-zum Zeichnen vieler verschiedener Diagramme verwendet werden. Es enthält
-spezielle Objekte, um Entitätsbeziehungs-, UML-, Fluss- und
+<dt id="Dia"><a href="http://directory.fsf.org/dia.html">Dia</a></dt>
+<dd>
+  <p><b>Dia</b> ist dem proprietären Microsoft-Programm <b>Visio</b> ähnlich. Es
+kann zum Zeichnen vieler verschiedener Diagramme verwendet werden. Es
+enthält spezielle Objekte, um Entitätsbeziehungs-, UML-, Fluss- und
 Netzwerk-Diagramme und einfache Stromkreise zu zeichnen. Es ist auch
 möglich, Unterstützung für neue Formen durch einfache XML-Dateien
 hinzuzufügen, unter Nutzung eines Teils von SVG.</p>
 
-          <p><b>Dia</b> kann Diagramme in einem benutzerdefiniertem XML-Format laden und
+  <p>Dia kann Diagramme in einem benutzerdefiniertem XML-Format laden und
 speichern (standardmäßig gezippt, um Speicherplatz zu sparen) sowie das EPS-
 oder SVG-Format exportieren und drucken (einschließlich Übergrößen auf
 mehrere Seiten aufgeteilt).</p>
+</dd>
 
-	<h3><a href="http://directory.fsf.org/pidgin.html">Pidgin</a></h3>
-	  
-        <p><i>Ersatz für:</i> <b>Trillian</b>, <b>AOL Instant Messenger (AIM)</b>,
-<b>Microsoft MSN-Messenger</b>, <b>Yahoo!-Messenger</b> und <b>ICQ</b>
-Chat-Klienten</p>
-        
-          <p><b>Pidgin</b> ist ein Mehrprotokoll-Instant-Messaging-Klient mit
-Unterstützung für:</p>
 
-          <ul>
-            <li><b>AIM</b> (Oscar- und TOC-Protokolle),</li>
-
-            <li><b>ICQ</b>,</li>
-
-            <li><b>Windows Live Messenger</b> (früher <b>MSN Messenger</b>)</li>
-
-            <li><b>Yahoo Mail</b> (früher <b>Yahoo Web-Messenger</b>),</li>
-
-            <li><b>IRC</b>,</li>
-
-            <li><b>Jabber</b>,</li>
-
-            <li><b>Novell Messenger</b>,</li>
-
-            <li><b>Gadu-Gadu</b> und</li>
-
-            <li><b>Zephyr Networks</b>.</li>
-          </ul>
-
-          <p><b>Pidgin</b> unterstützt auch Plug-ins für zusätzliche Funktionen.</p>
-
-	<h3><a href="http://directory.fsf.org/gimp.html">GIMP</a></h3>
-	  
-        <p><i>Ersatz für:</i> <b>Photoshop</b>, <b>Paint Shop Pro</b></p>
-        
-          <p><b>GIMP</b>, ein Akronym für <b><span xml:lang="en" lang="en">GNU Image
+<dt id="GIMP"><a href="http://directory.fsf.org/gimp.html">GIMP</a></dt>
+<dd>
+  <p><b>GIMP</b>, ein Akronym für <b><span xml:lang="en" lang="en">GNU Image
 Manipulation Program</span></b>, kann als einfaches Malprogramm,
 Profi-Fotoretuschiersoftware, Online-Stapelverarbeitung-System,
 Massenproduktion Bild-Renderer, Bild-Formatkonverter usw. verwendet werden.</p>
 
-          <p><b>GIMP</b> ist erweiterbar und kann mit Plug-ins und Erweiterungen ergänzt
-werden, um so gut wie alles damit machen zu können.</p>
+  <p>GIMP ist erweiterbar und kann mit Plug-ins und Erweiterungen ergänzt werden,
+um so gut wie alles damit machen zu können.</p>
 
-          <p>Wem das Betriebssystem <b>GNU/Linux</b> bekannt ist, hat <b>GIMP</b>
-wahrscheinlich irgendwann schon einmal gesehen oder benutzt. Im Hinblick auf
-Kompatibilität kann <b>GIMP</b> das <em>.psd</em>- und das
-<em>.psp</em>-Format von <b>Paint Shop Pro</b> und <b>PhotoShop</b> öffnen.</p>
+  <p>Wem das Betriebssystem <b>GNU/Linux</b> bekannt ist, hat GIMP wahrscheinlich
+irgendwann schon einmal gesehen oder benutzt. Im Hinblick auf Kompatibilität
+kann GIMP das <em>.psd</em>- und das <em>.psp</em>-Format von <b>PaintShop
+Pro</b> und <b>PhotoShop</b> öffnen.</p>
+</dd>
 
-	  <h3><a href="http://gnunet.org">GNUnet</a></h3>
-        <p><i>Ersatz für:</i> <b>Napster</b> usw.</p>
 
-          <p><b>GNUnet</b> ist ein Framework für sichere Peer-to-Peer-Netzwerke, das
-keine zentralisierten oder auf andere Weise vertrauenswürdige Dienste
-nutzt. Ein erster, auf Netzwerkebene umgesetzter Dienst ermöglicht anonymen
-zensurresistenten Dateiaustausch. <b>GNUnet</b> benutzt ein einfaches,
-Überschussbasiertes ökonomisches Modell, um Ressourcen
-bereitzustellen. Peers im <b>GNUnet</b> überwachen das Verhalten der anderen
-in Bezug auf Ressourcen: Peers, die zum Netzwerk beitragen, werden mit einem
-besseren Dienst belohnt.</p>
-
-	  <h3><a href="http://www.inkscape.org/">Inkscape</a></h3>
-
-	  <p><i>Ersatz für:</i> <b>Adobe Illustrator</b>, <b>Macromedia Freehand</b>,
-<b>CorelDraw</b> oder <b>Xara Xtreme</b></p>
-
-          <p><b>Inkscape</b> ist ein Vektorgrafik-Zeichenprogramm, dessen Fähigkeiten mit
+<dt id="Inkscape"><a href="http://www.inkscape.org/">Inkscape</a></dt>
+<dd>
+  <p><b>Inkscape</b> ist ein Vektorgrafik-Zeichenprogramm, dessen Fähigkeiten mit
 dem <span xml:lang="en" lang="en">Scalable Vector Graphics</span>
 (SVG)-Dateiformat mit denen von <b>Illustrator</b>, <b>Freehand</b>,
 <b>CorelDraw</b> oder <b>Xara Xtreme</b> vergleichbar ist. Inkscape
 unterstützt SVG-Funktionen wie Formen, Pfade, Text, Marker, Klonen, Alpha
 Blending, Transformationen, Farbverläufe, Muster und Gruppierung.</p>
 
-          <p>Ebenso werden <span xml:lang="en" lang="en">Creative Commons</span>
+  <p>Ebenso werden <span xml:lang="en" lang="en">Creative Commons</span>
 Meta-Daten, Knotenbearbeitung, Ebenen, komplexen Pfad-Vorgänge,
 Bitmap-Ablaufverfolgung, Text-auf-Pfad, Flusstext, direkte XML-Bearbeitung
 uvm. unterstützt. Dateiformate wie JPEG, PNG, TIFF und andere können
 importiert und PNG als auch mehrere Vektor-basierte Formate exportiert
 werden.</p>
+</dd>
 
-<h3><a href="http://www.mingw.org">MinGW</a></h3>
 
-        <p><i>Ersatz für:</i> <b>Microsoft Visual C++</b></p>
-
-<p><b>MinGW</b>, für <b><span xml:lang="en" lang="en">Minimalist GNU for
-Windows</span></b>, bietet viele der GNU-Dienstprogramme zur
-Softwareentwicklung unter Windows und enthält die <b>GNU Compiler
-Collection</b> (GCC), <b>GNU Binary Utilities</b> (Binutils), <b>GNU
-Debugger</b> (GDB), <b>GNU Make</b> uvm.</p>
-
-        <h3><a href="http://www.claws-mail.org/">Claws Mail</a></h3>
-
-<p><i>Ersatz für:</i> <b>Microsoft Outlook</b>, <b>Microsoft Outlook
-Express</b></p>
-
-          <p><b>Claws Mail</b> soll für neue Nutzer, die bisher andere gängige
+<dt id="ClawsMail"><a href="http://www.claws-mail.org/">Claws Mail</a></dt>
+<dd>
+  <p><b>Claws Mail</b> soll für neue Nutzer, die bisher andere gängige
 E-Mail-Programmen nutzten, als auch für erfahrene Nutzer vertraut sein.</p>
+</dd>
 
-<h3><a href="http://www.libreoffice.org/">LibreOffice</a></h3>
-        <p><i>Ersatz für:</i> <b>Microsoft Office</b></p>
 
-<p><b>LibreOffice</b> ist ein plattformunabhängiges Büropaket, kompatibel mit
+<dt id="GNUnet"><a href="http://gnunet.org">GNUnet</a></dt>
+<dd>
+  <p><b>GNUnet</b> ist ein Framework für sichere Peer-to-Peer-Netzwerke, das
+keine zentralisierten oder auf andere Weise vertrauenswürdige Dienste
+nutzt. Ein erster, auf Netzwerkebene umgesetzter Dienst ermöglicht anonymen
+zensurresistenten Dateiaustausch. GNUnet benutzt ein einfaches,
+Überschussbasiertes ökonomisches Modell, um Ressourcen
+bereitzustellen. Peers im GNUnet überwachen das Verhalten der anderen in
+Bezug auf Ressourcen: Peers, die zum Netzwerk beitragen, werden mit einem
+besseren Dienst belohnt.</p>
+</dd>
+
+
+<dt id="Pidgin"><a href="http://directory.fsf.org/pidgin.html">Pidgin</a></dt>
+<dd>
+  <p><b>Pidgin</b> ist ein Mehrprotokoll-Instant-Messaging-Klient mit
+Unterstützung für:</p>
+
+  <ul>
+  <li><b>AIM</b> (Oscar- und TOC-Protokolle),</li>
+
+  <li><b>ICQ</b>,</li>
+
+  <li><b>Skype</b>-Klient (ehemals <b>Windows Live Messenger</b> bzw. davor <b>MSN
+Messenger</b>)</li>
+
+  <li><b>Yahoo Mail</b> (ehemals <b>Yahoo Web-Messenger</b>),</li>
+
+  <li><b>IRC</b>,</li>
+
+  <li><b>Jabber</b>,</li>
+
+  <li><b>Novell Messenger</b>,</li>
+
+  <li><b>Gadu-Gadu</b> und</li>
+
+  <li><b>Zephyr Networks</b>.</li>
+  </ul>
+
+  <p>Pidgin unterstützt auch Plug-ins für zusätzliche Funktionen.</p>
+</dd>
+
+
+<dt id="QupZilla"><a href="http://www.qupzilla.com/">QupZilla</a></dt>
+<dd>
+  <p><b>QupZilla</b> ist ein plattformübergreifender Internetbrowser mit
+vereinheitlichten RSS-Leser, Verlauf und Lesezeichen in einem einzigen
+Fenster.</p>
+</dd>
+
+
+<dt id="Tribler"><a href="http://www.tribler.org/">Tribler</a></dt>
+<dd>
+  <p>Mit <b>Tribler</b> können Benutzer Video- und Audiodateien, Bilder und
+andere Dinge finden, genießen und gemeinsam austauschen.</p>
+</dd>
+
+
+<dt id="Blender3D"><a href="http://directory.fsf.org/blender.html">Blender 3D</a></dt>
+<dd>
+  <p><b>Blender</b>, das erste und einzige voll integrierte
+3D-Grafikerstellungspaket, ermöglicht Modellierung, Animation, Rendering,
+Nachbearbeitung, interaktive 3D-Echtzeit und -Spielerstellung und
+-wiedergabe mit plattformübergreifender Kompatibilität.</p>
+</dd>
+
+
+<dt id="VLC"><a href="http://videolan.org/vlc/">VLC Media Player</a></dt>
+<dd>
+  <p><b>VLC</b> (ehemals VideoLAN Client) ist ein portabler Multimedia-Player für
+verschiedene Audio-und Videoformate (MPEG-1, MPEG-2, MPEG-4, DivX, MP3, OGG
+usw.) sowie DVDs, VCDs und verschiedener Streaming-Protokolle. VLC kann auch
+als Server zum Streamen im Unicast- oder Multicast mit IPv4 oder IPv6 auf
+einem Netzwerk mit hoher Bandbreite verwendet werden.</p>
+</dd>
+
+
+<dt id="LibreOffice"><a href="http://www.libreoffice.org/">LibreOffice</a></dt>
+<dd>
+  <p><b>LibreOffice</b> ist ein plattformunabhängiges Büropaket, kompatibel mit
 allen gängigen Dateiformaten.</p>
+</dd>
 
-<h3><a href="http://www.scribus.net/">Scribus</a></h3>
 
-<p><i>Ersatz für:</i> <b>PageMaker</b>, <b>InDesign</b>, <b>QuarkXPress</b></p>
-
-<p><b>Scribus</b> ist eine Desktop-Publishing-Anwendung wie Adobe PageMaker
+<dt id="Scribus"><a href="http://www.scribus.net/">Scribus</a></dt>
+<dd>
+  <p><b>Scribus</b> ist eine Desktop-Publishing-Anwendung wie Adobe PageMaker
 oder Adobe InDesign aus der proprietären Softwarewelt. Es ist Freie
 Software, vertrieben unter den Bedingungen der <span xml:lang="en"
 lang="en">GNU General Public License</span>.</p>
 
-          <p>Unterstützt werden viele gängige Grafikformate, darunter neben dem
+  <p>Unterstützt werden viele gängige Grafikformate, darunter neben dem
 SVG-Import und -Export die meisten standardmäßig im DTP-Bereich genutzten
 Formate.</p>
-
-<h3><a href="http://videolan.org/vlc/">VLC Media Player</a></h3>
-
-
-        <p><i>Ersatz für:</i> <b>Windows Media Player</b>, <b>CyberLink PowerDVD</b></p>
-
-          <p><b>VLC</b> (ursprünglich VideoLAN Client) ist ein portabler
-Multimedia-Player für verschiedene Audio-und Videoformate (MPEG-1, MPEG-2,
-MPEG-4, DivX, MP3, OGG usw.) sowie DVDs, VCDs und verschiedener
-Streaming-Protokolle. VLC kann auch als Server zum Streamen im Unicast- oder
-Multicast mit IPv4 oder IPv6 auf einem Netzwerk mit hoher Bandbreite
-verwendet werden.</p>
-
-<h3><a href="http://www.tribler.org/">Tribler</a></h3>
+</dd>
 
 
-        <p><i>Ersatz für:</i> <b>BitTorrent</b></p>
+<dt id="MinGW"><a href="http://www.mingw.org">MinGW</a></dt>
+<dd>
+  <p><b>MinGW</b>, für <b><span xml:lang="en" lang="en">Minimalist GNU for
+Windows</span></b>, bietet viele der GNU-Dienstprogramme zur
+Softwareentwicklung unter Windows und enthält die <b>GNU Compiler
+Collection</b> (GCC), <b>GNU Binary Utilities</b> (Binutils), <b>GNU
+Debugger</b> (GDB), <b>GNU Make</b> uvm.</p>
+</dd>
 
-          <p>Mit <b>Tribler</b> können Benutzer Video- und Audiodateien, Bilder und
-andere Dinge finden, genießen und gemeinsam austauschen.</p>
+</dl>
 
-
-<h3><a href="/software/icecat/">GNU IceCat</a></h3>
-<p><i>Ersatz für:</i> <b><ins>Apple Safari</ins></b>, <b>Google Chrome</b>,
-<b>Microsoft Internet Explorer</b>, <b>Mozilla Firefox</b>,
-<b><ins>Opera</ins></b></p>
-<p><b>IceCat</b> ist die GNU-Variante des Firefox-Webbrowsers und voll und ganz
-Freie Software. Unfreie Plug-ins und Add-ons werden nicht
-weiterempfohlen. Außerdem sind Funktionen enthalten, die die Privatsphäre
-schützen.</p>
-
-        <p>Warum keine Empfehlung für <b>Firefox</b>? In unserer <a
-href="/philosophy/free-sw">Freie-Software-Definition</a> wird erläutert,
-warum alle vier Freiheiten auf sowohl kommerzieller und unkommerzieller
-Basis verfügbar sein müssen. Mozillas Richtlinie für eingetragene
-Warenzeichen dient dazu, <em>Freiheit 2</em> nur auf die kostenfreie
-Verteilung zu beschränken&#160;&#8209;&#160;wodurch die Software unfrei
-wird.</p>
-
-
-<h3><a href="http://www.qupzilla.com/">QupZilla</a></h3>
-
-
-        <p><i>Ersatz für:</i> <b><ins>Apple Safari</ins></b>, <b>Google Chrome</b>,
-<b>Microsoft Internet Explorer</b>, <b>Mozilla Firefox</b>,
-<b><ins>Opera</ins></b></p>
-
-          <p><b>QupZilla</b> ist ein plattformübergreifender Webbrowser mit
-vereinheitlichten RSS-Leser, Verlauf und Lesezeichen in einem einzigen
-Fenster.</p>
-
-	<p>Dies ist eine kleine, nicht sehr umfassende Auswahl der häufigsten
-Freie-Software-Anwendungen für die Microsoft Windows-Plattform.</p>
 
 <div class="translators-notes">
 
@@ -313,29 +394,29 @@ href="/server/standards/README.translations">LIESMICH für Übersetzungen</a>.</
 
 <!-- Regarding copyright, in general, standalone pages (as opposed to
      files generated as part of manuals) on the GNU web server should
-     be under CC BY-ND 3.0 US.  Please do NOT change or remove this
+     be under CC BY-ND 4.0.  Please do NOT change or remove this
      without talking with the webmasters or licensing team first.
      Please make sure the copyright date is consistent with the
      document.  For web pages, it is ok to list just the latest year the
      document was modified, or published.
-     
+
      If you wish to list earlier years, that is ok too.
      Either "2001, 2002, 2003" or "2001-2003" are ok for specifying
      years, as long as each year in the range is in fact a copyrightable
      year, i.e., a year in which the document was published (including
      being publicly visible on the web or in a revision control system).
-     
+
      There is more detail about copyright years in the GNU Maintainers
      Information document, www.gnu.org/prep/maintain. -->
 <p>Copyright &copy; 2004, 2006, 2007, 2008, 2009, 2011, 2012, 2014, 2015 Free
 Software Foundation, Inc.</p>
-    
+
 <p>Die unveränderte Vervielfältigung, Verbreitung und/oder Modifizierung dieses
 Dokuments ist unter den Bedingungen der <span xml:lang="en" lang="en">GNU
 Free Documentation License</span>, Version 1.2 oder jeder neueren von der
-<span xml:lang="en" lang="en">Free Software Foundation</span> freigegebenen
-Version, erlaubt; keine unveränderliche Abschnitte, keine vorderen und keine
-hinteren Umschlagtexte.</p>
+<span xml:lang="en" lang="en">Free Software Foundation</span>
+herausgegebenen Version, erlaubt; keine unveränderliche Abschnitte, keine
+vorderen und keine hinteren Umschlagtexte.</p>
 
 <!--#include virtual="/server/bottom-notes.de.html" -->
 <div class="translators-credits">
@@ -348,7 +429,7 @@ href="https://savannah.gnu.org/projects/www-de">&lt;www-de&gt;</a>,
 <p class="unprintable"><!-- timestamp start -->
 Aktualisierung:
 
-$Date: 2015/03/12 03:27:24 $
+$Date: 2015/07/30 15:27:20 $
 
 <!-- timestamp end -->
 </p>

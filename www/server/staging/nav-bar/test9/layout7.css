@@ -1,8 +1,8 @@
-/*
+/*!
 layout.css -- css stylesheet used on www.gnu.org
 
 Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011,
-   2013, 2014 Free Software Foundation
+   2013, 2014, 2015 Free Software Foundation
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -18,9 +18,19 @@ The above copyright notice and this permission notice shall be
 included in all copies or substantial portions of the Software.
 */
 
-/* NOTE: Changes to this file will affect the entire site, often in
-unexpected ways. Please mail patches to www-discuss@gnu.org rather
-than commit changes directly. */
+/*
+   NOTE: Changes to this file will affect the entire site, often in
+         unexpected ways. Please mail patches to www-discuss@gnu.org rather
+         than commit changes directly.
+
+   NOTE: After modifying this file, please generate the corresponding minified
+         version, otherwise the changes won't be visible.
+
+         To generate the minified version of this file, we currently use a free
+         program called YUI Compressor and run this command:
+
+         yuicompressor layout.css > layout.min.css
+*/
 
 
 /*** COLORS ***/
@@ -45,7 +55,7 @@ Backgrounds
             .listing, #footer, .toc
    #e7e9eb  html, .button, .lyrics, #join-fsf, submit
    #d1d4d7  #edu-navbar, #fsf-links, #searcher + #translations
-   #ddd     gray (looks purplish): #gpl-compat-matrix 
+   #ddd     gray (looks purplish): #gpl-compat-matrix
    #ccffcc  light green: #gpl-compat-matrix
    #e4ffcc  light yellowish green: #gpl-compat-matrix
    #ffc     very pale yellow: .highlight-para
@@ -130,18 +140,7 @@ html, body {
    text-decoration: none;
    color: #000;
 }
-html {
-   background: #e7e9eb;
-   /* Source: http://www.impressivewebs.com/css3-linear-gradient-syntax/ */
-/*   background: -moz-linear-gradient(#5b6a96, #c9cccf); /* FF 3.6+ */  
-/*   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5b6a96), color-stop(100%, #c9cccf)); /* Safari 4+, Chrome 2+ */  
-/*   background: -webkit-linear-gradient(#5b6a96, #c9cccf); /* Safari 5.1+, Chrome 10+ */  
-/*   background: -o-linear-gradient(#5b6a96, #c9cccf); /* Opera 11.10 */  
-/*   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5b6a96', endColorstr='#c9cccf'); /* IE6 & IE7 */  
-/*   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#5b6a96', endColorstr='#c9cccf')"; /* IE8+ */  
-/*   background: linear-gradient(#5b6a96, #c9cccf); /* the standard */
-/*   background-attachment: fixed;*/
-}
+html { background: #e7e9eb; }
 
 /* This specifies the basic width of our web pages.  Don't change it
    without discussion on www-discuss.  The magic 74.92 is for
@@ -200,7 +199,7 @@ dd p { margin-top: 1em; }
 
 .inline-list li { display: inline }
 
-.netscape4 { display: none !important; }
+.netscape4, .no-display { display: none !important; }
 
 
 /*** TOP OF THE PAGE ***/
@@ -210,11 +209,15 @@ dd p { margin-top: 1em; }
    font-size: .9em;
    font-family: "FreeSans", sans-serif;
    font-weight: bold;
-   padding: .6em 1.5em 0 1.5em;
+   padding: .6em 1.5em 0 1.2em;
    margin: 0;
 }
 #toplinks a, #toplinks a:visited {
+   white-space: nowrap;
+   /* the next line is a workaround for Midori 0.5.8 */
+   display: inline-block;
    color: #404040; text-decoration: none;
+   margin-right: 1em;
 }
 #toplinks a:hover { color: #777; }
 
@@ -253,7 +256,7 @@ dd p { margin-top: 1em; }
    -khtml-border-radius: .3em;
    -webkit-border-radius: .3em;
    -opera-border-radius: .3em;
-   
+
 }
 #searcher input[type="text"]:focus {
    color: #333;
@@ -272,11 +275,11 @@ dd p { margin-top: 1em; }
    font-size: .8em;
    font-family: "FreeSans", sans-serif;
    line-height: 1.3em;
-   padding-bottom: .5em;
-   background-color: #d1d4d7;
+   background-color: #f0f2f4;
+   border-bottom: .3em solid #d1d4d7;
 }
 #translations p {
-   padding: .1em .5em .2em .5em;
+   padding: .2em 0;
    margin: 0 1.5%;
    background-color: #f0f2f4;
 }
@@ -368,11 +371,11 @@ dd p { margin-top: 1em; }
    -khtml-border-radius: 1em;
    -webkit-border-radius: 1em;
    -opera-border-radius: 1em;
-   box-shadow: .15em .15em #171d33;
-   -moz-box-shadow: .15em .15em #171d33;
-   -webkit-box-shadow: .15em .15em #171d33;
-   -icab-box-shadow: .15em .15em #171d33;
-   -o-box-shadow: .15em .15em #171d33;
+   box-shadow:  0 .15em #171d33;
+   -moz-box-shadow:  0 .15em #171d33;
+   -webkit-box-shadow:  0 .15em #171d33;
+   -icab-box-shadow:  0 .15em #171d33;
+   -o-box-shadow:  0 .15em #171d33;
 }
 
 #fssbox {
@@ -410,11 +413,11 @@ dd p { margin-top: 1em; }
    -khtml-border-radius: 1em;
    -webkit-border-radius: 1em;
    -opera-border-radius: 1em;
-   box-shadow: .15em .15em #171d33;
-   -moz-box-shadow: .15em .15em #171d33;
-   -webkit-box-shadow: .15em .15em #171d33;
-   -icab-box-shadow: .15em .15em #171d33;
-   -o-box-shadow: .15em .15em #171d33;
+   box-shadow: 0 .15em #171d33;
+   -moz-box-shadow: 0 .15em #171d33;
+   -webkit-box-shadow: 0 .15em #171d33;
+   -icab-box-shadow: 0 .15em #171d33;
+   -o-box-shadow: 0 .15em #171d33;
 }
 #fssbox input[type="text"]:focus {
    color: #333;
@@ -429,6 +432,11 @@ dd p { margin-top: 1em; }
 #fsf-frame a:hover { color: #777; }
 
 /* For "normal" pages */
+
+@media (max-width: 40em) {
+   #gnu-banner, p, dd, dt, li, h3, h4 { clear: both }
+}
+
 #gnu-banner {
    font-size: 1.8em;
    font-weight: bold;
@@ -476,6 +484,17 @@ dd p { margin-top: 1em; }
    cursor:pointer;
 }
 
+/*** PROMOTIONAL BANNER ***/
+
+.promo-banner {
+    background-position: 99% 9%;
+    background-color: #ccc;
+    background-repeat: no-repeat;
+    font-size: large;
+    overflow: hidden;
+    padding: 1em 6em 0.25em 6em;     /* size-review */
+}
+
 
 /*** NAVIGATION BAR ***/
 
@@ -513,6 +532,31 @@ dd p { margin-top: 1em; }
 }
 #navigation li a:hover {
    text-decoration: underline;
+}
+
+
+/*** TAGS ***/
+
+#all-tags {
+   text-align: center;
+   font-family: "FreeSans", sans-serif;
+   line-height: 1.3em;
+   padding: .2em 3%;
+   margin: 0 -1.6%;
+   background-color: #f0f2f4;
+   border-top: 1px solid #c9cccf;
+   border-bottom: .3em solid #b9bcbf;
+}
+
+.page-tags { padding: 1em 0; }
+
+#all-tags a, .page-tags a {
+   line-height: 1.3em;
+   color: #444;
+   text-decoration: none;
+}
+#all-tags a:hover, .page-tags a:hover {
+   color: #777;
 }
 
 
@@ -598,7 +642,7 @@ dd p { margin-top: 1em; }
 
 
  /*** FSF STUFF ***/
- 
+
 #mission-statement {
    font-size: 0.9em;
    margin: 2em 1.5% 1em 1.5%;
@@ -657,17 +701,25 @@ div#backtotop {
    clear: both; content: ""; display: block;
    height: 0px; visibility: hidden; width: 0px;
 }
+
 #home .first-column {
-   clear: left;
-   width: 56.1%;
+   width: 60%;
    float: left;
-   margin-bottom: 1em; margin-top: 0;
 }
 #home .second-column {
-   width: 42.1%;
+   width: 38%;
    float: right;
-   margin-bottom: 1em;
 }
+@media (max-width: 40em) {
+   #home .first-column, #home .second-column {
+      float: none;
+      width: 100%;
+   }
+}
+#home .first-column, #home .second-column {
+   margin-bottom: 2em; margin-top: 0;
+}
+
 #home h2 {
    text-shadow: none;
    margin-bottom: .6em;
@@ -679,11 +731,11 @@ div#backtotop {
    text-align: center;
    font-weight: bold;
    margin-top: .7em; margin-bottom: .8em;
-   box-shadow: .15em .15em #171d33;
-   -moz-box-shadow: .15em .15em #171d33;
-   -webkit-box-shadow: .15em .15em #171d33;
-   -icab-box-shadow: .15em .15em #171d33;
-   -o-box-shadow: .15em .15em #171d33;
+   box-shadow: 0 .15em #171d33;
+   -moz-box-shadow: 0 .15em #171d33;
+   -webkit-box-shadow: 0 .15em #171d33;
+   -icab-box-shadow: 0 .15em #171d33;
+   -o-box-shadow: 0 .15em #171d33;
    border-radius: 1em;
    -moz-border-radius: 1em;
    -khtml-border-radius: 1em;
@@ -723,7 +775,7 @@ div#backtotop {
 
 #Action {
    text-align: left;
-   padding: 0 1em; 
+   padding: 0 1em;
    border-left: .4em solid #b9bcbf; border-right: .4em solid #b9bcbf;
 }
 
@@ -786,7 +838,7 @@ h2#Action {
 }
 #urgent a:hover { color: #777; }
 
-/* For the notes about mailing lists, etc. */ 
+/* For the notes about mailing lists, etc. */
 #content .note {
    clear: right;
    float: right;
@@ -808,6 +860,16 @@ h2#Action {
 /* For the note about Free Software Free Society */
 #content blockquote#fsfs p { padding: .3em 0; }
 
+/* For lists of short items. */
+#content .summary {
+   float: right;
+   max-width: 22em;
+   padding: 1em;
+   margin: .3em 1em 1em 1em;
+   background: #f0f2f4;
+   border: 1px solid #c9cccf;
+}
+
 
 /*** TRANSLATED PAGES ***/
 
@@ -827,7 +889,7 @@ h2#Action {
 #outdated {
    text-align: center;
    padding: .7em 3%;
-   margin: .3em -1.6%; 
+   margin: .3em -1.6%;
    background-color: #f0f2f4;
    border-bottom: .3em solid #d1d4d7;
 }
@@ -865,6 +927,9 @@ ul#edu-navigation {
    display: inline; white-space: nowrap;
    list-style-type: none;
    padding: 0;
+}
+#edu-navigation li.current {
+    border-bottom: 4px solid #971611;
 }
 #edu-navigation li a, #edu-navigation li a:visited {
    padding: .3em .45em .35em .45em;
@@ -1105,4 +1170,3 @@ hr.separator {
 .pad { margin-bottom: 1em; }
 .pad td { padding-left: 1em; padding-right: 1em; }
 div.spacer { height: .1em; width: 100%; background-color: transparent; }
-

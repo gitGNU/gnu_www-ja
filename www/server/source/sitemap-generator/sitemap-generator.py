@@ -2,7 +2,7 @@
 #
 # Sitemap generator
 # Copyright © 2011-2012 Wacław Jacek
-# Copyright © 2014 Free Software Foundation, Inc.
+# Copyright © 2014, 2015 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -122,7 +122,7 @@ def determine_file_encoding(text, path):
 			encoding = 'iso-8859-8'
 		if encoding in VALID_ENCODINGS:
 			return encoding
-	print path + ': no encoding specified.'
+	print(path + ': no encoding specified.')
 	# A non-ASCII file who declares no encoding has no right to exist.
 	return 'utf-8'
 
@@ -135,7 +135,7 @@ def get_sitemap_linguas():
 	line = 'Found sitemap translations:'
 	for l in sorted(linguas):
 		line = line + ' ' + l
-	print line
+	print(line)
 	return linguas
 			
 
@@ -184,12 +184,12 @@ def get_index_filename(directory):
 		# Only complain about duplicate index files
 		# if it isn't a deliberate instance of such.
 		if not match_against_list(directory, no_index_checks):
-			print 'Error: Directory ' + directory \
+			print('Error: Directory ' + directory \
 				+ ' has both an index file called "' \
 				+ index_file \
 				+ '" and a directoryname file called "' \
 				+ dir_file \
-				+ '". Neither will be used as main page.'
+				+ '". Neither will be used as main page.')
 	elif index_file:
 		return index_file
 	elif dir_file:
@@ -258,8 +258,9 @@ def get_title(path):
 	match = match_against_list(path, replacement_titles)
 	if match:
 		return replacement_titles[match.re.pattern]
-	text = read_file(os.path.join(TOP_DIRECTORY, path))
-	encoding = determine_file_encoding(text, path)
+	data = read_file(os.path.join(TOP_DIRECTORY, path), 'b')
+	encoding = determine_file_encoding(data.decode('iso-8859-1'), path)
+	text = data.decode(encoding, 'replace')
 	idx = text.find('<!--')
 	while idx >= 0:
 		head = text[:idx]
@@ -277,7 +278,7 @@ def get_title(path):
 		title = re.sub('</center>', '', title)
 		title = re.sub('<CENTER>', '', title)
 		title = re.sub('</CENTER>', '', title)
-		return title.decode(encoding, 'replace')
+		return title
 	# No <h?> tags found: use <title>, which needs trimming.
 	title = extract_tags(text, ['title'])
 	if not title:
@@ -287,7 +288,7 @@ def get_title(path):
 		if match:
 			title = title[ : match.start() ] \
 					+ title[ match.end() : ]
-	return title.decode(encoding, 'replace')
+	return title
 
 def get_titles_for_files( directory, files ):
 	titles = {}
@@ -301,7 +302,8 @@ def get_titles_for_files( directory, files ):
 	
 
 def is_file_a_redirect(path):
-	text = read_file(os.path.join(TOP_DIRECTORY, path))
+	data = read_file(os.path.join(TOP_DIRECTORY, path), 'b')
+	text = data.decode('iso-8859-1')
 
 	if re.search(FORWARD_REGEXP, text, re.IGNORECASE):
 		return True
@@ -350,8 +352,8 @@ def po_entry(msgid, msgstr):
 
 def output_translations(prefix):
 	for lang in sitemap_linguas:
-		fd = open(prefix + '.' + lang + '.po', 'a')
-		for msgid in translations:
+		fd = open(prefix + '.' + lang + '.po', 'ab')
+		for msgid in sorted(translations):
 			string = ''
 			trans = translations[msgid]
 			if trans == None:
@@ -481,16 +483,16 @@ def append_sitemap_org (directory, base, languages):
 	  or sitemap_urls + local_urls >= SITEMAP_MAX_URLS:
 		sitemap_text = SITEMAP_ORG_HEADER + sitemap_text \
 				+ SITEMAP_ORG_FOOTER
-		print 'writing next sitemap (' + str(sitemap_no) + '): ' \
+		print('writing next sitemap (' + str(sitemap_no) + '): ' \
 		      + str(len(sitemap_text)) + ' bytes, ' \
-		      + str(sitemap_urls) + ' urls'
+		      + str(sitemap_urls) + ' urls')
 		if len0 + len (entry) \
 	             + SITEMAP_ORG_BOILERPLATE_LEN >= SITEMAP_MAX_LEN:
-			print '  Maximum length (' \
-				+ str(SITEMAP_MAX_LEN) + ') reached'
+			print('  Maximum length (' \
+				+ str(SITEMAP_MAX_LEN) + ') reached')
 		if sitemap_urls >= SITEMAP_MAX_URLS:
-			print '  Maximum URL number (' \
-				+ str(SITEMAP_MAX_URLS) + ') reached'
+			print('  Maximum URL number (' \
+				+ str(SITEMAP_MAX_URLS) + ') reached')
 		out_file = open(SITEMAP_BASE + str(sitemap_no) \
 				   + SITEMAP_EXT, 'w')
 		out_file.write(sitemap_text.encode('utf-8'))
@@ -643,9 +645,9 @@ def print_map(directory, depth_level):
 		 	write('</dd></dl>\n')
 		if directory != '':
 			write( '</div>\n' )
-		
-def read_file(filename):
-	fd = open(filename, 'r')
+
+def read_file(filename, mode = ''):
+	fd = open(filename, 'r' + mode)
 	file_contents = fd.read()
 	fd.close()
 	
@@ -732,18 +734,18 @@ write('''
 print_map('', 0)
 write(read_file('output.tail'))
 
-output_file = open(OUTPUT_FILE_NAME, 'w')
+output_file = open(OUTPUT_FILE_NAME, 'wb')
 output_file.write(output_text.encode('utf-8'))
 output_file.close()
 
 output_translations(OUTPUT_FILE_NAME)
 
 if len(sitemap_text):
-	print 'writing last sitemap (' + str(sitemap_no) + '): ' \
+	print('writing last sitemap (' + str(sitemap_no) + '): ' \
 	      + str(len(sitemap_text)) + ' bytes, ' \
-	      + str(sitemap_urls) + ' urls'
+	      + str(sitemap_urls) + ' urls')
 	output_file = open(SITEMAP_BASE + str(sitemap_no) \
-			   + SITEMAP_EXT, 'w')
+			   + SITEMAP_EXT, 'wb')
 	sitemap_text = SITEMAP_ORG_HEADER + sitemap_text \
 			+ SITEMAP_ORG_FOOTER
 	output_file.write(sitemap_text.encode('utf-8'))
@@ -751,7 +753,7 @@ if len(sitemap_text):
 	sitemap_no += 1
 
 if sitemap_no > 0:
-	print 'writing sitemap index'
+	print('writing sitemap index')
 	sitemap_text = SITEMAP_IDX_HEADER
 	for i in range (sitemap_no):
 		sitemap_text += '<sitemap>\n'
@@ -761,7 +763,7 @@ if sitemap_no > 0:
 		sitemap_text += '</sitemap>\n'
 	sitemap_text += SITEMAP_IDX_FOOTER
 	output_file = open(SITEMAP_BASE + SITEMAP_IDX \
-			   + SITEMAP_EXT, 'w')
+			   + SITEMAP_EXT, 'wb')
 	output_file.write(sitemap_text.encode('utf-8'))
 	output_file.close()
 
@@ -773,6 +775,6 @@ if len(translist):
 		+ linguas[1:] + '),/" -->\n<dl>' \
 		+ translist + '</dl><!--#endif -->\n'
 
-output_file = open(OUTPUT_FILE_NAME + '.translist', 'w')
+output_file = open(OUTPUT_FILE_NAME + '.translist', 'wb')
 output_file.write(translist.encode('utf-8'))
 output_file.close()

@@ -228,7 +228,6 @@ fun/jokes :=	10-kinds-of-people \
 		eternal-flame \
 		evilmalware \
 		filks \
-		foreign-signs \
 		freesoftware \
 		fsf-in-german \
 		gcc_audio \
@@ -236,7 +235,6 @@ fun/jokes :=	10-kinds-of-people \
 		gingrinch \
 		gnuemacs.acro.exp \
 		gnuemacs \
-		gnu.jive \
 		gnu-overflow \
 		gnu-song \
 		gospel \
@@ -423,6 +421,7 @@ music :=	blues-song \
 		gdb-song \
 		music \
 		till_there_was_gnu \
+		whole-gnu-world \
 		writing-fs-song
 
 people :=	past-webmasters \

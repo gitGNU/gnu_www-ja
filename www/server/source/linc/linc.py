@@ -3,7 +3,7 @@
 #
 # LINC - LINC Is Not Checklink
 # Copyright © 2011, 2012 Wacław Jacek
-# Copyright © 2013, 2014 Free Software Foundation, Inc.
+# Copyright © 2013, 2014, 2015 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,13 +18,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-LINC_VERSION = 'LINC 0.21'
+from __future__ import print_function
+
+LINC_VERSION = 'LINC 0.23'
 USAGE = \
 '''Usage: %prog [options] [BASE_DIRECTORY]
 Check links in HTML files from BASE_DIRECTORY.'''
 COPYRIGHT= \
-'''Copyright 2011, 2012 Waclaw Jacek
-Copyright 2013, 2014 Free Software Foundation, Inc.
+'''Copyright (C) 2011, 2012 Waclaw Jacek
+Copyright (C) 2013, 2014, 2015 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
@@ -96,10 +98,11 @@ SYMLINKS_FILENAME = '.symlinks'
 
 FTP_LINK_REGEXP = 'ftp://(?P<hostname>[^/:]+)(:(?P<port>[0-9]+))?'
 
+HTTP_VERSION_HEADER = '(^|\r\n)HTTP/1\.[01] '
 # What to treat as a HTTP error header.
-HTTP_ERROR_HEADER = '(^|\r\n)HTTP/1\.1 (?P<http_error_code>[45][0-9][0-9]) '
-HTTP_FORWARD_HEADER = \
-  '(^|\r\n)HTTP/1\.1 (301 Moved Permanently|302 Found)(\r\n|$)'
+HTTP_ERROR_HEADER = HTTP_VERSION_HEADER + '(?P<http_error_code>[45][0-9][0-9]) '
+HTTP_FORWARD_HEADER = HTTP_VERSION_HEADER \
+  + '(301 Moved Permanently|302 Found)(\r\n|$)'
 HTTP_LINK_REGEXP = \
   'http(s?)://(?P<hostname>[^/:]+)(:(?P<port>[0-9]+))?(?P<resource>/[^#]*)?'
 HTTP_NEW_LOCATION_HEADER = '(^|\r\n)Location: (?P<new_location>.+)(\r\n|$)'
@@ -136,12 +139,12 @@ remote_base_directory = None
 
 def report(level, msg):
 	if VERBOSE > level:
-		print msg
+		print (msg)
 
 def format_error(symlink, filename, line_number, link, error_message):
 	if symlink != None:
 		filename += ' <- ' + symlink
-	return filename + ':' + line_number + ': ' \
+	return filename + ':' + str(line_number) + ': ' \
 	       + link.replace(' ', '%20') + ' ' + error_message + '\n'
 
 def get_ftp_link_error(link):
@@ -172,12 +175,12 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 	if forwarded_from == None:
 		forwarded_from = []
 
-	connection_data = re.search( HTTP_LINK_REGEXP, link )
+	connection_data = re.search (HTTP_LINK_REGEXP, link)
 	if not connection_data:
 		return None
-	hostname = connection_data.group( 'hostname' )
-	port = connection_data.group( 'port' )
-	resource = connection_data.group( 'resource' )
+	hostname = connection_data.group ('hostname')
+	port = connection_data.group ('port')
+	resource = connection_data.group ('resource')
 
 	socketfd = socket_create()
 	# if a socket couldn't be created,
@@ -186,29 +189,31 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 		return None
 
 	if port == None:
-	    if link_type == 'http':
-		port = 80
-	    elif link_type == 'https':
-		port = 443
-	    else:
-		report(1, 'Unexpected link type `' + link_type + "' found.")
-		if WICKED > 0:
-		    print 'Aborting due to an unexpected link type.'
-		    exit(1)
-		return None
+		if link_type == 'http':
+			port = 80
+		elif link_type == 'https':
+			port = 443
+		else:
+			report (1, 'Unexpected link type `' \
+			          + link_type + "' found.")
+			if WICKED > 0:
+				print('Aborting due to unexpected link type.')
+				exit(1)
+			return None
 
 	if link_type == 'https':
-	    socketfd = ssl.wrap_socket (socketfd)
+		socketfd = ssl.wrap_socket (socketfd)
 
-	if socket_connect( socketfd, hostname, port ) == False:
+	if socket_connect (socketfd, hostname, port) == False:
 		socketfd.close()
 		return 'couldn\'t connect to host'
 
 	if resource == None:
 		resource = '/'
 
-	socketfd.send( 'GET ' + resource + ' HTTP/1.1\r\nHost: ' \
-	              + hostname + '\r\n' + ADDITIONAL_HTTP_HEADERS + '\r\n' )
+	req = 'GET ' + resource + ' HTTP/1.1\r\nHost: ' \
+	      + hostname + '\r\n'  + ADDITIONAL_HTTP_HEADERS + '\r\n'
+	socketfd.send (req.encode('utf-8'))
 
 	webpage = socket_read (socketfd)
 	socketfd.close()
@@ -226,20 +231,25 @@ def get_http_link_error(link, link_type, forwarded_from = None):
                        + 'headers (possibly no content in file)'
 
 	header = webpage[:end_of_headers]
-	# search for errors
-	match = re.search(HTTP_ERROR_HEADER, header)
+	verb_level = 5
+	if not re.search (HTTP_VERSION_HEADER, header):
+		report (1, 'No HTTP version found in header')
+		verb_level = 1
+	report (verb_level, 'Header for ' + link + ': - - -')
+	report (verb_level, header)
+	report (verb_level, '- - - - - - -')
+	match = re.search (HTTP_ERROR_HEADER, header)
 	if match:
 		http_error_code = match.group('http_error_code')
 		return 'http error ' + http_error_code + ' returned by server'
 
-	# look for forwards
-	match = re.search(HTTP_FORWARD_HEADER, header)
+	match = re.search (HTTP_FORWARD_HEADER, header)
 	if not match:
 		return None
 	if len(forwarded_from) >= FORWARDS_TO_FOLLOW:
 		if VERBOSE > 2:
-		    print 'too many forwards:'
-		    print forwarded_from
+		    print ('too many forwards:')
+		    print (forwarded_from)
 		return 'too many forwards (over ' \
 			+ str(FORWARDS_TO_FOLLOW) + ')'
 	match = re.search(HTTP_NEW_LOCATION_HEADER, header)
@@ -249,7 +259,7 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 		report(1, header)
 		report(1, '- - - - -')
 		if WICKED > 1:
-			print 'Aborting due to bad forward.'
+			print ('Aborting due to bad forward.')
 			exit(1)
 		return None
 	forwarded_from.append(link)
@@ -297,7 +307,7 @@ def load_symlinks(root, directory, path):
 		dest = match.group('to')
 		report(2, path + ":" + str(i + 1) + ": Symlink `" \
 			+ dest + "' <- `" + source + "' found.")
-		symlinks[directory][source] = dest
+		symlinks[directory][source] = { 'dest': dest, 'line': i + 1 }
 
 def classify_link(filename, link, symlink = None):
 	link_type = 'http'
@@ -316,9 +326,9 @@ def classify_link(filename, link, symlink = None):
 		link_type = 'ftp'
 	elif link.find('https://') == 0:
 		if NO_SSL:
-		    link_type = 'unsupported'
+			link_type = 'unsupported'
 		else:
-		    link_type = 'https'
+			link_type = 'https'
 	elif link[0] == '/':
 		link = remote_site_root + link[1:]
 	else:
@@ -330,11 +340,12 @@ def classify_link(filename, link, symlink = None):
 	return [link_type, link]
 
 def scan_file(root, file_to_check, symlink = None):
-	path = os.path.join(root, file_to_check)
+	path = os.path.join (root, file_to_check)
 	report (3, 'scanning file ' + path)
-	fd = open(path, 'r')
-	text = fd.read()
+	fd = open (path, 'rb')
+	data = fd.read()
 	fd.close()
+	text = data.decode ('iso-8859-1')
 
 	lines = 1
 	head = ''
@@ -365,7 +376,7 @@ def scan_file(root, file_to_check, symlink = None):
 			urls_to_check[url] = \
 					 {'link': match.group('link'),
 					  'is_inside_comment': commented,
-				  	  'type': link_type}
+					  'type': link_type}
 
 def scan_directory(root, directory):
 	report (3, 'scanning directory ' + directory)
@@ -390,14 +401,12 @@ def get_symlink_target(root, directory, destination, depth = 0):
 	if depth > 17:
 		report(-2, 'Too deep symlink.')
 		if WICKED > 1:
-			print 'Aborting due to a deep symlink.'
+			print ('Aborting due to a deep symlink.')
 			exit(1)
 		return None
-	# Skip external links.
-	# TODO: check it as a link.
-	if re.search('^(ftp|http(s?))://', destination):
-		report(2, 'External symlink found.')
-		return None
+	if re.search ('^(ftp|http(s?))://', destination):
+		report (2, 'External symlink found.')
+		return destination
 
 	report(2, 'Getting target of `' + directory + "'/`" \
 			+ destination + "', depth=" + str(depth))
@@ -426,39 +435,63 @@ def get_symlink_target(root, directory, destination, depth = 0):
 			report(2, 'Symlinked file excluded.')
 			return None
 		return path
-	report(2, 'No `' + path + "' file exists.")
-	report(2, 'Searching for symlinks in `' + path + "'")
+	report (2, 'No `' + path + "' file exists.")
+	report (2, 'Searching for symlinks in `' + new_dir + "'")
+	if new_dir == '.':
+		new_dir = ''
 	if new_dir in symlinks:
 		report(2, 'Searching for symlink `' + dest + "'")
 		if dest in symlinks[new_dir]:
 			report(2, 'Symlink found: `' \
-				+ symlinks[new_dir][dest] + "'")
+				+ symlinks[new_dir][dest]['dest'] + "'")
 			return get_symlink_target(root, new_dir,
-						  symlinks[new_dir][dest],
+						  symlinks[new_dir][dest]['dest'],
 						  depth + 1)
 	report(-2, 'Blind symlink found.')
 	if WICKED > 1:
-		print 'Aborting due to a blind symlink.'
+		print ('Aborting due to a blind symlink.')
 		exit(1)
 	return None
+
+def append_symlink_to_check(directory, source, symlinks, destination):
+	file_to_check = os.path.join (directory, \
+				      SYMLINKS_FILENAME)
+	[link_type, url] = classify_link (file_to_check, \
+					  destination, True)
+	if link_type == 'unsupported':
+		return
+	links_to_check.append({'symlink': None, 'URL': url,
+			       'filename': file_to_check,
+			       'line_number': symlinks[directory][source]['line'],
+			       'link': destination,
+			       'is_inside_comment': False})
+	if not url in urls_to_check:
+		urls_to_check[url] = \
+				 {'link': destination,
+				  'is_inside_comment': False,
+				  'type': link_type}
 
 def process_symlinks(root):
 	for directory in symlinks:
 		for source in symlinks[directory]:
 			if not re.search(FILENAMES_TO_CHECK_REGEXP, source):
 				continue
-			dest = symlinks[directory][source]
+			dest = symlinks[directory][source]['dest']
 			report(2, 'Trying `' + directory + "'/`" \
 				+ source + "' -> `" + dest + "'..")
 			destination = get_symlink_target(root, directory, dest)
 			if destination == None:
+				continue
+			if re.search ('^(ftp|http(s?))://', destination):
+				append_symlink_to_check (directory, source, \
+							 symlinks, destination)
 				continue
 			scan_file(root, destination, os.path.join(directory, source))
 
 def socket_connect(socketfd, hostname, port):
 	try:
 		socketfd.connect((hostname, int(port)))
-	except socket.error, message:
+	except socket.error:
 		return False
 	return True
 
@@ -466,7 +499,7 @@ def socket_create():
 	try:
 		socketfd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		socketfd.settimeout(SOCKET_TIMEOUT)
-	except socket.error, message:
+	except socket.error:
 		return None
 	return socketfd
 
@@ -476,10 +509,10 @@ def socket_read (socketfd):
 	while output.find('\r\n\r\n') == -1:
 		try:
 			buf = socketfd.recv (2048)
-			output += buf
+			output += buf.decode ('iso-8859-1')
 			if len (buf) == 0 or len (output) >= max_header_len:
 				break
-		except socket.error, message:
+		except socket.error:
 			return None
 	return output
 
@@ -492,8 +525,8 @@ def show_usage(option, opt, value, parser):
 	exit(0)
 
 def show_version(option, opt, value, parser):
-	print LINC_VERSION
-	print COPYRIGHT
+	print (LINC_VERSION)
+	print (COPYRIGHT)
 	exit(0)
 
 def load_cache(cache):
@@ -519,7 +552,7 @@ def save_cache(cache, checked_links):
 		report(2, "No cache file is saved.")
 		return
 	try:
-		f = open(cache, 'w')
+		f = open(cache, 'wb')
 	except IOError:
 		report(-3, "Failed to write cache file `" + cache + "'.")
 		return
@@ -528,7 +561,7 @@ def save_cache(cache, checked_links):
 		# Links containing a newline are not cached
 		# because newline is used in cache as the separator.
 		if checked_links[link] == None and link.find('\n') == -1:
-			f.write(link + '\n')
+			f.write((link + '\n').encode('utf-8'))
 	f.close()
 
 parser = OptionParser(usage = USAGE, add_help_option = False)
@@ -576,7 +609,7 @@ parser.add_option('-x', '--exclude', dest = 'exclude', metavar = 'REGEXP',
 			 + EXCLUDED_FILENAMES_REGEXP + ']')
 parser.add_option('-X', '--exclude-dir', dest = 'exclude_dir',
 		  metavar = 'REGEXP',
-                  help = 'skip directories whose names match REGEXP [' \
+		  help = 'skip directories whose names match REGEXP [' \
 			 + EXCLUDED_DIRECTORIES_REGEXP + ']')
 parser.add_option('-v', '--verbose', dest = 'verbose', action = 'count',
 		  help = "be more verbose")
@@ -591,9 +624,10 @@ parser.add_option('-V', '--version', action = 'callback',
 (options, args) = parser.parse_args()
 
 if len(args) > 1:
-	print 'Incorrect number of arguments (' \
-		+ str(len(args)) + '; should be 1 or less)' >> stderr
-	exit(1)
+	print ('Incorrect number of arguments (' \
+		+ str(len(args)) + '; should be 1 or less)', sep = ' ',
+		end = '\n', file = sys.stderr)
+	exit (1)
 
 if len(args) != 0:
 	BASE_DIRECTORY = args[0]
@@ -692,66 +726,67 @@ for link in checked_urls:
 		del urls_to_check[link]
 		cached_links += 1
 report(-1, 'Checking links...')
-for j in range(NUMBER_OF_ATTEMPTS):
-    report(-2, 'Pass ' + str(j + 1) + ' of ' + str(NUMBER_OF_ATTEMPTS) + ':')
-    next_urls_to_check = urls_to_check.copy()
-    number_of_links_to_check = str(len(urls_to_check))
-    for i, url in enumerate(urls_to_check):
-	link_container = urls_to_check[url]
-	if (i % 10 == 0 and VERBOSE > -2):
-		print '\rChecking link ' + str(i + 1) + ' of ' \
-		      + number_of_links_to_check + '...',
-		sys.stdout.flush()
+for j in range (NUMBER_OF_ATTEMPTS):
+	report (-2, 'Pass ' + str(j + 1) + ' of ' + str(NUMBER_OF_ATTEMPTS) + ':')
+	next_urls_to_check = urls_to_check.copy()
+	number_of_links_to_check = str (len (urls_to_check))
+	for i, url in enumerate (urls_to_check):
+		link_container = urls_to_check[url]
+		if (i % 10 == 0 and VERBOSE > -2):
+			print ('\rChecking link ' + str(i + 1) + ' of ' \
+			       + number_of_links_to_check + '...', \
+			       sep = ' ', end = '')
+			sys.stdout.flush() 
 
-	link = link_container['link']
-	# BTW, shouldn't we check whether the named fragment
-	# is present on the page?
-	if link_container['is_inside_comment'] == 'ssi' or link[0] == '#':
-		continue
-	link_error = None
-	if url in checked_urls:
-		link_error = checked_urls[url]
+		link = link_container['link']
+		# BTW, shouldn't we check whether the named fragment
+		# is present on the page?
+		if link_container['is_inside_comment'] == 'ssi' or link[0] == '#':
+			continue
+		link_error = None
+		if url in checked_urls:
+			link_error = checked_urls[url]
+			if link_error == None:
+				del next_urls_to_check[url]
+				continue
+		link_type = link_container['type']
+		if LOCAL:
+			link_error = None
+		elif link_type == 'ftp':
+			link_error = get_ftp_link_error(url)
+		elif link_type == 'http' or link_type == 'https':
+			link_error = get_http_link_error(url, link_type)
+		else:
+			report(1, 'Unexpected link type `' + link_type + "' found.")
+			if WICKED > 0:
+				print ('Aborting due to an unexpected link type.')
+				exit (1)
+			continue
+		checked_urls[url] = link_error
 		if link_error == None:
 			del next_urls_to_check[url]
-			continue
-	link_type = link_container['type']
-	if LOCAL:
-		link_error = None
-	elif link_type == 'ftp':
-		link_error = get_ftp_link_error(url)
-	elif link_type == 'http' or link_type == 'https':
-		link_error = get_http_link_error(url, link_type)
-	else:
-    		report(1, 'Unexpected link type `' + link_type + "' found.")
-    		if WICKED > 0:
-			print 'Aborting due to an unexpected link type.'
-			exit(1)
-		continue
-	checked_urls[url] = link_error
-	if link_error == None:
-		del next_urls_to_check[url]
-	if DELAY_BETWEEN_CHECKS > 0:
-		time.sleep(DELAY_BETWEEN_CHECKS)
-    urls_to_check = next_urls_to_check
+		if DELAY_BETWEEN_CHECKS > 0:
+			time.sleep (DELAY_BETWEEN_CHECKS)
+	urls_to_check = next_urls_to_check
 
-    save_cache(CACHE, checked_urls)
-    broken_so_far = 0
-    for i, link in enumerate(checked_urls):
-	err = checked_urls[link]
-	if err != None:
-		broken_so_far = broken_so_far + 1
-	if (VERBOSE > 1 and err != None) or VERBOSE > 2:
-		print 'link ' + str(i) + ': ' + link \
-			+ ': ' + (err if err else '(no error)')
-    report(-2, '\n' + str(len(links_to_check)) + ' links, ' \
-	      + unique_links + ' unique, ' \
-	      + str(cached_links) + ' cached, ' \
-	      + str(broken_so_far) + ' seem broken')
-    if broken_so_far == 0:
-	report(-2, 'No more broken links; skipping the rest passes (if any)')
-	break
-    if j < NUMBER_OF_ATTEMPTS - 1 and DELAY_BETWEEN_RETRIES > 0:
-	time.sleep(DELAY_BETWEEN_RETRIES)
+	save_cache (CACHE, checked_urls)
+	broken_so_far = 0
+	for i, link in enumerate (checked_urls):
+		err = checked_urls[link]
+		if err != None:
+			broken_so_far = broken_so_far + 1
+		if (VERBOSE > 1 and err != None) or VERBOSE > 2:
+			print('link ' + str(i) + ': ' + link \
+				+ ': ' + (err if err else '(no error)'))
+	report(-2, '\n' + str (len (links_to_check)) + ' links, ' \
+	       + unique_links + ' unique, ' \
+	       + str (cached_links) + ' cached, ' \
+	       + str (broken_so_far) + ' seem broken')
+	if broken_so_far == 0:
+		report (-2, 'No more broken links; skipping the rest passes (if any)')
+		break
+	if j < NUMBER_OF_ATTEMPTS - 1 and DELAY_BETWEEN_RETRIES > 0:
+		time.sleep (DELAY_BETWEEN_RETRIES)
 
 report(-1, 'Writing reports...')
 
@@ -768,20 +803,20 @@ for i, link_container in enumerate(links_to_check):
 	if commented == 'ssi' or link[0] == '#':
 		continue
 	if commented == 'yes' and link == LINK_TO_SKIP:
-    		report(2, 'Skipping link `' + LINK_TO_SKIP + "'")
+		report (2, 'Skipping link `' + LINK_TO_SKIP + "'")
 		continue
 
 	if link[0] != '/' and not re.search('^[^/]*:', link):
-    		report(2, filename + ':' + line_number \
-		      + ': link ' + str(i) + ' `' + link + "' is relative")
+		report (2, filename + ':' + line_number \
+		        + ': link ' + str(i) + ' `' + link + "' is relative")
 
 	if url in checked_urls:
 		link_error = checked_urls[url]
 	else:
-    		report(-3, filename + ':' + line_number \
+		report (-3, filename + ':' + line_number \
 			 + ': Unchecked link `' + url + "' detected.")
-    		if WICKED > 0:
-			print 'Aborting due to an unchecked link.'
+		if WICKED > 0:
+			print ('Aborting due to an unchecked link.')
 			exit(1)
 		continue
 	# Report working links inside comments so that webmasters
@@ -802,9 +837,9 @@ for i, link_container in enumerate(links_to_check):
 	if file_to_write not in report_files:
 		clear_file(file_to_write)
 		report_files.append(file_to_write)
-	fd = open(file_to_write, 'a')
+	fd = open(file_to_write, 'ab')
 	fd.write(format_error(link_container['symlink'], filename, \
-				line_number, url, link_error))
+				line_number, url, link_error).encode('utf-8'))
 	fd.close()
 
 report(-1, 'Done!')
