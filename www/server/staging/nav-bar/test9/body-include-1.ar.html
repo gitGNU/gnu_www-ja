@@ -1,0 +1,38 @@
+<!-- start of server/body-include-1.html -->
+<!--#set var="HTML_BODY" value="yes" -->
+<!--#set var="language_selector"
+  value='<a href="/server/select-language.html?callback=$REQUEST_URI" rel="nofollow">' -->
+<!--#set var="tag_selector"
+  value='' -->
+<!--#set var="closing_anchor" value='</a>' -->
+<div id="toplinks">
+ <a href="#content">تخط إلى النص الرئيسي</a>
+ <span class="gnun-split"></span>
+ <!--#echo encoding="none" var="language_selector" -->
+ Set language
+ <span class="gnun-split"></span>
+ <!--#echo encoding="none" var="closing_anchor" -->
+ <a href="#all-tags">All keywords</a>
+</div> <!-- /toplinks -->
+
+<!-- /toplinks -->
+<div id="searcher">
+ <form method="get" action="//www.gnu.org/cgi-bin/estseek.cgi">
+  <div>
+  <input name="phrase" id="phrase" type="text" size="18" accesskey="s"
+value="لماذا غنو/لينكس؟" onfocus="this.value=''" class="rounded-corners" /> <input type="submit"
+value="إبحث" class="rounded-corners" />
+  </div>
+ </form>
+</div>
+
+<!-- /searcher -->
+<!--#if expr="$TRANSLATION_LIST" -->
+<!--#echo encoding="none" var="TRANSLATION_LIST" -->
+<!--#elif expr="$INITIAL_TRANSLATIONS_LIST = included" -->
+<!-- if initial translation list isn't included before banner.html,
+     then the file may use an old boilerplate that contains
+     div#translations in its body, and we mustn't duplicate it here. -->
+<!--#include virtual="/server/gnun/initial-translations-list.html" -->
+<!--#endif -->
+<!-- end of server/body-include-1.html -->

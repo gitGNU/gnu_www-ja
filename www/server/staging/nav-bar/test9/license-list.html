@@ -1,5 +1,5 @@
 <!--#include virtual="/server/header.html" -->
-<!-- Parent-Version: 1.76 -->
+<!-- Parent-Version: 1.77 -->
 <title>Various Licenses and Comments about Them
 - GNU Project - Free Software Foundation</title>
 <!--#include virtual="/licenses/po/license-list.translist" -->
@@ -10,7 +10,7 @@
    make them untranslatable.  */
 /* Definitions for color-coded border */
 #content dl.green, #content dl.orange,
- #content dl.red, #content dl.blue {
+ #content dl.red, #content dl.blue, #content dl.purple {
    padding-left: 1em;
    margin-left: 0;
    margin-top: 2em;
@@ -20,6 +20,7 @@
 #content dl.orange { border-left: .4em dashed orange; }
 #content dl.red { border-left: .4em dotted red; }
 #content dl.blue { border-left: .4em double  blue; }
+#content dl.purple { border-left: .4em groove purple; }
 
 /* Disable legend for CSS1-only browsers:
    they don't support :before and :after */
@@ -30,12 +31,15 @@
 }
 #content div#legend {
    float: right;
-   width: auto; max-width: 100%;
+   width: 18.4em;
    font-style: normal;
    padding: 0 1em 1em 1em;
-   margin: 2.5em 1.5em 1.5em 1.5em;
+   margin: 2.5em 0 1.5em 1.5em;
    background: #f0f2f4;
    border: 1px solid #c9cccf;
+}
+@media (max-width: 50em) {
+   #content div#legend { float: none; width: 40em; max-width: 80%; margin: 2em auto 0 auto; }
 }
 
 #content div#legend dl { margin: 1em 0 0 0; }
@@ -44,18 +48,23 @@
 
 #legend blockquote { font-size: 1.3em; font-style: normal; text-align: center; font-weight: bold; }
 #legend dl.green dt:after, #legend dl.orange dt:after,
-#legend dl.red dt:after, #legend dl.blue dt:after { font-weight: normal; }
+#legend dl.red dt:after, #legend dl.blue dt:after, #legend dl.purple dt:after { font-weight: normal; }
 -->
 </style>
 <!-- These statements are split between different <style> elements,
      and their contents aren't commented out on purpose:
      they should be translated, preferably as separate strings.  -->
 <style type="text/css" media="print,screen">
-#legend blockquote:before { content: "Code for the left border"; }
+#legend blockquote:before { content: "Meaning of the left border"; }
 </style>
 <style type="text/css" media="print,screen">
 #legend dl.green dt:after {
-   content: "Free licenses, compatible with the GNU GPL or FDL";
+   content: "Free licenses, compatible with the GNU GPL";
+}
+</style>
+<style type="text/css" media="print,screen">
+#legend dl.purple dt:after {
+   content: "Free licenses, compatible with the FDL";
 }
 </style>
 <style type="text/css" media="print,screen">
@@ -70,62 +79,17 @@
 #legend dl.blue dt:after { content: "Licenses for works stating a viewpoint"; }
 </style>
 
-<!-- start of server/banner.html -->
-<!-- start of head-include-2.html -->
-
-<link rel="stylesheet" href="/combo.css" media="screen" />
-<link rel="stylesheet" href="layout7.css" media="screen" />
-
-<link rel="stylesheet" href="/mini.css" media="handheld" />
-
-<link rel="stylesheet" href="/print.css" media="print" />
-
-<!-- end of head-include-2.html -->
-</head>
-<body>
-<div  class="inner">
-
-<!-- start of server/body-include-1.html -->
-<!--#set var="HTML_BODY" value="yes" -->
-
-<div id="toplinks">
- <a href="#content">Skip to main text</a>
-</div> <!-- /toplinks -->
-
-<div id="searcher">
- <form method="get" action="http://www.gnu.org/cgi-bin/estseek.cgi">
-  <div>
-  <input name="phrase" id="phrase" type="text" size="18" accesskey="s"
-         value="Why GNU/Linux?" onfocus="this.value=''" />
-  <input type="submit" value="Search" />
-  </div><!-- unnamed label -->
- </form>
-</div><!-- /searcher -->
-
-<!--#if expr="$TRANSLATION_LIST" -->
-<!--#echo encoding="none" var="TRANSLATION_LIST" -->
-<!--#elif expr="$INITIAL_TRANSLATIONS_LIST = included" -->
-<!-- if initial translation list isn't included before banner.html,
-     then the file may use an old boilerplate that contains
-     div#translations in its body, and we mustn't duplicate it here. -->
-<!--#include virtual="/server/gnun/initial-translations-list.html" -->
-<!--#endif -->
-<!-- end of server/body-include-1.html -->
-<!--#include virtual="/server/body-include-2.html" -->
-
-<div id="content">
-
-<!-- end of server/banner.html --><h2>Various Licenses and Comments about Them</h2>
-
+<!--#include virtual="/server/staging/nav-bar/test9/banner.html" -->
+<h2 class="c">Various Licenses and Comments about&nbsp;Them</h2>
 
 <div class="toc">
 
 <h3 id="TableOfContents">Table of Contents</h3>
 
 <ul>
-<li><a href="#Introduction">Introduction</a></li>
+<li><strong><a href="#Introduction">Introduction</a></strong></li>
 
-<li><a href="#SoftwareLicenses">Software Licenses</a>
+<li><strong><a href="#SoftwareLicenses">Software Licenses</a></strong>
   <ul>
   <li><a href="#GPLCompatibleLicenses">
       GPL-Compatible Free Software Licenses</a></li>
@@ -135,7 +99,7 @@
   </ul>
 </li>
 
-<li><a href="#DocumentationLicenses">Licenses For Documentation</a>
+<li><strong><a href="#DocumentationLicenses">Licenses For Documentation</a></strong>
   <ul>
   <li><a href="#FreeDocumentationLicenses">Free Documentation Licenses</a></li>
   <li><a href="#NonFreeDocumentationLicenses">
@@ -143,13 +107,14 @@
   </ul>
 </li>
 
-<li><a href="#OtherLicenses">Licenses for Other Works</a>
+<li><strong><a href="#OtherLicenses">Licenses for Other Works</a></strong>
   <ul>
   <li><a href="#OtherLicenses">Licenses for Works of Practical Use
       besides Software and Documentation</a></li>
   <li><a href="#Fonts">Licenses for Fonts</a></li>
   <li><a href="#OpinionLicenses">Licenses for Works stating a Viewpoint
       (e.g., Opinion or Testimony)</a></li>
+  <li><a href="#Designs">Licenses for Designs for Physical Objects</a></li>
   </ul>
 </li>
 </ul>
@@ -161,6 +126,7 @@
     Introduction</h3>
 </div>
 <div style="clear: left;"></div>
+<!--#include virtual="/licenses/fsf-licensing.html" -->
 
 <p>We classify a license according to certain key criteria:</p>
 
@@ -223,6 +189,7 @@ their licensing information.</p>
 <div id="legend">
 <blockquote></blockquote>
 <dl class="green"><dt></dt><dd></dd></dl>
+<dl class="purple"><dt></dt><dd></dd></dl>
 <dl class="orange"><dt></dt><dd></dd></dl>
 <dl class="red"><dt></dt><dd></dd></dl>
 <dl class="blue"><dt></dt><dd></dd></dl>
@@ -435,7 +402,7 @@ recommend use of &ldquo;the BSD license&rdquo;, even for special cases
 such as small programs, because confusion could easily occur and lead
 to use of the flawed <a href="#OriginalBSD"><em>original</em> BSD
 license</a>.  To avoid this risk, you can suggest the X11 license
-instead.  The X11 license and the modified revised BSD license are
+instead.  The X11 license and the modified BSD license are
 more or less equivalent.</p>
 
 <p>However, the Apache 2.0 license is better for substantial programs,
@@ -506,26 +473,6 @@ for you, it would be wise to avoid the program.</p></dd>
 <p>This is a lax, permissive non-copyleft free software license,
 compatible with the GNU GPL.  It is very similar to the X11 license.</p></dd>
 
-
-<dt><a id="ecfonts"
-       href="http://directory.fsf.org/wiki/License:LaTeX_ecfonts">License
-       of the ec fonts for LaTeX</a>
-    <span class="anchor-reference-id">(<a href="#ecfonts">#ecfonts</a>)</span></dt>
-<dd>
-<p>This license covers the European Computer Modern Fonts and Text
-Companion Fonts, commonly used with LaTeX.  Depending on how it is
-used, it may be free or not.  If the package says that some fonts in
-the package may not be modified, then the package is nonfree.
-Otherwise the package is free.  The original fonts have no
-restrictions on modification, so they are free.</p>
-
-<p>Much like <a href="#LPPL-1.2">the LaTeX Project Public
-License 1.2</a>, this license requires modified versions of the work
-to use a name that's different from the name of any prior version.
-This is acceptable for work meant to be used with LaTeX, since TeX
-allows you to create filename mappings for your programs, but it's
-very annoying and could be overly burdensome in other contexts.</p>
-</dd>
 
 
 <dt><a id="eCos20"></a>  <!-- without decimal, leave for compatibility -->
@@ -612,7 +559,14 @@ apply to this license too.</p></dd>
 some attribution requirements which make it incompatible with
 GPLv2.</p></dd>
 
+<dt><a id="HPND" href="http://directory.fsf.org/wiki/License:Historical_Permission_Notice_and_Disclaimer">
+       Historical Permission Notice and Disclaimer </a>
+    <span class="anchor-reference-id">
+       (<a href="#HPND">#HPND</a>)</span></dt>
+<dd>
+<p>This is a lax, permissive, and weak free software license that is compatible with the GPL. It is similar to the license of <a href="#Python1.6a2">Python 1.6a2 and earlier versions</a>.</p></dd>
 
+    
 <dt><a id="iMatix" href="http://directory.fsf.org/wiki?title=License:SFL">
        License of the iMatix Standard Function Library</a>
     <span class="anchor-reference-id">
@@ -963,7 +917,7 @@ free and GPL-compatible.</p></dd>
     WTFPL, Version 2</a>
     <span class="anchor-reference-id">(<a href="#WTFPL">#WTFPL</a>)</span></dt>
 <dd>
-<p>This is lax permissive non-copyleft free software license,
+<p>This is a lax permissive non-copyleft free software license,
 compatible with the GNU GPL.</p>
 
 <p>We do not recommend this license.  If you want a lax permissive
@@ -1160,11 +1114,12 @@ under the original BSD license.</p></dd>
     Common Development and Distribution License (CDDL), version 1.0</a>
     <span class="anchor-reference-id"> (<a href="#CDDL">#CDDL</a>)</span></dt>
 <dd>
-<p>This is a free software license.  It has a copyleft with a scope that's
-similar to the one in the Mozilla Public License, which makes it
-incompatible with the <a href="/licenses/gpl.html">GNU GPL</a>.  This means
-a module covered by the GPL and a module covered by the CDDL cannot legally
-be linked together.  We urge you not to use the CDDL for this reason.</p>
+<p>This is a free software license.  It has a weak per-file copyleft
+(like version 1 of the Mozilla Public License) which makes it
+incompatible with the <a href="/licenses/gpl.html">GNU GPL</a>.  This
+means a module covered by the GPL and a module covered by the CDDL
+cannot legally be linked together.  We urge you not to use the CDDL
+for this reason.</p>
 
 <p>Also unfortunate in the CDDL is its use of the term &ldquo;<a
 href="/philosophy/not-ipr.html">intellectual
@@ -1608,7 +1563,7 @@ GPL-incompatible.  The license also unfortunately uses the term
 property</a>&rdquo;.</p></dd>
 
 
-<dt><a id="Zend" href="http://www.zend.com/license/2_00.txt">
+<dt><a id="Zend" href="http://directory.fsf.org/wiki/License:ZELv2.0">
     Zend License, Version 2.0</a>
     <span class="anchor-reference-id">(<a href="#Zend">#Zend</a>)</span></dt>
 <dd>
@@ -1656,8 +1611,8 @@ GPL-compatible.</p></dd>
 
 <div class="big-subsection">
 <span id="NonFreeSoftwareLicense"></span>
-<h4><a id="NonFreeSoftwareLicenses">
-    Nonfree Software Licenses</a></h4>
+<h4 id="NonFreeSoftwareLicenses">
+    Nonfree Software Licenses</h4>
 <span class="anchor-reference-id">
     (<a href="#NonFreeSoftwareLicenses">#NonFreeSoftwareLicenses</a>)</span>
 </div>
@@ -1691,28 +1646,23 @@ unless we think that for specific reasons it won't backfire.</p>
     <span class="anchor-reference-id">
        (<a href="#NoLicense">#NoLicense</a>)</span></dt>
 <dd>
-<p>If source code does not carry a license to give users the
-four essential freedoms, it is not free software.</p>
+<p>If source code does not carry a license to give users the four
+essential freedoms, then unless it has been explicitly and validly
+placed in the public domain, it is not free software.</p>
 
-<p>Some developers think that code with no license
-is <a href="#PublicDomain">in the public domain</a>.  That is not true
-under today's copyright law; rather, all copyrightable works are
-copyrighted by default.  This includes programs.  Absent a license to
-grant users freedom, they don't have any.  In some countries, users
-that download code with no license may infringe copyright merely by
-compiling it or running it.</p>
+<p>Some developers think that code with no license is
+automatically <a href="#PublicDomain">in the public domain</a>.  That
+is not true under today's copyright law; rather, all copyrightable
+works are copyrighted by default.  This includes programs.  Absent a
+license to grant users freedom, they don't have any.  In some
+countries, users that download code with no license may infringe
+copyright merely by compiling it or running it.</p>
 
 <p>In order for a program to be free, its copyright holders must
 explicitly grant users the <a href="/philosophy/free-sw.html"> four
 essential freedoms</a>.  The document with which they do so is called
 a <em>free software license</em>.  This is what free software
 licenses are for.</p>
-
-<p>Code written by employees of the US government is a special
-exception, since US copyright law explicitly puts that in the public
-domain; but this does not apply to works that the US pays a company to
-write.  It also does not apply to other countries, many of which do
-allow the state to have a copyright on government writings.</p>
 
 <p>Some countries allow authors to put code in the public domain, but
 that requires explicit action.  If you wish to do that, the method we
@@ -1722,6 +1672,12 @@ public domain.  However, in most cases it
 is <a href="/licenses/license-recommendations.html"> better to
 copyleft your code</a> to assure that freedom reaches all users of the
 code.</p>
+
+<p>Code written by employees of the US government is a special
+exception, since US copyright law explicitly puts that in the public
+domain; but this does not apply to works that the US pays a company to
+write.  It also does not apply to other countries, many of which do
+allow the state to have a copyright on government writings.</p>
 </dd>
 
 <dt><a id="Aladdin">Aladdin Free Public License</a>
@@ -1879,10 +1835,7 @@ Thus, the license is nonfree.</p></dd>
 <dd>
 <p>ksh93 used to be shipped with an original license that was not a free
 software license.  One reason for this is that it required that all changes
-be sent to the developer.</p>
-
-<p>ksh93 is now released under the <a href="#CommonPublicLicense10">Common
-Public License</a>.</p></dd>
+be sent to the developer.</p></dd>
 
 
 <dt><a id="Lha" href=
@@ -1921,6 +1874,29 @@ United States citizen, please write to NASA and call for the use of a
 truly free software license.</p></dd>
 
 
+<dt><a id="OculusRift" href="http://directory.fsf.org/wiki/License:Oculus_VR_Rift_SDK_License">
+    Oculus Rift SDK License</a>
+    <span class="anchor-reference-id">
+       (<a href="#OculusRiftSDK">#OculusRiftSDK</a>)</span></dt>
+<dd>
+<p>This is not a free software license; it has several fatal flaws.
+</p>
+
+<ul>
+<li>One can't redistribute anything less than the whole program libOVR.</li>
+<li>One's distribution rights can be terminated on vague conditions.</li>
+<li>Those who make modified versions are required to send them to
+Oculus on demand.</li>
+<li>Use is allowed only with their product.</li>
+<li>New license versions totally supplant old versions, which means
+that permissions already given can be withdrawn.</li>
+</ul>
+
+There might be additional fatal flaws; after seeing this many,
+we stopped looking for more.
+</dd>
+
+
 <dt><a id="OPL"></a> <!-- old id, leave for compatibility -->
     <a id="OpenPublicL" href="http://directory.fsf.org/wiki/License:OpenPLv1.0">
     Open Public License</a>
@@ -1932,6 +1908,19 @@ every published modified version to a specific initial developer.
 There are also some other words in this license whose meaning we're
 not sure of that might also be problematic.</p></dd>
 
+
+<dt><a id="PPL" href="http://directory.fsf.org/wiki/License:PPL">Peer-Production License</a>
+    <span class="anchor-reference-id">(<a href="#PPL">#PPL</a>)</span></dt>
+<dd>
+<p>The Peer-Production License is not a free software license because
+it restricts who can redistribute the program and for what purpose.
+It also does not give anyone permission to run the program.</p>
+
+<p>The PPL has several provisions designed specifically for artistic
+performances, and we have nothing against its use for art works;
+however, people reportedly advocate its use for software too.  The PPL
+should not be used for software, manuals, or other works that ought to
+be free.</p></dd>
 
 <dt><a id="PINE" href="http://directory.fsf.org/wiki/License:PINE">License of PINE</a>
     <span class="anchor-reference-id">(<a href="#PINE">#PINE</a>)</span></dt>
@@ -1980,6 +1969,17 @@ any modified version that an organization uses, even privately.</p></dd>
 <dd>
 <p>This is not a free software license because it does not allow
 commercial distribution of a modified version.  Thankfully, starting from version 5.0.0, the Scilab software is free software, released under CeCILL version&nbsp;2.</p></dd>
+
+
+<dt><a id="Scratch" href="http://directory.fsf.org/wiki/License:Scratch">Scratch 1.4 license</a>
+    <span class="anchor-reference-id">
+       (<a href="#Scratch">#Scratch</a>)</span></dt>
+<dd>
+<p>This is not a free software license because it does not allow
+commercial redistribution.  In addition, condition 4 substantively
+restricts the functionality of modified versions.</p>
+
+<p>Fortunately Scratch 2.0 is now distributed under the GNU GPL.</p></dd>
 
 
 <dt><a id="SML" href="http://directory.fsf.org/wiki/License:SimpleM">
@@ -2065,6 +2065,26 @@ not based on that.
 </p></dd>
 
 
+<dt><a id="Truecrypt-3.0"
+    href="http://directory.fsf.org/wiki/License:TrueCrypt">
+    Truecrypt license 3.0</a>
+    <span class="anchor-reference-id">
+       (<a href="#Truecrypt-3.0">#Truecrypt-3.0</a>)</span></dt>
+<dd>
+<p>This license is nonfree for several reasons.  It says that if you
+don't understand the license you may not use the program.  It puts
+conditions on allowing others to run your copy.  It puts conditions on
+separate programs that &ldquo;depend on&rdquo; Truecrypt.  The
+trademark condition applies to &ldquo;associated materials&rdquo;.
+</p>
+<p>There are other points in the license which seem perhaps
+unacceptable, and in our uncertainty about them we delayed in posting
+our evaluation.  We have posted it now to explain why we do not mourn
+the demise of Truecrypt.  There
+are <a href="http://directory.fsf.org/wiki?search=disk+encryption">free
+programs that do the same job</a>.</p></dd>
+
+
 <dt><a id="UtahPublicLicense"
        href="http://www.cs.utah.edu/~gk/teem/txt/LICENSE.txt">
     University of Utah Public License</a>
@@ -2079,7 +2099,7 @@ enforceable under US copyright law, but they might be in some countries;
 even asserting them is outrageous.</p>
 
 <p>The use of this license by the University of Utah exemplifies a <a
-href="http://www.colorado.edu/Sociology/gimenez/papers/keptu.html">dangerous
+href="http://www.theatlantic.com/magazine/archive/2000/03/the-kept-university/306629/?single_page=true">dangerous
 trend for universities to restrict knowledge</a> rather than
 contributing it to the public.</p>
 
@@ -2129,7 +2149,7 @@ href="/philosophy/free-doc.html">free
 documentation</a> licenses.</strong></p>
 
 
-<dl class="green">
+<dl class="purple">
 
 <dt><a id="FDL" href="/licenses/fdl.html">
     GNU Free Documentation License</a>
@@ -2223,7 +2243,7 @@ as free documentation licenses:</strong></p>
 <dl class="red">
 
 <dt><a id="OCL"></a> <!-- brief id, leave for compatibility -->
-    <a id="OpenContentL" href="http://opencontent.org/opl.shtml">
+    <a id="OpenContentL" href="https://web.archive.org/web/19981206111937/http://www.opencontent.org/opl.shtml">
     Open Content License, Version 1.0</a>
     <span class="anchor-reference-id">
       (<a href="#OpenContentL">#OpenContentL</a>)</span></dt>
@@ -2237,6 +2257,21 @@ leads to confusion between them.  For clarity, it is better not to use
 the abbreviation &ldquo;OPL&rdquo; for either license.  It is worth
 spelling their names in full to make sure people understand what you
 say.</p></dd>
+
+<dt><a id="CC-BY-NC" href="?">Creative Commons Nocommercial, any version</a>
+    <span class="anchor-reference-id">
+      (<a href="#CC-BY-NC">#CC-BY-NC</a>)</span></dt>
+<dd>
+<p>This license does not qualify as free, because there are restrictions on
+charging money for copies.  We recommend you do not use this license.</p></dd>
+
+<dt><a id="CC-BY-ND" href="?">Creative Commons Noderivatives, any version</a>
+    <span class="anchor-reference-id">
+      (<a href="#CC-BY-ND">#CC-BY-ND</a>)</span></dt>
+<dd>
+<p>This license does not qualify as free, because there are
+restrictions on distributing modified versions.  We recommend you do
+not use this license.</p></dd>
 
 </dl> <!-- end class="red" -->
 
@@ -2266,6 +2301,8 @@ out, the DSL (see below) also requires that you determine what the
 &ldquo;source code&rdquo; is, using approximately the same definition
 that the GPL uses.</p></dd>
 
+</dl> <!-- end class="green" -->
+<dl class="purple">
 
 <dt><a id="FDLOther" href="/licenses/fdl.html">
     GNU Free Documentation License</a>
@@ -2278,19 +2315,18 @@ other teaching materials for using equipment or software.)  We also
 recommend the GNU FDL for dictionaries, encyclopedias, and any other
 works that provide information for practical use.</p></dd>
 
-</dl> <!-- end class="green" -->
-<dl  class="orange">
+</dl> <!-- end class="purple" -->
+<dl  class="green">
 
-
-<dt><a id="ccby" href="http://creativecommons.org/licenses/by/2.0/legalcode">
-    Creative Commons Attribution 2.0 license</a>
+<dt><a id="ccby" href="http://creativecommons.org/licenses/by/4.0/legalcode">
+    Creative Commons Attribution 4.0 license</a>
     (a.k.a. CC&nbsp;BY)
     <span class="anchor-reference-id">(<a href="#ccby">#ccby</a>)</span></dt>
 <dd>
 <p>This is a non-copyleft free license that is good for art and
-entertainment works, and educational works.  Please don't use it for
-software or documentation, since it is incompatible with the GNU GPL
-and with the GNU FDL.</p>
+entertainment works, and educational works.  It is compatible with all
+versions of the GNU GPL; however, it is not recommended for use on
+software.</p>
 
 <p id="which-cc">
 <span class="anchor-reference-id">(<a href="#which-cc">#which-cc</a>)</span>
@@ -2299,23 +2335,23 @@ very different.  Therefore, to say that a work &ldquo;uses a Creative
 Commons license&rdquo; is to leave the principal questions about the
 work's licensing unanswered.  When you see such a statement in a work,
 please ask the author to change the work to state clearly and
-visibly <em>which</em>of the Creative Commons license it uses.  And if
+visibly <em>which</em> of the Creative Commons license it uses.  And if
 someone proposes to &ldquo;use a Creative Commons license&rdquo; for a
 certain work, it is vital to ask &ldquo;Which Creative Commons
 license?&rdquo; before proceeding any further.</p></dd>
 
+</dl> <!-- end class="green" -->
+<dl  class="orange">
 
 <dt><a id="ccbysa"
-       href="http://creativecommons.org/licenses/by-sa/2.0/legalcode">
-    Creative Commons Attribution-Sharealike 2.0 license</a>
+       href="http://creativecommons.org/licenses/by-sa/4.0/legalcode">
+    Creative Commons Attribution-Sharealike 4.0 license</a>
    (a.k.a. CC&nbsp;BY-SA)
     <span class="anchor-reference-id">
        (<a href="#ccbysa">#ccbysa</a>)</span></dt>
 <dd>
 <p>This is a copyleft free license that is good for artistic and
-entertainment works, and educational works.  Please don't use it for
-software or documentation, since it is incompatible with the GNU GPL
-and with the GNU FDL.</p>
+entertainment works, and educational works.</p>
 
 <p>Please <a href="#which-cc">be specific about which Creative
 Commons license is being used</a>.</p></dd>
@@ -2331,7 +2367,7 @@ incompatible with the GNU GPL and with the GNU FDL; however, it is
 fine to use for other kinds of data.</p></dd>
 
 
-<dt><a id="FreeArt" href="http://artlibre.org/licence/lal/en">
+<dt><a id="FreeArt" href="//directory.fsf.org/wiki/License:Free-Art-L-v1.3">
     Free Art License</a>
     <span class="anchor-reference-id">
        (<a href="#FreeArt">#FreeArt</a>)</span></dt>
@@ -2394,6 +2430,40 @@ essay about the GPL Font Exception</a>.</p></dd>
 GPL. Its normal use is for fonts, and in that use, the
 incompatibility does not cause a problem.</p></dd>
 
+<dt><a id="ecfonts"
+       href="http://directory.fsf.org/wiki/License:LaTeX_ecfonts">License
+       of the ec fonts for LaTeX</a>
+    <span class="anchor-reference-id">(<a href="#ecfonts">#ecfonts</a>)</span></dt>
+<dd>
+<p>This license covers the European Computer Modern Fonts and Text
+Companion Fonts, commonly used with LaTeX.  Depending on how it is
+used, it may be free or not.  If the package says that some fonts in
+the package may not be modified, then the package is nonfree.
+Otherwise the package is free.  The original fonts have no
+restrictions on modification, so they are free.</p>
+
+<p>Much like <a href="#LPPL-1.2">the LaTeX Project Public
+License 1.2</a>, this license requires modified versions of the work
+to use a name that's different from the name of any prior version.
+This is acceptable for work meant to be used with LaTeX, since TeX
+allows you to create filename mappings for your programs, but it's
+very annoying and could be overly burdensome in other contexts.</p>
+</dd>
+
+
+<dt><a id="IPAFONT"
+    href="http://directory.fsf.org/wiki/License:IPA_Font_License"> IPA
+    Font License</a>
+    <span class="anchor-reference-id">
+       (<a href="#IPAFONT">#IPAFONT</a>)</span></dt>
+<dd>
+<p>This is a copyleft free software license, incompatible with the
+GPL. It has an unfortunate condition requiring that derivative works
+not use or include the name of the original work as a program name,
+font name or file name. This is acceptable for fonts as fonts can be
+aliased or renamed using free software tools, but it's very annoying
+and could be overly burdensome in other contexts.</p></dd>
+
 
 <dt><a id="SILOFL" href="http://scripts.sil.org/OFL_web">
     SIL Open Font License 1.1</a>
@@ -2450,21 +2520,39 @@ works.</p></dd>
     <span class="anchor-reference-id">
        (<a href="#ccbynd">#ccbynd</a>)</span></dt>
 
-<dd><p>This is the license used throughout the FSF web site.  This
-license provides much the same permissions as our verbatim copying
-license, but it's much more detailed.  We particularly recommend
-it for audio and/or video works of opinion.
-Please <a href="#which-cc">be specific about which Creative
-Commons license is being used</a>.</p></dd>
+<dd><p>This is the license used throughout the GNU and FSF web sites.
+This license provides much the same permissions as our verbatim
+copying license, but it's much more detailed.  We particularly
+recommend it for audio and/or video works of opinion.
+Please <a href="#which-cc">be specific about which Creative Commons
+license is being used</a>.</p></dd>
 
 </dl> <!-- end class="blue" -->
+
+<div class="big-subsection">
+<h4 id="Designs">Licenses for Designs for Physical Objects</h4>
+<span class="anchor-reference-id">
+    (<a href="#Designs">#Designs</a>)</span>
+</div>
+
+<p>Circuits are meant for practical use, so circuit designs should carry
+a free license.  We recommend releasing them under the GNU General
+Public License, version 3 or later.  Version 3 was designed for such
+use.</p>
+
+<p>3D-printer plans for objects meant for practical use should also be
+free.  We recommend the GNU GPL or one of the Creative Commons
+licenses that are free: CC-BY, CC-BY-SA, or CC0.</p>
+
+<p>3D-printer plans for decorative objects are artistic works; any of the
+Creative Commons licenses is ok for them.</p>
 
 <hr class="separator" />
 
 
 <p class="back"><strong><a href="/licenses/licenses.html">More about licenses</a></strong></p>
 </div><!-- for id="content", starts in the include above -->
-<!--#include virtual="/server/footer.html" -->
+<!--#include virtual="/server/staging/nav-bar/test9/footer-text.html" -->
 <div id="footer">
 <div class="unprintable">
 
@@ -2492,17 +2580,17 @@ href="/server/standards/README.translations.html">Translations README</a> for
 information on coordinating and submitting translations of this article.</p>
 </div>
 
-<p>Copyright &copy; 2014 Free Software Foundation, Inc.</p>
+<p>Copyright &copy; 2014, 2015 Free Software Foundation, Inc.</p>
 
 <p>This page is licensed under a <a rel="license"
-href="http://creativecommons.org/licenses/by-nd/3.0/us/">Creative
-Commons Attribution-NoDerivs 3.0 United States License</a>.</p>
+href="http://creativecommons.org/licenses/by-nd/4.0/">Creative
+Commons Attribution-NoDerivatives 4.0 International License</a>.</p>
 
 <!--#include virtual="/server/bottom-notes.html" -->
 
-<p></p><p class="unprintable">Updated:
+<p class="unprintable">Updated:
 <!-- timestamp start -->
-$Date: 2014/04/17 21:24:36 $
+$Date: 2015/09/07 22:11:16 $
 <!-- timestamp end -->
 </p>
 </div>

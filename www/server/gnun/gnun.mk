@@ -191,7 +191,6 @@ events :=	dinner-20030807 \
 		first-assoc-members-meeting \
 		nyc-2004-01 \
 		porto-tech-city-2001 \
-		rms-nyu-2001-transcript \
 		sco_without_fear \
 		usenix-2001-lifetime-achievement
 
@@ -555,6 +554,7 @@ philosophy := 	15-years-of-free-software \
 		rms-hack \
 		rms-interview-edinburgh \
 		rms-kol \
+		rms-nyu-2001-transcript \
 		rms-on-radio-nz \
 		rtlinux-patent \
 		savingeurope \

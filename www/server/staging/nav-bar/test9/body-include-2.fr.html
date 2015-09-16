@@ -33,15 +33,81 @@
 
 <div id="navigation">
  <ul>
-  <li id="tabAboutGNU"><a href="/gnu/gnu.html">À propos de GNU</a></li>
-  <li id="tabPhilosophy"><a href="/philosophy/philosophy.html">Philosophie</a></li>
+<!--#set var="MARK_START" value=" <span class='no-display'>=</span> " -->
+<!--#set var="MARK_END" value=" <span class='no-display'>=</span> " -->
+<!--#if expr="$REQUEST_URI = /gnu\//" -->
+  <li id="tabAboutGNU" class="active">
+    <!--#echo encoding="none" var="MARK_START" -->
+    <a href="/gnu/about-gnu.html">À propos de GNU</a>
+    <span class="gnun-split"></span>
+    <!--#echo encoding="none" var="MARK_END" -->
+  </li>
+<!--#else -->
+   <li id="tabAboutGNU"><a href="/gnu/about-gnu.html">À propos de GNU</a></li>
+<!--#endif -->
+<!--#if expr="$REQUEST_URI = /\/philosophy/ || $REQUEST_URI = /rms-nyu-2001-transcript/ || $REQUEST_URI = /essays-and-articles/" -->
+  <li id="tabPhilosophy" class="active">
+    <!--#echo encoding="none" var="MARK_START" -->
+    <a href="philosophy.html">Philosophie</a>
+    <span class="gnun-split"></span>
+    <!--#echo encoding="none" var="MARK_END" -->
+  </li>
+<!--#else -->
+  <li id="tabPhilosophy"><a href="philosophy.html">Philosophie</a></li>
+<!--#endif -->
+<!--#if expr="$REQUEST_URI = /\/license/ || $REQUEST_URI = /^\/copyleft\//" -->
+  <li id="tabLicenses" class="active">
+    <!--#echo encoding="none" var="MARK_START" -->
+    <a href="/licenses/licenses.html">Licences</a>
+    <span class="gnun-split"></span>
+    <!--#echo encoding="none" var="MARK_END" -->
+  </li>
+<!--#else -->
   <li id="tabLicenses"><a href="/licenses/licenses.html">Licences</a></li>
-  <li class="active" id="tabEducation"><a href="education.html">Éducation</a></li>
-  <li id="tabSoftware"><a href="/software/software.html">Logiciel</a></li>
+<!--#endif -->
+<!--#if expr="$REQUEST_URI = /\/edu/" -->
+  <li id="tabEducation" class="active">
+    <!--#echo encoding="none" var="MARK_START" -->
+    <a href="education.html">Éducation</a>
+    <span class="gnun-split"></span>
+    <!--#echo encoding="none" var="MARK_END" -->
+  </li>
+<!--#else -->
+  <li id="tabEducation"><a href="education.html">Éducation</a></li>
+<!--#endif -->
+<!--#if expr="$REQUEST_URI = /\/software/ || $REQUEST_URI = /\/gethelp/" -->
+  <li id="tabSoftware" class="active">
+    <!--#echo encoding="none" var="MARK_START" -->
+    <a href="software.html">Logiciels</a>
+    <span class="gnun-split"></span>
+    <!--#echo encoding="none" var="MARK_END" -->
+  </li>
+<!--#else -->
+  <li id="tabSoftware"><a href="software.html">Logiciels</a></li>
+<!--#endif -->
+<!--#if expr="$REQUEST_URI = /^\/doc\// || $REQUEST_URI = /^\/manual\// || $REQUEST_URI = /books/" -->
+  <li id="tabDoc" class="active">
+    <!--#echo encoding="none" var="MARK_START" -->
+    <a href="/doc/doc.html">Documentation</a>
+    <span class="gnun-split"></span>
+    <!--#echo encoding="none" var="MARK_END" -->
+  </li>
+<!--#else -->
   <li id="tabDoc"><a href="/doc/doc.html">Documentation</a></li>
+<!--#endif -->
+<!--#if expr="$REQUEST_URI = /\/help/" -->
+  <li id="tabHelp" class="active">
+    <!--#echo encoding="none" var="MARK_START" -->
+    <a href="/help/help.html">Aidez GNU</a>
+    <span class="gnun-split"></span>
+    <!--#echo encoding="none" var="MARK_END" -->
+  </li>
+<!--#else -->
   <li id="tabHelp"><a href="/help/help.html">Aidez GNU</a></li>
+<!--#endif -->
  </ul>
 </div><!--  /navigation -->
 
-<!-- end of server/body-include-2.fr.html -->
+<!--#include virtual="/server/staging/nav-bar/test9/page-tags.html" -->
 
+<!-- end of server/body-include-2 -->
