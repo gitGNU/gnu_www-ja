@@ -20,8 +20,6 @@
 
 use strict;
 
-use encoding "utf-8";
-
 # Provides simple pure perl RSS parsing.
 use XML::RSS::Parser::Lite;
 
@@ -31,7 +29,7 @@ use LWP::Simple;
 # Provides argument handling.
 use Getopt::Long;
 
-my $Version = "1.11";
+my $Version = "1.13";
 my $default_lines = 3;
 my $default_length = 200;
 # GNU Remotecontrol Newsletter doesn't produce meaningful feeds;

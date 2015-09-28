@@ -351,7 +351,6 @@ graphics/gnu-post :=	index
 graphics/umsa :=	umsa
 
 help :=		evaluation \
-		gethelp \
                 gnu-bucks \
                 gnu-bucks-recipients \
 		help \
@@ -638,6 +637,7 @@ proprietary :=       malware-apple \
                      proprietary \
                      proprietary-back-doors \
                      proprietary-censorship \
+                     proprietary-deception \
                      proprietary-drm \
                      proprietary-insecurity \
                      proprietary-interference \
@@ -664,6 +664,7 @@ server/standards :=	README.editors \
 
 software :=	devel \
 		for-windows \
+		gethelp \
 		maintainer-tips \
 		recent-releases \
 		reliability \

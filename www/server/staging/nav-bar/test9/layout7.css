@@ -50,9 +50,9 @@ Text
    #971611  red from GNU banner: .button link, #join-fsf
 
 Backgrounds
-   white    #inner, navbar li.active
+   white    body, #header, (edu-)navigation .active
    #f0f2f4  light bluish gray: #translations p, .emph-box, #outdated,
-            .listing, #footer, .toc
+            .listing, #footer, .toc, .summary
    #e7e9eb  html, .button, .lyrics, #join-fsf, submit
    #d1d4d7  #edu-navbar, #fsf-links, #searcher + #translations
    #ddd     gray (looks purplish): #gpl-compat-matrix
@@ -63,9 +63,7 @@ Backgrounds
    #ff3     yellow: #urgent
    #a50606  intermediate red from #fs-gang gradient: #navigation
             [#fs-gang gradient: #820202-#f71111]
-   #5b6a96-#c9cccf:  #body gradient
-   #5b6a96  fallback from gradient (intermediate between banner blue and
-            #c9cccf)
+   #820202-#f71111: #fs-gang gradient
 
 Borders
    black, #111, #333, #666: tables
@@ -92,6 +90,7 @@ Black-gray
    #333         #c9cccf         7.83          459
    #404040      #d1d4d7         6.97          444
    #555         white           7.46          510
+   #333         #666            2.2           153
 
 Red from GNU banner
    #971611      white           8.61          704
@@ -130,7 +129,7 @@ Purple links
 */
 
 
-/*** GENERAL SETTINGS ***/
+/*** SCREEN LAYOUT ***/
 
 html, body {
    font-size: 1em;
@@ -157,8 +156,36 @@ body {
    -o-box-shadow: 0 0 10px 10px #b9bcbf;
    box-shadow: 0 0 10px 10px #b9bcbf;
 }
+
+
+/*** MAIN DIVS ***/
+
+/* Width (class inner throughout the page) */
 .inner { margin: 0 3%; }
 
+#searcher, #translations, #header, #footer,
+ #navigation, ul#edu-navigation, #fsf-links {
+   margin-left: -3.2%; margin-right: -3.2%;
+}
+#searcher, #translations, #header, #footer {
+   padding-left: 3.2%; padding-right: 3.2%;
+}
+#navigation, ul#edu-navigation, #fsf-links {
+   padding-left: .3em; padding-right: .3em;
+}
+
+/* Background */
+#searcher, #edu-navigation, #fsf-links { background-color: #c9cccf; }
+#translations, #footer { background-color: #f0f2f4; }
+#header { background-color: white; }
+#navigation { background-color: #a50606; }
+
+/* Font */
+#searcher, #toplinks, #translations, #header, #navigation, #edu-navigation,
+ #fsf-links { font-family: "FreeSans", sans-serif; }
+
+
+/*** GENERAL SETTINGS ***/
 
 a[href] { color: #005090; }
 a[href]:visited { color: #100070; }
@@ -183,6 +210,10 @@ dd { margin-bottom: 2em; }
    from subsequent <p> */
 dd p { margin-top: 1em; }
 
+pre { overflow: auto; }
+
+
+/*** CLASSES ***/
 
 .center, .c { text-align: center; }
 #content .nocenter{ text-align: left; }
@@ -199,14 +230,40 @@ dd p { margin-top: 1em; }
 
 .netscape4, .no-display { display: none !important; }
 
-.rounded-corners {
+.button a, .button a:visited {
+   color: #971611;
+   text-decoration: none;
+}
+.button a:hover {
+   color: #777;
+}
+.large a {
+   display: inline-block;
+   font-family: "FreeSans", sans-serif;
+   font-size: 1.6em;
+   line-height: 1.3em;
+   padding: .1em .4em;
+   background-color: #e7e9eb;
+   border: .4em solid #c9cccf;
+}
+.small {
+   font-size: 1.6em;
+   background-color: #e7e9eb;
+}
+
+/*** SPECIAL FEATURES ***/
+
+#searcher input[type="text"], #searcher input[type="submit"],
+ #fssbox input[type="text"],
+ #navigation li.active, #edu-navigation li.active {
    border-radius: .4em;
    -moz-border-radius: .4em;
    -khtml-border-radius: .4em;
    -webkit-border-radius: .4em;
    -opera-border-radius: .4em;
 }
-.button-shadow {
+#join-fsf a, #join-fsf a:visited, .button a, .button a:visited,
+ #fssbox input[type="submit"] {
    box-shadow: 0 .15em #171d33;
    -moz-box-shadow: 0 .15em #171d33;
    -webkit-box-shadow: 0 .15em #171d33;
@@ -224,28 +281,27 @@ dd p { margin-top: 1em; }
 
 #toplinks {
    float: left;
-   font-family: "FreeSans", sans-serif;
-   font-weight: bold;
-   padding: .54em 0 .36em 0;
+   padding: .5em 0 .4em 0;
    margin: 0;
 }
-#toplinks a, #toplinks a:visited {
+
+#toplinks a, #toplinks a:visited,
+ #home-icon a, #home-icon a:visited {
    white-space: nowrap;
    /* the next line is a workaround for Midori 0.5.8 */
    display: inline-block;
+   font-weight: bold;
    font-size: .9em;
    color: #404040; text-decoration: none;
    margin-right: 1em;
 }
-#toplinks a:hover { color: #777; }
+#toplinks a:hover, #home-icon a:hover { color: #777; }
 
 #searcher {
    display: block;
    text-align: right;
    font-weight: bold;
-   padding: .3em 3.2%;
-   margin: 0 -3.2%;
-   background-color: #d1d4d7;
+   padding-top: .3em; padding-bottom: .3em;
 }
 #searcher input {
    font-family: "FreeSans", sans-serif;
@@ -280,18 +336,13 @@ dd p { margin-top: 1em; }
 #translations {
    clear: both;
    text-align: left;
-   font-family: "FreeSans", sans-serif;
    line-height: 1.3em;
-   margin: 0 -3.2%;
-   padding: 0 3.2%;
-   background-color: #f0f2f4;
    border-bottom: .3em solid #d1d4d7;
 }
 #translations p {
    font-size: .8em;
    padding: .2em 0;
    margin: 0;
-   background-color: #f0f2f4;
 }
 #translations span {
    white-space: nowrap;
@@ -317,10 +368,6 @@ dd p { margin-top: 1em; }
 
 /*** HEADER ***/
 
-#header {
-   font-family: "FreeSans", sans-serif;
-   background-color: white;
-}
 #header:after {
    clear: both; content: ""; display: block;
    height: 0px; visibility: hidden; width: 0px;
@@ -340,20 +387,16 @@ dd p { margin-top: 1em; }
    font-weight: bold;
    text-decoration: none;
 }
-#fsf-frame a:hover { color: #777; }
 #fsf-frame p { padding: 0; margin: 0; }
 #fsf-frame hr { display: none; }
 
-#join-fsf {
-   padding: .4em 0;
-}
+#join-fsf { padding: .4em 0; }
 #join-fsf a, #join-fsf a:visited {
    padding: .3em 1em;
    color: #971611;
    background: #e7e9eb;
    border: .1em solid #999;
 }
-
 #fssbox {
    padding: 0;
    margin-top: 1.3em;
@@ -390,6 +433,7 @@ dd p { margin-top: 1em; }
 #fssbox input[type="text"]:focus + input[type="submit"] {
    border: .1em solid #334683;
 }
+#fsf-frame a:hover { color: #777; }
 
 /* Try to optimize #fsf-frame for narrow screens. */
 @media (max-width: 55em) {
@@ -398,6 +442,7 @@ dd p { margin-top: 1em; }
    #fsf-frame #fssbox { float: right; padding-top: .8em; margin: 0; }
    #fsf-frame #join-fsf { float: left; padding: 1.2em 0 .5em 0; margin-left: 2em; }
 }
+@media (max-width: 35em) { #fsf-frame { display: none; }}
 
 #gnu-banner {
    font-size: 1.8em;
@@ -459,43 +504,47 @@ dd p { margin-top: 1em; }
 }
 
 
-/*** NAVIGATION BAR ***/
+/*** NAVIGATION BARS ***/
 
-#navigation {
+#navigation, #fsf-links {
    clear: both;
-   font-family: "FreeSans", sans-serif;
-   margin: 0 -3.2%;
-   padding: .3em;
-   background-color: #a50606;
 }
+#fsf-links { margin-top: 2.5em; }
 
-#navigation:after {
-   clear: both; content: ""; display: block;
-   height: 0px; visibility: hidden; width: 0px;
-}
-#navigation ul {
+#navigation ul, #fsf-links ul { margin: 0; }
+ul#edu-navigation { margin-top: 0; margin-bottom: 0; }
+
+#navigation ul, #fsf-links ul, ul#edu-navigation {
    text-align: center;
-   font-size: 0.9em;
-   line-height: 1.8em;
-   padding: 0;
-   margin: 0;
-   background-color: #a50606;
+   padding: .2em;
 }
-#navigation li {
-   display: inline; white-space: nowrap;
-   padding: 0;
-}
-#navigation li a, #navigation li a:visited {
+#navigation li, ul#edu-navigation li, #fsf-links li {
+   display: inline-block;
    font-weight: bold;
-   padding: .3em .5em;
-   color: white; text-decoration: none;
+   line-height: 1.7em;
+   margin: 0;
 }
-#navigation li.active a {
-   color: #333;
+#navigation li a, ul#edu-navigation li a, #fsf-links li a {
+   padding: .3em .5em;
+   text-decoration: none;
+}
+#navigation li a, #navigation li a:visited { color: white; }
+#edu-navigation li a, ul#edu-navigation li a:visited,
+ #fsf-links li a, #fsf-links li a:visited { color: #222; }
+#navigation li a:hover, ul#edu-navigation li a:hover,
+ #fsf-links li a:hover { text-decoration: underline; }
+
+#navigation li.active, #edu-navigation li.active {
    background-color: white;
 }
-#navigation li a:hover {
-   text-decoration: underline;
+#navigation li.active, ul#edu-navigation li.active {
+   border: .1em solid #999;
+}
+#navigation li.active a, #edu-navigation li.active a { color: #333; }
+
+@media (max-width: 50em) {
+   #navigation ul, ul#edu-navigation li,
+    #fsf-links ul { font-size: .9em; } 
 }
 
 
@@ -506,7 +555,6 @@ div.page-tags {
    line-height: 1.7em; padding: 0;
    margin-top: .7em;
 }
-
 div.page-tags a, div.page-tags a:visited {
    padding: 0 .4em;
    line-height: 1.5em;
@@ -514,7 +562,7 @@ div.page-tags a, div.page-tags a:visited {
    background: #f0f2f4;
    margin-bottom: 1em;
 }
-div.page-tags a:hover { color: #666; }
+div.page-tags a:hover { color: #777; }
 
 
 /*** CONTENT ***/
@@ -527,7 +575,6 @@ div.page-tags a:hover { color: #666; }
    padding: 0;
    margin: 1em 0;
    color: #334683; text-shadow: #999 1px 1px 0;
-   
 }
 #content h1 { font-size: 2.4em; }
 #content h2 { font-size: 2em; }
@@ -536,17 +583,15 @@ div.page-tags a:hover { color: #666; }
 }
 #content h3 { font-size: 1.6em; color: #333; margin: 1.2em 0 .7em 0; }
 #content h4 { font-size: 1.3em; color: #333; margin-bottom: .6em; }
-#content h5 { font-size: 1.1em; margin-bottom: .9em; }
+#content h5 { font-size: 1.1em; margin-bottom: .7em; }
 #content h6 { font-size: 1em; }
-#content ul li, #fsf-campaigns ul li {
-   list-style: square; line-height: 1.4em;
-}
+#content ul li, #fsf-campaigns ul li { list-style: square; }
 #content ol {
-  list-style: decimal; margin-left: 1.9em; margin-right: 1.9em;
+   list-style: decimal; margin-left: 1em; margin-right: 1em;
 }
-#content li, #fsf-campaigns li, #content dd, #content p, #content pre,
-   #content dt, #content code, #content address { line-height: 1.3em; }
-#content li { margin-top: .1em; }
+#content li, #fsf-campaigns li { line-height: 1.4em; margin-top: .2em; }
+#content dd, #content p, #content pre, #content dt,
+ #content code, #content address { line-height: 1.3em; }
 
 #content h3 a[href]:visited, #content h4 a[href]:visited { color: #334683; }
 #content h3 a[href]:hover, #content h4 a[href]:hover { color: #777; }
@@ -558,49 +603,19 @@ div.page-tags a:hover { color: #666; }
    text-align: right;
    font-weight: bold;
    line-height: 1.5em;
-   padding: .4em 2%;
+   padding: 0 2%;
+   margin-top: 2em;
 }
 #content p.back a, .back a:visited { color: #333; }
 #content p.back a:hover { color: #777; }
 
 
-/*** ADDITIONAL LINKS ***/
-
-#fsf-links {
-   clear: both;
-   font-family: "FreeSans", sans-serif;
-   margin: 0 -3.2%;
-   padding: .3em ;
-   background-color: #d1d4d7;
-   margin-top: 2.5em;
-}
-#fsf-links ul {
-   text-align: center;
-   font-size: .9em;
-   line-height: 1.8em;
-   margin: 0;
-   background-color: #d1d4d7;
-}
-#fsf-links li {
-   display: inline; white-space: nowrap;
-   list-style: none;
-   padding: 0;
-}
-#fsf-links li a, #fsf-links li a:visited {
-   font-weight: bold;
-   padding: .3em .5em;
-   color: #222; text-decoration: none;
-}
-#fsf-links li a:hover {
-   text-decoration: underline;
-}
-
-
 /*** FSF STUFF ***/
+
+#mission-statement { margin: 2em 0 1em 0; }
 
 #mission-statement {
    font-size: 0.9em;
-   margin: 2em 0 1em 0;
 }
 #mission-statement blockquote {
    font-weight: bold;
@@ -630,10 +645,9 @@ div.page-tags a:hover { color: #666; }
 
 #footer {
    clear: both;
-   margin: 1em -3.2%;
-   padding: 1em 3.2%;
    color: #333;
-   background-color: #f0f2f4;
+   padding-top: 1em; padding-bottom: 1em;
+   margin-bottom: 1em; 
    border-top: 1px solid #c9cccf;
 }
 #footer p { font-size: .9em; margin-bottom: 0; }
@@ -651,7 +665,6 @@ div.page-tags a:hover { color: #666; }
    clear: both; content: ""; display: block;
    height: 0px; visibility: hidden; width: 0px;
 }
-
 #home .first-column {
    width: 60%;
    float: left;
@@ -678,50 +691,28 @@ div.page-tags a:hover { color: #666; }
 #home .button {
    text-align: center;
    font-weight: bold;
-   margin-top: 2em; margin-bottom: 2.3em;
+   margin-top: 2em; margin-bottom: 2.5em;
 }
-.button a, .button a:visited {
-   color: #971611;
-   text-decoration: none;
+#home .emph-box {
+   padding-bottom: .7em;
+   border-top-left-radius: 2em;
+   border-top-right-radius: 2em;
+   -moz-border-top-left-radius: 2em;
+   -moz-border-top-right-radius: 2em;
+   -khtml-border-top-left-radius: 2em;
+   -khtml-border-top-right-radius: 2em;
+   -webkit-border-top-left-radius: 2em;
+   -webkit-border-top-right-radius: 2em;
+   -opera-border-top-left-radius: 2em;
+   -opera-border-top-right-radius: 2em;
 }
-.button a:hover {
-   color: #777;
-}
-.large a {
-   display: inline-block;
-   font-family: "FreeSans", sans-serif;
-   font-size: 1.6em;
-   line-height: 1.3em;
-   padding: .1em .4em;
-   background-color: #e7e9eb;
-   border: .4em solid #c9cccf;
-}
-.small {
-   font-size: 1.6em;
-   background-color: #e7e9eb;
-}
-
-.emph-box {
-   padding: 1em; padding-top: 0;
-   margin-bottom: 2.5em;
-   background-color: #f0f2f4;
-   border: 1px solid #c9cccf;
-}
-.emph-box p { font-size: .9em }
-#content .emph-box h4 {
-   text-align: center;
-   font-size: 1.5em;
-}
+#home .emph-box p { font-size: .9em; }
 
 #Action {
    text-align: left;
    padding: 0 1em;
-   margin-bottom: 2.5em;
+   margin: 2.5em 0;
    border-left: .4em solid #b9bcbf; border-right: .4em solid #b9bcbf;
-}
-
-h2#Action {
-   text-align: center;
 }
 #Action h2 {
    float: none;
@@ -736,7 +727,8 @@ h2#Action {
       float: none; width: 100%; }
 }
 
-/*** HIGHLIGHTED STUFF ***/
+
+/*** HIGHLIGHTED STUFF AND INSETS ***/
 
 .highlight, .highlight-para {
    clear: both;
@@ -752,6 +744,16 @@ h2#Action {
    padding: 0 1.2em;
    background-color: #ffc;
    border: 2px solid #b9bcbf;
+}
+
+.emph-box {
+   padding: 0 1em;
+   background-color: #f0f2f4;
+   border: 1px solid #c9cccf;
+}
+#content .emph-box h4 {
+   text-align: center;
+   font-size: 1.5em;
 }
 
 
@@ -791,7 +793,7 @@ h2#Action {
    float: right;
    text-align: center;
    font-style: normal;
-   width: 20em; max-width: 90%;
+   max-width: 20em;
    padding: 0;
    margin: .3em 0 1em 1.5em;
    border: .3em solid #3465a4;
@@ -799,12 +801,12 @@ h2#Action {
 #content .note p {
    font-size: 1.1em;
    line-height: 1.4em;
-   padding: 0 1em;
+   padding: 0 1em ;
    margin: 1em 0;
 }
 #content .note strong { font-size: 1.2em; }
-@media (max-width: 46em) {
-   #content .note { float: none; margin: .3em auto 1em auto; }
+@media (max-width: 45em) {
+   #content .note { float: none; margin: auto; }
 }
 
 /* For the note about Free Software Free Society */
@@ -822,6 +824,9 @@ h2#Action {
 #content div.summary a, #content div.toc a {
    text-decoration: none;
 }
+#content div.summary a:hover, #content div.toc a:hover {
+   color: black; text-decoration: underline;
+}
 #content div.summary strong, #content div.toc strong {
    display: block; padding-top: .5em;
 }
@@ -838,10 +843,13 @@ h2#Action {
    clear: right;
    float: right;
    max-width: 20em;
-   margin: .3em 0 1em 1.5em;
+   margin: .3em 0 1.5em 1.5em;
 }
 @media (max-width: 46em) {
-   #content div.summary { float: none; margin: auto; max-width: 25em; }
+   #content div.summary {
+      float: none; max-width: 25em;
+      margin: auto;  margin-top: 2.5em;
+   }
 }
 
 /* Big tables of contents */
@@ -858,7 +866,7 @@ h2#Action {
    text-align: center;
    font-weight: bold;
    font-style: italic;
-   margin: 1em;
+   margin: 1em; margin-bottom: 0;
 }
 #content .trans-disclaimer a,
 #content .trans-disclaimer a:visited { color: #333; }
@@ -868,9 +876,12 @@ h2#Action {
 #outdated {
    text-align: center;
    padding: .7em 3%;
-   margin: 1em 5%;
+   margin-top: 1.5em;
    background-color: #f0f2f4;
-   border: 1px solid #d1d4d7;
+   border-left: 1em solid #b9bcbf;
+   border-right: 1em solid #b9bcbf;
+   border-top: 1px solid #b9bcbf;
+   border-bottom: 1px solid #b9bcbf;
    border-radius: 3em;
    -moz-border-radius: 3em;
    -khtml-border-radius: 3em;
@@ -887,42 +898,20 @@ h2#Action {
 #outdated a:hover { color: #777; }
 
 /* For translators notes */
-#content .translators-notes { clear: both; font-size: .9em; }
-#content .translators-notes hr { margin-top: 1.65em; }
+#content .translators-notes {
+   clear: both;
+   font-size: .9em; margin-top: 2.2em;
+}
+#content .translators-notes hr {
+   width: 20em;
+   text-align: left; margin-left: 0 !important;
+}
 
 
 /*** EDUCATION ***/
 
 /* definitions for /education-specific navigation bar
    and breadcrumbs for education */
-#edu-navigation {
-   clear: both;
-   font-family: "FreeSans", sans-serif;
-   background-color: #d1d4d7;
-}
-ul#edu-navigation {
-   text-align: center;
-   font-size: .9em; font-weight: bold;
-   line-height: 1.8em;
-   padding: 0;
-   margin: 0 -3.2%;
-}
-#edu-navigation li {
-   display: inline; white-space: nowrap;
-   list-style-type: none;
-   padding: 0;
-}
-#edu-navigation li a, #edu-navigation li a:visited {
-   padding: .3em .45em .35em .45em;
-   color: #222; text-decoration: none;
-}
-#edu-navigation li.active a {
-   background-color: white;
-}
-#edu-navigation li a:hover,
-#edu-navigation li.active a:hover {
-   text-decoration: underline;
-}
 #content .edu-breadcrumb {
    font-family: "FreeSans", sans-serif;
    font-weight: bold;
@@ -962,13 +951,13 @@ div.edu-cases {
 /* For images in the Education section (and elsewhere?) */
 #content .photo {
    float: right;
-   width: 30em; max-width: 100%;
+   width: 27em; max-width: 100%;
    margin: .3em 0 1em 1.5em;
 }
-#content .photo img { width: 100% }
+#content .photo img { width: 100%; }
 
-@media (max-width: 55em) {
-   #content .photo { float: none; margin: auto }
+@media (max-width: 50em) {
+   #content .photo { float: none; margin: auto; }
 }
 
 /* End items specific to education */
