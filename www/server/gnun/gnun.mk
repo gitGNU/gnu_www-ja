@@ -79,7 +79,6 @@ ALL_DIRS :=	accessibility \
 		award/2003 \
 		bulletins \
 		contact \
-		copyleft \
 		distros \
 		doc \
 		education \
@@ -147,8 +146,6 @@ bulletins :=	bulletins \
 
 contact :=	contact \
 		gnu-advisory
-
-copyleft :=	copyleft
 
 distros :=	common-distros \
 		distros \
@@ -361,6 +358,7 @@ licenses :=	200104_seminar \
 		210104_seminar \
 		agpl-3.0 \
 		autoconf-exception-3.0 \
+		copyleft \
 		exceptions \
 		fdl-1.3 \
 		fdl-1.3-faq \
@@ -437,6 +435,7 @@ philosophy := 	15-years-of-free-software \
 		assigning-copyright \
 		basic-freedoms \
 		bdk \
+		bill-gates-and-other-communists \
 		boldrin-levine \
 		bsd \
 		bug-nobody-allowed-to-understand \

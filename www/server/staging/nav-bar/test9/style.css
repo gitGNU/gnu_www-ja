@@ -1,6 +1,6 @@
 /* this stylesheet is used by older resources, as well as manuals. */
 
-@import url('combo.css');
+@import url('/combo.css');
 @import url('layout7.css');
 
 /* some very basic styling for the pages that still use this. */
@@ -8,12 +8,7 @@ body { margin: auto; width: 99%; max-width:74.92em; padding-bottom: 1em; }
 
 /* For pages which don't use #null-wrapper or .inner (Emacs manual,
    for example) */
-body h2, body h3, body h4, body h5, body p {
-   margin-left: 1.5%; margin-right: 1.5%;
-}
-body ul, body ol, body dl, body blockquote {
-   padding-left: 1.5%; padding-right: 1.5%;
-}
+h2, h3, h4, h5, p, ul, ol, dl, blockquote { padding-left: 3%; padding-right: 3%; }
 
 /* Specifically for sections of the Emacs manual which start at the top
    of the page. */
@@ -22,11 +17,36 @@ div.node { border-top: 1em solid white; }
 /* This restores the normal margin for pages which use #null-wrapper
    or .inner. */
 #null-wrapper h2, #null-wrapper h3, #null-wrapper h4, #null-wrapper h5,
-#null-wrapper p, .inner h2, .inner h3, .inner h4, .inner h5, .inner p,
-#null-wrapper #content div.inner { margin-left: 0; margin-right: 0; }
-
-/* For pages which don't use .inner for all divs.*/
-#searcher, #navigation, #footer, #translations {
-    margin-left: 0; margin-right: 0;
+ #null-wrapper p, .inner h2, .inner h3, .inner h4, .inner h5, .inner p {
+   padding-left: 0; padding-right: 0;
 }
-#toplinks { margin-left: 2.2em; }
+
+/* For audio-video.gnu.org and other old-style pages. */
+#logo {
+   background:url(/graphics/topbanner.png) no-repeat;
+   float: left;
+   padding:0; margin:0; border:0;
+}
+#logo a {
+   display:block; overflow:hidden;
+   width:550px;
+   height:0px;
+   text-decoration:none;
+   padding:0; padding-top:101px;
+   margin:0; border:0;
+   cursor:pointer;
+}
+img { width: 30em; max-width: 100%; }
+
+/* No indentation of #content. Long lines because of the sitemap in audio-video. */
+#content { padding: 0 1.5% }
+
+/* Tweak for the last paragraph in audio-video (Check out other FSF campaigns) */
+body div.inner h2 { margin-left: 1.5%; }
+#fsf-links { margin-top: 0; }
+body div.inner ul { margin-bottom: 1.5em; margin-left: 1.41%; }
+body div#content ul { margin-left: 0; }
+
+/* The translation list is at the bottom, and usually empty. No need for a border. */
+body div#translations { border: none; }
+
