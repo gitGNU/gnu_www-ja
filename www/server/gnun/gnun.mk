@@ -662,11 +662,13 @@ server/standards :=	README.editors \
 			webmaster-quiz
 
 software :=	devel \
+		for-ios \
 		for-windows \
 		gethelp \
 		maintainer-tips \
 		recent-releases \
 		reliability \
+		repo-criteria \
 		software \
 		year2000 \
 		year2000-list

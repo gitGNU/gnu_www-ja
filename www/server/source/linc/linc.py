@@ -20,7 +20,7 @@
 
 from __future__ import print_function
 
-LINC_VERSION = 'LINC 0.23'
+LINC_VERSION = 'LINC 0.24'
 USAGE = \
 '''Usage: %prog [options] [BASE_DIRECTORY]
 Check links in HTML files from BASE_DIRECTORY.'''
@@ -101,8 +101,7 @@ FTP_LINK_REGEXP = 'ftp://(?P<hostname>[^/:]+)(:(?P<port>[0-9]+))?'
 HTTP_VERSION_HEADER = '(^|\r\n)HTTP/1\.[01] '
 # What to treat as a HTTP error header.
 HTTP_ERROR_HEADER = HTTP_VERSION_HEADER + '(?P<http_error_code>[45][0-9][0-9]) '
-HTTP_FORWARD_HEADER = HTTP_VERSION_HEADER \
-  + '(301 Moved Permanently|302 Found)(\r\n|$)'
+HTTP_FORWARD_HEADER = HTTP_VERSION_HEADER + '30[01237] '
 HTTP_LINK_REGEXP = \
   'http(s?)://(?P<hostname>[^/:]+)(:(?P<port>[0-9]+))?(?P<resource>/[^#]*)?'
 HTTP_NEW_LOCATION_HEADER = '(^|\r\n)Location: (?P<new_location>.+)(\r\n|$)'
@@ -213,7 +212,7 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 
 	req = 'GET ' + resource + ' HTTP/1.1\r\nHost: ' \
 	      + hostname + '\r\n'  + ADDITIONAL_HTTP_HEADERS + '\r\n'
-	socketfd.send (req.encode('utf-8'))
+	socketfd.send (req.encode('iso-8859-1'))
 
 	webpage = socket_read (socketfd)
 	socketfd.close()
@@ -236,7 +235,7 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 		report (1, 'No HTTP version found in header')
 		verb_level = 1
 	report (verb_level, 'Header for ' + link + ': - - -')
-	report (verb_level, header)
+	report (verb_level, header.encode('iso-8859-1'))
 	report (verb_level, '- - - - - - -')
 	match = re.search (HTTP_ERROR_HEADER, header)
 	if match:
@@ -284,11 +283,11 @@ def is_inside_comment(head):
 # links to the translations; instead, the translators should maintain
 # URLs in sync with the originals.
 def load_symlinks(root, directory, path):
-	report(1, 'Found symlinks file `' + path + "'.")
+	report(1, 'Found symlink file `' + path + "'.")
 	try:
 		f = open(os.path.join(root, path), 'r')
 	except IOError:
-		report(-3, "Failed to read symlinks file `" + path + "'.")
+		report(-3, "Failed to read symlink file `" + path + "'.")
 		return
 	lines = f.read().splitlines()
 	f.close()
@@ -447,7 +446,8 @@ def get_symlink_target(root, directory, destination, depth = 0):
 			return get_symlink_target(root, new_dir,
 						  symlinks[new_dir][dest]['dest'],
 						  depth + 1)
-	report(-2, 'Blind symlink found.')
+	report(-2, 'Blind symlink (' + directory + \
+               ') -> ' + destination + ' found.')
 	if WICKED > 1:
 		print ('Aborting due to a blind symlink.')
 		exit(1)
@@ -534,12 +534,12 @@ def load_cache(cache):
 		report(2, "No cache file is loaded.")
 		return {}
 	try:
-		f = open(cache, 'r')
+		f = open(cache, 'rb')
 	except IOError:
 		report(-3, "Failed to read cache file `" + cache + "'.")
 		return {}
 	report(2, "Loading cache file `" + cache +"'.")
-	text = f.read()
+	text = f.read().decode ('iso-8859-1')
 	f.close();
 	retval = {}
 	for link in text.splitlines():
@@ -561,7 +561,7 @@ def save_cache(cache, checked_links):
 		# Links containing a newline are not cached
 		# because newline is used in cache as the separator.
 		if checked_links[link] == None and link.find('\n') == -1:
-			f.write((link + '\n').encode('utf-8'))
+			f.write((link + '\n').encode('iso-8859-1'))
 	f.close()
 
 parser = OptionParser(usage = USAGE, add_help_option = False)
@@ -839,7 +839,7 @@ for i, link_container in enumerate(links_to_check):
 		report_files.append(file_to_write)
 	fd = open(file_to_write, 'ab')
 	fd.write(format_error(link_container['symlink'], filename, \
-				line_number, url, link_error).encode('utf-8'))
+				line_number, url, link_error).encode('iso-8859-1'))
 	fd.close()
 
 report(-1, 'Done!')

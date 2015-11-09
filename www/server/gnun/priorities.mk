@@ -1,4 +1,4 @@
-# Copyright (C) 2014 Free Software Foundation, Inc.
+# Copyright (C) 2015 Free Software Foundation, Inc.
 
 # This file is part of GNUnited Nations.
 
@@ -37,7 +37,7 @@ priority-articles :=	philosophy/free-sw \
 			distros/common-distros
 
 # Second level of priority.
-important-articles :=	copyleft/copyleft \
+important-articles :=	licenses/copyleft \
 			philosophy/pragmatic \
 			philosophy/selling \
 			philosophy/who-does-that-server-really-serve \
@@ -54,8 +54,7 @@ important-articles :=	copyleft/copyleft \
 			philosophy/free-doc
 
 # What to translate.
-important-directories :=	copyleft \
-				distros \
+important-directories :=	distros \
 				education \
 				gnu \
 				licenses \

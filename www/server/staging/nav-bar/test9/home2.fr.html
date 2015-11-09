@@ -16,7 +16,6 @@ partager et d'améliorer les logiciels qu'ils utilisent." />
 
 <style type="text/css" media="screen">
 <!--
-div.inner #content { padding-left: 3%; padding-right: 3%; }
 #home:after {
    clear: both; content: ""; display: block;
    height: 0px; visibility: hidden; width: 0px;
@@ -29,66 +28,60 @@ div.inner #content { padding-left: 3%; padding-right: 3%; }
    width: 37%;
    float: right;
 }
-#home .first-column, #home .second-column {
-   margin: 0;
-}
-
-#home h2 {
+#content div#home h2 {
    text-shadow: none;
-   padding: 0;
    margin-top: .9em; margin-bottom: .6em;
 }
 #home .first-column img {
    width: 100%; max-width: 35em;
-   margin: .5em auto 1em auto;
+   margin: .5em auto 0 auto;
 }
+#home .first-column p.back { margin-bottom: 0; }
 #home .second-column h4 img { height: .75em; width: .75em; }
-
-#home .button {
+.emph-box { margin-top: 2.2em; }
+#home .emph-box h4 {
    text-align: center;
-   font-weight: bold;
-   margin-top: 2em; margin-bottom: 2.5em;
+   font-size: 1.5em;
 }
-#home .emph-box {
-   padding-bottom: 1.7em;
-   border-top-left-radius: 2em;
-   border-top-right-radius: 2em;
-   -moz-border-top-left-radius: 2em;
-   -moz-border-top-right-radius: 2em;
-   -khtml-border-top-left-radius: 2em;
-   -khtml-border-top-right-radius: 2em;
-   -webkit-border-top-left-radius: 2em;
-   -webkit-border-top-right-radius: 2em;
-   -opera-border-top-left-radius: 2em;
-   -opera-border-top-right-radius: 2em;
+.emph-box p { font-size: .9em; }
+#software { font-family: "FreeSans", sans-serif; }
+#software .button { text-align: center; margin: 2em 0; }
+#software .button a, #software .button a:visited {
+   font-size: 1.8em;
+   color: #971611; background-color: white;
 }
-#home .emph-box p { font-size: .9em; }
-
+#software .button a:hover { color: #777; }
+#software small { font-size: 1em; }
 #Action {
    text-align: left;
    padding: 0 1em;
    margin: 2.5em 0;
    border-left: .4em solid #b9bcbf; border-right: .4em solid #b9bcbf;
 }
-#Action h2 {
-   float: none;
+#content div#home #Action h2 {
    text-align: center;
-   padding-top: 0;
    color: #171d33;
 }
 #Action li { margin-bottom: .7em; }
-
+p#backtotop { float: right; margin-top: 2.5em; }
+#sisters { font-size: .9em; margin: 0 3% 2em 3%; }
+-->
+<!--#if expr="$LANGUAGE_SUFFIX = /[.](ar|fa|he)/" -->
+<!--
+#home .first-column {
+   clear: right;
+   float: right;
+}
+#home .second-column, #backtotop { float: left; }
+-->
+<!--#endif -->
+<!--
 @media (max-width: 55em) {
    #home .first-column, #home .second-column {
-      float: none; width: 100%; }
+      float: none; width: 100%;
+   }
 }
-#content .emph-box h4 {
-   text-align: center;
-   font-size: 1.5em;
-}
-#sisters { font-size: .9em; margin: 0 3% 1.5em 3%; }
 -->
-
 </style>
 
 <!--#include virtual="/server/fs-gang-definitions.html" -->
@@ -116,7 +109,7 @@ n'incluant que des logiciels libres. Pour en <a href="#More-GNU">apprendre
 plus sur GNU, voir ci-dessous</a>.</p>
 
 <p class="c"><a href="/distros/screenshot.html"><img
-   src="/graphics/t-desktop-4-fixed.jpg" alt="Copie d'écran de GNU"
+   src="trisquel-medium.jpg" alt="Copie d'écran de GNU"
    /></a></p>
 
 <h2>Qu'est-ce que le mouvement du logiciel libre ?</h2>
@@ -190,15 +183,12 @@ erreur</a>.</p>
 initié en 1990 (avant le début de Linux). Des bénévoles continuent à le
 développer parce que c'est un projet technique intéressant.</p>
 
-<p class="back"><a href="/gnu/gnu.html">More information</a></p>
+<p class="back"><a href="/gnu/gnu.html">Plus d'informations</a>.</p>
 
 </div>
 
 <!-- /first-column -->
 <div class="second-column">
-
-<p class="button c large"><a href="/distros/free-distros.html" class="button-shadow">Try
-GNU/Linux!</a></p>
 
 <div class="emph-box">
 
@@ -210,10 +200,17 @@ href="http://planet.gnu.org/rss20.xml"><img src="/feed-icon-10x10.png" alt="Flux
 et la <a href="/software/recent-releases.html">liste des publications
 récentes de GNU</a>.</p>
 
+<div id="software">
+<p class="button c"><a href="/distros/free-distros.html">Essayer GNU/Linux</a></p>
+
+<p><strong>Today's random package is&hellip;</strong></p>
+
 <!--#include virtual="/server/home-pkgselect.html" -->
 <!--#include virtual="/server/home-pkgblurbs.fr.html" -->
-<p class="back"><a href="/manual/blurbs.html">Short descriptions for all GNU packages</a></p>
-
+<p class="back"><a href="/manual/blurbs.html">Brèves descriptions de tous les logiciels
+GNU</a></p>
+</div>
+<!-- id="software" -->
 </div>
 
 <!-- class="emph-box" -->
@@ -235,8 +232,8 @@ Net">LQDN</abbr></a>.</li>
 
 <li>Soutenez la défense de la neutralité du net en Europe, <a
 href="http://www.savetheinternet.com" title="Net neutrality in the United
-States of America">aux USA</a> et <a href="http://www.neutrality.ca"
-title="Net neutrality in Canada">au Canada</a>.</li>
+States of America">aux USA</a> et <a href="http://saveournet.ca/" title="Net
+neutrality in Canada">au Canada</a>.</li>
 
 <li><strong>Luttez contre les brevets logiciels</strong> <a
 href="http://www.endsoftpatents.org">dans le monde</a> et <a
@@ -259,7 +256,7 @@ remboursement de vos licences Microsoft inutilisées</a>.</li>
 logiciel libre</a>.</li>
 </ul>
 
-<p class="back"><a href="/server/takeaction.html">More action items</a></p>
+<p class="back"><a href="/server/takeaction.html">Toutes les actions</a></p>
 
 </div>
 
@@ -278,7 +275,6 @@ href="/server/takeaction.html#unmaint">paquet GNU non
 maintenu</a> ?</strong>
 
   <a href="/software/halifax/">halifax</a>, <a
-href="/software/jwhois/">jwhois</a>, <a
 href="/software/metahtml/">metahtml</a>, <a
 href="/software/orgadoc/">orgadoc</a>, <a
 href="/software/polyxmass/">polyxmass</a> et <a
@@ -349,7 +345,7 @@ href="mailto:trad-gnu&#64;april.org">trad-gnu&#64;april.org</a></div>
 <p class="unprintable"><!-- timestamp start -->
 Dernière mise à jour :
 
-$Date: 2015/10/08 16:04:53 $
+$Date: 2015/11/02 11:36:34 $
 
 <!-- timestamp end -->
 </p>

@@ -9,7 +9,6 @@
 
 <style type="text/css" media="screen">
 <!--
-div.inner #content { padding-left: 3%; padding-right: 3%; }
 #home:after {
    clear: both; content: ""; display: block;
    height: 0px; visibility: hidden; width: 0px;
@@ -22,64 +21,59 @@ div.inner #content { padding-left: 3%; padding-right: 3%; }
    width: 37%;
    float: right;
 }
-#home .first-column, #home .second-column {
-   margin: 0;
-}
-
-#home h2 {
+#content div#home h2 {
    text-shadow: none;
-   padding: 0;
    margin-top: .9em; margin-bottom: .6em;
 }
 #home .first-column img {
    width: 100%; max-width: 35em;
-   margin: .5em auto 1em auto;
+   margin: .5em auto 0 auto;
 }
+#home .first-column p.back { margin-bottom: 0; }
 #home .second-column h4 img { height: .75em; width: .75em; }
-
-#home .button {
+.emph-box { margin-top: 2.2em; }
+#home .emph-box h4 {
    text-align: center;
-   font-weight: bold;
-   margin-top: 2em; margin-bottom: 2.5em;
+   font-size: 1.5em;
 }
-#home .emph-box {
-   padding-bottom: 1.7em;
-   border-top-left-radius: 2em;
-   border-top-right-radius: 2em;
-   -moz-border-top-left-radius: 2em;
-   -moz-border-top-right-radius: 2em;
-   -khtml-border-top-left-radius: 2em;
-   -khtml-border-top-right-radius: 2em;
-   -webkit-border-top-left-radius: 2em;
-   -webkit-border-top-right-radius: 2em;
-   -opera-border-top-left-radius: 2em;
-   -opera-border-top-right-radius: 2em;
+.emph-box p { font-size: .9em; }
+#software { font-family: "FreeSans", sans-serif; }
+#software .button { text-align: center; margin: 2.5em 0 2em 0; }
+#software .button a, #software .button a:visited {
+   font-size: 1.8em;
+   color: #971611; background-color: white;
 }
-#home .emph-box p { font-size: .9em; }
-
+#software .button a:hover { color: #777; }
+#software small { font-size: 1em; }
 #Action {
    text-align: left;
    padding: 0 1em;
    margin: 2.5em 0;
    border-left: .4em solid #b9bcbf; border-right: .4em solid #b9bcbf;
 }
-#Action h2 {
-   float: none;
+#content div#home #Action h2 {
    text-align: center;
-   padding-top: 0;
    color: #171d33;
 }
 #Action li { margin-bottom: .7em; }
-
+p#backtotop { float: right; margin-top: 2.5em; }
+#sisters { font-size: .9em; margin: 0 3% 2em 3%; }
+-->
+<!--#if expr="$LANGUAGE_SUFFIX = /[.](ar|fa|he)/" -->
+<!--
+#home .first-column {
+   clear: right;
+   float: right;
+}
+#home .second-column, #backtotop { float: left; }
+-->
+<!--#endif -->
+<!--
 @media (max-width: 55em) {
    #home .first-column, #home .second-column {
-      float: none; width: 100%; }
+      float: none; width: 100%;
+   }
 }
-#content .emph-box h4 {
-   text-align: center;
-   font-size: 1.5em;
-}
-#sisters { font-size: .9em; margin: 0 3% 1.5em 3%; }
 -->
 </style>
 <!--#include virtual="/server/fs-gang-definitions.html" -->
@@ -107,7 +101,7 @@ are entirely free software.  <a href="#More-GNU">More about GNU
 below</a>.</p>
 
 <p class="c"><a href="/distros/screenshot.html"><img
-   src="/graphics/t-desktop-4-fixed.jpg" alt="Screenshot of GNU"
+   src="trisquel-medium.jpg" alt="Screenshot of GNU"
    /></a></p>
 
 <h2>What is the Free Software Movement?</h2>
@@ -187,8 +181,6 @@ project.</p>
 
 <div class="second-column">
 
-<p class="button c large"><a href="/distros/free-distros.html" class="button-shadow">Try GNU/Linux!</a></p>
-
 <div class="emph-box">
 
 <h4 id="Flashes"><a href="http://planet.gnu.org/">Planet GNU</a> 
@@ -200,12 +192,17 @@ project.</p>
 and the list of <a href="/software/recent-releases.html">recent GNU
 releases</a>.</p>
 
+<div id="software">
+<p class="button c"><a
+      href="/distros/free-distros.html">Try GNU/Linux!</a></p>
+
+<p><strong>Today's random package is&hellip;</strong></p>
 <!--#include virtual="/server/home-pkgselect.html" -->
 <!--#include virtual="/server/home-pkgblurbs.html" -->
 
-<p class="back"><a href="/manual/blurbs.html">Short descriptions for all GNU
-packages</a></p>
-
+<p class="back"><small><a href="/manual/blurbs.html">Short descriptions for all GNU
+packages</a></small></p>
+</div><!-- id="software" -->
 </div><!-- class="emph-box" -->
 
 <div id="Action">
@@ -217,35 +214,12 @@ packages</a></p>
 <li><strong><a href="http://www.fsf.org/campaigns">Support current FSF
 campaigns</a></strong>.</li>
 
-<li>Defend <a href="http://www.laquadrature.net/en/Privacy">
-privacy</a>, and support <a
-href="http://www.laquadrature.net/en/the-eu-commissions-outrageous-attempt-to-avoid-copyright-reform">
-global copyright reform</a> with <a
-href="http://www.laquadrature.net/en/">LQDN</a>.</li>
-
-<li>Support the efforts on net neutrality in Europe,
-<a href="http://www.savetheinternet.com" title="Net
-neutrality in the United States of America">in the USA</a>
-and <a href="http://www.neutrality.ca" title="Net neutrality in
-Canada">in Canada</a>.</li>
-
-<li><strong>Fight against software patents:</strong>
+<li><strong>Fight software patents</strong>
 <a href="http://www.endsoftpatents.org">worldwide</a>,
-<a href="/server/takeaction.html#swpat">and Europe</a>.</li>
+and elsewhere (rotate, one action at a time).</li>
 
-<li><strong>Watch and share this movie:</strong> <a
-href="http://patentabsurdity.com">Patent Absurdity</a>&mdash;made
-possible by <a href="http://www.fsf.org/associate/">FSF associate
-members</a> like <a href="http://fsf.org/jfb">you</a>.</li>
-
-<li><strong><a href="/server/takeaction.html#wipochange">Call
-on WIPO</a></strong> to change its name and mission.</li>
-
-<li>Students! <a href="http://www.aful.org/communiques/univ-offers-me-windows">
-Claim a refund on your unused Microsoft Windows licences</a>.</li>
-
-<li><a href="/server/takeaction.html#directory">Add to the Free Software
-Directory</a>.</li>
+<li>Defend privacy and net neutrality, oppose surveillance, TAFTA, DRM, etc.,
+worldwide and elsewhere (rotate, one action at a time).</li>
 </ul>
 
 <p class="back"><a href="/server/takeaction.html">More action items</a></p>
@@ -267,7 +241,6 @@ href="/server/takeaction.html#unmaint">unmaintained GNU
 package</a>?</strong>
 <span class="gnun-split"></span>
   <a href="/software/halifax/">halifax</a>,
-  <a href="/software/jwhois/">jwhois</a>,
   <a href="/software/metahtml/">metahtml</a>,
   <a href="/software/orgadoc/">orgadoc</a>,
   <a href="/software/polyxmass/">polyxmass</a>,
@@ -281,6 +254,8 @@ maintainers</a>.  Also, these packages are looking for co-maintainers:
   <a href="/software/powerguru/">powerguru</a><span class="gnun-split"></span>.
 See the package web pages for more information.</p>
 
+<p><strong>Can you help us <a href="/server/takeaction.html#directory"> update the Free Software
+Directory</a>?</strong></p>
 </div><!-- /highlight-para -->
 </div><!-- /second-column -->
 </div><!-- /home -->
@@ -326,7 +301,7 @@ Commons Attribution-NoDerivatives 4.0 International License</a>.</p>
 
 <p class="unprintable">Updated:
 <!-- timestamp start -->
-$Date: 2015/10/08 16:49:45 $
+$Date: 2015/11/03 10:55:58 $
 <!-- timestamp end -->
 </p>
 </div>
