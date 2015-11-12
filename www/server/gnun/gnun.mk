@@ -431,6 +431,7 @@ philosophy := 	15-years-of-free-software \
 		amazon-rms-tim \
 		android-and-users-freedom \
 		anonymous-response \
+		applying-free-sw-criteria \
 		apsl \
 		assigning-copyright \
 		basic-freedoms \

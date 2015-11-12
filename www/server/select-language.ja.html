@@ -10,10 +10,10 @@
 <!--#include virtual="/server/banner.ja.html" -->
 <h2>言語の選択</h2>
 
-<p>訪問者の皆様!
-このページは言語の選択を指定するために提供されます。ブラウザのプリファレンスよりもここでの設定が優先されます。このために、わたしたちはクッキーを設定します。このリストの最初のオプションでそれをリセットすることができます。そしてセッションの終わりにブラウザはそれをリセットするでしょう。</p>
+<p>訪問者の皆様! このページは言語の選択を指定するために提供されます。ブラウザのプリファレンスよりもここでの設定が優先されます。このために、<a
+href="#explanation">わたしたちはクッキーを設定します</a>。このリストの最初のオプションでそれをリセットすることができます。そしてセッションの終わりにブラウザはそれをリセットするでしょう。</p>
 
-<!--#if expr=";$QUERY_STRING; = /;callback=([^;]+);/" -->
+<!--#if expr=";$QUERY_STRING; = /^[^<>]*;callback=([^;<>]+);[^<>]*$/" -->
 <!--#set var="callback" value="$1" -->
 <!--#else -->
 <!--#set var="callback" value="/home.html" -->
@@ -317,6 +317,25 @@
 </a></li>
 </ul>
 
+<h3 id="explanation">どうやってわたしの言語がわかるのですか? わたしたちをスパイしてるのですか?</h3>
+
+  <p>ウェブをブラウズする際、ブラウザは文書のリクエストのヘッダであなたの言語の好みを送信します。これは通常ブラウザの設定で変更できるものです。デンマーク語にローカライズされたブラウザをダウンロードした場合、これはおそらくあらかじめ<code>Accept-Language:
+da</code>を送信するように設定されているでしょう。わたしたちのサーバはこのヘッダに対応して、翻訳がある場合には、要求された言語のページを提供するように構成されています。翻訳がない場合には英語のページが送信されます。</p>
+
+<p>わたしたちは最近「言語の選択」のリンクを各ページに追加し、この(ブラウザの)設定よりも優先させてブラウザのデフォルト設定と異なる言語を「固定」することができるようにしました。たとえば、ブラウザがデンマーク語となっていても、gnu.orgをブラウズするときには<em>英語</em>を選択することができます。この機能はクッキーを使っています。</p>
+
+<p>もしウェブ上でのプライバシが気になる場合には、Torブラウザ・バンドル(TBB)が<a href="https://torproject.org/"
+rel="nofollow">https://torproject.org/</a>から利用可能です。プライバシに関して一般のブラウザよりも多くの改善があるのに加えて、TBBはウィンドウズベースの合衆国の英語のブラウザと見えるように構成されています。</p>
+
+<p>あなたのブラウザの言語設定は、あるサイトや第三者に、あなたの具体的なブラウザを特定させてあなたを広告のターゲットとする、というのは正しいです。Torはこのようなターゲッティングを避けるのにわたくしたちの知るもっとも安全な方法を提供します。そうはいってもGNUプロジェクトはこの方式やほかのいかなるターゲッティングの方式も使いませんし、このオプションの言語指定の例外のほかは、クッキーさえ使いません:
+<strong>ユーザのことを単純に気遣いますが、スパイすることにはなんの関心もありません</strong>。<code>Accept-Language</code>のヘッダはユーザの好みに応じて内容をローカライズするよくある方式です。<a
+href="http://www.w3.org/International/questions/qa-accept-lang-locales"
+rel="nofollow">W3Cでもっと知る</a>ことができます。</p>
+
+<p>わたくしたちは、わたくしたちのサイトを訪ずれるIPアドレスを追跡もしません。そして、サイトそのものもほとんど静的なページで、Javascriptを使いません。GNUプロジェクトとFSFは<a
+href="https://www.fsf.org/about/free-software-foundation-privacy-policy">ユーザのプライバシ</a>に最新の注意を払いますので、どうぞ安心ください。もし、疑念がある場合には、遠慮なく<a
+href="/contact/">わたくしたちに連絡ください</a>。</p>
+
 <div class="translators-notes">
 
 <!--TRANSLATORS: Use space (SPC) as msgstr if you don't have notes.-->
@@ -355,7 +374,7 @@ href="/server/standards/README.translations.html">翻訳 README</a>をご覧く�
 
 <!-- Regarding copyright, in general, standalone pages (as opposed to
      files generated as part of manuals) on the GNU web server should
-     be under CC BY-ND 3.0 US.  Please do NOT change or remove this
+     be under CC BY-ND 4.0.  Please do NOT change or remove this
      without talking with the webmasters or licensing team first.
      Please make sure the copyright date is consistent with the
      document.  For web pages, it is ok to list just the latest year the
@@ -372,8 +391,8 @@ href="/server/standards/README.translations.html">翻訳 README</a>をご覧く�
 <p>Copyright &copy; 2015 Free Software Foundation, Inc.</p>
 
 <p>このページは<a rel="license"
-href="http://creativecommons.org/licenses/by-nd/3.0/us/">Creative Commons
-Attribution-NoDerivs 3.0 United States License</a>の条件で許諾されます。</p>
+href="http://creativecommons.org/licenses/by-nd/4.0/">Creative Commons
+Attribution-NoDerivs 4.0 International License</a>の条件で許諾されます。</p>
 
 <!--#include virtual="/server/bottom-notes.ja.html" -->
 <div class="translators-credits">
@@ -384,7 +403,7 @@ Attribution-NoDerivs 3.0 United States License</a>の条件で許諾されます
 <p class="unprintable"><!-- timestamp start -->
 最終更新:
 
-$Date: 2015/04/02 06:29:23 $
+$Date: 2015/11/12 04:58:18 $
 
 <!-- timestamp end -->
 </p>
