@@ -49,10 +49,10 @@ Text
    #971611  red from GNU banner: .button link, #join-fsf
 
 Backgrounds
-   white    body, #header, (edu-)navigation .active
-   #f0f2f4  light bluish gray: #translations p, .emph-box, #outdated,
-            .listing, #footer, .toc, .summary
-   #e7e9eb  html, .button, .lyrics, #join-fsf, submit
+   white    body, #header, (edu-)navigation .active, .button, .input, submit
+   #f0f2f4  light bluish gray: #translations, .emph-box, #outdated,
+            .listing, #footer, .toc, .summary, .lyrics
+   #e7e9eb  html
    #d1d4d7  #edu-navbar, #fsf-links, #searcher
    #ffc     very pale yellow: .highlight-para, p.highlight
    #fff898  pale yellow: table headers, .highlight
@@ -63,12 +63,12 @@ Backgrounds
 Borders
    black, #111, #333, #666: tables
    #b9bcbf  bluish gray: body, .highlight-para, .announcement, outdated
-   #c9cccf  bluish gray: .emph-box, footer
+   #c9cccf  bluish gray: .emph-box, .lyrics, footer
    #d1d4d7  bluish gray: #translations
    #3465a4  blue (slightly lighter than GNU banner): edu-cases ridges, .note
    #171d33  dark blue from screenshot in home.html: box-shadow behind
             buttons, focused inputs
-   #6989b6  light blue: border for h3 (license-list.html)
+   #6989b6  light blue: .big-section h3
    #999     light gray: .button, #join-fsf, input, submit, .active
 */
 
@@ -197,7 +197,6 @@ body {
 
 #navigation { background-color: #a50606; }
 
-
 /* Fonts */
 
 #searcher, #toplinks, #translations, #header,
@@ -221,7 +220,6 @@ h5, h6, dt { color: #222; }
 
 blockquote { font-style: italic; }
 ul li { list-style: square; }
-form input { font-family: inherit; }
 acronym, abbr { border-bottom: 1px dotted #111; }
 pre { overflow: auto; }
 small { font-size: .9em; }
@@ -286,7 +284,42 @@ div.spacer {
 }
 
 
-/*** BUTTON ***/
+/*** FORMS ***/
+
+form input { font-family: inherit; }
+form input[type="text"] {
+   padding: .2em;
+   margin: 0;
+   color: #555;
+   background: white;
+   border: .1em solid #999;
+}
+form input[type="submit"] {
+   padding: .2em .4em;
+   margin: 0;
+   color: #333;
+   background: white;
+   border: .1em solid #999;
+}
+form input[type="text"]:focus {
+   color: #333;
+   border: .1em solid #334683;
+}
+form input[type="text"]:focus + input[type="submit"] {
+   border: .1em solid #334683;
+}
+form input[type="submit"]:hover {
+cursor: pointer;
+}
+
+
+/*** BUTTONS ***/
+
+.button, #join-fsf {
+   text-align: center;
+   font-weight: bold;
+}
+.button { font-size: 1.3em; }
 
 /* Display the button link as block in CSS1-only
    browsers (they don't support inline-block), */
@@ -299,10 +332,8 @@ div.spacer {
 /* Common definitions (color and background are left
    out because they depend on the environment) */
 .button a, #join-fsf a {
-   font-size: 1.3em;
-   font-weight: bold;
    line-height: 1.2em;
-   padding: .2em .6em;
+   padding: .25em .6em;
    border: .1em solid #999;
 }
 .button a, .button a:visited {
@@ -321,7 +352,7 @@ div.spacer {
    -webkit-border-radius: .4em;
    -opera-border-radius: .4em;
 }
-.button a, #join-fsf a, #fssbox input[type="submit"] {
+.box-shadow, .button a, #join-fsf a, #fssbox input[type="submit"] {
    box-shadow: 0 .15em #171d33;
    -moz-box-shadow: 0 .15em #171d33;
    -webkit-box-shadow: 0 .15em #171d33;
@@ -364,9 +395,8 @@ div#backtotop { margin: 1.5em 5%; }
 div.big-section {
    margin-bottom: .5em;
 }
-#content div.big-section h3 {
+div.big-section h3 {
    display: inline-block;
-   font-size: 1.7em;
    padding: .2em 0;
    margin-right: .3em;
    color: black;
@@ -374,12 +404,13 @@ div.big-section {
    border-bottom: .2em solid #6989b6;
 }
 div.big-subsection { margin: 1.5em 0; }
-#content div.big-subsection h4 {
+div.big-subsection h4 {
    display: inline;
-   font-size: 1.5em;
    margin-right: .3em;
    color: black;
 }
+#content div.big-section h3 { font-size: 1.7em; }
+#content div.big-subsection h4 { font-size: 1.5em; }
 
 
 /*** ANCHOR ***/
@@ -394,18 +425,19 @@ span.anchor-reference-id a[href]:hover { color: #777; }
 
 /*** NON-FLOATING INSETS AND HIGHLIGHTED STUFF ***/
 
-/* .highlight doesn't have a border. It can applied to in-line elements,
+/* .highlight doesn't have a border. It can be applied to in-line elements,
    or next to .summary.
-   .highlight-para and .emph-box have borders. They are used for block
-   elements which are not adjacent to floating stuff. */
+   .highlight-para and .emph-box have borders. They are used for blocks
+   which are not adjacent to floating stuff (unless a margin keeps
+   the right border away from the floating stuff). */
 
 .highlight-para, .emph-box { clear: both; }
-.highlight-para, p.highlight, .emph-box { padding: .3em 1.2em }
+.highlight-para, p.highlight, .emph-box { padding: .4em 1.2em .5em 1.2em; }
 
 .highlight { background-color: #fff898; }
 .highlight-para, p.highlight { background-color: #ffc; }
 .highlight-para { border: 2px solid #b9bcbf; }
-.emph-box {
+.emph-box, .lyrics {
    background-color: #f0f2f4;
    border: 1px solid #c9cccf;
 }
@@ -414,9 +446,7 @@ span.anchor-reference-id a[href]:hover { color: #777; }
    max-width: 25em;
    font-style: italic;
    padding: 2em;
-   margin-left: 2em; margin-right: 2em;
-   background-color: #f0f2f4;
-   border: 2px solid #e7e9eb;
+   margin-left: 3%; margin-right: 3%;
 }
 
 /* Announcements */
@@ -536,18 +566,6 @@ div.toc { max-width: 45em; margin: 2.5em auto 2em auto; }
 
 /*** IMAGES ***/
 
-/* Still in use, but hopefully not for long */
-#content .photo {
-   float: right;
-   width: 30em; max-width: 100%;
-   margin: .3em 0 1em 0;
-}
-#content .photo img, #content .photo p {
-   width: 94%;
-   padding: 0 6%;
-}
-#content .photo img.recessed { width: 90%; }
-
 /* For photo-like images */
 .portrait, .landscape {
    float: right; max-width: 100%;
@@ -562,25 +580,6 @@ div.toc { max-width: 45em; margin: 2.5em auto 2em auto; }
 .landscape { width: 27em; }
 @media (max-width: 51em) {
    .landscape { float: none; margin: auto; }
-}
-
-/* Still used in /s/cgicc/. */
-#gplv3-dogear {
-   position: absolute;
-   top: -1px;
-   left: -1px;
-}
-#gplv3-dogear h3 {margin: 0;}
-#gplv3-dogear a {
-   background-image: url('/graphics/dogear.png');
-   border: 0;
-   display: block;
-   overflow: hidden;
-   height: 0px !important;
-   width: 64px;
-   padding: 0;
-   padding-top: 64px;
-   cursor: pointer;
 }
 
 
@@ -683,29 +682,7 @@ table.listing {
    font-weight: bold;
    padding-top: .3em; padding-bottom: .3em;
 }
-#searcher input { margin: 0; }
-#searcher input[type="text"] {
-   padding: .2em;
-   margin: 0;
-   color: #555;
-   background: white;
-   border: .1em solid #999;
-}
-#searcher input[type="submit"] {
-   padding: .2em .4em;
-   margin: 0;
-   color: #333;
-   background: #e7e9eb;
-   border: .1em solid #999;
-}
-#searcher input[type="text"]:focus {
-   color: #333;
-   border: .1em solid #334683;
-}
-#searcher input[type="text"]:focus + input[type="submit"] {
-   border: .1em solid #334683;
-}
-#searcher input[type="submit"]:hover { cursor: pointer; }
+
 
 
 /*** TRANSLATIONS ***/
@@ -770,7 +747,6 @@ table.listing {
    text-align: center;
    line-height: 1.3em;
    width: auto;
-   padding: 0;
    margin: 1.2em 0 1em 0;
 }
 #fsf-frame a, #fsf-frame a:visited {
@@ -778,7 +754,7 @@ table.listing {
    font-weight: bold;
    text-decoration: none;
 }
-#fsf-frame p { padding: 0; margin: 0; }
+#fsf-frame p { margin: 0; }
 #fsf-frame hr { display: none; }
 
 #join-fsf a, #join-fsf a:visited {
@@ -789,34 +765,10 @@ table.listing {
    padding: 0;
    margin-top: 1.3em;
 }
+#fssbox form p { margin-top: .2em; }
+#fssbox form input { font-weight: bold }
 #fssbox a, #fssbox a:visited {
    color: #334683;
-}
-#fssbox form p { margin-top: .2em; }
-#fssbox input { font-weight: bold; }
-#fssbox input[type="text"] {
-   padding: .2em;
-   margin: 0;
-   color: #555;
-   background: #f0f2f4;
-   border: .1em solid #999;
-}
-#fssbox input[type="submit"] {
-   padding: .2em .4em;
-   margin: 0;
-   color: #333;
-   background: #e7e9eb;
-   border: .1em solid #999;
-}
-#fssbox input[type="text"]:focus {
-   color: #333;
-   border: .1em solid #334683;
-}
-#fssbox input[type="submit"]:hover {
-   cursor: pointer;
-}
-#fssbox input[type="text"]:focus + input[type="submit"] {
-   border: .1em solid #334683;
 }
 #fsf-frame a:hover { color: #777; }
 
@@ -978,7 +930,7 @@ div.page-tags a:hover { color: #777; }
 #footer {
    clear: both;
    color: #333;
-   padding: 1em 3%;
+   padding-top: 1em; padding-bottom: 1em;
    border-top: 1px solid #c9cccf;
 }
 #footer p { font-size: .9em; margin: 0; }
@@ -1068,3 +1020,148 @@ div.edu-cases {
    margin: 1em 0;
 }
 
+
+/****************************************************************/
+/* Nov 2015: remove when the new versions of the pages are online,
+   including translations. */
+
+/* /home.html */
+
+#home:after {
+   clear: both; content: ""; display: block;
+   height: 0px; visibility: hidden; width: 0px;
+}
+#home .first-column {
+   width: 60%;
+   float: left;
+}
+#home .second-column {
+   width: 37%;
+   float: right;
+}
+#content div#home h2 {
+   text-shadow: none;
+   margin-top: .9em; margin-bottom: .6em;
+}
+#home .first-column img {
+   width: 100%; max-width: 35em;
+   margin: .5em auto 0 auto;
+}
+#home .first-column p.back { margin-bottom: 0; }
+#home .second-column h4 img { height: .75em; width: .75em; }
+#home .emph-box { margin-top: 2.2em; }
+#home .emph-box h4 {
+   text-align: center;
+   font-size: 1.5em;
+}
+#home .emph-box p { font-size: .9em; }
+#home .emph-box p small { font-size: 1em; }
+#home .button p {
+   display: inline-block;
+   font-size: 1.3em;
+   padding: 0 .6em;
+   margin: .85em 0 .7em 0;
+   background: white;
+   border: .1em solid #999;
+}
+#home .button a, a:visited {
+   padding: .25em 0;
+   color: #971611;
+   text-decoration: none;
+   border: none;
+   box-shadow: none;
+}
+#home .button a:hover { color: #777; }
+#software { font-family: "FreeSans", sans-serif; }
+#Action {
+   text-align: left;
+   padding: 0 1em;
+   margin: 2.5em 0;
+   border-left: .4em solid #b9bcbf; border-right: .4em solid #b9bcbf;
+}
+#content div#home #Action h2 {
+   text-align: center;
+   color: #171d33;
+}
+#Action li { margin-bottom: .7em; }
+p#backtotop { float: right; margin-top: 1.5em; }
+#sisters { font-size: .9em; margin: 0 3% 2em 3%; }
+@media (max-width: 55em) {
+   #home .first-column, #home .second-column {
+      float: none; width: 100%;
+   }
+}
+
+
+/* /licenses/gpl-faq.html */
+
+#template-diagram {
+   width: 37.5em; max-width: 100%;
+   margin: auto;
+}
+#template-diagram img { width: 100%; }
+
+table#gpl-compat-matrix {
+   display: block;
+   width: 100%;
+   overflow: auto;
+   padding: .1em;
+   margin: auto;
+   border-collapse: collapse;
+}
+table#gpl-compat-matrix td, th.gpl-matrix-border {
+   text-align: center;
+   padding: .3em;
+   margin: 0;
+   border: 1px solid black;
+}
+table#gpl-compat-matrix td.ok { background-color: #ccffcc; }
+table#gpl-compat-matrix td.mok { background-color: #e4ffcc; }
+table#gpl-compat-matrix td.nok { background-color: #dddddd; }
+th.gpl-matrix-license { text-align: right; }
+tr.gpl-matrix-use-type { border-top: 2px solid black; }
+
+
+/* /education/edu-software-tuxpaint.*.html
+              edu-software-gcompris.*.html
+              edu-cases-india-ambedkar.*.html
+              edu-cases-india-irimpanam.*.html
+*/
+
+#content .photo {
+   float: right;
+   width: 30em; max-width: 100%;
+   margin: .3em 0 1em 0;
+}
+#content .photo img, #content .photo p {
+   width: 94%;
+   padding: 0 6%;
+}
+#content .photo img.recessed { width: 90%; }
+
+
+/* /music/music.html */
+
+#content .caption { color: #334683; font-size: 1.5em; margin:0; }
+
+
+/* /s/cgicc/ */
+
+#gplv3-dogear {
+
+   position: absolute;
+   top: -1px;
+   left: -1px;
+}
+#gplv3-dogear h3 {margin: 0;}
+#gplv3-dogear a {
+   background-image: url('/graphics/dogear.png');
+   border: 0;
+   display: block;
+   overflow: hidden;
+   height: 0px !important;
+   width: 64px;
+   padding: 0;
+   padding-top: 64px;
+   cursor: pointer;
+}
