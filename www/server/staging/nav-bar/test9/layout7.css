@@ -126,7 +126,7 @@ Purple links
 */
 
 
-/* MAIN DIVS */
+/*** MAIN DIVS ***/
 
 /*
 From top to bottom:
@@ -142,10 +142,11 @@ From top to bottom:
 */
 
 
+/***********************
+ **  COMMON FEATURES  **
+ ***********************/
 
-/*******************
- **  PAGE LAYOUT  **
- *******************/
+/***  PAGE LAYOUT  ***/
 
 html, body {
    font-size: 1em;
@@ -204,10 +205,7 @@ body {
  #fsf-links { font-family: "FreeSans", sans-serif; }
 
 
-
-/***********************
- **  SIMPLE ELEMENTS  **
- ***********************/
+/***  SIMPLE ELEMENTS  ***/
 
 a[href] { color: #005090; }
 a[href]:visited { color: #100070; }
@@ -260,11 +258,6 @@ address { margin-bottom: 1em; }
 .netscape4, .no-display { display: none; }
 
 
-
-/************************************
- **  MORE COMPLEX BUILDING BLOCKS  **
- ************************************/
-
 /*** SEPARATOR AND SPACER ***/
 
 /* For license-list.html, but could be used elsewhere. */
@@ -316,28 +309,30 @@ cursor: pointer;
 /*** BUTTONS ***/
 
 .button, #join-fsf {
-   text-align: center;
-   font-weight: bold;
-}
-.button { font-size: 1.3em; }
-
-/* Display the button link as block in CSS1-only
-   browsers (they don't support inline-block), */
-.button a, #join-fsf a { display: block; }
-
-/* and as inline-block in CSS2+ browsers. */
-@media print,screen {
-   .button a, #join-fsf a { display: inline-block; }
-}
-/* Common definitions (color and background are left
-   out because they depend on the environment) */
-.button a, #join-fsf a {
    line-height: 1.2em;
-   padding: .25em .6em;
-   border: .1em solid #999;
+   font-weight: bold;
 }
 .button a, .button a:visited {
    text-decoration: none;
+}
+
+/* The large button is defined in home.html.
+   Color and background are left out because they depend
+   on the environment.
+   font-size for #join-fsf is inherited from #fsf-frame. */
+.button.small { font-size: 1.3em; }
+.button.small a, #join-fsf a {
+   padding: .25em .6em;
+   border: .1em solid #999;
+}
+
+/* Display the button link as block in CSS1-only
+   browsers (they don't support inline-block), */
+.button.small a, #join-fsf a { display: block; }
+
+/* and as inline-block in CSS2+ browsers. */
+@media print,screen {
+   .button.small a, #join-fsf a { display: inline-block; }
 }
 
 
@@ -352,7 +347,8 @@ cursor: pointer;
    -webkit-border-radius: .4em;
    -opera-border-radius: .4em;
 }
-.box-shadow, .button a, #join-fsf a, #fssbox input[type="submit"] {
+p.button.large, .button.small a, #join-fsf a,
+ #fssbox input[type="submit"] {
    box-shadow: 0 .15em #171d33;
    -moz-box-shadow: 0 .15em #171d33;
    -webkit-box-shadow: 0 .15em #171d33;
@@ -366,7 +362,7 @@ cursor: pointer;
 }
 
 
-/* RETURN LINKS */
+/*** RETURN LINKS ***/
 
 .back, #backtotop {
    text-align: right;
@@ -387,7 +383,7 @@ p#backtotop {
 div#backtotop { margin: 1.5em 5%; }
 
 
-/* BIG SECTION HEADERS */
+/*** BIG SECTION HEADERS ***/
 
 /* Used in license-list.html and proprietary-surveillance.html,
    but could apply elsewhere. */
@@ -682,7 +678,6 @@ table.listing {
    font-weight: bold;
    padding-top: .3em; padding-bottom: .3em;
 }
-
 
 
 /*** TRANSLATIONS ***/
@@ -1049,30 +1044,30 @@ div.edu-cases {
 }
 #home .first-column p.back { margin-bottom: 0; }
 #home .second-column h4 img { height: .75em; width: .75em; }
-#home .emph-box { margin-top: 2.2em; }
+#home p.button.large {
+   font-size: 1.5em;
+   font-family: "FreeSans", sans-serif;
+   padding: .3em .6em;
+   margin: 1.4em 0 1.6em 0;
+   border: .1em solid #999;
+}
+#home .button a, #home .button a:visited {
+   color: #971611;
+   text-decoration: none;
+}
+#home .button a:hover { color: #777; }
+#home .emph-box { margin-top: 0; }
 #home .emph-box h4 {
    text-align: center;
    font-size: 1.5em;
+   margin-top: .6em;
 }
 #home .emph-box p { font-size: .9em; }
 #home .emph-box p small { font-size: 1em; }
-#home .button p {
-   display: inline-block;
-   font-size: 1.3em;
-   padding: 0 .6em;
-   margin: .85em 0 .7em 0;
-   background: white;
-   border: .1em solid #999;
+#software {
+   font-family: "FreeSans", sans-serif;
+   margin-top: 2.5em;
 }
-#home .button a, a:visited {
-   padding: .25em 0;
-   color: #971611;
-   text-decoration: none;
-   border: none;
-   box-shadow: none;
-}
-#home .button a:hover { color: #777; }
-#software { font-family: "FreeSans", sans-serif; }
 #Action {
    text-align: left;
    padding: 0 1em;
