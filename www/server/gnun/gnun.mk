@@ -279,6 +279,7 @@ graphics :=	3dbabygnutux \
 		avatars \
 		babygnu \
 		bokma-gnu \
+		bold-initiative-GNU-head \
 		BVBN \
 		bwcartoon \
 		copyleft-sticker \
@@ -324,7 +325,9 @@ graphics :=	3dbabygnutux \
 		philosophicalgnu \
 		philosoputer \
 		reiss-gnuhead \
+		runfreegnu \
 		scowcroft \
+		skwetu-gnu-logo \
 		slickgnu \
 		spiritoffreedom \
 		supergnu-ascii \
@@ -358,6 +361,7 @@ licenses :=	200104_seminar \
 		210104_seminar \
 		agpl-3.0 \
 		autoconf-exception-3.0 \
+		bsd \
 		copyleft \
 		exceptions \
 		fdl-1.3 \
@@ -438,7 +442,6 @@ philosophy := 	15-years-of-free-software \
 		bdk \
 		bill-gates-and-other-communists \
 		boldrin-levine \
-		bsd \
 		bug-nobody-allowed-to-understand \
 		can-you-trust \
 		categories \

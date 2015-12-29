@@ -1,0 +1,108 @@
+<!-- start of server/body-include-1.html -->
+<!--#set var="HTML_BODY" value="yes" -->
+<!--#set var="cb" value="$REQUEST_URI" -->
+<!--#if expr="$cb = /^([^?]*)[?]/" -->
+<!--#set var="cb" value="$1" -->
+<!--#endif -->
+<!--#set var="language_selector"
+ value='<a href="/server/select-language.html?callback=$cb" rel="nofollow">' -->
+<!--#set var="closing_anchor" value='</a>' -->
+
+<style type="text/css" media="print,screen">
+<!--
+div.fundraiser {
+  padding: .3em 1.5%;
+  background-color: #ffc;
+  border-bottom: .3em solid white;
+}
+.fundraiser a {
+  color: blue;
+}
+div.donate_btn {
+  float: right;
+  margin: 1.5em 0 0 1.5em;
+}
+
+.crm-amount-high {
+  clear-both;
+  float: right; padding-right: .3em;
+}
+.crm-amount-bar {
+  border-radius: .5em;
+  background-color:#334683;
+  color: white;
+  border: .1em solid #222;
+  margin-bottom: .5em;
+}
+.crm-amount-fill {
+  background: #f2cd5f;
+  color: black;
+  border-radius: .5em;
+  padding-right: .3em; padding-left: .3em;
+  width: 15.335555555556%;
+}
+.donate_btn a{
+  display: block;
+  text-decoration: none;
+  font-weight:bold;
+  padding: 0.4em 1em;
+  color: black;
+  background-color: #f2cd5f;
+  text-align: center;
+  border: .1em solid #CCA832;
+  border-radius: .5em;
+}
+@media (max-width: 30em) {
+   .fundraiser {
+    display: none;
+  }
+}
+-->
+</style>
+<div class="fundraiser">
+<div class="donate_btn">
+<p><a href="https://donate.fsf.org">Donate Now</a></p>
+</div>
+
+<p><strong>For thirty years, the Free Software Foundation has been
+seen as a guiding light for the free software movement, fighting for
+user freedom.</strong></p>
+
+<p><a href="//www.fsf.org/appeal/">Help keep our light burning
+brightly</a> by donating to push us towards our goal of raising
+$450,000 by <i>January 31st</i>.</p>
+
+<div class="crm-amount-bar"><div class="crm-amount-high">$450k</div>
+<div class="crm-amount-fill"><div
+class="crm-amount-low">69k
+so far</div></div>
+</div><!-- /crm-amount-bar -->
+</div><!-- /fundraiser -->
+
+<div id="toplinks">
+ <a href="#content">Skip to main text</a>
+ <span class="gnun-split"></span>
+ <!--#echo encoding="none" var="language_selector" -->
+ Set language
+ <span class="gnun-split"></span>
+ <!--#echo encoding="none" var="closing_anchor" -->
+</div> <!-- /toplinks -->
+
+<div id="searcher">
+ <form method="get" action="//www.gnu.org/cgi-bin/estseek.cgi">
+  <div>
+  <input name="phrase" id="phrase" type="text" size="18" accesskey="s"
+         value="Why GNU/Linux?" onfocus="this.value=''" />
+  <input type="submit" value="Search" />
+  </div>
+ </form>
+</div><!-- /searcher -->
+<!--#if expr="$TRANSLATION_LIST" -->
+<!--#echo encoding="none" var="TRANSLATION_LIST" -->
+<!--#elif expr="$INITIAL_TRANSLATIONS_LIST = included" -->
+<!-- if initial translation list isn't included before banner.html,
+     then the file may use an old boilerplate that contains
+     div#translations in its body, and we mustn't duplicate it here. -->
+<!--#include virtual="/server/gnun/initial-translations-list.html" -->
+<!--#endif -->
+<!-- end of server/body-include-1.html -->
