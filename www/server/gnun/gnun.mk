@@ -263,7 +263,9 @@ gnu :=		about-gnu \
 		pronunciation \
 		rms-lisp \
 		thegnuproject \
-		why-gnu-linux
+		why-gnu-linux \
+		why-programs-should-be-shared \
+		yes-give-it-away
 
 graphics :=	3dbabygnutux \
 		3dgnuhead \
@@ -296,6 +298,7 @@ graphics :=	3dbabygnutux \
 		gnu-ascii \
 		gnu-ascii-liberty \
 		gnu-ascii2 \
+                gnu-born-free-run-free \
 		gnu-head-luk \
 		gnu-head-shadow \
 		gnu-inside \
@@ -326,10 +329,12 @@ graphics :=	3dbabygnutux \
 		philosoputer \
 		reiss-gnuhead \
 		runfreegnu \
+		santa-gnu \
 		scowcroft \
 		skwetu-gnu-logo \
 		slickgnu \
 		spiritoffreedom \
+                stallman-as-saint-ignucius \
 		supergnu-ascii \
 		usegnu \
 		wallpapers \
@@ -707,4 +712,5 @@ thankgnus :=	1997supporters \
 		2013supporters \
 		2014supporters \
 		2015supporters \
+		2016supporters \
 		thankgnus

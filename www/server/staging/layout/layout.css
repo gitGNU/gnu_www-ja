@@ -1,0 +1,890 @@
+/*!
+layout.css -- css stylesheet used on www.gnu.org
+
+Copyright (C) 2006-2011, 2013-2016 Free Software Foundation
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+</div><!-- /toplinks -->
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+*/
+
+/*
+   NOTE: Changes to this file will affect the entire site, often in
+         unexpected ways. Please mail patches to www-discuss@gnu.org rather
+         than commit changes directly.
+
+   NOTE: After modifying this file, please generate the corresponding minified
+         version, otherwise the changes won't be visible.
+
+         To generate the minified version of this file, we currently use a free
+         program called YUI Compressor and run this command:
+
+         yuicompressor layout.css > layout.min.css
+*/
+
+
+
+html, body {
+   font-size: 1em;
+   text-align: left;
+   padding: 0;
+   margin: 0;
+   text-decoration: none;
+   color: #000;
+}
+html { background: #f7f7f7; }
+
+#toplinks, #header, #left-column, #edu-navigation {
+   font-family: "FreeSans", sans-serif;
+}
+
+
+
+/***********************
+ **  BUILDING BLOCKS  **
+ ***********************/
+
+/***  SIMPLE ELEMENTS  ***/
+
+a[href] { color: #005090; }
+a[href]:visited { color: #100070; }
+a[href]:active, a[href]:hover { color: #777; }
+
+/* The default color (black) is too dark for large text in
+   bold font. */
+h1, h2, h3, h4 { color: #333; }
+h5, h6, dt { color: #222; }
+
+blockquote { font-style: italic; }
+acronym, abbr { border-bottom: 1px dotted #111; }
+pre { overflow: auto; }
+small { font-size: .9em; }
+
+p, pre, ul li, ol li, dt, dd, code, address { line-height: 1.3em; }
+p, pre { margin-top: 1em; }   /* In combo.css: margin-bottom:1em. */
+
+ul, ol, blockquote { margin-left: 1.5%; margin-right: 1.5%; }
+
+/* Lists of underlined links are difficult to read. The top margin
+   gives a little more spacing between entries. */
+ul li { margin: .5em 1em 0 1em; list-style: square; }
+
+/* Second-level lists don't usually need bullets (e.g. /prep/ftp.html). */
+ul ul li { list-style: none; margin-top: .3em; }
+ul li ul { margin-top: 0; margin-bottom: .7em; }
+
+/* Ordered list items are treated like paragraphs: spacing between
+   internal p's is smaller than between list items. Complex unordered
+   lists (with p in some items) should ideally be treated the same way,
+   but CSS can't tell whether an ul list will have complex items or not. */
+ol li { margin: 1em; }
+
+/* Separate description lists from preceding text */
+dl { margin: 2em 0 0 0; }
+/* separate the "term" from subsequent "description" */
+dt { margin: 1em 0; }
+/* separate the "description" from subsequent list item
+   when the final <dd> child is an anonymous box */
+dl dd { margin: 1em 3% 2em 3%; }
+/* separate anonymous box (used to be the first element in <dd>)
+   from subsequent <p> */
+dd p { margin-top: 1em; }
+
+address { margin-bottom: 1em; }
+
+.center, .c { text-align: center; }
+
+.underline { text-decoration: underline; }
+.nounderline { text-decoration: none; }
+
+/* Found in some tables of contents. */
+.no-bullet li { list-style: none; }
+
+.big { font-size: 130%; padding-top: 0.7em; }
+
+.inline-list li { display: inline }
+
+.netscape4, .no-display { display: none; }
+
+
+/*** SEPARATOR ***/
+
+/* For license-list.html, but could be used elsewhere. */
+hr.separator {
+   display: block;
+   height: .3em;
+   margin: 2em 0;
+   color: #999;
+   background-color: #999;
+   border: none;
+}
+
+
+/*** FORMS ***/
+
+form {
+   display: block;
+   font-size: .9em;
+   font-weight: bold;
+}
+form input { font-family: inherit; }
+form input[type="text"] {
+   padding: .2em;
+   margin: 0;
+   color: #555;
+   background: white;
+   border: .1em solid #999;
+}
+form input[type="submit"] {
+   padding: .2em .4em;
+   margin: 0;
+   color: #333;
+   background: white;
+   border: .1em solid #999;
+}
+form input[type="text"]:focus {
+   color: #333;
+   border: .1em solid #0156bf;
+}
+form input[type="text"]:focus + input[type="submit"] {
+   border: .1em solid #0156bf;
+}
+form input[type="submit"]:hover {
+   cursor: pointer;
+}
+
+
+/*** BUTTONS ***/
+
+.button, #join-fsf {
+   line-height: 1.2em;
+   font-weight: bold;
+}
+.button a, .button a:visited,
+ #join-fsf a, #join-fsf a:visited {
+   text-decoration: none;
+}
+
+/* The large button is defined in home.html.
+   Color, background and border are left out because they
+   depend on the environment.
+   font-size for #join-fsf is defined separately. */
+.button.small { font-size: 1.3em; }
+.button.small a, #join-fsf a {
+   padding: .4em .6em;
+}
+
+.button.small a, #join-fsf a {
+/* Display the button link as block in
+   browsers lacking support for inline-block, */
+   display: block;
+/* and as inline-block in those that support it. */
+   display: inline-block;
+}
+
+
+/*** SPECIAL BORDERS ***/
+
+#searcher input[type="text"], #searcher input[type="submit"],
+ .fssbox input[type="text"], #fssbox input[type="text"],
+ .fssbox input[type="submit"], #fssbox input[type="submit"] {
+   border-radius: .4em;
+   -moz-border-radius: .4em;
+   -khtml-border-radius: .4em;
+   -webkit-border-radius: .4em;
+   -opera-border-radius: .4em;
+}
+p.button.large, .button.small a, .join-fsf a, #join-fsf a,
+ .fssbox input[type="submit"], #fssbox input[type="submit"] {
+   border-radius: 1em;
+   -moz-border-radius: 1em;
+   -khtml-border-radius: 1em;
+   -webkit-border-radius: 1em;
+   -opera-border-radius: 1em;
+}
+
+
+/*** RETURN LINKS ***/
+
+.back, #backtotop {
+   text-align: right;
+   line-height: 1.5em;
+   font-weight: bold;
+}
+p.back { margin: 1.5em 3%; }
+.back a, .back a:visited,
+ #backtotop a, #backtotop a:visited { color: #333; }
+.back a:hover,
+ #backtotop a:hover { color: #0156bf; }
+
+p#backtotop {
+   float: right;
+   line-height: 1em;
+   position: relative;
+   bottom: 3em;
+   font-size: 1.2em; /* In #mission-statement, font-size is .9em. */
+   padding: 0;
+   margin: 0 10% 0 0;
+}
+
+p#backtotop a {
+   padding: .2em .5em;
+   text-decoration: none;
+   background: #c1ddff;
+}
+
+
+/*** BIG SECTION HEADERS ***/
+
+/* Used in license-list.html and proprietary-surveillance.html,
+   but could apply elsewhere. */
+
+div.big-section {
+   clear: left;
+   margin-bottom: .5em;
+}
+div.big-section h3 {
+   display: inline-block;
+   padding: .2em 0;
+   margin-right: .3em;
+   color: black;
+   border-top: .2em solid #3673bf;
+   border-bottom: .2em solid #3673bf;
+}
+div.big-subsection { margin: 1.5em 0; }
+div.big-subsection h4 {
+   display: inline;
+   margin-right: .3em;
+   color: black;
+}
+#content div.big-section h3 { font-size: 1.7em; }
+#content div.big-subsection h4 { font-size: 1.5em; }
+
+
+/*** ANCHOR ***/
+
+/* This is used in pages of lists, such as gnu-linux.faq.html,
+   to give readers a hint that they can link directly to a given item.
+   We make it less obtrusive than the item heading it follows.  */
+.anchor-reference-id { font-size: 80%; font-weight: normal; }
+span.anchor-reference-id a { color: #333; }
+span.anchor-reference-id a[href]:hover { color: #777; }
+
+
+/*** NON-FLOATING INSETS AND HIGHLIGHTED STUFF ***/
+
+/* .highlight doesn't have a border. It can be applied to in-line elements,
+   or next to .summary.
+   .highlight-para and .emph-box have borders. They are used for blocks
+   which are not adjacent to floating stuff (unless a margin keeps
+   the right border away from the floating stuff). */
+
+.highlight-para, .emph-box { clear: both; }
+.highlight-para, p.highlight, .emph-box { padding: .4em 1.2em .5em 1.2em; }
+
+.highlight { background-color: #fff898; }
+.highlight-para, p.highlight { background-color: #ffc; }
+.highlight-para { border: 2px solid #bbb; }
+.emph-box, .lyrics {
+   background-color: #f5f5f5;
+   border: 1px solid #ccc;
+}
+
+.lyrics {
+   max-width: 25em;
+   font-style: italic;
+   padding: 2em;
+   margin-left: 3%; margin-right: 3%;
+}
+
+/* Announcements */
+div.announcement {
+   font-size: 1.1em; font-weight: bold;
+   padding: 0 1em;
+   margin: 1.5em 0;
+   color: #333;
+   border-left: .5em solid #fd7e2a;
+}
+div.announcement blockquote {
+   margin-left: 0; margin-right: 0;
+}
+
+/* Note about Free Software Free Society */
+blockquote#fsfs p { padding: .3em 0; }
+
+/* the urgent div should be enabled when we have something urgent to
+   appear on every page - these typically come from johns, peterb or rms
+   at the fsf */
+#urgent {
+   text-align: center;
+   font-size: .9em; font-weight: bold;
+   line-height: 2.6em;
+   color: black;
+   background-color: #ff3;
+   border-bottom: .3em solid #333;
+}
+#urgent a, #urgent a:visited {
+   color: blue; text-decoration: underline;
+}
+#urgent a:hover { color: #777; }
+
+
+/*** FLOATING NOTES ***/
+
+.note {
+   clear: right;
+   float: right;
+   text-align: center;
+   font-style: normal;
+   /* The next line could be "max-width:20em;". It would work
+   better in modern browsers, but the note wouldn't float in
+   NetSurf 1.2. Same problem with .summary. */
+   width: 20em; max-width: 90%;
+   padding: 0;
+   margin: .3em 0 1em 1.5em;
+   border: .3em solid #3465a4;
+}
+.note p {
+   font-size: 1.1em;
+   line-height: 1.4em;
+   padding: 0 1em ;
+}
+.note strong { font-size: 1.2em; }
+@media (max-width: 60em) {
+   .note { float: none; margin: 1em auto; }
+}
+
+
+/*** TABLES OF CONTENTS ***/
+
+/* Common definitions */
+.summary, .toc {
+   padding: .4em 1.5em; .5em 1.5em;;
+   background: #f5f5f5;
+}
+.summary ul, .toc ul {
+   padding: 0 3%;
+}
+.summary a, .toc a {
+   text-decoration: none;
+}
+.summary a:hover, .toc a:hover {
+   color: black; text-decoration: underline;
+}
+#content .summary h3, #content .toc h3 {
+   font-size: 1.2em;
+   margin-top: 1em;
+   text-align: center;
+}
+#content .summary h4, #content .toc h4 {
+   font-size: 1.1em;
+}
+
+/* Small tables of contents */
+.summary {
+   clear: right;
+   float: right;
+   max-width: 20em;
+   margin: .3em 0 1em 0;
+   border-left: 1.5em solid white;
+}
+/* Big tables of contents */
+.toc { float: left; margin: .5em 0 2em 0; }
+
+@media (max-width: 60em) {
+   .summary {
+      float: none;
+      max-width: 25em;
+      margin: 2.5em auto 2em auto;
+      border: none;
+   }
+   .toc {
+      float: none;
+      max-width: 40em;
+      margin-top: 2.5em;
+   }
+}
+
+
+/*** IMAGES ***/
+
+.imgright {
+   float: right;
+   margin: .3em 0 1.5em 1.5em;
+}
+.imgleft {
+   float: left;
+   margin: .3em 1.5em 1.5em 0;
+}
+/* For photo-like images */
+.portrait, .landscape {
+   max-width: 100%;
+}
+.portrait p, .landscape p { font-style: italic; }
+.portrait img, .landscape img { width: 100%; }
+.portrait { width: 20em; }
+
+@media (max-width: 60em) {
+   .portrait { float: none; margin: auto; }
+}
+.landscape { width: 25em; }
+@media (max-width: 65em) {
+   .landscape { float: none; margin: auto; }
+}
+
+
+/*** LISTINGS ***/
+
+.listing,
+.stx table {
+   /* The default table for document listings. Contains name, document types,
+   modification times etc in a file-browser-like fashion */
+   border-collapse: collapse;
+   border: 1px solid #666666;
+   margin: 1em 0em 1em 0em;
+}
+
+.listing th,
+.stx table th {
+   background: #fff898;
+   color: black;
+   font-weight: bold !important;
+   border: 1px solid #666666;
+   font-weight: normal;
+   padding: .7em;
+}
+
+.listing td a { display: block; }
+.listing .top {
+   border-top: 1px solid #666666;
+   text-align: right ! important;
+   padding: 0em 0em 1em 0em;
+}
+
+.listing .odd {
+   /*every second line should be shaded */
+   background-color: transparent;
+}
+.listing .even {
+   background-color: #f5f5f5;
+}
+.listing .listingCheckbox {
+   text-align: center;
+}
+.listing td,
+.stx table td {
+   border: 1px solid #666666;
+   padding: 1em .3em;
+   text-align: center;
+   line-height: 1.3em
+}
+
+.listing a:hover {
+   text-decoration: underline;
+}
+
+.listing img {
+   vertical-align: middle;
+}
+
+.listing { width: 100%; }
+
+/* For wide tables, e.g. in doc/other-free-books.html */
+table.listing {
+   display: block;
+   overflow: auto;
+   padding: .1em;
+   margin: 2em auto;
+}
+
+
+
+/************************
+ **  PAGE DESCRIPTION  **
+ ************************/
+
+/*** HEADER ***/
+
+#header:after {
+   clear: both; content: ""; display: block;
+   height: 0px; visibility: hidden; width: 0px;
+}
+#header {
+   position: relative;
+   max-width: 95.5em;
+   padding: .2em 1.5em;
+}
+
+#toplinks a, #toplinks a:visited {
+   display: inline-block;
+   white-space: nowrap;
+   font-size: .9em;
+   font-weight: bold;
+   color: #444;
+   text-decoration: none;
+   margin: 0 1em;
+}
+#toplinks a:hover { color: #0156bf; }
+
+#gnu-banner {
+   float: left;
+   max-width: 8em;
+   text-align: center;
+   margin: 0 3.5em .3em 3.5em;
+}
+#gnu-banner img {
+   width: 100%;
+   margin: 0;
+}
+#fsf-support {
+   float: left:
+   white-space: nowrap;
+   line-height: 1.1em;
+   font-size: .9em;
+   font-style: italic;
+}
+#fsf-support a, #fsf-support a:visited { color: #444; }
+#fsf-support a:hover { color: #a42e00; }
+#fsf-support span.abbr { display: none; }
+#searcher {
+   float: right; margin: 0 0 1em 0;
+}
+
+
+/*** CONTENT and LEFT COLUMN ***/
+
+#content-wrapper {
+   float: left;
+   width: 100%;
+   margin: 0; padding: 0;
+}
+#content {
+   max-width: 75em;
+   overflow: hidden;
+   padding: 1em 2em 5em 2em;
+   margin: .5em 1.5em 0 18em;
+   background: white;
+   border: .1em solid #ccc;
+   -moz-box-shadow: 0 0 .2em .2em #ccc;
+   -webkit-box-shadow: 0 0 .2em .2em #ccc;
+   -icab-box-shadow: 0 0 .2em .2em #ccc;
+   -o-box-shadow: 0 0 .2em .2em #ccc;
+   box-shadow: 0 0 .2em .2em #ccc;
+}
+#left-column {
+   float: left;
+   width: 15em;
+   text-align: center;
+   padding: .5em 1.5em;
+   margin-left: -100%;
+}
+#left-column a { text-decoration: none; }
+
+
+/* Translations */
+
+#lang {
+   max-height: 9em; overflow: auto;
+   font-size: .9em;
+   padding: .7em .5em;
+   color: #444;
+   background: white;
+   border: 1px solid #ccc;
+}
+#lang p {
+   line-height: 1.4em;
+   padding: .2em 0 0 0;
+   margin: 0;
+}
+#lang p#set-lang { margin: 0 0 .5em 0; }
+
+#translations span {
+   white-space: nowrap;
+   line-height: 1.3em;
+}
+#translations span a, #translations span a:visited {
+   color: #333; text-decoration: none;
+}
+/* Highlight the link to the original page */
+#translations span.original {
+   font-weight: bold;
+}
+#translations span.original a,
+ #translations span.original a:visited,
+ #set-lang a, #set-lang a:visited {
+   color: #0156bf;
+}
+#translations a:hover { color: #0156bf; }
+#translations span.original a:hover,
+ #set-lang a:hover { color: #777; }
+
+
+/* FSF stuff */
+
+#fssbox { margin: 2em 0 0 0; }
+#fssbox p { margin: 0 0 .3em 0; }
+#fssbox form p { margin: 0; }
+#fssbox form input[type="submit"] { color: #0156bf; }
+#fssbox form input[type="text"]:focus + input[type="submit"] {
+   color: white;
+   background: #0156bf;
+}
+#fssbox a, #fssbox a:visited { color: #0156bf; }
+#fssbox a:hover { color: #777; }
+
+#join-fsf {
+   margin: 1em 1em 2em 1em;
+   padding: 1.5em 0 .5em 0;
+}
+p#join-fsf a, p#join-fsf a:visited {
+   color: white;
+   background: #0156bf;
+}
+p#join-fsf a:hover { color: #ffa; }
+
+
+
+/* Navigation */
+
+#navigation {
+   clear: right;
+   position: absolute; bottom: 1em; left: 1.5em; right: 1.5em;
+   margin-left: 16.5em;
+   background: white;
+}
+#navigation ul, ul#edu-navigation {
+   text-align: center;
+   font-size: .9em;
+   padding: .15em .3em;
+   margin: 0;
+   border: 1px solid #ccc;
+}
+
+#navigation ul li, ul#edu-navigation li {
+   display: inline-block;
+   line-height: 1.1em;
+   font-weight: bold;
+   padding: .2em;
+   margin: .1em 0;
+   list-style: none;
+}
+#navigation a, ul#edu-navigation a {
+   white-space: nowrap;
+   padding: .2em;
+   text-decoration: none;
+}
+#navigation a, #navigation a:visited,
+ #edu-navigation a, #edu-navigation a:visited {
+   color: #555;
+}
+#navigation li.active a, #navigation li.active a:hover {
+   color: white;
+   background-color: #a42e00;
+}
+#navigation a:hover { color: #a42e00; }
+#edu-navigation li.active a, #edu-navigation li.active a:hover {
+   color: #555;
+   background-color: #c1ddff;
+}
+#edu-navigation a:hover { color: #0156bf; }
+
+#navigation img {
+   height: 1em;
+   position: relative; top: .2em;
+   margin: 0 .5em;
+}
+#navigation ul li.no-display { display: none; }
+
+
+/* Content headers */
+
+#content h1, #content h2 {
+   font-weight: bold;
+   padding: 0;
+   margin: .6em 0 1.1em 0;
+   color: #0156bf;
+}
+#content h1 { font-size: 2.4em; }
+#content h2 { font-size: 2em; }
+#content h3 { font-size: 1.4em; margin: 1.2em 0 0.7em  0; }
+#content h4 { font-size: 1.2em; margin: 1.0em 0 0.83em 0; }
+#content h5 { font-size: 1.1em; margin: 1.0em 0 0.91em 0; }
+#content h6 { font-size: 1.0em; margin: 1.0em 0 1.0em  0; }
+
+
+/*** MISSION STATEMENT AND FOOTER ***/
+
+#mission-statement {
+   font-size: .9em;
+   padding: 0 .5em .5em .5em;
+   color: #444;
+   background: white;
+   border: 1px solid #ccc;
+}
+#mission-statement blockquote {
+   font-weight: bold;
+}
+#mission-statement img {
+   height: 2em;
+   padding: .2em 0;
+}
+
+#footer {
+   max-width: 75em;
+   text-align: center; /* Probably not the best. */
+   color: #333;
+   padding: 0 2em;
+   margin-left: 18em;
+}
+#footer p { font-size: .9em; margin: 0; }
+
+#footer .unprintable, #footer .translators-credits {
+   margin-bottom: .7em;
+}
+
+#bottom-notes { margin-top: .7em; }
+
+
+/*** FOR NARROW SCREENS ***/
+
+@media (max-width: 55em) {
+   #content-wrapper, #content, #left-column { float: none; }
+   #header, #content, #mission-statement, #footer {
+      padding-left: 3%; padding-right: 3%;
+      margin-left: 0; margin-right: 0;
+   }
+   #header { border-bottom: .2em solid #ccc; }
+   #gnu-banner { margin: 0 1.5em .3em 0; }
+   #fsf-support { display: block; margin: 0 1em 1.7em 0; }
+   #navigation { position: static; margin: 0 0 .7em 9.5em; } 
+   #navigation li#i18n { display: inline; }
+   #content { border: none; margin-bottom: none; box-shadow: none; }
+   #content { margin: 0; }
+   ul#edu-navigation { margin-top: 0; }
+   div.inner #backtotop { bottom: 2em; }
+   #left-column {
+      clear: both;
+      width: auto;
+      /* The following fills up the space left by #backtotop */
+      position: relative; bottom: 1em;
+      padding: 0; margin: 0; 
+      border-top: 1px solid #bbb;
+   }
+   #lang { padding: 1em 3%; }
+   #footer { text-align: center; }
+   .summary { width: 70%; }
+}
+
+@media (max-width: 45em) {
+   #searcher { display: none }
+   #navigation ul li#search { display: inline; }
+}
+@media (max-width: 38em) {
+   #navigation { margin: 0; }
+   #navigation { clear: none; float: right; margin-top: 1em; }
+   #navigation ul li { display: none; }
+   #navigation ul li#i18n, #navigation ul li#menu { display: inline; }
+   #edu-navigation { display: none; }
+}
+
+@media (max-width: 21em) {
+   #header { text-align: center; }
+   #toplinks > span { display: inline; }
+   p#toplinks { margin-top: 0; }
+   #gnu-banner {
+      clear: left; float: none;
+      margin: .5em auto 0 auto;
+   }
+   p#fsf-support { margin: 0; }
+   #navigation { float: none; margin-bottom: .5em; }
+   #navigation li { margin: 0; }
+   #content h1 { font-size: 1.8em; text-align: center; }
+   #content h2 { font-size: 1.6em; text-align: center; }
+   .note { display: none }
+}
+
+
+/*********************
+ **  SPECIAL PAGES  **
+ *********************/
+
+/*** TRANSLATIONS ***/
+
+/* Note saying the page is a translation. */
+.trans-disclaimer {
+   text-align: center;
+   font-weight: bold;
+   font-style: italic;
+   margin: 1em; margin-bottom: 0;
+}
+.trans-disclaimer a,
+.trans-disclaimer a:visited { color: #333; }
+.trans-disclaimer a:hover { color: #777; }
+
+/* Outdated translations */
+#outdated {
+   text-align: center;
+   padding: .7em 3%;
+   margin-top: 1.5em;
+   background-color: #f5f5f5;
+   border-left: 1em solid #fd7e2a;
+   border-right: 1em solid #fd7e2a;
+   border-top: 1px solid #fd7e2a;
+   border-bottom: 1px solid #fd7e2a;
+   border-radius: 3em;
+   -moz-border-radius: 3em;
+   -khtml-border-radius: 3em;
+   -webkit-border-radius: 3em;
+   -opera-border-radius: 3em;
+}
+#outdated p {
+   margin: .2em 0;
+}
+
+/* Translators notes */
+.translators-notes {
+   font-size: .9em; margin-top: 2.2em;
+}
+
+
+/*** EDUCATION ***/
+
+/* Breadcrumbs */
+#content .edu-breadcrumb {
+   font-size: .9em;
+   font-weight: bold;
+   padding-bottom: .5em;
+   margin: .3em 0 0 0;
+   color: #333;
+}
+#content .edu-breadcrumb a,
+#content .edu-breadcrumb a:visited {
+   color: #0156bf;
+   text-decoration: none;
+}
+#content .edu-breadcrumb a:hover {
+   color: #777;
+}
+
+/* Subsections of /education "Case Studies" */
+div.edu-cases {
+   border-top: .35em ridge #3673bf;
+   border-bottom: .35em ridge #3673bf;
+   padding: 1.5em 0;
+   margin: 2em 4%;
+}
+
+/* make h3 for edu-cases look like h4 for other pages */
+#content div.edu-cases h3 {
+   font-size: 1.2em;
+   margin: 1em 0;
+}
