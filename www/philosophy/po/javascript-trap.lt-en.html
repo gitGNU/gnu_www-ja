@@ -1,0 +1,320 @@
+<!--#include virtual="/server/header.html" -->
+<!-- Parent-Version: 1.77 -->
+<title>The JavaScript Trap</title>
+<!--#include virtual="/philosophy/po/javascript-trap.translist" -->
+<!--#include virtual="/server/banner.html" -->
+
+<h2>The JavaScript Trap</h2>
+
+<p>by <a href="http://www.stallman.org/">Richard Stallman</a></p>
+
+<p><strong>You may be running nonfree programs on your computer every
+day without realizing it&mdash;through your web browser.</strong></p>
+
+<p>In the free software community, the idea that nonfree programs
+mistreat their users is familiar.  Some of us refuse entirely to
+install proprietary software, and many others consider nonfreedom a
+strike against the program.  Many users are aware that this issue
+applies to the plug-ins that browsers offer to install, since they can
+be free or nonfree.</p>
+
+<p>But browsers run other nonfree programs which they don't ask you
+about or even tell you about&mdash;programs that web pages contain or
+link to.  These programs are most often written in JavaScript, though
+other languages are also used.</p>
+
+<p>JavaScript (officially called ECMAScript, but few use that name) was
+once used for minor frills in web pages, such as cute but inessential
+navigation and display features.  It was acceptable to consider these
+as mere extensions of HTML markup, rather than as true software; they
+did not constitute a significant issue.</p>
+
+<p>Many sites still use JavaScript that way, but some use it for major
+programs that do large jobs.  For instance, Google Docs tries to download into
+your machine a JavaScript program which measures half a megabyte, in a
+compacted form that we could call Obfuscript because it has no
+comments and hardly any whitespace, and the method names are one
+letter long.  The source code of a program is the preferred form for
+modifying it; the compacted code is not source code, and the real
+source code of this program is not available to the user.</p>
+
+<p>Browsers don't normally tell you when they load JavaScript
+programs.  Some browsers have a way to turn off JavaScript entirely,
+but even if you're aware of this issue, it would take you considerable
+trouble to identify the nontrivial nonfree programs and block them.
+However, even in the free software community most users are not aware
+of this issue; the browsers' silence tends to conceal it.</p>
+
+<p>It is possible to release a JavaScript program as free software, by
+distributing the source code under a free software license.  If the
+program is self-contained&mdash;if its functioning and purpose are
+independent of the page it came in&mdash;that is fine; you can copy it
+to a file on your machine, modify it, and visit that file with a
+browser to run it.  But that is an unusual case.</p>
+
+<p>In the usual case, JavaScript programs are meant to work with a
+particular page or site, and the page or site depends on them to
+function.  Then another problem arises: even if the program's source
+is available, browsers do not offer a way to run your modified version
+instead of the original when visiting that page or site.  The effect
+is comparable to tivoization, although in principle not quite so hard
+to overcome.</p>
+
+<p>JavaScript is not the only language web sites use for programs sent
+to the user.  Flash supports programming through an extended variant
+of JavaScript; if we ever have a sufficiently complete free Flash
+player, we will need to deal with the issue of nonfree Flash programs.
+Silverlight seems likely to create a problem similar to Flash, except
+worse, since Microsoft uses it as a platform for nonfree codecs.  A
+free replacement for Silverlight does not do the job for the free
+world unless it normally comes with free replacement codecs.</p>
+
+<p>Java applets also run in the browser, and raise similar issues.  In
+general, any sort of applet system poses this sort of problem.  Having
+a free execution environment for an applet only brings us far enough
+to encounter the problem.</p>
+
+<p>It is theoretically possible to program in HTML and CSS, but in
+practice this capability is limited and inconvenient; merely to make
+it do something is an impressive hack.  Such programs ought to be
+free, but CSS is not a serious problem for users' freedom as of
+2016.</p>
+
+<p>A strong movement has developed that calls for web sites to
+communicate only through formats and protocols that are free (some say
+&quot;open&quot;); that is to say, whose documentation is published and which
+anyone is free to implement.  With the presence of programs in web
+pages, that criterion is necessary, but not sufficient.  JavaScript
+itself, as a format, is free, and use of JavaScript in a web site is
+not necessarily bad.  However, as we've seen above, it also isn't
+necessarily OK.  When the site transmits a program to the user, it is
+not enough for the program to be written in a documented and
+unencumbered language; that program must be free, too.  &ldquo;Only free
+programs transmitted to the user&rdquo; must become part of the criterion
+for proper behavior by web sites.</p>
+
+<p>Silently loading and running nonfree programs is one among several
+issues raised by &quot;web applications&quot;.  The term &quot;web
+application&quot; was designed to disregard the fundamental
+distinction between software delivered to users and software running
+on a server.  It can refer to a specialized client program running
+in a browser; it can refer to specialized server software; it can
+refer to a specialized client program that works hand in hand with
+specialized server software.  The client and server sides raise
+different ethical issues, even if they are so closely integrated that
+they arguably form parts of a single program.  This article addresses
+only the issue of the client-side software.  We are addressing the
+server issue separately.</p>
+
+<p>In practical terms, how can we deal with the problem of nonfree
+JavaScript programs in web sites?  The first step is to avoid running
+it.</p>
+
+<p>What do we mean by &quot;nontrivial&quot;?  It is a matter of
+degree, so this is a matter of designing a simple criterion that gives
+good results, rather than finding the one correct answer.</p>
+<p>
+Our tentative policy is to consider a JavaScript program nontrivial if:</p>
+
+<ul>
+  <li>it makes an AJAX request or is loaded along with scripts that make
+    an AJAX request,</li>
+
+  <li>it loads external scripts dynamically or is loaded along with
+    scripts that do,</li>
+
+  <li>it defines functions or methods and either loads an external script
+    (from html) or is loaded as one,</li>
+  
+  <li>it uses dynamic JavaScript constructs that are difficult to analyze
+    without interpreting the program, or is loaded along with scripts
+    that use such constructs.  These constructs are:
+    <ul>
+      <li>using the eval function,</li>
+      <li>calling methods with the square bracket notation,</li>
+      <li>using any other construct than a string literal with
+	certain methods (Obj.write, Obj.createElement, ...).</li>
+    </ul>
+  </li>
+</ul>
+
+<p>How do we tell whether the JavaScript code is free?  At the end of
+this article we propose a convention by which a nontrivial JavaScript
+program in a web page can state the URL where its source code is
+located, and can state its license too, using stylized comments.</p>
+
+<p>Finally, we need to change free browsers to detect and block
+nontrivial nonfree JavaScript in web pages.  The program
+<a href="/software/librejs/">LibreJS</a> detects nonfree,
+nontrivial JavaScript in pages you visit, and blocks it.  LibreJS is
+an add-on for IceCat and IceWeasel (and Firefox).</p>
+
+<p>Browser users also need a convenient facility to specify JavaScript
+code to use <em>instead</em> of the JavaScript in a certain page.
+(The specified code might be total replacement, or a modified version
+of the free JavaScript program in that page.)  Greasemonkey comes close
+to being able to do this, but not quite, since it doesn't guarantee to
+modify the JavaScript code in a page before that program starts to
+execute.  Using a local proxy works, but is too inconvenient now to be
+a real solution.  We need to construct a solution that is reliable and
+convenient, as well as sites for sharing changes.  The GNU Project
+would like to recommend sites which are dedicated to free changes
+only.</p>
+
+<p>These features will make it possible for a JavaScript program included
+in a web page to be free in a real and practical sense.  JavaScript
+will no longer be a particular obstacle to our freedom&mdash;no more than
+C and Java are now.  We will be able to reject and even replace the
+nonfree nontrivial JavaScript programs, just as we reject and replace
+nonfree packages that are offered for installation in the usual way.
+Our campaign for web sites to free their JavaScript can then begin.</p>
+
+<p>In the mean time, there's one case where it is acceptable to run a
+nonfree JavaScript program: to send a complaint to the website
+operators saying they should free or remove the JavaScript code in the
+site.  Please don't hesitate to enable JavaScript temporarily to do
+that&mdash;but remember to disable it again afterwards.</p>
+
+<p><strong>Thank you to <a href="/people/people.html#mattlee">Matt Lee</a>
+and <a href="http://ejohn.org">John Resig</a> for their help in
+defining our proposed criterion, and to David Parunakian for
+helping to make me aware of the problem.</strong></p>
+
+<h3 id="AppendixA">Appendix A: a convention for releasing free JavaScript programs</h3>
+
+<p>For references to corresponding source code, we recommend</p>
+<pre dir="ltr">
+
+    // @source:
+
+</pre>
+
+<p>followed by the URL.  This satisfies the GNU GPL's requirement to
+distribute source code.  If the source is on a different site, you
+must take care
+to <a href="/licenses/gpl-faq.html#SourceAndBinaryOnDifferentSites">
+handle that properly</a>.  Source code is necessary for the program to
+be free.
+</p>
+
+<p>To indicate the license of the JavaScript code embedded in a page, we
+recommend putting the license notice between two notes of this form:</p>
+<pre dir="ltr">
+<!--TRANSLATORS: Do not translate these license notices.  The <pre>
+    elements have dir="ltr" explicitly set to cater for RTL languages.-->
+    @licstart  The following is the entire license notice for the 
+    JavaScript code in this page.
+    ...
+    @licend  The above is the entire license notice
+    for the JavaScript code in this page.
+
+</pre>
+<p>Of course, all of this should be contained in a multiline comment.</p>
+
+<p>The <a href="/licenses/gpl.html">GNU GPL</a>, like many other free
+software licenses, requires distribution of a copy of the license with
+both source and binary forms of the program.  However, the GNU GPL is
+long enough that including it in a page with a JavaScript program can
+be inconvenient.  You can remove that requirement, for code that you
+have the copyright on, with a license notice like this:</p>
+<pre dir="ltr">
+
+    Copyright (C) YYYY  Developer
+
+    The JavaScript code in this page is free software: you can
+    redistribute it and/or modify it under the terms of the GNU
+    General Public License (GNU GPL) as published by the Free Software
+    Foundation, either version 3 of the License, or (at your option)
+    any later version.  The code is distributed WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS
+    FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+    As additional permission under GNU GPL version 3 section 7, you
+    may distribute non-source (e.g., minimized or compacted) forms of
+    that code without the copy of the GNU GPL normally required by
+    section 4, provided you include this license notice and a URL
+    through which recipients can access the Corresponding Source.
+
+</pre>
+
+<p>I thank Jaffar Rumith for bringing this issue to my attention.</p>
+
+<h3 id="AppendixB">Appendix B: Publishing free JavaScript programs as
+  a webmaster</h3>
+
+<p>If you're a webmaster deploying free JavaScript software
+  on your site, clearly and consistently publishing information about
+  those files' licenses and source code helps your visitors make
+  sure that they're running free software, and help you comply with
+  license conditions.</p>
+
+<p>One method of stating the licenses is the one described above in
+  <a href="#AppendixA">Appendix A</a>.  A second
+  method, <a href="/licenses/javascript-labels.html"> JavaScript
+  license web labels</a>, can be more convenient for libraries of
+  minified JavaScript code, especially when you didn't write them.</p>
+
+</div><!-- for id="content", starts in the include above -->
+<!--#include virtual="/server/footer.html" -->
+<div id="footer">
+<div class="unprintable">
+
+<p>Please send general FSF &amp; GNU inquiries to
+<a href="mailto:gnu@gnu.org">&lt;gnu@gnu.org&gt;</a>.
+There are also <a href="/contact/">other ways to contact</a>
+the FSF.  Broken links and other corrections or suggestions can be sent
+to <a href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a>.</p>
+
+<p><!-- TRANSLATORS: Ignore the original text in this paragraph,
+        replace it with the translation of these two:
+
+        We work hard and do our best to provide accurate, good quality
+        translations.  However, we are not exempt from imperfection.
+        Please send your comments and general suggestions in this regard
+        to <a href="mailto:web-translators@gnu.org">
+        &lt;web-translators@gnu.org&gt;</a>.</p>
+
+        <p>For information on coordinating and submitting translations of
+        our web pages, see <a
+        href="/server/standards/README.translations.html">Translations
+        README</a>. -->
+Please see the <a
+href="/server/standards/README.translations.html">Translations
+README</a> for information on coordinating and submitting translations
+of this article.</p>
+</div>
+
+<!-- Regarding copyright, in general, standalone pages (as opposed to
+     files generated as part of manuals) on the GNU web server should
+     be under CC BY-ND 4.0.  Please do NOT change or remove this
+     without talking with the webmasters or licensing team first.
+     Please make sure the copyright date is consistent with the
+     document.  For web pages, it is ok to list just the latest year the
+     document was modified, or published.
+     
+     If you wish to list earlier years, that is ok too.
+     Either "2001, 2002, 2003" or "2001-2003" are ok for specifying
+     years, as long as each year in the range is in fact a copyrightable
+     year, i.e., a year in which the document was published (including
+     being publicly visible on the web or in a revision control system).
+     
+     There is more detail about copyright years in the GNU Maintainers
+     Information document, www.gnu.org/prep/maintain. -->
+
+<p>Copyright &copy; 2009-2013, 2016 Richard Stallman</p>
+
+<p>This page is licensed under a <a rel="license"
+href="http://creativecommons.org/licenses/by-nd/4.0/">Creative
+Commons Attribution-NoDerivatives 4.0 International License</a>.</p>
+
+<!--#include virtual="/server/bottom-notes.html" -->
+
+<p class="unprintable">Updated:
+<!-- timestamp start -->
+$Date: 2016/01/26 06:35:18 $
+<!-- timestamp end -->
+</p>
+</div>
+</div>
+</body>
+</html>
