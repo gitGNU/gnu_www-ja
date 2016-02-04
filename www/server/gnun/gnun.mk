@@ -322,6 +322,7 @@ graphics :=	3dbabygnutux \
 		license-logos \
 		listen \
 		meditate \
+		mlug-cms-icon \
 		nandakumar-gnu \
 		navaneeth-gnu \
 		package-logos \
