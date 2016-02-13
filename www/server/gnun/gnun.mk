@@ -1,5 +1,5 @@
 # Copyright (C) 2007, 2008, 2009, 2010, 2011,
-#   2012, 2013, 2014, 2015 Free Software Foundation, Inc.
+#   2012, 2013, 2014, 2015, 2016 Free Software Foundation, Inc.
 
 # This file is part of GNUnited Nations.
 
@@ -37,31 +37,31 @@ sitemap := server/sitemap
 # are maintained without PO files.
 # NOTE: footer-short and footer-min are remnants from the old-new
 # design; they should go at some point.
-localized-ssis := server/header server/head-include-1 \
-		  server/head-include-2 server/banner \
-		  server/html5-header server/html5-head-include-1 \
-		  server/body-include-1 server/body-include-2 \
-		  server/footer server/generic \
-		  server/footer-short server/footer-min
+localized-ssis :=	server/header server/head-include-1 \
+			server/head-include-2 server/banner \
+			server/html5-header server/html5-head-include-1 \
+			server/body-include-1 server/body-include-2 \
+			server/footer server/generic \
+			server/footer-short server/footer-min
 
 # List of mandatory templates (all %.$lang.po files are generated).
-extra-templates := philosophy/philosophy-menu \
-		   server/body-include-1 \
-		   server/body-include-2 \
-		   server/bottom-notes \
-		   server/footer-text \
-		   server/head-include-2 \
-		   server/outdated \
-		   server/top-addendum
+extra-templates :=	philosophy/philosophy-menu \
+			server/body-include-1 \
+			server/body-include-2 \
+			server/bottom-notes \
+			server/footer-text \
+			server/head-include-2 \
+			server/outdated \
+			server/top-addendum
 
 # List of templates that are translated or not on the discretion
 # of the respective team (the PO files are merged, but are not created).
-optional-templates := licenses/fsf-licensing \
-		      manual/allgnupkgs \
-		      planetfeeds \
-		      server/fs-gang \
-		      server/home-pkgblurbs \
-		      software/recent-releases-include
+optional-templates :=	licenses/fsf-licensing \
+			manual/allgnupkgs \
+			planetfeeds \
+			server/fs-gang \
+			server/home-pkgblurbs \
+			software/recent-releases-include
 
 # List of articles for which VALIDATE has no full effect; i.e. the
 # HTML files are never validated.
@@ -117,9 +117,9 @@ ALL_DIRS :=	accessibility \
 		testimonials \
 		thankgnus
 
-ROOT := gnu-404 \
-		home \
-		keepingup
+ROOT :=	gnu-404 \
+	home \
+	keepingup
 
 accessibility :=	accessibility
 
@@ -158,7 +158,7 @@ distros :=	common-distros \
 doc :=	doc \
 	other-free-books
 
-education :=    edu-cases-argentina-ecen \
+education :=	edu-cases-argentina-ecen \
 		edu-cases-argentina \
 		edu-cases-india-ambedkar \
 		edu-cases-india-irimpanam \
@@ -170,7 +170,7 @@ education :=    edu-cases-argentina-ecen \
 		edu-resources \
 		edu-schools \
 		edu-software-gcompris \
-                edu-software-gimp \
+		edu-software-gimp \
 		edu-software-tuxpaint \
 		edu-software \
 		edu-system-india \
@@ -245,9 +245,9 @@ fun/jokes :=	10-kinds-of-people \
 		know.your.sysadmin \
 		last.bug \
 		linus-islam \
-                long-options \
-                merry-xmas \
-                nobody-owns \
+		long-options \
+		merry-xmas \
+		nobody-owns \
 		purchase.agreement \
 		users-lightbulb
 
@@ -293,12 +293,13 @@ graphics :=	3dbabygnutux \
 		fsf-logo \
 		FSFS-logo \
 		gleesons \
-                gnu-30 \
+		gnu-30 \
 		gnu-alternative \
+		gnu-and-tux-icon \
 		gnu-ascii \
 		gnu-ascii-liberty \
 		gnu-ascii2 \
-                gnu-born-free-run-free \
+		gnu-born-free-run-free \
 		gnu-head-luk \
 		gnu-head-shadow \
 		gnu-inside \
@@ -322,7 +323,6 @@ graphics :=	3dbabygnutux \
 		license-logos \
 		listen \
 		meditate \
-		mlug-cms-icon \
 		nandakumar-gnu \
 		navaneeth-gnu \
 		package-logos \
@@ -335,7 +335,7 @@ graphics :=	3dbabygnutux \
 		skwetu-gnu-logo \
 		slickgnu \
 		spiritoffreedom \
-                stallman-as-saint-ignucius \
+		stallman-as-saint-ignucius \
 		supergnu-ascii \
 		usegnu \
 		wallpapers \
@@ -357,8 +357,8 @@ graphics/gnu-post :=	index
 graphics/umsa :=	umsa
 
 help :=		evaluation \
-                gnu-bucks \
-                gnu-bucks-recipients \
+		gnu-bucks \
+		gnu-bucks-recipients \
 		help \
 		help-hardware \
 		linking-gnu
@@ -387,6 +387,7 @@ licenses :=	200104_seminar \
 		javascript-labels-rationale \
 		lgpl-3.0 \
 		lgpl-java \
+		license-compatibility \
 		license-list \
 		license-recommendations \
 		licenses \
@@ -422,7 +423,7 @@ manual :=	blurbs \
 
 music :=	blues-song \
 		emacsvsvi \
-                free-birthday-song \
+		free-birthday-song \
 		free-software-song \
 		gdb-song \
 		music \
@@ -588,7 +589,7 @@ philosophy := 	15-years-of-free-software \
 		the-root-of-this-problem \
 		third-party-ideas \
 		trivial-patent \
-                ubuntu-spyware \
+		ubuntu-spyware \
 		ucita \
 		udi \
 		university \
@@ -639,21 +640,21 @@ press :=		2001-07-09-DotGNU-Mono \
 			2002-03-19-Affero \
 			press
 
-proprietary :=       malware-apple \
-                     malware-kindle-swindle \
-                     malware-microsoft \
-                     malware-mobiles \
-                     proprietary \
-                     proprietary-back-doors \
-                     proprietary-censorship \
-                     proprietary-deception \
-                     proprietary-drm \
-                     proprietary-insecurity \
-                     proprietary-interference \
-                     proprietary-jails \
-                     proprietary-sabotage \
-                     proprietary-surveillance \
-                     proprietary-tyrants
+proprietary :=	malware-apple \
+		malware-kindle-swindle \
+		malware-microsoft \
+		malware-mobiles \
+		proprietary \
+		proprietary-back-doors \
+		proprietary-censorship \
+		proprietary-deception \
+		proprietary-drm \
+		proprietary-insecurity \
+		proprietary-interference \
+		proprietary-jails \
+		proprietary-sabotage \
+		proprietary-surveillance \
+		proprietary-tyrants
 
 server :=	08whatsnew \
 		fsf-html-style-sheet \
@@ -674,6 +675,7 @@ server/standards :=	README.editors \
 software :=	devel \
 		for-ios \
 		for-windows \
+                free-software-for-education \
 		gethelp \
 		maintainer-tips \
 		recent-releases \
