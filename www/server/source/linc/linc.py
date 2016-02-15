@@ -20,7 +20,7 @@
 
 from __future__ import print_function
 
-LINC_VERSION = 'LINC 0.24'
+LINC_VERSION = 'LINC 0.25'
 USAGE = \
 '''Usage: %prog [options] [BASE_DIRECTORY]
 Check links in HTML files from BASE_DIRECTORY.'''
@@ -104,7 +104,7 @@ HTTP_ERROR_HEADER = HTTP_VERSION_HEADER + '(?P<http_error_code>[45][0-9][0-9]) '
 HTTP_FORWARD_HEADER = HTTP_VERSION_HEADER + '30[01237] '
 HTTP_LINK_REGEXP = \
   'http(s?)://(?P<hostname>[^/:]+)(:(?P<port>[0-9]+))?(?P<resource>/[^#]*)?'
-HTTP_NEW_LOCATION_HEADER = '(^|\r\n)Location: (?P<new_location>.+)(\r\n|$)'
+HTTP_NEW_LOCATION_HEADER = '(?i)(^|\r\n)Location: (?P<new_location>.+)(\r\n|$)'
 LINK_BEGIN = '(?i)(<a\s[^<]*)'
 # We want to parse links like href="URL" as well as href='URL';
 # I failed to compose a single regexp for that -- ineiev.
@@ -113,6 +113,10 @@ LINK_REGEXP = \
   "(?is)^<a(\s.+?)?\shref='(?P<link>[^']+)'(\s.+?)?>"]
 TRANSLATION_REGEXP = '\.(?P<langcode>[a-z]{2}|[a-z]{2}-[a-z]{2})\.[^.]+$'
 SYMLINK_REGEXP='^\s*(?P<to>[^\s]*)\s+(?P<from>[^\s]*).*$'
+EOH_MARK = '\r\n\r\n'
+REFRESH_REGEXP = '''(?is)^\s*<meta\s[^>]*http-equiv=['"]refresh['"]'''
+REFRESH_URL = \
+'''(?is)^\s*<meta\s.*content=['"]\s*0[;,][^'">].*url=(?P<new_location>[^>"']+)['"]'''
 # Don't report against commented out link to README.translations.html
 LINK_TO_SKIP = '/server/standards/README.translations.html'
 
@@ -173,9 +177,19 @@ def get_ftp_link_error(link):
 def get_http_link_error(link, link_type, forwarded_from = None):
 	if forwarded_from == None:
 		forwarded_from = []
+	if len(forwarded_from) >= FORWARDS_TO_FOLLOW:
+		if VERBOSE > 2:
+		    print ('too many forwards:')
+		    print (forwarded_from)
+		return 'too many forwards (over ' \
+			+ str(FORWARDS_TO_FOLLOW) + ')'
+	if link in forwarded_from:
+		return 'forward loop!'
+	forwarded_from.append(link)
 
 	connection_data = re.search (HTTP_LINK_REGEXP, link)
 	if not connection_data:
+		report (2, 'No connection data in ' + link)
 		return None
 	hostname = connection_data.group ('hostname')
 	port = connection_data.group ('port')
@@ -185,6 +199,7 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 	# if a socket couldn't be created,
 	# just ignore this link this time.
 	if socketfd == None:
+		report (2, 'No socket for ' + link)
 		return None
 
 	if port == None:
@@ -219,7 +234,7 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 	if webpage == None:
 		return 'couldn\'t read from socket'
 
-	end_of_headers = webpage.find('\r\n\r\n')
+	end_of_headers = webpage.find(EOH_MARK)
 	if end_of_headers == -1:
 		report(1, 'No end of headers found on webpage (link ' \
 			 + link + ')')
@@ -230,6 +245,7 @@ def get_http_link_error(link, link_type, forwarded_from = None):
                        + 'headers (possibly no content in file)'
 
 	header = webpage[:end_of_headers]
+	page = webpage[end_of_headers + len(EOH_MARK):]
 	verb_level = 5
 	if not re.search (HTTP_VERSION_HEADER, header):
 		report (1, 'No HTTP version found in header')
@@ -244,29 +260,31 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 
 	match = re.search (HTTP_FORWARD_HEADER, header)
 	if not match:
-		return None
-	if len(forwarded_from) >= FORWARDS_TO_FOLLOW:
-		if VERBOSE > 2:
-		    print ('too many forwards:')
-		    print (forwarded_from)
-		return 'too many forwards (over ' \
-			+ str(FORWARDS_TO_FOLLOW) + ')'
-	match = re.search(HTTP_NEW_LOCATION_HEADER, header)
-	if not match:
-		report(-2, 'Forwarded location not found')
-		report(1, '- - - - -')
-		report(1, header)
-		report(1, '- - - - -')
-		if WICKED > 1:
-			print ('Aborting due to bad forward.')
-			exit(1)
-		return None
-	forwarded_from.append(link)
-	new_location = match.group('new_location')
+		match = re.search (REFRESH_REGEXP, page)
+		if not match:
+			return None
+		match = re.search (REFRESH_URL, page)
+		if not match:
+			return None
+		new_location = match.group('new_location')
+		[link_type, url] = classify_link("", new_location)
+		if url == link:
+			# Refesh to the same URL.
+			return None
+	else:
+		match = re.search(HTTP_NEW_LOCATION_HEADER, header)
+		if not match:
+			report(-2, 'Forwarded location not found')
+			report(1, '- - - - -')
+			report(1, header)
+			report(1, '- - - - -')
+			if WICKED > 1:
+				print ('Aborting due to bad forward.')
+				exit(1)
+			return None
+		new_location = match.group('new_location')
 	[link_type, url] = classify_link("", new_location)
-	if new_location in forwarded_from:
-		return 'forward loop!'
-	return get_http_link_error(new_location, link_type, forwarded_from)
+	return get_http_link_error(url, link_type, forwarded_from)
 
 def is_inside_comment(head):
 	start = head.rfind('<!--')
@@ -776,8 +794,8 @@ for j in range (NUMBER_OF_ATTEMPTS):
 		if err != None:
 			broken_so_far = broken_so_far + 1
 		if (VERBOSE > 1 and err != None) or VERBOSE > 2:
-			print('link ' + str(i) + ': ' + link \
-				+ ': ' + (err if err else '(no error)'))
+			print(('link ' + str(i) + ': ' + link \
+				+ ': ' + (err if err else '(no error)')).encode('iso-8859-1'))
 	report(-2, '\n' + str (len (links_to_check)) + ' links, ' \
 	       + unique_links + ' unique, ' \
 	       + str (cached_links) + ' cached, ' \
