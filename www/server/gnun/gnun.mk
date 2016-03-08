@@ -337,6 +337,7 @@ graphics :=	3dbabygnutux \
 		spiritoffreedom \
 		stallman-as-saint-ignucius \
 		supergnu-ascii \
+		this-is-freedom-wallpaper \
 		usegnu \
 		wallpapers \
 		whatsgnu \
@@ -675,7 +676,7 @@ server/standards :=	README.editors \
 software :=	devel \
 		for-ios \
 		for-windows \
-                free-software-for-education \
+		free-software-for-education \
 		gethelp \
 		maintainer-tips \
 		recent-releases \
