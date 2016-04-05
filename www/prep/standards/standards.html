@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- The GNU coding standards, last updated April 23, 2015.
+<!-- The GNU coding standards, last updated April 4, 2016.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
-2011, 2012, 2013, 2014, 2015 Free Software Foundation, Inc.
+2011, 2012, 2013, 2014, 2015, 2016 Free Software Foundation, Inc.
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -12,7 +12,7 @@ any later version published by the Free Software Foundation; with no
 Invariant Sections, no Front-Cover Texts, and no Back-Cover
 Texts.  A copy of the license is included in the section entitled
 "GNU Free Documentation License". -->
-<!-- Created by Texinfo 5.9.91+dev, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.1, http://www.gnu.org/software/texinfo/ -->
 <head>
 <title>GNU Coding Standards</title>
 
@@ -20,7 +20,7 @@ Texts.  A copy of the license is included in the section entitled
 <meta name="keywords" content="GNU Coding Standards">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
-<meta name="Generator" content="texi2any">
+<meta name="Generator" content="makeinfo">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="#Top" rel="start" title="Top">
 <link href="#Index" rel="index" title="Index">
@@ -47,9 +47,8 @@ pre.smalldisplay {font-family: inherit; font-size: smaller}
 pre.smallexample {font-size: smaller}
 pre.smallformat {font-family: inherit; font-size: smaller}
 pre.smalllisp {font-size: smaller}
-span.nocodebreak {white-space: nowrap}
 span.nolinebreak {white-space: nowrap}
-span.roman {font-family: serif; font-weight: normal}
+span.roman {font-family: initial; font-weight: normal}
 span.sansserif {font-family: sans-serif; font-weight: normal}
 ul.no-bullet {list-style: none}
 -->
@@ -172,11 +171,11 @@ Next: <a href="#Preface" accesskey="n" rel="next">Preface</a>, Up: <a href="dir.
 <a name="GNU-Coding-Standards"></a>
 <h1 class="top">GNU Coding Standards</h1>
 
-<p>The GNU coding standards, last updated April 23, 2015.
+<p>The GNU coding standards, last updated April 4, 2016.
 </p>
 <p>Copyright &copy; 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
-2011, 2012, 2013, 2014, 2015 Free Software Foundation, Inc.
+2011, 2012, 2013, 2014, 2015, 2016 Free Software Foundation, Inc.
 </p>
 <p>Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -208,6 +207,7 @@ Texts.  A copy of the license is included in the section entitled
 <tr><td align="left" valign="top">&bull; <a href="#Index">Index</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
 </pre></th></tr></table>
 
 <hr>
@@ -276,7 +276,7 @@ coding standards for a trivial program.
 <a href="http://www.gnu.org/software/hello/hello.html">http://www.gnu.org/software/hello/hello.html</a>.
 </p>
 <p>This release of the GNU Coding Standards was last updated
-April 23, 2015.
+April 4, 2016.
 </p>
 
 <hr>
@@ -2960,6 +2960,7 @@ assigned:
 </p>
 <div class="example">
 <pre class="example">
+
 1.3.6.1.4.1.11591 GNU
 
 1.3.6.1.4.1.11591.1 GNU Radius
@@ -4186,6 +4187,18 @@ term &ldquo;illegal&rdquo; for activities prohibited by law.
 it is a function.  <code>foo ()</code> is not a function, it is a function
 call with no arguments.
 </p>
+<p>Whenever possible, please stick to the active voice, avoiding the
+passive, and use the present tense, not the future teste.  For
+instance, write &ldquo;The function <code>foo</code> returns a list containing
+<var>a</var> and <var>b</var>&rdquo; rather than &ldquo;A list containing <var>a</var> and
+<var>b</var> will be returned.&rdquo;  One advantage of the active voice is it
+requires you to state the subject of the sentence; with the passive
+voice, you might omit the subject, which leads to vagueness.
+</p>
+<p>It is proper to use the future tense when grammar demands it, as in,
+&ldquo;If you type <kbd>x</kbd>, the computer will self-destruct in 10
+seconds.&rdquo;
+</p>
 <hr>
 <a name="Doc-Strings-and-Manuals"></a>
 <div class="header">
@@ -4412,7 +4425,7 @@ it&mdash;but please put the full explanation in comments in the code,
 where people will see it whenever they see the code.  For example,
 &ldquo;New function&rdquo; is enough for the change log when you add a function,
 because there should be a comment before the function definition to
-explain what it does.
+explain what it does, how to call it, and so on.
 </p>
 <p>For changes to files that do not support a comment syntax (e.g., media
 files), it is ok to include the full explanation in the change log file,
@@ -6367,11 +6380,34 @@ reasons.
 </p>
 <p>Thus, for example, you should not refer to AT&amp;T&rsquo;s web site if that
 recommends AT&amp;T&rsquo;s non-free software packages; you should not refer to
-a site that links to AT&amp;T&rsquo;s site presenting it as a place to get some
-non-free program, because that link recommends and legitimizes the
-non-free program.  However, that a site contains a link to AT&amp;T&rsquo;s web
-site for some other purpose (such as long-distance telephone service)
-is not an objection against it.
+a page <var>p</var> that links to AT&amp;T&rsquo;s site presenting it as a place to get
+some non-free program, because that part of the page <var>p</var> itself
+recommends and legitimizes the non-free program.  However, that <var>p</var>
+contains a link to AT&amp;T&rsquo;s web site for some other purpose (such as
+long-distance telephone service) is not an objection against it.
+</p>
+<p>A web page recommends a program in a particularly strong way if it
+requires users to run that program in order to use the page.  Many
+pages contain Javascript code which they recommend in this way.  This
+Javascript code may be free or nonfree, but nonfree is the usual case.
+</p>
+<p>If the purpose for which you would refer to the page cannot be carried
+out without running nonfree Javascript code, then you should not refer
+to it.  Thus, if the purpose of referring to the page is for people to
+view a video, or subscribing to a mailing list, and the viewing or
+subscribing fail to work if the user&rsquo;s browser blocks the nonfree
+Javascript code, then don&rsquo;t refer to that page.
+</p>
+<p>The extreme case is that of web sites which depend on nonfree
+Javascript code even to <em>see</em> the contents of the pages.  Any site
+hosted on <a href="wix.com">wix.com</a> has this problem, and so do some other sites.
+Referring people to such pages to read their contents is, in effect,
+urging them to run those nonfree programs&mdash;so please don&rsquo;t refer to
+those pages.  (Such pages also break the Web, so they deserve
+condemnation for two reasons.)
+</p>
+<p>Instead, please quote excerpts from the page to make your point,
+or find another place to refer to that information.
 </p>
 <hr>
 <a name="GNU-Free-Documentation-License"></a>

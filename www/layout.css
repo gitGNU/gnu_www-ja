@@ -130,13 +130,27 @@ Purple links
 */
 
 
-/*** GENERAL SETTINGS ***/
+/*** MAIN DIVS ***/
+
+/*
+From top to bottom:
+   #searcher + #toplinks             [body-include-1.html]
+   #translations                     [body-include-1.html]
+   #header (#gnu-banner, #fsf-frame) [body-include-2.html]
+   #navigation                       [body-include-2.html]
+   (#edu-navigation in a few pages)  [<page>.html]
+   #content                          [<page>.html]
+   #fsf-links                        [footer-text.html]
+   #mission-statement + #backtotop   [footer-text.html]
+   #footer                           [<page>.html]
+*/
+
+
+/***  PAGE LAYOUT  ***/
 
 html, body {
    font-size: 1em;
    text-align: left;
-   padding: 0;
-   margin: 0;
    text-decoration: none;
    color: #000;
 }
@@ -157,22 +171,65 @@ body {
    -o-box-shadow: 0 0 10px 10px #b9bcbf;
    box-shadow: 0 0 10px 10px #b9bcbf;
 }
+
+/** Widths **/
+
+/* To avoid a few problems with pages outside www.gnu.org,
+   the paddings and margins are defined without using
+   .inner. */
 .inner { overflow: hidden; }
 
-.inner h2, .inner  ul { padding-left: 1.5%; }
-#content ul { padding-left: 0; }
+#searcher, #translations, #header, #content,
+ #mission-statement, #footer {
+   padding-left: 1.5%; padding-right: 1.5%;
+}
+#content ul#edu-navigation {
+   margin-left: -1.6%; margin-right: -1.6%;
+}
 
-a[href] { color: #005090; }
-a[href]:visited { color: #100070; }
-a[href]:active, a[href]:hover { color: #777; }
+/** Backgrounds **/
 
-blockquote { margin: 1em; font-style: italic; }
+#searcher, #translations, #edu-navigation, #fsf-links {
+   background-color: #d1d4d7;
+}
+#footer { background-color: #f0f2f4; }
 
-acronym, abbr { border-bottom: 1px dotted #111; }
+#navigation { background-color: #a50606; }
 
-img { border: 0; }
 
+/** Fonts **/
+
+#searcher, #toplinks, #translations, #header,
+ #navigation, #edu-navigation,
+ #fsf-links { font-family: "FreeSans", sans-serif; }
+
+
+/*** BASIC ELEMENTS ***/
+
+/** Size and positioning **/
+
+p, pre, li, dt, dd, code, address { line-height: 1.3em; }
+
+/* These headers are appropriate for templated pages with div#content, but
+   generally too big for a few non-templated pages that use layout.css.
+   Another set of headers will have to be defined for those. */
+#content h1 { font-size: 2.4em; }
+#content h2 { font-size: 2em; }
+#content h3 { font-size: 1.6em; }
+#content h4 { font-size: 1.3em; }
+#content h5 { font-size: 1.1em; }
+
+#content h1, #content h2 {
+   margin: .7em 0 .9em 0;
+}
+h3, h4, h5, h6 {
+   margin-top: 1em ;
+}
+p { margin-top: 1em ; }
 address { margin-bottom: 1em; }
+ol {
+   margin-left: 1.9em; margin-right: 1.9em;
+}
 
 /* separate the "term" from subsequent "description" */
 dt { margin-bottom: 1em; color: #222; }
@@ -185,15 +242,39 @@ dd { margin-bottom: 2em; }
    from subsequent <p> */
 dd p { margin-top: 1em; }
 
+small { font-size: .9em; }
+
+
+/** Style **/
+
+#content h1, #content h2 {
+   color: #334683; text-shadow: #999 1px 1px 0;
+}
+h3 { color: #333; }
+h4 { color: #333; }
+
+a[href] { color: #005090; }
+a[href]:visited { color: #100070; }
+a[href]:active, a[href]:hover { color: #777; }
+
+h3 a[href]:visited, h4 a[href]:visited { color: #334683; }
+h3 a[href]:hover,   h4 a[href]:hover   { color: #777; }
+
+ul li {
+   list-style: square;
+}
+
+blockquote { margin: 1em; font-style: italic; }
+acronym, abbr { border-bottom: 1px dotted #111; }
+
+
+/*** SIMPLE CLASSES ***/
 
 .center, .c { text-align: center; }
 .nocenter{ text-align: left; }
 
 .underline { text-decoration: underline; }
 .nounderline { text-decoration: none; }
-
-.imgright { float: right; margin: 1em; margin-right: 0; }
-.imgleft { float: left; margin: 1em; margin-left: 0; }
 
 .big { font-size: 130%; padding-top: 0.7em; }
 
@@ -202,36 +283,23 @@ dd p { margin-top: 1em; }
 .netscape4 { display: none !important; }
 
 
-/*** TOP OF THE PAGE ***/
+/*** SEPARATOR ***/
 
-#toplinks {
-   float: left;
-   font-size: .9em;
-   font-family: "FreeSans", sans-serif;
-   font-weight: bold;
-   padding: .6em 1.5em 0 1.5em;
-   margin: 0;
-}
-#toplinks a, #toplinks a:visited {
-   white-space: nowrap;
-   /* the next line is a workaround for Midori 0.5.8 */
-   display: inline-block;
-   color: #404040; text-decoration: none;
-   margin-right: 1em;
-}
-#toplinks a:hover { color: #777; }
-
-#searcher {
+/* For license-list.html, but could be used elsewhere. */
+hr.separator {
    display: block;
-   text-align: right;
-   font-weight: bold;
-   padding: .3em 1.5%;
-   background-color: #d1d4d7;
+   height: .3em;
+   margin-bottom: 1.2em;
+   color: #999;
+   background-color: #999;
+   border: none;
 }
+
+
+/*** FORMS ***/
+
 #searcher input {
    font-family: "FreeSans", sans-serif;
-   font-size: .9em;
-   margin: 0;
 }
 #searcher input[type="text"] {
    padding: .2em;
@@ -239,11 +307,6 @@ dd p { margin-top: 1em; }
    color: #555;
    background: white;
    border: .1em solid #c9cccf;
-   border-radius: .3em;
-   -moz-border-radius: .3em;
-   -khtml-border-radius: .3em;
-   -webkit-border-radius: .3em;
-   -opera-border-radius: .3em;
 }
 #searcher input[type="submit"] {
    padding: .2em .4em;
@@ -251,12 +314,6 @@ dd p { margin-top: 1em; }
    color: #333;
    background: #e7e9eb;
    border: .1em solid #c9cccf;
-   border-radius: .3em;
-   -moz-border-radius: .3em;
-   -khtml-border-radius: .3em;
-   -webkit-border-radius: .3em;
-   -opera-border-radius: .3em;
-
 }
 #searcher input[type="text"]:focus {
    color: #333;
@@ -269,126 +326,8 @@ dd p { margin-top: 1em; }
    cursor: pointer;
 }
 
-#translations {
-   clear: both;
-   text-align: left;
-   font-size: .8em;
-   font-family: "FreeSans", sans-serif;
-   line-height: 1.3em;
-   padding-bottom: .5em;
-   background-color: #d1d4d7;
-}
-#translations p {
-   padding: .1em .5em .2em .5em;
-   margin: 0 1.5%;
-   background-color: #f0f2f4;
-}
-#translations span {
-   white-space: nowrap;
-   margin-right: .5em;
-}
-#translations a, #translations a:visited {
-   color: #222; text-decoration: none;
-}
-/* Highlight the link to the original page */
-#translations span.original {
-   font-size: 1.1em; font-weight: bold;
-   padding-top: .3em;
-}
-#translations span.original a,
-#translations span.original a:visited {
-   color: #334683;
-}
-#translations a:hover,
-#translations span.original a:hover {
-   color: #777;
-}
-
-/* For translation lists below the navigation bar. */
-#content #translations { background: white; }
-#content #translations p {
-   padding: .2em .5em .3em .5em;
-   margin: 1em 0 0 0;
-   background: #e7e9eb;
-}
-
-/* Still used in some outdated translations. */
-#translations h3, #translations h4 {
-   font-size: 1em; font-weight: bold;
-   padding: 1em 1.5% 0 1.5%;
-   margin: 0;
-}
-#translations ul {
-   margin: 1em 1.5%;
-   background: #f0f2f4;
-}
-#translations li {
-   direction: ltr; display: inline; white-space: nowrap;
-   padding-left: 0.25em; padding-right: 0.25em;
-}
-/* Still used in some old /server/banner.*.html */
-#links { display: none !important; }
-
-
-/*** HEADER ***/
-
-#header {
-   font-family: "FreeSans", sans-serif;
-   margin: 0 1.5%;
-   background-color: white;
-}
-#header:after {
-   clear: both; content: ""; display: block;
-   height: 0px; visibility: hidden; width: 0px;
-}
-
-#fsf-frame {
-   float: right;
-   font-size: .9em;
-   text-align: center;
-   line-height: 1.3em;
-   width: auto;
-   padding: 0;
-   margin: 1em 0;
-}
-#fsf-frame a, #fsf-frame a:visited {
-   font-size: 1.1em;
-   font-weight: bold;
-   text-decoration: none;
-}
-#fsf-frame p { padding: 0; margin: 0; }
-#fsf-frame hr { display: none; }
-
-#join-fsf {
-   padding: .4em 0;
-}
-#join-fsf a, #join-fsf a:visited {
-   padding: .3em 1em;
-   color: #971611;
-   background: #e7e9eb;
-   border-radius: 1em;
-   -moz-border-radius: 1em;
-   -khtml-border-radius: 1em;
-   -webkit-border-radius: 1em;
-   -opera-border-radius: 1em;
-   box-shadow:  0 .15em #171d33;
-   -moz-box-shadow:  0 .15em #171d33;
-   -webkit-box-shadow:  0 .15em #171d33;
-   -icab-box-shadow:  0 .15em #171d33;
-   -o-box-shadow:  0 .15em #171d33;
-}
-
-#fssbox {
-   padding: 0;
-   margin-top: 1.3em;
-}
-#fssbox a, #fssbox a:visited {
-   color: #334683;
-}
-#fssbox form p { margin-top: .2em; }
 #fssbox input {
    font-family: "FreeSans", sans-serif;
-   font-weight: bold;
 }
 #fssbox input[type="text"] {
    padding: .2em;
@@ -396,11 +335,6 @@ dd p { margin-top: 1em; }
    color: #555;
    background: white;
    border: .1em solid #999;
-   border-radius: .3em;
-   -moz-border-radius: .3em;
-   -khtml-border-radius: .3em;
-   -webkit-border-radius: .3em;
-   -opera-border-radius: .3em;
 }
 #fssbox input[type="submit"] {
    padding: .2em .4em;
@@ -408,16 +342,6 @@ dd p { margin-top: 1em; }
    color: #333;
    background: #e7e9eb;
    border: .1em solid #e7e9eb;
-   border-radius: 1em;
-   -moz-border-radius: 1em;
-   -khtml-border-radius: 1em;
-   -webkit-border-radius: 1em;
-   -opera-border-radius: 1em;
-   box-shadow: 0 .15em #171d33;
-   -moz-box-shadow: 0 .15em #171d33;
-   -webkit-box-shadow: 0 .15em #171d33;
-   -icab-box-shadow: 0 .15em #171d33;
-   -o-box-shadow: 0 .15em #171d33;
 }
 #fssbox input[type="text"]:focus {
    color: #333;
@@ -429,293 +353,15 @@ dd p { margin-top: 1em; }
 #fssbox input[type="text"]:focus + input[type="submit"] {
    border: .1em solid #334683;
 }
-#fsf-frame a:hover { color: #777; }
-
-/* For "normal" pages */
-
-@media (max-width: 40em) {
-   #gnu-banner { clear: both }
-}
-
-#gnu-banner {
-   font-size: 1.8em;
-   font-weight: bold;
-   line-height: 1.3em;
-   padding-top: 1.1em;
-}
-#gnu-banner img {
-   float: left;
-   height: 2.4em;
-   margin: 0 .15em;
-   position: relative; bottom: .4em;
-}
-#gnu-banner a {
-   color: #334683; text-decoration: none;
-}
-#gnu-banner a strong {
-   font-size: 1.4em;
-   color: #971611;
-}
-#fsf-support {
-   text-align: left;
-   font-size: .9em;
-   font-weight: bold;
-   font-style: italic;
-   padding: .5em 0;
-   margin: 0;
-   color: #555;
-}
-#fsf-support a, #fsf-support a:visited { color: #555; }
-#fsf-support a:hover { color: black; }
-
-/* For the pages still using style.css */
-#logo {
-   background:url(/graphics/topbanner.png) no-repeat;
-   float: left;
-   padding:0; margin:0; border:0;
-}
-#logo a {
-   display:block; overflow:hidden;
-   width:550px;
-   height:0px !important;
-   text-decoration:none;
-   padding:0; padding-top:101px;
-   margin:0; border:0;
-   cursor:pointer;
-}
-
-/*** PROMOTIONAL BANNER ***/
-
-.promo-banner {
-    background-position: 99% 9%;
-    background-color: #ccc;
-    background-repeat: no-repeat;
-    font-size: large;
-    overflow: hidden;
-    padding: 1em 6em 0.25em 6em;     /* size-review */
-}
 
 
-/*** NAVIGATION BAR ***/
 
-#navigation {
-   clear: both;
-   font-family: "FreeSans", sans-serif;
-   padding: .3em;
-   background-color: #a50606;
-}
-
-#navigation:after {
-   clear: both; content: ""; display: block;
-   height: 0px; visibility: hidden; width: 0px;
-}
-#navigation ul {
-   text-align: center;
-   font-size: 0.9em;
-   line-height: 1.8em;
-   padding: 0;
-   margin: 0;
-   background-color: #a50606;
-}
-#navigation li {
-   display: inline; white-space: nowrap;
-   padding: 0;
-}
-#navigation li a, #navigation li a:visited {
-   font-weight: bold;
-   padding: .3em .5em;
-   color: white; text-decoration: none;
-}
-#navigation li.active a {
-   color: #333;
-   background-color: white;
-}
-#navigation li a:hover {
-   text-decoration: underline;
-}
-
-
-/*** CONTENT ***/
-
-#content {
-   text-align: left;
-   padding: 0 1.5% 1em 1.5%; margin-top: 0;
-}
-#content h1, #content h2 {
-   font-weight:bold;
-   padding: 0; margin: .7em 0 .9em 0;
-   color: #334683; text-shadow: #999 1px 1px 0;
-}
-#content h1 { font-size: 2.4em; }
-#content h2 { font-size: 2em; }
-
-#content h3, #content h4, #content h5, #content h6, #content p {
-   margin-top: 1em ;
-}
-#content h3 { font-size: 1.6em; color: #333; }
-#content h4 { font-size: 1.3em; color: #333; }
-#content h5 { font-size: 1.1em; }
-#content h6 { font-size: 1em; }
-#content ul li, #fsf-campaigns ul li {
-   list-style: square;
-}
-#content ol {
-  list-style: decimal; margin-left: 1.9em; margin-right: 1.9em;
-}
-#content li, #fsf-campaigns li, #content dd, #content p, #content pre,
-   #content dt, #content code, #content address { line-height: 1.3em; }
-
-#content h3 a[href]:visited, #content h4 a[href]:visited { color: #334683; }
-#content h3 a[href]:hover, #content h4 a[href]:hover { color: #777; }
-
-/* For column headers in education.html, but could apply elsewhere. */
-#content .yui-gc h2 {
-   text-shadow: none;
-   margin-bottom: .7em;
-}
-
-#content small { font-size: .9em; }
-
-/* Equivalent of #backtotop within a section */
-#content p.back {
-   text-align: right;
-   font-weight: bold;
-   line-height: 1.5em;
-   padding: .6em 1em .4em 1em; }
-#content p.back a, .back a:visited { color: #333; }
-#content p.back a:hover { color: #777; }
-
-
-/*** ADDITIONAL LINKS ***/
-
-#fsf-links {
-   clear: both;
-   font-family: "FreeSans", sans-serif;
-   padding: .3em;
-   background-color: #d1d4d7;
-}
-#fsf-links ul {
-   text-align: center;
-   font-size: .9em;
-   line-height: 1.8em;
-   margin: 0;
-   background-color: #d1d4d7;
-}
-#fsf-links li {
-   display: inline; white-space: nowrap;
-   list-style: none;
-   padding: 0;
-}
-#fsf-links li a, #fsf-links li a:visited {
-   font-weight: bold;
-   padding: .3em .5em;
-   color: #222; text-decoration: none;
-}
-#fsf-links li a:hover {
-   text-decoration: underline;
-}
-
-
- /*** FSF STUFF ***/
-
-#mission-statement {
-   font-size: 0.9em;
-   margin: 2em 1.5% 1em 1.5%;
-}
-#mission-statement blockquote {
-   font-weight: bold;
-   margin: 1em  0;
-}
-#mission-statement img {
-   float: left;
-   height: 2em;
-   margin: .3em .5em;
-}
-#mission-statement p { margin: 0 0 .2em 0; }
-
-#backtotop a {
-   clear: both;
-   float: right;
-   font-size: 1.1em;
-   font-weight: bold;
-   margin: .7em 1em 1.5em 1em;
-}
-div#backtotop {
-/* For older versions of layout. */
-   margin: .7em 0 0 0;
-   text-align: right; padding: 1em;
-}
-#backtotop a, #backtotop a:visited { color: #333; }
-#backtotop a:hover { color: #777; }
-
-#sisters { font-size: .9em; margin: 0 1.5% 1.5em 1.5%; }
-
-
-/*** FOOTER ***/
-
-#footer {
-   clear: both;
-   font-size: .9em;
-   padding: 1.11em 1.5%;
-   color: #333;
-   background-color: #f0f2f4;
-   border-top: 1px solid #c9cccf;
-}
-#footer p { margin-bottom: 0; }
-
-#footer .unprintable, #footer .translators-credits {
-   margin-bottom: .7em;
-}
-
-#bottom-notes { margin-top: .7em; }
-
-
-/*** HOME PAGE ***/
-
-#home:after {
-   clear: both; content: ""; display: block;
-   height: 0px; visibility: hidden; width: 0px;
-}
-
-#home .first-column {
-   width: 60%;
-   float: left;
-}
-#home .second-column {
-   width: 38%;
-   float: right;
-}
-@media (max-width: 40em) {
-   #home .first-column, #home .second-column {
-      float: none;
-      width: 100%;
-   }
-}
-#home .first-column, #home .second-column {
-   margin-bottom: 2em; margin-top: 0;
-}
-
-#home h2 {
-   text-shadow: none;
-   margin-bottom: .6em;
-}
-#home .first-column img { width: 80%; margin: .5em 0 1em 0; }
-#home .second-column h4 img { height: .75em; width: .75em; }
+/*** BUTTONS ***/
 
 #home .button {
    text-align: center;
    font-weight: bold;
    margin-top: .7em; margin-bottom: .8em;
-   box-shadow: 0 .15em #171d33;
-   -moz-box-shadow: 0 .15em #171d33;
-   -webkit-box-shadow: 0 .15em #171d33;
-   -icab-box-shadow: 0 .15em #171d33;
-   -o-box-shadow: 0 .15em #171d33;
-   border-radius: 1em;
-   -moz-border-radius: 1em;
-   -khtml-border-radius: 1em;
-   -webkit-border-radius: 1em;
-   -opera-border-radius: 1em;
 }
 .button a, .button a:visited {
    color: #971611;
@@ -736,6 +382,92 @@ div#backtotop {
    background-color: #e7e9eb;
 }
 
+
+/*** SPECIAL BORDERS ***/
+
+#searcher input[type="text"], #searcher input[type="submit"],
+ #fssbox input[type="text"] {
+   border-radius: .3em;
+   -moz-border-radius: .3em;
+   -khtml-border-radius: .3em;
+   -webkit-border-radius: .3em;
+   -opera-border-radius: .3em;
+}
+#home .button, #join-fsf a, #join-fsf a:visited, #fssbox input[type="submit"] {
+   box-shadow: 0 .15em #171d33;
+   -moz-box-shadow: 0 .15em #171d33;
+   -webkit-box-shadow: 0 .15em #171d33;
+   -icab-box-shadow: 0 .15em #171d33;
+   -o-box-shadow: 0 .15em #171d33;
+   border-radius: 1em;
+   -moz-border-radius: 1em;
+   -khtml-border-radius: 1em;
+   -webkit-border-radius: 1em;
+   -opera-border-radius: 1em;
+}
+
+
+/*** RETURN LINKS ***/
+
+#backtotop a {
+   clear: both;
+   float: right;
+   font-size: 1.1em;
+   font-weight: bold;
+   margin: .7em 1em 1.5em 1em;
+}
+#backtotop a, #backtotop a:visited { color: #333; }
+#backtotop a:hover { color: #777; }
+
+/* Equivalent of #backtotop within a section */
+p.back {
+   text-align: right;
+   font-weight: bold;
+   line-height: 1.5em;
+   padding: .6em 1em .4em 1em; }
+p.back a, .back a:visited { color: #333; }
+p.back a:hover { color: #777; }
+
+
+/*** BIG SECTION HEADERS ***/
+
+div.big-section {
+   float: left;
+}
+div.big-section h3 {
+   font-size: 1.8em;
+   padding: .2em 0;
+   margin: 1.3em .3em .6em 0 ;
+   color: black;
+   border-top: .2em solid #6989b6;
+   border-bottom: .2em solid #6989b6;
+}
+div.big-subsection {
+   margin-top: 1.3em;
+   margin-bottom: 2em;
+}
+div.big-subsection h4 {
+   clear: both;
+   display: inline;
+   font-size: 1.5em;
+   margin-right: .3em;
+   color: black;
+}
+
+
+/*** ANCHOR ***/
+
+/* This is used in pages of lists, such as gnu-linux.faq.html,
+   to give readers a hint that they can link directly to a given item.
+   We make it less obtrusive than the item heading it follows.  */
+.anchor-reference-id { font-size: 80%; font-weight: normal; }
+
+span.anchor-reference-id a { color: #333; }
+span.anchor-reference-id a[href]:hover { color: #777; }
+
+
+/*** NON-FLOATING INSETS AND HIGHLIGHTED STUFF ***/
+
 .emph-box {
    padding: .3em 1.2em .5em 1.2em;
    margin-bottom: 2.5em;
@@ -743,31 +475,10 @@ div#backtotop {
    border: 1px solid #c9cccf;
 }
 .emph-box p { font-size: .9em }
-#content .emph-box h4 {
+.emph-box h4 {
    text-align: center;
    font-size: 1.5em;
 }
-
-#Action {
-   text-align: left;
-   padding: 0 1em;
-   border-left: .4em solid #b9bcbf; border-right: .4em solid #b9bcbf;
-}
-
-h2#Action {
-   text-align: center;
-}
-#Action h2 {
-   float: none;
-   text-align: center;
-   padding-top: 0;
-   color: #171d33;
-}
-#Action li { margin-bottom: .7em; }
-
-
-/*** HIGHLIGHTED STUFF ***/
-
 .highlight, .highlight-para {
    clear: both;
    margin-bottom: 1em;
@@ -784,18 +495,26 @@ h2#Action {
    background-color: #ffc;
    border: 2px solid #b9bcbf;
 }
+.lyrics {
+   background-color: #f0f2f4; font-style: italic; width: 25em;
+   padding: 2em; border: 2px solid #e7e9eb;
+   margin-left: 2em; margin-right: 2em;
+}
 
-/* For the announcements */
-#content div.announcement {
+/* Announcements */
+div.announcement {
    font-size: 1.1em; font-weight: bold;
    padding: 0 1em;
    margin: 1.5em 0;
    color: #333;
    border-left: .5em solid #b9bcbf;
 }
-#content div.announcement blockquote {
+div.announcement blockquote {
    margin-left: 0; margin-right: 0;
 }
+
+/* Note about Free Software Free Society */
+blockquote#fsfs p { padding: .3em 0; }
 
 /* the urgent div should be enabled when we have something urgent to
    appear on every page - these typically come from johns, peterb or rms
@@ -813,42 +532,17 @@ h2#Action {
 }
 #urgent a:hover { color: #777; }
 
-/* For the notes about mailing lists, etc. */
-#content .note {
-   clear: right;
-   float: right;
-   text-align: center;
-   font-style: normal;
-   width: 20em; max-width: 90%;
-   padding: 0;
-   margin: .3em 1em 1em 1em;
-   border: .3em solid #3465a4;
-}
-#content .note p {
-   font-size: 1.1em;
-   line-height: 1.4em;
-   padding: 0 1em;
-   margin: 1em 0;
-}
-#content .note strong { font-size: 1.2em; }
-
-/* For the note about Free Software Free Society */
-#content blockquote#fsfs p { padding: .3em 0; }
-
-
-/*** TRANSLATED PAGES ***/
-
 /* For the note saying the page is a translation. */
-#content .trans-disclaimer {
+.trans-disclaimer {
    text-align: center;
    font-weight: bold;
    font-style: italic;
    margin-bottom: 0;
    margin-top: 1.2em;
 }
-#content .trans-disclaimer a,
-#content .trans-disclaimer a:visited { color: #334683; }
-#content .trans-disclaimer a:hover { color: #777; }
+.trans-disclaimer a,
+.trans-disclaimer a:visited { color: #334683; }
+.trans-disclaimer a:hover { color: #777; }
 
 /* For outdated translations  */
 #outdated {
@@ -861,104 +555,65 @@ h2#Action {
 #outdated p {
    margin: 0.2em 0;
 }
-/* In the out-of-date notice, we use <br> elements to separate
-   translatable texts from automatically generated items. */
-#outdated br { display: none }
 #outdated a:visited { color: #334683; }
 #outdated a:hover { color: #777; }
 
 /* For translators notes */
-#content .translators-notes { font-size: .9em; }
-#content .translators-notes hr { margin-top: 1.65em; }
+.translators-notes { font-size: .9em; }
+.translators-notes hr { margin-top: 1.65em; }
 
 
-/*** EDUCATION ***/
+/*** FLOATING NOTES ***/
 
-/* definitions for /education-specific navigation bar
-   and breadcrumbs for education */
-#edu-navigation {
-   clear: both;
-   font-family: "FreeSans", sans-serif;
-   background-color: #d1d4d7;
-}
-ul#edu-navigation {
+.note {
+   clear: right;
+   float: right;
    text-align: center;
-   font-size: .9em; font-weight: bold;
-   line-height: 1.8em;
+   font-style: normal;
+   width: 20em; max-width: 90%;
    padding: 0;
-   margin: 0 -1.6%;
+   margin: .3em 1em 1em 1em;
+   border: .3em solid #3465a4;
 }
-#edu-navigation li {
-   display: inline; white-space: nowrap;
-   list-style-type: none;
-   padding: 0;
+.note p {
+   font-size: 1.1em;
+   line-height: 1.4em;
+   padding: 0 1em;
+   margin: 1em 0;
 }
-#edu-navigation li.current {
-    border-bottom: 4px solid #971611;
-}
-#edu-navigation li a, #edu-navigation li a:visited {
-   padding: .3em .45em .35em .45em;
-   color: #222; text-decoration: none;
-}
-#edu-navigation li.active a {
-   background-color: white;
-}
-#edu-navigation li a:hover,
-#edu-navigation li.active a:hover {
-   text-decoration: underline;
-}
+.note strong { font-size: 1.2em; }
 
-#content .edu-breadcrumb {
-   font-size: .9em;
-   font-weight: bold;
-   text-align: left;
-   padding-top: .4em;
-   margin-top: 0;
-   color: #333;
-}
-#content .edu-breadcrumb a,
-#content .edu-breadcrumb a:visited {
-   color: #334683;
-   text-decoration: none;
-}
-#content .edu-breadcrumb a:hover {
-   color: #777;
-}
 
-/* styles for subsections of /education "Case Studies" */
-div.edu-cases {
-   border-top: 5px ridge #3465a4;
-   border-bottom: 5px ridge #3465a4;
-   padding: 1.5em 0;
-   margin: 2em 4%;
-}
+/*** TABLES OF CONTENTS ***/
 
-/* make h3 for edu-cases look like h4 for other pages */
-#content div.edu-cases h3 {
-   font-size: 1.3em;
-   margin: 0; margin-bottom: 1em;
+div.toc {
+   max-width: 45em;
+   padding: 0 1em 1em 1em;
+   margin: 3em auto 1em auto;
+   background: #f0f2f4;
+   border: 1px solid #c9cccf;
 }
-div.edu-cases ul, div.edu-cases ol {
-   padding: 0 4%;
-}
+div.toc h3 { text-align: center; }
 
-/* For images in the Education section (and elsewhere?) */
-#content .photo {
+
+/*** IMAGES ***/
+
+.imgright { float: right; margin: 1em; margin-right: 0; }
+.imgleft { float: left; margin: 1em; margin-left: 0; }
+
+.photo {
    float: right;
    width: 30em; max-width: 100%;
    margin: .3em 0 1em 0;
 }
-#content .photo img, #content .photo p {
+.photo img, .photo p {
    width: 94%;
    padding: 0 6%;
 }
-#content .photo img.recessed { width: 90%; }
+.photo img.recessed { width: 90%; }
 
 
-/* End items specific to education */
-
-
-/*** LISTINGS AND TABLES ***/
+/*** LISTINGS ***/
 
 .listing,
 .stx table {
@@ -1022,7 +677,413 @@ table.listing {
    margin: auto;
 }
 
-/* This is for licenses/gpl-faq.html. */
+
+/*** TOP LINKS ***/
+
+#toplinks {
+   float: left;
+   font-size: .9em;
+   font-weight: bold;
+   padding: .6em 1.5em 0 1.5em;
+   margin: 0;
+}
+#toplinks a, #toplinks a:visited {
+   white-space: nowrap;
+   /* the next line is a workaround for Midori 0.5.8 */
+   display: inline-block;
+   color: #404040; text-decoration: none;
+   margin-right: 1em;
+}
+#toplinks a:hover { color: #777; }
+
+
+/*** SEARCHER ***/
+
+#searcher {
+   display: block;
+   text-align: right;
+   font-weight: bold;
+   padding-top: .3em; padding-bottom: .3em;
+}
+#searcher input {
+   font-size: .9em;
+   margin: 0;
+}
+
+
+/*** TRANSLATION LIST ***/
+
+#translations {
+   clear: both;
+   text-align: left;
+   font-size: .8em;
+   line-height: 1.3em;
+   padding-bottom: .5em;
+}
+#translations p {
+   padding: .1em .5em .2em .5em;
+   margin: 0;
+   background-color: #f0f2f4;
+}
+#translations span {
+   white-space: nowrap;
+   margin-right: .5em;
+}
+#translations a, #translations a:visited {
+   color: #222; text-decoration: none;
+}
+/* Highlight the link to the original page */
+#translations span.original {
+   font-size: 1.1em; font-weight: bold;
+   padding-top: .3em;
+}
+#translations span.original a,
+#translations span.original a:visited {
+   color: #334683;
+}
+#translations a:hover,
+#translations span.original a:hover {
+   color: #777;
+}
+
+/* For translation lists below the navigation bar. */
+#content #translations { background: white; }
+#content #translations p {
+   padding: .2em .5em .3em .5em;
+   margin: 1em 0 0 0;
+   background: #e7e9eb;
+}
+
+/* Still used in some outdated translations. */
+#translations h3, #translations h4 {
+   font-size: 1em; font-weight: bold;
+   padding: 1em 1.5% 0 1.5%;
+   margin: 0;
+}
+#translations ul {
+   margin: 1em 1.5%;
+   background: #f0f2f4;
+}
+#translations li {
+   direction: ltr; display: inline; white-space: nowrap;
+   padding-left: 0.25em; padding-right: 0.25em;
+}
+
+
+/*** HEADER ***/
+
+#header:after {
+   clear: both; content: ""; display: block;
+   height: 0px; visibility: hidden; width: 0px;
+}
+
+/** FSF frame **/
+
+#fsf-frame {
+   float: right;
+   font-size: .9em;
+   text-align: center;
+   line-height: 1.3em;
+   width: auto;
+   padding: 0;
+   margin: 1em 0;
+}
+#fsf-frame a, #fsf-frame a:visited {
+   font-size: 1.1em;
+   font-weight: bold;
+   text-decoration: none;
+}
+#fsf-frame p { padding: 0; margin: 0; }
+#fsf-frame hr { display: none; }
+
+#join-fsf {
+   padding: .4em 0;
+}
+#join-fsf a, #join-fsf a:visited {
+   padding: .3em 1em;
+   color: #971611;
+   background: #e7e9eb;
+}
+
+#fssbox {
+   padding: 0;
+   margin-top: 1.3em;
+}
+#fssbox a, #fssbox a:visited {
+   color: #334683;
+}
+#fssbox form p { margin-top: .2em; }
+#fssbox input {
+   font-weight: bold;
+}
+#fsf-frame a:hover { color: #777; }
+
+
+/** GNU banner **/
+
+#gnu-banner {
+   font-size: 1.8em;
+   font-weight: bold;
+   line-height: 1.3em;
+   padding-top: 1.1em;
+}
+#gnu-banner img {
+   float: left;
+   height: 2.4em;
+   margin: 0 .15em;
+   position: relative; bottom: .4em;
+}
+#gnu-banner a {
+   color: #334683; text-decoration: none;
+}
+#gnu-banner a strong {
+   font-size: 1.4em;
+   color: #971611;
+}
+#fsf-support {
+   text-align: left;
+   font-size: .9em;
+   font-weight: bold;
+   font-style: italic;
+   padding: .5em 0;
+   margin: 0;
+   color: #555;
+}
+#fsf-support a, #fsf-support a:visited { color: #555; }
+#fsf-support a:hover { color: black; }
+
+@media (max-width: 40em) {
+   #gnu-banner { clear: both }
+}
+
+
+/*** NAVIGATION BARS ***/
+
+#navigation {
+   clear: both;
+   padding: .3em;
+}
+
+#navigation:after {
+   clear: both; content: ""; display: block;
+   height: 0px; visibility: hidden; width: 0px;
+}
+#navigation ul {
+   text-align: center;
+   font-size: 0.9em;
+   line-height: 1.8em;
+   padding: 0;
+   margin: 0;
+   background-color: #a50606;
+}
+#navigation li {
+   display: inline; white-space: nowrap;
+   padding: 0;
+}
+#navigation li a, #navigation li a:visited {
+   font-weight: bold;
+   padding: .3em .5em;
+   color: white; text-decoration: none;
+}
+#navigation li.active a {
+   color: #333;
+   background-color: white;
+}
+#navigation li a:hover {
+   text-decoration: underline;
+}
+
+#edu-navigation {
+   clear: both;
+}
+ul#edu-navigation {
+   text-align: center;
+   font-size: .9em; font-weight: bold;
+   line-height: 1.8em;
+   padding: 0;
+   margin-top: 0; margin-bottom: 0;
+}
+#edu-navigation li {
+   display: inline; white-space: nowrap;
+   list-style-type: none;
+   padding: 0;
+}
+#edu-navigation li.current {
+    border-bottom: 4px solid #971611;
+}
+#edu-navigation li a, #edu-navigation li a:visited {
+   padding: .3em .45em .35em .45em;
+   color: #222; text-decoration: none;
+}
+#edu-navigation li.active a {
+   background-color: white;
+}
+#edu-navigation li a:hover,
+#edu-navigation li.active a:hover {
+   text-decoration: underline;
+}
+
+#fsf-links {
+   clear: both;
+   padding: .3em;
+}
+#fsf-links ul {
+   text-align: center;
+   font-size: .9em;
+   line-height: 1.8em;
+   margin: 0;
+   background-color: #d1d4d7;
+}
+#fsf-links li {
+   display: inline; white-space: nowrap;
+   list-style: none;
+   padding: 0;
+}
+#fsf-links li a, #fsf-links li a:visited {
+   font-weight: bold;
+   padding: .3em .5em;
+   color: #222; text-decoration: none;
+}
+#fsf-links li a:hover {
+   text-decoration: underline;
+}
+
+
+/*** CONTENT ***/
+
+#content {
+   padding-bottom: 1em;
+}
+
+
+/*** MISSION STATEMENT ***/
+
+#mission-statement {
+   font-size: 0.9em;
+   margin-top: 2em; margin-bottom: 1em;
+}
+#mission-statement blockquote {
+   font-weight: bold;
+   margin: 1em  0;
+}
+#mission-statement img {
+   float: left;
+   height: 2em;
+   margin: .3em .5em;
+}
+#mission-statement p { margin: 0 0 .2em 0; }
+
+
+/*** FOOTER ***/
+
+#footer {
+   clear: both;
+   font-size: .9em;
+   padding-top: 1em; padding-bottom: 1em;
+   color: #333;
+   border-top: 1px solid #c9cccf;
+}
+#footer p { margin: 0; }
+
+#footer .unprintable, #footer .translators-credits {
+   margin-bottom: .7em;
+}
+
+#bottom-notes p { margin-top: .7em; }
+
+
+/*** EDUCATION ***/
+
+/* Breadcrumbs */
+.edu-breadcrumb {
+   font-size: .9em;
+   font-weight: bold;
+   text-align: left;
+   padding-top: .4em;
+   margin-top: 0;
+   color: #333;
+}
+.edu-breadcrumb a,
+.edu-breadcrumb a:visited {
+   color: #334683;
+   text-decoration: none;
+}
+.edu-breadcrumb a:hover {
+   color: #777;
+}
+
+/* Subsections of /education "Case Studies" */
+div.edu-cases {
+   border-top: 5px ridge #3465a4;
+   border-bottom: 5px ridge #3465a4;
+   padding: 1.5em 0;
+   margin: 2em 4%;
+}
+
+/* make h3 for edu-cases look like h4 for other pages */
+div.edu-cases h3 {
+   font-size: 1.3em;
+   margin: 0; margin-bottom: 1em;
+}
+div.edu-cases ul, div.edu-cases ol {
+   padding: 0 4%;
+}
+
+
+/*** THIS WILL MOVE TO THE HTML EVENTUALLY ***/
+
+/* home.html */
+
+#home:after {
+   clear: both; content: ""; display: block;
+   height: 0px; visibility: hidden; width: 0px;
+}
+
+#home .first-column {
+   width: 60%;
+   float: left;
+}
+#home .second-column {
+   width: 38%;
+   float: right;
+}
+@media (max-width: 40em) {
+   #home .first-column, #home .second-column {
+      float: none;
+      width: 100%;
+   }
+}
+#home .first-column, #home .second-column {
+   margin-bottom: 2em; margin-top: 0;
+}
+
+#home h2 {
+   text-shadow: none;
+   margin-bottom: .6em;
+}
+#home .first-column img { width: 80%; margin: .5em 0 1em 0; }
+#home .second-column h4 img { height: .75em; width: .75em; }
+
+#Action {
+   text-align: left;
+   padding: 0 1em;
+   border-left: .4em solid #b9bcbf; border-right: .4em solid #b9bcbf;
+}
+
+h2#Action {
+   text-align: center;
+}
+#Action h2 {
+   float: none;
+   text-align: center;
+   padding-top: 0;
+   color: #171d33;
+}
+#Action li { margin-bottom: .7em; }
+#sisters { font-size: .9em; margin: 0 1.5% 1.5em 1.5%; }
+
+/* licenses/gpl-faq.html. */
+
 table#gpl-compat-matrix {
    display: block;
    width: 100%;
@@ -1045,93 +1106,61 @@ table#gpl-compat-matrix td.nok { background-color: #dddddd; }
 th.gpl-matrix-license { text-align: right; }
 tr.gpl-matrix-use-type { border-top: 2px solid black; }
 
-/* This is used in pages of lists, such as gnu-linux.faq.html,
-   to give readers a hint that they can link directly to a given item.
-   We make it less obtrusive than the item heading it follows.  */
-.anchor-reference-id { font-size: 80%; font-weight: normal; }
 
-span.anchor-reference-id a { color: #333; }
-span.anchor-reference-id a[href]:hover { color: #777; }
+/* music/music.html */
 
-/* For license-list.html */
-#content div.toc {
-   max-width: 45em;
-   padding: 0 1em 1em 1em;
-   margin: 3em auto 1em auto;
-   background: #f0f2f4;
-   border: 1px solid #c9cccf;
-}
-#content div.toc h3 { text-align: center; }
+.caption { color: #334683; font-size: 1.5em; margin:0; }
 
-#content div.big-section {
+
+/*** FOR PAGES USING OLD BOILERPLATES ***/
+
+/* [Patches have been sent to the maintainers]
+   software/emacs-muse/manual.es/pagina-en-gnu-es.html
+   software/gnowsys/index.html
+   software/gnu-c-manual/index.html
+   software/mtools/*
+   software/sather/index/html
+   audio-video.gnu.org/video/ghm*
+   audio-video.gnu.org/video/individual-projects/index.html
+*/
+#logo {
+   background:url(/graphics/topbanner.png) no-repeat;
    float: left;
+   padding:0; margin:0; border:0;
 }
-#content div.big-section h3 {
-   font-size: 1.8em;
-   padding: .2em 0;
-   margin: 1.3em .3em .6em 0 ;
-   color: black;
-   border-top: .2em solid #6989b6;
-   border-bottom: .2em solid #6989b6;
+#logo a {
+   display:block; overflow:hidden;
+   width:550px;
+   height:0px !important;
+   text-decoration:none;
+   padding:0; padding-top:101px;
+   margin:0; border:0;
+   cursor:pointer;
 }
-#content div.big-subsection {
-   margin-top: 1.3em;
-   margin-bottom: 2em;
-}
-#content div.big-subsection h4 {
-   clear: both;
-   display: inline;
-   font-size: 1.5em;
-   margin-right: .3em;
-   color: black;
-}
-
-hr.separator {
-   display: block;
-   height: .3em;
-   margin-bottom: 1.2em;
-   color: #999;
-   background-color: #999;
-   border: none;
-}
-/* End license-list definitions */
-
-
-/*** MUSIC ***/
-
-#content .caption { color: #334683; font-size: 1.5em; margin:0; }
-
-.lyrics {
-   background-color: #f0f2f4; font-style: italic; width: 25em;
-   padding: 2em; border: 2px solid #e7e9eb;
-   margin-left: 2em; margin-right: 2em;
+/* software/gnu-c-manual/index.html */
+#links { display: none !important; }
+div#backtotop {
+   margin: .7em 0 0 0;
+   text-align: right; padding: 1em;
 }
 
 
-/*** IMAGES ***/
+/*** FOR MANUALS AND SPECIAL PAGES ***/
 
-/* Still used in /s/cgicc/. */
-#gplv3-dogear {
-   position: absolute;
-   top: -1px;
-   left: -1px;
+/* software/emacs/emacs-paper.html
+   software/sather/docs-1.2/tutorial/sather-tutorial.html
+   software/sather/docs-1.2/specification/sather-specification.html */
+/* Some day, these 3 pages will use style.css, and their definitions will
+   move. */
+h1:first-child { font-size: 2em; margin: 0 3% 1em 3%; padding-top: 1em;}
+h1 { font-size: 1.7em;  margin: 1em 0 0.9em 0; } /* For emacs-paper.html */
+h2 { font-size: 1.4em;  margin: 1em 0 0.9em 0; }
+h3 { font-size: 1.25em; margin: 1em 0 0.9em 0; }
+h4 { font-size: 1.1em;  margin: 1em 0 0.9em 0; }
+h5 { font-size: 1.0em;  margin: 1em 0 1.0em 0; }
+body > h1, body > h2, body > h3, body > h4, body > h5, body > p, body > pre,
+ body > ul, body > ol, body > dl, body > table, body > blockquote, div.book {
+   margin-left: 3%; margin-right: 3%;
 }
-#gplv3-dogear h3 {margin: 0;}
-#gplv3-dogear a {
-   background-image: url('/graphics/dogear.png');
-   border: 0;
-   display: block;
-   overflow: hidden;
-   height: 0px !important;
-   width: 64px;
-   padding: 0;
-   padding-top: 64px;
-   cursor: pointer;
-}
+body > hr { margin-top: 2em; }
 
-
-/*** UNUSED? ***/
-
-.pad { margin-bottom: 1em; }
-.pad td { padding-left: 1em; padding-right: 1em; }
-div.spacer { height: .1em; width: 100%; background-color: transparent; }
