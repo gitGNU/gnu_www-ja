@@ -601,6 +601,7 @@ philosophy := 	15-years-of-free-software \
 		w3c-patent \
 		wassenaar \
 		whats-wrong-with-youtube \
+		when-free-depends-on-nonfree \
 		when-free-software-isnt-practically-superior \
 		who-does-that-server-really-serve \
 		why-audio-format-matters \

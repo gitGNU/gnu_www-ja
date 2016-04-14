@@ -1,28 +1,243 @@
-/* this stylesheet is used by older resources, as well as manuals. */
+/* This stylesheet is used by manuals and a few older resources. */
 
-@import url('/combo.css');
-@import url('/layout.css');
+@import url('/reset.css');
 
-/* some very basic styling for the pages that still use this. */
-body { margin: auto; width: 99%; max-width:74.92em; padding-bottom: 1em; }
 
-/* For pages which don't use #null-wrapper or .inner (Emacs manual,
-   for example) */
-body h2, body h3, body h4, body h5, body p {
-   margin-left: 1.5%; margin-right: 1.5%;
+/***  PAGE LAYOUT  ***/
+
+html, body {
+   font-size: 1em;
+   text-align: left;
+   text-decoration: none;
 }
-body ul, body ol, body dl, body blockquote {
-   padding-left: 1.5%; padding-right: 1.5%;
-}
+html { background-color: #e7e7e7; }
 
-/* Specifically for sections of the Emacs manual which start at the top
-   of the page. */
-div.node { border-top: 1em solid white; }
-
-/* This restores the normal margin for pages which use #null-wrapper
-   or .inner. */
-#null-wrapper h2, #null-wrapper h3, #null-wrapper h4, #null-wrapper h5,
- #null-wrapper p, .inner h2, .inner h3, .inner h4, .inner h5, .inner p {
-   margin-left: 0; margin-right: 0;
+body {
+   max-width: 74.92em;
+   overflow-x: hidden;
+   margin: 0 auto;
+   padding: .5em 1em 1em 1em;
+   background-color: white;
+   border: .1em solid #c0c0c0;
 }
 
+
+/*** BASIC ELEMENTS ***/
+
+/* Size and positioning */
+
+p, pre, li, dt, dd, code, address { line-height: 1.3em; }
+
+h1 { font-size: 2em; margin: 1em 0 }
+h2 { font-size: 1.50em; margin: 1.0em 0 0.87em 0; }
+h3 { font-size: 1.30em; margin: 1.0em 0 0.87em 0; }
+h4 { font-size: 1.13em; margin: 1.0em 0 0.88em 0; }
+h5 { font-size: 1.00em; margin: 1.0em 0 1.00em 0; }
+
+p, pre { margin: 1em 0; }
+ul, ol, blockquote { margin-left: 1.5%; margin-right: 1.5%; }
+
+/* Lists of underlined links are difficult to read. The top margin
+   gives a little more spacing between entries. */
+ul li { margin: .5em 1em; }
+ol li { margin: 1em; }
+ol ul li { margin: .5em 1em; }
+ul li p, ul ul li { margin-top: .3em; margin-bottom: .3em; }
+ul ul, ol ul { margin-top: 0; margin-bottom: 0; }
+
+/* Separate description lists from preceding text */
+dl { margin: 1em 0 0 0; }
+/* separate the "term" from subsequent "description" */
+dt { margin: .5em 0; }
+/* separate the "description" from subsequent list item
+   when the final <dd> child is an anonymous box */
+dd { margin: .5em 3% 1em 3%; }
+/* separate anonymous box (used to be the first element in <dd>)
+   from subsequent <p> */
+dd p { margin: .5em 0; }
+
+table { margin-top: 1.5em; margin-bottom: 1.5em; }
+th { padding: .4em .5em; text-align: center; }
+td { padding: .3em .5em; }
+
+pre, table, table pre { overflow: auto; }
+
+hr { background-color: #ccc; }
+address { margin-bottom: 1em; }
+caption { margin-bottom: .5em; text-align: center; }
+sup { vertical-align: super; }
+sub { vertical-align: sub; }
+
+/* Style */
+
+h1, h2, h3, h4, h5, h6, strong, dt, th { font-weight: bold; }
+
+/* The default color (black) is too dark for large text in
+   bold font. */
+h1, h2, h3, h4 { color: #333; }
+h5, h6, dt { color: #222; }
+
+a[href] { color: #005090; }
+a[href]:visited { color: #100070; }
+a[href]:active, a[href]:hover { color: #777; }
+
+h1 a[href]:visited, h2 a[href]:visited, h3 a[href]:visited,
+ h4 a[href]:visited { color: #005090; }
+h1 a[href]:hover, h2 a[href]:hover, h3 a[href]:hover,
+ h4 a[href]:hover { color: #777; }
+
+ol { list-style: decimal outside;}
+ul { list-style: square outside; }
+ul ul, ol ul { list-style: circle; }
+li { list-style: inherit; }
+
+tr { border-bottom: 1px solid #eee; }
+
+abbr,acronym { border-bottom:1px dotted #000; cursor:help; }
+del { text-decoration: line-through; }
+em { font-style: italic; }
+small { font-size: .9em; }
+
+
+/*** SIMPLE CLASSES ***/
+
+.center, .c { text-align: center; }
+.nocenter{ text-align: left; }
+
+.underline { text-decoration: underline; }
+.nounderline { text-decoration: none; }
+
+.inline-list li { display: inline }
+
+.netscape4, .no-display { display: none; }
+
+
+/*** MANUAL PAGES ***/
+
+/* This makes the very long tables of contents in Gnulib and other
+   manuals easier to read. */
+.contents ul, .shortcontents ul { font-weight: bold; }
+.contents ul ul, .shortcontents ul ul { font-weight: normal; }
+.contents ul { list-style: none; }
+
+/* For colored navigation bars (Emacs manual): make the bar extend
+   across the whole width of the page and give it a decent height. */
+.header, .node { margin: 0 -1em; padding: 0 1em; }
+.header p, .node p { line-height: 2em; }
+
+div.display, div.example, div.lisp, div.smalldisplay,
+ div.smallexample, div.smalllisp { margin-left: 3%; }
+
+div.example { margin-top: 1em; margin-bottom: 1em; }
+pre.example {
+   padding: .7em 1em .8em 1em;
+   margin: 0;
+   /* Copied from the Datamash manual: */
+   /* Round Corners */
+   -webkit-border-radius: .3em;
+   -moz-border-radius: .3em;
+   border-radius: .3em;
+   border: 1px solid #c0c0c0;
+   background-color: #f3f3f3;
+}
+pre.menu-comment { padding-top: 1.3em; margin: 0; }
+
+
+/* -------------------------------------------------------
+   This will be removed when the pages with an old-style
+   banner and footer are updated to a recent boilerplate. */
+
+/* This restores the normal margin for pages that use #null-wrapper. */
+#null-wrapper { margin: -1em; }
+#translations, #header, #null-wrapper #content, #footer {
+   padding-left: 3%; padding-right: 3%;
+}
+#links { display: none; }
+
+#content h2 { font-size: 2em; }
+
+/* GNU banner */
+
+#logo {
+   background:url(/graphics/topbanner.png) no-repeat;
+   float: left;
+   padding:0; margin:0; border:0;
+}
+#logo a {
+   display:block; overflow:hidden;
+   width:550px;
+   height:0px;
+   text-decoration:none;
+   padding:0; padding-top:101px;
+   margin:0; border:0;
+   cursor:pointer;
+}
+
+/* Navigation bar */
+
+#navigation ul {
+   clear: both;
+   text-align: center;
+   font-size: .9em;
+   font-family: "FreeSans", sans-serif;
+   padding: .2em;
+   margin: 0;
+   background-color: #a50606;
+}
+#navigation li {
+   display: inline-block;
+   font-weight: bold;
+   padding: .15em .25em;
+   margin: 0;
+   border: .15em solid #a50606; /* To avoid size change when active. */
+}
+#navigation li a {
+   padding: .15em 0;
+   text-decoration: none;
+}
+#navigation li a, #navigation li a:visited { color: white; }
+#navigation li a:hover { text-decoration: underline; }
+
+#navigation li.active {
+   font-style: italic;
+   border: .15em solid white;
+}
+#navigation li.active a:hover { text-decoration: none; }
+
+
+/* Return link */
+
+div#backtotop {
+   text-align: right;
+   line-height: 1.5em;
+   font-weight: bold;
+   margin: 1.5em 5%;
+}
+#backtotop a, #backtotop a:visited { color: #333; }
+#backtotop a:hover { color: #777; }
+
+/* Footer */
+
+#footer {
+   clear: both;
+   color: #333;
+   padding-top: 1em; padding-bottom: 1em;
+   background-color: #f2f2f2;
+   border: 1px solid #c0c0c0;
+}
+#footer p { font-size: .9em; margin: 0; }
+
+#footer .unprintable, #footer .translators-credits {
+   margin-bottom: .7em;
+}
+/*--------------------------------------------------------*/
+
+
+/*** RESPONSIVE BEHAVIOR **/
+
+@media (min-width: 40em) {
+   body { padding: .5em 3em 1em 3em; }
+   div.header, div.node { margin: 0 -3em; padding: 0 3em; }
+   #null-wrapper { margin: 0 -3em; }
+   #navigation ul { font-size: 1em; }
+}
