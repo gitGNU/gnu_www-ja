@@ -8,38 +8,63 @@
 
 <!--#include virtual="/software/po/software.translist" -->
 <style type="text/css" media="print,screen">
+<!--
+div.package-list {
+   padding-top: .7em; padding-bottom: 1em;
+   margin: 1.5em 0;
+}
+div.package-list a, div.package-list a:visited {
+   display: inline-block;
+   width: 9em;
+   line-height: 1.5em;
+   text-decoration: none;
+}
 #dynamic-duo {
    float: right;
-   width: 24em;
+   width: 20.8em; max-width: 90%;
    font-style: normal;
    text-align: center;
    padding: .8em;
-   margin: .3em 1em 1em 1em;
-   border: .5em solid #acc890;
+   margin: .3em 0 1em 1.5em;
+   border: .3em solid #acc890;
 }
 #dynamic-duo p strong {
    font-size: 1.3em;
 }
 #dynamic-duo img { width: 100%; }
-#dynamic-duo p.highlight-para {
-   text-align: left;
-   padding: .5em .8em .7em .8em;
-   margin: .5em;
-   border-width: 1px;
-}
+-->
+<!--#if expr="$LANGUAGE_SUFFIX = /[.](ar|fa|he)/" -->
+<!--
+#content #dynamic-duo { float: left; margin: .3em 1.5em 1em 0; } -->
+<!--#endif -->
+<!--
+@media (max-width: 46em) {
+   #content #dynamic-duo { display: none; }
+} -->
+
+
+
+
+
 </style>
 
 <!--#include virtual="/server/fs-gang-definitions.html" -->
 <!--#include virtual="/server/banner.ja.html" -->
 <h2>GNUソフトウェア</h2>
 
-<blockquote id="dynamic-duo">
-<p><strong>ディストリビューションをダウンロード</strong></p>
-<p><a href="/distros/free-distros.html">
-<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="GNUとLinux" /></a></p>
-<p class="highlight-para">全体のシステムをインストールするものを探している場合、わたしたちの<a
-href="/distros/free-distros.html">完全に自由ソフトウェアのGNU/Linuxディストリビューションの一覧</a>をご覧ください。</p>
-</blockquote>
+<div class="summary">
+<hr class="no-display" />
+<ul>
+  <li><strong><a href="/distros/free-distros.html">全体が自由なGNU/Linux
+ディストリビューション</a>をダウンロードする。</strong></li>
+  <li><a href="/distros/distros.html">GNU/Linuxディストリビューション</a></li>
+  <li><a href="http://directory.fsf.org/wiki/GNU/">自由ソフトウェア・ディレクトリ</a></li>
+  <li><a href="/manual/manual.html">マニュアル</a></li>
+  <li><a href="/software/devel.html">開発リソース</a></li>
+  <li><a href="/software/gethelp.html">助けてもらう</a></li>
+</ul>
+<hr class="no-display" />
+</div>
 
 <p><a
 href="/gnu/about-gnu.html">GNU</a>はオペレーティングシステムで、100%自由ソフトウェアです。それは1983年にリチャード・ストールマン(rms)により開始され、すべてのソフトウェアユーザが自身のコンピューティングを制御する自由のために一緒に作業する多くの人々により開発されて来ました。技術的には、GNUは一般的にUnixと同様です。しかし、Unixと違い、GNUはユーザに自由を与えます。</p>
@@ -65,6 +90,14 @@ href="/software/free-software-for-education.html">推奨される教育向けソ
 
 
 <h3 id="getgnu">GNUソフトウェアを入手する</h3>
+
+<blockquote id="dynamic-duo">
+<p><strong>ディストリビューションをダウンロード</strong></p>
+<p><a href="/distros/free-distros.html">
+<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="GNUとLinux" /></a></p>
+<p><em>全体のシステムをインストールするものを探している場合、わたしたちの<a
+href="/distros/free-distros.html">完全に自由ソフトウェアのGNU/Linuxディストリビューションの一覧</a>をご覧ください。</em></p>
+</blockquote>
 
 <p>GNUソフトウェアはいくつかの方法で入手できます。</p>
 
@@ -118,7 +151,7 @@ href="/software/devel.html">GNUソフトウェア開発者のリソース</a>の
 
 <h3><a id="allgnupkgs">すべてのGNUパッケージ</a></h3>
 
-<p>こちらに現在のGNUパッケージすべての一覧を示します。簡潔さのために長い名称ではなくパッケージの識別子で示し、アルファベット順となってます。この一覧について修正あるいは質問がある場合、こちら<a
+<p>現在のGNUパッケージすべてのホームページへのリンクを以下に示します。簡潔さのために長い名称ではなくパッケージの識別子で示し、左から右にアルファベット順となってます。この一覧について修正あるいは質問がある場合、こちら<a
 href="mailto:maintainers@gnu.org">&lt;maintainers@gnu.org&gt;</a>まで連絡ください。</p>
 
 <p>以下のリストもあります: </p>
@@ -130,10 +163,14 @@ href="mailto:maintainers@gnu.org">&lt;maintainers@gnu.org&gt;</a>まで連絡く
 <li><a href="/software/recent-releases.html">最近のGNUリリース</a>。</li>
 </ul>
 
+<div class="package-list emph-box">
+
 <!-- regenerate when official list changes, via
        gm generate packages html  (or see the Makefile)
      in the womb/gnumaint CVS source directory on savannah.  -->
 <!--#include virtual="/software/allgnupkgs.html" -->
+</div>
+
 <h3>退役したGNUパッケージ</h3>
 
 <p>GNUパッケージは時折、退役します。一般には、ほかのパッケージによって取って代わられたり、統合されたりしたために退役します。時間があり、このどれかについて復活させたいと考える方は、
@@ -251,7 +288,7 @@ Commons Attribution-NoDerivs 4.0 International License</a>の条件で許諾さ�
 <p class="unprintable"><!-- timestamp start -->
 最終更新:
 
-$Date: 2016/02/13 09:59:57 $
+$Date: 2016/06/24 04:59:40 $
 
 <!-- timestamp end -->
 </p>
