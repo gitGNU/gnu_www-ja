@@ -2,7 +2,7 @@
 layout.css -- css stylesheet used on www.gnu.org
 
 Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011,
-   2013, 2014, 2015 Free Software Foundation
+   2013, 2014, 2015, 2016 Free Software Foundation
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -41,40 +41,37 @@ Text
    white    #navigation
    #999     light gray: text shadow
    #222, #333, #404040, #555: special items
-   #777     medium gray: normal hover
-   #334683  blue from GNU banner: h2, special links
-   #004780  greenish blue: normal links
-   #100070  purplish blue: normal visited links
+   #777     medium gray: hover special links
+   #334683  blue from GNU banner: h1, h2
+   #005090  greenish blue: normal links
+   #100070  purplish blue: normal visited links, normal hover
    blue     #urgent links
    #171d33  dark blue (from screenshot): #Action h2
    #971611  red from GNU banner: .button link, #join-fsf
 
 Backgrounds
    white    #inner, navbar li.active
-   #f0f2f4  light bluish gray: #translations p, .emph-box, #outdated,
-            .listing, #footer, .toc
-   #e7e9eb  html, .button, .lyrics, #join-fsf, submit
-   #d1d4d7  #edu-navbar, #fsf-links, #searcher + #translations
+   #f0f2f4  light bluish gray: #translations, .emph-box, #outdated,
+            .listing, #footer, .toc, lyrics
+   #e7e9eb  html
+   #d1d4d7  #edu-navbar, #fsf-links, #searcher
    #ddd     gray (looks purplish): #gpl-compat-matrix
    #ccffcc  light green: #gpl-compat-matrix
    #e4ffcc  light yellowish green: #gpl-compat-matrix
-   #ffc     very pale yellow: .highlight-para
-   #fff898  pale yellow: table headers, .highlight, nav-bar hover
+   #ffc     very pale yellow: .highlight-para, p.highlight
+   #fff898  pale yellow: table headers, .highlight
    #ff3     yellow: #urgent
-   #a50606  intermediate red from #fs-gang gradient: #navigation
-            [#fs-gang gradient: #820202-#f71111]
-   #5b6a96-#c9cccf:  #body gradient
-   #5b6a96  fallback from gradient (intermediate between banner blue and
-            #c9cccf)
+   #a42e2b  red (slightly darker than the Gnowsys logo): #navigation
 
 Borders
    black, #111, #333, #666: tables
+   #999     buttons, hr, unfocused inputs
    #b9bcbf  bluish gray: body, #Action, .highlight-para, .announcement
-   #c9cccf  bluish gray: .button, .toc, submit
    #d1d4d7  bluish gray: #translations, #outdated
    #3465a4  blue (slightly lighter than GNU banner): edu-cases ridges, .note
-   #171d33  dark blue: box-shadow behind buttons, focused inputs
-   #6989b6  light blue: border for h3 (license-list.html)
+   #334683  focused inputs
+   #171d33  dark blue: box-shadow behind buttons
+   #6989b6  light blue: border for .big-section h3
 */
 
 /*** Luminosity contrast ratio and color difference ***
@@ -93,9 +90,10 @@ Black-gray
    #404040      #d1d4d7         6.97          444
    #555         white           7.46          510
 
-Red from GNU banner
+Red
    #971611      white           8.61          704
    #971611      #e7e9eb         7.07          638
+   #a42e2b      white           6.99          630
 
 Blue from GNU banner
    #334683      white           8.96          494
@@ -163,39 +161,35 @@ body {
    max-width: 74.92em;
    margin: auto;
    background-color: white;
-   border-left: .2em solid #b9bcbf;
-   border-right: .2em solid #b9bcbf;
-   -moz-box-shadow: 0 0 10px 10px #b9bcbf;
-   -webkit-box-shadow: 0 0 10px 10px #b9bcbf;
-   -icab-box-shadow: 0 0 10px 10px #b9bcbf;
-   -o-box-shadow: 0 0 10px 10px #b9bcbf;
-   box-shadow: 0 0 10px 10px #b9bcbf;
+   border: .1em solid #b9bcbf;
+   border-top: 1px solid transparent;
+   -moz-box-shadow: 0 0 5px 5px #b9bcbf;
+   -webkit-box-shadow: 0 0 5px 5px #b9bcbf;
+   -icab-box-shadow: 0 0 5px 5px #b9bcbf;
+   -o-box-shadow: 0 0 5px 5px #b9bcbf;
+   box-shadow: 0 0 5px 5px #b9bcbf;
 }
 
 /** Widths **/
 
-/* To avoid a few problems with pages outside www.gnu.org,
-   the paddings and margins are defined without using
-   .inner. */
 .inner { overflow: hidden; }
 
 #searcher, #translations, #header, #content,
  #mission-statement, #footer {
-   padding-left: 1.5%; padding-right: 1.5%;
+   padding-left: 3%; padding-right: 3%;
 }
 #content ul#edu-navigation {
-   margin-left: -1.6%; margin-right: -1.6%;
+   margin-left: -3.2%; margin-right: -3.2%;
 }
 
 /** Backgrounds **/
 
-#searcher, #translations, #edu-navigation, #fsf-links {
+#searcher, #edu-navigation, #fsf-links {
    background-color: #d1d4d7;
 }
-#footer { background-color: #f0f2f4; }
+#translations, #footer { background-color: #f0f2f4; }
 
-#navigation { background-color: #a50606; }
-
+#navigation { background-color: #a42e2b; }
 
 /** Fonts **/
 
@@ -213,59 +207,60 @@ p, pre, li, dt, dd, code, address { line-height: 1.3em; }
 /* These headers are appropriate for templated pages with div#content, but
    generally too big for a few non-templated pages that use layout.css.
    Another set of headers will have to be defined for those. */
-#content h1 { font-size: 2.4em; }
-#content h2 { font-size: 2em; }
-#content h3 { font-size: 1.6em; }
-#content h4 { font-size: 1.3em; }
-#content h5 { font-size: 1.1em; }
+h1 { font-size: 2.4em; margin-bottom: 1.1em; }
+h2 { font-size: 2.0em; margin-bottom: 1.1em; }
+h3 { font-size: 1.5em; margin: 1em 0 .80em 0; }
+h4 { font-size: 1.2em; margin: 1em 0 .83em 0; }
+h5 { font-size: 1.1em; margin: 1em 0 .91em 0; }
+h6 { margin: 1em 0; }
 
-#content h1, #content h2 {
-   margin: .7em 0 .9em 0;
-}
-h3, h4, h5, h6 {
-   margin-top: 1em ;
-}
-p { margin-top: 1em ; }
+p, pre { margin-top: 1em; }   /* In combo.css: margin-bottom:1em. */
 address { margin-bottom: 1em; }
-ol {
-   margin-left: 1.9em; margin-right: 1.9em;
-}
+ul, ol, blockquote { margin-left: 1.5%; margin-right: 1.5%; }
 
+/* Lists of underlined links are difficult to read. The top margin
+   gives a little more spacing between entries. */
+ul li { margin: .5em 1em; }
+ol li { margin: 1em; }
+ol ul li { margin: .5em 1em; }
+ul li p, ul li pre, ul ul li { margin-top: .3em; margin-bottom: .3em; }
+ul ul, ol ul, table ul { margin-top: 0; margin-bottom: 0; }
+table li { margin-top: .2em; margin-bottom: .2em; }
+
+/* Separate description lists from preceding text */
+dl { margin: 1.5em 0 0 0; }
 /* separate the "term" from subsequent "description" */
-dt { margin-bottom: 1em; color: #222; }
-
+dt { margin: 1em 0; }
 /* separate the "description" from subsequent list item
    when the final <dd> child is an anonymous box */
-dd { margin-bottom: 2em; }
-
+dl dd { margin: 1em 3% 1.5em 3%; }
 /* separate anonymous box (used to be the first element in <dd>)
    from subsequent <p> */
 dd p { margin-top: 1em; }
 
 small { font-size: .9em; }
 
-
 /** Style **/
 
-#content h1, #content h2 {
-   color: #334683; text-shadow: #999 1px 1px 0;
-}
-h3 { color: #333; }
-h4 { color: #333; }
+h1, h2 { color: #334683; text-shadow: #999 1px 1px 0; }
+/* The default color (black) is too dark for large text in
+   bold font. */
+h3, h4 { color: #333; }
+h5, h6, dt { color: #222; }
 
 a[href] { color: #005090; }
 a[href]:visited { color: #100070; }
-a[href]:active, a[href]:hover { color: #777; }
-
-h3 a[href]:visited, h4 a[href]:visited { color: #334683; }
-h3 a[href]:hover,   h4 a[href]:hover   { color: #777; }
-
-ul li {
-   list-style: square;
+a[href]:active, a[href]:hover {
+   color: #100070;
+   text-decoration: none;
 }
 
-blockquote { margin: 1em; font-style: italic; }
-acronym, abbr { border-bottom: 1px dotted #111; }
+ul li { list-style: square; }
+ul ul li, ol ul li { list-style: circle; }
+
+blockquote { font-style: italic; }
+acronym, abbr { text-decoration: none; } /* border-bottom in combo.css */
+pre { overflow: auto; }
 
 
 /*** SIMPLE CLASSES ***/
@@ -279,8 +274,10 @@ acronym, abbr { border-bottom: 1px dotted #111; }
 .big { font-size: 130%; padding-top: 0.7em; }
 
 .inline-list li { display: inline }
+/* Found in a few software pages and many manuals. */
+.no-bullet li { list-style: none; }
 
-.netscape4 { display: none !important; }
+.netscape4, .no-display { display: none; }
 
 
 /*** SEPARATOR ***/
@@ -298,62 +295,31 @@ hr.separator {
 
 /*** FORMS ***/
 
-#searcher input {
-   font-family: "FreeSans", sans-serif;
-}
-#searcher input[type="text"] {
+form input { font-family: inherit; }
+form input[type="text"] {
    padding: .2em;
    margin: 0;
    color: #555;
    background: white;
    border: .1em solid #c9cccf;
 }
-#searcher input[type="submit"] {
+form input[type="submit"] {
    padding: .2em .4em;
    margin: 0;
    color: #333;
    background: #e7e9eb;
    border: .1em solid #c9cccf;
 }
-#searcher input[type="text"]:focus {
+form input[type="text"]:focus {
    color: #333;
    border: .1em solid #334683;
 }
-#searcher input[type="text"]:focus + input[type="submit"] {
+form input[type="text"]:focus + input[type="submit"] {
    border: .1em solid #334683;
 }
-#searcher input[type="submit"]:hover {
+form input[type="submit"]:hover {
    cursor: pointer;
 }
-
-#fssbox input {
-   font-family: "FreeSans", sans-serif;
-}
-#fssbox input[type="text"] {
-   padding: .2em;
-   margin: 0;
-   color: #555;
-   background: white;
-   border: .1em solid #999;
-}
-#fssbox input[type="submit"] {
-   padding: .2em .4em;
-   margin: 0;
-   color: #333;
-   background: #e7e9eb;
-   border: .1em solid #e7e9eb;
-}
-#fssbox input[type="text"]:focus {
-   color: #333;
-   border: .1em solid #334683;
-}
-#fssbox input[type="submit"]:hover {
-   cursor: pointer;
-}
-#fssbox input[type="text"]:focus + input[type="submit"] {
-   border: .1em solid #334683;
-}
-
 
 
 /*** BUTTONS ***/
@@ -409,24 +375,21 @@ hr.separator {
 
 /*** RETURN LINKS ***/
 
-#backtotop a {
-   clear: both;
-   float: right;
-   font-size: 1.1em;
-   font-weight: bold;
-   margin: .7em 1em 1.5em 1em;
-}
-#backtotop a, #backtotop a:visited { color: #333; }
-#backtotop a:hover { color: #777; }
-
-/* Equivalent of #backtotop within a section */
-p.back {
+.back, #backtotop {
    text-align: right;
-   font-weight: bold;
    line-height: 1.5em;
-   padding: .6em 1em .4em 1em; }
-p.back a, .back a:visited { color: #333; }
-p.back a:hover { color: #777; }
+   font-weight: bold;
+   margin: 1.5em 2%;
+}
+.back a, .back a:visited,
+ #backtotop a, #backtotop a:visited { color: #333; }
+.back a:hover,
+ #backtotop a:hover { color: #777; }
+
+#backtotop {
+   font-size: 1.1em; /* In #mission-statement, font-size is .9em. */
+   margin: 1.8em 2%;
+}
 
 
 /*** BIG SECTION HEADERS ***/
@@ -469,8 +432,7 @@ span.anchor-reference-id a[href]:hover { color: #777; }
 /*** NON-FLOATING INSETS AND HIGHLIGHTED STUFF ***/
 
 .emph-box {
-   padding: .3em 1.2em .5em 1.2em;
-   margin-bottom: 2.5em;
+   padding: .5em 1.2em;
    background-color: #f0f2f4;
    border: 1px solid #c9cccf;
 }
@@ -541,26 +503,27 @@ blockquote#fsfs p { padding: .3em 0; }
    margin-top: 1.2em;
 }
 .trans-disclaimer a,
-.trans-disclaimer a:visited { color: #334683; }
+.trans-disclaimer a:visited { color: #005090; }
 .trans-disclaimer a:hover { color: #777; }
 
 /* For outdated translations  */
 #outdated {
    text-align: center;
    padding: .7em 3%;
-   margin: .3em -1.6%;
+   margin: .3em -3.2%;
    background-color: #f0f2f4;
-   border-bottom: .3em solid #d1d4d7;
+   border-bottom: .2em solid #d1d4d7;
 }
 #outdated p {
    margin: 0.2em 0;
 }
-#outdated a:visited { color: #334683; }
+#outdated a:visited { color: #005090; }
 #outdated a:hover { color: #777; }
 
 /* For translators notes */
 .translators-notes { font-size: .9em; }
 .translators-notes hr { margin-top: 1.65em; }
+.translators-notes ol li { margin: .5em 1.1em; }
 
 
 /*** FLOATING NOTES ***/
@@ -586,14 +549,43 @@ blockquote#fsfs p { padding: .3em 0; }
 
 /*** TABLES OF CONTENTS ***/
 
-div.toc {
-   max-width: 45em;
-   padding: 0 1em 1em 1em;
-   margin: 3em auto 1em auto;
+/* Common definitions */
+div.summary, div.toc {
+   padding: .4em 1.5em .5em 1.5em;
    background: #f0f2f4;
-   border: 1px solid #c9cccf;
 }
-div.toc h3 { text-align: center; }
+div.summary ul li ul { margin: 0 3%; }
+
+div.summary h3, div.toc h3,
+ div.summary h4, div.toc h4 {
+   text-align: center;
+}
+div.summary h3, div.toc h3 {
+   font-size: 1.2em;
+   margin-top: 1em;
+}
+div.summary h4, div.toc h4 {
+   font-size: 1.1em;
+}
+
+/* Small tables of contents */
+div.summary {
+   clear: right;
+   float: right;
+   width: 20em; max-width: 90%;
+   margin: .3em 0 1em 0;
+   border-left: 1.5em solid white;
+}
+/* Big tables of contents */
+div.toc { max-width: 45em; margin: 2.5em auto 2em auto; }
+
+@media (max-width: 46em) {
+   div.summary {
+      float: none; width: 30em; max-width: 80%;
+      margin: 2.5em auto 2em auto;
+      border: none;
+   }
+}
 
 
 /*** IMAGES ***/
@@ -682,15 +674,19 @@ table.listing {
 
 #toplinks {
    float: left;
-   font-size: .9em;
-   font-weight: bold;
-   padding: .6em 1.5em 0 1.5em;
-   margin: 0;
+   /* For NetSurf 1.2, and maybe a few other browsers. */
+   padding: .5em 2em .3em 2em;
+}
+/* For standard browsers. */
+@media (max-width: 500em) {
+   #toplinks { padding: .5em 3% .3em 3%; }
 }
 #toplinks a, #toplinks a:visited {
    white-space: nowrap;
    /* the next line is a workaround for Midori 0.5.8 */
    display: inline-block;
+   font-weight: bold;
+   font-size: .9em;
    color: #404040; text-decoration: none;
    margin-right: 1em;
 }
@@ -702,12 +698,9 @@ table.listing {
 #searcher {
    display: block;
    text-align: right;
+   font-size: .9em;
    font-weight: bold;
    padding-top: .3em; padding-bottom: .3em;
-}
-#searcher input {
-   font-size: .9em;
-   margin: 0;
 }
 
 
@@ -715,27 +708,26 @@ table.listing {
 
 #translations {
    clear: both;
+   font-size: .9em;
    text-align: left;
-   font-size: .8em;
-   line-height: 1.3em;
-   padding-bottom: .5em;
+   border-bottom: .2em solid #d1d4d7;
 }
 #translations p {
-   padding: .1em .5em .2em .5em;
+   line-height: 1.2em;
+   padding: .3em 0;
    margin: 0;
-   background-color: #f0f2f4;
 }
 #translations span {
    white-space: nowrap;
+   font-size: .9em;
    margin-right: .5em;
 }
-#translations a, #translations a:visited {
+#translations span a, #translations span a:visited {
    color: #222; text-decoration: none;
 }
 /* Highlight the link to the original page */
 #translations span.original {
-   font-size: 1.1em; font-weight: bold;
-   padding-top: .3em;
+   font-size: 1em; font-weight: bold;
 }
 #translations span.original a,
 #translations span.original a:visited {
@@ -746,27 +738,19 @@ table.listing {
    color: #777;
 }
 
-/* For translation lists below the navigation bar. */
-#content #translations { background: white; }
-#content #translations p {
-   padding: .2em .5em .3em .5em;
-   margin: 1em 0 0 0;
-   background: #e7e9eb;
-}
+/* For translation list below the navigation bar, in
+   s/sather/index.html -  patch sent to the maintainer. */
+#content #translations { display: none; }
 
-/* Still used in some outdated translations. */
+/* Still used in software/ */
 #translations h3, #translations h4 {
-   font-size: 1em; font-weight: bold;
-   padding: 1em 1.5% 0 1.5%;
-   margin: 0;
+   padding-top: .5em;
+   margin: 0 0 .5em 0;
 }
-#translations ul {
-   margin: 1em 1.5%;
-   background: #f0f2f4;
-}
+#translations ul { padding-bottom: 1em; margin: 0 1em; }
 #translations li {
    direction: ltr; display: inline; white-space: nowrap;
-   padding-left: 0.25em; padding-right: 0.25em;
+   margin: 0; padding-right: .5em;
 }
 
 
@@ -841,7 +825,6 @@ table.listing {
    color: #971611;
 }
 #fsf-support {
-   text-align: left;
    font-size: .9em;
    font-weight: bold;
    font-style: italic;
@@ -859,119 +842,79 @@ table.listing {
 
 /*** NAVIGATION BARS ***/
 
-#navigation {
+#navigation, #fsf-links {
    clear: both;
-   padding: .3em;
 }
+#fsf-links { margin-top: 2.5em; }
 
-#navigation:after {
-   clear: both; content: ""; display: block;
-   height: 0px; visibility: hidden; width: 0px;
-}
-#navigation ul {
+#navigation ul, #fsf-links ul { margin: 0; }
+ul#edu-navigation { margin-top: 0; margin-bottom: 0; }
+
+/* line-height is defined here for NetSurf 1.2.
+   No effect in NetSurf 2.9 or Firefox. */
+#navigation ul, #fsf-links ul, ul#edu-navigation {
    text-align: center;
    font-size: 0.9em;
-   line-height: 1.8em;
-   padding: 0;
-   margin: 0;
-   background-color: #a50606;
+   line-height: 1.7em;
+   padding: .2em;
 }
-#navigation li {
-   display: inline; white-space: nowrap;
-   padding: 0;
-}
-#navigation li a, #navigation li a:visited {
+#navigation li, ul#edu-navigation li, #fsf-links li {
+   white-space: nowrap;
+   display: inline;
+   display: inline-block;
+   line-height: 1.6em;
+   font-family: "FreeCondensed", "FreeSans", sans-serif;
+   text-transform: uppercase;
    font-weight: bold;
-   padding: .3em .5em;
-   color: white; text-decoration: none;
+   margin: .2em .4em 0 .4em;
 }
-#navigation li.active a {
-   color: #333;
-   background-color: white;
-}
-#navigation li a:hover {
-   text-decoration: underline;
+/* Mock border to avoid size change when a link becomes active */
+#navigation li { border-bottom: .15em solid #a42e2b; }
+ul#edu-navigation li { border-bottom: .15em solid #d1d4d7; }
+#fsf-links li { padding-bottom: .15em; }
+
+ /* For Firefox (can't set line-height when "a" is displayed inline) */
+#navigation a, ul#edu-navigation a, #fsf-links a {
+   display: inline-block;
 }
 
-#edu-navigation {
-   clear: both;
-}
-ul#edu-navigation {
-   text-align: center;
-   font-size: .9em; font-weight: bold;
-   line-height: 1.8em;
-   padding: 0;
-   margin-top: 0; margin-bottom: 0;
-}
-#edu-navigation li {
-   display: inline; white-space: nowrap;
-   list-style-type: none;
-   padding: 0;
-}
-#edu-navigation li.current {
-    border-bottom: 4px solid #971611;
-}
-#edu-navigation li a, #edu-navigation li a:visited {
-   padding: .3em .45em .35em .45em;
-   color: #222; text-decoration: none;
-}
-#edu-navigation li.active a {
-   background-color: white;
-}
-#edu-navigation li a:hover,
-#edu-navigation li.active a:hover {
-   text-decoration: underline;
-}
+#navigation, #navigation a, #navigation a:visited { color: white; }
+#edu-navigation, #edu-navigation a, ul#edu-navigation a:visited,
+ #fsf-links a, #fsf-links li a:visited { color: #222; }
 
-#fsf-links {
-   clear: both;
-   padding: .3em;
+#navigation li.active {
+   font-style: italic;
+   border-bottom: .15em solid white;
 }
-#fsf-links ul {
-   text-align: center;
-   font-size: .9em;
-   line-height: 1.8em;
-   margin: 0;
-   background-color: #d1d4d7;
+ul#edu-navigation li.active,
+ ul#edu-navigation li.current {
+   font-style: italic;
+   border-bottom: .15em solid #971611;
 }
-#fsf-links li {
-   display: inline; white-space: nowrap;
-   list-style: none;
-   padding: 0;
+#navigation li a, ul#edu-navigation li a, #fsf-links li a,
+ #navigation li.active a:hover,
+ ul#edu-navigation li.active a:hover {
+   text-decoration: none;
 }
-#fsf-links li a, #fsf-links li a:visited {
-   font-weight: bold;
-   padding: .3em .5em;
-   color: #222; text-decoration: none;
-}
-#fsf-links li a:hover {
-   text-decoration: underline;
-}
-
-
-/*** CONTENT ***/
-
-#content {
-   padding-bottom: 1em;
-}
+#navigation a:hover, ul#edu-navigation a:hover,
+ #fsf-links a:hover { text-decoration: underline; }
 
 
 /*** MISSION STATEMENT ***/
 
 #mission-statement {
    font-size: 0.9em;
-   margin-top: 2em; margin-bottom: 1em;
+   margin-top: 2em;
 }
 #mission-statement blockquote {
    font-weight: bold;
-   margin: 1em  0;
+   margin: 0;
 }
 #mission-statement img {
    float: left;
    height: 2em;
    margin: .3em .5em;
 }
-#mission-statement p { margin: 0 0 .2em 0; }
 
 
 /*** FOOTER ***/
@@ -979,7 +922,7 @@ ul#edu-navigation {
 #footer {
    clear: both;
    font-size: .9em;
-   padding-top: 1em; padding-bottom: 1em;
+   padding-top: 1.2em; padding-bottom: .5em;
    color: #333;
    border-top: 1px solid #c9cccf;
 }
@@ -989,7 +932,7 @@ ul#edu-navigation {
    margin-bottom: .7em;
 }
 
-#bottom-notes p { margin-top: .7em; }
+#bottom-notes p { margin-bottom: .7em; }
 
 
 /*** EDUCATION ***/
@@ -1028,139 +971,4 @@ div.edu-cases h3 {
 div.edu-cases ul, div.edu-cases ol {
    padding: 0 4%;
 }
-
-
-/*** THIS WILL MOVE TO THE HTML EVENTUALLY ***/
-
-/* home.html */
-
-#home:after {
-   clear: both; content: ""; display: block;
-   height: 0px; visibility: hidden; width: 0px;
-}
-
-#home .first-column {
-   width: 60%;
-   float: left;
-}
-#home .second-column {
-   width: 38%;
-   float: right;
-}
-@media (max-width: 40em) {
-   #home .first-column, #home .second-column {
-      float: none;
-      width: 100%;
-   }
-}
-#home .first-column, #home .second-column {
-   margin-bottom: 2em; margin-top: 0;
-}
-
-#home h2 {
-   text-shadow: none;
-   margin-bottom: .6em;
-}
-#home .first-column img { width: 80%; margin: .5em 0 1em 0; }
-#home .second-column h4 img { height: .75em; width: .75em; }
-
-#Action {
-   text-align: left;
-   padding: 0 1em;
-   border-left: .4em solid #b9bcbf; border-right: .4em solid #b9bcbf;
-}
-
-h2#Action {
-   text-align: center;
-}
-#Action h2 {
-   float: none;
-   text-align: center;
-   padding-top: 0;
-   color: #171d33;
-}
-#Action li { margin-bottom: .7em; }
-#sisters { font-size: .9em; margin: 0 1.5% 1.5em 1.5%; }
-
-/* licenses/gpl-faq.html. */
-
-table#gpl-compat-matrix {
-   display: block;
-   width: 100%;
-   overflow: auto;
-   padding: .1em;
-   margin: auto;
-   border-collapse: collapse;
-}
-
-table#gpl-compat-matrix td, th.gpl-matrix-border {
-   text-align: center;
-   padding: .3em;
-   margin: 0;
-   border: 1px solid black;
-}
-
-table#gpl-compat-matrix td.ok { background-color: #ccffcc; }
-table#gpl-compat-matrix td.mok { background-color: #e4ffcc; }
-table#gpl-compat-matrix td.nok { background-color: #dddddd; }
-th.gpl-matrix-license { text-align: right; }
-tr.gpl-matrix-use-type { border-top: 2px solid black; }
-
-
-/* music/music.html */
-
-.caption { color: #334683; font-size: 1.5em; margin:0; }
-
-
-/*** FOR PAGES USING OLD BOILERPLATES ***/
-
-/* [Patches have been sent to the maintainers]
-   software/emacs-muse/manual.es/pagina-en-gnu-es.html
-   software/gnowsys/index.html
-   software/gnu-c-manual/index.html
-   software/mtools/*
-   software/sather/index/html
-   audio-video.gnu.org/video/ghm*
-   audio-video.gnu.org/video/individual-projects/index.html
-*/
-#logo {
-   background:url(/graphics/topbanner.png) no-repeat;
-   float: left;
-   padding:0; margin:0; border:0;
-}
-#logo a {
-   display:block; overflow:hidden;
-   width:550px;
-   height:0px !important;
-   text-decoration:none;
-   padding:0; padding-top:101px;
-   margin:0; border:0;
-   cursor:pointer;
-}
-/* software/gnu-c-manual/index.html */
-#links { display: none !important; }
-div#backtotop {
-   margin: .7em 0 0 0;
-   text-align: right; padding: 1em;
-}
-
-
-/*** FOR MANUALS AND SPECIAL PAGES ***/
-
-/* software/emacs/emacs-paper.html
-   software/sather/docs-1.2/tutorial/sather-tutorial.html
-   software/sather/docs-1.2/specification/sather-specification.html */
-/* Some day, these 3 pages will use style.css, and their definitions will
-   move. */
-h1:first-child { font-size: 2em; margin: 0 3% 1em 3%; padding-top: 1em;}
-h1 { font-size: 1.7em;  margin: 1em 0 0.9em 0; } /* For emacs-paper.html */
-h2 { font-size: 1.4em;  margin: 1em 0 0.9em 0; }
-h3 { font-size: 1.25em; margin: 1em 0 0.9em 0; }
-h4 { font-size: 1.1em;  margin: 1em 0 0.9em 0; }
-h5 { font-size: 1.0em;  margin: 1em 0 1.0em 0; }
-body > h1, body > h2, body > h3, body > h4, body > h5, body > p, body > pre,
- body > ul, body > ol, body > dl, body > table, body > blockquote, div.book {
-   margin-left: 3%; margin-right: 3%;
-}
-body > hr { margin-top: 2em; }
 

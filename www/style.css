@@ -14,7 +14,6 @@ html { background-color: #e7e7e7; }
 
 body {
    max-width: 74.92em;
-   overflow-x: hidden;
    margin: 0 auto;
    padding: .5em 1em 1em 1em;
    background-color: white;
@@ -26,7 +25,7 @@ body {
 
 /* Size and positioning */
 
-p, pre, li, dt, dd, code, address { line-height: 1.3em; }
+p, pre, li, dt, dd, table, code, address { line-height: 1.3em; }
 
 h1 { font-size: 2em; margin: 1em 0 }
 h2 { font-size: 1.50em; margin: 1.0em 0 0.87em 0; }
@@ -35,8 +34,10 @@ h4 { font-size: 1.13em; margin: 1.0em 0 0.88em 0; }
 h5 { font-size: 1.00em; margin: 1.0em 0 1.00em 0; }
 
 p, pre { margin: 1em 0; }
-ul, ol, blockquote { margin-left: 1.5%; margin-right: 1.5%; }
+pre { overflow: auto; padding-bottom: .3em; }
 
+ul, ol, blockquote { margin-left: 1.5%; margin-right: 1.5%; }
+hr { margin: 1em 0; }
 /* Lists of underlined links are difficult to read. The top margin
    gives a little more spacing between entries. */
 ul li { margin: .5em 1em; }
@@ -56,13 +57,13 @@ dd { margin: .5em 3% 1em 3%; }
    from subsequent <p> */
 dd p { margin: .5em 0; }
 
-table { margin-top: 1.5em; margin-bottom: 1.5em; }
-th { padding: .4em .5em; text-align: center; }
-td { padding: .3em .5em; }
+table {
+   display: block; overflow: auto;
+   margin-top: 1.5em; margin-bottom: 1.5em;
+}
+th { padding: .3em .5em; text-align: center; }
+td { padding: .2em .5em; }
 
-pre, table, table pre { overflow: auto; }
-
-hr { background-color: #ccc; }
 address { margin-bottom: 1em; }
 caption { margin-bottom: .5em; text-align: center; }
 sup { vertical-align: super; }
@@ -79,21 +80,29 @@ h5, h6, dt { color: #222; }
 
 a[href] { color: #005090; }
 a[href]:visited { color: #100070; }
-a[href]:active, a[href]:hover { color: #777; }
+a[href]:active, a[href]:hover {
+   color: #100070;
+   text-decoration: none;
+}
 
 h1 a[href]:visited, h2 a[href]:visited, h3 a[href]:visited,
  h4 a[href]:visited { color: #005090; }
 h1 a[href]:hover, h2 a[href]:hover, h3 a[href]:hover,
- h4 a[href]:hover { color: #777; }
+ h4 a[href]:hover { color: #100070; }
 
 ol { list-style: decimal outside;}
 ul { list-style: square outside; }
 ul ul, ol ul { list-style: circle; }
 li { list-style: inherit; }
 
-tr { border-bottom: 1px solid #eee; }
+hr { background-color: #ede6d5; }
+table { border: 0; }
 
-abbr,acronym { border-bottom:1px dotted #000; cursor:help; }
+abbr,acronym {
+   border-bottom:1px dotted #000;
+   text-decoration: none;
+   cursor:help;
+}
 del { text-decoration: line-through; }
 em { font-style: italic; }
 small { font-size: .9em; }
@@ -107,6 +116,7 @@ small { font-size: .9em; }
 .underline { text-decoration: underline; }
 .nounderline { text-decoration: none; }
 
+.no-bullet { list-style: none; }
 .inline-list li { display: inline }
 
 .netscape4, .no-display { display: none; }
@@ -125,119 +135,38 @@ small { font-size: .9em; }
 .header, .node { margin: 0 -1em; padding: 0 1em; }
 .header p, .node p { line-height: 2em; }
 
-div.display, div.example, div.lisp, div.smalldisplay,
+/* For navigation links */
+.node a, .header a { display: inline-block; line-height: 2em; }
+.node a:hover, .header a:hover { background: #f2efe4; }
+
+/* Inserts */
+table.cartouche td { padding: 1.5em; }
+
+div.display, div.lisp, div.smalldisplay,
  div.smallexample, div.smalllisp { margin-left: 3%; }
 
-div.example { margin-top: 1em; margin-bottom: 1em; }
-pre.example {
-   padding: .7em 1em .8em 1em;
-   margin: 0;
-   /* Copied from the Datamash manual: */
-   /* Round Corners */
+div.example { padding: .8em 1.2em .4em; }
+pre.example { padding: .8em 1.2em; }
+div.example, pre.example {
+   margin: 1em 0 1em 3% ;
    -webkit-border-radius: .3em;
    -moz-border-radius: .3em;
    border-radius: .3em;
-   border: 1px solid #c0c0c0;
-   background-color: #f3f3f3;
+   border: 1px solid #d4cbb6;
+   background-color: #f2efe4;
 }
+div.example > pre.example {
+   padding: 0 0 .4em;
+   margin: 0;
+   border: none;
+}
+
 pre.menu-comment { padding-top: 1.3em; margin: 0; }
 
 
-/* -------------------------------------------------------
-   This will be removed when the pages with an old-style
-   banner and footer are updated to a recent boilerplate. */
-
-/* This restores the normal margin for pages that use #null-wrapper. */
-#null-wrapper { margin: -1em; }
-#translations, #header, #null-wrapper #content, #footer {
-   padding-left: 3%; padding-right: 3%;
-}
-#links { display: none; }
-
-#content h2 { font-size: 2em; }
-
-/* GNU banner */
-
-#logo {
-   background:url(/graphics/topbanner.png) no-repeat;
-   float: left;
-   padding:0; margin:0; border:0;
-}
-#logo a {
-   display:block; overflow:hidden;
-   width:550px;
-   height:0px;
-   text-decoration:none;
-   padding:0; padding-top:101px;
-   margin:0; border:0;
-   cursor:pointer;
-}
-
-/* Navigation bar */
-
-#navigation ul {
-   clear: both;
-   text-align: center;
-   font-size: .9em;
-   font-family: "FreeSans", sans-serif;
-   padding: .2em;
-   margin: 0;
-   background-color: #a50606;
-}
-#navigation li {
-   display: inline-block;
-   font-weight: bold;
-   padding: .15em .25em;
-   margin: 0;
-   border: .15em solid #a50606; /* To avoid size change when active. */
-}
-#navigation li a {
-   padding: .15em 0;
-   text-decoration: none;
-}
-#navigation li a, #navigation li a:visited { color: white; }
-#navigation li a:hover { text-decoration: underline; }
-
-#navigation li.active {
-   font-style: italic;
-   border: .15em solid white;
-}
-#navigation li.active a:hover { text-decoration: none; }
-
-
-/* Return link */
-
-div#backtotop {
-   text-align: right;
-   line-height: 1.5em;
-   font-weight: bold;
-   margin: 1.5em 5%;
-}
-#backtotop a, #backtotop a:visited { color: #333; }
-#backtotop a:hover { color: #777; }
-
-/* Footer */
-
-#footer {
-   clear: both;
-   color: #333;
-   padding-top: 1em; padding-bottom: 1em;
-   background-color: #f2f2f2;
-   border: 1px solid #c0c0c0;
-}
-#footer p { font-size: .9em; margin: 0; }
-
-#footer .unprintable, #footer .translators-credits {
-   margin-bottom: .7em;
-}
-/*--------------------------------------------------------*/
-
-
-/*** RESPONSIVE BEHAVIOR **/
+/*** FOR WIDE SCREENS ***/
 
 @media (min-width: 40em) {
    body { padding: .5em 3em 1em 3em; }
    div.header, div.node { margin: 0 -3em; padding: 0 3em; }
-   #null-wrapper { margin: 0 -3em; }
-   #navigation ul { font-size: 1em; }
 }

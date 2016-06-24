@@ -3,7 +3,7 @@
 #
 # LINC - LINC Is Not Checklink
 # Copyright © 2011, 2012 Wacław Jacek
-# Copyright © 2013, 2014, 2015 Free Software Foundation, Inc.
+# Copyright © 2013, 2014, 2015, 2016 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,13 +20,13 @@
 
 from __future__ import print_function
 
-LINC_VERSION = 'LINC 0.25'
+LINC_VERSION = 'LINC 0.26'
 USAGE = \
 '''Usage: %prog [options] [BASE_DIRECTORY]
 Check links in HTML files from BASE_DIRECTORY.'''
 COPYRIGHT= \
 '''Copyright (C) 2011, 2012 Waclaw Jacek
-Copyright (C) 2013, 2014, 2015 Free Software Foundation, Inc.
+Copyright (C) 2013, 2014, 2015, 2016 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
@@ -243,7 +243,8 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 		report(1, '- - - - -')
 		return 'couldn\'t find end of ' \
                        + 'headers (possibly no content in file)'
-
+	match = re.search ('(?P<site>^[^/]*//[^/]+/)', link)
+	site = match.group('site')
 	header = webpage[:end_of_headers]
 	page = webpage[end_of_headers + len(EOH_MARK):]
 	verb_level = 5
@@ -267,7 +268,7 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 		if not match:
 			return None
 		new_location = match.group('new_location')
-		[link_type, url] = classify_link("", new_location)
+		[link_type, url] = classify_link ("", new_location, None, site)
 		if url == link:
 			# Refesh to the same URL.
 			return None
@@ -283,7 +284,7 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 				exit(1)
 			return None
 		new_location = match.group('new_location')
-	[link_type, url] = classify_link("", new_location)
+	[link_type, url] = classify_link ("", new_location, None, site)
 	return get_http_link_error(url, link_type, forwarded_from)
 
 def is_inside_comment(head):
@@ -326,12 +327,14 @@ def load_symlinks(root, directory, path):
 			+ dest + "' <- `" + source + "' found.")
 		symlinks[directory][source] = { 'dest': dest, 'line': i + 1 }
 
-def classify_link(filename, link, symlink = None):
+def classify_link(filename, link, symlink = None, remote_site = None):
 	link_type = 'http'
 	# When we process a symlinked file, we use the directory
 	# from which it is linked rather than the actual location
 	# of the file.
 	dir_name = symlink if (symlink != None) else filename
+	if remote_site == None:
+		remote_site = remote_site_root
 	if re.search('^(mailto:|irc://|rsync://)', link):
 		link_type = 'unsupported'
 	elif link.find('http://') == 0:
@@ -347,7 +350,7 @@ def classify_link(filename, link, symlink = None):
 		else:
 			link_type = 'https'
 	elif link[0] == '/':
-		link = remote_site_root + link[1:]
+		link = remote_site + link[1:]
 	else:
 		subdir = ''
 		pos = dir_name.rfind('/')

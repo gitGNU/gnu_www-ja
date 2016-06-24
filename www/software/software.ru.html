@@ -8,39 +8,63 @@
 
 <!--#include virtual="/software/po/software.translist" -->
 <style type="text/css" media="print,screen">
+<!--
+div.package-list {
+   padding-top: .7em; padding-bottom: 1em;
+   margin: 1.5em 0;
+}
+div.package-list a, div.package-list a:visited {
+   display: inline-block;
+   width: 9em;
+   line-height: 1.5em;
+   text-decoration: none;
+}
 #dynamic-duo {
    float: right;
-   width: 24em;
+   width: 20.8em; max-width: 90%;
    font-style: normal;
    text-align: center;
    padding: .8em;
-   margin: .3em 1em 1em 1em;
-   border: .5em solid #acc890;
+   margin: .3em 0 1em 1.5em;
+   border: .3em solid #acc890;
 }
 #dynamic-duo p strong {
    font-size: 1.3em;
 }
 #dynamic-duo img { width: 100%; }
-#dynamic-duo p.highlight-para {
-   text-align: left;
-   padding: .5em .8em .7em .8em;
-   margin: .5em;
-   border-width: 1px;
-}
+-->
+<!--#if expr="$LANGUAGE_SUFFIX = /[.](ar|fa|he)/" -->
+<!--
+#content #dynamic-duo { float: left; margin: .3em 1.5em 1em 0; } -->
+<!--#endif -->
+<!--
+@media (max-width: 46em) {
+   #content #dynamic-duo { display: none; }
+} -->
+
+
+
+
+
 </style>
 
 <!--#include virtual="/server/fs-gang-definitions.html" -->
 <!--#include virtual="/server/banner.ru.html" -->
 <h2>Программы GNU</h2>
 
-<blockquote id="dynamic-duo">
-<p><strong>Дистрибутивы</strong></p>
-<p><a href="/distros/free-distros.html">
-<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="GNU и Linux" /></a></p>
-<p class="highlight-para">Если вы хотите установить полную систему, обратитесь к нашему <a
-href="/distros/free-distros.html">списку дистрибутивов GNU/Linux, полностью
-состоящих из свободных программ</a>.</p>
-</blockquote>
+<div class="summary">
+<hr class="no-display" />
+<ul>
+  <li><strong><a href="/distros/free-distros.html">Полностью свободные
+дистрибутивы GNU/Linux</a></strong></li>
+  <li><a href="/distros/free-distros.html">Дистрибутивы GNU/Linux</a></li>
+  <li><a href="http://directory.fsf.org/wiki/GNU/">Каталог свободных программ</a></li>
+  <li><a href="/manual/manual.html">Руководства</a></li>
+  <li><a href="/software/devel.html">Ресурсы для разработки</a></li>
+  <li><a href="/software/gethelp.html">Получить помощь</a></li>
+</ul>
+<hr class="no-display" />
+</div>
 
 <p><a href="/gnu/about-gnu.html">GNU</a>&nbsp;&mdash; операционная система,
 на&nbsp;100% состоящая из свободных программ. Работы над ней были начаты
@@ -81,6 +105,15 @@ Windows, желающих опробовать свободные програм
 
 
 <h3 id="getgnu">Как достать программы GNU</h3>
+
+<blockquote id="dynamic-duo">
+<p><strong>Дистрибутивы</strong></p>
+<p><a href="/distros/free-distros.html">
+<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="GNU и Linux" /></a></p>
+<p><em>Если вы хотите установить полную систему, обратитесь к нашему <a
+href="/distros/free-distros.html">списку дистрибутивов GNU/Linux, полностью
+состоящих из свободных программ</a>.</em></p>
+</blockquote>
 
 <p>Программы GNU можно получить несколькими способами:</p>
 
@@ -150,10 +183,10 @@ href="/software/maintainer-tips.html">заметок для разработчи
 
 <h3><a id="allgnupkgs">Все пакеты GNU</a></h3>
 
-<p>Вот список всех пакетов GNU на настоящий момент. В нем для краткости
-использованы идентификаторы (а не полные названия) пакетов. Он отсортирован
-в алфавитном порядке. Если у вас есть поправки или вопросы по этому списку,
-пишите, пожалуйста, по адресу <a
+<p>Ниже приводятся ссылки на домашние страницы всех текущих пакетов GNU, для
+краткости использованы их идентификаторы (а не полные названия). Список
+отсортирован в алфавитном порядке слева направо. Если у вас есть поправки
+или вопросы по этому списку, пишите, пожалуйста, по адресу <a
 href="mailto:maintainers@gnu.org">&lt;maintainers@gnu.org&gt;</a>.</p>
 
 <p>Также есть списки</p>
@@ -166,10 +199,14 @@ href="mailto:maintainers@gnu.org">&lt;maintainers@gnu.org&gt;</a>.</p>
 <li><a href="/software/recent-releases.html">свежих выпусков пакетов GNU</a>.</li>
 </ul>
 
+<div class="package-list emph-box">
+
 <!-- regenerate when official list changes, via
        gm generate packages html  (or see the Makefile)
      in the womb/gnumaint CVS source directory on savannah.  -->
 <!--#include virtual="/software/allgnupkgs.html" -->
+</div>
+
 <h3>Списанные пакеты GNU</h3>
 
 <p>Время от времени пакеты GNU списываются, обычно когда их заменяют на другие
@@ -301,7 +338,7 @@ Creative Commons Attribution-NoDerivs (<em>Атрибуция&nbsp;&mdash; Бе�
 <p class="unprintable"><!-- timestamp start -->
 Обновлено:
 
-$Date: 2016/02/11 06:52:24 $
+$Date: 2016/05/03 09:02:39 $
 
 <!-- timestamp end -->
 </p>
