@@ -42,7 +42,7 @@ Text
    #777     medium gray: hover special links
    white    #navigation
 
-   #124bb4  blue: normal links
+   #004caa  blue: normal links
    #100070  purplish blue: normal visited links, normal hover
    blue     #urgent links
    #a42e2b  red: GNU banner, #outdated, active links in edu-navbar
@@ -57,8 +57,8 @@ Backgrounds
    white    body, .note
 
    #a42e2b  red: #navigation
-   #4580b0  blue: #join-fsf
-   #124bb4  blue: #join-fsf:hover, #fssbox submit:focus
+   #4080d0  blue: #join-fsf, #fssbox submit:focus
+   #004caa  blue: #join-fsf:hover
    #ff3     yellow: #urgent
    #fff1c0  light orange: .highlight
    #fff5d4  very light orange: .highlight-para, p.highlight, table headers
@@ -70,7 +70,7 @@ Borders
    #ccc     unfocused inputs, emph-box, lyrics, footer
    #d4d4d4  #translations, #outdated
 
-   #124bb4  focused inputs
+   #4080d0  focused inputs
    #3465a4  .edu-cases
    #e74c3c  .announcement, .note, .big-section h3
    #f49943  .highlight-para
@@ -97,14 +97,14 @@ Blue (urgent)
    #00f         #ff3            8.02          714
 
 Blue links
-   #124bb4      white           7.80          435
-   #124bb4      #e4ffcc         7.24          357
-   #124bb4      #fff1c0         6.91          358
-   #124bb4      #f3f3f3         7.03          399
-   #124bb4      #ccffcc         6.96          333
-   #124bb4      #777            1.74          149
-   #124bb4      #333            1.62          177
-   #124bb4      black           2.69          330
+   #004caa     white           8.03          443
+   #004caa     #e4ffcc         7.45          365
+   #004caa     #fff1c0         7.11          366
+   #004caa     #f3f3f3         7.24          407
+   #004caa     #ccffcc         7.17          341
+   #004caa     #777            1.79          137
+   #004caa     #333            1.57          169
+   #004caa     black           2.61          322
 
 Purple links
    #100070      white          16.72          653
@@ -113,7 +113,7 @@ Purple links
    #100070      #777            3.73          245
    #100070      #333            1.32          163
    #100070      black           1.26          112
-   #100070      #124bb4         2.14          161
+   #100070      #004caa        2.08          134
 */
 
 
@@ -173,13 +173,6 @@ ul#edu-navigation {
 
 /** Backgrounds **/
 
-/* This gives a 2.5em spacing between the last element and
-   the following div. */
-#content:after {
-   display: block; height: .1em;
-   content: ""; margin-top: 2.4em;
-}
-
 #searcher, #fsf-links {
    background-color: #d4d4d4;
 }
@@ -194,6 +187,7 @@ ul#edu-navigation {
 }
 #navigation ul, #fsf-links ul, ul#edu-navigation {
    font-family: "FreeCondensed", "FreeSans", sans-serif;
+   text-transform: uppercase;
 }
 
 
@@ -246,7 +240,7 @@ small { font-size: .9em; }
 h3, h4 { color: #333; }
 h5, h6, dt { color: #222; }
 
-a[href] { color: #124bb4; }
+a[href] { color: #004caa; }
 a[href]:visited { color: #100070; }
 a[href]:active, a[href]:hover {
    color: #100070;
@@ -318,10 +312,10 @@ form input[type="submit"] {
 }
 form input[type="text"]:focus {
    color: #333;
-   border: .1em solid #124bb4;
+   border: .1em solid #4080d0;
 }
 form input[type="text"]:focus + input[type="submit"] {
-   border: .1em solid #124bb4;
+   border: .1em solid #4080d0;
 }
 form input[type="submit"]:hover {
    cursor: pointer;
@@ -371,7 +365,7 @@ form input[type="submit"]:hover {
 .back { margin: 1.5em 2% 1em; }
 #backtotop {
    font-size: 1.1em; /* In #mission-statement, font-size is .9em. */
-   margin: 1.8em 2%;
+   margin: 0 5%;
 }
 
 
@@ -499,7 +493,7 @@ blockquote#fsfs p { padding: .3em 0; }
 #outdated p {
    margin: 0.2em 0;
 }
-#outdated a:visited { color: #124bb4; }
+#outdated a:visited { color: #004caa; }
 #outdated a:hover { color: #777; }
 
 /* For translators notes */
@@ -756,7 +750,7 @@ table.listing {
 }
 #translations span.original a,
 #translations span.original a:visited {
-   color: #124bb4
+   color: #004caa
 }
 #translations a:hover,
 #translations span.original a:hover {
@@ -780,13 +774,13 @@ table.listing {
    font-size: 2em;
    font-family: "FreeCondensed", "FreeSans", sans-serif;
    line-height: 1.1em;
-   padding: .8em 0;
+   padding: .85em 0;
 }
 #gnu-banner img {
    float: left;
    height: 1.8em;
    margin-right: .15em;
-   position: relative; bottom: .35em;
+   position: relative; bottom: .4em;
 }
 #gnu-banner a {
    color: #333; text-decoration: none;
@@ -815,7 +809,7 @@ table.listing {
    float: right;
    line-height: 1.3em;
    font-size: .9em;
-   padding: 1em 0 0;
+   margin-top: 1em;
 }
 #fsf-frame a, #fsf-frame a:visited {
    font-weight: bold;
@@ -826,56 +820,46 @@ table.listing {
 /* Join FSF */
 #join-fsf a, #join-fsf a:visited {
    color: white;
-   background: #5076bb;
-   border-color: #5076bb;
+   background-color: #4080d0;
+   border-color: #4080d0;
+   -webkit-transition: all .5s; /* Safari */
+   transition: all .5s;
 }
-#join-fsf a:hover { background: #124bb4; }
+#join-fsf a:hover { background: #004caa; }
 
 /* Free Software Supporter */
-#fssbox {
-   display: none;
-   padding: 1.2em 0 .8em;
-}
+#fssbox { margin-bottom: 1.3em; }
 #fssbox form p { margin-top: .1em; }
-
 #fssbox form input[type="submit"] {
-   color: #124bb4;
-   border: .1em solid #124bb4;
+   color: #004caa;
+   border: .1em solid #4080d0;
+   -webkit-transition: all 2s; /* Safari */
+   transition: all 2s;
 }
 #fssbox form input[type="text"]:focus + input[type="submit"] {
    color: white;
-   background-color: #124bb4;
+   background-color: #4080d0;
 }
+
 @media (min-width: 46em) {
    #gnu-banner { clear: none; }
    #fsf-support { display: block; }
 }
 @media (min-width: 55em) {
    #fsf-frame {
-      max-width: 41%;
       text-align: center;
+      margin: .6em 0 1em;
    }
-   #fssbox {
-      display: block;
-   }
+   #fssbox { display: block; }
 }
 @media (min-width: 62em) {
-   #fsf-frame {
-      width: 45%; max-width: 45%;
-   }
-   #join-fsf { float: left; }
-   #fssbox {
-      clear: left;
-      float: right;
-   }
+   #fsf-frame { width: 45%; }
+   #fssbox { float: left; }
+   #join-fsf { clear: left; float: right; }
 }
 
 
 /*** NAVIGATION BARS ***/
-
-#navigation, #fsf-links {
-   clear: both;
-}
 
 /* line-height is defined here for NetSurf 1.2.
    No effect in NetSurf 2.9 or Firefox. */
@@ -883,12 +867,6 @@ table.listing {
    text-align: center;
    font-size: 0.9em;
    line-height: 1.7em;
-}
-#fsf-links ul {
-   padding: .2em .5em 0;
-   margin: 0;
-}
-#navigation ul, ul#edu-navigation {
    padding: .2em .5em;
    margin-top: 0; margin-bottom: 0;
 }
@@ -898,8 +876,6 @@ table.listing {
    display: inline;
    display: inline-block;
    line-height: 1.3em;
-   font-family: "FreeCondensed", "FreeSans", sans-serif;
-   text-transform: uppercase;
    font-weight: bold;
    margin: 0 .4em;
    padding-top: .2em;
@@ -937,11 +913,20 @@ ul#edu-navigation li.active,
  #fsf-links a:hover { text-decoration: underline; }
 
 
+/*** CONTENT ***/
+
+/* This gives a 2.5em spacing between the last element
+   and the following div. */
+#content:after {
+   display: block; height: .1em;
+   content: ""; margin-top: 2.4em;
+}
+
 /*** MISSION STATEMENT ***/
 
 #mission-statement {
    font-size: 0.9em;
-   margin-top: 2em;
+   margin-top: 2em; margin-bottom: 2em;
 }
 #mission-statement blockquote {
    font-weight: bold;
@@ -956,10 +941,14 @@ ul#edu-navigation li.active,
 
 /*** FOOTER ***/
 
+#footer:after {
+   display: block; height: 1px;
+   content: ""; margin-top: 1.2em;
+}
 #footer {
    clear: both;
    font-size: .9em;
-   padding-top: 1.2em; padding-bottom: .5em;
+   padding-top: 1.2em;
    color: #333;
    border-top: 1px solid #ccc;
 }
@@ -984,7 +973,7 @@ ul#edu-navigation li.active,
 }
 .edu-breadcrumb a,
 .edu-breadcrumb a:visited {
-   color: #124bb4;
+   color: #004caa;
    text-decoration: none;
 }
 .edu-breadcrumb a:hover {

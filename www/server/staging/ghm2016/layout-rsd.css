@@ -1,0 +1,997 @@
+/*!
+layout.css -- css stylesheet used on www.gnu.org
+
+Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011,
+   2013, 2014, 2015, 2016 Free Software Foundation
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+</div><!-- /toplinks -->
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+*/
+
+/*
+   NOTE: Changes to this file will affect the entire site, often in
+         unexpected ways. Please mail patches to www-discuss@gnu.org rather
+         than commit changes directly.
+
+   NOTE: After modifying this file, please generate the corresponding minified
+         version, otherwise the changes won't be visible.
+
+         To generate the minified version of this file, we currently use a free
+         program called YUI Compressor and run this command:
+
+         yuicompressor layout.css > layout.min.css
+*/
+
+
+/*** COLORS ***/
+
+/*
+Text
+   black    normal text, hover on #555
+   #222, #333, #404040, #555: special items
+   #777     medium gray: hover special links
+   white    #navigation
+
+   #004caa  blue: normal links
+   #100070  purplish blue: normal visited links, normal hover
+   blue     #urgent links
+   #a42e2b  red: GNU banner, #outdated, active links in edu-navbar
+
+Backgrounds
+   #999     hr
+   #d4d4d4  #fsf-links, #searcher
+   #e4e4e4  html
+   #eee     #edu-navigation, submit
+   #f3f3f3  #translations, #footer, #outdated, .emph-box, .toc,
+            .lyrics, .listing
+   white    body, .note
+
+   #a42e2b  red: #navigation
+   #4080d0  blue: #join-fsf, #fssbox submit:focus
+   #004caa  blue: #join-fsf:hover
+   #ff3     yellow: #urgent
+   #fff1c0  light orange: .highlight
+   #fff5d4  very light orange: .highlight-para, p.highlight, table headers
+
+Borders
+   black, #111, #333, #666: tables
+   #222     box-shadow behind buttons
+   #bbb     body
+   #ccc     unfocused inputs, emph-box, lyrics, footer
+   #d4d4d4  #translations, #outdated
+
+   #4080d0  focused inputs
+   #3465a4  .edu-cases
+   #e74c3c  .announcement, .note, .big-section h3
+   #f49943  .highlight-para
+*/
+
+/*** Luminosity contrast ratio and color difference ***
+   source: http://springmeier.org/www/contrastcalculator/index.php
+
+   Color1       Color 2       contrast       Color
+                               ratio      difference
+Black-gray
+   #000         white          21.3           765
+   #000         #ff3           19.6           561
+   #222         white          15.91          663
+   #333         white          12.63          612
+   #333         #eee           10.89          561
+   #404040      #d4d4d4         6.99          444
+   #555         white           7.46          510
+
+Red
+   #a42e2b      white           6.99          630
+
+Blue (urgent)
+   #00f         #ff3            8.02          714
+
+Blue links
+   #004caa     white           8.03          443
+   #004caa     #e4ffcc         7.45          365
+   #004caa     #fff1c0         7.11          366
+   #004caa     #f3f3f3         7.24          407
+   #004caa     #ccffcc         7.17          341
+   #004caa     #777            1.79          137
+   #004caa     #333            1.57          169
+   #004caa     black           2.61          322
+
+Purple links
+   #100070      white          16.72          653
+   #100070      #fff1c0        14.81          576
+   #100070      #ccffcc        14.92          551
+   #100070      #777            3.73          245
+   #100070      #333            1.32          163
+   #100070      black           1.26          112
+   #100070      #004caa        2.08          134
+*/
+
+
+/*** MAIN DIVS ***/
+
+/*
+From top to bottom:
+   #searcher + #toplinks             [body-include-1.html]
+   #translations                     [body-include-1.html]
+   #header (#gnu-banner, #fsf-frame) [body-include-2.html]
+   #navigation                       [body-include-2.html]
+   (#edu-navigation in a few pages)  [<page>.html]
+   #content                          [<page>.html]
+   #fsf-links                        [footer-text.html]
+   #mission-statement + #backtotop   [footer-text.html]
+   #footer                           [<page>.html]
+*/
+
+
+/***  PAGE LAYOUT  ***/
+
+html, body {
+   font-size: 1em;
+   text-align: left;
+   text-decoration: none;
+   color: #000;
+}
+html { background: #e4e4e4; }
+
+/* This specifies the basic width of our web pages.  Don't change it
+   without discussion on www-discuss.  The magic 74.92 is for
+   consistency with fsf.org.  */
+body {
+   max-width: 74.92em;
+   margin: auto;
+   background-color: white;
+   border: .1em solid #bbb;
+   border-top: 1px solid transparent;
+   -moz-box-shadow: 0 0 5px 5px #bbb;
+   -webkit-box-shadow: 0 0 5px 5px #bbb;
+   -icab-box-shadow: 0 0 5px 5px #bbb;
+   -o-box-shadow: 0 0 5px 5px #bbb;
+   box-shadow: 0 0 5px 5px #bbb;
+}
+
+/** Widths **/
+
+.inner { overflow: hidden; }
+
+#searcher, #translations, #header, #content,
+ #mission-statement, #footer {
+   padding-left: 3%; padding-right: 3%;
+}
+ul#edu-navigation {
+   margin-left: -3.2%; margin-right: -3.2%;
+}
+
+/** Backgrounds **/
+
+#searcher, #fsf-links {
+   background-color: #d4d4d4;
+}
+#translations, #footer { background-color: #f3f3f3; }
+#edu-navigation { background-color: #eee; }
+#navigation { background-color: #a42e2b; }
+
+/** Fonts **/
+
+#searcher, #toplinks, #translations, #header, h1, h2 {
+   font-family: "FreeSans", sans-serif;
+}
+#navigation ul, #fsf-links ul, ul#edu-navigation {
+   font-family: "FreeCondensed", "FreeSans", sans-serif;
+   text-transform: uppercase;
+}
+
+
+/*** BASIC ELEMENTS ***/
+
+/** Size and positioning **/
+
+p, pre, li, dt, dd, code, address { line-height: 1.3em; }
+
+/* These headers are appropriate for templated pages with div#content, but
+   generally too big for a few non-templated pages that use layout.css.
+   Another set of headers will have to be defined for those. */
+h1 { font-size: 2.4em; margin-bottom: 1.1em; }
+h2 { font-size: 2.0em; margin-bottom: 1.1em; }
+h3 { font-size: 1.5em; margin: 1em 0 .80em 0; }
+h4 { font-size: 1.2em; margin: 1em 0 .83em 0; }
+h5 { font-size: 1.1em; margin: 1em 0 .91em 0; }
+h6 { margin: 1em 0; }
+
+p, pre { margin-top: 1em; }   /* In combo.css: margin-bottom:1em. */
+address { margin-bottom: 1em; }
+ul, ol, blockquote { margin-left: 3%; margin-right: 3%; }
+
+/* Lists of underlined links are difficult to read. The top margin
+   gives a little more spacing between entries. */
+ul li { margin: .5em 1em; }
+ol li { margin: 1em; }
+ol ul li { margin: .5em 1em; }
+ul li p, ul li pre, ul ul li { margin-top: .3em; margin-bottom: .3em; }
+ul ul, ol ul, table ul { margin-top: 0; margin-bottom: 0; }
+table li { margin-top: .2em; margin-bottom: .2em; }
+
+/* Separate description lists from preceding text */
+dl { margin: 1.5em 0 0 0; }
+/* separate the "term" from subsequent "description" */
+dt { margin: 1em 0; }
+/* separate the "description" from subsequent list item
+   when the final <dd> child is an anonymous box */
+dl dd { margin: 1em 3% 1.5em 3%; }
+/* separate anonymous box (used to be the first element in <dd>)
+   from subsequent <p> */
+dd p { margin-top: 1em; }
+
+small { font-size: .9em; }
+
+/** Style **/
+
+/* The default color (black) is too dark for large text in
+   bold font. */
+h3, h4 { color: #333; }
+h5, h6, dt { color: #222; }
+
+a[href] { color: #004caa; }
+a[href]:visited { color: #100070; }
+a[href]:active, a[href]:hover {
+   color: #100070;
+   text-decoration: none;
+}
+
+ul li, ol li { list-style: inherit; }
+ul { list-style: square; }
+ul ul, ol ul { list-style: circle; }
+
+blockquote { font-style: italic; }
+acronym, abbr { text-decoration: none; } /* border-bottom in combo.css */
+hr {
+   color: #999;
+   background-color: #999;
+}
+pre { overflow: auto; }
+
+
+/*** SIMPLE CLASSES ***/
+
+.center, .c { text-align: center; }
+.nocenter{ text-align: left; }
+
+.underline { text-decoration: underline; }
+.nounderline { text-decoration: none; }
+
+.big { font-size: 130%; padding-top: 0.7em; }
+
+.inline-list li { display: inline }
+ul.no-bullet { list-style: none; }
+
+.netscape4, .no-display { display: none; }
+
+
+/*** SEPARATOR ***/
+
+/* For license-list.html, but could be used elsewhere. */
+hr.separator {
+   display: block;
+   height: .3em;
+   margin-bottom: 1.2em;
+   border: none;
+}
+
+
+/*** FORMS ***/
+
+form input {
+   font-family: inherit;
+   font-weight: bold;
+   margin: 0;
+   border: .1em solid #ccc;
+   border-radius: .4em;
+   -moz-border-radius: .4em;
+   -khtml-border-radius: .4em;
+   -webkit-border-radius: .4em;
+   -opera-border-radius: .4em;
+}
+form input[type="text"] {
+   padding: .2em;
+   color: #555;
+   background: white;
+}
+form input[type="submit"] {
+   padding: .2em .4em;
+   color: #333;
+   background: #eee;
+}
+form input[type="text"]:focus {
+   color: #333;
+   border: .1em solid #4080d0;
+}
+form input[type="text"]:focus + input[type="submit"] {
+   border: .1em solid #4080d0;
+}
+form input[type="submit"]:hover {
+   cursor: pointer;
+}
+
+
+/*** BUTTONS ***/
+
+.button a, #join-fsf a {
+   line-height: 1.2em;
+   font-weight: bold;
+   text-decoration: none;
+   padding: .3em .6em;
+/* Color and background are left out because they depend
+   on the environment. */
+   border: .1em solid #999;
+   border-radius: 1em;
+   -moz-border-radius: 1em;
+   -khtml-border-radius: 1em;
+   -webkit-border-radius: 1em;
+   -opera-border-radius: 1em;
+}
+.button a {
+/* Display the button link as block in
+   browsers lacking support for inline-block, */
+   display: block;
+/* and as inline-block in those that support it. */
+   display: inline-block;
+}
+
+.button.small { font-size: 1.3em; }
+/* The large button is defined in home.html. */
+
+
+/*** RETURN LINKS ***/
+
+.back, #backtotop {
+   text-align: right;
+   line-height: 1.5em;
+   font-weight: bold;
+}
+.back a, .back a:visited,
+ #backtotop a, #backtotop a:visited { color: #333; }
+.back a:hover,
+ #backtotop a:hover { color: #777; }
+
+.back { margin: 1.5em 2% 1em; }
+#backtotop {
+   font-size: 1.1em; /* In #mission-statement, font-size is .9em. */
+   margin: 0 5%;
+}
+
+
+/*** BIG SECTION HEADERS ***/
+
+/* Used in license-list.html and proprietary-surveillance.html,
+   but could apply elsewhere. */
+
+.big-section { margin-bottom: .5em; }
+.big-section h3 {
+   display: inline-block;
+   font-size: 1.7em;
+   padding: .2em 0;
+   margin-right: .3em;
+   color: black;
+   border-top: .12em solid #e74c3c;
+   border-bottom: .12em solid #e74c3c;
+}
+.big-subsection { margin: 1.5em 0; }
+.big-subsection h4 {
+   display: inline;
+   font-size: 1.5em;
+   margin-right: .3em;
+   color: black;
+}
+
+/*** ANCHOR ***/
+
+/* This is used in pages of lists, such as gnu-linux.faq.html,
+   to give readers a hint that they can link directly to a given item.
+   We make it less obtrusive than the item heading it follows.  */
+.anchor-reference-id { font-size: 80%; font-weight: normal; }
+
+span.anchor-reference-id a { color: #333; }
+span.anchor-reference-id a[href]:hover { color: #777; }
+
+
+/*** NON-FLOATING INSETS AND HIGHLIGHTED STUFF ***/
+
+/* .highlight doesn't have a border. It can be applied to in-line elements.
+   .highlight-para and .emph-box have borders. They are used for block elements.
+   highlight-para can be used next to .note or .summary because it only has top
+   and bottom borders. */
+
+.highlight-para, p.highlight, pre.emph-box, p.emph-box, pre.emph-box {
+   padding: .6em 1.2em;
+}
+div.highlight-para, div.emph-box { padding: 1.2em; }
+
+/* Strip the top and bottom margins to avoid uneven spacing between text
+   and border in NetSurf. */
+div.highlight-para > *, div.emph-box > *, .lyrics > * { margin-bottom: 0; }
+div.highlight-para > *:first-child, div.emph-box > *:first-child,
+ .lyrics > *:first-child { margin-top: 0; }
+
+.highlight { background-color: #fff1c0; }
+.highlight-para, p.highlight { background-color: #fff5d4; }
+.highlight-para {
+   border-top: .1em solid #f49943;
+   border-bottom: .1em solid #f49943;
+}
+.emph-box, .lyrics {
+   background-color: #f3f3f3;
+   border: .1em solid #ccc;
+}
+
+.lyrics {
+   max-width: 25em;
+   font-style: italic;
+   padding: 2em;
+   margin-left: 3%; margin-right: 3%;
+}
+
+/* Announcements */
+div.announcement {
+   font-size: 1.1em; font-weight: bold;
+   padding: 0 1em;
+   margin: 1.5em 0;
+   color: #333;
+   border-left: .5em solid #e74c3c;
+}
+div.announcement blockquote {
+   margin-left: 0; margin-right: 0;
+}
+
+/* Note about Free Software Free Society */
+blockquote#fsfs p { padding: .3em 0; }
+
+/* the urgent div should be enabled when we have something urgent to
+   appear on every page - these typically come from johns, peterb or rms
+   at the fsf */
+#urgent {
+   text-align: center;
+   font-size: .9em; font-weight: bold;
+   line-height: 2.6em;
+   color: black;
+   background-color: #ff3;
+   border-bottom: .3em solid #333;
+}
+#urgent a, #urgent a:visited {
+   color: blue; text-decoration: underline;
+}
+#urgent a:hover { color: #777; }
+
+/* For the note saying the page is a translation. */
+.trans-disclaimer {
+   text-align: center;
+   font-weight: bold;
+   font-style: italic;
+   margin-bottom: 0;
+   margin-top: 1em;
+}
+.trans-disclaimer a,
+.trans-disclaimer a:visited { color: #333; }
+.trans-disclaimer a:hover { color: #777; }
+
+/* For outdated translations  */
+#outdated {
+   text-align: center;
+   padding: .7em 3%;
+   margin: .3em -3.2%;
+   color: #a42e2b;
+   border-bottom: .2em solid #d4d4d4;
+}
+#outdated p {
+   margin: 0.2em 0;
+}
+#outdated a:visited { color: #004caa; }
+#outdated a:hover { color: #777; }
+
+/* For translators notes */
+.translators-notes { font-size: .9em; }
+.translators-notes hr { margin-top: 2.5em; }
+.translators-notes ol li { margin: .5em 1.1em 0; }
+
+
+/*** FLOATING INSETS ***/
+
+/** Notes **/
+
+.note {
+   text-align: center;
+   font-style: normal;
+   width: 20em; max-width: 90%;
+   padding: .5em;
+   margin: 1em auto;
+   background: white;
+   border: .2em dotted #e74c3c;
+}
+.note p {
+   font-size: 1.1em;
+   line-height: 1.4em;
+/* For NetSurf: replace margin with padding. */
+   padding: .5em;
+   margin: 0;
+}
+.note strong { font-size: 1.2em; }
+
+
+/** Tables of contents **/
+
+.summary, .toc {
+   padding: 1.5em;
+   margin: 2.5em 0 2em;
+   background: #f3f3f3; 
+}
+.summary h3, .toc h3 {
+   font-size: 1.3em;
+}
+.summary h4, .toc h4 {
+   font-size: 1.1em;
+}
+/* Spacing between items is given by the top margin of li. */
+.summary > ul > li, .summary > ol > li
+ .toc > ul > li, .toc > ol > li {
+   margin-top: .5em; margin-bottom: 0;
+}
+.summary > ul, .summary > ol, .toc > ul, .toc > ol {
+   margin: 0;
+}
+/* For NetSurf:
+   Strip the top margin of the first element. */
+.summary > *:first-child, .summary > * > li:first-child, 
+ .toc > *:first-child, .toc > * > li:first-child {
+   margin-top: 0;
+}
+
+@media (min-width: 48em) {
+   .toc {
+      max-width: 45em; margin: auto;
+   }
+   .toc h3, .toc h4 {
+      text-align: center;
+   }
+   .summary {
+      width: 20em; max-width: 40%;
+   }
+   .note, .summary {
+      clear: right;
+      float: right;
+      margin: .2em 0 1em 2em;
+/* This keeps an adjacent background (e.g. highlight-para)
+   from touching the note or the summary. */
+      box-shadow: 0 0 0 1em white;
+     -moz-box-shadow: 0 0 0 1em white;
+     -webkit-box-shadow: 0 0 0 1em white;
+     -icab-box-shadow: 0 0 0 1em white;
+     -o-box-shadow: 0 0 0 1em white;
+   }
+}
+
+
+/*** IMAGES ***/
+
+.imgright { float: right; margin: .2em 0 1em 1.5em; }
+.imgleft  { float: left;  margin: .2em 1.5em 1em 0; }
+
+/* For pictures with/without legend. */
+.narrow { width: 15em; }
+.medium { width: 20em; }
+.wide   { width: 27em; }
+.pict { max-width: 100%; margin: 1em auto; }
+.pict img { width: 100%; }
+.pict p {
+   text-align: center;
+   font-style: italic;
+   margin-top: .5em;
+}
+
+@media (min-width: 43em) {
+   .pict.narrow {
+       float:right; margin: .2em 0 1em 1.5em;
+   }
+}
+@media (min-width: 48em) {
+   .pict.medium {
+       float:right; margin: .2em 0 1em 1.5em;
+   }
+}
+@media (min-width: 55em) {
+   .pict.wide {
+       float:right; margin: .2em 0 1em 1.5em;
+   }
+}
+
+/* This will be removed as soon as pages that use .photo
+   are updated to .pict. */
+.photo {
+   float: right;
+   width: 30em; max-width: 100%;
+   margin: .2em 0 1em 0;
+}
+.photo img, .photo p {
+   width: 94%;
+   padding: 0 6%;
+}
+.photo img.recessed { width: 90%; }
+
+
+/*** LISTINGS ***/
+
+.listing,
+.stx table {
+   /* The default table for document listings. Contains name, document types,
+   modification times etc in a file-browser-like fashion */
+   border-collapse: collapse;
+   border: 1px solid #666666;
+   margin: 1em 0em 1em 0em;
+}
+
+.listing th,
+.stx table th {
+   background: #fff1c0;
+   color: black;
+   font-weight: bold;
+   border: 1px solid #666666;
+   font-weight: normal;
+   padding: .7em;
+}
+
+.listing td a { display: block; }
+.listing .top {
+   border-top: 1px solid #666666;
+   text-align: right;
+   padding: 0em 0em 1em 0em;
+}
+
+.listing .odd {
+   /*every second line should be shaded */
+   background-color: transparent;
+}
+.listing .even {
+   background-color: #f3f3f3;
+}
+.listing .listingCheckbox {
+   text-align: center;
+}
+.listing td,
+.stx table td {
+   border: 1px solid #666666;
+   padding: 1em;
+   text-align: center;
+   line-height: 1.3em
+}
+
+.listing a:hover {
+   text-decoration: underline;
+}
+
+.listing img {
+   vertical-align: middle;
+}
+
+.listing { width: 100%; }
+
+/* For wide tables, e.g. in doc/other-free-books.html */
+table.listing {
+   display: block;
+   overflow: auto;
+   padding: .1em;
+   margin: auto;
+}
+
+
+/*** TOP LINKS ***/
+
+#toplinks {
+   float: left;
+   /* For NetSurf 1.2, and maybe a few other browsers. */
+   padding: .5em 2em .3em 2em;
+}
+/* For standard browsers. */
+@media (max-width: 500em) {
+   #toplinks { padding: .5em 3% .3em 3%; }
+}
+#toplinks a, #toplinks a:visited {
+   white-space: nowrap;
+   /* the next line is a workaround for Midori 0.5.8 */
+   display: inline-block;
+   font-weight: bold;
+   font-size: .9em;
+   color: #404040; text-decoration: none;
+   margin-right: 1em;
+}
+#toplinks a:hover { color: #777; }
+
+
+/*** SEARCHER ***/
+
+#searcher {
+   display: block;
+   text-align: right;
+   font-size: .9em;
+   padding-top: .3em; padding-bottom: .3em;
+}
+
+.top-right-area form {
+  display: inline;
+}
+
+/*** TRANSLATION LIST ***/
+
+#translations {
+   clear: both;
+   font-size: .9em;
+   text-align: left;
+/*   border-bottom: .2em solid #d4d4d4; */
+}
+#translations p {
+   line-height: 1.2em;
+   padding: .3em 0;
+   margin: 0;
+}
+#translations span {
+   white-space: nowrap;
+   font-size: .9em;
+   margin-right: .5em;
+}
+#translations span a, #translations span a:visited {
+   color: #222; text-decoration: none;
+}
+/* Highlight the link to the original page */
+#translations span.original {
+   font-size: 1em; font-weight: bold;
+}
+#translations span.original a,
+#translations span.original a:visited {
+   color: #004caa
+}
+#translations a:hover,
+#translations span.original a:hover {
+   color: #777;
+}
+
+
+/*** HEADER ***/
+
+#header:after {
+   clear: both; content: ""; display: block;
+   height: 0px; visibility: hidden; width: 0px;
+}
+
+/* Narrow screens and CSS-1 browsers */
+#fsf-support, #fssbox, #join-fsf { display: none; }
+
+/* GNU banner */
+#gnu-banner {
+   clear: both;
+   font-size: 2em;
+   font-family: "FreeCondensed", "FreeSans", sans-serif;
+   line-height: 1.1em;
+   padding: .85em 0;
+}
+#gnu-banner img {
+   float: left;
+   height: 1.8em;
+   margin-right: .15em;
+   position: relative; bottom: .4em;
+}
+#gnu-banner a {
+   color: #333; text-decoration: none;
+}
+#gnu-banner a strong {
+   font-family: "FreeSans", sans-serif;
+   color: #a42e2b;
+}
+
+/*FSF support */
+#fsf-support {
+   position: relative; bottom: .3em;
+   font-size: .9em;
+   font-style: italic;
+   margin: 0 .2em;
+   color: #555;
+}
+#fsf-support a, #fsf-support a:visited {
+   font-weight: bold;
+   color: #555;
+}
+#fsf-support a:hover { color: black; }
+
+/* FSF frame */
+#fsf-frame {
+   float: right;
+   line-height: 1.3em;
+   font-size: .9em;
+   margin-top: 1em;
+}
+#fsf-frame a, #fsf-frame a:visited {
+   font-weight: bold;
+   text-decoration: none;
+}
+#fsf-frame p { margin: 0; }
+
+/* Join FSF */
+#join-fsf a, #join-fsf a:visited {
+   color: white;
+   background-color: #4080d0;
+   border-color: #4080d0;
+   -webkit-transition: all .5s; /* Safari */
+   transition: all .5s;
+}
+#join-fsf a:hover { color: white; background-color: #004caa; }
+
+/* Free Software Supporter */
+#fssbox { margin-top: 1.3em; }
+#fssbox form p { margin-top: .1em; }
+#fssbox form input[type="submit"] {
+   color: #004caa;
+   border: .1em solid #4080d0;
+   -webkit-transition: all 2s; /* Safari */
+   transition: all 2s;
+}
+#fssbox form input[type="text"]:focus + input[type="submit"] {
+   color: white;
+   background-color: #4080d0;
+}
+
+@media (min-width: 46em) {
+   #gnu-banner { clear: none; }
+   #fsf-support { display: block; }
+}
+@media (min-width: 55em) {
+   #fsf-frame {
+      text-align: center;
+      margin-bottom: .6em;
+   }
+   #fssbox { display: block; }
+   #join-fsf { display: inline; }
+}
+
+/*** NAVIGATION BARS ***/
+
+/* line-height is defined here for NetSurf 1.2.
+   No effect in NetSurf 2.9 or Firefox. */
+#navigation ul, #fsf-links ul, ul#edu-navigation {
+   text-align: center;
+   font-size: 0.9em;
+   line-height: 1.7em;
+   padding: .2em .5em;
+   margin-top: 0; margin-bottom: 0;
+}
+
+#navigation li, ul#edu-navigation li, #fsf-links li {
+   white-space: nowrap;
+   display: inline;
+   display: inline-block;
+   line-height: 1.3em;
+   font-weight: bold;
+   margin: 0 .4em;
+   padding-top: .2em;
+}
+/* Mock border to avoid size change when a link becomes active */
+#navigation li { border-bottom: .15em solid #a42e2b; }
+ul#edu-navigation li { border-bottom: .15em solid #eee; }
+#fsf-links li { padding-bottom: .15em; }
+
+ /* For Firefox (can't set line-height when "a" is displayed inline) */
+#navigation a, ul#edu-navigation a, #fsf-links a {
+   display: inline-block;
+   padding-top: .2em;
+}
+
+#navigation, #navigation a, #navigation a:visited { color: white; }
+#edu-navigation, #edu-navigation a, ul#edu-navigation a:visited,
+ #fsf-links a, #fsf-links li a:visited { color: #222; }
+
+#navigation li.active {
+   font-style: italic;
+   border-bottom: .15em solid white;
+}
+ul#edu-navigation li.active,
+ ul#edu-navigation li.current {
+   font-style: italic;
+   border-bottom: .15em solid #a42e2b;
+}
+#navigation li a, ul#edu-navigation li a, #fsf-links li a,
+ #navigation li.active a:hover,
+ ul#edu-navigation li.active a:hover {
+   text-decoration: none;
+}
+#navigation a:hover, ul#edu-navigation a:hover,
+ #fsf-links a:hover { text-decoration: underline; }
+
+
+/*** CONTENT ***/
+
+/* This gives a 2.5em spacing between the last element
+   and the following div. */
+#content:after {
+   display: block; height: .1em;
+   content: ""; margin-top: 2.4em;
+}
+
+/*** MISSION STATEMENT ***/
+
+#mission-statement {
+   font-size: 0.9em;
+   margin-top: 2em; margin-bottom: 2em;
+}
+#mission-statement blockquote {
+   font-weight: bold;
+   margin: 0;
+}
+#mission-statement img {
+   float: left;
+   height: 2em;
+   margin: .3em .5em;
+}
+
+
+/*** FOOTER ***/
+
+#footer:after {
+   display: block; height: 1px;
+   content: ""; margin-top: 1.2em;
+}
+#footer {
+   clear: both;
+   font-size: .9em;
+   padding-top: 1.2em;
+   color: #333;
+   border-top: 1px solid #ccc;
+}
+#footer p { margin: 0; }
+#footer p.unprintable { margin-top: .7em; }
+#footer .unprintable, #footer .translators-credits {
+   margin-bottom: .7em;
+}
+#bottom-notes p { margin-bottom: .7em; }
+
+
+/*** EDUCATION ***/
+
+/* Breadcrumbs */
+.edu-breadcrumb {
+   font-size: .9em;
+   font-weight: bold;
+   text-align: left;
+   padding-top: .4em;
+   margin-top: 0;
+   color: #333;
+}
+.edu-breadcrumb a,
+.edu-breadcrumb a:visited {
+   color: #004caa;
+   text-decoration: none;
+}
+.edu-breadcrumb a:hover {
+   color: #777;
+}
+
+/* Subsections of /education "Case Studies" */
+div.edu-cases {
+   border-top: 5px ridge #3465a4;
+   border-bottom: 5px ridge #3465a4;
+   padding: 1.5em 0;
+   margin: 2em 4%;
+}
+
+/* make h3 for edu-cases look like h4 for other pages */
+div.edu-cases h3 {
+   font-size: 1.3em;
+   margin: 0; margin-bottom: 1em;
+}
+div.edu-cases ul, div.edu-cases ol {
+   padding: 0 4%;
+}
+
