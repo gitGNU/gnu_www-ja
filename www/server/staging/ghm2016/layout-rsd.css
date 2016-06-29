@@ -72,8 +72,8 @@ Borders
 
    #4080d0  focused inputs
    #3465a4  .edu-cases
-   #e74c3c  .announcement, .note, .big-section h3
-   #f49943  .highlight-para
+   #e74c3c  .note, .big-section h3
+   #f49943  .announcement, .highlight-para
 */
 
 /*** Luminosity contrast ratio and color difference ***
@@ -209,14 +209,15 @@ h6 { margin: 1em 0; }
 
 p, pre { margin-top: 1em; }   /* In combo.css: margin-bottom:1em. */
 address { margin-bottom: 1em; }
-ul, ol, blockquote { margin-left: 3%; margin-right: 3%; }
+ul, ol, blockquote { margin-left: 1.5%; margin-right: 1.5%; }
 
 /* Lists of underlined links are difficult to read. The top margin
    gives a little more spacing between entries. */
-ul li { margin: .5em 1em; }
-ol li { margin: 1em; }
-ol ul li { margin: .5em 1em; }
-ul li p, ul li pre, ul ul li { margin-top: .3em; margin-bottom: .3em; }
+ol > li { margin: 1em 0 0 1em; }
+ul li { margin: .5em 0 0 1em; }
+ul li p, ul li pre, ul ul li {
+   margin-top: .3em; margin-bottom: 0;
+}
 ul ul, ol ul, table ul { margin-top: 0; margin-bottom: 0; }
 table li { margin-top: .2em; margin-bottom: .2em; }
 
@@ -232,6 +233,7 @@ dl dd { margin: 1em 3% 1.5em 3%; }
 dd p { margin-top: 1em; }
 
 small { font-size: .9em; }
+
 
 /** Style **/
 
@@ -252,6 +254,9 @@ ul { list-style: square; }
 ul ul, ol ul { list-style: circle; }
 
 blockquote { font-style: italic; }
+blockquote i, em i, cite i, blockquote em, cite em,
+ blockquote cite, em cite { font-style: normal; }
+
 acronym, abbr { text-decoration: none; } /* border-bottom in combo.css */
 hr {
    color: #999;
@@ -268,7 +273,7 @@ pre { overflow: auto; }
 .underline { text-decoration: underline; }
 .nounderline { text-decoration: none; }
 
-.big { font-size: 130%; padding-top: 0.7em; }
+.big { font-size: 130%; padding: .3em 0; }
 
 .inline-list li { display: inline }
 ul.no-bullet { list-style: none; }
@@ -289,10 +294,17 @@ hr.separator {
 
 /*** FORMS ***/
 
+form  {
+   display: inline;
+   display: inline-block;
+   margin: .05em 0;
+}
+form div { display: inline; }
+
 form input {
    font-family: inherit;
    font-weight: bold;
-   margin: 0;
+   line-height: 1.1em;
    border: .1em solid #ccc;
    border-radius: .4em;
    -moz-border-radius: .4em;
@@ -301,12 +313,12 @@ form input {
    -opera-border-radius: .4em;
 }
 form input[type="text"] {
-   padding: .2em;
+   padding: .25em;
    color: #555;
    background: white;
 }
 form input[type="submit"] {
-   padding: .2em .4em;
+   padding: .25em;
    color: #333;
    background: #eee;
 }
@@ -324,7 +336,7 @@ form input[type="submit"]:hover {
 
 /*** BUTTONS ***/
 
-.button a, #join-fsf a {
+.button a {
    line-height: 1.2em;
    font-weight: bold;
    text-decoration: none;
@@ -365,7 +377,7 @@ form input[type="submit"]:hover {
 .back { margin: 1.5em 2% 1em; }
 #backtotop {
    font-size: 1.1em; /* In #mission-statement, font-size is .9em. */
-   margin: 0 5%;
+   margin: 0 5% 2em;
 }
 
 
@@ -445,14 +457,11 @@ div.announcement {
    padding: 0 1em;
    margin: 1.5em 0;
    color: #333;
-   border-left: .5em solid #e74c3c;
+   border-left: .5em solid #f49943;
 }
 div.announcement blockquote {
    margin-left: 0; margin-right: 0;
 }
-
-/* Note about Free Software Free Society */
-blockquote#fsfs p { padding: .3em 0; }
 
 /* the urgent div should be enabled when we have something urgent to
    appear on every page - these typically come from johns, peterb or rms
@@ -529,7 +538,7 @@ blockquote#fsfs p { padding: .3em 0; }
 
 .summary, .toc {
    padding: 1.5em;
-   margin: 2.5em 0 2em;
+   margin: 2.5em 0 1.5em;
    background: #f3f3f3; 
 }
 .summary h3, .toc h3 {
@@ -555,7 +564,7 @@ blockquote#fsfs p { padding: .3em 0; }
 
 @media (min-width: 48em) {
    .toc {
-      max-width: 45em; margin: auto;
+      max-width: 45em; margin: 2.5em auto 1.5em;
    }
    .toc h3, .toc h4 {
       text-align: center;
@@ -695,11 +704,11 @@ table.listing {
 #toplinks {
    float: left;
    /* For NetSurf 1.2, and maybe a few other browsers. */
-   padding: .5em 2em .3em 2em;
+   padding: .55em 2em .3em 2em;
 }
 /* For standard browsers. */
 @media (max-width: 500em) {
-   #toplinks { padding: .5em 3% .3em 3%; }
+   #toplinks { padding: .55em 3% .3em 3%; }
 }
 #toplinks a, #toplinks a:visited {
    white-space: nowrap;
@@ -716,15 +725,28 @@ table.listing {
 /*** SEARCHER ***/
 
 #searcher {
-   display: block;
    text-align: right;
    font-size: .9em;
    padding-top: .3em; padding-bottom: .3em;
 }
 
-.top-right-area form {
-  display: inline;
+/* Join FSF */
+/* Narrow screens and CSS-1 browsers */
+#join-fsf { display: none; }
+
+#join-fsf a, #join-fsf a:visited {
+   margin-left: 1em;
+   color: white;
+   background-color: #4080d0;
+   border-color: #4080d0;
+   -webkit-transition: all .5s; /* Safari */
+   transition: all .5s;
 }
+#join-fsf a:hover {
+   color: white;
+   background-color: #004caa
+}
+
 
 /*** TRANSLATION LIST ***/
 
@@ -769,7 +791,7 @@ table.listing {
 }
 
 /* Narrow screens and CSS-1 browsers */
-#fsf-support, #fssbox, #join-fsf { display: none; }
+#fsf-support, #fssbox { display: none; }
 
 /* GNU banner */
 #gnu-banner {
@@ -777,7 +799,7 @@ table.listing {
    font-size: 2em;
    font-family: "FreeCondensed", "FreeSans", sans-serif;
    line-height: 1.1em;
-   padding: .85em 0;
+   padding: .7em 0;
 }
 #gnu-banner img {
    float: left;
@@ -807,31 +829,18 @@ table.listing {
 }
 #fsf-support a:hover { color: black; }
 
-/* FSF frame */
-#fsf-frame {
+/* Free Software Supporter */
+#fssbox {
    float: right;
-   line-height: 1.3em;
+   text-align: center;
    font-size: .9em;
-   margin-top: 1em;
+   margin-top: 1.9em;
 }
-#fsf-frame a, #fsf-frame a:visited {
+#fssbox a, #fssbox a:visited {
    font-weight: bold;
    text-decoration: none;
 }
-#fsf-frame p { margin: 0; }
-
-/* Join FSF */
-#join-fsf a, #join-fsf a:visited {
-   color: white;
-   background-color: #4080d0;
-   border-color: #4080d0;
-   -webkit-transition: all .5s; /* Safari */
-   transition: all .5s;
-}
-#join-fsf a:hover { color: white; background-color: #004caa; }
-
-/* Free Software Supporter */
-#fssbox { margin-top: 1.3em; }
+#fssbox p { margin: 0; }
 #fssbox form p { margin-top: .1em; }
 #fssbox form input[type="submit"] {
    color: #004caa;
@@ -844,18 +853,16 @@ table.listing {
    background-color: #4080d0;
 }
 
-@media (min-width: 46em) {
-   #gnu-banner { clear: none; }
+
+@media (min-width: 40em) {
    #fsf-support { display: block; }
 }
-@media (min-width: 55em) {
-   #fsf-frame {
-      text-align: center;
-      margin-bottom: .6em;
-   }
-   #fssbox { display: block; }
+@media (min-width: 60em) {
+   #gnu-banner { clear: none; }
    #join-fsf { display: inline; }
+   #fssbox { display: block; }
 }
+
 
 /*** NAVIGATION BARS ***/
 
