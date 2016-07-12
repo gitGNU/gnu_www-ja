@@ -453,6 +453,7 @@ philosophy := 	15-years-of-free-software \
 		censoring-emacs \
 		compromise \
 		computing-progress \
+		contradictory-support \
 		copyright-and-globalization \
 		copyright-versus-community \
 		copyright-versus-community-2000 \

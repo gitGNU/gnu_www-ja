@@ -68,7 +68,8 @@ Borders
    #999     buttons, hr, unfocused inputs
    #b9bcbf  bluish gray: body, #Action, .highlight-para, .announcement
    #d1d4d7  bluish gray: #translations, #outdated
-   #3465a4  blue (slightly lighter than GNU banner): edu-cases ridges, .note
+   #3465a4  blue (slightly lighter than GNU banner): edu-cases ridges
+   #6092d0  note
    #334683  focused inputs
    #171d33  dark blue: box-shadow behind buttons
    #6989b6  light blue: border for .big-section h3
@@ -539,7 +540,7 @@ blockquote#fsfs p { padding: .3em 0; }
    width: 20em; max-width: 90%;
    padding: 0;
    margin: .3em 1em 1em 1em;
-   border: .3em solid #3465a4;
+   border: .15em dotted #6092d0;
 }
 .note p {
    font-size: 1.1em;
@@ -845,32 +846,27 @@ table.listing {
 
 /*** NAVIGATION BARS ***/
 
-#navigation, #fsf-links {
-   clear: both;
-}
-#fsf-links { margin-top: 2.5em; }
-
-#navigation ul, #fsf-links ul { margin: 0; }
-ul#edu-navigation { margin-top: 0; margin-bottom: 0; }
-
 /* line-height is defined here for NetSurf 1.2.
    No effect in NetSurf 2.9 or Firefox. */
 #navigation ul, #fsf-links ul, ul#edu-navigation {
    text-align: center;
    font-size: 0.9em;
    line-height: 1.7em;
-   padding: .2em;
+   padding: .15em 0;
+   margin-top: 0; margin-bottom: 0;
 }
 #navigation li, ul#edu-navigation li, #fsf-links li {
    white-space: nowrap;
    display: inline;
    display: inline-block;
-   line-height: 1.6em;
-   font-family: "FreeCondensed", "FreeSans", sans-serif;
-   text-transform: uppercase;
+   line-height: 1.5em;
+   font-family: "sans-serif", sans-serif;
    font-weight: bold;
-   margin: .2em .4em 0 .4em;
+   padding-top: .1em;
+   margin: .1em .4em;
 }
+#navigation li, #fsf-links li { text-transform: uppercase; }
+
 /* Mock border to avoid size change when a link becomes active */
 #navigation li { border-bottom: .15em solid #a42e2b; }
 ul#edu-navigation li { border-bottom: .15em solid #d1d4d7; }
@@ -879,6 +875,7 @@ ul#edu-navigation li { border-bottom: .15em solid #d1d4d7; }
  /* For Firefox (can't set line-height when "a" is displayed inline) */
 #navigation a, ul#edu-navigation a, #fsf-links a {
    display: inline-block;
+   padding-top: .1em;
 }
 
 #navigation, #navigation a, #navigation a:visited { color: white; }
@@ -892,7 +889,7 @@ ul#edu-navigation li { border-bottom: .15em solid #d1d4d7; }
 ul#edu-navigation li.active,
  ul#edu-navigation li.current {
    font-style: italic;
-   border-bottom: .15em solid #971611;
+   border-bottom: .15em solid #a42e2b;
 }
 #navigation li a, ul#edu-navigation li a, #fsf-links li a,
  #navigation li.active a:hover,
@@ -901,6 +898,16 @@ ul#edu-navigation li.active,
 }
 #navigation a:hover, ul#edu-navigation a:hover,
  #fsf-links a:hover { text-decoration: underline; }
+
+
+/*** CONTENT ***/
+
+/* This gives a 2.5em spacing between the last element
+   and the following div. */
+#content:after {
+   display: block; height: .1em;
+   content: ""; margin-top: 2.4em;
+}
 
 
 /*** MISSION STATEMENT ***/
@@ -922,10 +929,14 @@ ul#edu-navigation li.active,
 
 /*** FOOTER ***/
 
+#footer:after {
+   display: block; height: 1px;
+   content: ""; margin-top: 1.2em;
+}
 #footer {
    clear: both;
    font-size: .9em;
-   padding-top: 1.2em; padding-bottom: .5em;
+   padding-top: 1.2em;
    color: #333;
    border-top: 1px solid #c9cccf;
 }
@@ -934,7 +945,6 @@ ul#edu-navigation li.active,
 #footer .unprintable, #footer .translators-credits {
    margin-bottom: .7em;
 }
-
 #bottom-notes p { margin-bottom: .7em; }
 
 
