@@ -52,7 +52,7 @@ Backgrounds
    #d4d4d4  #fsf-links, #searcher
    #e4e4e4  html
    #eee     #edu-navigation, submit
-   #f3f3f3  #translations, #footer, #outdated, .emph-box, .toc,
+   #f5f5f5  #translations, #footer, #outdated, .emph-box, .toc,
             .lyrics, .listing
    white    body, .note
 
@@ -60,7 +60,7 @@ Backgrounds
    #4080d0  blue: #join-fsf, #fssbox submit:focus
    #004caa  blue: #join-fsf:hover
    #ff3     yellow: #urgent
-   #fff1c0  light orange: .highlight, .announcement.emph
+   #fff1c0  light orange: .highlight
    #fff5d4  very light orange: .highlight-para, p.highlight, table headers
 
 Borders
@@ -70,10 +70,12 @@ Borders
    #ccc     unfocused inputs, emph-box, lyrics, footer
    #d4d4d4  #translations, #outdated
 
+   #6092d0  .note
    #4080d0  focused inputs
    #3465a4  .edu-cases
-   #e74c3c  .note, .big-section h3
-   #f49943  .announcement, .highlight-para
+   #e74c3c  .big-section h3
+   #f49943  .highlight-para
+   #fc7     .announcement
 */
 
 /*** Luminosity contrast ratio and color difference ***
@@ -176,9 +178,9 @@ ul#edu-navigation {
 #searcher, #fsf-links {
    background-color: #d4d4d4;
 }
-#translations, #footer { background-color: #f3f3f3; }
+#translations, #footer { background-color: #f5f5f5; }
 #edu-navigation { background-color: #eee; }
-#navigation { background-color: #a42e2b; background-color: #a42e2b; }
+#navigation { background-color: #a42e2b; }
 
 /** Fonts **/
 
@@ -208,7 +210,7 @@ h6 { margin: 1em 0; }
 
 p, pre { margin-top: 1em; }   /* In combo.css: margin-bottom:1em. */
 address { margin-bottom: 1em; }
-ul, ol, blockquote { margin-left: 1.5%; margin-right: 1.5%; }
+ul, ol, blockquote { margin: 0 1.5%; }
 
 /* Lists of underlined links are difficult to read. The top margin
    gives a little more spacing between entries. */
@@ -217,7 +219,6 @@ ul li { margin: .5em 0 0 1em; }
 ul li p, ul li pre, ul ul li, ul li blockquote {
    margin-top: .3em; margin-bottom: 0;
 }
-ul ul, ol ul, table ul { margin-top: 0; margin-bottom: 0; }
 table li { margin-top: .2em; margin-bottom: .2em; }
 
 /* Separate description lists from preceding text */
@@ -271,13 +272,12 @@ pre { overflow: auto; }
 
 .underline { text-decoration: underline; }
 .nounderline { text-decoration: none; }
-
+.big { font-size: 130%; padding: .3em 0; }
+.bold { font-weight: bold; }
 .italic { font-style: italic; }
 .noitalic, .italic em, .italic cite, .italic i {
    font-style: normal;
 }
-.big { font-size: 130%; padding: .3em 0; }
-
 .inline-list li { display: inline }
 ul.no-bullet { list-style: none; }
 
@@ -291,6 +291,8 @@ hr.separator {
    display: block;
    height: .3em;
    margin-bottom: 1.2em;
+   color: #999;
+   background-color: #999;
    border: none;
 }
 
@@ -362,21 +364,14 @@ form input[type="submit"]:hover {
 
 /*** RETURN LINKS ***/
 
-.back, #backtotop {
+.back {
    text-align: right;
    line-height: 1.5em;
    font-weight: bold;
+   margin: 1.5em 2%;
 }
-.back a, .back a:visited,
- #backtotop a, #backtotop a:visited { color: #333; }
-.back a:hover,
- #backtotop a:hover { color: #777; }
-
-.back { margin: 1.5em 2% 1em; }
-#backtotop {
-   font-size: 1.1em; /* In #mission-statement, font-size is .9em. */
-   margin: 0 5% 2em;
-}
+.back a, .back a:visited { color: #333; }
+.back a:hover { color: #777; }
 
 
 /*** BIG SECTION HEADERS ***/
@@ -384,10 +379,7 @@ form input[type="submit"]:hover {
 /* Used in license-list.html and proprietary-surveillance.html,
    but could apply elsewhere. */
 
-.big-section {
-   clear: left;
-   margin-bottom: .5em;
-}
+.big-section { margin-bottom: .5em; }
 .big-section h3 {
    display: inline-block;
    font-size: 1.7em;
@@ -418,22 +410,29 @@ span.anchor-reference-id a[href]:hover { color: #777; }
 
 /*** NON-FLOATING INSETS AND HIGHLIGHTED STUFF ***/
 
+/** WITH BACKGROUND **/
+
+/* Strip the bottom margins of p and pre (NetSurf leaves the bottom margin
+   of the last element outside the parent div). */
+div.highlight-para > p, div.highlight-para > pre,
+ div.emph-box > p, div.emph-box > pre,
+ .lyrics > p { margin-bottom: 0; }
+
+/* Strip the top margin of the first element to avoid adjusting the padding
+   in each particular case. */
+div.highlight-para > *:first-child, 
+ div.emph-box > *:first-child,
+ .lyrics > *:first-child { margin-top: 0; }
+
 /* .highlight doesn't have a border. It can be applied to in-line elements.
    .highlight-para and .emph-box have borders. They are used for block elements.
    highlight-para can be used next to .note or .summary because it only has top
    and bottom borders. */
 
-.highlight-para, p.highlight, pre.emph-box, p.emph-box, pre.emph-box {
-   padding: .6em 1.2em;
-}
 div.highlight-para, div.emph-box { padding: 1.2em; }
-p.highlight { text-align: justify; }
 
-/* Strip the top and bottom margins to avoid uneven spacing between text
-   and border in NetSurf. */
-div.highlight-para > *, div.emph-box > *, .lyrics > * { margin-bottom: 0; }
-div.highlight-para > *:first-child, div.emph-box > *:first-child,
- .lyrics > *:first-child { margin-top: 0; }
+.highlight-para, p.highlight,
+ p.emph-box, pre.emph-box { padding: .6em 1.2em; }
 
 .highlight { background-color: #fff1c0; }
 .highlight-para, p.highlight { background-color: #fff5d4; }
@@ -442,10 +441,9 @@ div.highlight-para > *:first-child, div.emph-box > *:first-child,
    border-bottom: .1em solid #f49943;
 }
 .emph-box, .lyrics {
-   background-color: #f3f3f3;
-   border: .1em solid #ccc;
+   background-color: #f5f5f5;
+   border: .1em solid #ddd;
 }
-
 .lyrics {
    max-width: 25em;
    font-style: italic;
@@ -453,16 +451,30 @@ div.highlight-para > *:first-child, div.emph-box > *:first-child,
    margin-left: 3%; margin-right: 3%;
 }
 
-/* Announcements */
+/** WITH LEFT BORDER **/
+
+/* .announcement may be followed by blockquote. The only effect of is to
+   switch to italic font. The "italic" class can be used instead. */
+.announcement blockquote { margin: 0; }
+
 .announcement {
    font-size: 1.1em;
    padding: 0 1em;
    margin: 1.5em 0;
-   border-left: .5em solid #f49943;
+   border-left: .5em solid #fc7;
 }
-/* The only effect of blockquote inside div.announcement is to switch to
-   italic font. The "italic" class can be used instead. */
-.announcement blockquote { margin: 0; }
+/* Currently, p, h3 and ul are found in div.announcement. Add some padding
+   so the border extends out a little bit. */
+.announcement p { margin: 0; padding: .3em 0; }
+.announcement ul { padding-bottom: .3em; }
+.announcement h3 {
+   font-size: 1.3em;
+   padding-top: .1em;
+   margin: 0;
+}
+
+
+/** WITH NO BACKGROUND OR LEFT BORDER **/
 
 /* the urgent div should be enabled when we have something urgent to
    appear on every page - these typically come from johns, peterb or rms
@@ -489,13 +501,14 @@ p.trans-disclaimer {
    margin: 1em 0 0;
 }
 .trans-disclaimer a,
-.trans-disclaimer a:visited { color: #333; }
+ .trans-disclaimer a:visited { color: #333; }
 .trans-disclaimer a:hover { color: #777; }
+
 
 /* For outdated translations  */
 #outdated {
    text-align: center;
-   padding: .7em 3%;
+   padding: .4em 3%;
    margin: .3em -3.2%;
    color: #a42e2b;
    border-bottom: .2em solid #d4d4d4;
@@ -505,69 +518,58 @@ p.trans-disclaimer {
 }
 
 /* For translators notes */
-.translators-notes { font-size: .9em; }
-.translators-notes hr { margin-top: 2em; }
+.translators-notes { clear: left; font-size: .9em; margin-top: 2em; }
+.translators-notes hr { margin-bottom: 1em; }
 .translators-notes ol li { margin: .5em 1.1em 0; }
 
 
 /*** FLOATING INSETS ***/
 
-/** Notes **/
+/** NOTES (div.note p, or blockquote.note p) **/
 
 .note {
+   width: 44.7em; max-width: 91%;
    text-align: center;
-   padding: .5em;
-   margin: 1.5em 0;
-   background: white;
-   border: .2em dotted #e74c3c;
+   padding: .6em 4%;
+   margin: 1.5em auto;
+   border: .15em dotted #6092d0;
 }
-.note p {
-   line-height: 1.4em;
-/* For NetSurf: replace margin with padding. */
-   padding: .5em;
-   margin: 0;
-}
-.note strong { font-size: 1.2em; }
+.note p { padding: .4em 0; margin: 0; }
 
 
-/** Tables of contents **/
+/** TABLES OF CONTENTS **/
 
-.summary, .toc {
-   padding: 1.5em;
-   margin: 2.5em 0 1.5em;
-   background: #f3f3f3; 
+.summary, .toc { 
+   max-width: 92%;
+   padding: 1.2em 4%;
+   margin: 2.5em auto 1.5em;
+   background: #f5f5f5; 
 }
 .summary h3, .toc h3 {
    font-size: 1.3em;
+   margin-top: .5em;
+   text-align: center;
 }
 .summary h4, .toc h4 {
    font-size: 1.1em;
 }
-/* Spacing between items is given by the top margin of li. */
-.summary > ul > li, .summary > ol > li
- .toc > ul > li, .toc > ol > li {
-   margin-top: .5em; margin-bottom: 0;
-}
-.summary > ul, .summary > ol, .toc > ul, .toc > ol {
-   margin: 0;
-}
-/* For NetSurf:
-   Strip the top margin of the first element. */
-.summary > *:first-child, .summary > * > li:first-child, 
- .toc > *:first-child, .toc > * > li:first-child {
-   margin-top: 0;
+/* After floating columns: */
+.toc hr, .summary hr {
+   clear: both; visibility: hidden;
+   padding-bottom: .5em; margin: 0;
 }
 
+.summary { width: 30em; }
+.toc { width: 45em; }
+
+
+/** ON WIDE SCREENS **/ 
+
 @media (min-width: 48em) {
-   .toc {
-      max-width: 45em; margin: 2.5em auto 1.5em;
-   }
-   .toc h3, .toc h4 {
-      text-align: center;
-   }
-   .note.floating, .summary {
+   .note, .summary {
       clear: right;
       float: right;
+      padding: 1.2em;
       width: 20em;
       max-width: 40%;
       margin: .2em 0 1em 2em;
@@ -620,7 +622,7 @@ p.trans-disclaimer {
 .photo {
    float: right;
    width: 30em; max-width: 100%;
-   margin: .2em 0 1em 0;
+   margin: .3em 0 1em 0;
 }
 .photo img, .photo p {
    width: 94%;
@@ -662,7 +664,7 @@ p.trans-disclaimer {
    background-color: transparent;
 }
 .listing .even {
-   background-color: #f3f3f3;
+   background-color: #f5f5f5;
 }
 .listing .listingCheckbox {
    text-align: center;
@@ -740,7 +742,11 @@ table.listing {
 }
 #join-fsf a:hover {
    color: white;
-   background-color: #004caa
+   background-color: #004caa;
+}
+
+@media (min-width: 60em) {
+   #join-fsf { display: inline; }
 }
 
 
@@ -748,8 +754,6 @@ table.listing {
 
 #translations {
    clear: both;
-   white-space: nowrap;
-   overflow: auto;
    font-size: .9em;
    text-align: left;
 /*   border-bottom: .2em solid #d4d4d4; */
@@ -773,16 +777,11 @@ table.listing {
 }
 #translations span.original a,
 #translations span.original a:visited {
-   color: #004caa
+   color: #334683;
 }
 #translations a:hover,
 #translations span.original a:hover {
    color: #777;
-}
-
-@media (min-width: 62em) {
-   #translations { white-space: normal; }
-   #join-fsf { display: inline; }
 }
 
 
@@ -801,14 +800,14 @@ table.listing {
 #gnu-banner {
    font-size: 2em;
    font-family: "FreeSans", sans-serif;
+   line-height: 1.2em;
    text-align: center;
-   line-height: 1.1em;
-   padding: .5em 0;
+   padding: .3em 0 .7em;
 }
 #gnu-banner img {
-   height: 1.8em;
-   margin-right: .15em;
-   vertical-align: middle;
+   height: 1.7em;
+   vertical-align: bottom;
+   position: relative; top: .15em; right: .15em;
 }
 #gnu-banner a { color: #333; }
 #gnu-banner a strong { color: #a42e2b; }
@@ -817,7 +816,7 @@ table.listing {
 #fsf-support {
    font-size: .45em;
    font-style: italic;
-   margin: .1em 0 0;
+   margin: .7em 0 0;
    color: #555;
 }
 #fsf-support a, #fsf-support a:visited {
@@ -851,24 +850,30 @@ table.listing {
    background-color: #4080d0;
 }
 
-@media (max-width: 39em) {
-   #gnu-banner { font-size: 2.5em; }
+@media (max-width: 22em) {
+   #gnu-banner {
+      font-size: 2.5em;
+      padding: .35em 0 .5em;
+   }
    #gnu-banner img {
       height: 1.3em;
-      vertical-align: bottom;
+      top: 0;
    }
    #gnu-banner a span { display: none; }
 }
-@media (min-width: 39em) {
+@media (min-width: 40em) {
    #fsf-support { display: block; }
+   #gnu-banner { padding-bottom: .5em; }
 }
-@media (min-width: 62em) {
+@media (min-width: 60em) {
    #gnu-banner { float: left; }
    #fssbox { display: block; }
 }
 
 
 /*** NAVIGATION BARS ***/
+
+#navigation, #fsf-links { clear: both; }
 
 /* line-height is defined here for NetSurf 1.2.
    No effect in NetSurf 2.9 or Firefox. */
@@ -885,13 +890,13 @@ table.listing {
    display: inline-block;
    line-height: 1.5em;
    font-family: "sans-serif", sans-serif;
-   text-transform: uppercase;
    font-weight: bold;
    padding-top: .1em;
    margin: .1em .4em;
 }
+
 /* Mock border to avoid size change when a link becomes active */
-#navigation li { border-bottom: .15em solid #a42e2b; border-bottom: .15em solid #a42e2b; }
+#navigation li { border-bottom: .15em solid #a42e2b; }
 ul#edu-navigation li { border-bottom: .15em solid #eee; }
 #fsf-links li { padding-bottom: .15em; }
 
@@ -912,7 +917,7 @@ ul#edu-navigation li { border-bottom: .15em solid #eee; }
 ul#edu-navigation li.active,
  ul#edu-navigation li.current {
    font-style: italic;
-   border-bottom: .15em solid #a42e2b; border-bottom: .15em solid #a42e2b;
+   border-bottom: .15em solid #a42e2b;
 }
 #navigation li a, ul#edu-navigation li a, #fsf-links li a,
  #navigation li.active a:hover,
@@ -925,12 +930,7 @@ ul#edu-navigation li.active,
 
 /*** CONTENT ***/
 
-/* This gives a 2.5em spacing between the last element
-   and the following div. */
-#content:after {
-   display: block; height: .1em;
-   content: ""; margin-top: 2.4em;
-}
+#content { margin-bottom: 2.5em; }
 
 
 /*** MISSION STATEMENT ***/
@@ -948,23 +948,27 @@ ul#edu-navigation li.active,
    height: 2em;
    margin: .3em .5em;
 }
+#backtotop {
+   font-size: 1.1em;
+   margin-top: 1.8em;
+}
 
 
 /*** FOOTER ***/
 
 #footer:after {
    display: block; height: 1px;
-   content: ""; margin-top: 1.2em;
+   content: "";
 }
 #footer {
    clear: both;
    font-size: .9em;
-   padding-top: 1.2em;
+   padding-top: 1.5em; padding-bottom: 1em;
    color: #333;
    border-top: 1px solid #ccc;
 }
 #footer p { margin: 0; }
-#footer p.unprintable { margin-top: .7em; }
+
 #footer .unprintable, #footer .translators-credits {
    margin-bottom: .7em;
 }

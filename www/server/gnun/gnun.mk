@@ -564,6 +564,7 @@ philosophy := 	15-years-of-free-software \
 		rms-kol \
 		rms-nyu-2001-transcript \
 		rms-on-radio-nz \
+		rms-patents \
 		rtlinux-patent \
 		savingeurope \
 		second-sight \
@@ -641,6 +642,8 @@ press :=		2001-07-09-DotGNU-Mono \
 			press
 
 proprietary :=	malware-apple \
+		malware-appliances \
+		malware-games \
 		malware-kindle-swindle \
 		malware-microsoft \
 		malware-mobiles \

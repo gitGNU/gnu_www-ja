@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- The GNU coding standards, last updated April 13, 2016.
+<!-- The GNU coding standards, last updated July 25, 2016.
 
 Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -199,7 +199,7 @@ inside <code>while</code>-conditions are ok).  For example, don&rsquo;t write
 this:
 </p>
 <div class="example">
-<pre class="example">if ((foo = (char *) malloc (sizeof *foo)) == 0)
+<pre class="example">if ((foo = (char *) malloc (sizeof *foo)) == NULL)
   fatal (&quot;virtual memory exhausted&quot;);
 </pre></div>
 
@@ -207,14 +207,10 @@ this:
 </p>
 <div class="example">
 <pre class="example">foo = (char *) malloc (sizeof *foo);
-if (foo == 0)
+if (foo == NULL)
   fatal (&quot;virtual memory exhausted&quot;);
 </pre></div>
 
-<p>This example uses zero without a cast as a null pointer constant.
-This is perfectly fine, except that a cast is needed when calling a
-varargs function or when using <code>sizeof</code>.
-</p>
 <hr>
 <div class="header">
 <p>
