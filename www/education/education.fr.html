@@ -10,22 +10,41 @@
 <!--#include virtual="/education/po/education.translist" -->
 <style type="text/css" media="screen">
 <!--
-#rms-movie { min-width: 60%; max-width: 100%; }
-
-#content #indepth {
-   text-align: left;
-   margin-top: 0;
+/*This will move to layout.css eventually. */
+.edu-note {
+   width: 40em;
+   max-width: 100%;
+   font-style: italic;
+   margin: 2em auto;
 }
-#content #indepth ul {
-   padding: 0 1em;
-   margin-top: 0;
+.edu-note p {
+   text-align: center;
+   padding: .8em 1em;
+   margin: 0;
+   border: .15em dotted #6092d0;
 }
-#content #indepth li { padding-bottom: 1em; }
-#content #indepth h3 { padding: 1em; margin: 0; }-->
-<!--#if expr="$LANGUAGE_SUFFIX = /\.(ar|fa|he)/" -->
+/* This will stay. */
+#video-container {
+   width: 40em; max-width: 100%;
+   margin: 1.5em auto;
+}
+#video-container p { text-align: justify; }
+#rms-movie { width: 100%; }
+@media (min-width: 48em) {
+   #content .edu-note {
+      float: right;
+      max-width: 40%;
+      margin: 3.2em 0 2.5em 1.5em;
+   }
+}-->
+<!--#if expr="$LANGUAGE_SUFFIX = /[.](ar|fa|he)/" -->
 <!--
-#content #indepth { text-align: right; }
--->
+@media (min-width: 48em) {
+   #content .edu-note {
+      float: left;
+      margin: 3.4em 1.5em 2.5em 0;
+   }
+}-->
 <!--#endif -->
 
 
@@ -58,17 +77,9 @@
 <!--#include virtual="/server/top-addendum.fr.html" -->
 <!--#endif -->
 <!--#endif -->
-<div class="center">
-<h2>Logiciel libre et éducation</h2>
-</div>
+<h2 class="c">Logiciel libre et éducation</h2>
 
 <h3>Quel est le lien entre logiciel libre et éducation ?</h3>
-
-<blockquote class="note"><p>
-Nous recherchons des jeux éducatifs libres, ou de l'information sur des jeux
-libres pouvant être utilisés dans un but éducatif. Veuillez contacter <a
-href="mailto:education@gnu.org">&lt;education@gnu.org&gt;</a>
-</p></blockquote>
 
 <p>La liberté du logiciel joue un rôle fondamental dans l'éducation. Les
 établissements d'enseignement de tous niveaux doivent utiliser et enseigner
@@ -93,7 +104,6 @@ href="/philosophy/free-sw.html">définition du logiciel libre</a> et à notre
 article : <a href="/philosophy/shouldbefree.html">Pourquoi le logiciel doit
 être libre</a>.</p>
 
-
 <h3>Les principes</h3>
 <p>Le projet GNU a été <a href="/gnu/initial-announcement.html">initié</a> en
 1983 par Richard Stallman dans le but de développer un système libre, le
@@ -105,9 +115,57 @@ href="http://www.fsf.org/about/leadership/#rms">Richard Stallman</a>
 explique brièvement et précisément les grands principes du logiciel libre et
 leurs rapports à l'éducation.</p>
 
-<blockquote class="note" id="indepth">
-<h3>Pour approfondir</h3>
+<div id="video-container">
 
+<!-- GNUN: localize URL /education/rms-education-es.fr.ogv -->
+<video  id="rms-movie" controls="controls">
+  <source
+    src="http://www.gnu.org/education/rms-education-es.fr.ogv"
+    type='video/ogg; codecs="theora, vorbis"' />
+</video>
+
+<div class="emph-box"><p>
+ 
+<!-- TRANSLATORS: Please replace the link to the video with subtitles in
+     English with a link to the video with subtitles in your language, 
+     if it exists. -->
+Téléchargez et regardez la vidéo à plus haute définition, <a
+href="http://audio-video.gnu.org/video/rms-education-es-high-sub.fr.ogv">sous-titrée
+en français</a> ou <a
+href="http://audio-video.gnu.org/video/rms-education-es.ogv">non
+sous-titrée</a>, au format libre Ogg Theora (ogv).
+
+<!-- TRANSLATORS: please add the link to your language here in the first 
+     place, followed by a comma. -->
+Des transcriptions de cette vidéo sont disponibles en
+<a
+href="/education/misc/rms-education-es-transcription.fr.txt">français</a>,
+<a
+href="/education/misc/rms-education-es-translation-to-en.txt">anglais</a>,
+<a href="/education/misc/rms-education-es-transcription.txt">espagnol</a> et
+<a href="/education/misc/edu-misc.html#transcription-rms-education">quelques
+autres langues</a>. 
+
+
+<!-- TRANSLATORS: please add the link to your language here in the first 
+     place, followed by a comma. -->
+Des fichiers de sous-titres SubRip sont aussi disponibles en
+<a href="/education/misc/rms-education-es-sub.fr.srt">français</a>,
+<a href="/education/misc/rms-education-es-sub.en.srt">anglais</a>,
+<a href="/education/misc/rms-education-es-sub.es.srt">espagnol</a> et
+<a href="/education/misc/edu-misc.html#subtitles-rms-education">quelques
+autres langues</a>. 
+</p></div> 
+<!-- /.emph-box -->
+</div>
+
+<div class="edu-note"><p>
+Nous recherchons des jeux éducatifs libres, ou de l'information sur des jeux
+libres pouvant être utilisés dans un but éducatif. Veuillez contacter <a
+href="mailto:education@gnu.org">&lt;education@gnu.org&gt;</a>
+</p></div>
+
+<h3 id="indepth">Pour approfondir</h3>
 <ul>
 <li>Découvrez les <a href="/education/edu-why.html">raisons</a> pour lesquelles
 l'éducation doit se servir de logiciel libre et l'enseigner, à l'exclusion
@@ -120,56 +178,10 @@ exclusivement du logiciel libre</a></li>
 <li>Un article du Dr V. Sasi Kumar sur le <a
 href="/education/edu-system-india.html">système éducatif en Inde.</a></li>
 </ul>
-</blockquote>
-
-<!-- GNUN: localize URL /education/rms-education-es.fr.ogv -->
-<video  id="rms-movie" controls="controls">
-  <source
-    src="http://www.gnu.org/education/rms-education-es.fr.ogv"
-    type='video/ogg; codecs="theora, vorbis"' />
-</video>
-
-<p>
- 
-<!-- TRANSLATORS: Please replace the link to the video with subtitles in
-     English with a link to the video with subtitles in your language, 
-     if it exists. -->
-Téléchargez et regardez la vidéo à plus haute définition, <a
-href="http://audio-video.gnu.org/video/rms-education-es-high-sub.fr.ogv">sous-titrée
-en français</a> ou <a
-href="http://audio-video.gnu.org/video/rms-education-es.ogv">non
-sous-titrée</a>, au format libre Ogg Theora (ogv).</p>
-
-<p>
-
-<!-- TRANSLATORS: please add the link to your language here in the first 
-     place, followed by a comma. -->
-Des transcriptions de cette vidéo sont disponibles en
-<a
-href="/education/misc/rms-education-es-transcription.fr.txt">français</a>,
-<a
-href="/education/misc/rms-education-es-translation-to-en.txt">anglais</a>,
-<a href="/education/misc/rms-education-es-transcription.txt">espagnol</a> et
-<a href="/education/misc/edu-misc.html#transcription-rms-education">quelques
-autres langues</a>. 
-</p>
-
-<p>
-
-<!-- TRANSLATORS: please add the link to your language here in the first 
-     place, followed by a comma. -->
-Des fichiers de sous-titres SubRip sont aussi disponibles en
-<a href="/education/misc/rms-education-es-sub.fr.srt">français</a>,
-<a href="/education/misc/rms-education-es-sub.en.srt">anglais</a>,
-<a href="/education/misc/rms-education-es-sub.es.srt">espagnol</a> et
-<a href="/education/misc/edu-misc.html#subtitles-rms-education">quelques
-autres langues</a>. 
-</p>
-
 <div class="translators-notes">
 
 <!--TRANSLATORS: Use space (SPC) as msgstr if you don't have notes.-->
-<hr /><b>Note de traduction</b><ol>
+<p style="margin-top: 2em"><b>Note de traduction</b></p><ol>
 <li id="TransNote1">Autre traduction de <cite>proprietary</cite> :
 propriétaire. <a href="#TransNote1-rev"
 class="nounderline">&#8593;</a></li></ol></div>
@@ -211,13 +223,13 @@ traductions de nos pages web, reportez-vous au <a
 href="/server/standards/README.translations.html">guide de traduction</a>.</p>
 </div>
 
-<p>Copyright &copy; 2011, 2012, 2014 Free Software Foundation, Inc.</p>
+<p>Copyright &copy; 2011, 2012, 2014, 2016 Free Software Foundation, Inc.</p>
 
 <p>Cette page peut être utilisée suivant les conditions de la licence <a
 rel="license"
-href="http://creativecommons.org/licenses/by-nd/3.0/us/deed.fr">Creative
-Commons attribution de paternité, pas de modification, 3.0 États-Unis
-(CC BY-ND 3.0 US)</a>.</p>
+href="http://creativecommons.org/licenses/by-nd/4.0/deed.fr">Creative
+Commons attribution, pas de modification, 4.0 internationale (CC BY-ND
+4.0)</a>.</p>
 
 <!--#include virtual="/server/bottom-notes.fr.html" -->
 <div class="translators-credits">
@@ -229,7 +241,7 @@ href="mailto:trad-gnu&#64;april.org">trad-gnu&#64;april.org</a></div>
 <p class="unprintable"><!-- timestamp start -->
 Dernière mise à jour :
 
-$Date: 2016/05/03 10:22:28 $
+$Date: 2016/08/06 10:30:11 $
 
 <!-- timestamp end -->
 </p>
