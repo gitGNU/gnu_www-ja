@@ -53,7 +53,8 @@ extra-templates :=	philosophy/philosophy-menu \
 
 # List of templates that are translated or not on the discretion
 # of the respective team (the PO files are merged, but are not created).
-optional-templates :=	licenses/fsf-licensing \
+optional-templates :=	education/education-menu \
+			licenses/fsf-licensing \
 			manual/allgnupkgs \
 			planetfeeds \
 			server/fs-gang \
