@@ -9,58 +9,116 @@
 
 <style type="text/css" media="print,screen">
 <!--
-#gnuhealth { width: 20em; max-width: 100%; margin: 1em auto; }
+/* === Banner === */
+#gnuhealth {
+   display: none;
+   width: 20em; max-width: 100%;
+   margin: 0 auto;
+}
 #gnuhealth img { width: 100%; }
+/* ============== */
 
-#home .first-column .back {
-   margin-bottom: 0;
+#content:after { display: none !important; }
+#content {
+   padding: .1em 0 2.5em !important;
+   margin: 0;
+   background: #f4f6f8;
 }
-.emph-box .back {
-   margin: 1em 2%;
-}
-.emph-box {
-   margin: 1.5em 0 0;
-}
-.emph-box.white {
+/* First column */
+.first-column {
+   padding: .1em 3% 1.5em;
    background: white;
 }
-
-#home h2 {
+#content h2 {
+   color: #333;
    text-shadow: none;
-   margin: 1em 0;
+   margin: .8em 0;
 }
 #gnu-linux {
    width: 30em; max-width: 100%;
    text-align: center;
-   padding-top: .3em;
-   margin: 1.5em auto 2.5em;
+   margin: 0 auto 2em;
 }
 #gnu-linux img {
    width: 100%;
-   margin-bottom: 1em;
 }
-#home .large {
+#content p.button.large {
    width: auto: max-width: 100%;
    font-size: 1.8em;
-   padding: .4em;
+   padding: 0;
+   margin: 1.5em 0;
    background-color: #e7e9eb;
    border: .1em solid #c9cccf;
 }
-#home .second-column h3 img { height: .8em; margin-left: .5em; }
-#home h3 { margin-top: .5em; }
-#home h4 { margin-top: .6em; }
-#Action li { margin-bottom: .7em; }
-p#backtotop { float: right; margin-top: 2.5em; }
-#sisters { font-size: .9em; margin: 0 3% 1.5em 3%; }
-
+.large a {
+   display: block;
+   padding: .4em;
+}
+.first-column .back {
+   margin-bottom: 0;
+}
+/* Second column */
+.second-column {
+   padding: .1em 3% 0;
+   background: #f4f6f8;
+}
+#content .emph-box {
+   padding: .2em 1.2em 1.2em;
+   margin: 1.5em 0 0;
+   background: white;
+}
+.emph-box .back {
+   margin: 1em 2% 0;
+}
+.emph-box p {
+   margin-bottom: 0;  /* For NetSurf */
+}
+#content h3 {
+   margin-top: .5em;
+}
+#content .second-column h3 img {
+   height: .8em;
+   margin-left: .5em;
+}
+#content .emph-box h4 { 
+   font-size: 1.3em;
+   text-align: left;
+   margin-top: .6em;
+}
+#Action li {
+   margin-bottom: .7em;
+}
+/* Bottom */
+.clear {
+   clear: both;
+}
+.translators-notes {
+   margin: 0 3%;
+}
+p#backtotop {
+   float: right;
+   margin-top: 2.5em;
+}
+#sisters {
+   font-size: .9em;
+   margin: 0 3% 1.5em 3%;
+}
+/* Wide screens */
 @media (min-width: 50em) {
-#home .first-column {
-      width: 60%;
+   #content { overflow: hidden; }
+   .first-column {
+      width: 54%;
       float: left;
+      padding-bottom: 20em;
+      margin-bottom: -20em;
    }
-#home .second-column {
-      width: 37%;
+   .second-column {
+      width: 34%;
       float: right;
+      margin-top: 1.5em;
+   }
+   #gnuhealth {
+      display: block;
    }
 }
 -->
@@ -89,12 +147,13 @@ are entirely free software.  <a href="#More-GNU">More about GNU
 below</a>.</p>
 
 <div id="gnu-linux">
+<p class="button large"><a
+      href="/distros/free-distros.html">Try GNU/Linux!</a></p>
+
 <a href="/distros/screenshot.html"><img
    src="/distros/screenshots/gnewsense2.png"
    alt="Screenshot of GNU"/></a>
 
-<p class="button large"><a
-      href="/distros/free-distros.html">Try GNU/Linux!</a></p>
 </div>
 
 <h2>What is the Free Software Movement?</h2>
@@ -213,7 +272,8 @@ Canada">in Canada</a>.</li>
 <p class="back"><a href="/server/takeaction.html">More action items</a></p>
 </div>
 
-<div class="emph-box white">
+<div class="emph-box" id="unmaint">
+<h3>Help GNU</h3>
 <p><strong>Can you contribute to any of
 these <a href="http://www.fsf.org/campaigns/priority-projects/">High
 Priority Projects</a>?</strong> Gnash, coreboot, free distributions of
@@ -222,7 +282,7 @@ debugging in GDB, automatic transcription, PowerVR drivers, and also
 free software replacements for Skype, OpenDWG libraries, and Oracle
 Forms.</p>
 
-<p id="unmaint"><strong>Can you take over an <a
+<p><strong>Can you take over an <a
 href="/server/takeaction.html#unmaint">unmaintained GNU
 package</a>?</strong>
 <span class="gnun-split"></span>
@@ -239,7 +299,8 @@ maintainers</a>.  Also, these packages are looking for co-maintainers:
 See the package web pages for more information.</p>
 </div>
 
-<div id="blurb" class="emph-box">
+<div id="blurb" class="emph-box white">
+<p><strong>Today's random package&hellip;</strong></p>
 <!--#include virtual="/server/home-pkgselect.html" -->
 <!--#include virtual="/server/home-pkgblurbs.html" -->
 <p class="back"><small><a href="/manual/blurbs.html">Short descriptions for all GNU
@@ -248,7 +309,9 @@ packages</a></small></p>
 
 </div><!-- /second-column -->
 </div><!-- /home -->
-<div style="clear:both"></div>
+<div class="clear"></div>
+<div class="translators-notes">
+ </div>
 </div><!-- for id="content", starts in the include above -->
 <!--#include virtual="/server/footer.html" -->
 
@@ -316,7 +379,7 @@ Commons Attribution-NoDerivatives 4.0 International License</a>.</p>
 
 <p class="unprintable">Updated:
 <!-- timestamp start -->
-$Date: 2016/08/21 21:46:24 $
+$Date: 2016/08/22 18:34:17 $
 <!-- timestamp end -->
 </p>
 </div>
