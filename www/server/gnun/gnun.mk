@@ -284,6 +284,7 @@ graphics :=	3dbabygnutux \
 		bwcartoon \
 		copyleft-sticker \
 		digital-restrictions-management \
+		dog \
 		emacs-ref \
 		freedom \
 		french-motto \
