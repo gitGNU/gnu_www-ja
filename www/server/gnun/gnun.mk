@@ -643,7 +643,8 @@ press :=		2001-07-09-DotGNU-Mono \
 			2002-03-19-Affero \
 			press
 
-proprietary :=	malware-apple \
+proprietary :=	malware-adobe \
+		malware-apple \
 		malware-appliances \
 		malware-games \
 		malware-kindle-swindle \
