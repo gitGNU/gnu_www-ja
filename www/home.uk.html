@@ -16,54 +16,139 @@ Libre Software, Operating System, GNU Kernel, GNU Hurd, Фонд вільног�
 
 <style type="text/css" media="print,screen">
 <!--
-#home:after {
-   clear: both; content: ""; display: block;
-   height: 0px; visibility: hidden; width: 0px;
+/* === Banner === */
+#gnuhealth { display: none; }
+@media (min-width: 57em) {
+   #gnuhealth {
+      display: block;
+      width: 100%;
+      margin-top: 2.3em;
+   }
+}
+/* === Not necessary with the final version of layout.css === */
+h2 { text-shadow: none; }
+.emph-box p, .emph-box ul, .emph-box ul li {
+   margin-bottom: 0; /* For NetSurf */
+}
+#fsf-frame { display: none; }
+@media (min-width: 57em) {
+   #fsf-frame { display: block; }
+}
+/* ======================= */
+
+#content {
+   margin: 0;
+}
+.first-column, .second-column {
+   width: 40em; max-width: 100%;
+   margin: auto;
 }
 
-#home .first-column {
-   width: 60%;
+h2 {
+   color: #333;
+   margin: 1.2em 0 .9em;
+}
+h2.first {
+   margin-top: 1em;
+}
+#gnu-linux {
+   width: 30em; max-width: 100%;
+   text-align: center;
+   margin: 0 auto 1em;
+}
+#gnu-linux img {
+   width: 100%;
+}
+.button {
+   font-size: 1.8em;
+   text-align: center;
+   font-weight: bold;
+   margin: 1.7em 0;
+}
+.button a, .button a:visited {
+   display: block;
+   padding: .4em .6em;
+   color: #971611;
+   text-decoration: none;
+   background: #e7e9eb;
+   border: .1em solid #c9cccf;
+   border-radius: .3em;
+   -moz-border-radius: .3em;
+   -khtml-border-radius: .3em;
+   -webkit-border-radius: .3em;
+   -opera-border-radius: .3em;
+}
+.button a:hover {
+   color: #777;
+}
+.first-column p.back {
+   margin-bottom: 0;
+}
+
+.second-column .emph-box {
+   padding: 0 1.2em 1.2em;
+   margin-top: 1.5em;
+}
+.second-column .emph-box.white {
+   background: white;
+}
+.second-column .emph-box .back {
+   margin-top: 1em;
+}
+h3 {
+   margin-top: .7em;
+}
+h3 img {
+   height: .8em;
+   margin-left: .5em;
+}
+#blurb h4 {
+   text-align: left;
+   font-size: 1.5em;
+   margin-top: .4em;
+}
+#blurb h4 img {
    float: left;
+   margin-right: .5em;
 }
-#home .second-column {
-   width: 38%;
-   float: right;
+#Flashes p, #unmaint li, #blurb p, #blurb p small {
+   font-size: .9em;
 }
-@media (max-width: 40em) {
-   #home .first-column, #home .second-column {
-      float: none;
+#unmaint li, #blurb p {
+   color: #404040;
+}
+#unmaint strong {
+   display: block;
+   font-size: 1.1em;
+   color: black;
+}
+
+.clear {
+   clear: both;
+   height: 2em;
+}
+.translators-notes {
+   width: 44.4em; max-width: 100%;
+   margin: 0 auto;
+}
+#mission-statement { margin-bottom: 0; }
+#sisters { font-size: .9em; margin: 0 3% 2em; }
+
+@media (min-width: 57em) {
+   .first-column {
+      width: 61%;
+      float: left;
+      margin: 0;
+   }
+   .second-column {
+      width: 33%;
+      float: right;
+      margin: 0;
+   }
+   .translators-notes {
       width: 100%;
    }
 }
-#home .first-column, #home .second-column {
-   margin-bottom: 2em; margin-top: 0;
-}
-
-#home h2 {
-   text-shadow: none;
-   margin-bottom: .6em;
-}
-#home .first-column img { width: 80%; margin: .5em 0 1em 0; }
-#home .second-column h4 img { height: .75em; width: .75em; }
-h4#Flashes { margin-top: .5em; }
-#Action {
-   text-align: left;
-   padding: 0 1em;
-   border-left: .4em solid #b9bcbf; border-right: .4em solid #b9bcbf;
-}
-
-h2#Action {
-   text-align: center;
-}
-#Action h2 {
-   float: none;
-   text-align: center;
-   padding-top: 0;
-   color: #171d33;
-}
-#Action li { margin-bottom: .7em; }
-p#backtotop { float: right; margin-top: 2.5em; }
-#sisters { font-size: .9em; margin: 0 3% 1.5em 3%; }
 -->
 
 </style>
@@ -71,13 +156,13 @@ p#backtotop { float: right; margin-top: 2.5em; }
 <!--#include virtual="/server/fs-gang-definitions.html" -->
 <!--#include virtual="/po/home.translist" -->
 <!--#include virtual="/server/banner.uk.html" -->
-<p class="netscape4">GNU&nbsp;&nbsp; єдина операційна система, розроблена спеціально для того,
+<p class="no-display">GNU&nbsp;&nbsp; єдина операційна система, розроблена спеціально для того,
 щоб дати користувачам свободу. Що таке GNU і про яку свободу йде мова?</p>
 
 <div id="home">
 <div class="first-column">
 
-<h2>Що таке GNU?</h2>
+<h2 class="first">Що таке GNU?</h2>
 
 <p>GNU&nbsp;&mdash; Unix-подібна операційна система, програми якої <a
 href="/philosophy/free-sw.html">вільні</a>&nbsp;&mdash; вони поважають вашу
@@ -88,9 +173,13 @@ href="/philosophy/free-sw.html">вільні</a>&nbsp;&mdash; вони пова�
 установки</a> (точніше, дистрибутиви GNU/Linux), що повністю складаються з
 вільних програм. <a href="#More-GNU">Детальніше про GNU див. нижче</a>.</p>
 
-<p class="c"><a href="/distros/screenshot.html"><img
-   src="/distros/screenshots/trisquel-medium.jpg" alt="Вигляд екрану GNU"
-   /></a></p>
+<div id="gnu-linux">
+<p class="button large"><a href="/distros/free-distros.html">Спробувати GNU/Linux</a></p>
+
+<a href="/distros/screenshot.html"><img
+   src="/distros/screenshots/gnewsense2-medium.jpg"
+   alt="Вигляд екрану GNU"/></a>
+</div>
 
 <h2>Що таке рух за вільні програми?</h2>
 
@@ -161,37 +250,27 @@ GNU/Linux</strong></a>. Мільйони людей користуються GNU
 1990 році ще до Linux. Добровольці продовжують розвивати Hurd, бо це
 технічно цікавий проект.</p>
 
-<p><a href="/gnu/gnu.html">Інші відомості</a>.</p>
-
+<p class="back"><a href="/gnu/gnu.html">Інші відомості</a></p>
 </div>
 
 <!-- /first-column -->
 <div class="second-column">
 
-<p class="button c large"><a href="/distros/free-distros.html">Спробувати GNU/Linux</a></p>
+<a href="http://www.gnuhealthcon.org/2016-las_palmas/"><img id="gnuhealth"
+src="/server/staging/gnuhealth/gnuhealthcon2016_small.jpg" alt="GNUHealth Conference 2016" /></a>
 
-<div class="emph-box">
-
-<h4 id="Flashes"><a href="http://planet.gnu.org/">GNU на планеті</a> <a
-href="http://planet.gnu.org/rss20.xml"><img src="/feed-icon-10x10.png" alt="Стрічка новин" /></a></h4>
+<div id="Flashes" class="emph-box white">
+<h3><a href="http://planet.gnu.org/">GNU на планеті</a> <a
+href="http://planet.gnu.org/rss20.xml"><img src="/feed-icon-10x10.png" alt="Стрічка новин" /></a></h3>
 
 <!--#include virtual="/planetfeeds.uk.html" -->
 <p>Інші новини&nbsp;&mdash; на сайті <a href="http://planet.gnu.org/">GNU на
 планеті</a> та у списку <a href="/software/recent-releases.html"> останніх
 випусків GNU</a>.</p>
-
-<!--#include virtual="/server/home-pkgselect.html" -->
-<!--#include virtual="/server/home-pkgblurbs.uk.html" -->
-<p><small><a href="/manual/blurbs.html">Короткі описи усіх пакетів
-GNU</a></small></p>
-
 </div>
 
-<!-- class="emph-box" -->
-<div id="Action">
-
-<!-- BEGIN TakeAction -->
-<h2>Дійте!</h2>
+<div id="Action" class="emph-box">
+<h3>Дійте!</h3>
 
 <ul>
 <li><strong><a href="http://www.fsf.org/campaigns">Підтримайте кампанії
@@ -211,44 +290,21 @@ neutrality in Canada">у Канаді</a>.</li>
 <li><strong>Боріться проти патентів на програми:</strong> <a
 href="http://www.endsoftpatents.org">по всьому світу</a> і <a
 href="/server/takeaction.html#swpat">в Європі</a>.</li>
-
-<li><strong>Подивися і передай іншим:</strong> <a
-href="http://patentabsurdity.com">Абсурдність патентів</a>&nbsp;&nbsp; фільм
-знятий завдяки таким <a href="http://www.fsf.org/associate/">членам
-ФВПЗ</a>, як і <a href="http://fsf.org/jfb">ви</a>.</li>
-
-<li><a href="/server/takeaction.html#wipochange">Закликайте WIPO змінити назву
-та цілі</a>.</li>
-
-<li>Студенти! <a
-href="http://www.aful.org/communiques/univ-offers-me-windows">Вимагайте
-повернути вартість невикористаних вами ліцензій Microsoft Windows!</a></li>
-
-<li><a href="/server/takeaction.html#directory">Поповнюйте Каталог вільних
-програм</a>.</li>
-
-<li><a href="/server/takeaction.html">Інша діяльність</a>.</li>
-
 </ul>
 
-<!-- END TakeAction -->
-</div>
-<!-- /Action -->
-</div>
-<!-- /second-column -->
+<p class="back"><a href="/server/takeaction.html">Інша діяльність</a></p>
 </div>
 
-<!-- /home -->
-<div class="highlight-para">
-
-<p><strong>Могли б ви допомогти якому-небудь з цих <a
+<div id="unmaint" class="emph-box">
+<ul>
+<li><strong>Могли б ви допомогти якому-небудь з цих <a
 href="http://www.fsf.org/campaigns/priority-projects/"> пріоритетних
 проектів</a>?</strong> Gnash, coreboot, вільні дистрибутиви GNU/Linux, GNU
 Octave, драйвери длямаршрутизаторів і зворотне зневадження у GDB,
 розпізнавання мови, драйвериPowerVR, а також вільні заміни Skype, бібліотек
-OpenDWG і форм Oracle.</p>
+OpenDWG і форм Oracle.</li>
 
-<p id="unmaint"><strong>Могли б ви взяти на себе роботу <a
+<li><strong>Могли б ви взяти на себе роботу <a
 href="/server/takeaction.html#unmaint">над одним з пакетів GNU, які
 залишилися без підтримки</a>?</strong>
 
@@ -261,11 +317,25 @@ href="/software/orgadoc/">orgadoc</a>&nbsp;&nbsp; усі вони <a href="/serv
   <a href="/software/aspell/">aspell</a>, <a
 href="/software/gnuae/">gnuae</a>, <a
 href="/software/metaexchange/">metaexchange</a>, <a
-href="/software/powerguru/">powerguru</a>Подробиці на сторінках сайтів пакунків.</p>
-
+href="/software/powerguru/">powerguru</a>Подробиці на сторінках сайтів пакунків.</li>
+</ul>
 </div>
 
-<!-- /highlight-para -->
+<div id="blurb" class="emph-box white">
+<p>Today's random package&hellip;</p>
+
+<!--#include virtual="/server/home-pkgselect.html" -->
+<!--#include virtual="/server/home-pkgblurbs.uk.html" -->
+<p class="back"><small><a href="/manual/blurbs.html">Короткі описи усіх пакетів
+GNU</a></small></p>
+</div>
+
+</div>
+<!-- /second-column -->
+</div>
+<!-- /home -->
+<div class="clear"></div>
+
 <div class="translators-notes">
 
 <!--TRANSLATORS: Use space (SPC) as msgstr if you don't have notes.-->
@@ -345,7 +415,7 @@ Creative Commons Attribution-NoDerivatives 4.0 International (<em>Із
 <p class="unprintable"><!-- timestamp start -->
 Оновлено:
 
-$Date: 2016/07/09 07:31:22 $
+$Date: 2016/09/06 09:58:52 $
 
 <!-- timestamp end -->
 </p>

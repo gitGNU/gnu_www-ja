@@ -15,54 +15,139 @@ te delen en te verbeteren." />
 
 <style type="text/css" media="print,screen">
 <!--
-#home:after {
-   clear: both; content: ""; display: block;
-   height: 0px; visibility: hidden; width: 0px;
+/* === Banner === */
+#gnuhealth { display: none; }
+@media (min-width: 57em) {
+   #gnuhealth {
+      display: block;
+      width: 100%;
+      margin-top: 2.3em;
+   }
+}
+/* === Not necessary with the final version of layout.css === */
+h2 { text-shadow: none; }
+.emph-box p, .emph-box ul, .emph-box ul li {
+   margin-bottom: 0; /* For NetSurf */
+}
+#fsf-frame { display: none; }
+@media (min-width: 57em) {
+   #fsf-frame { display: block; }
+}
+/* ======================= */
+
+#content {
+   margin: 0;
+}
+.first-column, .second-column {
+   width: 40em; max-width: 100%;
+   margin: auto;
 }
 
-#home .first-column {
-   width: 60%;
+h2 {
+   color: #333;
+   margin: 1.2em 0 .9em;
+}
+h2.first {
+   margin-top: 1em;
+}
+#gnu-linux {
+   width: 30em; max-width: 100%;
+   text-align: center;
+   margin: 0 auto 1em;
+}
+#gnu-linux img {
+   width: 100%;
+}
+.button {
+   font-size: 1.8em;
+   text-align: center;
+   font-weight: bold;
+   margin: 1.7em 0;
+}
+.button a, .button a:visited {
+   display: block;
+   padding: .4em .6em;
+   color: #971611;
+   text-decoration: none;
+   background: #e7e9eb;
+   border: .1em solid #c9cccf;
+   border-radius: .3em;
+   -moz-border-radius: .3em;
+   -khtml-border-radius: .3em;
+   -webkit-border-radius: .3em;
+   -opera-border-radius: .3em;
+}
+.button a:hover {
+   color: #777;
+}
+.first-column p.back {
+   margin-bottom: 0;
+}
+
+.second-column .emph-box {
+   padding: 0 1.2em 1.2em;
+   margin-top: 1.5em;
+}
+.second-column .emph-box.white {
+   background: white;
+}
+.second-column .emph-box .back {
+   margin-top: 1em;
+}
+h3 {
+   margin-top: .7em;
+}
+h3 img {
+   height: .8em;
+   margin-left: .5em;
+}
+#blurb h4 {
+   text-align: left;
+   font-size: 1.5em;
+   margin-top: .4em;
+}
+#blurb h4 img {
    float: left;
+   margin-right: .5em;
 }
-#home .second-column {
-   width: 38%;
-   float: right;
+#Flashes p, #unmaint li, #blurb p, #blurb p small {
+   font-size: .9em;
 }
-@media (max-width: 40em) {
-   #home .first-column, #home .second-column {
-      float: none;
+#unmaint li, #blurb p {
+   color: #404040;
+}
+#unmaint strong {
+   display: block;
+   font-size: 1.1em;
+   color: black;
+}
+
+.clear {
+   clear: both;
+   height: 2em;
+}
+.translators-notes {
+   width: 44.4em; max-width: 100%;
+   margin: 0 auto;
+}
+#mission-statement { margin-bottom: 0; }
+#sisters { font-size: .9em; margin: 0 3% 2em; }
+
+@media (min-width: 57em) {
+   .first-column {
+      width: 61%;
+      float: left;
+      margin: 0;
+   }
+   .second-column {
+      width: 33%;
+      float: right;
+      margin: 0;
+   }
+   .translators-notes {
       width: 100%;
    }
 }
-#home .first-column, #home .second-column {
-   margin-bottom: 2em; margin-top: 0;
-}
-
-#home h2 {
-   text-shadow: none;
-   margin-bottom: .6em;
-}
-#home .first-column img { width: 80%; margin: .5em 0 1em 0; }
-#home .second-column h4 img { height: .75em; width: .75em; }
-h4#Flashes { margin-top: .5em; }
-#Action {
-   text-align: left;
-   padding: 0 1em;
-   border-left: .4em solid #b9bcbf; border-right: .4em solid #b9bcbf;
-}
-
-h2#Action {
-   text-align: center;
-}
-#Action h2 {
-   float: none;
-   text-align: center;
-   padding-top: 0;
-   color: #171d33;
-}
-#Action li { margin-bottom: .7em; }
-p#backtotop { float: right; margin-top: 2.5em; }
-#sisters { font-size: .9em; margin: 0 3% 1.5em 3%; }
 -->
 
 </style>
@@ -70,13 +155,13 @@ p#backtotop { float: right; margin-top: 2.5em; }
 <!--#include virtual="/server/fs-gang-definitions.html" -->
 <!--#include virtual="/po/home.translist" -->
 <!--#include virtual="/server/banner.nl.html" -->
-<p class="netscape4">GNU is het enige besturingssysteem dat speciaal is ontwikkeld om gebruikers
+<p class="no-display">GNU is het enige besturingssysteem dat speciaal is ontwikkeld om gebruikers
 vrijheid te geven. Wat is GNU, en welke vrijheid staat op het spel?</p>
 
 <div id="home">
 <div class="first-column">
 
-<h2>Wat is GNU?</h2>
+<h2 class="first">Wat is GNU?</h2>
 
 <p>GNU is een besturingssysteem, gemaakt van <a
 href="/philosophy/free-sw.html">vrije software</a>&mdash;dat betekent dat
@@ -88,9 +173,13 @@ vrijheid aantast.</p>
 GNU</a> aan (of beter gezegd, GNU/Linux-distributies) die volledig vrije
 software zijn. <a href="#More-GNU">Meer over GNU hieronder</a>.</p>
 
-<p class="c"><a href="/distros/screenshot.html"><img
-   src="/distros/screenshots/trisquel-medium.jpg" alt="Schermafdruk van GNU"
-   /></a></p>
+<div id="gnu-linux">
+<p class="button large"><a href="/distros/free-distros.html">Probeer GNU/Linux!</a></p>
+
+<a href="/distros/screenshot.html"><img
+   src="/distros/screenshots/gnewsense2-medium.jpg"
+   alt="Schermafdruk van GNU"/></a>
+</div>
 
 <h2>Wat is de vrije-softwarebeweging?</h2>
 
@@ -166,36 +255,26 @@ gestart in 1990 (voordat Linux was gestart). Vrijwilligers gaan door met het
 ontwikkelen van de Hurd omdat het technisch gezien een interessant project
 is.</p>
 
-<p><a href="/gnu/gnu.html">Meer informatie</a>.</p>
-
+<p class="back"><a href="/gnu/gnu.html">Meer informatie</a></p>
 </div>
 
 <!-- /first-column -->
 <div class="second-column">
 
-<p class="button c large"><a href="/distros/free-distros.html">Probeer GNU/Linux!</a></p>
+<a href="http://www.gnuhealthcon.org/2016-las_palmas/"><img id="gnuhealth"
+src="/server/staging/gnuhealth/gnuhealthcon2016_small.jpg" alt="GNUHealth Conference 2016" /></a>
 
-<div class="emph-box">
-
-<h4 id="Flashes"><a href="http://planet.gnu.org/">Planet GNU</a> <a
-href="http://planet.gnu.org/rss20.xml"><img src="/feed-icon-10x10.png" alt="RSS-feed" /></a></h4>
+<div id="Flashes" class="emph-box white">
+<h3><a href="http://planet.gnu.org/">Planet GNU</a> <a
+href="http://planet.gnu.org/rss20.xml"><img src="/feed-icon-10x10.png" alt="RSS-feed" /></a></h3>
 
 <!--#include virtual="/planetfeeds.nl.html" -->
-<p>Voor meer nieuws, zie <a href="http://planet.gnu.org/">Planet GNU</a> en de
-lijst van <a href="/software/recent-releases.html">recente GNU-uitgaven</a>.</p>
-
-<!--#include virtual="/server/home-pkgselect.html" -->
-<!--#include virtual="/server/home-pkgblurbs.nl.html" -->
-<p><small><a href="/manual/blurbs.html">Korte beschrijving van alle
-GNU-pakketten.</a></small></p>
-
+<p>For more news, see <a href="http://planet.gnu.org/">Planet GNU</a> and the
+list of <a href="/software/recent-releases.html">recent GNU releases</a>.</p>
 </div>
 
-<!-- class="emph-box" -->
-<div id="Action">
-
-<!-- BEGIN TakeAction -->
-<h2>Doe wat</h2>
+<div id="Action" class="emph-box">
+<h3>Doe wat</h3>
 
 <ul>
 <li><strong><a href="http://www.fsf.org/campaigns">Steun huidige
@@ -215,44 +294,22 @@ title="Net neutrality in Canada">in Canada</a>.</li>
 <li><strong>Vecht tegen software-octrooien:</strong> <a
 href="http://www.endsoftpatents.org">wereldwijd</a>, en in <a
 href="/server/takeaction.html#swpat">Europa</a>.</li>
-
-<li><strong>Bekijk en verspreid deze film: </strong> <a
-href="http://patentabsurdity.com">Octrooi-absurditeiten</a>&mdash;mogelijk
-gemaakt door <a href="http://www.fsf.org/associate/">FSF-leden</a> zoals <a
-href="http://fsf.org/jfb">jij</a>.</li>
-
-<li><strong><a href="/server/takeaction.html#wipochange">Roep WIPO
-op</a></strong> om zijn naam en missie te veranderen.</li>
-
-<li>Studenten! <a href="http://www.aful.org/communiques/univ-offers-me-windows">
-Vraag een teruggave voor je ongebruikte Microsoft Windows-licenties</a>.</li>
-
-<li><a href="/server/takeaction.html#directory">Voeg nieuwe programma's toe aan
-het Overzicht Vrije Software</a>.</li>
-
-<li><a href="/server/takeaction.html">Meer actiepunten</a>.</li>
-
 </ul>
 
-<!-- END TakeAction -->
-</div>
-<!-- /Action -->
-</div>
-<!-- /second-column -->
+<p class="back"><a href="/server/takeaction.html">Meer actiepunten</a></p>
 </div>
 
-<!-- /home -->
-<div class="highlight-para">
-
-<p><strong>Kan je bijdragen aan één van deze <a
+<div id="unmaint" class="emph-box">
+<ul>
+<li><strong>Kan je bijdragen aan één van deze <a
 href="http://www.fsf.org/campaigns/priority-projects/">projecten met hoge
 prioriteit</a>?</strong> Gnash, coreboot, vrije distributies van GNU/Linux,
 GNU Octave, stuurprogramma's voor netwerkrouters, omgekeerd debuggen in GDB,
 automatische transcriptie, PowerVR-stuurprogramma's, en ook
 vrije-software-vervangingen voor Skype, OpenDWG-bibliotheken, en Oracle
-Forms.</p>
+Forms.</li>
 
-<p id="unmaint"><strong>Kan je een <a
+<li><strong>Kan je een <a
 href="/server/takeaction.html#unmaint">niet-onderhouden GNU-pakket</a>
 overnemen?</strong>
 
@@ -264,11 +321,25 @@ onderhouders</a>.  Deze pakketten zijn ook op zoek naar onderhoudsmensen:
   <a href="/software/aspell/">aspell</a>, <a
 href="/software/gnuae/">gnuae</a>, <a
 href="/software/metaexchange/">metaexchange</a>, <a
-href="/software/powerguru/">powerguru</a>. Zie de webpagina's van de pakketten voor meer informatie.</p>
-
+href="/software/powerguru/">powerguru</a>. Zie de webpagina's van de pakketten voor meer informatie.</li>
+</ul>
 </div>
 
-<!-- /highlight-para -->
+<div id="blurb" class="emph-box white">
+<p>Today's random package&hellip;</p>
+
+<!--#include virtual="/server/home-pkgselect.html" -->
+<!--#include virtual="/server/home-pkgblurbs.nl.html" -->
+<p class="back"><small><a href="/manual/blurbs.html">Korte beschrijving van alle
+GNU-pakketten</a></small></p>
+</div>
+
+</div>
+<!-- /second-column -->
+</div>
+<!-- /home -->
+<div class="clear"></div>
+
 <div class="translators-notes">
 
 <!--TRANSLATORS: Use space (SPC) as msgstr if you don't have notes.-->
@@ -348,7 +419,7 @@ Naamsvermelding-GeenAfgeleideWerken 4.0 Internationaal licentie</a>.</p>
 <p class="unprintable"><!-- timestamp start -->
 Bijgewerkt:
 
-$Date: 2016/06/19 08:30:20 $
+$Date: 2016/09/06 09:58:52 $
 
 <!-- timestamp end -->
 </p>

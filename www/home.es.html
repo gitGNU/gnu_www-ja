@@ -15,54 +15,139 @@ compartir y mejorar el software que usan." />
 
 <style type="text/css" media="print,screen">
 <!--
-#home:after {
-   clear: both; content: ""; display: block;
-   height: 0px; visibility: hidden; width: 0px;
+/* === Banner === */
+#gnuhealth { display: none; }
+@media (min-width: 57em) {
+   #gnuhealth {
+      display: block;
+      width: 100%;
+      margin-top: 2.3em;
+   }
+}
+/* === Not necessary with the final version of layout.css === */
+h2 { text-shadow: none; }
+.emph-box p, .emph-box ul, .emph-box ul li {
+   margin-bottom: 0; /* For NetSurf */
+}
+#fsf-frame { display: none; }
+@media (min-width: 57em) {
+   #fsf-frame { display: block; }
+}
+/* ======================= */
+
+#content {
+   margin: 0;
+}
+.first-column, .second-column {
+   width: 40em; max-width: 100%;
+   margin: auto;
 }
 
-#home .first-column {
-   width: 60%;
+h2 {
+   color: #333;
+   margin: 1.2em 0 .9em;
+}
+h2.first {
+   margin-top: 1em;
+}
+#gnu-linux {
+   width: 30em; max-width: 100%;
+   text-align: center;
+   margin: 0 auto 1em;
+}
+#gnu-linux img {
+   width: 100%;
+}
+.button {
+   font-size: 1.8em;
+   text-align: center;
+   font-weight: bold;
+   margin: 1.7em 0;
+}
+.button a, .button a:visited {
+   display: block;
+   padding: .4em .6em;
+   color: #971611;
+   text-decoration: none;
+   background: #e7e9eb;
+   border: .1em solid #c9cccf;
+   border-radius: .3em;
+   -moz-border-radius: .3em;
+   -khtml-border-radius: .3em;
+   -webkit-border-radius: .3em;
+   -opera-border-radius: .3em;
+}
+.button a:hover {
+   color: #777;
+}
+.first-column p.back {
+   margin-bottom: 0;
+}
+
+.second-column .emph-box {
+   padding: 0 1.2em 1.2em;
+   margin-top: 1.5em;
+}
+.second-column .emph-box.white {
+   background: white;
+}
+.second-column .emph-box .back {
+   margin-top: 1em;
+}
+h3 {
+   margin-top: .7em;
+}
+h3 img {
+   height: .8em;
+   margin-left: .5em;
+}
+#blurb h4 {
+   text-align: left;
+   font-size: 1.5em;
+   margin-top: .4em;
+}
+#blurb h4 img {
    float: left;
+   margin-right: .5em;
 }
-#home .second-column {
-   width: 38%;
-   float: right;
+#Flashes p, #unmaint li, #blurb p, #blurb p small {
+   font-size: .9em;
 }
-@media (max-width: 40em) {
-   #home .first-column, #home .second-column {
-      float: none;
+#unmaint li, #blurb p {
+   color: #404040;
+}
+#unmaint strong {
+   display: block;
+   font-size: 1.1em;
+   color: black;
+}
+
+.clear {
+   clear: both;
+   height: 2em;
+}
+.translators-notes {
+   width: 44.4em; max-width: 100%;
+   margin: 0 auto;
+}
+#mission-statement { margin-bottom: 0; }
+#sisters { font-size: .9em; margin: 0 3% 2em; }
+
+@media (min-width: 57em) {
+   .first-column {
+      width: 61%;
+      float: left;
+      margin: 0;
+   }
+   .second-column {
+      width: 33%;
+      float: right;
+      margin: 0;
+   }
+   .translators-notes {
       width: 100%;
    }
 }
-#home .first-column, #home .second-column {
-   margin-bottom: 2em; margin-top: 0;
-}
-
-#home h2 {
-   text-shadow: none;
-   margin-bottom: .6em;
-}
-#home .first-column img { width: 80%; margin: .5em 0 1em 0; }
-#home .second-column h4 img { height: .75em; width: .75em; }
-h4#Flashes { margin-top: .5em; }
-#Action {
-   text-align: left;
-   padding: 0 1em;
-   border-left: .4em solid #b9bcbf; border-right: .4em solid #b9bcbf;
-}
-
-h2#Action {
-   text-align: center;
-}
-#Action h2 {
-   float: none;
-   text-align: center;
-   padding-top: 0;
-   color: #171d33;
-}
-#Action li { margin-bottom: .7em; }
-p#backtotop { float: right; margin-top: 2.5em; }
-#sisters { font-size: .9em; margin: 0 3% 1.5em 3%; }
 -->
 
 </style>
@@ -70,14 +155,14 @@ p#backtotop { float: right; margin-top: 2.5em; }
 <!--#include virtual="/server/fs-gang-definitions.html" -->
 <!--#include virtual="/po/home.translist" -->
 <!--#include virtual="/server/banner.es.html" -->
-<p class="netscape4">GNU es el único sistema operativo desarrollado específicamente para dar
+<p class="no-display">GNU es el único sistema operativo desarrollado específicamente para dar
 libertad a los usuarios. ¿Qué es GNU y cuál es la libertad que está en
 juego?</p>
 
 <div id="home">
 <div class="first-column">
 
-<h2>¿Qué es GNU?</h2>
+<h2 class="first">¿Qué es GNU?</h2>
 
 <p>GNU es un sistema operativo de <a href="/philosophy/free-sw.html">software
 libre</a>, es decir, respeta la libertad de los usuarios. El desarrollo de
@@ -89,9 +174,13 @@ pueden instalar</a> (más precisamente, distribuciones GNU/Linux), que son
 completamente software libre. <a href="#More-GNU">Más información acerca de
 GNU</a>.</p>
 
-<p class="c"><a href="/distros/screenshot.html"><img
-   src="/distros/screenshots/trisquel-medium.jpg" alt="Pantalla de GNU"
-   /></a></p>
+<div id="gnu-linux">
+<p class="button large"><a href="/distros/free-distros.html">¡Pruebe GNU/Linux!</a></p>
+
+<a href="/distros/screenshot.html"><img
+   src="/distros/screenshots/gnewsense2-medium.jpg"
+   alt="Pantalla de GNU"/></a>
+</div>
 
 <h2>¿Qué es el movimiento del software libre?</h2>
 
@@ -166,37 +255,27 @@ href="/software/hurd/hurd.html">Hurd</a>, se inició en 1990 (antes de que
 comenzara el de Linux). Programadores voluntarios continúan desarrollando
 Hurd por tratarse de un proyecto técnico interesante.</p>
 
-<p><a href="/gnu/gnu.html">Más información</a>.</p>
-
+<p class="back"><a href="/gnu/gnu.html">Más información</a></p>
 </div>
 
 <!-- /first-column -->
 <div class="second-column">
 
-<p class="button c large"><a href="/distros/free-distros.html">¡Pruebe GNU/Linux!</a></p>
+<a href="http://www.gnuhealthcon.org/2016-las_palmas/"><img id="gnuhealth"
+src="/server/staging/gnuhealth/gnuhealthcon2016_small.jpg" alt="Conferencia GNUHealth 2016" /></a>
 
-<div class="emph-box">
-
-<h4 id="Flashes"><a href="http://planet.gnu.org/">Planet GNU</a> <a
-href="http://planet.gnu.org/rss20.xml"><img src="/feed-icon-10x10.png" alt="Feed RSS" /></a></h4>
+<div id="Flashes" class="emph-box white">
+<h3><a href="http://planet.gnu.org/">Planet GNU</a> <a
+href="http://planet.gnu.org/rss20.xml"><img src="/feed-icon-10x10.png" alt="Feed RSS" /></a></h3>
 
 <!--#include virtual="/planetfeeds.es.html" -->
 <p>Para más noticias visite <a href="http://planet.gnu.org/" >Planet GNU</a> y
 la lista de <a href="/software/recent-releases.html"> las últimas versiones
 de los paquetes de GNU</a>.</p>
-
-<!--#include virtual="/server/home-pkgselect.html" -->
-<!--#include virtual="/server/home-pkgblurbs.es.html" -->
-<p><small><a href="/manual/blurbs.html">Breve descripción de todos los paquetes
-de GNU</a>.</small></p>
-
 </div>
 
-<!-- class="emph-box" -->
-<div id="Action">
-
-<!-- BEGIN TakeAction -->
-<h2>Tome partido</h2>
+<div id="Action" class="emph-box">
+<h3>Tome partido</h3>
 
 <ul>
 <li><a href="http://www.fsf.org/campaigns">Apoye las campañas en curso de la
@@ -217,45 +296,22 @@ Canadá</a>.</li>
 <li><strong>Luche contra las patentes de software:</strong> <a
 href="http://www.endsoftpatents.org">en el mundo</a> y <a
 href="/server/takeaction.html#swpat">en Europa</a>.</li>
-
-<li><strong>Vea la siguiente película</strong> (en inglés): <a
-href="http://patentabsurdity.com">Patent Absurdity</a>, hecha gracias a los
-<a href="http://www.fsf.org/associate/">miembros asociados de la FSF</a>
-como <a href="http://fsf.org/jfb">usted</a>.</li>
-
-<li><strong><a href="/server/takeaction.html#wipochange">Solicite a la
-OMPI</a></strong> que cambie su nombre y su misión.</li>
-
-<li>¡Estudiantes! <a
-href="http://www.aful.org/communiques/univ-offers-me-windows">Reclamen la
-devolución del importe de las licencias Microsoft Windows sin utilizar.</a></li>
-
-<li><a href="/server/takeaction.html#directory">Contribuya al Directorio de
-Software Libre</a>.</li>
-
-<li><a href="/server/takeaction.html">Otras iniciativas</a>.</li>
-
 </ul>
 
-<!-- END TakeAction -->
-</div>
-<!-- /Action -->
-</div>
-<!-- /second-column -->
+<p class="back"><a href="/server/takeaction.html">Otras iniciativas</a></p>
 </div>
 
-<!-- /home -->
-<div class="highlight-para">
-
-<p><strong>¿Puede colaborar con alguno de estos  <a
+<div id="unmaint" class="emph-box">
+<ul>
+<li><strong>¿Puede colaborar con alguno de estos  <a
 href="http://www.fsf.org/campaigns/priority-projects/">proyectos
 prioritarios</a>?</strong> Gnash, coreboot, distribuciones libres de
 GNU/Linux, GNU Octave, controladores para routers de red, depuración
 reversible en GDB, transcripción automática, controladores para
 PowerVR. También software sustitutivo para Skype, bibliotecas OpenDWG y
-Oracle Forms.</p>
+Oracle Forms.</li>
 
-<p id="unmaint"><strong>¿Puede ayudar encargándose de uno de estos <a
+<li><strong>¿Puede ayudar encargándose de uno de estos <a
 href="/server/takeaction.html#unmaint">paquetes de GNU sin
 mantenimiento</a>?</strong>
 
@@ -268,11 +324,25 @@ necesitan coencargados del mantenimiento:
   <a href="/software/aspell/">aspell</a>, <a
 href="/software/gnuae/">gnuae</a>, <a
 href="/software/metaexchange/">metaexchange</a>, <a
-href="/software/powerguru/">powerguru</a>. Para más información, véase la página web de los paquetes.</p>
-
+href="/software/powerguru/">powerguru</a>. Para más información, véase la página web de los paquetes.</li>
+</ul>
 </div>
 
-<!-- /highlight-para -->
+<div id="blurb" class="emph-box white">
+<p>Paquete aleatorio del día&hellip;</p>
+
+<!--#include virtual="/server/home-pkgselect.html" -->
+<!--#include virtual="/server/home-pkgblurbs.es.html" -->
+<p class="back"><small><a href="/manual/blurbs.html">Breve descripción de todos los paquetes
+de GNU</a></small></p>
+</div>
+
+</div>
+<!-- /second-column -->
+</div>
+<!-- /home -->
+<div class="clear"></div>
+
 <div class="translators-notes">
 
 <!--TRANSLATORS: Use space (SPC) as msgstr if you don't have notes.-->
@@ -355,7 +425,7 @@ Commons Reconocimiento-SinObraDerivada 4.0 Internacional</a>.</p>
 <p class="unprintable"><!-- timestamp start -->
 Última actualización:
 
-$Date: 2016/06/19 08:30:20 $
+$Date: 2016/09/07 10:28:20 $
 
 <!-- timestamp end -->
 </p>

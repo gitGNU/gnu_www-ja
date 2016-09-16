@@ -659,7 +659,9 @@ proprietary :=	malware-adobe \
 		proprietary-interference \
 		proprietary-jails \
 		proprietary-sabotage \
+		proprietary-subscriptions \
 		proprietary-surveillance \
+		proprietary-tethers \
 		proprietary-tyrants
 
 server :=	08whatsnew \

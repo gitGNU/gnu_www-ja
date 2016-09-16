@@ -17,54 +17,139 @@ GNU" />
 
 <style type="text/css" media="print,screen">
 <!--
-#home:after {
-   clear: both; content: ""; display: block;
-   height: 0px; visibility: hidden; width: 0px;
+/* === Banner === */
+#gnuhealth { display: none; }
+@media (min-width: 57em) {
+   #gnuhealth {
+      display: block;
+      width: 100%;
+      margin-top: 2.3em;
+   }
+}
+/* === Not necessary with the final version of layout.css === */
+h2 { text-shadow: none; }
+.emph-box p, .emph-box ul, .emph-box ul li {
+   margin-bottom: 0; /* For NetSurf */
+}
+#fsf-frame { display: none; }
+@media (min-width: 57em) {
+   #fsf-frame { display: block; }
+}
+/* ======================= */
+
+#content {
+   margin: 0;
+}
+.first-column, .second-column {
+   width: 40em; max-width: 100%;
+   margin: auto;
 }
 
-#home .first-column {
-   width: 60%;
+h2 {
+   color: #333;
+   margin: 1.2em 0 .9em;
+}
+h2.first {
+   margin-top: 1em;
+}
+#gnu-linux {
+   width: 30em; max-width: 100%;
+   text-align: center;
+   margin: 0 auto 1em;
+}
+#gnu-linux img {
+   width: 100%;
+}
+.button {
+   font-size: 1.8em;
+   text-align: center;
+   font-weight: bold;
+   margin: 1.7em 0;
+}
+.button a, .button a:visited {
+   display: block;
+   padding: .4em .6em;
+   color: #971611;
+   text-decoration: none;
+   background: #e7e9eb;
+   border: .1em solid #c9cccf;
+   border-radius: .3em;
+   -moz-border-radius: .3em;
+   -khtml-border-radius: .3em;
+   -webkit-border-radius: .3em;
+   -opera-border-radius: .3em;
+}
+.button a:hover {
+   color: #777;
+}
+.first-column p.back {
+   margin-bottom: 0;
+}
+
+.second-column .emph-box {
+   padding: 0 1.2em 1.2em;
+   margin-top: 1.5em;
+}
+.second-column .emph-box.white {
+   background: white;
+}
+.second-column .emph-box .back {
+   margin-top: 1em;
+}
+h3 {
+   margin-top: .7em;
+}
+h3 img {
+   height: .8em;
+   margin-left: .5em;
+}
+#blurb h4 {
+   text-align: left;
+   font-size: 1.5em;
+   margin-top: .4em;
+}
+#blurb h4 img {
    float: left;
+   margin-right: .5em;
 }
-#home .second-column {
-   width: 38%;
-   float: right;
+#Flashes p, #unmaint li, #blurb p, #blurb p small {
+   font-size: .9em;
 }
-@media (max-width: 40em) {
-   #home .first-column, #home .second-column {
-      float: none;
+#unmaint li, #blurb p {
+   color: #404040;
+}
+#unmaint strong {
+   display: block;
+   font-size: 1.1em;
+   color: black;
+}
+
+.clear {
+   clear: both;
+   height: 2em;
+}
+.translators-notes {
+   width: 44.4em; max-width: 100%;
+   margin: 0 auto;
+}
+#mission-statement { margin-bottom: 0; }
+#sisters { font-size: .9em; margin: 0 3% 2em; }
+
+@media (min-width: 57em) {
+   .first-column {
+      width: 61%;
+      float: left;
+      margin: 0;
+   }
+   .second-column {
+      width: 33%;
+      float: right;
+      margin: 0;
+   }
+   .translators-notes {
       width: 100%;
    }
 }
-#home .first-column, #home .second-column {
-   margin-bottom: 2em; margin-top: 0;
-}
-
-#home h2 {
-   text-shadow: none;
-   margin-bottom: .6em;
-}
-#home .first-column img { width: 80%; margin: .5em 0 1em 0; }
-#home .second-column h4 img { height: .75em; width: .75em; }
-h4#Flashes { margin-top: .5em; }
-#Action {
-   text-align: left;
-   padding: 0 1em;
-   border-left: .4em solid #b9bcbf; border-right: .4em solid #b9bcbf;
-}
-
-h2#Action {
-   text-align: center;
-}
-#Action h2 {
-   float: none;
-   text-align: center;
-   padding-top: 0;
-   color: #171d33;
-}
-#Action li { margin-bottom: .7em; }
-p#backtotop { float: right; margin-top: 2.5em; }
-#sisters { font-size: .9em; margin: 0 3% 1.5em 3%; }
 -->
 
 </style>
@@ -72,14 +157,14 @@ p#backtotop { float: right; margin-top: 2.5em; }
 <!--#include virtual="/server/fs-gang-definitions.html" -->
 <!--#include virtual="/po/home.translist" -->
 <!--#include virtual="/server/banner.ru.html" -->
-<p class="netscape4">GNU&nbsp;&mdash; единственная операционная система, разработанная специально
+<p class="no-display">GNU&nbsp;&mdash; единственная операционная система, разработанная специально
 для того, чтобы дать ее пользователям свободу. Что такое GNU, и о какой
 свободе идет речь?</p>
 
 <div id="home">
 <div class="first-column">
 
-<h2>Что такое GNU?</h2>
+<h2 class="first">Что такое GNU?</h2>
 
 <p>GNU&nbsp;&mdash; операционная система типа Unix, программы которой <a
 href="/philosophy/free-sw.html">свободны</a>&nbsp;&mdash; они уважают вашу
@@ -90,9 +175,13 @@ href="/philosophy/free-sw.html">свободны</a>&nbsp;&mdash; они ува�
 установки</a> (точнее, дистрибутивы GNU/Linux), полностью состоящие из
 свободных программ. <a href="#More-GNU">Подробнее о GNU см. ниже</a>.</p>
 
-<p class="c"><a href="/distros/screenshot.html"><img
-   src="/distros/screenshots/trisquel-medium.jpg" alt="Вид экрана GNU"
-   /></a></p>
+<div id="gnu-linux">
+<p class="button large"><a href="/distros/free-distros.html">Попробуй GNU/Linux!</a></p>
+
+<a href="/distros/screenshot.html"><img
+   src="/distros/screenshots/gnewsense2-medium.jpg"
+   alt="Вид экрана GNU"/></a>
+</div>
 
 <h2>Что такое движение за свободные программы?</h2>
 
@@ -162,37 +251,27 @@ href="/software/hurd/hurd.html">Hurd</a>, начались в 1990&nbsp;году
 начала работ над Linux). Добровольцы продолжают развивать Hurd, поскольку
 это представляет технический интерес.</p>
 
-<p><a href="/gnu/gnu.html">Другие сведения</a>.</p>
-
+<p class="back"><a href="/gnu/gnu.html">Другие сведения</a></p>
 </div>
 
 <!-- /first-column -->
 <div class="second-column">
 
-<p class="button c large"><a href="/distros/free-distros.html">Попробуй GNU/Linux!</a></p>
+<a href="http://www.gnuhealthcon.org/2016-las_palmas/"><img id="gnuhealth"
+src="/server/staging/gnuhealth/gnuhealthcon2016_small.jpg" alt="Конференция по GNU Health&mdash;2016" /></a>
 
-<div class="emph-box">
-
-<h4 id="Flashes"><a href="http://planet.gnu.org/">GNU на планете</a> <a
-href="http://planet.gnu.org/rss20.xml"><img src="/feed-icon-10x10.png" alt="Лента новостей" /></a></h4>
+<div id="Flashes" class="emph-box white">
+<h3><a href="http://planet.gnu.org/">GNU на планете</a> <a
+href="http://planet.gnu.org/rss20.xml"><img src="/feed-icon-10x10.png" alt="Лента новостей" /></a></h3>
 
 <!--#include virtual="/planetfeeds.ru.html" -->
 <p>Другие новости&nbsp;&mdash; на сайте <a href="http://planet.gnu.org/">GNU на
 планете</a> и в списке <a href="/software/recent-releases.html"> последних
 выпусков GNU</a>.</p>
-
-<!--#include virtual="/server/home-pkgselect.html" -->
-<!--#include virtual="/server/home-pkgblurbs.ru.html" -->
-<p><small><a href="/manual/blurbs.html">Краткие описания всех пакетов
-GNU</a></small></p>
-
 </div>
 
-<!-- class="emph-box" -->
-<div id="Action">
-
-<!-- BEGIN TakeAction -->
-<h2>Действуйте!</h2>
+<div id="Action" class="emph-box">
+<h3>Действуйте!</h3>
 
 <ul>
 <li><strong><a href="http://www.fsf.org/campaigns">Поддержите кампании
@@ -212,44 +291,21 @@ title="Сетевая нейтральность в Канаде">в Канад�
 <li><strong>Боритесь против патентов на программы:</strong> <a
 href="http://www.endsoftpatents.org">по всему миру</a> и <a
 href="/server/takeaction.html#swpat">в Европе</a>.</li>
-
-<li><strong>Посмотри и передай другим:</strong> <a
-href="http://patentabsurdity.com">Абсурдность патентов</a>&nbsp;&mdash;
-фильм снят благодаря таким <a href="http://www.fsf.org/associate/">членам
-ФСПО</a>, как <a href="http://fsf.org/jfb">вы</a>.</li>
-
-<li><a href="/server/takeaction.html#wipochange">Призывайте WIPO сменить
-название и задачи</a>.</li>
-
-<li>Студенты! <a
-href="http://www.aful.org/communiques/univ-offers-me-windows">Потребуйте
-вернуть стоимость неиспользованных вами лицензий Microsoft Windows!</a></li>
-
-<li><a href="/server/takeaction.html#directory">Пополняйте Каталог свободных
-программ</a>.</li>
-
-<li><a href="/server/takeaction.html">Другая деятельность</a>.</li>
-
 </ul>
 
-<!-- END TakeAction -->
-</div>
-<!-- /Action -->
-</div>
-<!-- /second-column -->
+<p class="back"><a href="/server/takeaction.html">Другая деятельность</a></p>
 </div>
 
-<!-- /home -->
-<div class="highlight-para">
-
-<p><strong>Могли бы вы помочь какому-нибудь из этих <a
+<div id="unmaint" class="emph-box">
+<ul>
+<li><strong>Могли бы вы помочь какому-нибудь из этих <a
 href="http://www.fsf.org/campaigns/priority-projects/">приоритетных
 проектов</a>?</strong> Gnash, coreboot, свободные дистрибутивы GNU/Linux,
 GNU Octave, драйверы для маршрутизаторов и обратимая отладка в GDB,
 распознавание речи, драйверы PowerVR, а также свободные замены Skype,
-библиотек OpenDWG и Oracle Forms.</p>
+библиотек OpenDWG и Oracle Forms.</li>
 
-<p id="unmaint"><strong>Могли бы вы взять на себя работу <a
+<li><strong>Могли бы вы взять на себя работу <a
 href="/server/takeaction.html#unmaint">над одним из пакетов GNU, оставшихся
 без поддержки</a>?</strong>
 
@@ -262,11 +318,25 @@ href="/software/orgadoc/">orgadoc</a>&nbsp;&mdash; все они <a href="/serve
   <a href="/software/aspell/">aspell</a>, <a
 href="/software/gnuae/">gnuae</a>, <a
 href="/software/metaexchange/">metaexchange</a>, <a
-href="/software/powerguru/">powerguru</a>. Подробности см. на страницах сайтов пакетов.</p>
-
+href="/software/powerguru/">powerguru</a>. Подробности см. на страницах сайтов пакетов.</li>
+</ul>
 </div>
 
-<!-- /highlight-para -->
+<div id="blurb" class="emph-box white">
+<p>Пакет дня:</p>
+
+<!--#include virtual="/server/home-pkgselect.html" -->
+<!--#include virtual="/server/home-pkgblurbs.ru.html" -->
+<p class="back"><small><a href="/manual/blurbs.html">Краткие описания всех пакетов
+GNU</a></small></p>
+</div>
+
+</div>
+<!-- /second-column -->
+</div>
+<!-- /home -->
+<div class="clear"></div>
+
 <div class="translators-notes">
 
 <!--TRANSLATORS: Use space (SPC) as msgstr if you don't have notes.-->
@@ -348,7 +418,7 @@ Creative Commons Attribution-NoDerivs (<em>Атрибуция&nbsp;&mdash; Бе�
 <p class="unprintable"><!-- timestamp start -->
 Обновлено:
 
-$Date: 2016/06/19 08:30:20 $
+$Date: 2016/09/06 09:58:52 $
 
 <!-- timestamp end -->
 </p>

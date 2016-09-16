@@ -16,54 +16,139 @@ Betriebssystem" />
 
 <style type="text/css" media="print,screen">
 <!--
-#home:after {
-   clear: both; content: ""; display: block;
-   height: 0px; visibility: hidden; width: 0px;
+/* === Banner === */
+#gnuhealth { display: none; }
+@media (min-width: 57em) {
+   #gnuhealth {
+      display: block;
+      width: 100%;
+      margin-top: 2.3em;
+   }
+}
+/* === Not necessary with the final version of layout.css === */
+h2 { text-shadow: none; }
+.emph-box p, .emph-box ul, .emph-box ul li {
+   margin-bottom: 0; /* For NetSurf */
+}
+#fsf-frame { display: none; }
+@media (min-width: 57em) {
+   #fsf-frame { display: block; }
+}
+/* ======================= */
+
+#content {
+   margin: 0;
+}
+.first-column, .second-column {
+   width: 40em; max-width: 100%;
+   margin: auto;
 }
 
-#home .first-column {
-   width: 60%;
+h2 {
+   color: #333;
+   margin: 1.2em 0 .9em;
+}
+h2.first {
+   margin-top: 1em;
+}
+#gnu-linux {
+   width: 30em; max-width: 100%;
+   text-align: center;
+   margin: 0 auto 1em;
+}
+#gnu-linux img {
+   width: 100%;
+}
+.button {
+   font-size: 1.8em;
+   text-align: center;
+   font-weight: bold;
+   margin: 1.7em 0;
+}
+.button a, .button a:visited {
+   display: block;
+   padding: .4em .6em;
+   color: #971611;
+   text-decoration: none;
+   background: #e7e9eb;
+   border: .1em solid #c9cccf;
+   border-radius: .3em;
+   -moz-border-radius: .3em;
+   -khtml-border-radius: .3em;
+   -webkit-border-radius: .3em;
+   -opera-border-radius: .3em;
+}
+.button a:hover {
+   color: #777;
+}
+.first-column p.back {
+   margin-bottom: 0;
+}
+
+.second-column .emph-box {
+   padding: 0 1.2em 1.2em;
+   margin-top: 1.5em;
+}
+.second-column .emph-box.white {
+   background: white;
+}
+.second-column .emph-box .back {
+   margin-top: 1em;
+}
+h3 {
+   margin-top: .7em;
+}
+h3 img {
+   height: .8em;
+   margin-left: .5em;
+}
+#blurb h4 {
+   text-align: left;
+   font-size: 1.5em;
+   margin-top: .4em;
+}
+#blurb h4 img {
    float: left;
+   margin-right: .5em;
 }
-#home .second-column {
-   width: 38%;
-   float: right;
+#Flashes p, #unmaint li, #blurb p, #blurb p small {
+   font-size: .9em;
 }
-@media (max-width: 40em) {
-   #home .first-column, #home .second-column {
-      float: none;
+#unmaint li, #blurb p {
+   color: #404040;
+}
+#unmaint strong {
+   display: block;
+   font-size: 1.1em;
+   color: black;
+}
+
+.clear {
+   clear: both;
+   height: 2em;
+}
+.translators-notes {
+   width: 44.4em; max-width: 100%;
+   margin: 0 auto;
+}
+#mission-statement { margin-bottom: 0; }
+#sisters { font-size: .9em; margin: 0 3% 2em; }
+
+@media (min-width: 57em) {
+   .first-column {
+      width: 61%;
+      float: left;
+      margin: 0;
+   }
+   .second-column {
+      width: 33%;
+      float: right;
+      margin: 0;
+   }
+   .translators-notes {
       width: 100%;
    }
 }
-#home .first-column, #home .second-column {
-   margin-bottom: 2em; margin-top: 0;
-}
-
-#home h2 {
-   text-shadow: none;
-   margin-bottom: .6em;
-}
-#home .first-column img { width: 80%; margin: .5em 0 1em 0; }
-#home .second-column h4 img { height: .75em; width: .75em; }
-h4#Flashes { margin-top: .5em; }
-#Action {
-   text-align: left;
-   padding: 0 1em;
-   border-left: .4em solid #b9bcbf; border-right: .4em solid #b9bcbf;
-}
-
-h2#Action {
-   text-align: center;
-}
-#Action h2 {
-   float: none;
-   text-align: center;
-   padding-top: 0;
-   color: #171d33;
-}
-#Action li { margin-bottom: .7em; }
-p#backtotop { float: right; margin-top: 2.5em; }
-#sisters { font-size: .9em; margin: 0 3% 1.5em 3%; }
 -->
 
 </style>
@@ -71,14 +156,14 @@ p#backtotop { float: right; margin-top: 2.5em; }
 <!--#include virtual="/server/fs-gang-definitions.html" -->
 <!--#include virtual="/po/home.translist" -->
 <!--#include virtual="/server/banner.de.html" -->
-<p class="netscape4">GNU ist das einzige Betriebssystem, das eigens entwickelt wurde, um seinen
+<p class="no-display">GNU ist das einzige Betriebssystem, das eigens entwickelt wurde, um seinen
 Nutzern Freiheit zu geben. Was ist GNU, und welche Freiheit steht auf dem
 Spiel?</p>
 
 <div id="home">
 <div class="first-column">
 
-<h2>Was ist GNU?</h2>
+<h2 class="first">Was ist GNU?</h2>
 
 <p><b>GNU</b> ist ein Betriebssystem, das <a href="/philosophy/free-sw">Freie
 Software</a> ist&#160;&#8209;&#160;d.&#160;h. es respektiert die Freiheit
@@ -91,9 +176,13 @@ GNU</a> (genauer <b>GNU/Linux</b>-Distributionen), die ganz und gar
 <em>freie</em> Software sind. <a href="#more-about-gnu">Mehr über
 GNU&#160;…</a></p>
 
-<p class="c"><a href="/distros/screenshot.html"><img
-   src="/distros/screenshots/trisquel-medium.jpg" alt="Bildschirmfoto von GNU"
-   /></a></p>
+<div id="gnu-linux">
+<p class="button large"><a href="/distros/free-distros">GNU/Linux ausprobieren</a></p>
+
+<a href="/distros/screenshot.html"><img
+   src="/distros/screenshots/gnewsense2-medium.jpg"
+   alt="Bildschirmfoto von GNU"/></a>
+</div>
 
 <h2>Was ist die Freie-Software-Bewegung?</h2>
 
@@ -172,36 +261,27 @@ mit Linux begonnen wurde). Da es ein interessantes technisches Projekt ist,
 <ins>wird Hurd nach wie vor von engagierten Freiwilligen
 weiterentwickelt</ins>.</p>
 
-<p><a href="/gnu/">Weitere Informationen&#160;…</a></p>
-
+<p class="back"><a href="/gnu/">Weitere Informationen&#160;…</a></p>
 </div>
 
 <!-- /first-column -->
 <div class="second-column">
 
-<p class="button c large"><a href="/distros/free-distros">GNU/Linux ausprobieren</a></p>
+<a href="http://www.gnuhealthcon.org/2016-las_palmas/"><img id="gnuhealth"
+src="/server/staging/gnuhealth/gnuhealthcon2016_small.jpg" alt="GNUHealth Conference 2016" /></a>
 
-<div class="emph-box">
-
-<h4 id="Flashes"><a href="//planet.gnu.org/">Planet GNU</a> <a
-href="//planet.gnu.org/rss20.xml"><img src="/feed-icon-10x10.png" alt="RSS-Feed" /></a></h4>
+<div id="Flashes" class="emph-box white">
+<h3><a href="//planet.gnu.org/">Planet GNU</a> <a
+href="//planet.gnu.org/rss20.xml"><img src="/feed-icon-10x10.png" alt="RSS-Feed" /></a></h3>
 
 <!--#include virtual="/planetfeeds.de.html" -->
 <p>Weitere Nachrichten unter <em><a href="//planet.gnu.org/">Planet
 GNU</a></em> und <em><a href="/software/recent-releases">Neueste
 Softwarefreigaben</a></em>.</p>
-
-<!--#include virtual="/server/home-pkgselect.html" -->
-<!--#include virtual="/server/home-pkgblurbs.de.html" -->
-<p><small><a href="/manual/blurbs">Kurzinfos zu GNU-Paketen</a>.</small></p>
-
 </div>
 
-<!-- class="emph-box" -->
-<div id="Action">
-
-<!-- BEGIN TakeAction -->
-<h2>Aktiv werden</h2>
+<div id="Action" class="emph-box">
+<h3>Aktiv werden</h3>
 
 <ul>
 <li><strong><a href="//www.fsf.org/campaigns/" title="Current Campaigns, unter:
@@ -223,41 +303,14 @@ Staaten von Amerika">USA</a>.</li>
 href="//www.endsoftpatents.org" title="End Software Patents, unter:
 endsoftpatents.org 2008 ff.">weltweit</a> und in <a
 href="/server/takeaction.html#swpat">Europa</a>.</li>
-
-<li><strong>Dokumentarfilm angucken und teilen:</strong> <a
-href="//patentabsurdity.com" title="Luca Lucarini, Patent Absurdity, unter:
-patentabsurdity.com 2010.">Patent-Absurdität</a><br
-/>&#8209;&#160;ermöglicht durch <a
-href="//www.fsf.org/associate/">außerordentliche FSF-Mitglieder</a> wie <a
-href="//fsf.org/jfb">SIE</a>.</li>
-
-<li><strong><a href="/server/takeaction.html#wipochange"><span
-title="Weltorganisation für geistiges Eigentum">WIPO</span>
-aufrufen</a></strong>, Namen und Mission zu ändern.</li>
-
-<li>Studierende, <a href="//www.aful.org/communiques/univ-offers-me-windows"
-title="Worldwide Campaign: “My University offers me my Microsoft Windows®
-License”">fordert eine Rückerstattung ungenutzter Microsoft
-Windows®-Lizenzen</a>!</li>
-
-<li><a href="/server/takeaction.html#directory">Freie-Software-Verzeichnis
-verbessern</a>.</li>
-
-<li><a href="/server/takeaction">Weitere Aktionen&#160;&#8230;</a></li>
-
 </ul>
 
-<!-- END TakeAction -->
-</div>
-<!-- /Action -->
-</div>
-<!-- /second-column -->
+<p class="back"><a href="/server/takeaction">Weitere Aktionen&#160;&#8230;</a></p>
 </div>
 
-<!-- /home -->
-<div class="highlight-para">
-
-<p><strong>Interesse an einem dieser <a
+<div id="unmaint" class="emph-box">
+<ul>
+<li><strong>Interesse an einem dieser <a
 href="https://www.fsf.org/campaigns/priority-projects/" title="High Priority
 Free Software Projects, unter: fsf.org."
 hreflang="en">Freie-Software-Projekte mit hoher Priorität</a>
@@ -295,9 +348,9 @@ title="Freie-Software-Ersatz für Oracle Forms">Oracle Forms</a>, <a
 href="https://www.fsf.org/campaigns/priority-projects"
 title="Freie-Software-Ersatz für PowerVR">PowerVR</a> oder <a
 href="https://www.fsf.org/campaigns/priority-projects#Replaceskype"
-title="Freie-Software-Ersatz für Skype">Skype</a>.</p>
+title="Freie-Software-Ersatz für Skype">Skype</a>.</li>
 
-<p id="unmaint"><strong>Interesse <a href="/server/takeaction.html#unmaint">ein unbetreutes
+<li><strong>Interesse <a href="/server/takeaction.html#unmaint">ein unbetreutes
 GNU-Paket</a> zu betreuen?</strong><br />
 
   <a href="/software/halifax/">halifax</a>, <a
@@ -309,11 +362,24 @@ mitzubetreuen?</strong><br />
   <a href="/software/aspell/">aspell</a>, <a
 href="/software/gnuae/">gnuae</a>, <a
 href="/software/metaexchange/">metaexchange</a> oder <a
-href="/software/powerguru/">powerguru</a>.<!-- Weitere Informationen siehe die Webseiten der einzelnen Pakete.--></p>
-
+href="/software/powerguru/">powerguru</a>.<!-- Weitere Informationen siehe die Webseiten der einzelnen Pakete.--></li>
+</ul>
 </div>
 
-<!-- /highlight-para -->
+<div id="blurb" class="emph-box white">
+<p>Today's random package&hellip;</p>
+
+<!--#include virtual="/server/home-pkgselect.html" -->
+<!--#include virtual="/server/home-pkgblurbs.de.html" -->
+<p class="back"><small><a href="/manual/blurbs">Kurzinfos zu GNU-Paketen</a></small></p>
+</div>
+
+</div>
+<!-- /second-column -->
+</div>
+<!-- /home -->
+<div class="clear"></div>
+
 <div class="translators-notes">
 
 <!--TRANSLATORS: Use space (SPC) as msgstr if you don't have notes.-->
@@ -399,7 +465,7 @@ href="//savannah.gnu.org/projects/www-de">&lt;www-de&gt;</a>, 2016.</div>
 <p class="unprintable"><!-- timestamp start -->
 Aktualisierung:
 
-$Date: 2016/06/19 08:30:20 $
+$Date: 2016/09/06 09:58:51 $
 
 <!-- timestamp end -->
 </p>
