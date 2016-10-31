@@ -36,42 +36,48 @@ included in all copies or substantial portions of the Software.
 
 /*
 Text
-   black    normal text, hover on #555 and nav-bars
-   white    #navigation
-   #999     light gray: text shadow
+   black    normal text, hover on #555
    #222, #333, #404040, #555: special items
    #777     medium gray: hover special links
-   #334683  blue from GNU banner: h1, h2
-   #005090  greenish blue: normal links
+   white    #navigation, #join-fsf, #fssbox submit:focus
+
+   #004caa  blue: normal links, #fssbox submit
    #100070  purplish blue: normal visited links, normal hover
    blue     #urgent links
-   #171d33  dark blue (from screenshot): #Action h2
-   #971611  red from GNU banner: .button link, #join-fsf
+
+   #a42e2b  red: GNU banner, #outdated, #join-fsf
 
 Backgrounds
-   white    #inner, navbar li.active
-   #f0f2f4  light bluish gray: #translations, .emph-box, #outdated,
-            .listing, #footer, .toc, lyrics
-   #e7e9eb  html
-   #d1d4d7  #edu-navbar, #fsf-links, #searcher
-   #ddd     gray (looks purplish): #gpl-compat-matrix
-   #ccffcc  light green: #gpl-compat-matrix
-   #e4ffcc  light yellowish green: #gpl-compat-matrix
-   #ffc     very pale yellow: .highlight-para, p.highlight
-   #fff898  pale yellow: table headers, .highlight
+   #999     hr
+   #d4d4d4  #fsf-links, #searcher
+   #e4e4e4  html
+   #eee     #edu-navigation, submit, #join-fsf
+   #f3f3f3  .announcement gradient
+   #f5f5f5  #translations, #footer, .emph-box, .summary, .toc, .lyrics,
+            .listing, .announcement
+   white    body, .note, edu-note
+
+   #a42e2b  red: #navigation
+
    #ff3     yellow: #urgent
-   #a42e2b  red (slightly darker than the Gnowsys logo): #navigation
+
+   #fff1c0  light orange: span.highlight, table headers
+   #fff5d4  very light orange: .highlight-para, .highlight
 
 Borders
    black, #111, #333, #666: tables
-   #999     buttons, hr, unfocused inputs
-   #b9bcbf  bluish gray: body, #Action, .highlight-para, .announcement
-   #d1d4d7  bluish gray: #translations, #outdated
-   #3465a4  blue (slightly lighter than GNU banner): edu-cases ridges
-   #6092d0  note
-   #334683  focused inputs
-   #171d33  dark blue: box-shadow behind buttons
-   #6989b6  light blue: border for .big-section h3
+   #bbb     body
+   #ccc     unfocused inputs, footer, #join-fsf
+   #d4d4d4  #translations, #outdated
+   #ddd     emph-box, lyrics
+
+   #3465a4  .edu-cases
+   #4080d0  focused inputs, #fssbox submit
+   #6092d0  .note, edu-note
+
+   #a42e2b  active link in edu-navbar
+   #e74c3c  .big-section h3
+   #fc7     .announcement, .highlight-para
 */
 
 /*** Luminosity contrast ratio and color difference ***
@@ -83,48 +89,35 @@ Black-gray
    #000         white          21.3           765
    #000         #ff3           19.6           561
    #222         white          15.91          663
-   #222         #c9cccf         9.87          510
    #333         white          12.63          612
-   #333         #e7e9eb        10.38          546
-   #333         #c9cccf         7.83          459
-   #404040      #d1d4d7         6.97          444
+   #333         #eee           10.89          561
+   #404040      #d4d4d4         6.99          444
    #555         white           7.46          510
 
 Red
-   #971611      white           8.61          704
-   #971611      #e7e9eb         7.07          638
    #a42e2b      white           6.99          630
-
-Blue from GNU banner
-   #334683      white           8.96          494
-   #334683      #fff898         8.16          384
-   #334683      #e7e9eb         7.36          428
-   #334683      #777            2.0           110
-   #334683      #555            1.20           76
-   #334683      #333            1.41          118
-   #334683      black           2.34          271
 
 Blue (urgent)
    #00f         #ff3            8.02          714
 
 Blue links
-   #005090      white           8.23          461
-   #005090      #e4ffcc         7.64          383
-   #005090      #fff898         7.50          351
-   #005090      #f0f2f4         7.34          422
-   #005090      #ccffcc         7.35          359
-   #005090      #777            1.84          103
-   #005090      #333            1.53          151
-   #005090      black           2.55          304
+   #004caa     white            8.03          443
+   #004caa     #e4ffcc          7.45          365
+   #004caa     #fff1c0          7.11          366
+   #004caa     #f3f3f3          7.24          407
+   #004caa     #ccffcc          7.17          341
+   #004caa     #777             1.79          137
+   #004caa     #333             1.57          169
+   #004caa     black            2.61          322
 
 Purple links
    #100070      white          16.72          653
-   #100070      #fff898        15.23          543
+   #100070      #fff1c0        14.81          576
    #100070      #ccffcc        14.92          551
    #100070      #777            3.73          245
    #100070      #333            1.32          163
    #100070      black           1.26          112
-   #100070      #005090         2.03          112
+   #100070      #004caa         2.08          134
 */
 
 
@@ -152,7 +145,7 @@ html, body {
    text-decoration: none;
    color: #000;
 }
-html { background: #e7e9eb; }
+html { background: #e4e4e4; }
 
 /* This specifies the basic width of our web pages.  Don't change it
    without discussion on www-discuss.  The magic 74.92 is for
@@ -161,13 +154,13 @@ body {
    max-width: 74.92em;
    margin: auto;
    background-color: white;
-   border: .1em solid #b9bcbf;
+   border: .1em solid #bbb;
    border-top: 1px solid transparent;
-   -moz-box-shadow: 0 0 5px 5px #b9bcbf;
-   -webkit-box-shadow: 0 0 5px 5px #b9bcbf;
-   -icab-box-shadow: 0 0 5px 5px #b9bcbf;
-   -o-box-shadow: 0 0 5px 5px #b9bcbf;
-   box-shadow: 0 0 5px 5px #b9bcbf;
+   -moz-box-shadow: 0 0 5px 5px #bbb;
+   -webkit-box-shadow: 0 0 5px 5px #bbb;
+   -icab-box-shadow: 0 0 5px 5px #bbb;
+   -o-box-shadow: 0 0 5px 5px #bbb;
+   box-shadow: 0 0 5px 5px #bbb;
 }
 
 /** Widths **/
@@ -184,18 +177,23 @@ body {
 
 /** Backgrounds **/
 
-#searcher, #edu-navigation, #fsf-links {
-   background-color: #d1d4d7;
+#searcher, #fsf-links {
+   background-color: #d4d4d4;
 }
-#translations, #footer { background-color: #f0f2f4; }
+#translations, #footer { background-color: #f5f5f5; }
+
+#edu-navigation { background-color: #eee; }
 
 #navigation { background-color: #a42e2b; }
 
 /** Fonts **/
 
-#searcher, #toplinks, #translations, #header,
- #navigation, #edu-navigation,
- #fsf-links { font-family: "FreeSans", sans-serif; }
+#translations {
+   font-family: "FreeSans", sans-serif;
+}
+#searcher, #toplinks, #header {
+   font-family: "sans-serif", "FreeSans", sans-serif;
+}
 
 
 /*** BASIC ELEMENTS ***/
@@ -241,17 +239,20 @@ small { font-size: .9em; }
 
 /** Style **/
 
-h1, h2 { color: #334683; text-shadow: #999 1px 1px 0; }
 /* The default color (black) is too dark for large text in
    bold font. */
 h3, h4 { color: #333; }
 h5, h6, dt { color: #222; }
 
-a[href] { color: #005090; }
+a[href] { color: #004caa; }
 a[href]:visited { color: #100070; }
 a[href]:active, a[href]:hover {
    color: #100070;
    text-decoration: none;
+}
+hr {
+   color: #999;
+   background-color: #999;
 }
 
 ul li { list-style: square; }
@@ -288,8 +289,6 @@ hr.separator {
    display: block;
    height: .3em;
    margin-bottom: 1.2em;
-   color: #999;
-   background-color: #999;
    border: none;
 }
 
@@ -300,7 +299,7 @@ form.header input {
    line-height: 1.2em;
    font-family: inherit;
    font-weight: bold;
-   border: .1em solid #c9cccf;
+   border: .1em solid #ccc;
 }
 form.header input[type="text"] {
    padding: .25em;
@@ -310,14 +309,14 @@ form.header input[type="text"] {
 form.header input[type="submit"] {
    padding: .25em;
    color: #333;
-   background: #e7e9eb;
+   background: #eee;
 }
 form.header input[type="text"]:focus {
    color: #333;
-   border: .1em solid #334683;
+   border: .1em solid #4080d0;
 }
 form.header input[type="text"]:focus + input[type="submit"] {
-   border: .1em solid #334683;
+   border: .1em solid #4080d0;
 }
 form.header input[type="submit"]:hover {
    cursor: pointer;
@@ -326,40 +325,29 @@ form.header input[type="submit"]:hover {
 
 /*** BUTTONS ***/
 
-.button a, .button a:visited {
-   color: #971611;
+.button a, #join-fsf a {
+   display: block;
+   line-height: 1.2em;
+   font-weight: bold;
+   text-align: center;
    text-decoration: none;
-}
-.button a:hover {
-   color: #777;
-}
-.small {
-   font-size: 1.6em;
-   background-color: #e7e9eb;
+   padding: .3em .5em;
+/* Color and background are left out because they depend
+   on the environment. */
+   border: .1em solid #999;
 }
 
 
 /*** SPECIAL BORDERS ***/
 
 #searcher input[type="text"], #searcher input[type="submit"],
- #fssbox input[type="text"] {
+ #fssbox input[type="text"], #fssbox input[type="submit"],
+ .button a, #join-fsf a {
    border-radius: .3em;
    -moz-border-radius: .3em;
    -khtml-border-radius: .3em;
    -webkit-border-radius: .3em;
    -opera-border-radius: .3em;
-}
-#join-fsf a, #fssbox input[type="submit"] {
-   box-shadow: 0 .15em #171d33;
-   -moz-box-shadow: 0 .15em #171d33;
-   -webkit-box-shadow: 0 .15em #171d33;
-   -icab-box-shadow: 0 .15em #171d33;
-   -o-box-shadow: 0 .15em #171d33;
-   border-radius: 1em;
-   -moz-border-radius: 1em;
-   -khtml-border-radius: 1em;
-   -webkit-border-radius: 1em;
-   -opera-border-radius: 1em;
 }
 
 
@@ -384,29 +372,36 @@ form.header input[type="submit"]:hover {
 
 /*** BIG SECTION HEADERS ***/
 
-div.big-section {
+/* For browsers that don't support inline-block */
+.big-section {
+   clear: left;
    float: left;
 }
-div.big-section h3 {
-   font-size: 1.8em;
+.big-section h3 {
+   display: inline-block;
+   font-size: 1.7em;
    padding: .2em 0;
-   margin: 1.3em .3em .6em 0 ;
+   margin: 1em .3em .5em 0;
    color: black;
-   border-top: .2em solid #6989b6;
-   border-bottom: .2em solid #6989b6;
+   border-top: .12em solid #e74c3c;
+   border-bottom: .12em solid #e74c3c;
 }
-div.big-subsection {
-   margin-top: 1.3em;
-   margin-bottom: 2em;
+.big-subsection {
+   margin: 1.5em 0;
 }
-div.big-subsection h4 {
-   clear: both;
+.big-subsection h4 {
    display: inline;
    font-size: 1.5em;
    margin-right: .3em;
    color: black;
 }
-
+/* The next two statements adjust line spacing in Netsurf 1.2 */
+.big-subsection {
+   line-height: 2.0em;
+}
+.big-subsection h4 {
+   line-height: 1.2em;
+}
 
 /*** ANCHOR ***/
 
@@ -441,15 +436,15 @@ div.highlight-para, div.emph-box { padding: .2em 1.2em 1.2em; }
 .highlight-para, p.highlight,
  p.emph-box, pre.emph-box { padding: .6em 1.2em; }
 
-.highlight-para, .highlight { background-color: #ffc; }
-span.highlight { background-color: #fff898; }
+.highlight-para, .highlight { background-color: #fff5d4; }
+span.highlight { background-color: #fff1c0; }
 .highlight-para {
-   border-top: .1em solid #b9bcbf;
-   border-bottom: .1em solid #b9bcbf;
+   border-top: .1em solid #fc7;
+   border-bottom: .1em solid #fc7;
 }
 .emph-box, .lyrics {
-   background-color: #f0f2f4;
-   border: .1em solid #c9cccf;
+   background-color: #f5f5f5;
+   border: .1em solid #ddd;
 }
 .lyrics {
    max-width: 25em;
@@ -468,9 +463,9 @@ span.highlight { background-color: #fff898; }
    padding: .1em 1em .7em;
    margin: 1.5em 0;
    color: #333;
-   border-left: .3em solid #b9bcbf;
-   background: #f4f6f8;
-   background: linear-gradient(to right, #f0f2f4, white); 
+   border-left: .3em solid #fc7;
+   background: #f5f5f5;
+   background: linear-gradient(to right, #f3f3f3, white); 
 }
 /* Currently, announcements contain <p>, <ul>, and <h3>, with p or
    ul as last element. Try to make them NetSurf-friendly. */
@@ -513,22 +508,18 @@ blockquote#fsfs p { padding: .3em 0; }
    margin-top: 1.2em;
 }
 .trans-disclaimer a,
-.trans-disclaimer a:visited { color: #005090; }
+ .trans-disclaimer a:visited { color: #333; }
 .trans-disclaimer a:hover { color: #777; }
 
 /* For outdated translations  */
 #outdated {
    text-align: center;
-   padding: .7em 3%;
-   margin: .3em -3.2%;
-   background-color: #f0f2f4;
-   border-bottom: .2em solid #d1d4d7;
+   padding: .4em 0;
+   margin: .8em 0;
+   color: #a42e2b;
+   border-bottom: .2em solid #d4d4d4;
 }
-#outdated p {
-   margin: 0.2em 0;
-}
-#outdated a:visited { color: #005090; }
-#outdated a:hover { color: #777; }
+#outdated p { margin: .2em 0; }
 
 /* For translators notes */
 .translators-notes {
@@ -563,20 +554,6 @@ blockquote#fsfs p { padding: .3em 0; }
    }
 }
 
-/* Single <p> */
-.edu-note p {
-   font-style: italic;
-   padding: .8em 1em;
-   margin: 0;
-   border: .15em dotted #6092d0;
-}
-@media (min-width: 0) {
-   .edu-note {
-      width: 40em;
-      max-width: 100%;
-   }
-}
-
 /* Several <p>'s */
 .note {
    padding: .4em 3%;
@@ -600,7 +577,7 @@ blockquote#fsfs p { padding: .3em 0; }
 .summary, .toc {
    padding: 1em 3% 1.7em;
    margin: 2.5em auto 1.5em;
-   background: #f0f2f4;
+   background: #f5f5f5;
 }
 .summary ul, .toc ul {
    margin: 0 1.5%;
@@ -701,7 +678,7 @@ blockquote#fsfs p { padding: .3em 0; }
 
 .listing th,
 .stx table th {
-   background: #fff898;
+   background: #fff1c0;
    color: black;
    font-weight: bold
    border: 1px solid #666666;
@@ -721,7 +698,7 @@ blockquote#fsfs p { padding: .3em 0; }
    background-color: transparent;
 }
 .listing .even {
-   background-color: #f0f2f4;
+   background-color: #f5f5f5;
 }
 .listing .listingCheckbox {
    text-align: center;
@@ -786,7 +763,7 @@ blockquote#fsfs p { padding: .3em 0; }
    clear: both;
    font-size: .9em;
    text-align: left;
-   border-bottom: .2em solid #d1d4d7;
+   border-bottom: .2em solid #d4d4d4;
 }
 #translations p {
    line-height: 1.2em;
@@ -807,7 +784,7 @@ blockquote#fsfs p { padding: .3em 0; }
 }
 #translations span.original a,
 #translations span.original a:visited {
-   color: #334683;
+   color: #004caa;
 }
 #translations a:hover,
 #translations span.original a:hover {
@@ -815,82 +792,92 @@ blockquote#fsfs p { padding: .3em 0; }
 }
 
 
+/*** HEADER ***/
+
+#header a { text-decoration: none; }
+
 /** FSF frame **/
+
+#fssbox, #join-fsf { display: none; }
 
 #fsf-frame {
    float: right;
    font-size: .9em;
    text-align: center;
    line-height: 1.3em;
-   width: auto;
-   padding: 0;
-   margin: 1em 0;
+   margin: .8em 0;
 }
-#fsf-frame a, #fsf-frame a:visited {
-   font-size: 1.1em;
-   font-weight: bold;
-   text-decoration: none;
-}
-#fsf-frame p { padding: 0; margin: 0; }
-#fsf-frame hr { display: none; }
+#fsf-frame p { margin: 0; }
 
-#join-fsf {
-   padding: .4em 0;
-}
 #join-fsf a, #join-fsf a:visited {
-   padding: .3em 1em;
-   color: #971611;
-   background: #e7e9eb;
+   display: inline-block;
+   color: #a42e2b;
+   background: #eee;
 }
 
 #fssbox {
    padding: 0;
-   margin-top: 1.3em;
+   margin-top: 1em;
 }
 #fssbox a, #fssbox a:visited {
-   color: #334683;
+   font-weight: bold;
+   color: #004caa;
 }
 #fssbox form p { margin-top: .2em; }
-#fssbox input {
-   font-weight: bold;
+
+#fssbox form input[type="submit"] {
+   color: #004caa;
+   border-color: #4080d0;
+}
+#fssbox form input[type="text"]:focus + input[type="submit"] {
+   background: white;
 }
 #fsf-frame a:hover { color: #777; }
-
 
 /** GNU banner **/
 
 #gnu-banner {
-   font-size: 1.8em;
-   font-weight: bold;
-   line-height: 1.3em;
-   padding-top: 1.1em;
+   font-size: 2em;
+   font-family: "FreeSans", sans-serif;
+   line-height: 1.2em;
+   text-align: center;
+   padding: .3em 0 .7em;
 }
 #gnu-banner img {
-   float: left;
-   height: 2.4em;
-   margin: 0 .15em;
-   position: relative; bottom: .4em;
+   height: 1.7em;
+   vertical-align: bottom;
+   position: relative; top: .15em;
+   margin-right: .15em;
 }
-#gnu-banner a {
-   color: #334683; text-decoration: none;
-}
-#gnu-banner a strong {
-   font-size: 1.4em;
-   color: #971611;
-}
+#gnu-banner a { color: #333; }
+#gnu-banner a strong { color: #a42e2b; }
+
+/* FSF support */
+#fsf-support { display: none; }
+
 #fsf-support {
-   font-size: .9em;
-   font-weight: bold;
+   font-size: .45em;
    font-style: italic;
-   padding: .5em 0;
-   margin: 0;
+   margin: .7em 0 0;
    color: #555;
 }
-#fsf-support a, #fsf-support a:visited { color: #555; }
-#fsf-support a:hover { color: black; }
+#fsf-support a, #fsf-support a:visited {
+   font-weight: bold;
+   color: #555;
+   text-decoration: underline;
+}
+#fsf-support a:hover {
+   color: black;
+   text-decoration: none;
+}
 
-@media (max-width: 40em) {
-   #gnu-banner { clear: both }
+@media (min-width: 40em) {
+   #fsf-support { display: block; }
+   #gnu-banner { padding-bottom: .5em; }
+}
+@media (min-width: 60em) {
+   #gnu-banner { float: left; }
+   #fssbox, #join-fsf { display: block; }
 }
 
 
@@ -920,7 +907,7 @@ blockquote#fsfs p { padding: .3em 0; }
 
 /* Mock border to avoid size change when a link becomes active */
 #navigation li { border-bottom: .15em solid #a42e2b; }
-ul#edu-navigation li { border-bottom: .15em solid #d1d4d7; }
+ul#edu-navigation li { border-bottom: .15em solid #eee; }
 #fsf-links li { padding-bottom: .15em; }
 
  /* For Firefox (can't set line-height when "a" is displayed inline) */
@@ -979,7 +966,7 @@ ul#edu-navigation li.active,
    font-size: .9em;
    padding-top: 1.5em; padding-bottom: 1.5em;
    color: #333;
-   border-top: 1px solid #c9cccf;
+   border-top: 1px solid #ccc;
 }
 #footer p, #bottom-notes { margin: 0; }
 
@@ -1002,7 +989,7 @@ ul#edu-navigation li.active,
 }
 .edu-breadcrumb a,
 .edu-breadcrumb a:visited {
-   color: #334683;
+   color: #004caa;
    text-decoration: none;
 }
 .edu-breadcrumb a:hover {

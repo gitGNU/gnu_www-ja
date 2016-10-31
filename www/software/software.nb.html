@@ -1,10 +1,9 @@
 <!--#set var="PO_FILE"
  value='<a href="/software/po/software.nb.po">
- http://www.gnu.org/software/po/software.nb.po</a>'
+ https://www.gnu.org/software/po/software.nb.po</a>'
  --><!--#set var="ORIGINAL_FILE" value="/software/software.html"
  --><!--#set var="DIFF_FILE" value=""
  --><!--#set var="OUTDATED_SINCE" value="2007-12-10" -->
-<!--#set var="ENGLISH_PAGE" value="/software/software.en.html" -->
 
 <!--#include virtual="/server/header.nb.html" -->
 <!-- Parent-Version: 1.77 -->
@@ -14,39 +13,59 @@
 
 <!--#include virtual="/software/po/software.translist" -->
 <style type="text/css" media="print,screen">
-#dynamic-duo {
-   float: right;
-   width: 24em;
-   font-style: normal;
-   text-align: center;
-   padding: .8em;
-   margin: .3em 1em 1em 1em;
-   border: .5em solid #acc890;
+<!--
+div.package-list {
+   padding: 1em 1.5em;
+   margin: 1.5em 0;
 }
-#dynamic-duo p strong {
-   font-size: 1.3em;
+div.package-list a, div.package-list a:visited {
+   display: inline-block;
+   width: 9em;
+   line-height: 1.5em;
+   text-decoration: none;
 }
-#dynamic-duo img { width: 100%; }
-#dynamic-duo p.highlight-para {
-   text-align: center;
-   padding: .5em .8em .7em .8em;
-   margin: .5em;
-   border-width: 1px;
+#dynamic-duo { display: none; }
+@media (min-width: 48em) {
+   #dynamic-duo {
+      display: block;
+      float: right;
+      width: 20em;
+      max-width: 40%;
+      text-align: center;
+      padding: .9em;
+      margin: .3em 0 1em 1.5em;
+      background: #f9f9f9;
+      border: .3em solid #acc890;
+   }
+   #dynamic-duo p strong {
+      font-size: 1.3em;
+   }
+   #dynamic-duo img { width: 100%; }
 }
+-->
+<!--#if expr="$LANGUAGE_SUFFIX = /[.](ar|fa|he)/" -->
+<!--
+div.package-list {
+   direction: ltr;
+   text-align: left;
+}
+@media (min-width: 48em) {
+   #dynamic-duo {
+      float: left;
+      margin: .3em 1.5em 1em 0;
+   }
+} -->
+<!--#endif -->
+
+
+
+
 </style>
 
 <!--#include virtual="/server/fs-gang-definitions.html" -->
 <!--#include virtual="/server/banner.nb.html" -->
 <!--#include virtual="/server/outdated.nb.html" -->
 <h2>GNU-Programvare</h2>
-
-<blockquote id="dynamic-duo">
-<p><a href="/distros/free-distros.html">
-<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="GNU og Linux" /></a></p>
-<p class="highlight-para"><strong style="align: center">Last ned en <a
-href="/distros/free-distros.html">helt fri GNU/Linux-distribusjon.</a></strong>
-</p>
-</blockquote>
 
 <p>For å lete etter fri programvare-pakker, både GNU-pakker og ikke-GNU-pakker,
 kan du bruke <a href="http://directory.fsf.org/">katalogen over fri
@@ -61,8 +80,16 @@ href="http://directory.fsf.org/wiki/GNU/">alle GNU-pakker</a>.</p>
 fri programvare for Microsoft Windows</a>, for de Windows-brukerne som er
 nyskjerrige på fri programvare.</p>
 
-
+<div style="clear:both"></div>
 <h3 id="getgnu">Hvordan få tak i GNU-programvare</h3>
+
+<div id="dynamic-duo">
+<p></p>
+<p><a href="/distros/free-distros.html">
+<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="GNU og Linux" /></a></p>
+<p><em>Last ned en <a href="/distros/free-distros.html">helt fri
+GNU/Linux-distribusjon</a>.</em></p>
+</div>
 
 <p>GNU-programvare er tilgjengelig gjennom en rekke forskjellige metoder:</p>
 
@@ -80,16 +107,12 @@ til alt av GNU-programvare er tilgjengelig via FTP, helt gratis. (Vennligst
 <a href="/help/donate.html">donér</a> til FSF, dersom du har mulighet til
 det, for å hjelpe oss å fremme fri programvare.) </li>
 
-
-
-
 <li>Få tak i utviklingskildekoden til en pakke og bygg den.  Gjennom å gjøre
 dette kan du prøve ut de aller siste forbedringene.  Mange GNU-pakker har
 utviklingskildekoden på <a
 href="http://savannah.gnu.org/">savannah.gnu.org</a>. Noen pakker bruker
 andre kilderepositorier; pakkenes egne vevsider burde fortelle hvor
 repositoriet er.</li>
-
 </ul>
 
 
@@ -109,13 +132,16 @@ du muligens være interesert i <a href="/software/devel.html">GNUs ressurser
 for utviklere</a>.</p>
 
 
-
+<div style="clear:both"></div>
 <h3><a id="allgnupkgs">Alle GNU-pakker</a></h3>
+
+<div class="package-list emph-box">
 
 <!-- regenerate when official list changes, via
        gm generate packages html  (or see the Makefile)
      in the womb/gnumaint CVS source directory on savannah.  -->
 <!--#include virtual="/software/allgnupkgs.html" -->
+</div>
 
 <p>En del GNU-pakker er ikke lenger i bruk, stort sett fordi de er blitt
 overlappet, av eller integrert, i andre pakker.  Deres vevsider eksisterer
@@ -154,9 +180,9 @@ href="octal/">octal</a>, p2c, <a href="packaging/">packaging</a>, <a
 href="patchwork/">patchwork</a>, <a href="phpgroupware/">phpgroupware</a>,
 <a href="pips/">pips</a>, <a href="poc/">poc</a>, <a
 href="proto/">proto</a>, <a href="radar/">radar</a>, <a href="rat/">rat</a>,
-<a href="regex/">regex</a>, <a href="rpge/">rpge</a>, <a
-href="snakecharmer/">snakecharmer</a>, <a href="songanizer/">songanizer</a>,
-<a href="sourceinstall/">sourceinstall</a>, sovix, <a
+<a href="regex/">regex</a>, <a href="snakecharmer/">snakecharmer</a>, <a
+href="songanizer/">songanizer</a>, <a
+href="sourceinstall/">sourceinstall</a>, sovix, <a
 href="sweater/">sweater</a>, <a href="sxml/">sxml</a>, <a
 href="toutdoux/">toutdoux</a>, <a href="vmslib/">vmslib</a>, <a
 href="webpublish/">webpublish</a>, <a href="xbase/">xbase</a>, <a
@@ -178,8 +204,8 @@ href="zebra/">zebra</a>.
 
 <p>Vennligst send forespørsler om FSF &amp; GNU til <a
 href="mailto:gnu@gnu.org">&lt;gnu@gnu.org&gt;</a>.  Det er også <a
-href="/contact/">andre måter å kontakt</a> FSF på. Vennligst send
-brukne lenker (eller andre råd) til <a
+href="/contact/">andre måter å kontakt</a> FSF på. Vennligst send brukne
+lenker (eller andre råd) til <a
 href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a>.</p>
 
 <p>
@@ -198,28 +224,28 @@ href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a>.</p>
         href="/server/standards/README.translations.html">Translations
         README</a>. -->
 Vennligst se <a
-href="/server/standards/README.translations.html"> Translations README</a>
-for informasjon om koordinering og innsendelse av oversettelser av
-denne siden.</p>
+href="/server/standards/README.translations.html">Translations README</a>
+for informasjon om koordinering og innsendelse  av oversettelser av denne
+siden.</p>
 </div>
 
 <!-- Regarding copyright, in general, standalone pages (as opposed to
      files generated as part of manuals) on the GNU web server should
-     be under CC BY-ND 3.0 US.  Please do NOT change or remove this
+     be under CC BY-ND 4.0.  Please do NOT change or remove this
      without talking with the webmasters or licensing team first.
      Please make sure the copyright date is consistent with the
      document.  For web pages, it is ok to list just the latest year the
      document was modified, or published.
-     
+
      If you wish to list earlier years, that is ok too.
      Either "2001, 2002, 2003" or "2001-2003" are ok for specifying
      years, as long as each year in the range is in fact a copyrightable
      year, i.e., a year in which the document was published (including
      being publicly visible on the web or in a revision control system).
-     
+
      There is more detail about copyright years in the GNU Maintainers
      Information document, www.gnu.org/prep/maintain. -->
-<p>Copyright &copy; 2007 Free Software Foundation, Inc.</p>
+<p>Hva er Free Software Foundation?</p>
 
 <p>Denne siden er lisensiert under en <a rel="license"
 href="http://creativecommons.org/licenses/by-nd/3.0/us/deed.no">Creative
@@ -229,12 +255,12 @@ Commons Navngivelse-IngenBearbeidelse 3.0 USA lisens</a>.</p>
 <div class="translators-credits">
 
 <!--TRANSLATORS: Use space (SPC) as msgstr if you don't want credits.-->
-Translation: Andreas Tolfsen &lt;ato&#64;online.no&gt;, 2007</div>
+Oversettelse: Andreas Tolfsen &lt;ato&#64;online.no&gt;, 2007</div>
 
 <p class="unprintable"><!-- timestamp start -->
 Oppdatert:
 
-$Date: 2015/04/29 11:27:32 $
+$Date: 2016/10/01 14:09:48 $
 
 <!-- timestamp end -->
 </p>

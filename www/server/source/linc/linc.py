@@ -20,7 +20,7 @@
 
 from __future__ import print_function
 
-LINC_VERSION = 'LINC 0.26'
+LINC_VERSION = 'LINC 0.28'
 USAGE = \
 '''Usage: %prog [options] [BASE_DIRECTORY]
 Check links in HTML files from BASE_DIRECTORY.'''
@@ -82,6 +82,9 @@ LOCAL = False
 # Don't process symlinks.
 NO_SYMLINKS = False
 
+# Ignore cookies.
+NO_COOKIES = True
+
 CACHE = None
 
 # Matching directories will not be entered to check their
@@ -117,6 +120,8 @@ EOH_MARK = '\r\n\r\n'
 REFRESH_REGEXP = '''(?is)^\s*<meta\s[^>]*http-equiv=['"]refresh['"]'''
 REFRESH_URL = \
 '''(?is)^\s*<meta\s.*content=['"]\s*0[;,][^'">].*url=(?P<new_location>[^>"']+)['"]'''
+
+COOKIE_REGEXP = '''(?is)\r\n\s*Set-Cookie:\s(?P<name>[^=]*)=(?P<value>[^;]*);(?P<rest>.*)'''
 # Don't report against commented out link to README.translations.html
 LINK_TO_SKIP = '/server/standards/README.translations.html'
 
@@ -139,6 +144,7 @@ from optparse import OptionParser
 symlinks = {}
 remote_site_root = None
 remote_base_directory = None
+cookies = {}
 
 def report(level, msg):
 	if VERBOSE > level:
@@ -172,6 +178,28 @@ def get_ftp_link_error(link):
 
 	socketfd.close()
 	return None
+
+def cookie_header ():
+	if len (cookies) == 0:
+		return ''
+	ret = 'Cookie:'
+	for i in cookies:
+		ret += ' ' + i + '=' + cookies[i] + ';'
+	return ret + '\r\n'
+
+def clear_cookies ():
+	global cookies
+	cookies = {}
+
+def set_cookies (header):
+	if NO_COOKIES:
+		return
+        h = header
+	match = re.search(COOKIE_REGEXP, h)
+	while match:
+		cookies[match.group('name')] = match.group('value')
+		h = match.group('rest')
+		match = re.search(COOKIE_REGEXP, h)
 
 # forwarded_from is either None or a list
 def get_http_link_error(link, link_type, forwarded_from = None):
@@ -226,7 +254,8 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 		resource = '/'
 
 	req = 'GET ' + resource + ' HTTP/1.1\r\nHost: ' \
-	      + hostname + '\r\n'  + ADDITIONAL_HTTP_HEADERS + '\r\n'
+	      + hostname + '\r\n'  + ADDITIONAL_HTTP_HEADERS \
+	      + cookie_header () + '\r\n'
 	socketfd.send (req.encode('iso-8859-1'))
 
 	webpage = socket_read (socketfd)
@@ -243,8 +272,10 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 		report(1, '- - - - -')
 		return 'couldn\'t find end of ' \
                        + 'headers (possibly no content in file)'
+	site = None
 	match = re.search ('(?P<site>^[^/]*//[^/]+/)', link)
-	site = match.group('site')
+	if (match != None):
+		site = match.group('site')
 	header = webpage[:end_of_headers]
 	page = webpage[end_of_headers + len(EOH_MARK):]
 	verb_level = 5
@@ -258,6 +289,7 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 	if match:
 		http_error_code = match.group('http_error_code')
 		return 'http error ' + http_error_code + ' returned by server'
+        set_cookies (header)
 
 	match = re.search (HTTP_FORWARD_HEADER, header)
 	if not match:
@@ -603,6 +635,8 @@ parser.add_option('-f', '--forwards', dest = 'forwards', type = 'int',
 			 + str(FORWARDS_TO_FOLLOW) + ']')
 parser.add_option('-g', '--good', dest = 'good', action = 'count',
 		  help = "be more good")
+parser.add_option('-i', '--cookie', dest = 'cookies', action = 'store_true',
+		  help = "enable cookies")
 parser.add_option('-l', '--local', dest = 'local', action = 'store_true',
 		  default = False,
 		  help = "don't download files, assume no error")
@@ -691,6 +725,8 @@ if options.local != None:
 	LOCAL = options.local
 if options.no_symlinks != None:
 	NO_SYMLINKS = options.no_symlinks
+if options.cookies != None:
+	NO_COOKIES = False
 CACHE = options.cache
 
 base_directory = BASE_DIRECTORY
@@ -723,6 +759,7 @@ report(0, "Excluded files:       `" + EXCLUDED_FILENAMES_REGEXP + "'")
 report(0, "Excluded directories: `" + EXCLUDED_DIRECTORIES_REGEXP + "'")
 report(0, "Run locally:           " + str(LOCAL))
 report(0, "Skip .symlinks:        " + str(NO_SYMLINKS))
+report(0, "Ignore cookies:        " + str(NO_COOKIES))
 report(0, "Verbosity:             " + str(VERBOSE))
 report(0, "Wickedness:            " + str(WICKED))
 
@@ -776,6 +813,7 @@ for j in range (NUMBER_OF_ATTEMPTS):
 		elif link_type == 'ftp':
 			link_error = get_ftp_link_error(url)
 		elif link_type == 'http' or link_type == 'https':
+			clear_cookies ()
 			link_error = get_http_link_error(url, link_type)
 		else:
 			report(1, 'Unexpected link type `' + link_type + "' found.")

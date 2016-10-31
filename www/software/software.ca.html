@@ -1,9 +1,4 @@
-<!--#set var="PO_FILE"
- value='<a href="/software/po/software.ca.po">
- https://www.gnu.org/software/po/software.ca.po</a>'
- --><!--#set var="ORIGINAL_FILE" value="/software/software.html"
- --><!--#set var="DIFF_FILE" value="/software/po/software.ca-diff.html"
- --><!--#set var="OUTDATED_SINCE" value="2016-05-02" -->
+<!--#set var="ENGLISH_PAGE" value="/software/software.en.html" -->
 
 <!--#include virtual="/server/header.ca.html" -->
 <!-- Parent-Version: 1.77 -->
@@ -13,41 +8,73 @@
 
 <!--#include virtual="/software/po/software.translist" -->
 <style type="text/css" media="print,screen">
-#dynamic-duo {
-   float: right;
-   width: 24em;
-   font-style: normal;
-   text-align: center;
-   padding: .8em;
-   margin: .3em 1em 1em 1em;
-   border: .5em solid #acc890;
+<!--
+div.package-list {
+   padding: 1em 1.5em;
+   margin: 1.5em 0;
 }
-#dynamic-duo p strong {
-   font-size: 1.3em;
+div.package-list a, div.package-list a:visited {
+   display: inline-block;
+   width: 9em;
+   line-height: 1.5em;
+   text-decoration: none;
 }
-#dynamic-duo img { width: 100%; }
-#dynamic-duo p.highlight-para {
+#dynamic-duo { display: none; }
+@media (min-width: 48em) {
+   #dynamic-duo {
+      display: block;
+      float: right;
+      width: 20em;
+      max-width: 40%;
+      text-align: center;
+      padding: .9em;
+      margin: .3em 0 1em 1.5em;
+      background: #f9f9f9;
+      border: .3em solid #acc890;
+   }
+   #dynamic-duo p strong {
+      font-size: 1.3em;
+   }
+   #dynamic-duo img { width: 100%; }
+}
+-->
+<!--#if expr="$LANGUAGE_SUFFIX = /[.](ar|fa|he)/" -->
+<!--
+div.package-list {
+   direction: ltr;
    text-align: left;
-   padding: .5em .8em .7em .8em;
-   margin: .5em;
-   border-width: 1px;
 }
+@media (min-width: 48em) {
+   #dynamic-duo {
+      float: left;
+      margin: .3em 1.5em 1em 0;
+   }
+} -->
+<!--#endif -->
+
+
+
+
 </style>
 
 <!--#include virtual="/server/fs-gang-definitions.html" -->
 <!--#include virtual="/server/banner.ca.html" -->
-<!--#include virtual="/server/outdated.ca.html" -->
 <h2>Programari GNU</h2>
 
-<blockquote id="dynamic-duo">
-<p><strong>Descarregar distribucions</strong></p>
-<p><a href="/links/links.html#FreeGNULinuxDistributions">
-<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="GNU i Linux" /></a></p>
-<p class="highlight-para">Si esteu buscant un sistema complet per instal·lar, vegeu la nostra <a
-href="/distros/free-distros.html">llista de distribucions GNU/Linux
-completament lliures</a>.</p>
-</blockquote>
-
+<div class="summary">
+<hr class="no-display" />
+<ul>
+  <li><strong><a href="/distros/free-distros.html">Distribucions GNU/Linux
+completament lliures</a></strong></li>
+  <li><a href="/distros/distros.html">Distribucions GNU/Linux</a></li>
+  <li><a href="http://directory.fsf.org/wiki/GNU/">Directori de programari
+lliure</a></li>
+  <li><a href="/manual/manual.html">Manuals</a></li>
+  <li><a href="/software/devel.html">Recursos de desenvolupament</a></li>
+  <li><a href="/software/gethelp.html">Obtenir ajuda</a></li>
+</ul>
+<hr class="no-display" />
+</div>
 <p><a href="/gnu/about-gnu.html">GNU</a> és un sistema operatiu cent per cent
 lliure. Va ser publicat el 1983 per Richard Stallman (rms) i ha seguit sent
 desenvolupat per moltes persones treballant conjuntament amb l'objectiu de
@@ -56,10 +83,10 @@ activitat. Tècnicament, GNU és en general semblant a Unix. Però a diferència
 d'Unix, GNU dóna als seus usuaris llibertat.</p>
 
 <p>El sistema GNU conté tots els <a
-href="/philosophy/categories.html#GNUsoftware">paquets oficials de
-GNU</a> (en trobareu una llista a sota), i també inclou programari lliure
-que no és de GNU, com ara Tex i el sistema X Window. El sistema GNU no és un
-paquet estàtic de programes; els usuaris i distribuïdors poden seleccionar
+href="/philosophy/categories.html#GNUsoftware">paquets oficials de GNU</a>
+(en trobareu una llista a sota), i també inclou programari lliure que no és
+de GNU, com ara Tex i el sistema X Window. El sistema GNU no és un paquet
+estàtic de programes; els usuaris i distribuïdors poden seleccionar
 diferents programes segons les seves necessitats i desitjos. El resultat és
 encara una variant del sistema GNU.</p>
 
@@ -75,8 +102,8 @@ manté activament aquest directori i hi inclou enllaços als webs dels
 programes si estan disponibles, a més d'entrades per a <a
 href="http://directory.fsf.org/wiki/GNU/">tots els paquets de GNU</a>. A
 sota trobareu una altra llista de <a href="#allgnupkgs">tots els paquets de
-GNU</a>. En una llista apart trobareu <a href="/doc/doc.html">enllaços a
-la documentació del programari lliure</a>.</p>
+GNU</a>. En una llista apart trobareu <a href="/doc/doc.html">enllaços a la
+documentació del programari lliure</a>.</p>
 
 <p>Finalment, tenim una <a href="/software/for-windows.html">breu llista de
 Programari Lliure per a Microsoft Windows</a>, per als usuaris de Windows
@@ -86,14 +113,23 @@ que vulguin provar el programari lliure.</p>
 href="/software/free-software-for-education.html">llista de programari
 educatiu recomanat</a>.</p>
 
-
+<div style="clear:both"></div>
 <h3 id="getgnu">Com obtenir programari GNU</h3>
+
+<div id="dynamic-duo">
+<p><strong>Descarregar distribucions</strong></p>
+<p><a href="/links/links.html#FreeGNULinuxDistributions">
+<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="GNU i Linux" /></a></p>
+<p><em>Si esteu buscant un sistema complet per instal·lar, vegeu la nostra <a
+href="/distros/free-distros.html">llista de distribucions GNU/Linux
+completament lliures</a>.</em></p>
+</div>
 
 <p>El programari GNU es pot aconseguir de diferents formes:</p>
 
 <ul>
-<li>Descarregueu una <a href="/distros/free-distros.html">distribució
-GNU/Linux completament lliure</a>.</li>
+<li>Descarregueu una <a href="/distros/free-distros.html">distribució GNU/Linux
+completament lliure</a>.</li>
 
 <li>Demanant una còpia a un amic.</li>
 
@@ -139,8 +175,7 @@ href="http://www.fsf.org/campaigns/priority.html">projectes de programari
 lliure d'alta prioritat</a>. Si us plau, participeu en aquests projectes si
 podeu. Per saber altres formes de col·laborar amb GNU, incloent-hi fer-se
 càrrec del manteniment d'un paquet GNU i ajudar en el seu desenvolupament,
-vegeu la pàgina de <a href="/help/help.html">peticions d'ajuda de
-GNU</a>.</p>
+vegeu la pàgina de <a href="/help/help.html">peticions d'ajuda de GNU</a>.</p>
 
 <p>Si esteu escrivint un programa nou i us agradaria convertir-lo en un paquet
 oficial de GNU, vegeu <a href="/help/evaluation.html">la informació sobre
@@ -156,13 +191,13 @@ href="/software/devel.html">recursos per al desenvolupador de programari
 GNU</a>.</p>
 
 
-
+<div style="clear:both"></div>
 <h3><a id="allgnupkgs">Tots els paquets de GNU</a></h3>
 
 <p>Aquí teniu una llista ordenada alfabèticament de tots els paquets de GNU,
 que anomenem amb els seus identificadors en lloc dels seus noms llargs per
-fer-la més breu. Si teniu correccions o preguntes sobre aquesta llista,
-escriviu si us plau a <a
+fer-la més breu. Estan ordenats alfabèticament d'esquerra a dreta. Si teniu
+correccions o preguntes sobre aquesta llista, escriviu si us plau a <a
 href="mailto:maintainers@gnu.org">&lt;maintainers@gnu.org&gt;</a>.</p>
 
 <p>També hi ha disponibles llistes de:</p>
@@ -176,10 +211,14 @@ GNU</a>;</li>
 <li><a href="/software/recent-releases.html">publicacions recents de GNU</a>.</li>
 </ul>
 
+<div class="package-list emph-box">
+
 <!-- regenerate when official list changes, via
        gm generate packages html  (or see the Makefile)
      in the womb/gnumaint CVS source directory on savannah.  -->
 <!--#include virtual="/software/allgnupkgs.html" -->
+</div>
+
 <h3>Paquets de GNU descatalogats</h3>
 
 <p>De tant en tant es retiren alguns paquets de GNU, generalment perquè s'han
@@ -298,13 +337,13 @@ Commons Reconeixement-SenseObraDerivada 4.0 Internacional</a>.</p>
 <div class="translators-credits">
 
 <!--TRANSLATORS: Use space (SPC) as msgstr if you don't want credits.-->
-Darrera actualització: <a href="http://www.puigpe.org/">puigpe</a>, 1
-d'abril de 2014.</div>
+Darrera actualització: <a href="http://www.puigpe.org/">puigpe</a>, 18 de
+setembre de 2016.</div>
 
 <p class="unprintable"><!-- timestamp start -->
 Updated:
 
-$Date: 2016/07/11 08:35:15 $
+$Date: 2016/09/29 13:59:10 $
 
 <!-- timestamp end -->
 </p>

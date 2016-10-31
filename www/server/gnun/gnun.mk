@@ -36,14 +36,12 @@ sitemap := server/sitemap
 # List of templates whose URLs are localized, but their "translations"
 # are maintained without PO files.
 localized-ssis :=	server/header server/head-include-1 \
-			server/head-include-2 server/banner \
+			server/banner \
 			server/html5-header server/html5-head-include-1 \
-			server/body-include-1 server/body-include-2 \
 			server/footer server/generic
 
 # List of mandatory templates (all %.$lang.po files are generated).
-extra-templates :=	philosophy/philosophy-menu \
-			server/body-include-1 \
+extra-templates :=	server/body-include-1 \
 			server/body-include-2 \
 			server/bottom-notes \
 			server/footer-text \
@@ -56,6 +54,7 @@ extra-templates :=	philosophy/philosophy-menu \
 optional-templates :=	education/education-menu \
 			licenses/fsf-licensing \
 			manual/allgnupkgs \
+			philosophy/philosophy-menu \
 			planetfeeds \
 			server/fs-gang \
 			server/home-pkgblurbs \
@@ -151,7 +150,8 @@ distros :=	common-distros \
 		free-non-gnu-distros \
 		free-system-distribution-guidelines \
 		optionally-free-not-enough \
-		screenshot
+		screenshot \
+		screenshot-gnewsense
 
 doc :=	doc \
 	other-free-books

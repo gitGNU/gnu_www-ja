@@ -1,10 +1,9 @@
 <!--#set var="PO_FILE"
  value='<a href="/software/po/software.sk.po">
- http://www.gnu.org/software/po/software.sk.po</a>'
+ https://www.gnu.org/software/po/software.sk.po</a>'
  --><!--#set var="ORIGINAL_FILE" value="/software/software.html"
  --><!--#set var="DIFF_FILE" value=""
  --><!--#set var="OUTDATED_SINCE" value="2011-08-06" -->
-<!--#set var="ENGLISH_PAGE" value="/software/software.en.html" -->
 
 <!--#include virtual="/server/header.sk.html" -->
 <!-- Parent-Version: 1.77 -->
@@ -14,40 +13,59 @@
 
 <!--#include virtual="/software/po/software.translist" -->
 <style type="text/css" media="print,screen">
-#dynamic-duo {
-   float: right;
-   width: 24em;
-   font-style: normal;
-   text-align: center;
-   padding: .8em;
-   margin: .3em 1em 1em 1em;
-   border: .5em solid #acc890;
+<!--
+div.package-list {
+   padding: 1em 1.5em;
+   margin: 1.5em 0;
 }
-#dynamic-duo p strong {
-   font-size: 1.3em;
+div.package-list a, div.package-list a:visited {
+   display: inline-block;
+   width: 9em;
+   line-height: 1.5em;
+   text-decoration: none;
 }
-#dynamic-duo img { width: 100%; }
-#dynamic-duo p.highlight-para {
+#dynamic-duo { display: none; }
+@media (min-width: 48em) {
+   #dynamic-duo {
+      display: block;
+      float: right;
+      width: 20em;
+      max-width: 40%;
+      text-align: center;
+      padding: .9em;
+      margin: .3em 0 1em 1.5em;
+      background: #f9f9f9;
+      border: .3em solid #acc890;
+   }
+   #dynamic-duo p strong {
+      font-size: 1.3em;
+   }
+   #dynamic-duo img { width: 100%; }
+}
+-->
+<!--#if expr="$LANGUAGE_SUFFIX = /[.](ar|fa|he)/" -->
+<!--
+div.package-list {
+   direction: ltr;
    text-align: left;
-   padding: .5em .8em .7em .8em;
-   margin: .5em;
-   border-width: 1px;
 }
+@media (min-width: 48em) {
+   #dynamic-duo {
+      float: left;
+      margin: .3em 1.5em 1em 0;
+   }
+} -->
+<!--#endif -->
+
+
+
+
 </style>
 
 <!--#include virtual="/server/fs-gang-definitions.html" -->
 <!--#include virtual="/server/banner.sk.html" -->
 <!--#include virtual="/server/outdated.sk.html" -->
 <h2>GNU softvér</h2>
-
-<blockquote id="dynamic-duo">
-<p><strong>Stiahnite si distribúcie</strong></p>
-<p><a href="/distros/free-distros.sk.html">
-<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="GNU a Linux" /></a></p>
-<p class="highlight-para">Ak hľadáte kompletný systém na inštaláciu, pozrite si <a
-href="/distros/free-distros.html">zoznam GNU/Linux distribúcií obsahujúcich
-výlučne slobodný softvér</a>.</p>
-</blockquote>
 
 <p>Ak hľadáte kompletný systém na inštaláciu, pozrite si <a
 href="/distros/free-distros.html">zoznam GNU/Linux distribúcií obsahujúcich
@@ -67,8 +85,17 @@ slobodnému softvéru</a> sú k dispozícii na samostatnej stránke.</p>
 slobodného softvéru pre Microsoft Windows</a>, pre užívateľov Windows, ktorí
 by sa radi dozvedeli viac o slobodnom softvéri.</p>
 
-
+<div style="clear:both"></div>
 <h3 id="getgnu">Ako získať GNU softvér</h3>
+
+<div id="dynamic-duo">
+<p><strong>Stiahnite si distribúcie</strong></p>
+<p><a href="/distros/free-distros.html">
+<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="GNU a Linux" /></a></p>
+<p><em>Ak hľadáte kompletný systém na inštaláciu, pozrite si <a
+href="/distros/free-distros.html">zoznam GNU/Linux distribúcií obsahujúcich
+výlučne slobodný softvér</a>.</em></p>
+</div>
 
 <p>GNU softvér je možné získať viacerými spôsobmi:</p>
 
@@ -92,7 +119,6 @@ kompiláciou. Mnohé GNU balíčky majú svoje zdrojové súbory umiestnené na 
 hostingu <a href="http://savannah.gnu.org/">savannah.gnu.org</a>. Niektoré
 balíčky využívajú iné možnosti uloženia zdrových súborov; bližšie informácie
 sa dozviete na domovskej stránke príslušného balíčka.</li>
-
 </ul>
 
 
@@ -113,10 +139,17 @@ zaradenie do GNU</a>.  Informácie ohľadom licencií pre GNU softvér a
 ostatných licencií pre slobodný softvér nájdete na stránke <a
 href="/licenses/licenses.html">Licencie</a>.</p>
 
+<div style="clear:both"></div>
+<h3><a id="allgnupkgs">Všetky GNU balíčky</a></h3>
+
+<div class="package-list emph-box">
+
 <!-- regenerate when official list changes, via
        gm generate packages html  (or see the Makefile)
      in the womb/gnumaint CVS source directory on savannah.  -->
 <!--#include virtual="/software/allgnupkgs.html" -->
+</div>
+
 <h3>Vyradené GNU balíčky</h3>
 
 <p>GNU balíčky môžu byť príležitostne vyradené, najmä v prípadoch, ak boli
@@ -130,11 +163,11 @@ href="cons/">cons</a>, <a href="dgs/">dgs</a> (display&nbsp;ghostscript), <a
 href="dld/">dld</a>, <a href="dotgnu/">dotgnu</a>, <a
 href="dotgnu-pnet/">dotgnu-pnet</a>, <a
 href="http://directory.fsf.org/project/DrGenius/">dr.genius</a>, <a
-href="elib/">elib</a>, <a href="ffp/">ffp</a>, <a href="fhp/">fhp</a>, <a
-href="free/">free&nbsp;(gnu.free)</a>, <a href="gcron/">gcron</a> (viď. <a
-href="mcron/">mcron</a>), <a href="gfe/">gfe</a>, <a
-href="http://directory.fsf.org/GNU/ggv.html">ggv</a> (viď. <a
-href="gv/">gv</a>), gicqd, <a
+href="elib/">elib</a>, <a href="fcrypt/">fcrypt</a>, <a href="ffp/">ffp</a>,
+<a href="fhp/">fhp</a>, <a href="free/">free&nbsp;(gnu.free)</a>, <a
+href="gcron/">gcron</a> (viď. <a href="mcron/">mcron</a>), <a
+href="gfe/">gfe</a>, <a href="http://directory.fsf.org/GNU/ggv.html">ggv</a>
+(viď. <a href="gv/">gv</a>), gicqd, <a
 href="http://directory.fsf.org/project/giptables/">giptables</a>, <a
 href="gmorph/">gmorph</a>, <a
 href="http://directory.fsf.org/project/gnochive/">gnochive</a>, gnotary, <a
@@ -148,21 +181,23 @@ href="goldwater/">goldwater</a>, <a href="goodbye/">goodbye</a>, <a
 href="goose/">goose</a>, <a href="gphoto/">gphoto</a>, <a
 href="graphics/">graphics</a>, grover, <a href="gtkeditor/">gtkeditor</a>,
 <a href="gtkeyboard/">gtkeyboard</a>, <a href="guss/">guss</a>, <a
-href="hegemonie/">hegemonie</a>, <a href="jdresolve/">jdresolve</a>,
-lengualibre, leonardo, libopts (viď. <a href="autogen/">autogen</a>), mana,
-<a href="messenger/">messenger</a>, <a href="mgcp/">mgcp</a>, <a
-href="mll2html/">mll2html</a>, <a href="obst/">obst</a>, <a
+href="hegemonie/">hegemonie</a>, isofsmk, <a
+href="jdresolve/">jdresolve</a>, lengualibre, leonardo, libopts (viď. <a
+href="autogen/">autogen</a>), mana, <a href="messenger/">messenger</a>, <a
+href="mgcp/">mgcp</a>, <a href="mll2html/">mll2html</a>, <a
+href="myserver/">myserver</a>, <a href="obst/">obst</a>, <a
 href="octal/">octal</a>, p2c, <a href="packaging/">packaging</a>, <a
 href="patchwork/">patchwork</a>, <a href="phpgroupware/">phpgroupware</a>,
 <a href="pips/">pips</a>, <a href="poc/">poc</a>, <a
-href="proto/">proto</a>, <a href="rat/">rat</a>, <a href="regex/">regex</a>,
-<a href="rpge/">rpge</a>, <a href="snakecharmer/">snakecharmer</a>, <a
+href="proto/">proto</a>, <a href="radar/">radar</a>, <a href="rat/">rat</a>,
+<a href="regex/">regex</a>, <a href="snakecharmer/">snakecharmer</a>, <a
 href="songanizer/">songanizer</a>, <a
-href="sourceinstall/">sourceinstall</a>, <a href="sweater/">sweater</a>, <a
-href="sxml/">sxml</a>, <a href="toutdoux/">toutdoux</a>, <a
-href="vmslib/">vmslib</a>, <a href="webpublish/">webpublish</a>, <a
-href="xbase/">xbase</a>, <a href="xinfo/">xinfo</a>, <a
-href="xmhtml/">xmhtml</a>, <a href="zebra/">zebra</a>.
+href="sourceinstall/">sourceinstall</a>, sovix, <a
+href="sweater/">sweater</a>, <a href="sxml/">sxml</a>, <a
+href="toutdoux/">toutdoux</a>, <a href="vmslib/">vmslib</a>, <a
+href="webpublish/">webpublish</a>, <a href="xbase/">xbase</a>, <a
+href="xinfo/">xinfo</a>, <a href="xmhtml/">xmhtml</a>, <a
+href="zebra/">zebra</a>.
 </p>
 
 <div class="translators-notes">
@@ -181,7 +216,7 @@ href="xmhtml/">xmhtml</a>, <a href="zebra/">zebra</a>.
 href="mailto:gnu@gnu.org">&lt;gnu@gnu.org&gt;</a>.  Môžete tiež využiť <a
 href="/contact/">iné spôsoby ako kontaktovať</a> FSF.  Prosím upozornite nás
 na nefunkčné odkazy, chyby a možné vylepšenia na <a
-href="mailto:web-translators@gnu.org">&lt;web-translators@gnu.org&gt;</a>.</p>
+href="mailto:webmasters@gnu.org">&lt;webmasters@gnu.org&gt;</a>.</p>
 
 <p>
 <!-- TRANSLATORS: Ignore the original text in this paragraph,
@@ -198,33 +233,31 @@ href="mailto:web-translators@gnu.org">&lt;web-translators@gnu.org&gt;</a>.</p>
         our web pages, see <a
         href="/server/standards/README.translations.html">Translations
         README</a>. -->
-Ak chcete pomôcť s prekladom tejto stránky (príp. s jeho úpravou),
-prečítajte si prosím <a
-href="/server/standards/README.translations.html">informácie pre
-prekladateľov</a>.</p>
+*TRANSLATORS: Please follow the instructions which appear in the comment
+panel of your PO editor (or above the msgid if you are using a simple text
+editor). All the Slovak POs need to be treated similarly. If you need any
+technical help, please contact web-translators@gnu.org.*</p>
 </div>
 
 <!-- Regarding copyright, in general, standalone pages (as opposed to
      files generated as part of manuals) on the GNU web server should
-     be under CC BY-ND 3.0 US.  Please do NOT change or remove this
+     be under CC BY-ND 4.0.  Please do NOT change or remove this
      without talking with the webmasters or licensing team first.
      Please make sure the copyright date is consistent with the
      document.  For web pages, it is ok to list just the latest year the
      document was modified, or published.
-     
+
      If you wish to list earlier years, that is ok too.
      Either "2001, 2002, 2003" or "2001-2003" are ok for specifying
      years, as long as each year in the range is in fact a copyrightable
      year, i.e., a year in which the document was published (including
      being publicly visible on the web or in a revision control system).
-     
+
      There is more detail about copyright years in the GNU Maintainers
      Information document, www.gnu.org/prep/maintain. -->
 <p>Copyright &copy; 2009 Free Software Foundation, Inc.</p>
 
-<p>This page is licensed under a <a rel="license"
-href="http://creativecommons.org/licenses/by-nd/3.0/us/">Creative
-Commons Attribution-NoDerivs 3.0 United States License</a>.</p>
+<p></p>
 
 <!--#include virtual="/server/bottom-notes.sk.html" -->
 <div class="translators-credits">
@@ -237,7 +270,7 @@ href="mailto:dominik@fsf.sk">&lt;dominik@fsf.sk&gt;</a>, 2009.</div>
 <p class="unprintable"><!-- timestamp start -->
 Aktualizované:
 
-$Date: 2014/12/21 11:54:38 $
+$Date: 2016/10/01 14:09:48 $
 
 <!-- timestamp end -->
 </p>

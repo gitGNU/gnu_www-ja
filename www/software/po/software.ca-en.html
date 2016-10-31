@@ -5,41 +5,67 @@
 <!--#include virtual="/software/po/software.translist" -->
 
 <style type="text/css" media="print,screen">
-#dynamic-duo {
-   float: right;
-   width: 24em;
-   font-style: normal;
-   text-align: center;
-   padding: .8em;
-   margin: .3em 1em 1em 1em;
-   border: .5em solid #acc890;
+<!--
+div.package-list {
+   padding: 1em 1.5em;
+   margin: 1.5em 0;
 }
-#dynamic-duo p strong {
-   font-size: 1.3em;
+div.package-list a, div.package-list a:visited {
+   display: inline-block;
+   width: 9em;
+   line-height: 1.5em;
+   text-decoration: none;
 }
-#dynamic-duo img { width: 100%; }
-#dynamic-duo p.highlight-para {
+#dynamic-duo { display: none; }
+@media (min-width: 48em) {
+   #dynamic-duo {
+      display: block;
+      float: right;
+      width: 20em;
+      max-width: 40%;
+      text-align: center;
+      padding: .9em;
+      margin: .3em 0 1em 1.5em;
+      background: #f9f9f9;
+      border: .3em solid #acc890;
+   }
+   #dynamic-duo p strong {
+      font-size: 1.3em;
+   }
+   #dynamic-duo img { width: 100%; }
+}
+-->
+<!--#if expr="$LANGUAGE_SUFFIX = /[.](ar|fa|he)/" -->
+<!--
+div.package-list {
+   direction: ltr;
    text-align: left;
-   padding: .5em .8em .7em .8em;
-   margin: .5em;
-   border-width: 1px;
 }
+@media (min-width: 48em) {
+   #dynamic-duo {
+      float: left;
+      margin: .3em 1.5em 1em 0;
+   }
+} -->
+<!--#endif -->
 </style>
 
 <!--#include virtual="/server/fs-gang-definitions.html" -->
 <!--#include virtual="/server/banner.html" -->
-
 <h2>GNU Software</h2>
 
-<blockquote id="dynamic-duo">
-<p><strong>Download distributions</strong></p>
-<p><a href="/distros/free-distros.html">
-<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="GNU and Linux" /></a></p>
-<p class="highlight-para">If you're looking for a whole system to
-install, see our <a href="/distros/free-distros.html">list of
-GNU/Linux distributions which are entirely free software</a>.</p>
-</blockquote>
-
+<div class="summary">
+<hr class="no-display" />
+<ul>
+  <li><strong><a href="/distros/free-distros.html">Wholly free GNU/Linux Distributions</a></strong></li>
+  <li><a href="/distros/distros.html">GNU/Linux Distributions</a></li>
+  <li><a href="http://directory.fsf.org/wiki/GNU/">Free Software Directory</a></li>
+  <li><a href="/manual/manual.html">Manuals</a></li>
+  <li><a href="/software/devel.html">Development resources</a></li>
+  <li><a href="/software/gethelp.html">Get help</a></li>
+</ul>
+<hr class="no-display" />
+</div>
 <p><a href="/gnu/about-gnu.html">GNU</a> is an operating system which is
 100% free software.  It was launched in 1983 by Richard Stallman (rms)
 and has been developed by many people working together for the sake of
@@ -77,8 +103,17 @@ like to try free software.</p>
 <p>We have also published a <a href="/software/free-software-for-education.html">
 list of recommended educational software</a>.</p>
 
-
+<div style="clear:both"></div>
 <h3 id="getgnu">How to get GNU software</h3>
+
+<div id="dynamic-duo">
+<p><strong>Download distributions</strong></p>
+<p><a href="/distros/free-distros.html">
+<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="GNU and Linux" /></a></p>
+<p><em>If you're looking for a whole system to
+install, see our <a href="/distros/free-distros.html">list of
+GNU/Linux distributions which are entirely free software</a>.</em></p>
+</div>
 
 <p>GNU software is available by several different methods:</p>
 
@@ -146,13 +181,13 @@ be useful, along with this information about <a
 href="/software/devel.html">GNU software developer resources</a>.</p>
 
 
-
+<div style="clear:both"></div>
 <h3><a id="allgnupkgs">All GNU packages</a></h3>
 
-<p>Here is a list of all current GNU packages, using their package
-identifiers (rather than long names) for brevity, and sorted
-alphabetically.  If you have corrections to or questions about this
-list, please email <a
+<p>Links to the home pages of all current GNU packages are given
+below, using their identifiers (rather than long names) for brevity.
+They are sorted alphabetically from left to right.  If you have
+corrections to this list or questions about it, please email <a
 href="mailto:maintainers@gnu.org">&lt;maintainers@gnu.org&gt;</a>.</p>
 
 <p>Also available are lists of:</p>
@@ -166,11 +201,12 @@ href="mailto:maintainers@gnu.org">&lt;maintainers@gnu.org&gt;</a>.</p>
 <li><a href="/software/recent-releases.html">recent GNU releases</a>.</li>
 </ul>
 
+<div class="package-list emph-box">
 <!-- regenerate when official list changes, via
        gm generate packages html  (or see the Makefile)
      in the womb/gnumaint CVS source directory on savannah.  -->
 <!--#include virtual="/software/allgnupkgs.html" -->
-
+</div>
 
 <h3>Decommissioned GNU packages</h3>
 
@@ -326,7 +362,7 @@ Commons Attribution-NoDerivatives 4.0 International License</a>.</p>
 
 <p class="unprintable">Updated:
 <!-- timestamp start -->
-$Date: 2016/04/23 18:30:18 $
+$Date: 2016/09/29 13:59:10 $
 <!-- timestamp end -->
 </p>
 </div>

@@ -13,40 +13,59 @@
 
 <!--#include virtual="/software/po/software.translist" -->
 <style type="text/css" media="print,screen">
-#dynamic-duo {
-   float: right;
-   width: 24em;
-   font-style: normal;
-   text-align: center;
-   padding: .8em;
-   margin: .3em 1em 1em 1em;
-   border: .5em solid #acc890;
+<!--
+div.package-list {
+   padding: 1em 1.5em;
+   margin: 1.5em 0;
 }
-#dynamic-duo p strong {
-   font-size: 1.3em;
+div.package-list a, div.package-list a:visited {
+   display: inline-block;
+   width: 9em;
+   line-height: 1.5em;
+   text-decoration: none;
 }
-#dynamic-duo img { width: 100%; }
-#dynamic-duo p.highlight-para {
+#dynamic-duo { display: none; }
+@media (min-width: 48em) {
+   #dynamic-duo {
+      display: block;
+      float: right;
+      width: 20em;
+      max-width: 40%;
+      text-align: center;
+      padding: .9em;
+      margin: .3em 0 1em 1.5em;
+      background: #f9f9f9;
+      border: .3em solid #acc890;
+   }
+   #dynamic-duo p strong {
+      font-size: 1.3em;
+   }
+   #dynamic-duo img { width: 100%; }
+}
+-->
+<!--#if expr="$LANGUAGE_SUFFIX = /[.](ar|fa|he)/" -->
+<!--
+div.package-list {
+   direction: ltr;
    text-align: left;
-   padding: .5em .8em .7em .8em;
-   margin: .5em;
-   border-width: 1px;
 }
+@media (min-width: 48em) {
+   #dynamic-duo {
+      float: left;
+      margin: .3em 1.5em 1em 0;
+   }
+} -->
+<!--#endif -->
+
+
+
+
 </style>
 
 <!--#include virtual="/server/fs-gang-definitions.html" -->
 <!--#include virtual="/server/banner.el.html" -->
 <!--#include virtual="/server/outdated.el.html" -->
 <h2>GNU λογισμικό</h2>
-
-<blockquote id="dynamic-duo">
-<p><strong>Μεταφορτώστε διανομές</strong></p>
-<p><a href="/distros/free-distros.html">
-<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="Το GNU και το Linux" /></a></p>
-<p class="highlight-para">Εάν αναζητάτε να εγκαταστήσετε ένα ολόκληρο σύστημα, δείτε τη <a
-href="/distros/free-distros.html">λίστα διανομών GNU/Linux που είναι εντελώς
-ελεύθερο λογισμικό</a>.</p>
-</blockquote>
 
 <p>Το <a href="/gnu/about-gnu.html">GNU</a> είναι ένα λειτουργικό σύστημα που
 αποτελεί 100% ελεύθερο λογισμικό.  Η δημιουργία του ξεκίνησε το 1983 από τον
@@ -85,8 +104,17 @@ href="/doc/doc.html">Σύνδεσμοι σε ελεύθερη τεκμηρίωσ
 ελεύθερο λογισμικό για τα Microsoft Windows</a>, για χρήστες των Windows που
 θα ήθελαν να δοκιμάσουν ελεύθερο λογισμικό.</p>
 
-
+<div style="clear:both"></div>
 <h3 id="getgnu">Πώς ν' αποκτήσετε λογισμικό GNU</h3>
+
+<div id="dynamic-duo">
+<p><strong>Μεταφορτώστε διανομές</strong></p>
+<p><a href="/distros/free-distros.html">
+<img src="/graphics/gnu-and-penguin-color-300x276.jpg" alt="Το GNU και το Linux" /></a></p>
+<p><em>Εάν αναζητάτε να εγκαταστήσετε ένα ολόκληρο σύστημα, δείτε τη <a
+href="/distros/free-distros.html">λίστα διανομών GNU/Linux που είναι εντελώς
+ελεύθερο λογισμικό</a>.</em></p>
+</div>
 
 <p>Το λογισμικό GNU είναι διαθέσιμο με διάφορους τρόπους:</p>
 
@@ -152,7 +180,7 @@ href="/software/maintainer-tips.html">συμβουλές για GNU συντηρ
 href="/software/devel.html">πόρους ανάπτυξης GNU λογισμικού</a>.</p>
 
 
-
+<div style="clear:both"></div>
 <h3><a id="allgnupkgs">Όλα τα GNU πακέτα</a></h3>
 
 <p>Εδώ είναι μια λίστα με όλα τα τρέχοντα πακέτα GNU, που χρησιμοποιεί τα
@@ -171,10 +199,14 @@ href="mailto:maintainers@gnu.org">&lt;maintainers@gnu.org&gt;</a>.</p>
 <li><a href="/software/recent-releases.html">πρόσφατες GNU δημοσιεύσεις</a>.</li>
 </ul>
 
+<div class="package-list emph-box">
+
 <!-- regenerate when official list changes, via
        gm generate packages html  (or see the Makefile)
      in the womb/gnumaint CVS source directory on savannah.  -->
 <!--#include virtual="/software/allgnupkgs.html" -->
+</div>
+
 <h3>Παροπλισμένα GNU πακέτα</h3>
 
 <p>Περιστασιακά, κάποια πακέτα GNU παροπλίζονται, κατά κύριο λόγο επειδή έχουν
@@ -217,9 +249,9 @@ href="octal/">octal</a>, p2c, <a href="packaging/">packaging</a>, <a
 href="patchwork/">patchwork</a>, <a href="phpgroupware/">phpgroupware</a>,
 <a href="pips/">pips</a>, <a href="poc/">poc</a>, <a
 href="proto/">proto</a>, <a href="radar/">radar</a>, <a href="rat/">rat</a>,
-<a href="regex/">regex</a>, <a href="rpge/">rpge</a>, <a
-href="snakecharmer/">snakecharmer</a>, <a href="songanizer/">songanizer</a>,
-<a href="sourceinstall/">sourceinstall</a>, sovix, <a
+<a href="regex/">regex</a>, <a href="snakecharmer/">snakecharmer</a>, <a
+href="songanizer/">songanizer</a>, <a
+href="sourceinstall/">sourceinstall</a>, sovix, <a
 href="sweater/">sweater</a>, <a href="sxml/">sxml</a>, <a
 href="toutdoux/">toutdoux</a>, <a href="vmslib/">vmslib</a>, <a
 href="webpublish/">webpublish</a>, <a href="xbase/">xbase</a>, <a
@@ -272,21 +304,21 @@ href="/server/standards/README.translations.html">Μεταφράσεις ΔΙΑ�
 
 <!-- Regarding copyright, in general, standalone pages (as opposed to
      files generated as part of manuals) on the GNU web server should
-     be under CC BY-ND 3.0 US.  Please do NOT change or remove this
+     be under CC BY-ND 4.0.  Please do NOT change or remove this
      without talking with the webmasters or licensing team first.
      Please make sure the copyright date is consistent with the
      document.  For web pages, it is ok to list just the latest year the
      document was modified, or published.
-     
+
      If you wish to list earlier years, that is ok too.
      Either "2001, 2002, 2003" or "2001-2003" are ok for specifying
      years, as long as each year in the range is in fact a copyrightable
      year, i.e., a year in which the document was published (including
      being publicly visible on the web or in a revision control system).
-     
+
      There is more detail about copyright years in the GNU Maintainers
      Information document, www.gnu.org/prep/maintain. -->
-<p>Πνευματικά δικαιώματα &copy; 2015 Ίδρυμα Ελεύθερου Λογισμικού, Inc.</p>
+<p>Copyright &copy; 2015 Ίδρυμα Ελεύθερου Λογισμικού, Inc.</p>
 
 <p>Αυτή η σελίδα διατίθεται υπό την άδεια: <a rel="license"
 href="http://creativecommons.org/licenses/by-nd/3.0/us/deed.el">Creative
@@ -310,7 +342,7 @@ href="http://savannah.gnu.org/users/gzarkadas">Γεώργιος Μ. Ζαρκάδ
 <p class="unprintable"><!-- timestamp start -->
 Ενημερώθηκε:
 
-$Date: 2016/09/14 06:29:34 $
+$Date: 2016/10/01 14:09:48 $
 
 <!-- timestamp end -->
 </p>
