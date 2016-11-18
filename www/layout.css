@@ -49,6 +49,7 @@ Text
 
 Backgrounds
    #999     hr
+   #bbb     .column-limit
    #d4d4d4  #fsf-links, #searcher
    #e4e4e4  html
    #eee     #edu-navigation, submit, #join-fsf
@@ -66,9 +67,10 @@ Backgrounds
 
 Borders
    black, #111, #333, #666: tables
-   #bbb     body
+   #999     #outdated 
+   #bbb     body, .subheader
    #ccc     unfocused inputs, footer, #join-fsf
-   #d4d4d4  #translations, #outdated
+   #d4d4d4  #translations
    #ddd     emph-box, lyrics
 
    #3465a4  .edu-cases
@@ -200,20 +202,21 @@ body {
 
 /** Size and positioning **/
 
-p, pre, li, dt, dd, code, address { line-height: 1.3em; }
+p, pre, li, dt, dd { line-height: 1.5em; }
+address { line-height: 1.3em; }
 
-/* These headers are appropriate for templated pages with div#content, but
-   generally too big for a few non-templated pages that use layout.css.
-   Another set of headers will have to be defined for those. */
 h1 { font-size: 2.4em; margin-bottom: 1.1em; }
 h2 { font-size: 2.0em; margin-bottom: 1.1em; }
-h3 { font-size: 1.5em; margin: 1em 0 .80em 0; }
-h4 { font-size: 1.2em; margin: 1em 0 .83em 0; }
+h3 { font-size: 1.5em; margin: 1.2em 0 .80em 0; }
+h4 { font-size: 1.2em; margin: 1.2em 0 .83em 0; }
 h5 { font-size: 1.1em; margin: 1em 0 .91em 0; }
 h6 { margin: 1em 0; }
 
+/* The top margin should be sufficient. The bottom margin is only useful
+   if the following element is an anonymous box. */
 p, pre { margin-top: 1em; }   /* In combo.css: margin-bottom:1em. */
-address { margin-bottom: 1em; }
+pre { padding-bottom: .3em; overflow: auto; }
+address { margin: 1em 0; }
 
 ul, ol, blockquote {
    margin-left: 1.5%; margin-right: 1.5%; /* In combo.css: margin:1em. */
@@ -250,10 +253,6 @@ a[href]:active, a[href]:hover {
    color: #100070;
    text-decoration: none;
 }
-hr {
-   color: #999;
-   background-color: #999;
-}
 
 ul li { list-style: square; }
 ul ul li, ol ul li { list-style: circle; }
@@ -263,7 +262,6 @@ blockquote i, blockquote em, blockquote cite,
  em i, em cite, cite i, cite em { font-style: normal; }
 
 acronym, abbr { text-decoration: none; } /* border-bottom in combo.css */
-pre { overflow: auto; }
 
 
 /*** SIMPLE CLASSES ***/
@@ -282,13 +280,23 @@ pre { overflow: auto; }
 .no-display { display: none; }
 
 
-/*** SEPARATOR ***/
+/*** SEPARATORS ***/
 
+hr {
+   display: block;
+   margin: 1.2em 0;
+   color: #999;
+   background: #999;
+}
 /* For license-list.html, but could be used elsewhere. */
 hr.separator {
-   display: block;
    height: .3em;
-   margin-bottom: 1.2em;
+   border: none;
+}
+hr.thin {
+   clear: both;
+   height: 1px;
+   margin: 1.5em 0;
    border: none;
 }
 
@@ -517,17 +525,21 @@ blockquote#fsfs p { padding: .3em 0; }
    padding: .4em 0;
    margin: .8em 0;
    color: #a42e2b;
-   border-bottom: .2em solid #d4d4d4;
+   border-bottom: 1px solid #999;
 }
 #outdated p { margin: .2em 0; }
 
 /* For translators notes */
 .translators-notes {
    clear: left;
-   font-size: .9em;
+   line-height: 1.5em;
    margin-top: 2em;
 }
-.translators-notes hr { margin-bottom: 1em; }
+.translators-notes hr {
+   height: 1px;
+   margin: 1.7em 0 1.2em;
+   border: none;
+}
 .translators-notes ol li { margin: .5em 1.1em; }
 
 
@@ -565,10 +577,7 @@ blockquote#fsfs p { padding: .3em 0; }
    margin: 0;
 }
 @media (min-width: 0) {
-   .note {
-      width: 44.7em;
-      max-width: 93%;
-   }
+   .note { max-width: 44.7em; }
 }
 
 
@@ -604,7 +613,7 @@ blockquote#fsfs p { padding: .3em 0; }
       float: right;
       width: 20em;
       max-width: 40%;
-      margin: .2em 0 1em 2em;
+      margin: .3em 0 1em 2em;
 /* This keeps an adjacent background (e.g. highlight-para)
    from touching the note or summary. */
       box-shadow: 0 0 0 1em white;
@@ -620,8 +629,8 @@ blockquote#fsfs p { padding: .3em 0; }
 
 /*** IMAGES ***/
 
-.imgright { float: right; margin: .2em 0 1em 1.5em; }
-.imgleft  { float: left;  margin: .2em 1.5em 1em 0; }
+.imgright { float: right; margin: .3em 0 1em 1.5em; }
+.imgleft  { float: left;  margin: .3em 1.5em 1em 0; }
 
 /* For pictures with/without legend. */
 .narrow { width: 15em; }
@@ -637,32 +646,19 @@ blockquote#fsfs p { padding: .3em 0; }
 
 @media (min-width: 43em) {
    .pict.narrow {
-       float:right; margin: .2em 0 1em 1.5em;
+       float:right; margin: .3em 0 1em 1.5em;
    }
 }
 @media (min-width: 48em) {
    .pict.medium {
-       float:right; margin: .2em 0 1em 1.5em;
+       float:right; margin: .3em 0 1em 1.5em;
    }
 }
 @media (min-width: 55em) {
    .pict.wide {
-       float:right; margin: .2em 0 1em 1.5em;
+       float:right; margin: .3em 0 1em 1.5em;
    }
 }
-
-/* This will be removed as soon as pages that use .photo
-   are updated to .pict. */
-.photo {
-   float: right;
-   width: 30em; max-width: 100%;
-   margin: .3em 0 1em 0;
-}
-.photo img, .photo p {
-   width: 94%;
-   padding: 0 6%;
-}
-.photo img.recessed { width: 90%; }
 
 
 /*** LISTINGS ***/
@@ -804,10 +800,12 @@ blockquote#fsfs p { padding: .3em 0; }
    float: right;
    font-size: .9em;
    text-align: center;
-   line-height: 1.3em;
    margin: .8em 0;
 }
-#fsf-frame p { margin: 0; }
+#fsf-frame p {
+   line-height: 1.3em;
+   margin: 0;
+}
 
 #join-fsf a, #join-fsf a:visited {
    display: inline-block;
@@ -942,6 +940,46 @@ ul#edu-navigation li.active,
 
 #content { margin-bottom: 2.5em; }
 
+p.byline {
+   font-size: 1.1em;
+   margin: 1.5em 0;
+}
+.article { font-size: 1.1em; }
+.article h3 { font-size: 1.4em; }
+h3.subheader {
+   padding-bottom: .2em;
+   border-bottom: 1px solid #bbb;
+}
+.columns p.inline-block {
+   display: inline-block;
+   vertical-align: top;
+   margin: 0;
+}
+.column-limit {
+   height: .4em;
+   width: 10%;
+   margin: 1.5em auto;
+   background: #bbb;
+   background-image: linear-gradient(to right, white, #bbb, white);
+}
+
+@media (min-width: 53em) {
+   .columns {
+      -webkit-column-count: 2;
+      -webkit-column-gap: 1.5em;
+      -moz-column-count: 2;
+      -moz-column-gap: 1.5em;
+      column-count: 2;
+      column-gap: 1.5em;
+   }
+   .columns > *:first-child { margin-top: 0 }
+   .columns > *:last-child { margin-bottom: 0; }
+   .reduced-width {
+      width: 43em;
+      margin: 1.5em auto;
+   }
+}
+
 
 /*** MISSION STATEMENT ***/
 
@@ -956,7 +994,7 @@ ul#edu-navigation li.active,
 #mission-statement img {
    float: left;
    height: 2em;
-   margin: .3em .5em;
+   margin: .5em;
 }
 
 
@@ -968,8 +1006,10 @@ ul#edu-navigation li.active,
    color: #333;
    border-top: 1px solid #ccc;
 }
-#footer p, #bottom-notes { margin: 0; }
-
+#footer p, #bottom-notes {
+   line-height: 1.3em;
+   margin: 0;
+}
 .unprintable { margin-bottom: .7em; }
 
 .translators-credits { margin: .7em 0; }
