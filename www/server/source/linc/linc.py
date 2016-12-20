@@ -20,7 +20,7 @@
 
 from __future__ import print_function
 
-LINC_VERSION = 'LINC 0.28'
+LINC_VERSION = 'LINC 0.29'
 USAGE = \
 '''Usage: %prog [options] [BASE_DIRECTORY]
 Check links in HTML files from BASE_DIRECTORY.'''
@@ -194,7 +194,7 @@ def clear_cookies ():
 def set_cookies (header):
 	if NO_COOKIES:
 		return
-        h = header
+	h = header
 	match = re.search(COOKIE_REGEXP, h)
 	while match:
 		cookies[match.group('name')] = match.group('value')
@@ -289,7 +289,7 @@ def get_http_link_error(link, link_type, forwarded_from = None):
 	if match:
 		http_error_code = match.group('http_error_code')
 		return 'http error ' + http_error_code + ' returned by server'
-        set_cookies (header)
+	set_cookies (header)
 
 	match = re.search (HTTP_FORWARD_HEADER, header)
 	if not match:
