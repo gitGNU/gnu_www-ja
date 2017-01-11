@@ -653,6 +653,7 @@ proprietary :=	malware-adobe \
 		proprietary \
 		proprietary-back-doors \
 		proprietary-censorship \
+		proprietary-coverups \
 		proprietary-deception \
 		proprietary-drm \
 		proprietary-insecurity \
@@ -725,4 +726,5 @@ thankgnus :=	1997supporters \
 		2014supporters \
 		2015supporters \
 		2016supporters \
+		2017supporters \
 		thankgnus
