@@ -287,6 +287,7 @@ graphics :=	3dbabygnutux \
 		dog \
 		emacs-ref \
 		freedom \
+		free-software-dealers \
 		french-motto \
 		fromagnulinux \
 		fsf-logo \
