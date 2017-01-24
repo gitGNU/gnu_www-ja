@@ -190,3 +190,12 @@ New article
 
 $ touch help/po/linking-gnu.ja.po
 $ msgmerge -U -C server/gnun/compendia/master.ja.po help/po/linking-gnu.ja.po help/po/linking-gnu.pot
+
+
+Instructions to generate from old HTML to new PO
+================================================
+
+% tidy -asxhtml < something.html > something.xhtml
+% tidy -asxhtml -utf8 -language ja < something.ja.html > something.ja.xhtml
+% po4a-gettextize -f xhtml -m something.xhtml -l something.ja.xhtml -L utf-8 \
+                  >po/something.ja.po
